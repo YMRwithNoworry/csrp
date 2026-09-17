@@ -1,0 +1,8 @@
+{
+  "parent": "block/glass_pane_post_ends",
+  "textures": {
+    "pane": "csrp:blocks/bloody_glass",
+    "edge": "csrp:blocks/bloody_glass_pane",
+    "particle": "csrp:blocks/bloody_glass"
+  }
+}

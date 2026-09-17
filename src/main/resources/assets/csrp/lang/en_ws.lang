@@ -1,0 +1,300 @@
+//Entities
+
+entity.csrp.pri_longarms.name=Savage Longeth arms
+entity.csrp.pri_manducater.name=Savage Manducat'r
+entity.csrp.pri_summoner.name=Savage Summon'r
+entity.csrp.pri_reeker.name=Savage Reek'r
+entity.csrp.pri_yelloweye.name=Savage Yelloweye
+entity.csrp.pri_bolster.name=Savaage Bolst'r
+entity.csrp.pri_arachnida.name=Savage Arachnida
+
+entity.csrp.host.name=Hoste
+entity.csrp.sim_bear.name=Assimilat'd Beareth
+entity.csrp.sim_enderman.name=Assimilat'd Endeth'rman
+entity.csrp.sim_adventurer.name=Assimilat'd Adventur'r
+entity.csrp.sim_bigspider.name=Assimilat'd Gigantic Spid'r
+entity.csrp.sim_human.name=Assimilat'd Human
+entity.csrp.sim_humanhead.name=Travelling Skull
+entity.csrp.sim_villager.name=Assimilat'd Villager
+entity.csrp.sim_villagerhead.name=Travelling Skull
+entity.csrp.sim_cow.name=Assimilat'd Bovine
+entity.csrp.sim_cowhead.name=Travelling Skull
+entity.csrp.sim_horse.name=Assimilat'd Equine
+entity.csrp.sim_horsehead.name=Travelling Skull
+entity.csrp.sim_pig.name=Assimilat'd Swine
+entity.csrp.sim_pighead.name=Travelling Skull
+entity.csrp.sim_sheep.name=Assimilat'd Sheep
+entity.csrp.sim_sheephead.name=Travelling Skull
+entity.csrp.sim_wolf.name=Assimilat'd Wolf
+entity.csrp.sim_wolfhead.name=Travelling Skull
+entity.csrp.incompleteform_medium.name=Incomplete Form
+entity.csrp.incompleteform_small.name=Incomplete Form
+
+entity.csrp.overseer.name=Overseer
+entity.csrp.bomber_light.name=Light Destructor
+entity.csrp.carrier_heavy.name=Heavy Transporter
+entity.csrp.buglin.name=Buglin
+entity.csrp.carrier_flying.name=Flying Transporter
+entity.csrp.rupter.name=Rupter
+entity.csrp.beckon_si.name=Beckon the Ist
+entity.csrp.beckon_sii.name=Beckon the IInd
+entity.csrp.beckon_siii.name=Beckon the IIIrd
+entity.csrp.beckon_siv.name=Beckon the IVth
+entity.csrp.beckon_sv.name=Beckon the Vth
+entity.csrp.warden.name=Warden
+entity.csrp.marauder.name=Marauder
+entity.csrp.grunt.name=Grunt
+entity.csrp.sentry.name=Sentry
+entity.csrp.kyphosis.name=Kyphosis
+
+entity.csrp.anc_dreadnaut.name=Forgotten Dreadnaut
+entity.csrp.anc_overlord.name=Forgotten Overlord
+entity.csrp.vigilante.name=Rogue
+entity.csrp.movingflesh.name=Travelling Flesh
+entity.csrp.tendril.name=Tendril
+entity.csrp.anc_pod.name=Nest
+entity.csrp.biomass.name=Flesh
+entity.csrp.gore.name=Gore
+
+entity.csrp.ada_longarms.name=Longeth Arms that has overcome
+entity.csrp.ada_summoner.name=Summoner that has overcome
+entity.csrp.ada_manducater.name=Manducater that has overcome
+entity.csrp.ada_reeker.name=Stenchmaker that has overcome
+entity.csrp.ada_yelloweye.name=Yelloweye that has overcome
+entity.csrp.ada_bolster.name=Bolster that has overcome
+entity.csrp.ada_arachnida.name=Arachnida that has overcome
+
+//Creative Tab
+
+itemGroup.SRParasites=SR:Parasites
+
+//Items
+
+item.csrp.itemmobspawner_host.name=create Host
+item.csrp.itemmobspawner_infbear.name=Create Assimilated Bear
+item.csrp.itemmobspawner_infenderman.name=Spawn Assimilated Enderman 
+item.csrp.itemmobspawner_infplayer.name=Spawn Assimilated Adventurer
+item.csrp.itemmobspawner_dorpa.name=Spawn Assimilated Big Spider
+item.csrp.itemmobspawner_infhuman.name=Spawn Assimilated Human
+item.csrp.itemmobspawner_infhumanhead.name=Spawn Walking Head (Human)
+item.csrp.itemmobspawner_infvillager.name=Spawn Assimilated Villager
+item.csrp.itemmobspawner_infvillagerhead.name=Spawn Walking Head (Villager)
+item.csrp.itemmobspawner_infcow.name=Spawn Assimilated Cow
+item.csrp.itemmobspawner_infcowhead.name=Spawn Walking Head (Cow)
+item.csrp.itemmobspawner_infpig.name=Spawn Assimilated Pig
+item.csrp.itemmobspawner_infpighead.name=Spawn Walking Head (Pig)
+item.csrp.itemmobspawner_infsheep.name=Spawn Assimilated Sheep
+item.csrp.itemmobspawner_infsheephead.name=Spawn Walking Head (Sheep)
+item.csrp.itemmobspawner_infwolf.name=Spawn Assimilated Wolf
+item.csrp.itemmobspawner_infwolfhead.name=Spawn Walking Head (Wolf)
+item.csrp.itemmobspawner_infhorse.name=Spawn Assimilated Horse
+item.csrp.itemmobspawner_infhorsehead.name=Spawn Walking Head (Horse)
+item.csrp.itemmobspawner_inhoos.name=Spawn Incomplete Form (Small)
+item.csrp.itemmobspawner_inhoom.name=Spawn Incomplete Form (Medium)
+
+item.csrp.itemmobspawner_alafha.name=Spawn Overseer
+item.csrp.itemmobspawner_omboo.name=Spawn Light Bomber
+item.csrp.itemmobspawner_rathol.name=Spawn Heavy Carrier
+item.csrp.itemmobspawner_buthol.name=Spawn Flying Carrier
+item.csrp.itemmobspawner_lodo.name=Spawn Buglin
+item.csrp.itemmobspawner_mudo.name=Spawn Rupter
+item.csrp.itemmobspawner_venkrol.name=Spawn Beckon Stage I
+item.csrp.itemmobspawner_venkrolsii.name=Spawn Beckon Stage II
+item.csrp.itemmobspawner_venkrolsiii.name=Spawn Beckon Stage III
+item.csrp.itemmobspawner_venkrolsiv.name=Spawn Beckon Stage IV
+item.csrp.itemmobspawner_venkrolsv.name=Spawn Beckon Stage V
+item.csrp.itemmobspawner_ganro.name=Spawn Warden
+item.csrp.itemmobspawner_esor.name=Spawn Marauder
+item.csrp.itemmobspawner_flog.name=Spawn Grunt
+item.csrp.itemmobspawner_unvo.name=Spawn Sentry 
+item.csrp.itemmobspawner_tonro.name=Spawn Kyphosis
+
+item.csrp.itemmobspawner_oronco.name=Spawn Ancient Dreadnaut
+item.csrp.itemmobspawner_terla.name=Spawn Ancient Overlord
+item.csrp.itemmobspawner_anged.name=Spawn Vigilante
+item.csrp.itemmobspawner_lesh.name=Spawn Moving Flesh
+
+item.csrp.itemmobspawner_shyco.name=Spawn Primitive Longarms
+item.csrp.itemmobspawner_hull.name=Spawn Primitive Manducater
+item.csrp.itemmobspawner_canra.name=Spawn Primitive Summoner
+item.csrp.itemmobspawner_emana.name=Spawn Primitive Yelloweye
+item.csrp.itemmobspawner_nogla.name=Spawn Primitive Reeker
+item.csrp.itemmobspawner_bano.name=Spawn Primitive Bolster
+item.csrp.itemmobspawner_ranrac.name=Spawn Primitive Arachnida
+
+item.csrp.itemmobspawner_shycoadapted.name=Spawn Adapted Longarms
+item.csrp.itemmobspawner_canraadapted.name=Spawn Adapted Summoner
+item.csrp.itemmobspawner_noglaadapted.name=Spawn Adapted Reeker
+item.csrp.itemmobspawner_hulladapted.name=Spawn Adapted Manducater
+item.csrp.itemmobspawner_emanaadapted.name=Spawn Adapted Yelloweye
+item.csrp.itemmobspawner_banoadapted.name=Spawn Adapted Bolster
+item.csrp.itemmobspawner_ranracadapted.name=Spawn Adapted Arachnida
+
+item.csrp.itemthrow.name=
+item.csrp.itemtab.name=NULL
+item.csrp.evclock.name=Dirty Timepeice
+item.csrp.weapon_scythe.name=Living Scythe
+item.csrp.weapon_scythe_sentient.name=Scythe that has thoughts
+item.csrp.weapon_bow.name=Living Greatbow
+item.csrp.weapon_bow_sentient.name=Greatbow that has thoughts
+item.csrp.weapon_axe.name=Living Greataxe
+item.csrp.weapon_axe_sentient.name=Greataxe that has thoughts
+
+item.csrp.bow_upperlimb.name=Living Greatbow Upper Limb
+item.csrp.bow_lowerlimb.name=Living Greatbow Lower Limb
+item.csrp.bow_string.name=Living Greatbow String
+item.csrp.bow_grip.name=Living Greatbow Grip
+item.csrp.bow_core.name=Living Greatbow core
+
+item.csrp.scythe_back.name=Living Scythe Back
+item.csrp.scythe_blade.name=Living Scythe Blade
+item.csrp.scythe_core.name=Living Scythe Core
+item.csrp.scythe_handle.name=Living Scythe Handle
+item.csrp.scythe_head.name=Living Scythe Head
+
+item.csrp.ada_longarms_drop.name=Longarm Armor Fragment
+item.csrp.ada_summoner_drop.name=Summoner Core
+item.csrp.ada_yelloweye_drop.name=Yelloweye Bone
+item.csrp.ada_reeker_drop.name=Reeker Fang
+item.csrp.ada_manducater_drop.name=Manducater Orb
+item.csrp.assimilated_flesh.name=Infected Flesh
+
+item.csrp.lurecomponent1.name=Fragile Piece
+item.csrp.lurecomponent2.name=Smelly Piece
+item.csrp.lurecomponent3.name=Putrid Unit
+item.csrp.lurecomponent4.name=Fetid Unit
+item.csrp.lurecomponent5.name=Moldered Segment
+item.csrp.lurecomponent6.name=Essential Segment
+
+//Blocks
+
+tile.csrp.parasitesapling_tree.name=Parasitic Sapling
+tile.csrp.parasitesapling_treethin.name=Parasitic Sapling
+tile.csrp.parasitesapling_flowertall.name=Parasitic Sapling
+
+tile.csrp.parasitebush_tendril.name=Parasitic Net
+tile.csrp.parasitebush_pop.name=Parasitic Vesicle
+tile.csrp.parasitebush_bine.name=Parasitic Ringlet
+
+tile.csrp.srpweb.name=Web
+tile.csrp.biomeheart.name=Parasitic Biome Core
+tile.csrp.colonyheart.name=Parasitic Colony Core
+tile.csrp.biomepurifier.name=Biome Purifier
+tile.csrp.parasitestructure.name=Parasitic Colony Incomplete Structure
+tile.csrp.parasitethin.name=Parasitic Thin Log
+tile.csrp.parasitemouth.name=Parasitic Mouth
+tile.csrp.parasitetendril.name=Parasitic Tendril
+tile.csrp.parasitefog.name=Fog
+
+tile.csrp.gore_sim_small.name=Assimilated Remains
+tile.csrp.gore_sim_big.name=Assimilated Remains
+tile.csrp.gore_pri_small.name=Primitive Remains
+tile.csrp.gore_pri_big.name=Primitive Remains
+tile.csrp.gore_ada_small.name=Adapted Remains
+tile.csrp.gore_ada_big.name=Adapted Remains
+tile.csrp.gore_pure_small.name=Pure Remains
+tile.csrp.gore_pure_big.name=Pure Remains
+
+tile.csrp.infestedstain.name=Infested Dirt
+tile.csrp.infestedtrunk.name=Infested Log
+tile.csrp.infestedrubble.name=Infested Stone
+tile.csrp.infestremain.name=Infested Residue
+
+tile.csrp.infestedbush_infected.name=Infested Veins
+tile.csrp.infestedbush_grass1.name=Infested Veins
+tile.csrp.infestedbush_flower1.name=Infested Veins
+tile.csrp.infestedbush_spine.name=Infested Veins
+tile.csrp.infestedbush_vine.name=Infested Veins
+tile.csrp.infestedbush_arc.name=Infested Veins
+
+tile.csrp.parasitecanister_sac.name=Parasitic Sac
+tile.csrp.parasitecanister_cyst.name=Parasitic Cyst
+tile.csrp.parasitecanister_lump.name=Parasitic Lump
+tile.csrp.parasitecanister_bag.name=Parasitic Bag
+
+tile.csrp.parasitetrunk_ball.name=Parasitic Log
+tile.csrp.parasitetrunk_tree.name=Parasitic Log
+tile.csrp.parasitetrunk_plant.name=Parasitic Log
+
+tile.csrp.parasitestain_dirt.name=Parasitic Dirt
+tile.csrp.parasitestain_mud.name=Parasitic Mud
+tile.csrp.parasitestain_flesh.name=Parasitic Flesh
+tile.csrp.parasitestain_fleshstairs.name=Parasitic Flesh Stairs
+tile.csrp.parasitestain_feeler.name=Parasitic Veins
+
+tile.csrp.parasiterubble_slabhalf.name=Parasitic Half Slab
+tile.csrp.parasiterubble_flesh.name=Parasitic Concentrated Flesh
+tile.csrp.parasiterubble_bone.name=Parasitic Concentrated Bone
+tile.csrp.parasiterubble_bonestairs.name=Parasitic Concentrated Bone Stairs
+tile.csrp.parasiterubble_stone.name=Parasitic Stone
+
+tile.csrp.parasiterubbledense_wall.name=Parasitic Compressed Stone
+tile.csrp.parasiterubbledense_biome.name=Parasitic Compressed Biome Stone
+tile.csrp.parasiterubbledense_colony.name=Parasitic Compressed Colony Stone
+
+tile.csrp.evolutionlure_one.name=Lure (Weakened)
+tile.csrp.evolutionlure_two.name=Lure (Faint)
+tile.csrp.evolutionlure_three.name=Lure (Slender)
+tile.csrp.evolutionlure_four.name=Lure (Stable)
+tile.csrp.evolutionlure_five.name=Lure (Substantial)
+tile.csrp.evolutionlure_six.name=Lure (Concentrated)
+tile.csrp.evolutionlure_seven.name=Lure (Concentrated+)
+tile.csrp.evolutionlure_eight.name=Lure (Concentrated++)
+
+//Effects
+
+mob_effect.csrp:coth=Call of the Hive
+splash_potion.effect.csrp:coth=Splash Potion of Call of the Hive
+potion.effect.csrp:coth=Potion of Call of the Hive
+lingering_potion.effect.csrp:coth=Lingering Potion of Call of the Hive
+tipped_arrow.effect.csrp:coth=Arrow of Call of the Hive
+
+mob_effect.csrp:fear=Fear
+splash_potion.effect.csrp:fear=Splash Potion of Fear
+potion.effect.csrp:fear=Potion of Fear
+lingering_potion.effect.csrp:fear=Lingering Potion of Fear
+tipped_arrow.effect.csrp:fear=Arrow of Fear
+
+mob_effect.csrp:antimall=Unchangeable
+splash_potion.effect.csrp:antimall=Splash Potion of Unchangeable
+potion.effect.csrp:antimall=Potion of Unchangeable
+lingering_potion.effect.csrp:antimall=Lingering Potion of Unchangeable
+tipped_arrow.effect.csrp:antimall=Arrow of Unchangeable
+
+mob_effect.csrp:bleed=Bleeding
+splash_potion.effect.csrp:bleed=Splash Potion of Bleeding
+potion.effect.csrp:bleed=Potion of Bleeding
+lingering_potion.effect.csrp:bleed=Lingering Potion of Bleeding
+tipped_arrow.effect.csrp:bleed=Arrow of Bleeding
+
+mob_effect.csrp:corrosive=Corrosion
+splash_potion.effect.csrp:corrosive=Splash Potion of Corrosion
+potion.effect.csrp:corrosive=Potion of Corrosion
+lingering_potion.effect.csrp:corrosive=Lingering Potion of Corrosion
+tipped_arrow.effect.csrp:corrosive=Arrow of Corrosion
+
+mob_effect.csrp:viral=Viral
+splash_potion.effect.csrp:viral=Splash Potion of Viral
+potion.effect.csrp:viral=Potion of Viral
+lingering_potion.effect.csrp:viral=Lingering Potion of Viral
+tipped_arrow.effect.csrp:viral=Arrow of Viral
+
+mob_effect.csrp:rage=Rage
+splash_potion.effect.csrp:rage=Splash Potion of Rage
+potion.effect.csrp:rage=Potion of Rage
+lingering_potion.effect.csrp:rage=Lingering Potion of Rage
+tipped_arrow.effect.csrp:rage=Arrow of Rage
+
+mob_effect.csrp:repel=Camouflage
+splash_potion.effect.csrp:repel=Splash Potion of Camouflage
+potion.effect.csrp:repel=Potion of Camouflage
+lingering_potion.effect.csrp:repel=Lingering Potion of Camouflage
+tipped_arrow.effect.csrp:repel=Arrow of Camouflage
+
+//extra
+
+message.csrp.lure=Points reduced!
+message.csrp.fearitem=You're panicking!
+message.csrp.fearblock=You're panicking!
+message.csrp.feargui=You're panicking!
+message.csrp.evolutionsleep=You cannot sleep now...

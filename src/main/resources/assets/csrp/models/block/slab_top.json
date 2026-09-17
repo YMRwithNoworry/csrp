@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "particle": "csrp:block/parasiterubble_stone",
+    "bottom": "csrp:block/parasiterubble_stone",
+    "top": "csrp:block/parasiterubble_stone",
+    "side": "csrp:block/parasiterubble_stone"
+  }
+}

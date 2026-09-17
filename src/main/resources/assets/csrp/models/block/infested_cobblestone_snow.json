@@ -1,0 +1,9 @@
+{
+  "parent": "block/cube_bottom_top",
+  "textures": {
+    "particle": "csrp:blocks/infestedstain",
+    "top": "csrp:blocks/parasite_snow",
+    "bottom": "csrp:blocks/infested_cobblestone",
+    "side": "csrp:blocks/infested_cobblestone_snow"
+  }
+}

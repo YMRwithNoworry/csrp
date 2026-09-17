@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom",
+  "textures": {
+    "bottom": "csrp:blocks/goth_door_bottom",
+    "top": "csrp:blocks/goth_door_top"
+  }
+}

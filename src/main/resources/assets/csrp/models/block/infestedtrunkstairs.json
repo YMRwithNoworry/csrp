@@ -1,0 +1,8 @@
+{
+  "parent": "block/stairs",
+  "textures": {
+    "bottom": "csrp:blocks/infestedtrunk",
+    "top": "csrp:blocks/infestedtrunk",
+    "side": "csrp:blocks/infestedtrunk_side"
+  }
+}

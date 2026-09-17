@@ -1,0 +1,300 @@
+//Entities
+
+entity.csrp.pri_longarms.name=Scurvy Deckhand
+entity.csrp.pri_manducater.name=Scurvy Dog
+entity.csrp.pri_summoner.name=Scurvy Cook
+entity.csrp.pri_reeker.name=Scurvy Bilge Rat
+entity.csrp.pri_yelloweye.name=Scurvy Barrelman
+entity.csrp.pri_bolster.name=Scurvy Boatswain
+entity.csrp.pri_arachnida.name=Scurvy Powder Monkey
+
+entity.csrp.host.name=Crew o' Bones
+entity.csrp.sim_bear.name=Assimilated Beast 'o' The Cold
+entity.csrp.sim_enderman.name=Assimilated Enderman
+entity.csrp.sim_adventurer.name=Assimilated Matey
+entity.csrp.sim_bigspider.name=Assimilated 'Uge Night Bug
+entity.csrp.sim_human.name=Assimilated Sailor
+entity.csrp.sim_humanhead.name=Sailing 'Ead
+entity.csrp.sim_villager.name=Assimilated Landlubber
+entity.csrp.sim_villagerhead.name=Sailing 'Ead
+entity.csrp.sim_cow.name=Assimilated Bovine
+entity.csrp.sim_cowhead.name=Sailing 'Ead
+entity.csrp.sim_horse.name=Assimilated Brumby
+entity.csrp.sim_horsehead.name=Sailing 'Ead
+entity.csrp.sim_pig.name=Assimilated Swine
+entity.csrp.sim_pighead.name=Sailing 'Ead
+entity.csrp.sim_sheep.name=Assimilated Sheep
+entity.csrp.sim_sheephead.name=Sailing 'Ead
+entity.csrp.sim_wolf.name=Assimilated Hound
+entity.csrp.sim_wolfhead.name=Sailing 'Ead
+entity.csrp.incompleteform_medium.name=Matey That Ain't Right
+entity.csrp.incompleteform_small.name=Matey That Ain't Right
+
+entity.csrp.overseer.name=First Mate
+entity.csrp.bomber_light.name=Flyin' Cannon
+entity.csrp.carrier_heavy.name=Barrel o' Rum That Walks
+entity.csrp.buglin.name=Stowaway
+entity.csrp.carrier_flying.name=Barrel o' Rum That Flies
+entity.csrp.rupter.name=Boardin' Deckhand
+entity.csrp.beckon_si.name=Quartermaster Stage I
+entity.csrp.beckon_sii.name=Quartermaster Stage II
+entity.csrp.beckon_siii.name=Quartermaster Stage III
+entity.csrp.beckon_siv.name=Quartermaster Stage IV
+entity.csrp.beckon_sv.name=Quartermaster Stage V
+entity.csrp.warden.name=Second Mate
+entity.csrp.marauder.name=Third Mate
+entity.csrp.grunt.name=Buccaneer
+entity.csrp.sentry.name=Cannon
+entity.csrp.kyphosis.name=Plank
+
+entity.csrp.anc_dreadnaut.name=Ol' Flyin' Dutchman
+entity.csrp.anc_overlord.name=Ol' Davey Jones
+entity.csrp.vigilante.name=Master Gunner
+entity.csrp.movingflesh.name=Meat That Got Places T'Be
+entity.csrp.tendril.name=Meat That Don't Got Places T'Be
+entity.csrp.anc_pod.name=Cannonball
+entity.csrp.biomass.name=Meat That Boutta Not Be Meat
+entity.csrp.gore.name=Tired Meat
+
+entity.csrp.ada_longarms.name=Hornswogglin' Deckhand
+entity.csrp.ada_summoner.name=Hornswogglin' Cook
+entity.csrp.ada_manducater.name=Hornswogglin' Dog
+entity.csrp.ada_reeker.name=Hornswogglin' Bilge Rat
+entity.csrp.ada_yelloweye.name=Hornswogglin' Barrelman
+entity.csrp.ada_bolster.name=Hornswogglin' Boatswain
+entity.csrp.ada_arachnida.name=Hornswogglin' Powder Monkey
+
+//Creative Tab
+
+itemGroup.SRParasites=SR:Mateys
+
+//Items
+
+item.csrp.itemmobspawner_host.name=Whirlpool  Crew o' Bones
+item.csrp.itemmobspawner_infbear.name=Whirlpool  Assimilated Beast 'o' The Cold
+item.csrp.itemmobspawner_infenderman.name=Whirlpool  Assimilated Enderman 
+item.csrp.itemmobspawner_infplayer.name=Whirlpool  Assimilated Matey
+item.csrp.itemmobspawner_dorpa.name=Whirlpool  Assimilated 'Uge Night Bug
+item.csrp.itemmobspawner_infhuman.name=Whirlpool  Assimilated Sailor
+item.csrp.itemmobspawner_infhumanhead.name=Whirlpool  Sailing 'Ead (Sailor)
+item.csrp.itemmobspawner_infvillager.name=Whirlpool  Assimilated Landlubber
+item.csrp.itemmobspawner_infvillagerhead.name=Whirlpool  Sailing 'Ead (Landlubber)
+item.csrp.itemmobspawner_infcow.name=Whirlpool  Assimilated Bovine
+item.csrp.itemmobspawner_infcowhead.name=Whirlpool Sailing 'Ead (Bovine)
+item.csrp.itemmobspawner_infpig.name=Whirlpool Assimilated Swine
+item.csrp.itemmobspawner_infpighead.name=Whirlpool Sailing 'Ead (Swine)
+item.csrp.itemmobspawner_infsheep.name=Whirlpool Assimilated Sheep
+item.csrp.itemmobspawner_infsheephead.name=Whirlpool Sailing 'Ead (Sheep)
+item.csrp.itemmobspawner_infwolf.name=Whirlpool Assimilated Hound
+item.csrp.itemmobspawner_infwolfhead.name=Whirlpool Sailing 'Ead (Hound)
+item.csrp.itemmobspawner_infhorse.name=Whirlpool Assimilated Brumby
+item.csrp.itemmobspawner_infhorsehead.name=Whirlpool Sailing 'Ead (Brumby)
+item.csrp.itemmobspawner_inhoos.name=Whirlpool Incomplete Form (Landlubber)
+item.csrp.itemmobspawner_inhoom.name=Whirlpool Incomplete Form (Bilge Rat)
+
+item.csrp.itemmobspawner_alafha.name=Whirlpool First Mate
+item.csrp.itemmobspawner_omboo.name=Whirlpool Flyin' Cannon
+item.csrp.itemmobspawner_rathol.name=Whirlpool Barrel o' Rum That Walks
+item.csrp.itemmobspawner_buthol.name=Whirlpool Barrel o' Rum That Flies
+item.csrp.itemmobspawner_lodo.name=Whirlpool Stowaway
+item.csrp.itemmobspawner_mudo.name=Whirlpool Boardin' Deckhand
+item.csrp.itemmobspawner_venkrol.name=Whirlpool Quartermaster Stage I
+item.csrp.itemmobspawner_venkrolsii.name=Whirlpool Quartermaster Stage II
+item.csrp.itemmobspawner_venkrolsiii.name=Whirlpool Quartermaster Stage III
+item.csrp.itemmobspawner_venkrolsiv.name=Whirlpool Quartermaster Stage IV
+item.csrp.itemmobspawner_venkrolsv.name=Whirlpool Quartermaster Stage V
+item.csrp.itemmobspawner_ganro.name=Whirlpool Second Mate
+item.csrp.itemmobspawner_esor.name=Whirlpool Third Mate
+item.csrp.itemmobspawner_flog.name=Whirlpool Buccaneer
+item.csrp.itemmobspawner_unvo.name=Whirlpool Cannon 
+item.csrp.itemmobspawner_tonro.name=Whirlpool Plank
+
+item.csrp.itemmobspawner_oronco.name=Whirlpool Ol' Flyin' Dutchman
+item.csrp.itemmobspawner_terla.name=Whirlpool Ol' Davey Jones
+item.csrp.itemmobspawner_anged.name=Whirlpool Master Gunner
+item.csrp.itemmobspawner_lesh.name=Whirlpool Meat That Got Places T'Be
+
+item.csrp.itemmobspawner_shyco.name=Whirlpool Scurvy Deckhand
+item.csrp.itemmobspawner_hull.name=Whirlpool Scurvy Dog
+item.csrp.itemmobspawner_canra.name=Whirlpool Scurvy Cook
+item.csrp.itemmobspawner_emana.name=Whirlpool Scurvy Barrelman
+item.csrp.itemmobspawner_nogla.name=Whirlpool Scurvy Bilge Rat
+item.csrp.itemmobspawner_bano.name=Whirlpool Scurvy Boatswain
+item.csrp.itemmobspawner_ranrac.name=Whirlpool Scurvy Powder Monkey
+
+item.csrp.itemmobspawner_shycoadapted.name=Whirlpool Hornswogglin' Deckhand
+item.csrp.itemmobspawner_canraadapted.name=Whirlpool Hornswogglin' Cook
+item.csrp.itemmobspawner_noglaadapted.name=Whirlpool Hornswogglin' Bilge Rat
+item.csrp.itemmobspawner_hulladapted.name=Whirlpool Hornswogglin' Dog
+item.csrp.itemmobspawner_emanaadapted.name=Whirlpool Hornswogglin' Barrelman
+item.csrp.itemmobspawner_banoadapted.name=Whirlpool Hornswogglin' Boatswain
+item.csrp.itemmobspawner_ranracadapted.name=Whirlpool Hornswogglin' Powder Monkey
+
+item.csrp.itemthrow.name=
+item.csrp.itemtab.name=NULL
+item.csrp.evclock.name=Filthy Hourglass
+item.csrp.weapon_scythe.name=Livin' Cutlass
+item.csrp.weapon_scythe_sentient.name=Smart Cutlass
+item.csrp.weapon_bow.name=Livin' Flintlock
+item.csrp.weapon_bow_sentient.name=Smart Flintlock
+item.csrp.weapon_axe.name=Livin' Ax
+item.csrp.weapon_axe_sentient.name=Smart Ax
+
+item.csrp.bow_upperlimb.name=Livin' Flintlock Head
+item.csrp.bow_lowerlimb.name=Livin' Flintlock Rudder
+item.csrp.bow_string.name=Livin' Flintlock Rigging
+item.csrp.bow_grip.name=Livin' Flintlock Deck
+item.csrp.bow_core.name=Livin' Flintlock Cannon Stores
+
+item.csrp.scythe_back.name=Livin' Cutlass Rudder
+item.csrp.scythe_blade.name=Livin' Cutlass Bowsprit
+item.csrp.scythe_core.name=Livin' Cutlass Cannon Stores
+item.csrp.scythe_handle.name=Livin' Cutlass Hull
+item.csrp.scythe_head.name=Livin' Cutlass Main Mast
+
+item.csrp.ada_longarms_drop.name=Deckhand Noggin Fragment
+item.csrp.ada_summoner_drop.name=Cook's Pots'n'Pans
+item.csrp.ada_yelloweye_drop.name=Barrelman's Seein' Eye Tube
+item.csrp.ada_reeker_drop.name=Bilge Rat's Tooth
+item.csrp.ada_manducater_drop.name=Dog's Eye
+item.csrp.assimilated_flesh.name=Filthy Meat
+
+item.csrp.lurecomponent1.name=Fragile Bit
+item.csrp.lurecomponent2.name=Smelly Bit
+item.csrp.lurecomponent3.name=Putrid Stuff
+item.csrp.lurecomponent4.name=Fetid Stuff
+item.csrp.lurecomponent5.name=Moldered Cripe
+item.csrp.lurecomponent6.name=Essential Cripe
+
+//Blocks
+
+tile.csrp.parasitesapling_tree.name=Matey's Grower
+tile.csrp.parasitesapling_treethin.name=Matey's Grower
+tile.csrp.parasitesapling_flowertall.name=Matey's Grower
+
+tile.csrp.parasitebush_tendril.name=Matey's Fishnet
+tile.csrp.parasitebush_pop.name=Matey's Doctor Problems
+tile.csrp.parasitebush_bine.name=Matey's Ring
+
+tile.csrp.srpweb.name=Web o' Matey
+tile.csrp.biomeheart.name=Captain's Cabin
+tile.csrp.colonyheart.name=Captain's Helm
+tile.csrp.biomepurifier.name=Firebomb
+tile.csrp.parasitestructure.name=Captain's Broken Boat
+tile.csrp.parasitethin.name=Matey's Thin Log
+tile.csrp.parasitemouth.name=Matey's Gold Tooth
+tile.csrp.parasitetendril.name=Matey's Meat
+tile.csrp.parasitefog.name=ARRGH ME EYES
+
+tile.csrp.gore_sim_small.name=Assimilated Dead Man
+tile.csrp.gore_sim_big.name=Assimilated Dead Man
+tile.csrp.gore_pri_small.name=Scurvy Dead Man
+tile.csrp.gore_pri_big.name=Scurvy Dead Man
+tile.csrp.gore_ada_small.name=Hornswogglin' Dead Man
+tile.csrp.gore_ada_big.name=Hornswogglin' Dead Man
+tile.csrp.gore_pure_small.name=First Mate Dead Man
+tile.csrp.gore_pure_big.name=First Mate Dead Man
+
+tile.csrp.infestedstain.name=Gross Filth
+tile.csrp.infestedtrunk.name=Gross Timber
+tile.csrp.infestedrubble.name=Gross Pebbles
+tile.csrp.infestremain.name=Matey's Grog
+
+tile.csrp.infestedbush_infected.name=Gross Veins
+tile.csrp.infestedbush_grass1.name=Gross Veins
+tile.csrp.infestedbush_flower1.name=Gross Veins
+tile.csrp.infestedbush_spine.name=Gross Veins
+tile.csrp.infestedbush_vine.name=Gross Veins
+tile.csrp.infestedbush_arc.name=Gross Veins
+
+tile.csrp.parasitecanister_sac.name=Matey's Doctor Problems
+tile.csrp.parasitecanister_cyst.name=Matey's Doctor Problems
+tile.csrp.parasitecanister_lump.name=Matey's Doctor Problems
+tile.csrp.parasitecanister_bag.name=Barber's Bag
+
+tile.csrp.parasitetrunk_ball.name=Matey's Timber
+tile.csrp.parasitetrunk_tree.name=Matey's Timber
+tile.csrp.parasitetrunk_plant.name=Matey's Timber
+
+tile.csrp.parasitestain_dirt.name=Matey's Filth
+tile.csrp.parasitestain_mud.name=Matey's Filth
+tile.csrp.parasitestain_flesh.name=Matey's Meat
+tile.csrp.parasitestain_fleshstairs.name=Stairs o' Matey's Meat
+tile.csrp.parasitestain_feeler.name=Matey's Veins
+
+tile.csrp.parasiterubble_slabhalf.name=Slab o' Matey's Meat
+tile.csrp.parasiterubble_flesh.name=Matey's Grog'd Up Meat
+tile.csrp.parasiterubble_bone.name=Matey's Grog'd Up Bone
+tile.csrp.parasiterubble_bonestairs.name=Stairs o' Matey's Grog'd Up Bone
+tile.csrp.parasiterubble_stone.name=Matey's Pebbles
+
+tile.csrp.parasiterubbledense_wall.name=Matey's Grog'd Up Pebbles
+tile.csrp.parasiterubbledense_biome.name=Captain's Lucky Pebbles o' The Cabin
+tile.csrp.parasiterubbledense_colony.name=Captain's Lucky Pebbles o' The Helm
+
+tile.csrp.evolutionlure_one.name=Booty (Weakened)
+tile.csrp.evolutionlure_two.name=Booty (Faint)
+tile.csrp.evolutionlure_three.name=Booty (Slender)
+tile.csrp.evolutionlure_four.name=Booty (Stable)
+tile.csrp.evolutionlure_five.name=Booty (Substantial)
+tile.csrp.evolutionlure_six.name=Booty (Concentrated)
+tile.csrp.evolutionlure_seven.name=Booty (Concentrated+)
+tile.csrp.evolutionlure_eight.name=Booty (Concentrated++)
+
+//Effects
+
+mob_effect.csrp:coth=All Hands On Deck
+splash_potion.effect.csrp:coth=Grenade o' All Hands On Deck
+potion.effect.csrp:coth=Rum o' All Hands On Deck
+lingering_potion.effect.csrp:coth=Foggy Grog o' All Hands On Deck
+tipped_arrow.effect.csrp:coth=Tipped Bolt o' All Hands On Deck
+
+mob_effect.csrp:fear=Shakin' Bootsies
+splash_potion.effect.csrp:fear=Grenade o' Shakin' Bootsies
+potion.effect.csrp:fear=Rum o' Shakin' Bootsies
+lingering_potion.effect.csrp:fear=Foggy Grog o' Shakin' Bootsies
+tipped_arrow.effect.csrp:fear=Tipped Bolt o' Shakin' Bootsies
+
+mob_effect.csrp:antimall=Stiffy
+splash_potion.effect.csrp:antimall=Grenade o' Stiffy
+potion.effect.csrp:antimall=Rum o' Stiffy
+lingering_potion.effect.csrp:antimall=Foggy Grog o' Stiffy
+tipped_arrow.effect.csrp:antimall=Tipped Bolt o' Stiffy
+
+mob_effect.csrp:bleed=Keelhaul
+splash_potion.effect.csrp:bleed=Grenade o' Keelhaul
+potion.effect.csrp:bleed=Rum o' Keelhaul
+lingering_potion.effect.csrp:bleed=Foggy Grog o' Keelhaul
+tipped_arrow.effect.csrp:bleed=Tipped Bolt o' Keelhaul
+
+mob_effect.csrp:corrosive=Plundered
+splash_potion.effect.csrp:corrosive=Grenade o' Plundered
+potion.effect.csrp:corrosive=Rum o' Plundered
+lingering_potion.effect.csrp:corrosive=Foggy Grog o' Plundered
+tipped_arrow.effect.csrp:corrosive=Tipped Bolt o' Plundered
+
+mob_effect.csrp:viral=Scurvy
+splash_potion.effect.csrp:viral=Grenade o' Scurvy
+potion.effect.csrp:viral=Rum o' Scurvy
+lingering_potion.effect.csrp:viral=Foggy Grog o' Scurvy
+tipped_arrow.effect.csrp:viral=Tipped Bolt o' Scurvy
+
+mob_effect.csrp:rage=Squiffy
+splash_potion.effect.csrp:rage=Grenade o' Squiffy
+potion.effect.csrp:rage=Rum o' Squiffy
+lingering_potion.effect.csrp:rage=Foggy Grog o' Squiffy
+tipped_arrow.effect.csrp:rage=Tipped Bolt o' Squiffy
+
+mob_effect.csrp:repel=Hidey
+splash_potion.effect.csrp:repel=Grenade o' Hidey
+potion.effect.csrp:repel=Rum o' Hidey
+lingering_potion.effect.csrp:repel=Foggy Grog o' Hidey
+tipped_arrow.effect.csrp:repel=Tipped Bolt o' Hidey
+
+//extra
+
+message.csrp.lure=Arr, Davey Jones's backin' up!
+message.csrp.fearitem=ARRGH YER BOOTSIES SHAKIN!!!
+message.csrp.fearblock=ARRGH YER BOOTSIES SHAKIN!!!
+message.csrp.feargui=ARRGH YER BOOTSIES SHAKIN!!!
+message.csrp.evolutionsleep=WAKE UP YER GETTIN BOARDED MATEY ALL HANDS ON DECK

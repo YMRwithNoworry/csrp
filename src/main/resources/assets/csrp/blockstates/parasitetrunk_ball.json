@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "csrp:block/parasitetrunk_ball",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "csrp:block/parasitetrunk_ball"
+    },
+    "axis=z": {
+      "model": "csrp:block/parasitetrunk_ball",
+      "x": 90
+    }
+  }
+}

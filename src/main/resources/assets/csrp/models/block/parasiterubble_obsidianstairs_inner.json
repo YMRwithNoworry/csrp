@@ -1,0 +1,8 @@
+{
+  "parent": "block/inner_stairs",
+  "textures": {
+    "bottom": "csrp:blocks/bleeding_obsidian",
+    "top": "csrp:blocks/bleeding_obsidian",
+    "side": "csrp:blocks/bleeding_obsidian"
+  }
+}

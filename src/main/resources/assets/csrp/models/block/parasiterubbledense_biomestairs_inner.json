@@ -1,0 +1,8 @@
+{
+  "parent": "block/inner_stairs",
+  "textures": {
+    "bottom": "csrp:blocks/parasiterubbledense_biome",
+    "top": "csrp:blocks/parasiterubbledense_biome",
+    "side": "csrp:blocks/parasiterubbledense_biome"
+  }
+}

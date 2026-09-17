@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "csrp:block/parasitic_compressed_colony_stone_slab"
+    },
+    "type=top": {
+      "model": "csrp:block/parasitic_compressed_colony_stone_slab_top"
+    },
+    "type=double": {
+      "model": "csrp:block/parasitic_compressed_colony_stone_slab_double"
+    }
+  }
+}

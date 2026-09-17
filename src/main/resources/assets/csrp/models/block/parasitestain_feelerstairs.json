@@ -1,0 +1,8 @@
+{
+  "parent": "block/stairs",
+  "textures": {
+    "bottom": "csrp:blocks/parasitestain_feeler",
+    "top": "csrp:blocks/parasitestain_feeler",
+    "side": "csrp:blocks/parasitestain_feeler_side"
+  }
+}

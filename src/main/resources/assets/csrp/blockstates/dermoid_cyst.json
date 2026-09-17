@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "csrp:block/dermoid_cyst_north"
+    },
+    "facing=east": {
+      "model": "csrp:block/dermoid_cyst_east"
+    },
+    "facing=south": {
+      "model": "csrp:block/dermoid_cyst_south"
+    },
+    "facing=west": {
+      "model": "csrp:block/dermoid_cyst_west"
+    }
+  }
+}

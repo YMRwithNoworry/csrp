@@ -1,0 +1,9 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "particle": "csrp:blocks/assimilated_fungus",
+    "bottom": "csrp:blocks/assimilated_fungus",
+    "top": "csrp:blocks/assimilated_fungus",
+    "side": "csrp:blocks/assimilated_fungus"
+  }
+}

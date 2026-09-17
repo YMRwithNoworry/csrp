@@ -1,0 +1,473 @@
+//Entities
+
+entity.csrp.pri_longarms.name=Примітивний Довгорукий
+entity.csrp.pri_manducater.name=Примітивний Зникач
+entity.csrp.pri_summoner.name=Примітивний Закличник
+entity.csrp.pri_reeker.name=Примітивний Вонючка
+entity.csrp.pri_yelloweye.name=Примітивний Жовтоокий
+entity.csrp.pri_bolster.name=Примітивний Підбурювач
+entity.csrp.pri_arachnida.name=Примітивна Арахніда
+entity.csrp.pri_devourer.name=Примітивний Пожирач
+
+entity.csrp.host.name=Носій
+entity.csrp.hostii.name=Прорва
+entity.csrp.crux.name=Одвічний
+entity.csrp.heed.name=Сторож
+entity.csrp.thrall.name=Невільник
+
+entity.csrp.sim_bear.name=Асимільований Ведмідь
+entity.csrp.sim_enderman.name=Асимільований Ендермен
+entity.csrp.sim_endermanhead.name=Ходяча голова
+entity.csrp.sim_adventurer.name=Асимільований Мандрівник
+entity.csrp.sim_adventurerhead.name=Ходяча голова
+entity.csrp.sim_bigspider.name=Асимільований Великий Павук
+entity.csrp.sim_human.name=Асимільована Людина
+entity.csrp.sim_humanhead.name=Ходяча Голова
+entity.csrp.sim_villager.name=Асимільований Селянин
+entity.csrp.sim_villagerhead.name=Ходяча Голова
+entity.csrp.sim_cow.name=Заражена Корова
+entity.csrp.sim_cowhead.name=Ходяча Голова
+entity.csrp.sim_horse.name=Асимільований Кінь
+entity.csrp.sim_horsehead.name=Ходяча Голова
+entity.csrp.sim_pig.name=Заражена Свиня
+entity.csrp.sim_pighead.name=Ходяча Голова
+entity.csrp.sim_sheep.name=Заражена Вівця
+entity.csrp.sim_sheephead.name=Ходяча Голова
+entity.csrp.sim_wolf.name=Асимільований Вовк
+entity.csrp.sim_wolfhead.name=Ходяча Голова
+entity.csrp.incompleteform_medium.name=Середня незавершена форма
+entity.csrp.incompleteform_small.name=Мала незавершена форма
+entity.csrp.sim_dragone.name=Асимільований Дракон Ендера
+entity.csrp.sim_dragonehead.name=Ходяча голова
+
+entity.csrp.overseer.name=Наглядач
+entity.csrp.bomber_light.name=Легкий Бомбардир
+entity.csrp.carrier_heavy.name=Важкий Переносник
+entity.csrp.buglin.name=Баглін
+entity.csrp.mangler.name=Кромсатель
+entity.csrp.worker.name=Робітник
+entity.csrp.carrier_flying.name=Літаючий Переносник
+entity.csrp.rupter.name=Руптер
+entity.csrp.beckon_si.name=Маяк Стадія I
+entity.csrp.beckon_sii.name=Маяк Стадія II
+entity.csrp.beckon_siii.name=Маяк Стадія III
+entity.csrp.beckon_siv.name=Маяк Стадія IV
+entity.csrp.beckon_sv.name=Маяк Стадія V
+entity.csrp.warden.name=Охоронець
+entity.csrp.marauder.name=Мародер
+entity.csrp.monarch.name=Монарх
+entity.csrp.grunt.name=Піхотинець
+entity.csrp.sentry.name=Вартовий
+entity.csrp.kyphosis.name=Кіфоз
+entity.csrp.dispatcherten.name=Щупальце Виконавця
+entity.csrp.dispatcher_si.name=Виконавець Стадії I
+entity.csrp.dispatcher_sii.name=Виконавець Стадії II
+entity.csrp.dispatcher_siii.name=Виконавець Стадії III
+entity.csrp.dispatcher_siv.name=Виконавець Стадії IV
+entity.csrp.seizer.name=Хапач
+
+entity.csrp.bomber_heavy.name=Важкий Бомбардир
+entity.csrp.carrier_colony.name=Колоніальний Переносник
+entity.csrp.wraith.name=Привид
+entity.csrp.bogle.name=Фантом
+entity.csrp.haunter.name=Переслідувач
+entity.csrp.succor.name=Помічник
+
+entity.csrp.anc_dreadnaut.name=Стародавній Дредноут
+entity.csrp.anc_overlord.name=Стародавній Владика
+entity.csrp.vigilante.name=Лінчеватель
+entity.csrp.movingflesh.name=Рухлива Плоть
+entity.csrp.tendril.name=Щупальце
+entity.csrp.anc_pod.name=Кокон
+entity.csrp.biomass.name=Біомаса
+entity.csrp.gore.name=Уламок
+
+entity.csrp.ada_longarms.name=Адаптований Довгорукий
+entity.csrp.ada_summoner.name=Адаптований Закличник
+entity.csrp.ada_manducater.name=Адаптований Зникач
+entity.csrp.ada_reeker.name=Адаптований Вонючка
+entity.csrp.ada_yelloweye.name=Адаптований Жовтоокий
+entity.csrp.ada_bolster.name=Адаптований Підбурювач
+entity.csrp.ada_arachnida.name=Адаптована Арахніда
+
+entity.csrp.remain.name=Останки
+//Creative Tab
+
+itemGroup.SRParasites=SR:Parasites
+
+//Items
+item.csrp.itemmobspawner_pod.name=Заклик - Кокон
+
+item.csrp.itemmobspawner_host.name=Заклик - Носій
+item.csrp.itemmobspawner_hostii.name=Заклик - Прорва
+item.csrp.itemmobspawner_heed.name=Заклик - Сторож
+item.csrp.itemmobspawner_cruxa.name=Заклик - Одвічний
+item.csrp.itemmobspawner_mes.name=Заклик - Невільник
+
+item.csrp.itemmobspawner_infbear.name=Заклик - Асимільований Ведмідь
+item.csrp.itemmobspawner_infenderman.name=Заклик - Асимільований Ендермен
+item.csrp.itemmobspawner_infendermanhead.name=Заклик - Ходяча голова (Ендермен)
+item.csrp.itemmobspawner_infplayer.name=Заклик - Асимільований Мандрівник
+item.csrp.itemmobspawner_infplayerhead.name=Заклик - Ходяча голова (Мандрівник)
+item.csrp.itemmobspawner_dorpa.name=Заклик - Асимільований Великий Павук
+item.csrp.itemmobspawner_infhuman.name=Заклик - Заражена Людина
+item.csrp.itemmobspawner_infhumanhead.name=Заклик - Ходяча голова (Людина)
+item.csrp.itemmobspawner_infvillager.name=Заклик - Асимільований Селянин
+item.csrp.itemmobspawner_infvillagerhead.name=Заклик - Ходяча голова (Селянин)
+item.csrp.itemmobspawner_infcow.name=Заклик - Заражена Корова
+item.csrp.itemmobspawner_infcowhead.name=Заклик - Ходяча голова (Корова)
+item.csrp.itemmobspawner_infpig.name=Заклик Заражена Свиня
+item.csrp.itemmobspawner_infpighead.name=Заклик - Ходяча голова (Свиня)
+item.csrp.itemmobspawner_infsheep.name=Заклик - Заражена Вівця
+item.csrp.itemmobspawner_infsheephead.name=Заклик - Ходяча голова (Вівця)
+item.csrp.itemmobspawner_infwolf.name=Заклик - Асимільований Вовк
+item.csrp.itemmobspawner_infwolfhead.name=Заклик - Ходяча голова (Вовк)
+item.csrp.itemmobspawner_infhorse.name=Заклик - Асимільований Кінь
+item.csrp.itemmobspawner_infhorsehead.name=Заклик - Ходяча голова (Кінь)
+item.csrp.itemmobspawner_inhoos.name=Заклик - Незавершена форма (Мала)
+item.csrp.itemmobspawner_inhoom.name=Заклик - Незавершена форма (Середня)
+item.csrp.itemmobspawner_infdragone.name=Заклик - Асимільований Дракон Ендера
+item.csrp.itemmobspawner_infdragonehead.name=Заклик - Ходяча голова (Дракон Ендера)
+
+item.csrp.itemmobspawner_alafha.name=Заклик - Доглядач
+item.csrp.itemmobspawner_omboo.name=Заклик - Легкий Бомбардир
+item.csrp.itemmobspawner_rathol.name=Заклик - Важкий Переносник
+item.csrp.itemmobspawner_buthol.name=Заклик - Літаючий Переносник
+item.csrp.itemmobspawner_lodo.name=Заклик - Баглін
+item.csrp.itemmobspawner_nuuh.name=Заклик - Кромсатель
+item.csrp.itemmobspawner_worker.name=Заклик - Робітник
+item.csrp.itemmobspawner_mudo.name=Заклик - Руптер
+item.csrp.itemmobspawner_venkrol.name=Заклик - Маяк Стадія I
+item.csrp.itemmobspawner_venkrolsii.name=Заклик - Маяк Стадія II
+item.csrp.itemmobspawner_venkrolsiii.name=Заклик - Маяк Стадія III
+item.csrp.itemmobspawner_venkrolsiv.name=Заклик - Маяк Стадія IV
+item.csrp.itemmobspawner_venkrolsv.name=Заклик - Маяк Стадія V
+item.csrp.itemmobspawner_ganro.name=Заклик - Охоронець
+item.csrp.itemmobspawner_esor.name=Заклик - Мародер
+item.csrp.itemmobspawner_orch.name=Заклик - Монарх
+item.csrp.itemmobspawner_flog.name=Заклик - Піхотинець
+item.csrp.itemmobspawner_unvo.name=Заклик - Вартовий
+item.csrp.itemmobspawner_tonro.name=Заклик - Кіфоз
+item.csrp.itemmobspawner_dod.name=Заклик - Виконавець Стадія I
+item.csrp.itemmobspawner_dodsii.name=Заклик - Виконавець Стадія II
+item.csrp.itemmobspawner_dodsiii.name=Заклик - Виконавець Стадія III
+item.csrp.itemmobspawner_dodsiv.name=Заклик - Виконавець Стадія IV
+item.csrp.itemmobspawner_nak.name=Заклик - Хапач
+
+item.csrp.itemmobspawner_jinjo.name=Заклик - Важкий Бомбардир
+item.csrp.itemmobspawner_vesta.name=Заклик - Колоніальний Переносник
+item.csrp.itemmobspawner_elvia.name=Заклик - Привид
+item.csrp.itemmobspawner_lencia.name=Заклик - Фантом
+item.csrp.itemmobspawner_pheon.name=Заклик - Переслідувач
+item.csrp.itemmobspawner_flam.name=Заклик - Помічник
+
+item.csrp.itemmobspawner_oronco.name=Заклик - Стародавній Дредноут
+item.csrp.itemmobspawner_terla.name=Заклик - Стародавній Владика
+item.csrp.itemmobspawner_anged.name=Заклик - Лінчеватель
+item.csrp.itemmobspawner_lesh.name=Заклик - Рухлива Плоть
+
+item.csrp.itemmobspawner_shyco.name=Заклик - Примітивний Довгорукий
+item.csrp.itemmobspawner_hull.name=Заклик - Примітивний Зникач
+item.csrp.itemmobspawner_canra.name=Заклик - Примітивний Закличник
+item.csrp.itemmobspawner_emana.name=Заклик - Примітивний Жовтоокий
+item.csrp.itemmobspawner_nogla.name=Заклик - Примітивний Вонючка
+item.csrp.itemmobspawner_bano.name=Заклик - Примітивний Підбурювач
+item.csrp.itemmobspawner_ranrac.name=Заклик - Примітивна Арахніда
+item.csrp.itemmobspawner_lum.name=Заклик - Примітивний Пожирач
+
+item.csrp.itemmobspawner_shycoadapted.name=Заклик - Адаптований Довгорукий
+item.csrp.itemmobspawner_canraadapted.name=Заклик - Адаптований Закличник
+item.csrp.itemmobspawner_noglaadapted.name=Заклик - Адаптований Вонючка
+item.csrp.itemmobspawner_hulladapted.name=Заклик - Адаптований Зникач
+item.csrp.itemmobspawner_emanaadapted.name=Заклик - Адаптований Жовтоокий
+item.csrp.itemmobspawner_banoadapted.name=Заклик - Адаптований Підбурювач
+item.csrp.itemmobspawner_ranracadapted.name=Заклик - Адаптована Арахніда
+
+item.csrp.itemthrow.name=
+item.csrp.itemtab.name=NULL
+item.csrp.evclock.name=Кривавий Годинник
+item.csrp.weapon_scythe.name=Жива Коса
+item.csrp.weapon_scythe_sentient.name=Розумна Коса
+item.csrp.weapon_bow.name=Живий Лук
+item.csrp.weapon_bow_sentient.name=Розумний Великий Лук
+item.csrp.weapon_axe.name=Жива Сокира
+item.csrp.weapon_axe_sentient.name=Розумна Велика Сокира
+item.csrp.weapon_sword.name=Живий Меч
+item.csrp.weapon_sword_sentient.name=Розумний Великий Меч
+item.csrp.weapon_cleaver.name=Живий Тесак
+item.csrp.weapon_cleaver_sentient.name=Розумний Великий Тесак
+
+item.csrp.armor_helm.name=Живий Шолом
+item.csrp.armor_chest.name=Живий Нагрудник
+item.csrp.armor_pants.name=Живі Поножі
+item.csrp.armor_boots.name=Живі Чоботи
+item.csrp.armor_helm_sentient.name=Розумний Шолом
+item.csrp.armor_chest_sentient.name=Розумний Нагрудник
+item.csrp.armor_pants_sentient.name=Розумні Поножі
+item.csrp.armor_boots_sentient.name=Розумні Чоботи
+
+//////
+item.csrp.bow_upperlimb.name=Верхнє Плече Живого Лука
+item.csrp.bow_lowerlimb.name=Нижнє Плече Живого Лука
+item.csrp.bow_string.name=Тетева Живого Лука
+item.csrp.bow_grip.name=Рукоять Живого Лука
+item.csrp.bow_core.name=Ядро Живого Лука
+
+item.csrp.scythe_back.name=Задня Частина Живий Коси
+item.csrp.scythe_blade.name=Лезо Живий Коси
+item.csrp.scythe_core.name=Ядро Живий Коси
+item.csrp.scythe_handle.name=Рукоять Живий Коси
+item.csrp.scythe_head.name=Голова Живий Коси
+///////
+
+item.csrp.dried_tendons.name=Висушені Сухожилля
+item.csrp.hardened_bone_handle.name=Укріплена Кістяна Рукоять
+item.csrp.infectious_blade_fragment.name=Фрагмент Інфекційного Леза
+item.csrp.living_core.name=Живе Ядро
+item.csrp.vile_shell.name=Мерзенний Панцир
+item.csrp.bone.name=Дивна Кістка
+
+
+item.csrp.ada_longarms_drop.name=Фрагмент Броні Довгорукого
+item.csrp.ada_summoner_drop.name=Ядро Закликача
+item.csrp.ada_yelloweye_drop.name=Кістка Жовтоокого
+item.csrp.ada_reeker_drop.name=Ікло Вонючки
+item.csrp.ada_manducater_drop.name=Сфера Зникача
+item.csrp.ada_bolster_drop.name=Лупшиння Підбурювача
+item.csrp.ada_arachnida_drop.name=Кіготь Арахніди
+item.csrp.ada_devourer_drop.name=Щупальце Пожирача
+
+item.csrp.assimilated_flesh.name=Заражена Плоть
+item.csrp.beckon_drop.name=Мембрана Маяка
+item.csrp.dispatcher_drop.name=Мембрана Виконавця
+
+item.csrp.lurecomponent1.name=Крихкі Шматочки
+item.csrp.lurecomponent2.name=Заражене Серце
+item.csrp.lurecomponent3.name=Змінені Вусики
+item.csrp.lurecomponent4.name=Токсична Легеня
+item.csrp.lurecomponent5.name=Згубний Мозок
+item.csrp.lurecomponent6.name=Закривавлений Сегмент
+
+//Blocks
+
+tile.csrp.parasitesapling_tree.name=Саджанець Венозного Дерева
+tile.csrp.parasitesapling_treethin.name=Саджанець Гнусового Дерева
+tile.csrp.parasitesapling_flowertall.name=Саджанець Темноцвіту
+
+tile.csrp.parasitebush_tendril.name=Мережа капілярів
+tile.csrp.parasitebush_pop.name=Паразитична пухир
+tile.csrp.parasitebush_bine.name=Нервові закінчення
+
+tile.csrp.srpweb_one.name=Павутиння
+tile.csrp.srpweb_two.name=Павутиння
+tile.csrp.srpweb_three.name=Павутиння
+tile.csrp.tunnel.name=Нора
+tile.csrp.dispatchern.name=Розсадник Виконавця
+tile.csrp.biomeheart.name=Ядро вулика
+tile.csrp.colonyheart.name=Ядро паразитичної колонії
+tile.csrp.biomepurifier.name=Очищувач біомів
+tile.csrp.parasitestructure.name=Незавершена структура колонії
+tile.csrp.parasitethin.name=Паразитична тонка колода
+tile.csrp.parasitemouth.name=Паща
+tile.csrp.parasitetendril.name=Паразитичне Щупальце
+tile.csrp.parasitefog.name=Паразитичний Туман
+
+tile.csrp.gore_sim_small.name=Асимільовані останки
+tile.csrp.gore_sim_big.name=Асимільовані останки
+tile.csrp.gore_sim_flat.name=Асимільовані останки
+tile.csrp.gore_pri_small.name=Примітивні останки
+tile.csrp.gore_pri_big.name=Примітивні останки
+tile.csrp.gore_pri_flat.name=Примітивні останки
+tile.csrp.gore_ada_small.name=Адаптовані останки
+tile.csrp.gore_ada_big.name=Адаптовані останки
+tile.csrp.gore_ada_flat.name=Адаптовані останки
+tile.csrp.gore_pure_small.name=Чисті останки
+tile.csrp.gore_pure_big.name=Чисті останки
+tile.csrp.gore_pure_flat.name=Чисті останки
+
+tile.csrp.infestedstain.name=Заражена земля
+tile.csrp.infestedtrunk.name=Заражене дерево
+tile.csrp.infestedrubble.name=Заражений камінь
+tile.csrp.infestremain.name=Заражений залишок
+
+tile.csrp.infestedbush_infected.name=Заражені Вени
+tile.csrp.infestedbush_grass1.name=Заражені Вени
+tile.csrp.infestedbush_flower1.name=Заражені Вени
+tile.csrp.infestedbush_spine.name=Заражені Вени
+tile.csrp.infestedbush_vine.name=Заражені Вени
+tile.csrp.infestedbush_arc.name=Заражені Вени
+
+tile.csrp.parasitecanister_sac.name=Пухирчастий мішечок
+tile.csrp.parasitecanister_cyst.name=Порожня кіста
+tile.csrp.canisteractive.name=Ненажерлива кіста
+tile.csrp.parasitecanister_lump.name=Гротескний клубок
+tile.csrp.parasitecanister_bag.name=Мішечок із плоті
+
+tile.csrp.parasitetrunk_ball.name=Колода Синякового дерева
+tile.csrp.parasitetrunk_tree.name=Колода Синякового дерева
+tile.csrp.parasitetrunk_plant.name=Колода Синякового дерева
+
+tile.csrp.parasitestain_dirt.name=Ґрунт вулика
+tile.csrp.parasitestain_mud.name=Заражений ґрунт
+tile.csrp.parasitestain_flesh.name=Шматок плоті
+tile.csrp.parasitestain_fleshstairs.name=Шматок плоті
+tile.csrp.parasitestain_feeler.name=Стиснуті артерії
+
+tile.csrp.parasiterubble_slabhalf.name=Укріплена кістка
+tile.csrp.parasiterubble_flesh.name=Шматок концентрованої плоті
+tile.csrp.parasiterubble_bone.name=Укріплена кістка
+tile.csrp.parasiterubble_bonestairs.name=Укріплена кістка
+tile.csrp.parasiterubble_stone.name=Камінь вулика
+
+tile.csrp.parasiterubbledense_wall.name=Стиснутий камінь вулика
+tile.csrp.parasiterubbledense_biome.name=Укріплений камінь вулика
+tile.csrp.parasiterubbledense_colony.name=Стиснутий паразитичний камінь колонії
+
+tile.csrp.evolutionlure_one.name=Приманка (Ослаблена)
+tile.csrp.evolutionlure_two.name=Приманка (Слабка)
+tile.csrp.evolutionlure_three.name=Приманка (Струнка)
+tile.csrp.evolutionlure_four.name=Приманка (Стабільна)
+tile.csrp.evolutionlure_five.name=Приманка (Істотна)
+tile.csrp.evolutionlure_six.name=Приманка (Концентрована)
+tile.csrp.evolutionlure_seven.name=Приманка (Концентрована+)
+tile.csrp.evolutionlure_eight.name=Приманка (Концентрована++)
+
+//Effects
+
+mob_effect.csrp:coth=Поклик вулика
+splash_potion.effect.csrp:coth=Вибухове зілля поклику вулика
+potion.effect.csrp:coth=Зілля поклику вулика
+lingering_potion.effect.csrp:coth=Туманне зілля поклику вулика
+tipped_arrow.effect.csrp:coth=Стріла поклику вулика
+
+mob_effect.csrp:fear=Страх
+splash_potion.effect.csrp:fear=Вибухове зілля страху
+potion.effect.csrp:fear=Зілля страху
+lingering_potion.effect.csrp:fear=Туманне зілля страху
+tipped_arrow.effect.csrp:fear=Стріла страху
+
+mob_effect.csrp:antimall=Невміння
+splash_potion.effect.csrp:antimall=Вибухове зілля невмілості
+potion.effect.csrp:antimall=Зілля невмілості
+lingering_potion.effect.csrp:antimall=Туманне зілля невмілості
+tipped_arrow.effect.csrp:antimall=Стріла невмілості
+
+mob_effect.csrp:bleed=Кровотеча
+splash_potion.effect.csrp:bleed=Вибухове зілля кровотечі
+potion.effect.csrp:bleed=Зілля кровотечі
+lingering_potion.effect.csrp:bleed=Туманне зілля кровотечі
+tipped_arrow.effect.csrp:bleed=Стріла кровотечі
+
+mob_effect.csrp:corrosive=Корозія
+splash_potion.effect.csrp:corrosive=Вибухове зілля корозії
+potion.effect.csrp:corrosive=Зілля корозії
+lingering_potion.effect.csrp:corrosive=Туманне зілля корозії
+tipped_arrow.effect.csrp:corrosive=Стріла корозії
+
+mob_effect.csrp:viral=Заразний
+splash_potion.effect.csrp:viral=Вибухове зілля вірусності
+potion.effect.csrp:viral=Зілля вірусності
+lingering_potion.effect.csrp:viral=Туманне зілля вірусності
+tipped_arrow.effect.csrp:viral=Стріла вірусності
+
+mob_effect.csrp:rage=Лють
+splash_potion.effect.csrp:rage=Вибухове зілля люті
+potion.effect.csrp:rage=Зілля люті
+lingering_potion.effect.csrp:rage=Туманне зілля люті
+tipped_arrow.effect.csrp:rage=Стріла люті
+
+mob_effect.csrp:repel=Камуфляж
+splash_potion.effect.csrp:repel=Вибухове зілля камуфляжу
+potion.effect.csrp:repel=Зілля камуфляжу
+lingering_potion.effect.csrp:repel=Туманне Зілля камуфляжу
+tipped_arrow.effect.csrp:repel=Стріла камуфляжу
+
+mob_effect.csrp:senses=Загострені Почуття
+splash_potion.effect.csrp:senses=Вибухове зілля загострених почуттів
+potion.effect.csrp:senses=Зілля загострених почуттів
+lingering_potion.effect.csrp:senses=Туманне зілля загострених почуттів
+tipped_arrow.effect.csrp:senses=Стріла загострених почуттів
+
+mob_effect.csrp:debar=Заборона
+splash_potion.effect.csrp:debar=Вибухове зілля заборони
+potion.effect.csrp:debar=Зілля заборони
+lingering_potion.effect.csrp:debar=Туманне зілля заборони
+tipped_arrow.effect.csrp:debar=Стріла заборони
+
+mob_effect.csrp:needler=Проколотий
+splash_potion.effect.csrp:needler=Вибухове зілля проколеності
+potion.effect.csrp:needler=Зілля проколеності
+lingering_potion.effect.csrp:needler=Туманне зілля проколеності
+tipped_arrow.effect.csrp:needler=Стріла проколеності
+
+//extra
+
+message.csrp.lure=Очки еволюції було зменшено!
+message.csrp.fearitem=Ви Панікуєте
+message.csrp.fearblock=Ви Панікуєте
+message.csrp.feargui=Ви Панікуєте
+message.csrp.evolutionsleep=Ви не можете спати зараз
+
+tootip.csrp.lurecomp.1=Шматки нутрощів Руптера. Компонент для приманки.
+tootip.csrp.lurecomp.2=Сильно розпухле серце, витягнуте з тіла асимільованої істоти. Компонент для приманки.
+tootip.csrp.lurecomp.3=Шматки м'язів, витягнуті з тіла примітивного паразита, що виділяють жахливий запах. Компонент для приманки.
+tootip.csrp.lurecomp.4=Асиметрично виросла легеня, вирвана з тіла адаптованого паразита. Компонент для приманки.
+tootip.csrp.lurecomp.5=Напіврозвинений мозок, зібраний з тіла чистого паразита. Компонент для приманки.
+tootip.csrp.lurecomp.6=Схожий на хребет об'єкт, зібраний з мішечків, що звисають із дерев у паразитичному біомі. Компонент для приманки.
+
+tootip.csrp.item.1=Невелика сфера, витягнута з тіла Закликача, виділяє енергію, коливаючи вашу волю. Є інгредієнтом для компонентів зброї.
+tootip.csrp.item.2=Міцна кістка, відірвана від Жовтоокого, доволі пружна. Є інгредієнтом для компонентів зброї.
+tootip.csrp.item.3=Невелика сфера, витягнута з тіла Зникача, виділяє дивну енергію, зникаючи і з'являючись. Є інгредієнтом для компонентів зброї.
+tootip.csrp.item.4=Жахливо гостре ікло, вирване з пащі Вонючки. Є інгредієнтом для компонентів зброї.
+tootip.csrp.item.5=Дуже міцний фрагмент броні, зібраний з тіла Довгорукого. Є інгредієнтом для компонентів зброї.
+tootip.csrp.item.6=Шматочок плоті, відірваний від тіла асимільованої істоти. Базовий матеріал для створення деяких допоміжних предметів.
+tootip.csrp.item.7=
+tootip.csrp.item.8=Еластичний матеріал, створений із частин різних паразитів. Компонент для зброї.
+tootip.csrp.item.9=Шматок леза, створений із різних частин тіл паразитів. Компонент для зброї.
+tootip.csrp.item.10=Полум'я життя досі не згасло в цьому об'єкті. Ядро, що підживлює всю зброю.
+tootip.csrp.item.11=Вкрай міцна оболонка, створена з різних частин паразитів. Компонент для зброї.
+tootip.csrp.item.12=Досить товста рукоять, зроблена з міцних кісток, видобутих із тіл паразитів. Компонент для зброї.
+
+tootip.csrp.item.20=Сухий шматочок шкіри, зібраний з тіла Підбурювача.
+tootip.csrp.item.21=Жахливо гострі кігті, вирвані з тіла Арахніди.
+tootip.csrp.item.22=Кістляве щупальце, відірване від тіла Пожирача.
+tootip.csrp.item.23=Покриття Маяка, здерте зі стовбура.
+tootip.csrp.item.24=Покриття Виконавця, зібране з його основи.
+
+tootip.csrp.item.18=Забруднений зараженою плоттю, годинник цокає до Кошмарної Опівночі.
+
+tootip.csrp.weaponm.1=Результат зміни форм частин паразитів у зброї. Полум'я життя яскраво горить усередині.
+tootip.csrp.weaponm.2=Вищий ступінь еволюції Живої Коси. Вона знайшла розум.
+tootip.csrp.weaponm.3=Результат зміни форм частин паразитів у зброї. Полум'я життя яскраво горить усередині.
+tootip.csrp.weaponm.4=Вищий ступінь еволюції Живої Сокири. Вона знайшла розум.
+tootip.csrp.weaponm.5=Результат зміни форм частин паразитів у зброї. Полум'я життя яскраво горить усередині.
+tootip.csrp.weaponm.6=Вищий ступінь еволюції Живого Меча. Він знайшов розум.
+tootip.csrp.weaponm.7=Результат зміни форм частин паразитів у зброї. Полум'я життя яскраво горить усередині.
+tootip.csrp.weaponm.8=Вищий ступінь еволюції Живого Тесака. Він знайшов розум.
+
+tootip.csrp.weaponm.10=Знищує велику теріторію.
+tootip.csrp.weaponm.20=Знищує велику теріторію.
+tootip.csrp.weaponm.30=Робить броню марною з плином часу.
+tootip.csrp.weaponm.40=Робить броню марною з плином часу.
+tootip.csrp.weaponm.50=Завдає небезпечні для життя травми.
+tootip.csrp.weaponm.60=Завдає небезпечні для життя травми.
+tootip.csrp.weaponm.70=Завдає небезпечні удари.
+tootip.csrp.weaponm.80=Завдає небезпечні удари.
+
+tootip.csrp.weaponm.100=Ви більше не можете ховатися...
+tootip.csrp.weaponm.200=Ви більше не можете ховатися...
+tootip.csrp.weaponm.300=Ви більше не можете ховатися...
+tootip.csrp.weaponm.400=Ви більше не можете ховатися...
+tootip.csrp.weaponm.500=Ви більше не можете ховатися...
+tootip.csrp.weaponm.600=Ви більше не можете ховатися...
+tootip.csrp.weaponm.700=Ви більше не можете ховатися...
+tootip.csrp.weaponm.800=Ви більше не можете ховатися...
+
+tootip.csrp.weaponr.1=Результат зміни форм частин паразитів у зброї. Полум'я життя яскраво горить усередині.
+tootip.csrp.weaponr.2=Вищий ступінь еволюції Живого Лука. Він знайшов розум.
+
+tootip.csrp.weaponr.10=Продовжуйте утримувати ці стріли
+tootip.csrp.weaponr.20=Продовжуйте утримувати ці стріли
+
+tootip.csrp.weaponr.100=Ви більше не можете ховатися...
+tootip.csrp.weaponr.200=Ви більше не можете ховатися...

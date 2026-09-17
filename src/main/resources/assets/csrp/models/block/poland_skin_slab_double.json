@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "particle": "csrp:blocks/sick_skin_block",
+    "all": "csrp:blocks/sick_skin_block"
+  }
+}

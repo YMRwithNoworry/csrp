@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "csrp:block/residue_brick_slab"
+    },
+    "type=top": {
+      "model": "csrp:block/residue_brick_slab_top"
+    },
+    "type=double": {
+      "model": "csrp:block/residue_brick_slab_double"
+    }
+  }
+}

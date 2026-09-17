@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "csrp:block/cooked_flesh_slab"
+    },
+    "type=top": {
+      "model": "csrp:block/cooked_flesh_slab_top"
+    },
+    "type=double": {
+      "model": "csrp:block/cooked_flesh_slab_double"
+    }
+  }
+}

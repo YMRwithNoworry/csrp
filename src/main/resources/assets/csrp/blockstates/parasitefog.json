@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "air=0": [
+      {
+        "model": "csrp:block/parasite_fog"
+      }
+    ],
+    "air=1": [
+      {
+        "model": "csrp:block/parasite_fog"
+      }
+    ],
+    "air=2": [
+      {
+        "model": "csrp:block/parasite_fog"
+      }
+    ]
+  }
+}

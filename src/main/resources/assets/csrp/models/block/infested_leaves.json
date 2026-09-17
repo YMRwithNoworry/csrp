@@ -1,0 +1,6 @@
+{
+  "parent": "block/leaves",
+  "textures": {
+    "all": "csrp:blocks/infested_leaves"
+  }
+}

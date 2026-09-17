@@ -1,0 +1,8 @@
+{
+  "parent": "block/flower_pot_cross",
+  "textures": {
+    "flowerpot": "csrp:blocks/assimilated_flower_pot",
+    "dirt": "csrp:blocks/infestedsand",
+    "plant": "csrp:blocks/flowers/assimilated_blossom"
+  }
+}

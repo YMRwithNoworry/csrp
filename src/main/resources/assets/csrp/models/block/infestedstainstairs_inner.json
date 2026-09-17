@@ -1,0 +1,8 @@
+{
+  "parent": "block/inner_stairs",
+  "textures": {
+    "bottom": "csrp:blocks/infestedstain",
+    "top": "csrp:blocks/infestedstain",
+    "side": "csrp:blocks/infestedstain"
+  }
+}

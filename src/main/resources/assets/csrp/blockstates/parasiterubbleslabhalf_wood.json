@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "csrp:block/slabwood_bottom"
+    },
+    "type=double": {
+      "model": "csrp:block/slabwood_double"
+    },
+    "type=top": {
+      "model": "csrp:block/slabwood_top"
+    }
+  }
+}

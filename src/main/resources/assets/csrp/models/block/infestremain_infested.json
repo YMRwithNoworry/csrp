@@ -1,0 +1,6 @@
+{
+  "parent": "csrp:block/infestremain",
+  "textures": {
+    "all": "csrp:blocks/infestremain_infestedvariant"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "csrp:block/parasiterubble_weathb"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "variants": {
+    "variant=dirt,type=bottom": {
+      "model": "csrp:block/slabdirt_bottom"
+    },
+    "variant=dirt,type=top": {
+      "model": "csrp:block/slabdirt_top"
+    },
+    "variant=dirt,type=double": {
+      "model": "csrp:block/slabdirt_double"
+    },
+    "variant=mud,type=bottom": {
+      "model": "csrp:block/slabmud_bottom"
+    },
+    "variant=mud,type=top": {
+      "model": "csrp:block/slabmud_top"
+    },
+    "variant=mud,type=double": {
+      "model": "csrp:block/slabmud_double"
+    },
+    "variant=sflesh,type=bottom": {
+      "model": "csrp:block/slabsflesh_bottom"
+    },
+    "variant=sflesh,type=top": {
+      "model": "csrp:block/slabsflesh_top"
+    },
+    "variant=sflesh,type=double": {
+      "model": "csrp:block/slabsflesh_double"
+    },
+    "variant=feeler,type=bottom": {
+      "model": "csrp:block/slabfeeler_bottom"
+    },
+    "variant=feeler,type=top": {
+      "model": "csrp:block/slabfeeler_top"
+    },
+    "variant=feeler,type=double": {
+      "model": "csrp:block/slabfeeler_double"
+    },
+    "variant=spore,type=bottom": {
+      "model": "csrp:block/slabspore_bottom"
+    },
+    "variant=spore,type=top": {
+      "model": "csrp:block/slabspore_top"
+    },
+    "variant=spore,type=double": {
+      "model": "csrp:block/slabspore_double"
+    },
+    "variant=red,type=bottom": {
+      "model": "csrp:block/slabred_bottom"
+    },
+    "variant=red,type=top": {
+      "model": "csrp:block/slabred_top"
+    },
+    "variant=red,type=double": {
+      "model": "csrp:block/slabred_double"
+    },
+    "variant=sackflesh,type=bottom": {
+      "model": "csrp:block/slabsackflesh_bottom"
+    },
+    "variant=sackflesh,type=top": {
+      "model": "csrp:block/slabsackflesh_top"
+    },
+    "variant=sackflesh,type=double": {
+      "model": "csrp:block/slabsackflesh_double"
+    }
+  }
+}

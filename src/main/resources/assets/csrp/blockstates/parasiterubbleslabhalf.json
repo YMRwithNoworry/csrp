@@ -1,0 +1,85 @@
+{
+  "variants": {
+    "variant=flesh,type=bottom": {
+      "model": "csrp:block/slabflesh_bottom"
+    },
+    "variant=flesh,type=top": {
+      "model": "csrp:block/slabflesh_top"
+    },
+    "variant=flesh,type=double": {
+      "model": "csrp:block/slabflesh_double"
+    },
+    "variant=bone,type=bottom": {
+      "model": "csrp:block/slabbone_bottom"
+    },
+    "variant=bone,type=top": {
+      "model": "csrp:block/slabbone_top"
+    },
+    "variant=bone,type=double": {
+      "model": "csrp:block/slabbone_double"
+    },
+    "variant=stone,type=bottom": {
+      "model": "csrp:block/slabstone_bottom"
+    },
+    "variant=stone,type=top": {
+      "model": "csrp:block/slabstone_top"
+    },
+    "variant=stone,type=double": {
+      "model": "csrp:block/slabstone_double"
+    },
+    "variant=stonedebris,type=bottom": {
+      "model": "csrp:block/slabstonedebris_bottom"
+    },
+    "variant=stonedebris,type=top": {
+      "model": "csrp:block/slabstonedebris_top"
+    },
+    "variant=stonedebris,type=double": {
+      "model": "csrp:block/slabstonedebris_double"
+    },
+    "variant=wood,type=bottom": {
+      "model": "csrp:block/slabwood_bottom"
+    },
+    "variant=wood,type=top": {
+      "model": "csrp:block/slabwood_top"
+    },
+    "variant=wood,type=double": {
+      "model": "csrp:block/slabwood_double"
+    },
+    "variant=bricks,type=bottom": {
+      "model": "csrp:block/slabbricks_bottom"
+    },
+    "variant=bricks,type=top": {
+      "model": "csrp:block/slabbricks_top"
+    },
+    "variant=bricks,type=double": {
+      "model": "csrp:block/slabbricks_double"
+    },
+    "variant=metal,type=bottom": {
+      "model": "csrp:block/slabmetal_bottom"
+    },
+    "variant=metal,type=top": {
+      "model": "csrp:block/slabmetal_top"
+    },
+    "variant=metal,type=double": {
+      "model": "csrp:block/slabmetal_double"
+    },
+    "variant=obsidian,type=bottom": {
+      "model": "csrp:block/slabobsidian_bottom"
+    },
+    "variant=obsidian,type=top": {
+      "model": "csrp:block/slabobsidian_top"
+    },
+    "variant=obsidian,type=double": {
+      "model": "csrp:block/slabobsidian_double"
+    },
+    "variant=fungus,type=bottom": {
+      "model": "csrp:block/slabfungus_bottom"
+    },
+    "variant=fungus,type=top": {
+      "model": "csrp:block/slabfungus_top"
+    },
+    "variant=fungus,type=double": {
+      "model": "csrp:block/slabfungus_double"
+    }
+  }
+}

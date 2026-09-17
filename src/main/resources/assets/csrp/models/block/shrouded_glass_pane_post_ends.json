@@ -1,0 +1,8 @@
+{
+  "parent": "block/glass_pane_post_ends",
+  "textures": {
+    "pane": "csrp:blocks/shrouded_glass",
+    "edge": "csrp:blocks/shrouded_glass_pane",
+    "particle": "csrp:blocks/shrouded_glass"
+  }
+}

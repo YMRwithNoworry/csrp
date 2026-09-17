@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "csrp:block/relaycontroller"
+    },
+    "facing=east": {
+      "model": "csrp:block/relaycontroller"
+    },
+    "facing=south": {
+      "model": "csrp:block/relaycontroller"
+    },
+    "facing=west": {
+      "model": "csrp:block/relaycontroller"
+    }
+  }
+}

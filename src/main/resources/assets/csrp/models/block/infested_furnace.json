@@ -1,0 +1,8 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "top": "csrp:blocks/infested_furnace_top",
+    "front": "csrp:blocks/infested_furnace_front",
+    "side": "csrp:blocks/infested_furnace_side"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column",
+  "textures": {
+    "end": "csrp:blocks/hair_block",
+    "side": "csrp:blocks/hair_block_snowy"
+  }
+}

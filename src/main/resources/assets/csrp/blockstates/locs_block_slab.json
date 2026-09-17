@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "csrp:block/locs_block_slab"
+    },
+    "type=top": {
+      "model": "csrp:block/locs_block_slab_top"
+    },
+    "type=double": {
+      "model": "csrp:block/locs_block_slab_double"
+    }
+  }
+}

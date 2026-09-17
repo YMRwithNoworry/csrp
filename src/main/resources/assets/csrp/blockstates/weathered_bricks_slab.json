@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "csrp:block/weathered_bricks_slab"
+    },
+    "type=top": {
+      "model": "csrp:block/weathered_bricks_slab_top"
+    },
+    "type=double": {
+      "model": "csrp:block/weathered_bricks_slab_double"
+    }
+  }
+}

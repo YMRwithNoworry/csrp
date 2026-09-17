@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top_right_open",
+  "textures": {
+    "top": "csrp:block/infested_door_top",
+    "bottom": "csrp:block/infested_door_bottom"
+  }
+}

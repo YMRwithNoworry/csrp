@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom_left",
+  "textures": {
+    "top": "csrp:block/brusewood_door_top",
+    "bottom": "csrp:block/brusewood_door_bottom"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "particle": "csrp:blocks/bloody_ice",
+    "all": "csrp:blocks/bloody_ice"
+  }
+}

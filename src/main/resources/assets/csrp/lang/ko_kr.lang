@@ -1,0 +1,2673 @@
+##Entities
+
+entity.csrp.scent.name=악취
+
+entity.csrp.abo_bodies.name=융합된 군체
+entity.csrp.abo_head.name=거대한 머리
+
+entity.csrp.pri_longarms.name=원시 롱암
+entity.csrp.pri_manducater.name=원시 원시형 디바우러
+entity.csrp.pri_summoner.name=원시 소환사
+entity.csrp.pri_reeker.name=원시 리커
+entity.csrp.pri_yelloweye.name=원시 노란 눈
+entity.csrp.pri_bolster.name=원시 볼스터
+entity.csrp.pri_arachnida.name=원시 아라크니다
+entity.csrp.pri_devourer.name=원시 디바우러
+entity.csrp.pri_vermin.name=원시 해충
+entity.csrp.pri_tozoon.name=원시 토준
+entity.csrp.pri_burrower.name=원시 잠복충
+entity.csrp.pri_viscera.name=원시 내장충
+entity.csrp.nametag.ricardo=리카르도
+
+# Advancements
+
+advancements.csrp.root.title=Scape and Run: Parasites
+advancements.csrp.root.description=내부적 증식
+
+advancements.csrp.kill_root.title=사냥
+advancements.csrp.kill_root.description=???
+
+advancements.csrp.secret_root.title=인지
+advancements.csrp.secret_root.description=???
+
+advancements.csrp.monument_root.title=기념비
+advancements.csrp.monument_root.description=???
+
+advancements.csrp.firmamentum_root.title=창공
+advancements.csrp.firmamentum_root.description=???
+
+advancements.csrp.brew_fear.title=§b황홀경
+advancements.csrp.brew_fear.description=공포의 물약 양조하기
+
+advancements.csrp.guerilla.title=§b게릴라
+advancements.csrp.guerilla.description=공포의 잔해로 자극해 둔 플레이어 사살하기
+
+advancements.csrp.kill_inborn.title=선천적 기생체
+advancements.csrp.kill_inborn.description=모든 선천종 기생체 처단하기
+
+advancements.csrp.kill_assimilated.title=동화된 기생체
+advancements.csrp.kill_assimilated.description=모든 동화된 생명체 처단하기
+
+advancements.csrp.beheaded.title=L 공사
+advancements.csrp.beheaded.description=모든 동화되어 기어 다니는 머리 처단하기
+
+advancements.csrp.kill_primitive.title=조악한 기생충
+advancements.csrp.kill_primitive.description=모든 조악한 기생충 기생체 처단하기
+
+advancements.csrp.kill_adapted.title=적응한 기생충
+advancements.csrp.kill_adapted.description=모든 적응한 기생충 기생체 처단하기
+
+advancements.csrp.kill_deterrent.title=저지종
+advancements.csrp.kill_deterrent.description=모든 저지종 기생체 처단하기
+
+advancements.csrp.kill_pure.title=순수한 기생충
+advancements.csrp.kill_pure.description=모든 순수한 기생충 기생체 처단하기
+
+advancements.csrp.controversial.title=논란의 여지
+advancements.csrp.controversial.description=동화된 엔더맨 처단하기
+
+advancements.csrp.kill_crude.title=조악한 기생충
+advancements.csrp.kill_crude.description=모든 조악한 기생충 기생체 처단하기
+
+advancements.csrp.kill_beckon_s1.title=정원사
+advancements.csrp.kill_beckon_s1.description=응집기 I단계 처단하기
+
+advancements.csrp.kill_beckon_s2.title=가지치기꾼
+advancements.csrp.kill_beckon_s2.description=응집기 II단계 처단하기
+
+advancements.csrp.kill_beckon_s3.title=벌목꾼
+advancements.csrp.kill_beckon_s3.description=응집기 III단계 처단하기
+
+advancements.csrp.kill_beckon_s4.title=박멸자
+advancements.csrp.kill_beckon_s4.description=응집기 IV단계 처단하기
+
+advancements.csrp.kill_dispatcher_s1.title=ZAYIN 제압
+advancements.csrp.kill_dispatcher_s1.description=디스패쳐 I단계 처단하기
+
+advancements.csrp.kill_dispatcher_s2.title=TETH 제압
+advancements.csrp.kill_dispatcher_s2.description=디스패쳐 II단계 처단하기
+
+advancements.csrp.kill_dispatcher_s3.title=HE 제압
+advancements.csrp.kill_dispatcher_s3.description=디스패쳐 III단계 처단하기
+
+advancements.csrp.kill_dispatcher_s4.title=ALEPH 제압
+advancements.csrp.kill_dispatcher_s4.description=디스패쳐 IV단계 처단하기
+
+advancements.csrp.fermented_arrogance.title=발효된 오만
+advancements.csrp.fermented_arrogance.description=훙포한 엔더맨 처단하기
+
+advancements.csrp.monument.title=나는 너희 모든 죄악의 기념비다
+advancements.csrp.monument.description=무언가가 IV단계에 도달함
+
+advancements.csrp.cut_roots.title=악의 뿌리를 뽑아라
+advancements.csrp.cut_roots.description=럽터 처치 1000회 달성하기
+
+advancements.csrp.peacekeeper.title=평화유지군
+advancements.csrp.peacekeeper.description=바이옴 정화기 획득하기
+
+advancements.csrp.enemy_enemy.title=적의 적은 나의 친구
+advancements.csrp.enemy_enemy.description=크리퍼의 폭발로 기생체를 죽이게 만들기
+
+advancements.csrp.ruin_of_fools.title=바보들의 파멸
+advancements.csrp.ruin_of_fools.description=모든 조악한 기생충 기생체 박멸하기
+
+advancements.csrp.hunt_season.title=사냥 철
+advancements.csrp.hunt_season.description=하루 만에 기생체 50마리 구제하기
+
+advancements.csrp.qliphoth_overload.title=클리포트 폭주
+advancements.csrp.qliphoth_overload.description=무언가가 IV단계에 도달함
+
+advancement.csrp.thornshade_self_destruct.title=아름다운 자멸
+advancement.csrp.thornshade_self_destruct.desc=자신에게 가시그늘의 가시 폭발을 격발시키기.
+
+advancement.csrp.sepeku.title=할복
+advancement.csrp.sepeku.desc=그대의 생명을 제물로 바쳤습니다.
+
+advancement.csrp.hellfire_chemical_warfare.title=지옥불 화학전
+advancement.csrp.hellfire_chemical_warfare.desc=드라코나이트를 처단하고 그것이 내뿜는 내부 화로 속에서 살아남기.
+
+advancement.csrp.cosmic_structural_failure.title=우주적 구조 붕괴
+advancement.csrp.cosmic_structural_failure.desc=끊임없이 자멸하는 키린에게 영원한 안식을 안겨주기.
+
+advancements.csrp.columbus.title=콜롬버스
+advancements.csrp.columbus.description=천체 이변 현상을 절반 이상 목격하기.
+
+advancements.csrp.stolas.title=스톨라스
+advancements.csrp.stolas.description=모든 천체 이변 현상을 발견하기.
+
+advancements.csrp.tricked_me_did_you.title=감히 날 속여, 속였어??!!
+advancements.csrp.tricked_me_did_you.description=리카르도의 털을 깎기.
+
+advancements.csrp.dark_days.title=암흑기
+advancements.csrp.dark_days.description=태양이 존재하지 않는 곳에서 살아서 돌아오기.
+message.csrp.dark_days.optifine_visuals_disabled=옵티파인 사용 시 천체 변위 연출이 불안정할 수 있습니다. 이변 시각 효과가 다르게 보일 수 있습니다.
+
+item.csrp.shrimp.name=새우
+tootip.csrp.shrimp.desc=다중 우주 역사상 가장 위대한 별미.
+tootip.csrp.shrimp.arrow=화살의 징조가 나타났을 때 기생체들이 간혹 떨어뜨립니다.
+tootip.csrp.shrimp.ariral=동화된 엔더맨에게 먹이로 줄 수 있습니다.
+
+# Esca Bulbs
+tile.csrp.esca_bulb.name=발광 미끼 주머니
+tile.csrp.esca_bulb_white.name=발광 미끼 주머니 (하얀색)
+tile.csrp.esca_bulb_orange.name=발광 미끼 주머니 (주황색)
+tile.csrp.esca_bulb_magenta.name=발광 미끼 주머니 (자색)
+tile.csrp.esca_bulb_light_blue.name=발광 미끼 
+tile.csrp.esca_bulb_yellow.name=발광 미끼 주머니 (노란색)
+tile.csrp.esca_bulb_lime.name=발광 미끼 주머니 (연두색)
+tile.csrp.esca_bulb_pink.name=발광 미끼 주머니 (분홍색)
+tile.csrp.esca_bulb_gray.name=발광 미끼 주머니 (회색)
+tile.csrp.esca_bulb_light_gray.name=발광 미끼 
+tile.csrp.esca_bulb_cyan.name=발광 미끼 주머니 (청록색)
+tile.csrp.esca_bulb_purple.name=발광 미끼 주머니 (보라색)
+tile.csrp.esca_bulb_blue.name=발광 미끼 주머니 (파란색)
+tile.csrp.esca_bulb_brown.name=발광 미끼 주머니 (갈색)
+tile.csrp.esca_bulb_green.name=발광 미끼 주머니 (초록색)
+tile.csrp.esca_bulb_red.name=발광 미끼 주머니 (빨간색)
+tile.csrp.esca_bulb_black.name=발광 미끼 주머니 (검은색)
+tootip.esca_bulb=비린내가 진동합니다.
+
+tile.csrp.alveoli.name=폐포 블록
+tile.csrp.sick_alveoli.name=병든 폐포 블록
+tile.csrp.alveoli_growth.name=증식하는 폐포
+tile.csrp.solid_alveoli_block.name=단단한 폐포 블록
+item.csrp.alveolar_fluid.name=폐포액
+item.csrp.deadblood_fluid.name=§2썩은 피 추출액
+
+tile.csrp.assimilated_reed.name=동화된 사탕수수
+tile.csrp.infested_leaves.name=감염된 나뭇잎
+tile.csrp.infested_leaves_fast.name=감염된 나뭇잎 (확산형)
+tile.csrp.infested_planks.name=감염된 나무 판자
+tile.csrp.infested_stone_bricks.name=감염된 석재 벽돌
+tile.csrp.residue_bricks.name=균사 잔해 벽돌
+tile.csrp.residue_stairs.name=균사 잔해 벽돌 계단
+tile.csrp.residue_wall.name=균사 잔해 담장
+tile.csrp.residue_block.name=균사 잔해 블록
+tile.csrp.diseased_sponge.na
+tile.csrp.residue_plants.nam
+tile.csrp.infested_column.na
+tile.csrp.infested_terracotta.name
+tile.csrp.infested_stone_polished.name=부
+tile.csrp.inf_ss.na
+tile.csrp.inf_ss_chiseled.name=조각된 감염된 사암
+tile.csrp.inf_ss_cut.name=부드럽게 깎인 감염된 사암
+tile.csrp.ashen_glass.name=잿빛 유리
+tile.csrp.ashen_glass_pane.name=잿빛 유리판
+tile.csrp.infested_glass_pane.name=감염된 유리판
+tile.csrp.bloody_glass_pane.name=피칠갑된 유리판
+tile.csrp.harlequinn_glass_pane.name=얼룩진 광대의 유리판
+tile.csrp.shrouded_glass_pane.name=장막에 가려진 유리판
+tile.csrp.shrouded_glass.name=장막에 가려진 유리
+tile.csrp.harlequinn_glass.name=얼룩진 광대의 유리
+tile.csrp.bloody_glass.name=피칠갑된 유리
+tile.csrp.infested_glass.name=감염된 유리
+tile.csrp.biomass_block.name=바이오메스 블럭
+tile.csrp.shade_glass_pane.name=그늘진 유리판
+tile.csrp.sepia_glass_pane.name=세피아빛 유리판
+tile.csrp.moody_glass_pane.name=음울한 유리판
+tile.csrp.shade_glass.name=그늘진 유리
+tile.csrp.sepia_glass.name=세피아빛 유리
+tile.csrp.moody_glass.name=음울한 유리
+
+#Fog Nullifier
+tile.csrp.fog_nullifier.name=안개 억제기
+advancements.csrp.fog_nullifi
+advancements.csrp.fog_nullifier.descripti막과 안개를
+tile.csrp.assimilated_pump
+tile.csrp.assimilated_jack_o_lanter
+tile.csrp.goth_s
+tile.csrp.goth_planks.name=음침한 나무 판자
+item.csrp.goth_door.name=음침한 나무 문 | 개발 중
+tile.csrp.brusewood_planks.name=멍든나무 판자
+item.csrp.brusewood_door.name=멍든나무 문 | 개발 중
+tile.csrp.brusewood_trapdoor.name=멍든나무 다락문 | 개발 중
+tile.csrp.consumed_planks.name=잠식된 나무 판자
+tile.csrp.consumed_workbench.name=잠식된 제작대
+item.csrp.consumed_door.name=잠식된 나무 문 | 개발 중
+tile.csrp.consumed_trapdoor.name=잠식된 다락문 | 개발 중
+
+
+entity.csrp.host.name=호스트
+entity.csrp.hostii.name=감염된 무리
+entity.csrp.crux.name=크럭스
+entity.csrp.crux_incomplete.name=불완전한 형태
+entity.csrp.heed.name=히드
+entity.csrp.thrall.name=스랄
+entity.csrp.done.name=준설충
+entity.csrp.carrier_worm.name=운반체 지렁이
+entity.csrp.airscrew.name=비행충
+
+death.attack.csrp.ricardo=%s이(가) 복수의 서에 기록되었습니다
+item.csrp.book_of_vengeance.name=§d§l복수의 서
+item.csrp.book_of_vengeance.vengeance0=§7------------------
+item.csrp.book_of_vengeance.vengeance1=§6지배하라, 집결하라, 복수를 맹세하라.
+item.csrp.book_of_vengeance.vengeance3=§d출혈, 차단, 5초간 연기 흔적 유도
+item.csrp.book_of_vengeance.vengeance5=§d상호작용: 명중 시 복수의 내리치기 연격
+item.csrp.book_of_vengeance.vengeance6=§d웅크리고 사용: 충격파 밀치기
+
+death.attack.srp_dod_block=%1$s이(가) 디스패쳐의 군체 핵에 짓눌려 으스러졌습니다.
+death.attack.srp_dod_block.player=%1$s이(가) %2$s와(과) 교전하던 중 디스패쳐의 군체 핵에 의해서 짓눌렸습니다.
+
+entity.csrp.sim_bear.name=동화된 곰
+entity.csrp.sim_squid.name=동화된 오징어
+entity.csrp.sim_enderman.name=동화된 엔더맨
+entity.csrp.sim_endermanhead.name=기어 다니는 엔더맨 머리
+entity.csrp.sim_adventurer.name=동화된 모험가
+entity.csrp.sim_adventurerhead.name=기어 다니는 모험가 머리
+entity.csrp.sim_bigspider.name=동화된 거대 거미
+entity.csrp.sim_human.name=동화된 인간
+entity.csrp.sim_humanhead.name=기어 다니는 인간 머리
+entity.csrp.sim_villager.name=동화된 주민
+entity.csrp.sim_villagerhead.name=기어 다니는 주민 머리
+entity.csrp.sim_cow.name=동화된 소
+entity.csrp.sim_cowhead.name=기어 다니는 소 머리
+entity.csrp.sim_horse.name=동화된 말
+entity.csrp.sim_horsehead.name=기어 다니는 말 머리
+entity.csrp.sim_pig.name=동화된 돼지
+entity.csrp.sim_pighead.name=기어 다니는 돼지 머리
+entity.csrp.sim_sheep.name=동화된 양
+entity.csrp.sim_sheephead.name=기어 다니는 양 머리
+entity.csrp.sim_wolf.name=동화된 늑대
+entity.csrp.sim_wolfhead.name=기어 다니는 늑대 머리
+entity.csrp.incompleteform_medium.name=불완전한 중형 살점
+entity.csrp.incompleteform_small.name=불완전한 소형 살점
+entity.csrp.sim_dragone.name=동화된 엔더 드래곤
+entity.csrp.sim_dragonehead.name=기어 다니는 드래곤 머리
+
+entity.csrp.mar_bear.name=변종 동화 곰
+entity.csrp.mar_enderman.name=변종 동화 엔더맨
+entity.csrp.mar_human.name=변종 동화 인간
+entity.csrp.mar_villager.name=변종 동화 주민
+entity.csrp.mar_cow.name=변종 동화 소
+entity.csrp.mar_sheep.name=변종 동화 양
+
+entity.csrp.fer_cow.name=훙포한 소
+entity.csrp.fer_bear.name=훙포한 곰
+entity.csrp.fer_enderman.name=훙포한 엔더맨
+entity.csrp.fer_human.name=훙포한 인간
+entity.csrp.fer_horse.name=훙포한 말
+entity.csrp.fer_sheep.name=훙포한 양
+entity.csrp.fer_pig.name=훙포한 돼지
+entity.csrp.fer_villager.name=훙포한 주민
+entity.csrp.fer_wolf.name=훙포한 늑대
+
+entity.csrp.hi_blaze.name=탈취된 블레이즈
+entity.csrp.hi_golem.name=탈취된 골렘
+entity.csrp.hi_skeleton.name=탈취된 스켈레톤
+
+entity.csrp.overseer.name=오버시어
+entity.csrp.bomber_light.name=라이트 봄버
+entity.csrp.carrier_heavy.name=헤비 캐리어
+entity.csrp.carrier_light.name=라이트 캐리어
+entity.csrp.buglin.name=버글린
+entity.csrp.mangler.name=맹글러
+entity.csrp.gnat.name=모기
+entity.csrp.lice.name=이
+entity.csrp.worker.name=일벌레
+entity.csrp.carrier_flying.name=플라잉 캐리어
+entity.csrp.rupter.name=럽터
+entity.csrp.beckon_si.name=응집기 I단계
+entity.csrp.beckon_sii.name=응집기 II단계
+entity.csrp.beckon_siii.name=응집기 III단계
+entity.csrp.beckon_siv.name=응집기 IV단계
+entity.csrp.beckon_sv.name=응집기 V단계
+entity.csrp.warden.name=워든
+entity.csrp.marauder.name=머로더
+entity.csrp.monarch.name=모나크
+entity.csrp.grunt.name=그런트
+entity.csrp.sentry.name=센트리
+entity.csrp.kyphosis.name=카이퍼서스
+entity.csrp.dispatcherten.name=디스패쳐의 촉수
+entity.csrp.dispatcher_si.name=디스패쳐 I단계
+entity.csrp.dispatcher_sii.name=디스패쳐 II단계
+entity.csrp.dispatcher_siii.name=디스패쳐 III단계
+entity.csrp.dispatcher_siv.name=디스패쳐 IV단계
+entity.csrp.rooter_si.name=뿌리내린 자 I단계
+entity.csrp.rooter_sii.name=뿌리내린 자 II단계
+entity.csrp.rooter_siii.name=뿌리내린 자 III단계
+entity.csrp.rooter_siv.name=뿌리내린 자 IV단계
+entity.csrp.rooterball.name=뿌리덩이 낭종
+entity.csrp.seizer.name=사이저
+
+entity.csrp.bomber_heavy.name=헤비 봄버
+entity.csrp.carrier_colony.name=콜로니 캐리어
+entity.csrp.wraith.name=레이스
+entity.csrp.bogle.name=보글
+entity.csrp.haunter.name=헌터
+entity.csrp.succor.name=구호자
+entity.csrp.seeker.name=추적자
+entity.csrp.architect.name=건설충
+entity.csrp.dredge.name=도굴충
+entity.csrp.sim_dragonhead.name=기어 다니는 드래곤 머리
+
+entity.csrp.draconite.name=§9드라코나이트
+entity.csrp.kirin.name=§9키린
+
+entity.csrp.anc_dreadnaut.name=고대 드레드노트
+entity.csrp.anc_overlord.name=고대 군주
+entity.csrp.vigilante.name=비질란테
+entity.csrp.movingflesh.name=움직이는 살점
+entity.csrp.tendril.name=텐드릴
+entity.csrp.anc_pod.name=기생 고혈 고치
+entity.csrp.biomass.name=바이오메스
+entity.csrp.gore.name=핏덩어리
+
+entity.csrp.ada_longarms.name=적응한 롱암
+entity.csrp.ada_summoner.name=적응한 소환사
+entity.csrp.ada_manducater.name=적응한 맨듀케이터
+entity.csrp.ada_reeker.name=적응한 리커
+entity.csrp.ada_yelloweye.name=적응한 노란 눈
+entity.csrp.ada_bolster.name=적응한 볼스터
+entity.csrp.ada_arachnida.name=적응한 아라크니다
+entity.csrp.ada_devourer.name=적응한 디바우러
+entity.csrp.ada_vermin.name=적응한 변이체
+entity.csrp.ada_tozoon.name=적응한 토준
+entity.csrp.ada_burrower.name=적응한 잠복충
+entity.csrp.ada_viscera.name=적응한 내장충
+
+entity.csrp.wave.name=충격파
+entity.csrp.waveshock.name=충격파
+
+entity.csrp.worm.name=웜
+entity.csrp.anc_dreadnaut_ten.name=고대 드레드노트 촉수
+
+entity.csrp.remain.name=잔해물
+
+entity.csrp.meteor.name=군락 운석
+entity.csrp.cloudtoxic.name=독성 가스
+entity.csrp.orbscary.name=공포의 구체
+entity.csrp.orbboom.name=충격파 구체
+entity.csrp.orbvoid.name=공허의 구체
+entity.csrp.bomb.name=기생성 유기 폭탄
+
+# Creative Tab
+
+itemGroup.SRParasites=Scape and Run: Parasites
+
+# Items
+item.csrp.itemmobspawner_pod.name=기생 고치 소환 알
+
+item.csrp.itemmobspawner_abobodies.name=융합된 군체 소환 알
+item.csrp.itemmobspawner_abohead.name=거대한 머리 소환 알
+
+item.csrp.itemmobspawner_host.name=호스트 소환 알
+item.csrp.itemmobspawner_hostii.name=감염된 무리 소환 알
+item.csrp.itemmobspawner_heed.name=히드 소환 알
+item.csrp.itemmobspawner_cruxa.name=증식의 근원 소환 알
+item.csrp.itemmobspawner_mes.name=스랄 소환 알
+item.csrp.itemmobspawner_done.name=준설충 소환 알
+item.csrp.itemmobspawner_quac.name=벌레 운반체 소환 알
+item.csrp.itemmobspawner_leer.name=비행충 소환 알
+item.csrp.itemmobspawner_cruxb.name=미성숙한 증식의 근원 소환 알
+
+item.csrp.itemmobspawner_infbear.name=동화된 곰 소환 알
+item.csrp.itemmobspawner_infsquid.name=동화된 오징어 소환 알
+item.csrp.itemmobspawner_infenderman.name=동화된 엔더맨 소환 알
+item.csrp.itemmobspawner_infendermanhead.name=기어 다니는 엔더맨 머리 소환 알
+item.csrp.itemmobspawner_infplayer.name=동화된 모험가 소환 알
+item.csrp.itemmobspawner_infplayerhead.name=기어 다니는 모험가 머리 소환 알
+item.csrp.itemmobspawner_dorpa.name=동화된 거대 거미 소환 알
+item.csrp.itemmobspawner_infhuman.name=동화된 인간 소환 알
+item.csrp.itemmobspawner_infhumanhead.name=기어 다니는 인간 머리 소환 알
+item.csrp.itemmobspawner_infvillager.name=동화된 주민 소환 알
+item.csrp.itemmobspawner_infvillagerhead.name=기어 다니는 주민 머리 소환 알
+item.csrp.itemmobspawner_infcow.name=동화된 소 소환 알
+item.csrp.itemmobspawner_infcowhead.name=기어 다니는 소 머리 소환 알
+item.csrp.itemmobspawner_infpig.name=동화된 돼지 소환 알
+item.csrp.itemmobspawner_infpighead.name=기어 다니는 돼지 머리 소환 알
+item.csrp.itemmobspawner_infsheep.name=동화된 양 소환 알
+item.csrp.itemmobspawner_infsheephead.name=기어 다니는 양 머리 소환 알
+item.csrp.itemmobspawner_infwolf.name=동화된 늑대 소환 알
+item.csrp.itemmobspawner_infwolfhead.name=기어 다니는 늑대 머리 소환 알
+item.csrp.itemmobspawner_infhorse.name=동화된 말 소환 알
+item.csrp.itemmobspawner_infhorsehead.name=기어 다니는 말 머리 소환 알
+item.csrp.itemmobspawner_inhoos.name=미성숙체 소형 소환 알
+item.csrp.itemmobspawner_inhoom.name=미성숙체 중형 소환 알
+item.csrp.itemmobspawner_infdragone.name=동화된 엔더 드래곤 소환 알
+item.csrp.itemmobspawner_infdragonehead.name=기어 다니는 드래곤 머리 소환 알
+
+item.csrp.itemmobspawner_marbear.name=변종 동화 곰 소환 알
+item.csrp.itemmobspawner_marhuman.name=변종 동화 인간 소환 알
+item.csrp.itemmobspawner_marcow.name=변종 동화 소 소환 알
+item.csrp.itemmobspawner_marsheep.name=변종 동화 양 소환 알
+item.csrp.itemmobspawner_marenderman.name=변종 동화 엔더맨 소환 알
+item.csrp.itemmobspawner_marvillager.name=변종 동화 주민 소환 알
+
+item.csrp.itemmobspawner_fercow.name=훙포한 소 소환 알
+item.csrp.itemmobspawner_ferbear.name=훙포한 곰 소환 알
+item.csrp.itemmobspawner_ferenderman.name=훙포한 엔더맨 소환 알
+item.csrp.itemmobspawner_ferhuman.name=훙포한 인간 소환 알
+item.csrp.itemmobspawner_ferhorse.name=훙포한 말 소환 알
+item.csrp.itemmobspawner_ferpig.name=훙포한 돼지 소환 알
+item.csrp.itemmobspawner_fersheep.name=훙포한 양 소환 알
+item.csrp.itemmobspawner_fervillager.name=훙포한 주민 소환 알
+item.csrp.itemmobspawner_ferwolf.name=훙포한 늑대 소환 알
+
+item.csrp.itemmobspawner_hiblaze.name=탈취된 블레이즈 소환 알
+item.csrp.itemmobspawner_higolem.name=탈취된 골렘 소환 알
+item.csrp.itemmobspawner_hiskeleton.name=탈취된 스켈레톤 소환 알
+
+item.csrp.itemmobspawner_alafha.name=라이트 캐리어 소환 알
+item.csrp.itemmobspawner_omboo.name=라이트 캐리어 소환 알
+item.csrp.itemmobspawner_rathol.name=헤비 캐리어 소환 알
+item.csrp.itemmobspawner_gothol.name=라이트 캐리어 소환 알
+item.csrp.itemmobspawner_buthol.name=비행 수송충 소환 알
+item.csrp.itemmobspawner_lodo.name=버글린 소환 알
+item.csrp.itemmobspawner_nuuh.name=맹글러 소환 알
+item.csrp.itemmobspawner_ata.name=모기 소환 알
+item.csrp.itemmobspawner_worker.name=일벌레 소환 알
+item.csrp.itemmobspawner_mudo.name=럽터 소환 알
+item.csrp.itemmobspawner_venkrol.name=응집기 I단계 소환 알
+item.csrp.itemmobspawner_venkrolsii.name=응집기 II단계 소환 알
+item.csrp.itemmobspawner_venkrolsiii.name=응집기 III단계 소환 알
+item.csrp.itemmobspawner_venkrolsiv.name=응집기 IV단계 소환 알
+item.csrp.itemmobspawner_venkrolsv.name=응집기 V단계 소환 알
+item.csrp.itemmobspawner_ganro.name=워든 소환 알
+item.csrp.itemmobspawner_esor.name=약탈자 소환 알
+item.csrp.itemmobspawner_orch.name=모나크 소환 알
+item.csrp.itemmobspawner_flog.name=그런트 소환 알
+item.csrp.itemmobspawner_unvo.name=센트리 소환 알
+item.csrp.itemmobspawner_tonro.name=카이퍼서스 소환 알
+item.csrp.itemmobspawner_dod.name=디스패쳐 I단계 소환 알
+item.csrp.itemmobspawner_dodsii.name=디스패쳐 II단계 소환 알
+item.csrp.itemmobspawner_dodsiii.name=디스패쳐 III단계 소환 알
+item.csrp.itemmobspawner_dodsiv.name=디스패쳐 IV단계 소환 알
+item.csrp.itemmobspawner_leem.name=뿌리내린 자 I단계 소환 알
+item.csrp.itemmobspawner_leemsii.name=뿌리내린 자 II단계 소환 알
+item.csrp.itemmobspawner_leemsiii.name=뿌리내린 자 III단계 소환 알
+item.csrp.itemmobspawner_leemsiv.name=뿌리내린 자 IV단계 소환 알
+item.csrp.itemmobspawner_nak.name=포획자 소환 알
+
+item.csrp.itemmobspawner_jinjo.name=중형 폭격충 소환 알
+item.csrp.itemmobspawner_vesta.name=콜로니 캐리어 소환 알
+item.csrp.itemmobspawner_elvia.name=레이스 소환 알
+item.csrp.itemmobspawner_lencia.name=보글 소환 알
+item.csrp.itemmobspawner_pheon.name=헌터 소환 알
+item.csrp.itemmobspawner_flam.name=구원자 소환 알
+item.csrp.itemmobspawner_soo.name=추적자 소환 알
+item.csrp.itemmobspawner_tenn.name=건축자 소환 알
+
+item.csrp.itemmobspawner_heblu.name=드라코나이트 소환 알
+item.csrp.itemmobspawner_kirin.name=키린 소환 알
+
+item.csrp.itemmobspawner_oronco.name=고대 드레드노트 소환 알
+item.csrp.itemmobspawner_terla.name=고대 오버로드 소환 알
+item.csrp.itemmobspawner_anged.name=비질란테 소환 알
+item.csrp.itemmobspawner_lesh.name=움직이는 살점 소환 알
+
+item.csrp.itemmobspawner_shyco.name=원시 롱암 소환 알
+item.csrp.itemmobspawner_hull.name=원시 맨듀케이터 소환 알
+item.csrp.itemmobspawner_canra.name=원시 소환사 소환 알
+item.csrp.itemmobspawner_emana.name=원시 노란 눈 소환 알
+item.csrp.itemmobspawner_nogla.name=원시 리커 소환 알
+item.csrp.itemmobspawner_bano.name=원시 볼스터 소환 알
+item.csrp.itemmobspawner_ranrac.name=원시 아라크니다 소환 알
+item.csrp.itemmobspawner_lum.name=원시 디바우러 소환 알
+item.csrp.itemmobspawner_iki.name=원시 유충충 소환 알
+item.csrp.itemmobspawner_wymo.name=원시 토준 소환 알
+item.csrp.itemmobspawner_gim.name=원시 내장충 소환 알
+item.csrp.itemmobspawner_zaa.name=원시 잠복충 소환 알
+
+item.csrp.itemmobspawner_shycoadapted.name=적응한 롱암 소환 알
+item.csrp.itemmobspawner_canraadapted.name=적응한 소환사 소환 알
+item.csrp.itemmobspawner_noglaadapted.name=적응한 리커 소환 알
+item.csrp.itemmobspawner_hulladapted.name=적응한 맨듀케이터 소환 알
+item.csrp.itemmobspawner_emanaadapted.name=적응한 노란 눈 소환 알
+item.csrp.itemmobspawner_banoadapted.name=적응한 볼스터 소환 알
+item.csrp.itemmobspawner_ranracadapted.name=적응한 아라크니다 소환 알
+item.csrp.itemmobspawner_lumadapted.name=적응한 디바우러 소환 알
+item.csrp.itemmobspawner_ikiadapted.name=적응한 유충충 소환 알
+item.csrp.itemmobspawner_wymoadapted.name=적응한 토준 소환 알
+item.csrp.itemmobspawner_gimadapted.name=적응한 내장충 소환 알
+item.csrp.itemmobspawner_zaaadapted.name=적응한 잠복충 소환 알
+
+item.csrp.itemthrow.name=§6소멸의 잔해물
+item.csrp.itemtab.name=§d공허
+item.csrp.itemevolve.name=진화의 지팡이
+item.csrp.itemassimilate.name=동화의 지팡이
+item.csrp.itemdevolve.name=퇴화의 지팡이
+item.csrp.itemvariant.name=변종의 지팡이
+item.csrp.evclock.name=§c심판의 날 시계
+item.csrp.levelclock.name=§b침식 단계 시계
+item.csrp.weapon_scythe.name=§e꿈틀대는 낫
+item.csrp.weapon_scythe_sentient.name=§6자아를 눈뜬 대낫
+item.csrp.weapon_bow.name=§e꿈틀대는 활
+item.csrp.weapon_bow_sentient.name=§6자아를 눈뜬 대활
+item.csrp.weapon_axe.name=§e꿈틀대는 도끼
+item.csrp.weapon_axe_sentient.name=§6자아를 눈뜬 대도끼
+item.csrp.weapon_sword.name=§e꿈틀대는 검
+item.csrp.weapon_sword_sentient.name=§6자아를 눈뜬 대검
+item.csrp.weapon_cleaver.name=§e꿈틀대는 벽도
+item.csrp.weapon_cleaver_sentient.name=§6자아를 눈뜬 대형 벽도
+item.csrp.weapon_maul.name=§e꿈틀대는 대형 전투망치
+item.csrp.weapon_maul_sentient.name=§6자아를 눈뜬 거대 전투망치
+item.csrp.weapon_lance.name=§e꿈틀대는 장창
+item.csrp.weapon_lance_sentient.name=§6자아를 눈뜬 거대 장창
+
+item.csrp.hijacked_iron_sword.name=§c탈취된 철검
+item.csrp.hijacked_iron_axe.name=§c탈취된 철도끼
+item.csrp.hijacked_iron_shovel.name=§c탈취된 철삽
+item.csrp.hijacked_iron_hoe.name=§c탈취된 철괭이
+item.csrp.hijacked_iron_pickaxe.name=§c탈취된 철곡괭이
+
+item.csrp.hijacked_iron_sword.desc=§c대상의 살점을 찢어 출혈을 유도합니다. 기생체에게 막대한 해를 입힙니다. 빈사 상태에 빠진 대상에게 광기를 심어 넣습니다.
+item.csrp.hijacked_iron_axe.desc=§c대상의 살점을 찢어 출혈을 유도합니다. 기생체에게 막대한 해를 입힙니다. 빈사 상태에 빠진 대상에게 광기를 심어 넣습니다.
+item.csrp.hijacked_iron_shovel.desc=§c대상의 살점을 찢어 출혈을 유도합니다. 기생체에게 막대한 해를 입힙니다. 빈사 상태에 빠진 대상에게 광기를 심어 넣습니다.
+item.csrp.hijacked_iron_hoe.desc=§c대상의 살점을 찢어 출혈을 유도합니다. 기생체에게 막대한 해를 입힙니다. 빈사 상태에 빠진 대상에게 광기를 심어 넣습니다.
+item.csrp.hijacked_iron_pickaxe.desc=§c대상의 살점을 찢어 출혈을 유도합니다. 기생체에게 막대한 해를 입힙니다. 빈사 상태에 빠진 대상에게 광기를 심어 넣습니다.
+
+item.csrp.armor_helm.name=§e꿈틀대는 투구
+item.csrp.armor_chest.name=§e꿈틀대는 흉갑
+item.csrp.armor_pants.name=§e꿈틀대는 각반
+item.csrp.armor_boots.name=§e꿈틀대는 장화
+item.csrp.armor_helm_sentient.name=§6자아를 눈뜬 투구
+item.csrp.armor_chest_sentient.name=§6자아를 눈뜬 흉갑
+item.csrp.armor_pants_sentient.name=§6자아를 눈뜬 각반
+item.csrp.armor_boots_sentient.name=§6자아를 눈뜬 장화
+
+####
+item.csrp.bow_upperlimb.name=§6꿈틀대는 대활의 상부 사지
+item.csrp.bow_lowerlimb.name=§6꿈틀대는 대활의 하부 사지
+item.csrp.bow_string.name=§6꿈틀대는 대활의 활시위
+item.csrp.bow_grip.name=§6꿈틀대는 대활의 조준 손잡이
+item.csrp.bow_core.name=§6꿈틀대는 대활의 맥동하는 핵
+
+item.csrp.scythe_back.name=§6꿈틀대는 낫의 등뼈
+item.csrp.scythe_blade.name=§6꿈틀대는 낫의 칼날
+item.csrp.scythe_core.name=§6꿈틀대는 낫의 생체 핵
+item.csrp.scythe_handle.name=§6꿈틀대는 낫의 뼈대 자루
+item.csrp.scythe_head.name=§6꿈틀대는 낫의 머리 부분
+####
+
+item.csrp.dried_tendons.name=§e말라붙은 힘줄
+item.csrp.hardened_bone_handle.name=§e경화된 뼈 자루
+item.csrp.infectious_blade_fragment.name=§e감염성 파멸의 칼날 파편
+item.csrp.living_core.name=§e맥동하는 생체 핵
+item.csrp.vile_shell.name=§e불결한 갑각
+item.csrp.bone.name=§e기이한 뼈
+
+item.csrp.ada_longarms_drop.name=§b롱암의 갑각 파편
+item.csrp.ada_summoner_drop.name=§b소환수의 정수 핵
+item.csrp.ada_yelloweye_drop.name=§b노란 눈의 뼈
+item.csrp.ada_reeker_drop.name=§b리커의 송곳니
+item.csrp.ada_manducater_drop.name=§b맨듀케이터의 왜곡된 보주
+item.csrp.ada_bolster_drop.name=§b볼스터의 허물
+item.csrp.ada_arachnida_drop.name=§b아라크니다의 갈고리발톱
+item.csrp.ada_devourer_drop.name=§b디바우러의 비틀린 촉수
+item.csrp.ada_vermin_drop.name=§d부식성 점액질
+item.csrp.ada_viscera_drop.name=§d찢겨 나간 모체 태반막
+item.csrp.hijacked_drop.name=§c탈취된 호스트의 종양
+item.csrp.ada_burrower_drop.name=§c망상의 파편
+item.csrp.hive_scrap.name=§7군락 고혈 찌꺼기
+item.csrp.bloody_iron_ingot.name=탈취된 철괴
+item.csrp.semiorganic_ingot.name=반유기물 주괴
+tile.csrp.semiorganic_block.name=반유기물 블록
+item.csrp.bloody_rod.name=탈취된 블레이즈 막대기
+item.csrp.bloody_bone.name=탈취된 뼈
+tile.csrp.assimilated_blossom.name=동화된 종양 꽃
+tile.csrp.potted_assimilated_blossom.name=화분에 심은 동화된 종양 꽃
+tile.csrp.potted_consumed_assimilated_blossom.name=잠식된 화분에 심은 동화된 종양 꽃
+tile.csrp.consumed_pot.name=잠식된 화분
+tile.csrp.infested_pot.name=감염된 화분
+item.csrp.infested_bonemeal.name=감염된 뼛가루
+tile.csrp.infested_cactus.name=감염된 선인장
+tile.csrp.infested_workbench.name=감염된 제작대
+tile.csrp.trophy_void_orb.name=키린의 전리품
+tile.csrp.trophy_boom_orb.name=드라코나이트의 전리품
+
+item.csrp.assimilated_flesh.name=오염된 살점
+item.csrp.beckon_drop.name=§a응집기의 점막
+item.csrp.dispatcher_drop.name=§c디스패쳐의 점막
+
+item.csrp.lurecomponent1.name=§b럽터의 내장 덩어리
+item.csrp.lurecomponent2.name=§b병든 박동의 심장
+item.csrp.lurecomponent3.name=§b변형되어 꼬인 힘줄
+item.csrp.lurecomponent4.name=§b독소로 가득 찬 폐
+item.csrp.lurecomponent5.name=§b독성의 기괴한 뇌
+item.csrp.lurecomponent6.name=§b비틀린 척수 전도 신호계
+item.csrp.lurecomponent7.name=§b유인 장치 부품 7
+item.csrp.lurecomponent8.name=§b유인 장치 부품 8
+item.csrp.lurecomponent9.name=§b유인 장치 부품 9
+item.csrp.lurecomponent10.name=§b유인 장치 부품 10
+item.csrp.greek_fire.name=§6그리스의 불
+item.csrp.bough.name=§e황금 나뭇가지
+tootip.csrp.bough.line1=따스하고 찬란한 노란빛으로 번뜩입니다.
+tootip.csrp.bough.line2=할복 의식에 사용됩니다.
+death.attack.sepeku=%1$s이(가) 할복을 행했습니다
+
+item.csrp.nodecompass.name=§c군체 핵 나침반
+item.csrp.colonycompass.name=§c군락 나침반
+item.csrp.origincompass.name=§c매개체 나침반
+
+item.csrp.dark_days_icon.name=암흑기
+item.csrp.adapted_icon.name=적응한 기생충
+item.csrp.primitive_icon.name=조악한 기생충
+item.csrp.crude_icon.name=조악한 기생충
+item.csrp.pure_icon.name=순수한 기생충
+item.csrp.hunt_season_icon.name=사냥 철
+item.csrp.guerilla_icon.name=게릴라
+item.csrp.ecstasy_icon.name=황홀경
+item.csrp.enemy_of_enemy_icon.name=적의 적
+item.csrp.fog_nullifier_icon.name=안개 억제기
+item.csrp.self_destruct_icon.name=자멸
+item.csrp.potion_columbus_icon.name=콜롬버스
+item.csrp.potion_stolas_icon.name=스톨라스
+item.csrp.hellfire_chemical_warfare_icon.name=지옥불 화학전
+item.csrp.cosmic_structural_failure_icon.name=우주적 구조 붕괴
+item.csrp.roots_icon.name=뿌리
+
+##Blocks
+
+tile.csrp.parasitesapling_tree.name=맥상나무 묘목
+tile.csrp.parasitesapling_treethin.name=눈가시나무 묘목
+tile.csrp.parasitesapling_flowertall.name=어둠나무 묘목
+tile.csrp.parasitesapling_consumed.name=잠식된 묘목 | 개발 중
+tile.csrp.parasitesapling_deadhead.name=죽은머리 묘목 | 개발 중
+tile.csrp.parasitesapling_infested.name=감염된 묘목 | 개발 중
+
+tile.csrp.parasiteplank_deadhead_wall.name=죽은머리 나무 판자 담장
+tile.csrp.parasiterubble_weathb_wall.name=풍화된 벽돌 담장
+tile.csrp.parasiterubbledense_colony_wall.name=압축된 군락석 담장
+tile.csrp.parasiterubble_weathfs_wall.name=서리 풍화된 돌 담장
+tile.csrp.parasiterubbledense_biome_wall.name=강화된 군체석 담장
+tile.csrp.parasiterubble_weathbc_wall.name=풍화된 조약돌 담장
+tile.csrp.parasiterubble_bricks_wall.name=군체석 벽돌 담장
+tile.csrp.parasitecanister_bag_wall.name=살점 주머니 담장
+tile.csrp.infestedrubble_wall.name=감염된 돌 담장
+tile.csrp.infestedstain_wall.name=감염된 흙 담장
+tile.csrp.parasitestain_flesh_wall.name=살점 덩어리 담장
+tile.csrp.parasiterubble_metal_wall.name=군체철 담장
+
+tile.csrp.infested_plank_wall.name=감염된 나무 판자 담장
+tile.csrp.bruisewood_plank_wall.name=멍든나무 나무 판자 담장
+tile.csrp.polished_infested_stone_wall.name=부드러운 감염된 돌 담장
+tile.csrp.infested_stone_brick_wall.name=감염된 석재 벽돌 담장
+tile.csrp.goth_plank_wall.name=음침한 나무 판자 담장
+tile.csrp.infested_sandstone_wall.name=감염된 사암 담장
+tile.csrp.consumed_plank_wall.name=잠식된 나무 판자 담장
+
+tile.csrp.harlequinn_grass.name=얼룩진 광대의 잔디 블록
+tile.csrp.harleskinn_block.name=광대의 외피 블록
+tile.csrp.poland_skin_block.name=줄무늬 피부 블록
+tile.csrp.hair_follicle_block.name=기관지 유기관 Block
+tile.csrp.locs_block.name=엉킨 머리타래 블록
+tile.csrp.hirsute_hair.name=덥수룩한 머리카락
+tile.csrp.tresses_hair.name=닻 모양 머리카락
+tile.csrp.lipoma_mass.name=지방종 덩어리
+
+# Parasite Barrier Text
+tile.csrp.parasite_barrier.name=기생체 구역 장벽 | 크리에이티브 전용
+msg.csrp.barrier.no_permission=이 장벽을 설정할 권한이 없습니다.
+msg.csrp.barrier.radius_set=[장벽] 반경이 %s구역으로 설정되었습니다.
+# Parasite Barrier tootip lines
+tootip.csrp.parasite_barrier.creative_only=크리에이티브 전용 아이템
+tootip.csrp.parasite_barrier.desc1=기생체들을 구역 장벽 외부로 강제로 밀어냅니다.
+tootip.csrp.parasite_barrier.desc2=상호작용하여 구역 거리를 변경할 수 있습니다.
+
+tile.csrp.parasitebush_tendril.name=모세혈관망
+tile.csrp.parasitebush_pop.name=기생성 소포
+tile.csrp.parasitebush_bine.name=신경 고리줄기
+tile.csrp.parasitebush_eye.name=말단 실명초
+tile.csrp.parasitebush_tooh.name=작은 앞니초
+tile.csrp.parasitebush_frostg.name=서리 맞은 잔디
+tile.csrp.parasitebush_frostgt.name=서리 맞은 긴 잔디
+tile.csrp.parasitebush_thorn.name=가시그늘
+tile.csrp.parasitebush_thorndead.name=죽은 가시그늘
+tile.csrp.parasitebush_thorndormat.name=휴면 상태의 가시그늘
+tile.csrp.parasitebush_thorndormats.name=휴면 상태의 가시그늘
+tile.csrp.parasitebush_thorntwo.name=가시그늘
+tile.csrp.parasitebush_thorntwos.name=가시그늘
+tile.csrp.parasitebush_decanter.name=디켄터 용기
+tile.csrp.parasitebush_decanterempty.name=빈 디켄터 용기
+tootip.csrp.thornshade_decanter.line1=근접 공격으로 받는 피해의 일부를 공격자에게 되돌려줍니다.
+tootip.csrp.thornshade_decanter.line2=원거리 공격이나 마법 피해에는 영향을 주지 않습니다.
+item.csrp.thornshade_decanter.name=§5가시그늘 디켄터
+effect.csrp.thornshade_thorns=§5가시그늘 가시
+
+tile.csrp.infestedore_co.name=역병 어린 석탄 광석
+tile.csrp.infestedore_dia.name=역병 어린 다이아몬드 광석
+tile.csrp.infestedore_eme.name=역병 어린 에메랄드 광석
+tile.csrp.infestedore_gol.name=역병 어린 금 광석
+tile.csrp.infestedore_iro.name=역병 어린 철 광석
+tile.csrp.infestedore_lap.name=역병 어린 청색광석 광석
+tile.csrp.infestedore_red.name=역병 어린 레드스톤 광석
+tile.csrp.infestedore_un.name=역병 어린 광석
+
+# Harleskinn building set
+tile.csrp.harleskinn_stairs.name=광대의 외피 계단
+tile.csrp.harleskinn_fence.name=광대의 외피 울타리
+tile.csrp.infested_fence.name=감염된 울타리
+tile.csrp.deadhead_fence.name=죽은머리 울타리
+tile.csrp.goth_fence.name=음침한 나무 울타리
+tile.csrp.consumed_fence.name=잠식된 울타리
+tile.csrp.bruisewood_fence.name=멍든나무 울타리
+tile.csrp.harleskinn_slab.name=광대의 외피 반블록
+# single slabs
+tile.csrp.infested_cobblestone_slab.name=감염된 조약돌 반블록
+tile.csrp.infested_plank_slab.name=감염된 나무 판자 반블록
+tile.csrp.infested_stone_slab.name=감염된 돌 반블록
+tile.csrp.infested_dirt_slab.name=감염된 흙 반블록
+tile.csrp.reinforced_hivestone_slab.name=강화된 군체석 반블록
+tile.csrp.parasitic_colony_core_slab.name=기생성 군락 핵 반블록
+tile.csrp.sac_of_flesh_slab.name=살점 주머니 반블록
+tile.csrp.dead_head_plank_slab.name=죽은머리 나무 판자 반블록
+tile.csrp.weathered_bricks_slab.name=풍화된 벽돌 반블록
+tile.csrp.parasitic_compressed_colony_stone_slab.name=기생성 압축 군락석 반블록
+tile.csrp.weathered_cobblestone_slab.name=풍화된 조약돌 반블록
+tile.csrp.frost_weathered_stone_slab.name=서리 풍화된 돌 반블록
+tile.csrp.infested_stone_brick_slab.name=감염된 석재 벽돌 반블록
+tile.csrp.infested_terracotta_slab.name=감염된 테라코타 반블록
+tile.csrp.polished_infested_stone_slab.name=부드러운 감염된 돌 반블록
+tile.csrp.residue_brick_slab.name=균사 잔해 벽돌 반블록
+tile.csrp.infested_sandstone_slab.name=감염된 사암 반블록
+tile.csrp.goth_plank_slab.name=음침한 나무 판자 반블록
+tile.csrp.bruisewood_plank_slab.name=멍든나무 나무 판자 반블록
+tile.csrp.consumed_plank_slab.name=잠식된 나무 판자 반블록
+tile.csrp.harleskinn_block_slab.name=광대의 외피 블록 반블록
+tile.csrp.poland_skin_slab.name=줄무늬 피부 반블록
+tile.csrp.locs_block_slab.name=엉킨 머리타래 반블록
+
+tile.csrp.parasitestainslabdouble.name=오염된 기생물질 전체 블록
+tile.csrp.infested_cobblestone_slab_double.name=감염된 조약돌 전체 블록
+tile.csrp.infested_stone_slab_double.name=감염된 돌 전체 블록
+tile.csrp.infested_dirt_slab_double.name=감염된 흙 전체 블록
+tile.csrp.reinforced_hivestone_slab_double.name=강화된 군체석 전체 블록
+tile.csrp.parasitic_colony_core_slab_double.name=기생성 군락 핵 전체 블록
+tile.csrp.sac_of_flesh_slab_double.name=살점 주머니 전체 블록
+tile.csrp.dead_head_plank_slab_double.name=죽은머리 나무 판자 전체 블록
+tile.csrp.weathered_bricks_slab_double.name=풍화된 벽돌 전체 블록
+tile.csrp.parasitic_compressed_colony_stone_slab_double.name=기생성 압축 군락석 전체 블록
+tile.csrp.weathered_cobblestone_slab_double.name=풍화된 조약돌 전체 블록
+tile.csrp.frost_weathered_stone_slab_double.name=서리 풍화된 돌 전체 블록
+tile.csrp.infested_stone_brick_slab_double.name=감염된 석재 벽돌 전체 블록
+tile.csrp.infested_terracotta_slab_double.name=감염된 테라코타 전체 블록
+tile.csrp.polished_infested_stone_slab_double.name=부드러운 감염된 돌 전체 블록
+tile.csrp.residue_brick_slab_double.name=균사 잔해 벽돌 전체 블록
+tile.csrp.infested_sandstone_slab_double.name=감염된 사암 전체 블록
+tile.csrp.goth_plank_slab_double.name=음침한 나무 판자 전체 블록
+tile.csrp.bruisewood_plank_slab_double.name=멍든나무 나무 판자 전체 블록
+tile.csrp.consumed_plank_slab_double.name=잠식된 나무 판자 전체 블록
+tile.csrp.harleskinn_block_slab_double.name=광대의 외피 블록 전체 블록
+tile.csrp.poland_skin_slab_double.name=줄무늬 피부 전체 블록
+tile.csrp.locs_block_slab_double.name=엉킨 머리타래 전체 블록
+
+tile.csrp.relaycontroller.name=중계기 제어 장치
+
+tile.csrp.srpweb_one.name=§8얇은 거미줄막
+tile.csrp.srpweb_two.name=§a독성 거미줄막
+tile.csrp.srpweb_three.name=§8빛바랜 거미줄막
+tile.csrp.tunnel.name=군체 터널
+tile.csrp.dispatchern.name=§c디스패쳐의 보금자리
+tile.csrp.biomeheart.name=군체 중심 핵
+tile.csrp.colonyheart.name=기생성 군락 핵
+tile.csrp.colonyoutpost.name=기생성 군락 전초기지
+tile.csrp.biomepurifier.name=§b바이옴 정화기
+tile.csrp.epitome_infestation_warp_diffuser.name=기생 오염 차원 왜곡 분산기
+
+message.csrp.diffuser.started=연결된 기생 생태 물질을 해체하는 중...
+message.csrp.diffuser.already_running=이 분산기는 이미 작동 중입니다.
+message.csrp.diffuser.success=연결된 %s개의 기생체 블록을 분산시켰습니다.
+message.csrp.diffuser.fail=연결된 기생체 블록을 찾지 못했습니다.
+
+tile.csrp.parasitestructure.name=미완성된 기생 군락 구조물
+tile.csrp.parasitethin.name=얇은 기생 원목
+tile.csrp.parasitemouth.name=기생 아가리
+tile.csrp.parasitetendril.name=텐드릴
+tile.csrp.parasitefog.name=기생성 안개
+
+tile.csrp.parasitestainslabhalf_dirt.name=군체토양 반블록
+tile.csrp.parasitestainslabhalf_mud.name=내장 진흙 반블록
+tile.csrp.parasitestainslabhalf_sflesh.name=살점 덩어리 반블록
+tile.csrp.parasitestainslabhalf_feeler.name=압축된 동맥 반블록
+tile.csrp.parasitestainslabhalf_spore.name=균사망 반블록
+tile.csrp.parasitestain_spore.name=균사망 블록
+tile.csrp.parasitestainslabhalf_red.name=타박상 조직 반블록
+tile.csrp.parasitestain_red.name=타박상 조직 블록
+tile.csrp.parasitestainslabhalf_sackflesh.name=포대 살점 반블록
+tile.csrp.parasitestain_sackflesh.name=포대 살점 블록
+
+tile.csrp.parasiterubbleslabhalf_flesh.name=농축된 살점 반블록
+tile.csrp.parasiterubbleslabhalf_bone.name=요새화된 뼈 반블록
+tile.csrp.parasiterubbleslabhalf_stone.name=군체석 반블록
+tile.csrp.parasiterubbleslabhalf_stonedebris.name=군체석 잔해 반블록
+tile.csrp.parasiterubbleslabhalf_wood.name=잠식된 나무 반블록
+tile.csrp.parasiterubbleslabhalf_bricks.name=군체석 벽돌 반블록
+tile.csrp.parasiterubbleslabhalf_metal.name=군체철 반블록
+tile.csrp.parasiterubbleslabhalf_obsidian.name=피 흘리는 흑요석 반블록
+tile.csrp.parasiterubbleslabhalf_fungus.name=동화된 균류 반블록
+
+tile.csrp.parasiteloot_common.name=양성 종양 주머니
+tile.csrp.parasiteloot_uncommon.name=악성 종양 주머니
+tile.csrp.parasiteloot_rare.name=전이성 유기물 덩어리
+
+tile.csrp.goresim_small.name=동화종 잔해 (소형)
+tile.csrp.goresim_big.name=동화종 잔해 (대형)
+tile.csrp.goresim_flat.name=동화종 잔해 (중형)
+tile.csrp.gorepri_small.name=조악한 기생충 잔해 (소형)
+tile.csrp.gorepri_big.name=조악한 기생충 잔해 (대형)
+tile.csrp.gorepri_flat.name=조악한 기생충 잔해 (중형)
+tile.csrp.goreada_small.name=적응한 기생충 잔해 (소형)
+tile.csrp.goreada_big.name=적응한 기생충 잔해 (대형)
+tile.csrp.goreada_flat.name=적응한 기생충 잔해 (중형)
+tile.csrp.gorepur_small.name=순수한 기생충 잔해 (소형)
+tile.csrp.gorepur_big.name=순수한 기생충 잔해 (대형)
+tile.csrp.gorepur_flat.name=순수한 기생충 잔해 (중형)
+tile.csrp.gorefer_small.name=야생종 잔해 (소형)
+tile.csrp.gorefer_big.name=야생종 잔해 (대형)
+tile.csrp.gorefer_flat.name=야생종 잔해 (중형)
+tile.csrp.goremar_small.name=변종 동화종 잔해 (소형)
+tile.csrp.goremar_big.name=변종 동화종 잔해 (대형)
+tile.csrp.goremar_flat.name=변종 동화종 잔해 (중형)
+
+tile.csrp.infestedstain.name=감염된 흙
+tile.csrp.infestedsand.name=감염된 모래
+tile.csrp.infestedtrunk.name=감염된 원목
+tile.csrp.infestedrubble.name=감염된 돌
+tile.csrp.infestremain.name=감염된 잔해물
+
+tile.csrp.infestedbush_infected.name=감염된 맥상 가시덩굴
+tile.csrp.infestedbush_grass1.name=감염된 맥상 가지
+tile.csrp.infestedbush_flower1.name=감염된 맥상 싹
+tile.csrp.infestedbush_spine.name=감염된 맥상 덤불
+tile.csrp.infestedbush_vine.name=감염된 맥상 타래
+tile.csrp.infestedbush_arc.name=감염된 맥상 뿌리
+
+tile.csrp.parasitecanister_sac.name=§a방광 낭종 주머니
+tile.csrp.parasitecanister_cyst.name=공허한 낭종
+tile.csrp.canisteractive.name=탐욕스러운 낭종
+tile.csrp.dermoid_cyst.name=피양 낭종
+container.dermoid_cyst=피양 낭종 주머니
+container.csrp.parasite_loot=기생성 종양체
+tile.csrp.parasitecanister_lump.name=기괴한 덩어리 블록
+tile.csrp.parasitecanister_bag.name=살점 주머니 블록
+
+tile.csrp.parasitetrunk_ball.name=멍든나무 원목
+tile.csrp.parasitetrunk_ballstairs.name=멍든나무 계단
+tile.csrp.parasitetrunk_tree.name=맥상나무 원목
+tile.csrp.parasitetrunk_treestairs.name=맥상나무 계단
+tile.csrp.parasitetrunk_plant.name=어둠나무 원목
+tile.csrp.parasitetrunk_plantstairs.name=어둠나무 계단
+tile.csrp.parasitetrunk_deadhead.name=죽은머리 원목
+tile.csrp.parasitetrunk_circle.name=원형 줄기 블록
+tile.csrp.deadhead_plank_stairs.name=죽은머리 계단
+tile.csrp.flesh_stairs.name=살점 나무 판자 계단
+tile.csrp.cooked_flesh_stairs.name=익힌 살점 계단
+tile.csrp.flesh_planks.name=살점 나무 판자
+tile.csrp.cooked_flesh_planks.name=익힌 살점 나무 판자
+tootip.csrp.parasite_loot=§a내부가 비어 있을수록 더 강력한 일격을 가합니다.
+item.csrp.pearl.name=주시자의 눈
+tootip.csrp.pearl.desc=오직 자신의 주시자 주변에서만 발현되는 유쾌한 광채로 희번득입니다. 소지자가 주시자에게 사살당할 경우 아이템이 소멸합니다.
+tootip.csrp.pearl.assimilated=분홍색 = 동화된 변이체
+tootip.csrp.pearl.feral=빨간색 = 흉포한 변이체
+tootip.csrp.pearl.assimara=파란색 = 변종 동화된 변이체
+
+item.csrp.false_apple.name=거짓된 사과
+tootip.csrp.false_apple=§7§o"내가 살아남은 게 그렇게 잘못된 일인가요?"
+item.csrp.fishlin.name=어류령 치어
+tootip.csrp.fishlin=§7§o갓 낚여 꿈틀거리고 있습니다.
+item.csrp.alveoligrowth.name=폐포 조직
+tootip.csrp.alveoligrowth=§7§o편안하게 숨을 들이쉬세요.
+
+tootip.csrp.epitome_infestation_warp_diffuser.desc=[크리에이티브 전용] 광활한 영역 내에 연결된 모든 기생체 블록을 제거합니다.
+tootip.csrp.epitome_infestation_warp_diffuser.desc2=사용 시 즉시 활성화됩니다. 청크가 불러와진 연결된 블록만 분산됩니다. 극심한 지연을 유발할 수 있습니다.
+
+tile.csrp.bruisewood_plank_stairs.name=멍든나무 나무 판자 계단
+tile.csrp.infested_sandstone_stairs.name=감염된 사암 계단
+tile.csrp.goth_planks_stairs.name=음침한 나무 판자 계단
+tile.csrp.infested_planks_stairs.name=감염된 나무 판자 계단
+tile.csrp.frost_weathered_stone_stairs.name=서리 풍화된 돌 계단
+tile.csrp.consumed_planks_stairs.name=잠식된 나무 판자 계단
+tile.csrp.infested_stone_bricks_stairs.name=감염된 석재 벽돌 계단
+tile.csrp.infested_polished_stone_bricks_stairs.name=부드러운 감염된 석재 벽돌 계단
+tile.csrp.infested_stone_stairs.name=감염된 돌 계단
+tile.csrp.wheathered_bricks_stairs.name=풍화된 벽돌 계단
+tile.csrp.wheathered_cobblestone_stairs.name=풍화된 조약돌 계단
+
+
+tile.csrp.parasiteplank_deadhead.name=죽은머리 나무 판자
+tile.csrp.parasiteplank_deadheads.name=죽은머리 나무 판자
+
+tile.csrp.parasitestain_dirt.name=군체토양
+tile.csrp.parasitestain_dirtstairs.name=군체토양 계단
+tile.csrp.parasitestain_mud.name=내장 진흙
+tile.csrp.parasitestain_mudstairs.name=내장 진흙 계단
+tile.csrp.parasitestain_flesh.name=살점 덩어리
+tile.csrp.parasitestain_fleshstairs.name=살점 덩어리 계단
+tile.csrp.cooked_flesh_slab.name=익힌 살점 나무 판자 반블록
+tile.csrp.flesh_slab.name=살점 나무 판자 반블록
+tile.csrp.cooked_flesh.name=익힌 살점 블록
+tile.csrp.cooked_flesh_fence.name=익힌 살점 울타리
+tile.csrp.flesh_fence.name=살점 울타리
+tile.csrp.parasitestain_feeler.name=압축된 동맥 조직
+tile.csrp.parasitestain_feelerstairs.name=압축된 동맥 조직 계단
+
+tile.csrp.parasiterubble_slabhalf.name=요새화된 뼈 반블록
+tile.csrp.parasiterubble_slabdouble.name=요새화된 뼈 전체 블록
+tile.csrp.parasiterubble_flesh.name=농축된 살점 덩어리
+tile.csrp.parasiterubble_fleshstairs.name=농축된 살점 계단
+tile.csrp.parasiterubble_flesh_wall.name=농축된 살점 담장
+tile.csrp.parasiterubble_bone.name=요새화된 뼈 블록
+tile.csrp.parasiterubble_boneslabhalf.name=요새화된 뼈 반블록
+tile.csrp.parasiterubble_boneslabdouble.name=요새화된 뼈 전체 블록
+tile.csrp.parasiterubble_bonestairs.name=요새화된 뼈 계단
+tile.csrp.parasiterubble_stone.name=군체석
+tile.csrp.parasiterubble_stonestairs.name=군체석 계단
+tile.csrp.parasiterubble_stonedebris.name=군체석 잔해
+tile.csrp.parasiterubble_stonedebrisstairs.name=군체석 잔해 계단
+tile.csrp.parasiterubble_wood.name=잠식된 나무 블록
+tile.csrp.parasiterubble_woodstairs.name=잠식된 나무 계단
+tile.csrp.parasiterubble_bricks.name=군체석 벽돌
+tile.csrp.parasiterubble_bricksstairs.name=군체석 벽돌 계단
+tile.csrp.parasiterubble_metal.name=군체철
+tile.csrp.parasiterubble_metalstairs.name=군체철 계단
+tile.csrp.parasiterubble_obsidian.name=피 흘리는 흑요석
+tile.csrp.parasiterubble_obsidianstairs.name=피 흘리는 흑요석 계단
+tile.csrp.parasiterubble_fungus.name=동화된 균류 블록
+tile.csrp.parasiterubble_fungusstairs.name=동화된 균류 계단
+tile.csrp.parasiterubble_weathb.name=풍화된 벽돌 블록
+tile.csrp.parasiterubble_weathbs.name=풍화된 벽돌 블록
+tile.csrp.parasiterubble_weathbc.name=풍화된 조약돌 블록
+tile.csrp.parasiterubble_weathbcs.name=풍화된 조약돌 블록
+tile.csrp.parasiterubble_weathfs.name=서리 풍화된 돌 블록
+tile.csrp.parasiterubble_weathfss.name=서리 풍화된 돌 블록
+tile.csrp.infested_cobblestone.name=감염된 조약돌
+
+tile.csrp.parasiterubbledense_wall.name=압축된 군체석
+tile.csrp.parasiterubbledense_wallstairs.name=압축된 군체석 계단
+tile.csrp.parasiterubbledense_biome.name=강화된 군체석
+tile.csrp.parasiterubbledense_biomestairs.name=강화된 군체석 계단
+tile.csrp.parasiterubbledense_colony.name=기생성 압축 군락석
+tile.csrp.parasiterubbledense_colonystairs.name=기생성 압축 군락석 계단
+
+tile.csrp.evolutionlure_one.name=유인 장치 (약화됨)
+tile.csrp.evolutionlure_two.name=유인 장치 (희미함)
+tile.csrp.evolutionlure_three.name=유인 장치 (빈약함)
+tile.csrp.evolutionlure_four.name=유인 장치 (안정됨)
+tile.csrp.evolutionlure_five.name=유인 장치 (견고함)
+tile.csrp.evolutionlure_six.name=유인 장치 (농축됨)
+tile.csrp.evolutionlure_seven.name=유인 장치 (농축됨+)
+tile.csrp.evolutionlure_eight.name=유인 장치 (농축됨++)
+tile.csrp.evolutionlure_nine.name=유인 장치 (과부하됨)
+tile.csrp.evolutionlure_ten.name=유인 장치 (이형질)
+
+tile.csrp.bloodyice.name=핏빛 얼음
+tile.csrp.gothshroom.name=음침한 버섯
+
+tile.csrp.node_redstone_lamp.name=군체 핵 조명
+
+tile.csrp.infested_furnace.name=감염된 화로
+tile.csrp.infested_furnace_lit.name=감염된 화로
+tile.csrp.infuser_furnace.name=야금학적 주입용 화로
+container.infuser_furnace=야금학적 주입용 화로
+
+
+tile.csrp.relay_base.name=중계기 단자 | 하부 구조
+tile.csrp.relay_middle.name=중계기 구조물 | 중부 구조
+tile.csrp.relay_roof.name=중계기 안테나 | 상부 구조
+
+
+tile.node_lamp_off.name=군체 핵 조명
+tile.node_lamp_on.name=군체 핵 조명 (켜짐)
+
+# Compendium Block Page
+
+bestiary.blocks.home=홈페이지
+bestiary.blocks.title=블록 데이터베이스
+bestiary.blocks.subtitle=물리적 정보 보관소
+bestiary.blocks.empty=주요 표본을 찾지 못했습니다
+bestiary.block.csrp.harleskinn_block.desc=오염된 대지에서 자라난 고밀도의 기생성 광물입니다.
+bestiary.block.csrp.locs_block.desc=구조적 지지대로 활용되는 석회화된 조직 덩어리입니다.
+bestiary.block.csrp.fog_nullifier.desc=연결된 안개 블록들을 소멸시킵니다. 세 번 사용하면 파괴됩니다. 아이템 형태로 다시 회수할 수 없습니다.
+bestiary.block.csrp.dispatchern.desc=§c매우 고통스럽습니다.
+bestiary.block.csrp.assimilated_reed.desc=줄기 내부가 젤리 같은 물질로 가득 차 있습니다.
+bestiary.block.csrp.infested_furnace.desc=기생체 전용 블록과 아이템들을 제련할 때 사용됩니다.
+bestiary.block.csrp.biomass_block.desc=접촉하는 모든 존재에게 피해를 입힙니다. 지속적으로 녹색 증기와 생물질 액체를 흘려보냅니다. 기생체들은 피해를 입지 않습니다.
+bestiary.block.csrp.residue_block.desc=다양한 제작식에 재료로 활용됩니다. 이 블록 위에서는 균사 피어오름이 자연적으로 자라납니다.
+bestiary.block.csrp.sick_alveoli.desc=폐포 블록이 약화되어 감염된 형태입니다. 접촉하는 모든 생명체에게 독을 걸며, 기관지 유기관 근처로 가져가기 전까지는 병든 상태가 유지됩니다.
+bestiary.block.csrp.alveoli.desc=지하 거대 유기 기관에 대기 중 영양분을 공급하는 주된 원천입니다. 유리병을 대고 사용하면 생물학적 양조의 핵심 재료인 폐포액을 채취할 수 있습니다. 기관지 유기관에서 너무 멀어지면 병들게 됩니다.
+bestiary.block.csrp.hair_follicle_block.desc=지하 거대 유기 기관을 위해 대기 중의 영양분을 운송하는 통로 역할을 합니다.
+bestiary.block.csrp.parasite_barrier.desc=모든 기생체 개체들을 바깥쪽으로 밀어냅니다. 반경을 1구역에서 10구역까지 전환하여 조정할 수 있습니다.
+bestiary.block.csrp.assimilated_pumpkin.desc=머리에 착용할 수 있습니다. 착용 시 군체의 부름 효과가 부여됩니다.
+bestiary.block.csrp.esca_bulb.desc=썩은 비린내가 진동하며 축축한 감촉이 느껴집니다. 생체 발광 물질이 밀집되어 있습니다.
+bestiary.block.csrp.node_redstone_lamp.desc=반경 250블록 내의 디스패쳐들과 연결된 취약한 유리 핵 조명입니다. 대상과의 거리에 따라 불이 켜지며 비교기 신호를 출력합니다. 마우스 우클릭 시 가장 가까운 디스패쳐의 단계와 거리를 보여줍니다. 신호 세기 = 디스패쳐 단계 | 신호 거리 = 디스패쳐와의 거리 (1이 가장 가깝고 5가 가장 멂).
+bestiary.block.csrp.parasiteloot_common.desc=군락 거대 구조물 내부에서 발견됩니다. 아이템을 꺼낼 때 플레이어에게 상해를 입힙니다. 보관함이 비어 있을수록 피해량이 증가합니다 (진행도를 나타내는 막대 참조).
+bestiary.block.csrp.infestation_purifier.desc=다이아몬드를 소모하여 응집기 오염 구역을 정화하는 크리에이티브 전용 블록입니다. 주변에 살아있는 응집기가 없어야만 작동합니다.
+bestiary.block.csrp.parasitemouth.desc=지면에 박혀 있는 기생체의 살점 아가리입니다. 이곳을 직접 밟는 모든 존재는 물려 방어구를 무시하는 피해를 입고, 부식성 및 바이러스 감염 효과에 걸립니다. 기생체와 크리에이티브 모드의 플레이어는 영향을 받지 않습니다.
+bestiary.block.csrp.relay_base.desc=중계 탑 건설에 사용되는 블록입니다. 가장 하단에 배치합니다.
+bestiary.block.csrp.relay_middle.desc=중계 탑 건설에 사용되는 블록입니다. 중간층에 배치합니다.
+bestiary.block.csrp.relay_roof.desc=중계 탑 건설에 사용되는 블록입니다. 디스패쳐의 주파수를 수집하기 위해 가장 상단에 배치합니다.
+bestiary.block.csrp.biomepurifier.desc=방해 요소가 없고 주변에 응집기가 존재하지 않는다면 응집기 오염 구역을 스스로 정화합니다. 핵이 완전히 청소된 후 정화기와 상호작용하면 기생체 바이옴 정보를 논리적으로 제거합니다.
+bestiary.block.csrp.infested_remain.desc=불을 질러 제거할 수 있습니다. 균사 피어오름의 수확 및 제작 재료로 쓰입니다.
+bestiary.block.csrp.diseased_sponge.desc=물병이나 어색한 물약과 함께 양조하여 썩은 피 추출액을 제조하는 데 사용됩니다.
+
+
+message.csrp.node_lamp.strength=신호 세기: %s
+message.csrp.node_lamp.distance=신호 거리: %s
+
+#Array text
+# Relay scan
+chat.csrp.relay.not_formed=[중계기] 구조물이 완성되지 않았습니다.
+chat.csrp.relay.insert_module=[중계기] 스캔할 모듈을 삽입해 주십시오.
+chat.csrp.relay.no_profile=[중계기] 모듈에 해당하는 스캔 프로필이 없습니다: %s
+chat.csrp.relay.scan_header=§b[중계기] 스캔 진행 - %s
+chat.csrp.relay.tier_line=  §7%s: §f%s
+chat.csrp.relay.total_parasites=  §7분석된 기생체 수: §f%s
+chat.csrp.relay.total_other=  §7기타 생명체 수: §f%s
+chat.csrp.relay.percent=  §7생명체 중 기생체 비율: §f%s
+chat.csrp.relay.ratio=  §7기생체 대 비기생체 비율 = §f%s
+block.csrp.relay_controller.no_space=§c중계기를 설치할 공간이 부족합니다.§r
+item.csrp.tissue_spike.name=조직 송곳 모듈
+item.csrp.module_base.name=유전자 수용체 모듈
+item.csrp.organ_synth.name=장기 합성기 모듈
+gui.csrp.scanner.cooldown=스캔 재사용 대기시간: %s초
+
+
+chat.csrp.relay.scan_started=§a스캔이 시작되었습니다...§r
+chat.csrp.relay.scan_busy=§c중계기가 이미 다른 스캔을 처리 중입니다.§r
+chat.csrp.relay.scan_text=스캔
+
+
+item.csrp.relay_report.name=§f중계기 스캔 보고서 §7(%s)§r
+item.csrp.relay_report.lore.global_loaded=§7측정 범위: §e로드된 전 지역 (차원 전체)§r
+item.csrp.relay_report.lore.tier=§7- §f%s§7: §e%d§r
+item.csrp.relay_report.lore.total_parasites=§7총 기생체 수: §c%d§r
+item.csrp.relay_report.lore.total_other=§7총 기타 생명체 수: §a%d§r
+item.csrp.relay_report.lore.percent=§7기생체 백분율: §e%s§r
+item.csrp.relay_report.lore.ratio=§7기생체 점유 비율: §e%s§r
+
+
+# Tier display names (by ID)
+tier.csrp.inborn=선천적 기생체
+tier.csrp.assimilated=동화된 기생체
+tier.csrp.hijacked=탈취된 기생체
+tier.csrp.feral=흉포한 기생체
+tier.csrp.crude=조악한 기생체
+tier.csrp.primitive=원시적인 기생체
+tier.csrp.adapted=적응한 기생체
+tier.csrp.nexus=넥서스 기생체
+tier.csrp.deterrent=저지종
+tier.csrp.pure=순수한 기생체
+tier.csrp.preeminent=탁월한 기생체
+tier.csrp.ancient=고대종
+tier.csrp.assimara=변종 동화된 기생체
+tier.csrp.derived=파생종
+
+item.csrp.scan_report.name=중계기 스캔 보고서
+item.csrp.scan_report.header=중계기 스캔 분석 결과:
+item.csrp.scan_report.tiers=해당 생태 단계목록:
+item.csrp.scan_report.tier_line=- %s: %s
+
+item.csrp.scan_report.dimension=관측 차원: %s
+item.csrp.scan_report.total_mobs=총 생명체 수: %s
+item.csrp.scan_report.total_parasites=기생 개체 수: %s
+item.csrp.scan_report.percent=기생체 지분율: %s
+item.csrp.scan_report.ratio=기생체 밀도비: %s
+
+# Module profile names (printed in the header)
+profile.csrp.inborn=선천종
+profile.csrp.assimilated=동화종
+profile.csrp.hijacked=탈취종
+profile.csrp.feral=야생종
+profile.csrp.crude=조악한 기생충
+profile.csrp.primitive=조악한 기생충
+profile.csrp.adapted=적응한 기생충
+profile.csrp.nexus=넥서스 기생충
+profile.csrp.deterrent=저지종
+profile.csrp.pure=순수한 기생충
+profile.csrp.preeminent=탁월한 기생충
+profile.csrp.ancient=고대종
+profile.csrp.desmoid=섬유종성 모듈
+profile.csrp.eschar=가질화형 모듈
+profile.csrp.resistance=저항 유도형 모듈
+profile.csrp.ideal=이상 개체형 모듈
+profile.csrp.origin=기원 추적형 모듈
+
+
+# Display names
+tile.relaycontroller.name=§6중계기 제어 장치
+tile.relay_base.name=§7중계기 단자 블록
+tile.relay_middle.name=§7중계기 본체 블록
+tile.relay_roof.name=§7중계기 안테나 블록
+
+# tootips used by ItemBlockWithtootip
+tootip.relaycontroller=§7중계기 다중블록 구조를 제어합니다. §7이 블록을 파괴하면 구조 전체가 해체됩니다. 피터 제작 모델
+tootip.relay_base=§7중계기 다중블록의 하단 부품입니다. §7중단 및 상단 블록과 수직으로 쌓아 중계기를 형성합니다.
+tootip.relay_middle=§7중계기 다중블록의 중간 부품입니다. §7하단 단자와 상단 안테나를 서로 연결해 줍니다.
+tootip.relay_roof=§7중계기 다중블록의 상단 부품입니다. §7디스패쳐의 주파수를 포착하기 위한 중계기 안테나 헤드입니다.
+
+# Module Names
+item.csrp.module_inborn.name=선천종 모듈
+item.csrp.module_assimilated.name=동화종 모듈
+item.csrp.module_hijacked.name=탈취종 모듈
+item.csrp.module_feral.name=야생종 모듈
+item.csrp.module_crude.name=조악한 기생충 모듈
+item.csrp.module_primitive.name=조악한 기생충 모듈
+item.csrp.module_adapted.name=적응한 기생충 모듈
+item.csrp.module_nexus.name=넥서스 기생충 모듈
+item.csrp.module_deterrent.name=저지종 모듈
+item.csrp.module_pure.name=순수한 기생충 모듈
+item.csrp.module_preeminent.name=탁월한 기생충 모듈
+item.csrp.module_ancient.name=고대종 모듈
+
+item.csrp.module_desmoid.name=섬유종성 모듈
+item.csrp.module_eschar.name=가질화형 모듈
+item.csrp.module_resistance.name=저항 유도형 모듈
+item.csrp.module_ideal.name=이상 개체형 모듈
+item.csrp.module_origin.name=기원 추적형 모듈
+item.csrp.module_vectors.name=매개체 추적형 모듈
+item.csrp.module_assimara.name=변종 동화종 모듈
+item.csrp.module_derived.name=파생종 모듈
+item.csrp.module_phase.name=페이즈 연동 모듈
+item.csrp.module_dislodgement.name=이탈 유도형 모듈
+
+tile.csrp.thornshade.name=가시그늘
+item.csrp.thornshade_berry.name=§5가시그늘 열매
+
+##Fluids
+
+fluid.deadblood=썩은 피
+
+##Effects
+
+effect.csrp.dod_smoke_trail=충격성 연기 흔적
+mob_effect.csrp:dod_smoke_trail=충격성 연기 흔적
+
+mob_effect.csrp:thornshade_thorns=§5가시그늘 가시 효과
+splash_potion.effect.csrp:thornshade_thorns=투척용 가시그늘의 물약
+potion.effect.csrp:thornshade_thorns=가시그늘의 물약
+lingering_potion.effect.csrp:thornshade_thorns=잔류형 가시그늘의 물약
+tipped_arrow.effect.csrp:thornshade_thorns=가시그늘의 화살
+
+mob_effect.csrp:distorted_enlightenment=왜곡된 깨달음
+effect.csrp.distorted_enlightenment=왜곡된 깨달음
+potion.effect.distorted_enlightenment=왜곡된 깨달음의 물약
+splash_potion.effect.distorted_enlightenment=투척용 왜곡된 깨달음의 물약
+lingering_potion.effect.distorted_enlightenment=잔류형 왜곡된 깨달음의 물약
+tipped_arrow.effect.distorted_enlightenment=왜곡된 깨달음의 화살
+
+mob_effect.csrp:coth=§4군체의 부름
+splash_potion.effect.csrp:coth=투척용 군체의 부름 물약
+potion.effect.csrp:coth=군체의 부름 물약
+lingering_potion.effect.csrp:coth=잔류형 군체의 부름 물약
+tipped_arrow.effect.csrp:coth=군체의 부름 화살
+
+mob_effect.csrp:fear=§8공포
+splash_potion.effect.csrp:fear=투척용 공포의 물약
+potion.effect.csrp:fear=공포의 물약
+lingering_potion.effect.csrp:fear=잔류형 공포의 물약
+tipped_arrow.effect.csrp:fear=공포의 화살
+
+mob_effect.csrp:vomit=§7구토
+splash_potion.effect.csrp:vomit=투척용 구토의 물약
+potion.effect.csrp:vomit=구토의 물약
+lingering_potion.effect.csrp:vomit=잔류형 구토의 물약
+tipped_arrow.effect.csrp:vomit=구토의 화살
+
+mob_effect.csrp:jugg=§7압도적 가공함
+splash_potion.effect.csrp:jugg=투척용 압도적 가공함의 물약
+potion.effect.csrp:jugg=압도적 가공함의 물약
+lingering_potion.effect.csrp:jugg=잔류형 압도적 가공함의 물약
+tipped_arrow.effect.csrp:jugg=압도적 가공함의 화살
+
+mob_effect.csrp:conta=§7감염 증폭
+splash_potion.effect.csrp:conta=투척용 감염 증폭의 물약
+potion.effect.csrp:conta=감염 증폭의 물약
+lingering_potion.effect.csrp:conta=잔류형 감염 증폭의 물약
+tipped_arrow.effect.csrp:conta=감염 증폭의 화살
+
+mob_effect.csrp:antimall=§7형태 고정
+splash_potion.effect.csrp:antimall=투척용 형태 고정의 물약
+potion.effect.csrp:antimall=형태 고정의 물약
+lingering_potion.effect.csrp:antimall=잔류형 형태 고정의 물약
+tipped_arrow.effect.csrp:antimall=형태 고정의 화살
+
+splash_potion.effect.csrp:the_sign=투척용 징조의 물약
+potion.effect.csrp:the_sign=징조의 물약
+lingering_potion.effect.csrp:the_sign=잔류형 징조의 물약
+item.csrp.the_sign_charm.name=§d징조의 부적
+tootip.csrp.the_sign_charm.red=크리에이티브 전용 아이템
+tootip.csrp.the_sign_charm.white=태어나기를 갈망하는 자는 먼저 하나의 세계를 파괴해야만 한다.
+tootip.csrp.the_sign_charm.gray=인벤토리에 보유 중일 때 기생체들이 플레이어를 적대하지 않고 무시합니다. 파생된 왜곡 현상이 무효화됩니다.
+mob_effect.csrp:the_sign=징조
+effect.csrp.the_sign=징조
+tipped_arrow.effect.csrp:the_sign=징조의 화살
+
+
+mob_effect.csrp:bleed=§4출혈
+splash_potion.effect.csrp:bleed=투척용 출혈의 물약
+potion.effect.csrp:bleed=출혈의 물약
+lingering_potion.effect.csrp:bleed=잔류형 출혈의 물약
+tipped_arrow.effect.csrp:bleed=출혈의 화살
+
+mob_effect.csrp:corrosive=§6부식
+splash_potion.effect.csrp:corrosive=투척용 부식의 물약
+potion.effect.csrp:corrosive=부식의 물약
+lingering_potion.effect.csrp:corrosive=잔류형 부식의 물약
+tipped_arrow.effect.csrp:corrosive=부식의 화살
+
+mob_effect.csrp:viral=§a바이러스 감염
+splash_potion.effect.csrp:viral=투척용 바이러스 감염의 물약
+potion.effect.csrp:viral=바이러스 감염의 물약
+lingering_potion.effect.csrp:viral=잔류형 바이러스 감염의 물약
+tipped_arrow.effect.csrp:viral=바이러스 감염의 화살
+
+mob_effect.csrp:rage=§c분노
+splash_potion.effect.csrp:rage=투척용 분노의 물약
+potion.effect.csrp:rage=분노의 물약
+lingering_potion.effect.csrp:rage=잔류형 분노의 물약
+tipped_arrow.effect.csrp:rage=분노의 화살
+
+mob_effect.csrp:repel=§2위장
+splash_potion.effect.csrp:repel=투척용 위장의 물약
+potion.effect.csrp:repel=위장의 물약
+lingering_potion.effect.csrp:repel=잔류형 위장의 물약
+tipped_arrow.effect.csrp:repel=위장의 화살
+
+mob_effect.csrp:senses=§3감각 초월
+splash_potion.effect.csrp:senses=투척용 감각 초월의 물약
+potion.effect.csrp:senses=감각 초월의 물약
+lingering_potion.effect.csrp:senses=잔류형 감각 초월의 물약
+tipped_arrow.effect.csrp:senses=감각 초월의 화살
+
+mob_effect.csrp:debar=§7차단
+splash_potion.effect.csrp:debar=투척용 차단의 물약
+potion.effect.csrp:debar=차단의 물약
+lingering_potion.effect.csrp:debar=잔류형 차단의 물약
+tipped_arrow.effect.csrp:debar=차단의 화살
+
+mob_effect.csrp:needler=§6가시 세례
+splash_potion.effect.csrp:needler=투척용 가시 세례의 물약
+potion.effect.csrp:needler=가시 세례의 물약
+lingering_potion.effect.csrp:needler=잔류형 가시 세례의 물약
+tipped_arrow.effect.csrp:needler=가시 세례의 화살
+
+mob_effect.csrp:link=§a연결
+splash_potion.effect.csrp:link=투척용 연결의 물약
+potion.effect.csrp:link=연결의 물약
+lingering_potion.effect.csrp:link=잔류형 연결의 물약
+tipped_arrow.effect.csrp:link=연결의 화살
+
+mob_effect.csrp:foster=§e포스터
+splash_potion.effect.csrp:foster=투척용 포스터의 물약
+potion.effect.csrp:foster=포스터의 물약
+lingering_potion.effect.csrp:foster=잔류형 포스터의 물약
+tipped_arrow.effect.csrp:foster=포스터의 화살
+
+mob_effect.csrp:prey=§e먹잇감 표식
+splash_potion.effect.csrp:prey=투척용 먹잇감 표식 물약
+potion.effect.csrp:prey=먹잇감 표식 물약
+lingering_potion.effect.csrp:prey=잔류형 먹잇감 표식 물약
+tipped_arrow.effect.csrp:prey=먹잇감 표식 화살
+
+mob_effect.csrp:pivot=§e중심축
+splash_potion.effect.csrp:pivot=투척용 중심축의 물약
+potion.effect.csrp:pivot=중심축의 물약
+lingering_potion.effect.csrp:pivot=잔류형 중심축의 물약
+tipped_arrow.effect.csrp:pivot=중심축의 화살
+
+mob_effect.csrp:parate=§e생체 동조
+splash_potion.effect.csrp:parate=투척용 생체 동조의 물약
+potion.effect.csrp:parate=생체 동조의 물약
+lingering_potion.effect.csrp:parate=잔류형 생체 동조의 물약
+tipped_arrow.effect.csrp:parate=생체 동조의 화살
+
+mob_effect.csrp:primitive=§e원시화
+splash_potion.effect.csrp:primitive=투척용 원시화의 물약
+potion.effect.csrp:primitive=원시화의 물약
+lingering_potion.effect.csrp:primitive=잔류형 원시화의 물약
+tipped_arrow.effect.csrp:primitive=원시화의 화살
+
+mob_effect.csrp:adapted=§e적응화
+splash_potion.effect.csrp:adapted=투척용 적응화의 물약
+potion.effect.csrp:adapted=적응화의 물약
+lingering_potion.effect.csrp:adapted=잔류형 적응화의 물약
+tipped_arrow.effect.csrp:adapted=적응화의 화살
+
+mob_effect.csrp:pure=§e순수화
+splash_potion.effect.csrp:pure=투척용 순수화의 물약
+potion.effect.csrp:pure=순수화의 물약
+lingering_potion.effect.csrp:pure=잔류형 순수화의 물약
+tipped_arrow.effect.csrp:pure=순수화의 화살
+
+mob_effect.csrp:crude=§e조잡화
+splash_potion.effect.csrp:crude=투척용 조잡화의 물약
+potion.effect.csrp:crude=조잡화의 물약
+lingering_potion.effect.csrp:crude=잔류형 조잡화의 물약
+tipped_arrow.effect.csrp:crude=조잡화의 화살
+
+mob_effect.csrp:feral=§e흉포화
+splash_potion.effect.csrp:feral=투척용 흉포화의 물약
+potion.effect.csrp:feral=흉포화의 물약
+lingering_potion.effect.csrp:feral=잔류형 흉포화의 물약
+tipped_arrow.effect.csrp:feral=흉포화의 화살
+
+mob_effect.csrp:nexus=§e결속화
+splash_potion.effect.csrp:nexus=투척용 결속화의 물약
+potion.effect.csrp:nexus=결속화의 물약
+lingering_potion.effect.csrp:nexus=잔류형 결속화의 물약
+tipped_arrow.effect.csrp:nexus=결속화의 화살
+
+mob_effect.csrp:muscleout=§e근육 과부하
+splash_potion.effect.csrp:muscleout=투척용 근육 과부하 물약
+potion.effect.csrp:muscleout=근육 과부하 물약
+lingering_potion.effect.csrp:muscleout=잔류형 근육 과부하 물약
+tipped_arrow.effect.csrp:muscleout=근육 과부하 화살
+
+mob_effect.csrp:effectpos=§e긍정 전이
+splash_potion.effect.csrp:effectpos=투척용 긍정 전이의 물약
+potion.effect.csrp:effectpos=긍정 전이의 물약
+lingering_potion.effect.csrp:effectpos=잔류형 긍정 전이의 물약
+tipped_arrow.effect.csrp:effectpos=긍정 전이의 화살
+
+mob_effect.csrp:effectneg=§e부정 전이
+splash_potion.effect.csrp:effectneg=투척용 부정 전이의 물약
+potion.effect.csrp:effectneg=부정 전이의 물약
+lingering_potion.effect.csrp:effectneg=잔류형 부정 전이의 물약
+tipped_arrow.effect.csrp:effectneg=부정 전이의 화살
+
+mob_effect.csrp:spotted=§e발각됨
+splash_potion.effect.csrp:spotted=투척용 발각됨의 물약
+potion.effect.csrp:spotted=발각됨의 물약
+lingering_potion.effect.csrp:spotted=잔류형 발각됨의 물약
+tipped_arrow.effect.csrp:spotted=발각됨의 화살
+
+mob_effect.csrp:braining=§e두뇌 장악
+splash_potion.effect.csrp:braining=투척용 두뇌 장악의 물약
+potion.effect.csrp:braining=두뇌 장악의 물약
+lingering_potion.effect.csrp:braining=잔류형 두뇌 장악의 물약
+tipped_arrow.effect.csrp:braining=두뇌 장악의 화살
+
+mob_effect.csrp:novision=§e시야 상실
+splash_potion.effect.csrp:novision=투척용 시야 상실의 물약
+potion.effect.csrp:novision=시야 상실의 물약
+lingering_potion.effect.csrp:novision=잔류형 시야 상실의 물약
+tipped_arrow.effect.csrp:novision=시야 상실의 화살
+
+mob_effect.csrp:indeaf=§e청각 손실
+splash_potion.effect.csrp:indeaf=투척용 청각 손실의 물약
+potion.effect.csrp:indeaf=청각 손실의 물약
+lingering_potion.effect.csrp:indeaf=잔류형 청각 손실의 물약
+tipped_arrow.effect.csrp:indeaf=청각 손실의 화살
+
+mob_effect.csrp:overheating=§e생체 과열
+splash_potion.effect.csrp:overheating=투척용 생체 과열의 물약
+potion.effect.csrp:overheating=생체 과열의 물약
+lingering_potion.effect.csrp:overheating=잔류형 생체 과열의 물약
+tipped_arrow.effect.csrp:overheating=생체 과열의 화살
+
+mob_effect.csrp:contagion=§e전염병 발현
+splash_potion.effect.csrp:contagion=투척용 전염병 발현 물약
+potion.effect.csrp:contagion=전염병 발현 물약
+lingering_potion.effect.csrp:contagion=잔류형 전염병 발현 물약
+tipped_arrow.effect.csrp:contagion=전염병 발현 화살
+
+##extra
+
+message.csrp.lureb=진화 지점에 재사용 대기시간이 추가되었습니다!
+message.csrp.lurec=진화 지점이 감소했습니다!
+message.csrp.lure_empty_hand=반드시 빈손으로 사용해야 합니다.
+message.csrp.lure_cooldown=기생 사체가 아직 휴면 상태입니다. 이 구조를 다시 가동하려면 유인 장치의 재사용 대기시간이 끝날 때까지 기다리십시오.
+message.csrp.lure_structure_fail=기생 사체가 아무런 반응을 보이지 않습니다. 중심부에서 세 블록 떨어진 대각선 방향에 네 개의 진화 유인 장치를 올바르게 배치해야 합니다.
+
+message.csrp.fearitem=극심한 공황 상태에 빠졌습니다!
+message.csrp.fearblock=극심한 공황 상태에 빠졌습니다!
+message.csrp.feargui=극심한 공황 상태에 빠졌습니다!
+message.csrp.evolutionsleep=지금은 잠을 잘 수 없습니다...
+message.csrp.armortootips1=현재 적응 수치
+
+tootip.csrp.quench=§f포화된 마그마 크림으로 빚어낸 따스하고 유연한 생체 물질입니다. 고농도의 블레이즈 가루가 함유되어 있어 기생성 유기물에 치명적인 §a독성§f을 발휘합니다.
+
+tootip.csrp.lurecomp.1=§f럽터의 내부 장기 조각입니다. §c유인 장치§f의 제작 재료입니다.
+tootip.csrp.lurecomp.2=§f동화종 생명체의 몸안에서 적출한 기괴하게 부풀어 오른 심장입니다. §c유인 장치§f의 제작 재료입니다.
+tootip.csrp.lurecomp.3=§f조악한 기생충 기생체의 몸에서 뜯어낸 발달된 근육 덩어리입니다. 지독한 악취를 풍깁니다. §c유인 장치§f의 제작 재료입니다.
+tootip.csrp.lurecomp.4=§f적응한 기생충 기생체의 몸안에서 적출한 고도로 발달된 폐 기관입니다. §c유인 장치§f의 제작 재료입니다.
+tootip.csrp.lurecomp.5=§f순수한 기생충 기생체의 몸안에서 적출한 극도로 발달된 두뇌 조직입니다. §c유인 장치§f의 제작 재료입니다.
+tootip.csrp.lurecomp.6=§f기생체 바이옴 곳곳에 매달려 있는 유기물 주머니에서 수확한 척추 모양의 물체입니다. §c유인 장치§f의 제작 재료입니다.
+
+tootip.csrp.item.0=§6중계기§f 및 §6모듈§f 조립에 필요한 핵심적인 제작 부품입니다.
+tootip.csrp.item.1=소환사의 몸안에서 수확한, 알 수 없는 에너지를 방출하는 작은 구체입니다. §6무기 부품§f의 제작 재료로 쓰입니다.
+tootip.csrp.item.2=옐로우아이의 몸에서 수확한 아주 단단한 뼈입니다. §6무기 부품§f의 제작 재료로 쓰입니다.
+tootip.csrp.item.3=맨듀케이터의 몸안에서 수확한, 알 수 없는 에너지를 뿜어내는 작은 유기 구체입니다. §6무기 부품§f의 제작 재료로 쓰입니다.
+tootip.csrp.item.4=리커의 몸안에서 수확한 소름 끼치도록 날카로운 송곳니입니다. §6무기 부품§f의 제작 재료로 쓰입니다.
+tootip.csrp.item.5=롱암즈의 몸안에서 수확한, 가벼우면서도 저항력이 매우 뛰어난 갑각 파편입니다. §6무기 부품§f의 제작 재료로 쓰입니다.
+tootip.csrp.item.6=동화종 생명체에게서 뜯어낸 살점 조각입니다. 가장 기본적인 기초 제작 재료입니다.
+tootip.csrp.item.7=
+tootip.csrp.item.8=기생체의 신체 부위를 가공하여 만들어낸 탄력성 높은 물질입니다. §6무기§f 조립용 부품입니다.
+tootip.csrp.item.9=기생체의 신체 부위를 가공하여 형성한 칼날 조각입니다. §6무기§f 조립용 부품입니다.
+tootip.csrp.item.10=아직 생명의 불꽃이 깃들지 않은 오브젝트입니다. 모든 §6생체 무기§f의 동력이 되는 핵심 코어입니다.
+tootip.csrp.item.11=기생체의 신체 부위를 가공하여 제작한 극도의 저항력을 가진 외갑각입니다. §6무기§f 조립용 부품입니다.
+tootip.csrp.item.12=기생체의 신체 뼈대들을 조합하여 정교하게 깎아낸 두터운 자루입니다. §6무기§f 조립용 부품입니다.
+tootip.csrp.item.13=일상적으로는 결코 목격할 수 없는 기이한 형태의 뼈입니다.
+tootip.csrp.item.14=§8§o융해 상태의 철에 기생체의 혈림프를 주입하여 단조한 합금입니다. 기생 유기체 특유의 안공 신호 및 생체 전기적 파동 유형에 극도로 민감하게 감응하는 성질을 보입니다. 철, 유리병에 담긴 썩은 피, 그리고 연료를 결합하여 제작합니다.
+
+tootip.csrp.item.20=볼스터의 사체에서 수확한 건조한 가죽 조각입니다.
+tootip.csrp.item.21=아라크니다의 사체에서 뜯어낸 소름 끼치도록 날카로운 갈고리발톱입니다.
+tootip.csrp.item.22=디바우러의 사체에서 거칠게 뜯어낸 골격질 촉수줄기입니다.
+tootip.csrp.item.23=응집기의 사체 표면에서 벗겨낸 외피 조직입니다.
+tootip.csrp.item.24=디스패쳐의 사체 표면에서 벗겨낸 외피 조직입니다.
+
+tootip.csrp.item.25=기생체를 조준하여 §c진화§f를 촉진합니다.
+tootip.csrp.item.28=생명체를 조준하여 §c동화§f를 강제합니다.
+tootip.csrp.item.26=기생체를 조준하여 §c퇴화§f를 유도합니다.
+tootip.csrp.item.27=기생체를 조준하여 변이 구조의 §c아종 변동§f을 유도합니다.
+tootip.csrp.item.29=§f자신이 입은 §5상처§f를 상대에게 고스란히 전가하여 §5받는 근접 피해의 일부를 반사합니다. §f이 축복은 한 번의 삶 동안 오직 §5두 번§f만 발동합니다. 불사의 토템 사용 시 §5이후 효과들이 모두 무효화§f됩니다.
+tootip.csrp.item.30=§5가시그늘 디켄터§f를 제조하는 데 필수적으로 소모되는 핵심 약조 재료입니다.
+tootip.csrp.item.31=크리에이티브 전용 아이템 | 지상의 기생 식생 무리를 즉각적으로 태워버립니다.
+
+tootip.csrp.item.18=피를 뚝뚝 흘리는 동안, 기괴한 시계 바늘은 끔찍한 자정을 향해 가차 없이 나아갑니다. 
+
+tootip.csrp.weaponm.1=§f수많은 기생체들의 신체 조각을 재조합하여 형상화한 생체 무기입니다. 내면에서 생명의 불꽃이 형형히 번뜩입니다.
+tootip.csrp.weaponm.2=§f살아있는 낫이 도달한 고차원적 진화의 형태입니다. 무기 스스로가 주체적인 §b의식§f을 각성했습니다.
+tootip.csrp.weaponm.3=§f수많은 기생체들의 신체 조각을 재조합하여 형상화한 생체 무기입니다. 내면에서 생명의 불꽃이 형형히 번뜩입니다.
+tootip.csrp.weaponm.4=§f살아있는 도끼가 도달한 고차원적 진화의 형태입니다. 무기 스스로가 주체적인 §b의식§f을 각성했습니다.
+tootip.csrp.weaponm.5=§f수많은 기생체들의 신체 조각을 재조합하여 형상화한 생체 무기입니다. 내면에서 생명의 불꽃이 형형히 번뜩입니다.
+tootip.csrp.weaponm.6=§f살아있는 검이 도달한 고차원적 진화의 형태입니다. 무기 스스로가 주체적인 §b의식§f을 각성했습니다.
+tootip.csrp.weaponm.7=§f수많은 기생체들의 신체 조각을 재조합하여 형상화한 생체 무기입니다. 내면에서 생명의 불꽃이 형형히 번뜩입니다.
+tootip.csrp.weaponm.8=§f살아있는 대형 칼이 도달한 고차원적 진화의 형태입니다. 무기 스스로가 주체적인 §b의식§f을 각성했습니다.
+tootip.csrp.weaponm.9=§f수많은 기생체들의 신체 조각을 재조합하여 형상화한 생체 무기입니다. 내면에서 생명의 불꽃이 형형히 번뜩입니다.
+
+tootip.csrp.weaponm.10=광범위한 구역을 §c완전히 소멸§f시킵니다.
+tootip.csrp.weaponm.20=광범위한 구역을 §c초토화§f합니다.
+tootip.csrp.weaponm.30=시간이 흐름에 따라 상대의 방어구를 §c무력화§f하여 쓸모없게 만듭니다.
+tootip.csrp.weaponm.40=시간이 흐름에 따라 상대의 방어구를 §c무력화§f하여 쓸모없게 만듭니다.
+tootip.csrp.weaponm.50=대상에게 §c생명을 위협하는§f 치명적인 중상을 입힙니다.
+tootip.csrp.weaponm.60=대상에게 §c생명을 위협하는§f 치명적인 중상을 입힙니다.
+tootip.csrp.weaponm.70=§a치명적인 독소§f를 머금은 살상 공격을 연속으로 내지릅니다.
+tootip.csrp.weaponm.80=§a치명적인 독소§f를 머금은 살상 공격을 연속으로 내지릅니다.
+tootip.csrp.weaponm.90=§c하나를 죽임으로써§f 무수한 적들을 연쇄 도살합니다.
+tootip.csrp.item.18=피를 뚝뚝 흘리는 동안, 시계는 끔찍한 자정(Midnight)을 향해 째깍거립니다. 
+
+tootip.csrp.weaponm.1=§f여러 기생충의 신체 부위를 재조합하여 형상화한 무기입니다. 그 내부에서 생명의 불꽃이 빛나고 있습니다.
+tootip.csrp.weaponm.2=§f살아있는 낫(Living Scythe)의 최종적인 진화 형태입니다. 이것은 스스로 생각하는 §b자아(Mind)§f를 얻었습니다.
+tootip.csrp.weaponm.3=§f여러 기생충의 신체 부위를 재조합하여 형상화한 무기입니다. 그 내부에서 생명의 불꽃이 빛나고 있습니다.
+tootip.csrp.weaponm.4=§f살아있는 도끼(Living Axe)의 최종적인 진화 형태입니다. 이것은 스스로 생각하는 §b자아(Mind)§f를 얻었습니다.
+tootip.csrp.weaponm.5=§f여러 기생충의 신체 부위를 재조합하여 형상화한 무기입니다. 그 내부에서 생명의 불꽃이 빛나고 있습니다.
+tootip.csrp.weaponm.6=§f살아있는 검(Living Sword)의 최종적인 진화 형태입니다. 이것은 스스로 생각하는 §b자아(Mind)§f를 얻었습니다.
+tootip.csrp.weaponm.7=§f여러 기생충의 신체 부위를 재조합하여 형상화한 무기입니다. 그 내부에서 생명의 불꽃이 빛나고 있습니다.
+tootip.csrp.weaponm.8=§f살아있는 대도(Living Cleaver)의 최종적인 진화 형태입니다. 이것은 스스로 생각하는 §b자아(Mind)§f를 얻었습니다.
+tootip.csrp.weaponm.9=§f여러 기생충의 신체 부위를 재조합하여 형상화한 무기입니다. 그 내부에서 생명의 불꽃이 빛나고 있습니다.
+
+tootip.csrp.weaponm.10=§f넓은 구역을 §c쓸어버립니다§f.
+tootip.csrp.weaponm.20=§f넓은 구역을 §c대량 학살§f합니다.
+tootip.csrp.weaponm.30=§f시간이 지남에 따라 방어구를 §c무용지물§f로 만듭니다.
+tootip.csrp.weaponm.40=§f시간이 지남에 따라 방어구를 §c무용지물§f로 만듭니다.
+tootip.csrp.weaponm.50=§c생명을 위협할 정도의§f 치명상을 입힙니다.
+tootip.csrp.weaponm.60=§c생명을 위협할 정도의§f 치명상을 입힙니다.
+tootip.csrp.weaponm.70=§a치명적인 독성§f 공격을 퍼붓습니다.
+tootip.csrp.weaponm.80=§a치명적인 독성§f 공격을 퍼붓습니다.
+tootip.csrp.weaponm.90=§c하나를 죽여§f 여럿을 파멸시킵니다.
+
+tootip.csrp.weaponm.11=
+tootip.csrp.weaponm.110=
+tootip.csrp.weaponm.12=
+tootip.csrp.weaponm.120=
+
+tootip.csrp.weaponm.100=넌 더 이상 숨을 수 없어...
+tootip.csrp.weaponm.200=넌 더 이상 숨을 수 없어...
+tootip.csrp.weaponm.300=넌 더 이상 숨을 수 없어...
+tootip.csrp.weaponm.400=넌 더 이상 숨을 수 없어...
+tootip.csrp.weaponm.500=넌 더 이상 숨을 수 없어...
+tootip.csrp.weaponm.600=넌 더 이상 숨을 수 없어...
+tootip.csrp.weaponm.700=넌 더 이상 숨을 수 없어...
+tootip.csrp.weaponm.800=넌 더 이상 숨을 수 없어...
+
+tootip.csrp.weaponr.1=§f여러 기생충의 신체 부위를 재조합하여 형상화한 §6무기§f입니다. 그 내부에서 생명의 불꽃이 빛나고 있습니다.
+tootip.csrp.weaponr.2=§f살아있는 활(Living Bow)의 최종적인 진화 형태입니다. 이것은 스스로 생각하는 §b자아(Mind)§f를 얻었습니다.
+
+tootip.csrp.weaponr.100=You can't hide anymore...
+tootip.csrp.weaponr.200=You can't hide anymore...
+
+item.record.discone.desc=이중성
+item.record.disctwo.desc=우린 다시 만날거야
+item.record.discthree.desc=평온
+tootip.csrp.weaponr.1=§f무수한 기생체의 신체 부위들을 재배열하여 형상화한 생체 §6무기§f입니다. 중심부에서 생명의 불꽃이 고동칩니다.
+tootip.csrp.weaponr.2=§f살아있는 활이 도달한 극단의 진화 형태입니다. 스스로 판단하는 주체적인 §b의식§f을 각성했습니다.
+
+tootip.csrp.weaponr.10=화살을 먹인 상태로 계속해서 시위를 당기십시오
+tootip.csrp.weaponr.20=화살을 먹인 상태로 계속해서 시위를 당기십시오
+
+tootip.tile.csrp.evolutionlure=기생체의 진화 지점 누적을 약 %s초 동안 정지시킵니다.
+
+item.csrp.discone.name=음악 디스크 - 이면성
+item.csrp.disctwo.name=음악 디스크 - 우린 다시 만나리
+item.csrp.discthree.name=음악 디스크 - §b고요함
+
+item.record.discone.desc=이면성
+item.record.disctwo.desc=우린 다시 만나리
+item.record.discthree.desc=§b고요함
+
+### SUBTITLES
+subtitles.hi_blaze.shoot=탈취된 블레이즈가 화염을 발사함
+subtitles.hi_blaze.idle=뒤틀린 유기적 숨소리가 들림
+subtitles.hi_blaze.death=탈취된 블레이즈가 처단됨
+subtitles.hi_blaze.hurt=탈취된 블레이즈가 쇠붙이 부딪히는 소리를 냄
+
+subtitles.hi_golem.idle=탈취된 골렘이 바닥을 긁음
+subtitles.hi_golem.death=탈취된 골렘이 파괴됨
+subtitles.hi_golem.hurt=탈취된 골렘이 둔탁한 충격음을 냄
+
+subtitles.draconite.shoot=네이팜 액이 분출됨
+subtitles.draconite.idle=드라코나이트가 울부짖음
+subtitles.draconite.hurt=드라코나이트가 비명을 지름
+subtitles.draconite.death=드라코나이트가 쓰러짐
+
+subtitles.kirin.blackhole=블랙홀이 에너지를 응축함
+subtitles.kirin.idle=기린이 기괴한 노래를 부름
+subtitles.kirin.hurt=기린이 날카롭게 울부짖음
+subtitles.kirin.death=기린이 소멸함
+
+subtitles.abobodies.idle=융합된 육신들이 비명을 지름
+subtitles.abobodies.hurt=융합된 육신들이 고통스럽게 울부짖음
+subtitles.abobodies.death=융합된 육신들의 움직임이 정지됨
+
+subtitles.dig=땅을 파헤치는 소리
+
+subtitles.tozoon.idle=토준이 날카로운 비명을 지름
+subtitles.tozoon.hurt=토준이 타격을 입음
+subtitles.tozoon.death=토준이 처단됨
+subtitles.tozoon.special=토준이 특수 공격을 준비함
+
+subtitles.purifier.use=정화기가 가동되어 바이옴을 청소함
+subtitles.lure.use=유인 장치가 신호를 방출해 기생체를 끌어모음
+subtitles.carcass.use=기생 사체가 바스라져 무너짐
+
+subtitles.inhoosdeath=소형 분열체가 사멸함
+subtitles.inhoosliving=소형 분열체가 꿀럭거리며 가래 끓는 소리를 냄
+subtitles.inhooshurt=소형 분열체가 타격을 입음
+subtitles.inhoomdeath=중형 분열체가 사멸함
+subtitles.inhoomliving=중형 분열체가 유기물 액체를 삼키는 소리를 냄
+subtitles.inhoomhurt=중형 분열체가 타격을 입음
+
+subtitles.carrierdeath=매개 주머니가 터져 소멸함
+subtitles.carrierliving=매개 주머니가 부글부글 끓어오름
+subtitles.carrierhurt=매개 주머니가 르릉거림
+
+subtitles.devourerliving=원시 디바우러가 포효함
+subtitles.devourerhurt=원시 디바우러가 괴로워함
+subtitles.devourerdeath=원시 디바우러가 단명함
+
+subtitles.adabolsterdeath=적응한 볼스터가 사멸함
+subtitles.adabolsterliving=적응한 볼스터가 으르렁거림
+subtitles.adabolsterhurt=적응한 볼스터가 날카롭게 컹컹거림
+
+subtitles.monarchdeath=군주가 처량하게 울부짖음
+subtitles.monarchliving=군주가 동료들을 호출함
+subtitles.monarchhurt=군주가 찢어지는 듯한 비명을 지름
+
+subtitles.marauderdeath=머로더가 처단됨
+subtitles.marauderliving=머로더가 목을 가누며 꿀럭거림
+subtitles.marauderhurt=머로더가 거칠게 으르렁거림
+
+subtitles.assimadvliving=동화된 모험가가 가쁘고 기괴한 숨을 몰아쉼
+subtitles.assimhumanliving=동화된 인간이 비명을 지름
+subtitles.assimhumanhurt=동화된 인간이 울부짖음
+subtitles.assimhumandeath=동화된 인간이 죽어감
+
+subtitles.assimpigliving=뒤틀린 꿀꿀 소리가 들림
+subtitles.assimpighurt=동화된 돼지가 비명을 지름
+subtitles.assimpigdeath=동화된 돼지가 죽음
+
+subtitles.assimhorseliving=뒤틀린 더러힝 소리가 들림
+subtitles.assimhorsecharge=동화된 말이 돌진함
+subtitles.assimhorsehurt=동화된 말이 비명을 지름
+subtitles.assimhorsedeath=동화된 말이 죽음
+
+subtitles.assimspiderliving=뒤틀린 쉭쉭 소리가 들림
+subtitles.assimspidersteps=곤충의 발소리가 들림
+subtitles.assimspiderdeath=거대 거미가 죽음
+
+subtitles.headliving=기생 머리가 비명을 지름
+subtitles.headhurt=기생 머리가 찢어지는 소리를 냄
+subtitles.headdeath=기생 머리가 죽음
+
+subtitles.verminliving=해충이 기어 다님
+subtitles.verminhurt=해충이 날카롭게 지름
+subtitles.vermindeath=해충이 사멸함
+
+subtitles.buglinliving=버글린이 찍찍거림
+subtitles.buglinhurt=버글린이 짓눌림
+subtitles.buglindeath=버글린이 으스러짐
+subtitles.buglingrow=버글린이 성장함
+subtitles.buglinemerge=버글린이 뚫고 나옴
+
+subtitles.rupterliving=럽터가 딱딱거림
+subtitles.rupterhurt=럽터가 찢어지는 소리를 냄
+subtitles.rupterdies=럽터가 죽음
+subtitles.rupterinfect=럽터가 물질을 내뱉음
+
+subtitles.wardenliving=워든이 으르렁거림
+subtitles.wardenhurt=워든이 날카롭게 으르렁거림
+subtitles.wardendeath=워든이 죽음
+
+subtitles.adaarachliving=적응한 아라크니다가 으르렁거림
+subtitles.adaarachhurt=적응한 아라크니다가 날카롭게 으르렁거림
+subtitles.adaarachdeath=적응한 아라크니다가 쉭쉭거림
+
+subtitles.assimcowliving=뒤틀린 음매 소리가 들림
+subtitles.assimcowhurt=동화된 소가 끅끅거림
+subtitles.assimcowdeath=동화된 소가 죽어감
+
+subtitles.assimsheepliving=뒤틀린 매애 소리가 들림
+subtitles.assimsheephurt=동화된 양이 양 울음소리를 냄
+subtitles.assimsheepdeath=동화된 양이 죽어감
+
+subtitles.assimwolfliving=기이한 짖는 소리가 들림
+subtitles.assimwolfhurt=뒤틀린 깨갱 소리가 들림
+subtitles.assimwolfdeath=동화된 늑대가 죽어감
+
+subtitles.assimbearliving=뒤틀린 컥컥 소리가 들림
+subtitles.assimbearhurt=뒤틀린 포효가 들림
+subtitles.assimbeardeath=동화된 곰이 죽어감
+
+subtitles.assendermanliving=기이한 저 세상의 소리가 울림
+subtitles.assendermanhurt=뒤틀린 저 세상의 타격음이 들림
+subtitles.assendermanteleports=오염된 공간 이동 소리가 들림
+subtitles.assendermandeath=아시마라 엔더맨이 크게 울부짖음
+
+subtitles.simmermanliving=기이한 저 세상의 웅웅 소리가 들림
+subtitles.simmermanhurt=뒤틀린 저 세상의 충격음이 들림
+subtitles.simmermanteleports=오염된 순간 이동 소리가 들림
+subtitles.simmermandeath=동화된 엔더맨이 크게 울부짖음
+
+subtitles.adasummonerliving=적응한 소환사가 비명을 지름
+subtitles.adasummonerhurt=적응한 소환사가 찢어지는 소리를 냄
+subtitles.adasummonerdeath=적응한 소환사가 울부짖음
+subtitles.adasummonersummon=귀를 찢는 듯한 비명이 들림
+
+subtitles.adayelloweyeliving=적응한 옐로우아이가 으르렁거림
+subtitles.adayelloweyehurt=적응한 옐로우아이가 포효함
+subtitles.adayelloweyedeath=적응한 옐로우아이가 죽어감
+subtitles.adayelloweyeshoot=적응한 옐로우아이가 무언가를 내뱉음
+
+subtitles.adareekerliving=적응한 리커가 으르렁거림
+subtitles.adareekerhurt=적응한 리커가 끅끅거림
+subtitles.adareekerdeath=적응한 리커가 죽어감
+
+subtitles.adamanduliving=적응한 맨듀케이터가 으르렁거림
+subtitles.adamanduhurt=적응한 맨듀케이터가 비명을 지름
+subtitles.adamandudeath=적응한 맨듀케이터가 포효함
+
+subtitles.vigiliving=오버시어가 우르릉거림
+subtitles.vigihurt=오버시어가 파지직거림
+subtitles.vigideath=오버시어가 보글거림
+
+subtitles.bogleliving=보글러가 꿀럭거림
+subtitles.boglehurt=보글러가 으르렁거림
+subtitles.bogledeath=무언가가 사멸함
+
+subtitles.hostidle=호스트가 서서히 나타남
+subtitles.hosthurt=호스트가 비명을 지름
+subtitles.hostdeath=호스트가 죽음
+subtitles.hostemerge=호스트가 뚫고 나옴
+
+subtitles.infectedfleshmelt=움직이는 살점들이 하나로 합쳐짐
+subtitles.fleshgrow=움직이는 살점이 자라남
+subtitles.flesheat=움직이는 살점이 집어삼킴
+subtitles.fleshprimitive=움직이는 살점이 툭 터짐
+subtitles.fleshliving=움직이는 살점이 쉭쉭거림
+subtitles.fleshdeath=움직이는 살점이 부패함
+subtitles.fleshhurt=움직이는 살점이 질척거림
+
+subtitles.adamaducamo=소름 끼치는 조롱 소리가 들림
+subtitles.adavomit=구토함
+
+subtitles.litefleshslide=무언가 스르륵 미끄러짐
+
+subtitles.sentryliving=센트리가 으르렁거림
+subtitles.sentryhurt=센트리가 쉭쉭거림
+subtitles.sentrydeath=센트리가 죽음
+
+subtitles.beckonliving=유인기가 속삭임
+subtitles.beckonhurt=유인기가 쉭쉭거림
+subtitles.beckondeath=유인기가 울부짖음
+
+subtitles.beckon.appear=응집기가 등장함
+subtitles.dispatcher.appear=디스패쳐가 등장함
+subtitles.rooter.appear=현악기가 켜짐
+
+subtitles.summoner.resurrect=소환사가 부활함
+
+subtitles.mobswipe=휘두르는 소리
+subtitles.mobtendril=텐드릴이 떨어져 나감
+subtitles.cysteats=아이템이 우적우적 씹힘
+subtitles.adaptationpart=기생체가 환경에 적응하기 시작함
+subtitles.adaptationfull=기생체가 완전히 적응함
+subtitles.biomeheart=심장 박동 소리가 들림
+subtitles.vengeance.chain=사슬이 자갈거림
+subtitles.vengeance.paper=책장이 빠르게 넘어감
+subtitles.vengeance.impact=강한 충격음
+subtitles.vengeance.whoosh=쌩하는 소리
+subtitles.orb.idle=구체가 웅웅거림
+subtitles.orb.summon=구체가 빠르게 회전함
+
+subtitles.compendium.unlocked=지침서가 소리를 냄
+subtitles.entity.relaypaper=문서가 출력됨
+subtitles.entity.relayscan=중계기가 스캔하는 중
+subtitles.shrimp.eat=새우 유기물이 파괴됨
+
+subtitles.adaverminhurt=적응한 해충이 날카롭게 으르렁거림
+subtitles.adaverminidle=적응한 해충이 깨갱거림
+
+subtitles.dredgedeath=드레지가 죽음
+subtitles.dredgeliving=드레지가 바스락거림
+subtitles.dredgehurt=드레지가 날카롭게 으르렁거림
+
+subtitles.cruxdeath=크럭스가 죽음
+subtitles.cruxliving=크럭스가 울부짖음
+subtitles.cruxhurt=크럭스가 날카롭게 으르렁거림
+
+subtitles.mangler_dies=맹글러가 죽음
+subtitles.mangler_idle=맹글러가 딱딱거림
+subtitles.mangler_hurt=맹글러가 비명을 지름
+
+subtitles.lightbomberdeath=라이트 봄버가 죽음
+subtitles.lightbomberliving=라이트 봄버가 울부짖음
+subtitles.lightbomberhurt=라이트 봄버가 날카롭게 으르렁거림
+
+subtitles.kyphosisdeath=카이퍼서스가 죽음
+subtitles.kyphosisliving=카이퍼서스가 울부짖음
+subtitles.kyphosishurt=카이퍼서스가 쉭쉭거림
+
+subtitles.rof.spitout=벌레가 물질을 내뱉음
+
+subtitles.celestial.dark_days.start=§0§k0000
+subtitles.celestial.dark_days.ending=§0§k0000
+subtitles.celestial.dark_days.rumble=§0§k0000
+
+subtitles.draconite.light_impact=왜곡된 빛이 폭발함
+subtitles.draconite.parry=왜곡된 에너지를 튕겨냄
+subtitles.draconite.bell_chargeup=왜곡된 엔진이 구동됨
+
+### COMPENDIUM
+
+item.csrp.srp_field_guide.name=생체 도감
+lore.csrp.compendium=생체 도감
+
+bestiary.tier.assimilated=동화된 기생체 (Assimilated)
+bestiary.tier.walking_head=걷는 머리 (Walking Head)
+bestiary.tier.inborn=자생종 (Inborn)
+bestiary.tier.hijacked=탈취된 기생체 (Hijacked)
+bestiary.tier.feral=흉포한 기생체 (Feral)
+bestiary.tier.crude=조악한 기생체 (Crude)
+bestiary.tier.assimara=아시마라 (Assimara)
+bestiary.tier.primitive=조악한 기생체 (Primitive)
+bestiary.tier.adapted=적응한 기생체 (Adapted)
+bestiary.tier.abomination=융합종 (Abomination)
+bestiary.tier.deterrent=억제종 (Deterrent)
+bestiary.tier.pure=순수한 기생체 (Pure)
+bestiary.tier.preeminent=탁월한 기생체 (Preeminent)
+bestiary.tier.ancient=고대종 (Ancient)
+bestiary.tier.nexus=넥서스 기생체 (Nexus)
+bestiary.tier.derived=파생종 (Derived)
+
+# Generic / GUI
+bestiary.capability_missing_client=정보를 불러오지 못했습니다 (클라이언트 오류). 창을 닫았다가 다시 열어보십시오.
+bestiary.no_mobs_unlocked_in_tier=이 등급에서 아직 잠금 해제된 생명체가 없습니다.
+bestiary.tier_label=등급: %s
+bestiary.select_category=분류를 선택하십시오
+bestiary.parasite_tiers=기생체 등급별 목록
+bestiary.kills_label=처치 수
+bestiary.unlock_by_kill=(이 등급의 생명체를 처치하면 항목이 잠금 해제됩니다.)
+
+
+bestiary.stats=체력: %s | 공격력: %s
+
+
+
+gui.csrp.escape_button=무한 죽음 방지 시스템 |
+gui.csrp.escape_button_blocks=블록만큼 이동
+gui.csrp.escape_tootip=괜찮으신가요? 안전한 근처 지점으로 공간 이동을 시도합니다.
+
+# Purifier messages
+message.csrp.purifier_use_diamond=다이아몬드를 손에 들고 사용해 주십시오.
+message.csrp.purifier_not_over_srp=반드시 기생체 모드의 블록 위에 설치해야 합니다.
+message.csrp.purifier_entities_marked=%s마리의 생명체에게 발광 효과를 부여했습니다.
+message.csrp.purifier_purified=%s개의 블록을 정화했습니다.
+tile.csrp.infestation_purifier.name=크리에이티브용 기생 정화기
+message.csrp.purifier_started=정화 작용이 시작되었습니다.
+
+tootip.csrp.hijacked.fullset_bleed=세트 효과: 출혈 상태이상에 완전 면역이 됩니다.
+tootip.csrp.hijacked.boots_save=부츠 효과: 추락사할 위기에 처했을 때 목숨을 건집니다 (재사용 대기시간 2분).
+tootip.csrp.hijacked.fire_penalty=세트 페널티: 화염으로 입는 피해가 크게 증가합니다 (x%s).
+tootip.csrp.hijacked.boots_cd=부츠의 생존 효과 재사용 대기시간: %s
+tootip.csrp.ready=준비 완료
+
+item.csrp.hijacked_iron_boots.name=탈취된 철 부츠
+item.csrp.hijacked_iron_leggings.name=탈취된 철 레깅스
+item.csrp.hijacked_iron_chestpiece.name=탈취된 철 흉갑
+item.csrp.hijacked_iron_helmet.name=탈취된 철 투구
+
+item.csrp.venkrol_boots.name=§a응집기 고정 부츠
+tootip.csrp.item.venkrol_boots.0=기생체가 만들어내는 소용돌이의 중심부로 끌려들어가지 않도록 발을 단단히 고정합니다.
+
+
+# Bestiary Celestial
+
+bestiary.tab.celestial=천체 현상
+
+bestiary.celestial.id=식별 번호 (ID)
+
+bestiary.celestial.title=천체 변동 기록
+bestiary.celestial.home=처음으로
+bestiary.celestial.none=기록된 천체 현상이 존재하지 않습니다.
+bestiary.celestial.select_hint=세부 정보를 보려면 현상을 선택하십시오.
+bestiary.celestial.missing_desc=(기록된 상세 설명이 없습니다.)
+bestiary.celestial.phase=진행 단계
+bestiary.celestial.chance=발생 확률
+
+bestiary.celestial.out_of_range=천체 오브젝트가 관측 범위를 벗어났습니다
+
+bestiary.celestial.blip.name=점멸광 (Blip)
+bestiary.celestial.blip.desc=기억할 수 있는 아주 먼 옛날부터 밤하늘에 실존해 왔던 아주 짧고 미미한 깜빡임입니다.
+
+bestiary.celestial.pulse.name=박동광 (Pulse)
+bestiary.celestial.pulse.desc=느릿하고 규칙적인 박동 형태로 요동치는 천체 현상입니다.
+
+bestiary.celestial.eight.name=여덟 번째 징후 (Eight)
+bestiary.celestial.eight.desc=???
+
+bestiary.celestial.arrow.name=화살표성 (Arrow)
+bestiary.celestial.arrow.desc=기이한 정사면체 형태의 별입니다. 현상이 유지되는 동안 기생체들이 일정 확률로 새우 유기물을 떨어뜨립니다.
+
+bestiary.celestial.twenty_seven.name=스물일곱 번째 징후 (Twenty Seven)
+bestiary.celestial.twenty_seven.desc=??? §l|§r §o기생체들이 처음부터 분노 상태를 지닌 채 태어납니다.
+
+bestiary.celestial.three.name=세 번째 징후 (Three)
+bestiary.celestial.three.desc=???
+
+bestiary.celestial.eighty_three.name=여든세 번째 징후 (Eighty Three)
+bestiary.celestial.eighty_three.desc=???
+
+bestiary.celestial.four_comet.name=제4혜성 (Comet Four)
+bestiary.celestial.four_comet.desc=???
+
+bestiary.celestial.dark_days.name=암흑의 나날 (Dark Days)
+bestiary.celestial.dark_days.desc=???
+
+bestiary.celestial.jupiter.name=목성 (Jupiter)
+bestiary.celestial.jupiter.desc=칠흑 같은 어둠 속을 표류하는 거대하게 부풀어 오른 행성입니다. 표면의 거대한 띠들은 마치 눈꺼풀 없이 아래를 내려다보는 거대한 멍자국처럼 격렬하게 소용돌이칩니다. 상상을 초월하는 중력으로 인해 주변의 모든 궤도를 왜곡하고 뒤흔듭니다.
+
+bestiary.celestial.mars.name=화성 (Mars)
+bestiary.celestial.mars.desc=하늘 한가운데에 매달려 있는 붉은 불씨 같은 행성입니다. 한때는 액체 상태의 물이 흐를 정도로 따스했던 곳이었으나, 지금은 메마른 표면을 가로지르는 거대한 흉터들만이 남아 그 흔적을 증명하고 있습니다.
+
+bestiary.celestial.mercury.name=수성 (Mercury)
+bestiary.celestial.mercury.desc=지평선 끝을 아슬아슬하게 스쳐 지나가는 창백한 불꽃입니다. 행성의 기온이 극단적으로 요동치며, 단 하루 만에 동일한 대지를 불태웠다가 얼려버리기를 반복합니다. 궤도가 너무 가깝습니다.
+
+bestiary.celestial.neptune.name=해왕성 (Neptune)
+bestiary.celestial.neptune.desc=밤하늘에 깊고 푸른 구멍을 뚫어놓은 듯한 행성입니다. 태양계에서 가장 빠른 폭풍이 몰아치며, 음속을 초월하는 속도로 행성 전역을 갈기갈기 찢어발깁니다. 현재 이 해왕성은 무참히 변이된 상태입니다.
+
+bestiary.celestial.pluto.name=명왕성 (Pluto)
+bestiary.celestial.pluto.desc=시야의 가장자리, 우주의 끝자락에 잊혀진 채 놓여 있는 아주 작은 천체입니다. 그 궤도는 매우 불안정하며 크게 기울어져 있습니다.
+
+bestiary.celestial.saturn.name=토성 (Saturn)
+bestiary.celestial.saturn.desc=묵직한 실루엣 위로 거대한 고리의 왕관을 머리에 이고 있는 행성입니다. 그러나 이 화려한 고리들은 매우 위태롭고 일시적인 구조에 불과하며, 시간이 흐름에 따라 천천히 풀어지며 무너져 내리고 있습니다.
+
+bestiary.celestial.uranus.name=천왕성 (Uranus)
+bestiary.celestial.uranus.desc=하늘에 제대로 안착하기를 거부하는 듯, 완전히 뒤틀린 채 누워 있는 차가운 행성입니다. 완전히 옆으로 누워버린 자전축으로 인해, 행성의 모든 계절이 기괴하게 옆으로 비틀어진 채 흘러갑니다.
+
+bestiary.celestial.venus.name=금성 (Venus)
+bestiary.celestial.venus.desc=숨이 막힐 듯 빽빽한 가스 구름에 완전히 질식해 버린 밝은 대리석 형태의 행성입니다. 이곳의 하루는 이곳의 1년보다 더 길게 흘러갑니다. 그리고 이 황량한 행성 위에는 쥐들이 살아가고 있습니다.
+
+bestiary.celestial.ongoing=오늘 밤, 천체 현상이 대지에 영향을 미치고 있습니다.
+bestiary.celestial.counter=%s / %s
+
+# Bestiary UI
+bestiary.kills=마리 처치함
+bestiary.cap_missing_client=정보를 불러오지 못했습니다 (클라이언트 오류). 창을 닫았다가 다시 열어보십시오.
+bestiary.more_info_at_n=%s마리 처치 시 세부 능력치(체력/공격력)가 잠금 해제됩니다.
+bestiary.lore_unlocks_at_n=%s마리 처치 시 상세 생태 정보가 잠금 해제됩니다.
+bestiary.loot_looting=+약탈 아이템
+bestiary.drops=획득 가능한 전리품
+bestiary.no_drops=전리품 없음
+bestiary.drops_unlock_at_n=%s마리 처치 시 전리품 종류가 잠금 해제됩니다.
+bestiary.loot_unlocks_at_n=%s마리 처치 시 약탈 정보가 잠금 해제됩니다.
+bestiary.drops.none_fallback=(설정 파일에서 전리품 정보를 찾을 수 없습니다)
+bestiary.drops_fallback=전리품
+bestiary.loot_unlocks_at_n_fallback=%s마리 처치 시 정보 해제
+bestiary.lore_fallback=생태 정보
+bestiary.tab.parasites=기생 유기체
+bestiary.tab.blocks=기생 생태 블록
+
+bestiary.nav.home=< 도감 메인
+bestiary.nav.tiers=< 등급 목록
+bestiary.nav.mob_list=< 생명체 목록
+
+# Bestiary Mob Detail Controls
+bestiary.controls.greenscreen.on=크로마키 화면: 켜짐
+bestiary.controls.greenscreen.off=배경 화면: 기본값
+bestiary.controls.greenscreen.green=배경 화면: 녹색색
+bestiary.controls.greenscreen.blue=배경 화면: 청색
+
+bestiary.controls.rotation.on=자동 회전: 켜짐
+bestiary.controls.rotation.off=자동 회전: 꺼짐
+
+bestiary.controls.run.on=이동 동작: 켜짐
+bestiary.controls.run.off=이동 동작: 꺼짐
+bestiary.tootip.run_inaccurate=도감 내의 움직임 애니메이션은 실제 게임 내 모습과 다소 차이가 있을 수 있습니다.
+bestiary.parasites.unlock_tier_hint=(이 등급의 생명체를 처치해야 도감 항목이 열리기 시작합니다.)
+bestiary.pose.yaw=좌우 회전 (Yaw)
+bestiary.pose.pitch=상하 각도 (Pitch)
+bestiary.pose.zoom=확대/축소 (Zoom)
+bestiary.pose.panx=좌우 이동 (X)
+bestiary.pose.pany=상하 이동 (Y)
+bestiary.pose.apply=수치 적용
+bestiary.pose.reset=초기화
+bestiary.pose.title=시선 및 제어
+
+
+# Bestiary Potions
+
+bestiary.tab.effects=상태이상 및 효과
+bestiary.effects.title=부여 가능한 생체 효과 목록
+bestiary.effects.home=처음으로
+bestiary.effects.none=발견된 생체 효과가 없습니다.
+bestiary.effects.select_hint=세부 내용을 보려면 확인하고자 하는 효과를 선택하십시오.
+bestiary.effects.id=식별 번호 (ID)
+bestiary.effects.missing_desc=상세 설명이 등록되지 않았습니다.
+
+# Bestiary Potion descriptions
+bestiary.effect.dod_smoke_trail.desc=효과에 걸린 대상의 뒤로 지독하고 자욱한 잿빛 연기 줄기가 끊임없이 뿜어져 나옵니다.
+bestiary.effect.bleed.desc=호스트의 몸 내부에서 지속적인 출혈이 일어납니다. 피해량은 대상의 최대 체력에 비례하여 증가하며, 몸을 움직이거나 달릴 때 입는 피해가 더욱 극심해집니다.
+bestiary.effect.conta.desc=호스트의 몸이 생물학적으로 완전히 오염되어 주기적인 피해를 입으며, 주변에 있는 다른 살아있는 생명체들에게 오염을 전무시킬 위험성이 생깁니다.
+bestiary.effect.corrosive.desc=강한 부식성 물질이 호스트의 외피와 내부를 파고들어, 시간이 흐름에 따라 지속적으로 강력한 부식 피해를 입힙니다.
+bestiary.effect.foster.desc=호스트의 신체가 기생 유기체가 자라나기에 가장 적합한 상태로 강제 전환됩니다. 이로 인해 주변에 존재하는 기생체들의 이목을 끌게 되며 그들의 강력한 보호를 받게 됩니다.
+bestiary.effect.prey.desc=대상이 기생체들의 완벽한 표적이자 먹잇감으로 지정됩니다. 기생체들이 이 대상을 최우선적으로 감지하고 추적하여 사냥하려 듭니다.
+bestiary.effect.needler.desc=호스트의 몸을 뚫고 기생 가시들이 돋아나며, 주변의 모든 생명체들을 향해 무차별적으로 가시 투사체를 발사하여 피해를 입힙니다.
+bestiary.effect.overheating.desc=호스트의 신체 온도가 통제 불능 수준으로 과열됩니다. 내부 생체 시스템이 완전히 붕괴되면서 시간이 흐를수록 입는 피해가 기하급수적으로 증가합니다.
+bestiary.effect.spotted.desc=기생체들에게 신체 위치가 완전히 탄로 난 상태입니다. 기생체들이 호스트의 위치를 훨씬 더 손쉽게 추적하고 찾아낼 수 있게 됩니다.
+bestiary.effect.the_sign.desc=호스트가 거대한 의미를 지닌 특수 징조의 표식을 부여받습니다. 이 표식이 유지되는 동안 기생체들은 호스트의 존재를 완전히 무시합니다. 이 '징조'는 오직 선택받은 극소수의 인간들만이 지니는 선명하고 붉은 문양입니다. 이 문양을 가진 자들은 위대한 잠재력, 특별함, 그리고 완벽한 통솔력을 지닌 우두머리로 여겨집니다. 파생된 왜곡 현상을 완벽히 차단하고 기생체들의 적대 행위를 무효화합니다.
+bestiary.effect.thornshade_thorns.desc=호스트의 몸 전체에 날카로운 가시 덩굴이 돋아나, 자신을 근접 공격한 적들에게 날카로운 반사 피해를 입힙니다. 단, 이 효과가 누적되어 2회를 초과해 아종 효과가 중첩될 경우 호스트의 몸이 폭발을 일으킵니다. 폭발 시 주변에 같은 효과를 가진 대상이 너무 가까이 있다면 연쇄 폭발이 일어납니다. 다행히 주변 지형 블록은 파괴하지 않습니다.
+bestiary.effect.coth.desc=군체의 부름(Call of the Hive)에 의한 동화 감염 상태입니다. 시간이 흐름에 따라 단계별로 증상이 악화됩니다. 지속적으로 감염이 갱신되거나 강해질 수 있으며, 위장을 통해 막아내지 않는 한 주변의 생명체들에게 끊임없이 번집니다. 최종적으로 호스트의 체력이 바닥나거나 감염 임계치에 도달하면 기생체로의 변이가 일어납니다.
+bestiary.effect.viral.desc=호스트의 몸속에서 빠르게 변이를 일으키는 바이러스성 감염병이 퍼집니다. 주기적으로 피해를 입히며 주변 생명체들에게 전염될 위험이 큽니다. 효과의 증폭 등급이 높을수록 감염의 치명성과 전염 반경이 더욱 넓어집니다.
+bestiary.effect.jugg.desc=사망 시 신체 내부의 기생 에너지를 외부로 폭발시키는 이탈 결속 효과입니다. 활성화된 코드 상태에 따라 죽을 때 주변 기생체들의 체력을 회복시키거나, 기생체가 아닌 생명체들에게 피해를 입히고, 주변 플레이어들의 허기를 극도로 허덕이게 만듭니다. 또한 특정 개체가 죽었을 때 이를 처치한 사냥꾼에게 짧은 시간 동안 가공할 만한 압도적 수치를 부여합니다.
+bestiary.effect.senses.desc=호스트의 모든 감각 기관이 한계를 넘어 초월합니다. 적을 감지하는 시야 범위와 끝까지 추적하는 인지 거리가 대폭 증가합니다.
+bestiary.effect.repel.desc=군체의 부름(Call of the Hive) 감염으로부터 호스트의 신체를 완벽하게 보호하는 차단 표식입니다. 이 효과가 유지되는 동안 동화종으로 강제 변이되거나 기생체로 전환되는 모든 생체 반응을 완벽히 차단하며, 주변으로 감염이 확산되는 것을 억제합니다.
+bestiary.effect.rage.desc=호스트가 이성을 잃고 극심한 광분 상태에 빠져들어, 이동 속도와 공격력이 대폭 상승합니다. 이 두 능력치는 효과의 세기 및 중첩 등급에 비례하여 압도적으로 증폭됩니다.
+bestiary.effect.primitive.desc=이 효과가 유지되는 동안, 조악한 기생충(Primitive) 계열의 기생체들에게 입히는 모든 타격 피해량이 크게 감소합니다.
+bestiary.effect.adapted.desc=이 효과가 유지되는 동안, 적응한 기생충(Adapted) 계열의 기생체들에게 입히는 모든 타격 피해량이 크게 감소합니다.
+bestiary.effect.pure.desc=이 효과가 유지되는 동안, 순수한 기생충(Pure) 계열의 기생체들에게 입히는 모든 타격 피해량이 크게 감소합니다.
+bestiary.effect.crude.desc=이 효과가 유지되는 동안, 조악한 기생충(Crude) 계열의 기생체들에게 입히는 모든 타격 피해량이 크게 감소합니다.
+bestiary.effect.feral.desc=이 효과가 유지되는 동안, 야생종(Feral) 계열의 기생체들에게 입히는 모든 타격 피해량이 크게 감소합니다.
+bestiary.effect.nexus.desc=이 효과가 유지되는 동안, 군체 네트워크 중심축과 결속된 넥서스 기생충(Nexus) 기생체들에게 입히는 모든 타격 피해량이 크게 감소합니다.
+bestiary.effect.distorted_enlightenment.desc=인간의 정신으로는 결코 버텨낼 수 없는 우주의 진실을 강제로 목도하여 이성이 붕괴된 상태입니다. 신체가 기괴하게 빛나기 시작하여, 평소라면 조우할 일 없는 고차원적 존재들의 완벽한 표적이 됩니다. 효과가 지속되는 동안 몸에서 빛이 나며, 드라코나이트에게 입는 피해가 5배로 폭증하는 대신 다른 기생체들에게 입는 피해가 20%% 감소하고, 기생체들에게 입히는 피해 역시 20%% 감소합니다. 자아가 깃든 생체 무기들을 사용하면 이 효과를 부여하는 투사체들을 튕겨낼 수 있습니다.
+bestiary.effect.pivot.desc=이 효과가 유지되는 동안 대상을 처치하면 세계의 진화 및 잠식 지점이 훨씬 더 큰 폭으로 누적됩니다. 또한 특정 기생체 관련 사건이 발생할 때, 시스템이 이 중심축 표식이 걸린 대상을 훨씬 더 강한 '생체 신호'로 인지하여 기생체의 생성 등급이나 침공 단계를 평가하게 됩니다.
+bestiary.effect.parate.desc=전투 능력을 극한으로 끌어올리는 강력한 생체 돌연변이 반응입니다. 효과가 유지되는 동안 호스트의 최대 체력, 방어도, 그리고 공격력이 기본 수치에 비례하여 일정 퍼센트만큼 폭발적으로 증가합니다.
+bestiary.effect.novision.desc=기생체가 호스트의 머리나 몸에 단단히 달라붙었을 때 주로 발생하는 효과입니다. 시야 전체가 완전히 짓눌려 차단되며 거친 채굴 피로 효과가 강제 부여됩니다.
+bestiary.effect.muscleout.desc=호스트가 외부로 내지르는 모든 타격 피해량을 가공할 만한 수준으로 증폭시킵니다. 효과의 등급이 높을수록 공격력의 배율이 비약적으로 증가합니다.
+bestiary.effect.link.desc=호스트를 기생 군체의 거대한 네트워크망에 강제로 연결합니다. 효과가 활성화되어 있는 동안 기생체의 적응 및 군체 반응이 일어날 확률이 대폭 증가하며, 특정 군체 생명체들은 이 연결 효과를 주변 기생체들에게 도미노처럼 전파하여 군체의 일부로 완벽하게 동기화시킵니다.
+bestiary.effect.fear.desc=정신이 완전히 무너져 내려 통제 불능에 빠지는 극심한 공황 상태입니다. 효과의 등급이 높아지면 아이템을 사용하거나 눈앞의 블록과 상호작용하는 행위가 완전히 차단되며, 시도 중이던 행동도 강제로 취소됩니다. 또한 공포에 질려 추락 시 입는 피해가 폭증하며, 공중에 떠 있는 동안 공격을 받으면 받는 피해가 훨씬 더 처참하게 늘어납니다.
+bestiary.effect.indeaf.desc=신체의 운동 신경과 제어 권한이 완전히 차단됩니다. 효과가 유지되는 동안 이동하려는 모든 조작(전진, 후진, 점프 등)이 완전히 먹통이 되며 모든 수평적 움직임이 강제로 상쇄되어, 대지에 다리가 박힌 듯 그 자리에 완벽히 묶이게 됩니다.
+bestiary.effect.effectpos.desc=호스트에게 걸린 유익하고 긍정적인 버프 효과들을 역으로 이용해 고통을 주는 저주입니다. 호스트가 보유한 이로운 효과의 개수가 많으면 많을수록 그에 비례하여 신체가 내부에서부터 파괴되는 극심한 피해를 입힙니다.
+bestiary.effect.effectneg.desc=대상이 지닌 모든 해로운 상태이상의 치명성을 극대화합니다. 효과가 유지되는 동안 호스트가 받은 모든 부정적인 효과들의 위력과 피해량이 대폭 증폭됩니다.
+bestiary.effect.debar.desc=기생체의 전리품 생성을 강제로 차단합니다. 이 효과에 걸린 기생체들은 죽을 때 사체에서 어떠한 아이템이나 전리품도 떨어뜨리지 않게 됩니다.
+bestiary.effect.braining.desc=호스트의 인지 능력을 완전히 교란하는 영악한 효과입니다. 효과가 유지되는 동안 기생체 생명체들이 실제로는 그 자리에 존재하며 정상적으로 공격해 옴에도 불구하고, 호스트의 화면상에는 전혀 모습을 드러내지 않는 기괴한 환각 상태가 됩니다. 정보는 1초마다 동기화됩니다.
+bestiary.effect.antimall.desc=형태가 고정되지 않고 유연하게 변화하는 유연종 기생체들의 고유한 특성인 '환경 적응한 저항력'을 크게 약화시키거나 완전히 거세해 버립니다.
+# Bestiary Systems
+
+bestiary.tab.systems=시스템
+bestiary.systems.title=시스템
+bestiary.systems.home=홈
+bestiary.systems.id=ID
+bestiary.systems.none=시스템을 찾을 수 없습니다.
+bestiary.systems.missing_desc=설명이 누락되었습니다.
+
+bestiary.system.reinforcement.name=지원군
+bestiary.system.reinforcement.desc=기생충이 처치당할 때 구호 신호를 보낼 수 있습니다. 근처에 응집기(Beckon)이 나타나 동맹을 소환하기 시작합니다. 응집기은 단계를 거치며 성장하며, 단계가 높을수록 더 강하거나 더 많은 지원군을 불러와 소규모 전투를 순식간에 악화시킵니다. 응집기이 성장하고 진화하기 전에 반드시 제거해야 합니다.
+
+bestiary.system.merge.name=융합
+bestiary.system.merge.desc=동화된 생명체들은 서로 융합하여 새로운 개체로 재형성될 수 있습니다. 조건에 따라 융합된 형태는 특정 결과물 중에서 선택되거나 무작위로 생성됩니다.
+
+bestiary.system.status_effects.name=상태 효과
+bestiary.system.status_effects.desc=기생충은 공포(Fear), COTH, 니들러(Needler), 출혈(Bleeding), 위장(Camouflage)과 같은 고유한 상태 효과를 부여합니다. 이러한 효과는 전투, 이동, 생존을 방해하며, 교전이 길어질수록 효과가 중첩되거나 강화됩니다. 이 효과들이 활성화되어 있을 때는 각별히 주의하십시오.
+
+bestiary.system.evolution.name=진화
+bestiary.system.evolution.desc=감염은 힘을 얻으면서 진화 단계를 거쳐 진행됩니다. 각 단계마다 더 많은 행동 방식과 메커니즘이 해제됩니다. 유인 블록(Lure Blocks) 사용과 같은 특정 행동은 진화를 감소시키고 발생지의 성장을 늦출 수 있습니다.
+
+bestiary.system.hives.name=하이브
+bestiary.system.hives.desc=하이브는 기생충의 영역을 조직하고 방어하는 구조물입니다.
+
+bestiary.system.collective_consciousness.name=집단 지성
+bestiary.system.collective_consciousness.desc=기생충들은 하나의 조직적인 유기체처럼 행동할 수 있습니다. 집단 지성이 활성화되면 근처의 개체들이 경계 상태를 공유하고 함께 반응합니다.
+
+bestiary.system.eiv.name=매개체 (Vectors)
+bestiary.system.eiv.desc=유엔 기생충 매개체(Emerging Infestation Vectors, EIV)가 활성화되면, 기생충은 활성화된 매개체 영역 내에서만 자연 스폰될 수 있습니다. 이 구역은 시간이 지남에 따라 확장될 수 있으며, 기생충은 구역 외부에서 자연적으로 스폰될 수 없습니다. 만약 구성 파일(config)이나 SRP 세계 옵션에서 이 제한을 비활성화하면, 기생충은 더 이상 매개체 구역에 갇히지 않고 세계 전역에서 자연 스폰될 수 있습니다. 각 매개체는 기생충이 몹을 죽이거나 동화시킬 때마다 최대 체력이 증가합니다. 이 현상이 발생하면 해당 몹의 총 체력이 매개체 자체의 체력에 더해집니다. 매개체의 반경과 체력은 매일(약 24,000틱마다) 독립적으로 증가할 수도 있습니다. 매개체의 정보를 보려면 어레이(Array)에 매개체 모듈(Vector Module)을 장착하고 '스캔(Scan)'을 누르십시오.
+bestiary.system.scent.name=악취 (Scent)
+bestiary.system.scent.desc=기생충은 '악취' 누적을 통해 활동에 반응합니다. 악취 수치가 높아질수록 적들의 습격 유입이 더 잦아지고 포악해집니다. 부주의한 전투를 벌이거나 감염된 지역에 오래 머무르면 점차 위험한 보복을 초래할 수 있습니다.
+srp.msg.scent.closest_notified=가장 가까운 악취원이 감지되었습니다.
+srp.msg.scent.deployed_area=이 지역에 악취가 퍼졌습니다.
+srp.msg.scent.active=악취가 활성화되었습니다.
+
+bestiary.system.ubiquitous_development.name=만연한 발달 (Ubiquitous Development)
+bestiary.system.ubiquitous_development.desc=기생충이 더욱 성장함에 따라, 세계 전역에서 새로운 시스템들이 가동되기 시작합니다. 발달 수준이 높아지면 조직적 행동, 융합, 악취 습격, 구조물 생성, 확장된 스폰 규칙 등의 메커니즘이 해제됩니다.
+
+bestiary.system.dislodgment.name=축출 (Dislodgment)
+bestiary.system.dislodgment.desc=특정 행동은 감염체를 자극하여 보복을 유발할 수 있습니다. 축출 트리거는 상호작용, 회복, 또는 기생충 활동을 통해 활성화될 수 있으며, 점차 여러 단계의 강도로 보복을 격화시킵니다. 현재의 축출 코드와 그 효과를 보려면 어레이에 축출 모듈(Dislodgment Module)을 장착하고 스캔을 누르십시오.
+
+bestiary.system.generations.name=세대 (Generations)
+bestiary.system.generations.desc=기생충의 능력치 및 관련 시스템에 점진적인 난이도 상승과 변화가 적용됩니다. 기생충은 시간이 지남에 따라 해당 세대로 성숙합니다. 각 세대는 지속적인 성장을 필요로 하며, 조건이 맞지 않으면 진행이 느려질 수 있습니다.
+
+bestiary.system.vectors.name=매개체 (Vectors)
+bestiary.system.vectors.desc=유엔 기생충 매개체는 대부분의 기생충이 자연 스폰될 수 있도록 허용된 구역입니다. 매개체 스폰이 활성화된 경우, 자연적인 기생충 스폰은 대개 활성화된 매개체의 범위 내로 제한됩니다. 활성 매개체는 매개체 모듈을 통해 확인할 수 있습니다. 24,000틱마다 첫 번째 매개체가 나타날 확률은 3분의 1입니다. 최소 하나의 매개체가 존재하게 되면, 추가 매개체 생성 체크가 성공할 확률은 10분의 1이 됩니다.
+
+bestiary.system.colonies.name=군락 (Colonies)
+bestiary.system.colonies.desc=군락은 감염의 정착된 '산업적' 부문입니다. 군락은 해당 지역의 기생충 존재감을 강화하고 감염을 제거하기 어렵게 만듭니다. 스폰지(Sponges)를 사용하여 군락 구조물에서 죽은 피(Dead Blood)를 제거할 수 있습니다.
+
+bestiary.system.nodes.name=노드 (Nodes)
+bestiary.system.nodes.desc=노드는 기생충 확장을 위한 기반 시설 역할을 합니다. 활성화되면 주변의 오염 확산을 도우며 근처의 성장을 보강합니다.
+
+bestiary.system.nests.name=둥지 (Nests)
+bestiary.system.nests.desc=디스패처(Dispatcher)와 같은 특수 중계(넥서스) 기생충들은 군체의 성장과 확장을 가속하는 둥지를 틀 수 있습니다. 이 구역은 주변 지형을 활성화된 안개 자욱한 감염 지대로 빠르게 변모시킵니다. 안개 제거기(Fog Nullifier)를 사용하여 해당 안개를 제거할 수 있습니다.
+
+bestiary.system.variants.name=변종 (Variants)
+bestiary.system.variants.desc=기생충은 단순히 바이러스를 옮기거나, 출혈을 일으키거나, 블록에 더 많은 피해를 주는 것에 국한되지 않는 다양한 변종 배열 중에서 스폰될 확률을 가집니다.
+
+bestiary.system.derived_distortion.name=유도된 왜곡 현상 (Derived Distortion Phenomenon)
+bestiary.system.derived_distortion.desc=유도된(Derived) 기생충들은 주변의 분석 도구 및 인터페이스를 방해하는 교란 현상을 방출합니다. 기생충이 충분히 가까이 있으면 영향을 받은 GUI 페이지에 신뢰할 수 있는 정보 대신 글자가 깨지거나, 조작된 수치, 왜곡된 값이 표시될 수 있습니다. 이 근접 기반 효과는 피해자의 눈에서 검고 기름진 물질이 흘러내리게 만들며, 생각과 감각은 거칠고 노이즈 낀 화강암 표면을 만지는 듯한 느낌을 주게 됩니다.
+srphelp.header.warning=§c경고: 정보가 최신 상태가 아닐 수 있습니다.
+srphelp.header.topics=§eSRP 도움말 항목:
+srphelp.header.topics_inline=§e알려진 항목: %s
+srphelp.topic.item= - %s
+srphelp.footer.hint=§7자세한 내용을 보려면 §b/srphelp <항목>§7을 입력하십시오.
+srphelp.error.unknown=§c알 수 없는 도움말 항목: §f%s
+srphelp.topic.header=§6/srphelp %s
+
+# csrp
+srphelp.csrp.setgeneration.usage=§b/csrp setgeneration <0..5>
+srphelp.csrp.setgeneration.desc=현재 차원의 기생충 세대를 강제로 변경합니다.
+srphelp.csrp.getgeneration.usage=§b/csrp getgeneration
+srphelp.csrp.getgeneration.desc=현재 차원의 기생충 세대를 표시합니다.
+srphelp.csrp.readconfigurationfile.usage=§b/csrp readconfigurationfile
+srphelp.csrp.readconfigurationfile.desc=SRP 구성 파일을 다시 불러오고 일부 시스템을 재초기화합니다.
+srphelp.csrp.toggle_dotiledrops.usage=§b/csrp toggle_dotiledrops
+srphelp.csrp.toggle_dotiledrops.desc=SRP 타일 드롭 방식 활성화 여부를 전환합니다.
+srphelp.csrp.toggle_domobevolution.usage=§b/csrp toggle_domobevolution
+srphelp.csrp.toggle_domobevolution.desc=SRP 몹 진화 활성화 여부를 전환합니다.
+srphelp.csrp.resetdatafile.usage=§b/csrp resetdatafile
+srphelp.csrp.resetdatafile.desc=이 차원의 SRP 월드 데이터를 초기화합니다.
+srphelp.csrp.parasites.usage=§b/csrp parasites
+srphelp.csrp.parasites.desc=활성화된 기생충 엔티티의 빠른 요약을 출력합니다.
+
+# srpgeneration
+srphelp.srpgeneration.setgeneration.usage=§b/srpgeneration setgeneration <0..5>
+srphelp.srpgeneration.setgeneration.desc=기생충 세트를 직접 설정합니다.
+srphelp.srpgeneration.getgeneration.usage=§b/srpgeneration getgeneration
+srphelp.srpgeneration.getgeneration.desc=현재 기생충 세대를 표시합니다.
+
+# srpevolution
+srphelp.srpevolution.getphase.usage=§b/srpevolution getphase
+srphelp.srpevolution.getphase.desc=현재 진화 단계와 상태를 보고합니다.
+srphelp.srpevolution.addpoints.usage=§b/srpevolution addpoints <수량>
+srphelp.srpevolution.addpoints.desc=진화 포인트를 추가(또는 차감)합니다.
+srphelp.srpevolution.setcooldown.usage=§b/srpevolution setcooldown <초>
+srphelp.srpevolution.setcooldown.desc=진화 재사용 대기시간을 정확한 값으로 설정합니다.
+srphelp.srpevolution.addcooldown.usage=§b/srpevolution addcooldown <초>
+srphelp.srpevolution.addcooldown.desc=재사용 대기시간 타이머에 초를 추가합니다.
+srphelp.srpevolution.setphase.usage=§b/srpevolution setphase <단계> [세대]
+srphelp.srpevolution.setphase.desc=진화 단계를 강제로 설정합니다(선택적으로 세대도 설정 가능).
+srphelp.srpevolution.set_evolutiongaining.usage=§b/srpevolution set_evolutiongaining <true|false>
+srphelp.srpevolution.set_evolutiongaining.desc=시간 경과에 따른 진화 포인트 획득 활성화 여부를 설정합니다.
+srphelp.srpevolution.set_evolutionloss.usage=§b/srpevolution set_evolutionloss <true|false>
+srphelp.srpevolution.set_evolutionloss.desc=시간 경과에 따른 진화 포인트 감소 활성화 여부를 설정합니다.
+srphelp.srpevolution.evolutionlock_getlist.usage=§b/srpevolution evolutionlock_getlist
+srphelp.srpevolution.evolutionlock_getlist.desc=현재 진화가 잠긴 모든 몹/아이템 목록을 나열합니다.
+srphelp.srpevolution.evolutionlock_reset.usage=§b/srpevolution evolutionlock_reset
+srphelp.srpevolution.evolutionlock_reset.desc=모든 진화 잠금을 해제하여 초기화합니다.
+srphelp.srpevolution.evolutionlock_unlockall.usage=§b/srpevolution evolutionlock_unlockall
+srphelp.srpevolution.evolutionlock_unlockall.desc=모든 진화 잠겨진 대상을 해제합니다.
+
+# srpudevelopment
+srphelp.srpudevelopment.getlevel.usage=§b/srpudevelopment getlevel
+srphelp.srpudevelopment.getlevel.desc=현재 만연한 발달(Ubiquitous Development) 레벨을 보여줍니다.
+srphelp.srpudevelopment.setlevel.usage=§b/srpudevelopment setlevel <레벨>
+srphelp.srpudevelopment.setlevel.desc=만연한 발달 레벨을 설정합니다.
+srphelp.srpudevelopment.viewalldims.usage=§b/srpudevelopment viewalldims
+srphelp.srpudevelopment.viewalldims.desc=차원별 기생충 진행 상황을 나열합니다.
+
+# srpnodes
+srphelp.srpnodes.viewall.usage=§b/srpnodes viewall
+srphelp.srpnodes.viewall.desc=모든 노드와 해당 포인트를 나열합니다.
+srphelp.srpnodes.setnode.usage=§b/srpnodes setnode <x> <y> <z> <유형>
+srphelp.srpnodes.setnode.desc=해당 좌표에 노드를 배치/등록합니다.
+srphelp.srpnodes.removenode.usage=§b/srpnodes removenode <x> <y> <z>
+srphelp.srpnodes.removenode.desc=해당 좌표 근처의 노드를 제거합니다.
+srphelp.srpnodes.clearworld.usage=§b/srpnodes clearworld
+srphelp.srpnodes.clearworld.desc=이 세계에서 모든 노드를 제거합니다.
+
+# srpcolonies
+srphelp.srpcolonies.viewall.usage=§b/srpcolonies viewall
+srphelp.srpcolonies.viewall.desc=모든 군락과 해당 포인트를 나열합니다.
+srphelp.srpcolonies.setcolony.usage=§b/srpcolonies setcolony <x> <y> <z>
+srphelp.srpcolonies.setcolony.desc=해당 좌표에 군락 배치를 시도/등록합니다.
+srphelp.srpcolonies.removecolony.usage=§b/srpcolonies removecolony <x> <y> <z>
+srphelp.srpcolonies.removecolony.desc=해당 좌표 근처의 군락을 제거합니다.
+srphelp.srpcolonies.clearworld.usage=§b/srpcolonies clearworld
+srphelp.srpcolonies.clearworld.desc=이 세계에서 모든 군락을 제거합니다.
+srphelp.srpcolonies.resetglobaladaptation.usage=§b/srpcolonies resetglobaladaptation
+srphelp.srpcolonies.resetglobaladaptation.desc=전역 적응 수치를 초기화합니다.
+srphelp.srpcolonies.viewallglobaladaptation.usage=§b/srpcolonies viewallglobaladaptation
+srphelp.srpcolonies.viewallglobaladaptation.desc=피해 유형별 전역 적응 포인트를 보여줍니다.
+
+# srpvectors
+srphelp.srpvectors.viewall.usage=§b/srpvectors viewall
+srphelp.srpvectors.viewall.desc=모든 감염 매개체(EIV)를 나열합니다.
+srphelp.srpvectors.setvector.usage=§b/srpvectors setvector <x> <y> <z> <체력> <반경>
+srphelp.srpvectors.setvector.desc=해당 좌표에 새로운 EIV를 생성/등록합니다.
+srphelp.srpvectors.removevector.usage=§b/srpvectors removevector <x> <y> <z>
+srphelp.srpvectors.removevector.desc=해당 좌표 근처의 EIV를 제거합니다.
+srphelp.srpvectors.clearworld.usage=§b/srpvectors clearworld
+srphelp.srpvectors.clearworld.desc=이 세계에서 모든 EIV를 제거합니다.
+
+# srpdislodgment
+srphelp.srpdislodgment.random_code.usage=§b/srpdislodgment random_code <지속시간_초>
+srphelp.srpdislodgment.random_code.desc=특정 지속시간 동안 임의의 축출 코드/값을 생성합니다.
+srphelp.srpdislodgment.set_code.usage=§b/srpdislodgment set_code <코드> <값> <지속시간_초>
+srphelp.srpdislodgment.set_code.desc=지속시간을 지정하여 축출 코드/값을 수동으로 설정합니다.
+srphelp.srpdislodgment.codes_reset.usage=§b/srpdislodgment codes_reset
+srphelp.srpdislodgment.codes_reset.desc=활성화된 모든 축출 코드/값을 제거합니다.
+
+# srpguide
+srphelp.srpguide.unlockall.usage=§b/srpguide unlockall
+srphelp.srpguide.unlockall.desc=모든 생물도감(Bestiary) 항목을 해제하고 모든 등급을 확인 완료로 표시합니다.
+srphelp.srpguide.restore.usage=§b/srpguide restore
+srphelp.srpguide.restore.desc=스냅샷(unlockall로 찍힌 스냅샷)에서 생물도감을 복원합니다.
+srphelp.srpguide.clearall.usage=§b/srpguide clearall
+srphelp.srpguide.clearall.desc=생물도감 진행 상황을 초기화합니다.
+srphelp.srpguidistortion.usage=§b/srpguidistortion <on|off|toggle|status> [플레이어]
+srphelp.srpguidistortion.desc=자신 또는 다른 플레이어의 GUI 왜곡 효과를 활성화, 비활성화, 전환 또는 상태 확인합니다.
+srphelp.srpbestiarystats.clear.usage=§b/srpbestiarystats clear [플레이어]
+srphelp.srpbestiarystats.clear.desc=자신 또는 지정된 플레이어의 추적된 생물도감 통계 페이지 데이터를 초기화합니다.
+
+# srpguideclear
+srphelp.srpguideclear.self.usage=§b/srpguideclear
+srphelp.srpguideclear.self.desc=바로가기: §b/srpguide clearall§r과 동일합니다.
+
+# harlequin_here
+srphelp.harlequin_here.convert.usage=§b/harlequin_here [반경청크=1]
+srphelp.harlequin_here.convert.desc=주변 바이옴을 할리퀸(Harlequin)으로 전환하고 청크를 새로 고칩니다.
+
+# harlequin_convert
+srphelp.harlequin_convert.blotch.usage=§b/harlequin_convert [반경] [샘플확률] [깊이] [얼룩확률] [얼룩최소직경] [얼룩최대직경]
+srphelp.harlequin_convert.blotch.desc=원형의 할리퀸 얼룩을 심고 반경 내 대상이 되는 상단을 변환합니다.
+
+# harlequin_scatter
+srphelp.harlequin_scatter.ruins.usage=§b/harlequin_scatter <rock|bush|tree|ruin|both|all> [시도횟수=32] [반경=32]
+srphelp.harlequin_scatter.ruins.desc=바이옴 내의 유효한 표면에 할리퀸 바위/덤불/나무/유적을 흩뿌립니다.
+
+# conjure
+srphelp.conjure.usage=§b/conjure <엔티티_id>
+srphelp.conjure.desc=특정 SRP 엔티티를 소환합니다 (별칭: /conj).
+
+# breathe
+srphelp.srp_breathe.usage=/srp_breathe <on|off|toggle>
+srphelp.srp_breathe.desc=클라이언트에서 호흡(breathe) 셰이더 효과를 켜거나 끄고, 혹은 전환합니다.
+
+# celestial
+srphelp.srp_celestial.usage=/srp_celestial <list|clear|all|id>
+srphelp.srp_celestial.desc=현재 차원의 특정 천체 이벤트 목록을 보거나, 지우거나, 모두 강제하거나, 전환합니다.
+
+# srpguide command messages
+command.srpguide.usage=/srpguide unlockall §l|§r §oclear §l|§r §oclearall §l|§r §oreset §l|§r §ounlockblocks §l|§r §oclearblocks §l|§r §ounlockcelestial §l|§r §oclearcelestial §l|§r §ounlockeffects §l|§r §ocleareffects
+command.srpguide.players_only=플레이어만 사용할 수 있습니다.
+command.srpguide.cap_missing=생물도감 기능(Capability)이 누락되었습니다.
+
+command.srpguide.unlockall_ok=생물도감: %s마리의 몹이 해제되었으며 모든 등급을 확인했습니다.
+command.srpguide.unlockblocks_ok=생물도감: %s개의 블록 항목이 해제되었습니다.
+command.srpguide.unlockcelestial_ok=생물도감: %s개의 천체 이벤트가 해제되었습니다.
+
+command.srpguide.unlockeffects_ok=생물도감: %s개의 상태 효과가 해제되었습니다.
+command.srpguide.cleareffects_ok=생물도감: 상태 효과 진행 상황이 초기화되었습니다.
+command.srpguide.cleareffects_need_getter=생물도감: 효과를 지울 수 없습니다 (getSeenEffects() 또는 seenEffects NBT 키 누락).
+
+command.srpguide.clear_restore_ok=생물도감이 unlockall 이전 상태로 복원되었습니다.
+command.srpguide.clear_no_snapshot=스냅샷을 찾을 수 없습니다. 생물도감이 완전히 초기화되었습니다.
+command.srpguide.clearall_ok=생물도감이 완전히 초기화되었습니다.
+
+command.srpguide.clearblocks_ok=생물도감: 블록 요약집 진행 상황이 초기화되었습니다.
+command.srpguide.clearcelestial_ok=생물도감: 천체 이벤트 진행 상황이 초기화되었습니다.
+command.srpguide.clearcelestial_need_getter=IBestiaryProgress/BestiaryProgress에 getSeenCelestials()가 누락되었습니다. /srpguide clearcelestial을 지원하려면 추가하십시오.
+
+commands.csrp.bestiary_stats.usage=사용법: %s
+commands.csrp.bestiary_stats.player_not_found=플레이어를 찾을 수 없음: %s
+commands.csrp.bestiary_stats.console_requires_player=콘솔에서는 플레이어를 지정해야 합니다.
+commands.csrp.bestiary_stats.cleared_other=%s의 생물도감 통계가 초기화되었습니다.
+commands.csrp.bestiary_stats.cleared_self=당신의 생물도감 통계가 초기화되었습니다.
+commands.csrp.bestiary_stats.cap_missing=%s의 생물도감 기능(Capability)이 누락되었습니다.
+
+srpguide.sounds.on=필드 가이드 소리: 켜짐
+srpguide.sounds.off=필드 가이드 소리: 꺼짐
+
+tootip.module_inborn=현재 차원 내의 인본(Inborn) 기생충을 스캔합니다. §l|§r §o중계 터미널에 넣고 스캔을 누르십시오.
+tootip.module_assimilated=현재 차원 내의 동화된(Assimilated) 기생충을 스캔합니다. §l|§r §o중계 터미널에 넣고 스캔을 누르십시오.
+tootip.module_hijacked=현재 차원 내의 하이잭된(Hijacked) 기생충을 스캔합니다. §l|§r §o중계 터미널에 넣고 스캔을 누르십시오.
+tootip.module_feral=현재 차원 내의 페럴(Feral) 기생충을 스캔합니다. §l|§r §o중계 터미널에 넣고 스캔을 누르십시오.
+tootip.module_crude=현재 차원 내의 크루드(Crude) 기생충을 스캔합니다. §l|§r §o중계 터미널에 넣고 스캔을 누르십시오.
+tootip.module_primitive=현재 차원 내의 프리미티브(Primitive) 기생충을 스캔합니다. §l|§r §o중계 터미널에 넣고 스캔을 누르십시오.
+tootip.module_adapted=현재 차원 내의 어댑티드(Adapted) 기생충을 스캔합니다. §l|§r §o중계 터미널에 넣고 스캔을 누르십시오.
+tootip.module_nexus=현재 차원 내의 넥서스(Nexus) 기생충을 스캔합니다. §l|§r §o중계 터미널에 넣고 스캔을 누르십시오.
+tootip.module_deterrent=현재 차원 내의 디터런트(Deterrent) 기생충을 스캔합니다. §l|§r §o중계 터미널에 넣고 스캔을 누르십시오.
+tootip.module_pure=현재 차원 내의 퓨어(Pure) 기생충을 스캔합니다. §l|§r §o중계 터미널에 넣고 스캔을 누르십시오.
+tootip.module_preeminent=현재 차원 내의 프리에미넌트(Preeminent) 기생충을 스캔합니다. §l|§r §o중계 터미널에 넣고 스캔을 누르십시오.
+tootip.module_ancient=현재 차원 내의 에인션트(Ancient) 기생충을 스캔합니다. §l|§r §o중계 터미널에 넣고 스캔을 누르십시오.
+tootip.module_derived=현재 차원 내의 디라이브드(Derived) 기생충을 스캔합니다. §l|§r §o중계 터미널에 넣고 스캔을 누르십시오.
+tootip.module_assimara=현재 차원 내의 아시마라(Assimara) 기생충을 스캔합니다. §l|§r §o중계 터미널에 넣고 스캔을 누르십시오.
+
+tootip.module_vectors=현재 차원 내의 매개체를 스캔합니다. §l|§r §o중계 터미널에 넣고 스캔을 누르십시오.
+tootip.module_phase=현재 차원 내의 단계 정보를 스캔합니다. §l|§r §o중계 터미널에 넣고 스캔을 누르십시오.
+tootip.dislodgement=축출 이벤트/정보/코드를 스캔하고 디코딩합니다. §l|§r §o중계 터미널에 넣고 스캔을 누르십시오.
+
+tootip.module_desmoid=인본, 아시마라, 동화된, 하이잭된 등급을 커버합니다. §l|§r §o중계 터미널에 넣고 스캔을 누르십시오.
+tootip.module_eschar=페럴, 크루드, 프리미티브 등급을 커버합니다. §l|§r §o중계 터미널에 넣고 스캔을 누르십시오.
+tootip.module_resistance=어댑티드, 넥서스, 디터런트 등급을 커버합니다. §l|§r §o중계 터미널에 넣고 스캔을 누르십시오.
+tootip.module_ideal=퓨어, 프리에미넌트, 디라이브드, 에인션트 등급을 커버합니다. §l|§r §o중계 터미널에 넣고 스캔을 누르십시오.
+tootip.module_origin=모든 기생충 등급을 스캔합니다. §l|§r §o중계 터미널에 넣고 스캔을 누르십시오.
+
+# dislodgement Module
+tootip.module_dislodgement=현재 축출 코드를 출력하기 위해 중계 컨트롤러에서 사용됩니다.
+item.csrp.dislodgement_report.name=축출 보고서
+tootip.csrp.dislodgement_report=어레이에서 축출 모듈을 스캔하여 획득했습니다.
+
+csrp.dislodgement.header=축출 코드 보고서
+csrp.dislodgement.code=원시 코드:
+csrp.dislodgement.code.value=%s
+csrp.dislodgement.decoded=디코딩된 이벤트:
+csrp.dislodgement.line=차원 %s | 이벤트 %s: %s (값=%s, 시간=%ss)
+csrp.dislodgement.unknown_format=디코딩할 수 없음: 알 수 없는 코드 형식입니다.
+csrp.dislodgement.truncated=...생략됨 (항목이 너무 많음)
+
+csrp.dislodgement.event.unknown=알 수 없는 이벤트
+csrp.dislodgement.event.0=COTH가 증폭기를 무시합니다.
+csrp.dislodgement.event.1=COTH가 더 높은 등급을 스폰합니다 (1=페럴, 2=프리미티브, 3=어댑티드, 4=퓨어). 값: %s
+csrp.dislodgement.event.2=기생충 처치 시 유닛이 스폰될 수 있습니다. 값: %s
+csrp.dislodgement.event.3=기생충이 포션 효과를 지닌 채 스폰됩니다. 증폭도: %s
+csrp.dislodgement.event.4=기생충이 증가된 능력치로 스폰됩니다. 배율: %s
+csrp.dislodgement.event.6=기생충이 더 많은 내구도를 소모시킵니다. 배율: %s
+csrp.dislodgement.event.7=기생충 사망 시: 주변 기생충을 치유합니다. 수량: %s
+csrp.dislodgement.event.8=기생충 사망 시: 주변 엔티티에 피해를 줍니다. 피해량: %s
+csrp.dislodgement.event.9=기생충 사망 시: 주변 플레이어의 허기를 흡수합니다. 수량: %s
+csrp.dislodgement.event.10=낮은 등급 처치 시 높은 등급이 스폰될 수 있습니다. 몹: %s
+csrp.dislodgement.event.11=기생충이 포션 효과에 면역이 됩니다.
+csrp.dislodgement.event.12=비기생충 몹으로부터 체력을 흡수합니다. 수량: %s
+csrp.dislodgement.event.13=모든 플레이어로부터 허기를 흡수합니다. 수량: %s
+csrp.dislodgement.event.14=진화가 다음 단계 스폰 목록을 사용합니다. 단계: %s
+csrp.dislodgement.event.15=으르렁거림(Growl)이 취소되며, 넥서스 스폰이 활성화됩니다.
+csrp.dislodgement.event.16=보행(Walk)이 취소되며, 넥서스 진화가 활성화됩니다.
+csrp.dislodgement.event.17=방패가 비활성화되며, 음식이 상합니다.
+csrp.dislodgement.event.18=기생충 전리품/경험치 획득이 취소됩니다.
+csrp.dislodgement.event.19=기생충 처치 수가 증가했습니다. 수량: %s
+csrp.dislodgement.event.20=특정 형태의 사체(Bodies) 기능이 활성화됩니다.
+csrp.dislodgement.event.21=기생충이 불타는 동안에만 죽을 수 있습니다.
+csrp.dislodgement.event.22=동일 버전을 처치할 때 불이익이 주어집니다. 증폭도: %s
+csrp.dislodgement.event.25=기생충 블록 파괴 시 기생충이 스폰될 수 있습니다 (1=SIM, 2=페럴, 3=프리미티브, 4=어댑티드, 5=퓨어). 값: %s
+
+gui.csrp.dislodgement.title=축출 보고서
+gui.csrp.dislodgement.none=축출 항목을 찾을 수 없습니다.
+gui.csrp.dislodgement.entry.head=차원 %s | 이벤트 %s | %s
+gui.csrp.dislodgement.entry.value=값: %s
+
+# Vector Report paper
+item.csrp.vector_report.name=매개체 보고서
+item.csrp.vector_report.lore.header=세계의 현재 유엔 기생충 매개체 목록 (x, y, z, 체력, 반경):
+item.csrp.vector_report.lore.none=-> (없음)
+item.csrp.vector_report.lore.line=-> [%s, %s, %s, %s, %s]
+item.csrp.vector_map.name=매개체 지도
+gui.csrp.vector_map.title=매개체 지도
+gui.csrp.vector_map.day=%s일차
+gui.csrp.vector_map.page=매개체 %s/%s
+gui.csrp.vector_map.vector_coords=매개체: X=%s Z=%s  R=%s
+gui.csrp.vector_map.player_coords=내 위치: X=%s Z=%s
+gui.csrp.vector_map.range=지도 범위: %sx%s 블록
+chat.csrp.vectors.disabled=유엔 기생충 매개체가 비활성화되어 있습니다.
+chat.csrp.vectors.not_activated=유엔 기생충 매개체가 활성화되지 않았습니다.
+tootip.csrp.vector_map=중계기에서 매개체 모듈을 스캔하여 데이터를 채우고 획득했습니다.
+
+#VECTOR MAP GUI
+gui.csrp.vector_map.vectors=매개체 목록:
+
+gui.csrp.vector_map.entry.xyz=%d) XYZ = "%d, %d, %d"
+gui.csrp.vector_map.entry.size=   크기 = "%d"
+gui.csrp.vector_map.entry.hp=   HP = "%s"
+gui.csrp.vector_map.legend.line1=빨간색 링 = 매개체 구역
+gui.csrp.vector_map.legend.line2=스캔 거리 외부(%s)의 매개체는 노란색 점으로 표시됩니다.
+gui.csrp.vector_map.legend.line3=파란색 마커 = 스캔 기점
+
+#STAT PAGE
+bestiary.tab.stats=통계
+bestiary.stats.info=등급별 기생충 처치 기록입니다.
+bestiary.stats.summary=기록된 총 기생충 처치 수: %s
+bestiary.stats.note=이 값들은 각 기생충 등록 ID에 대한 생물도감 처치 데이터의 합계입니다.
+bestiary.stats.total_kills=처치 합계
+bestiary.stats.all_parasites=모든 기생충
+bestiary.stats.scroll_hint=패널 위에서 마우스 휠을 사용하여 스크롤하십시오.
+bestiary.stats.chart_title=등급별 처치 수
+bestiary.stats.combat_totals=전투 합계
+bestiary.stats.damage_to_parasites=기생충에게 입힌 총 피해량
+bestiary.stats.damage_from_parasites=기생충에게 입은 총 피해량
+bestiary.stats.deaths_by_parasites=기생충에 의한 총 사망 횟수
+
+#DISTORTION
+commands.csrp.guidistortion.usage=commands.csrp.guidistortion.usage
+commands.csrp.guidistortion.usage.text=사용법: %s
+commands.csrp.guidistortion.player_not_found=플레이어를 찾을 수 없음: %s
+commands.csrp.guidistortion.console_requires_player=콘솔에서는 플레이어를 지정해야 합니다.
+commands.csrp.guidistortion.invalid_argument=올바르지 않은 인수입니다. on, off, toggle, 또는 status를 사용하십시오.
+commands.csrp.guidistortion.status=%s의 GUI 왜곡: %s
+commands.csrp.guidistortion.set_other=%s의 GUI 왜곡 상태가 이제 %s입니다.
+commands.csrp.guidistortion.set_self=당신의 GUI 왜곡 상태가 이제 %s입니다.
+commands.csrp.guidistortion.state.enabled=활성화됨
+commands.csrp.guidistortion.state.disabled=비활성화됨
+commands.csrp.guidistortion.set_all=온라인 상태인 %s명의 플레이어의 GUI 왜곡을 업데이트했습니다.
+commands.csrp.guidistortion.status.detailed=%s: 왜곡 상태는 %s입니다. 크리에이티브/관전자 오버라이드: %s. 현재 모드: %s.
+commands.csrp.guidistortion.creative_override.enabled=허용됨
+commands.csrp.guidistortion.creative_override.disabled=허용 안 됨
+commands.csrp.guidistortion.gamemode.creative_or_spectator=크리에이티브/관전자
+commands.csrp.guidistortion.gamemode.normal=일반
+
+#PHASE REPORT
+item.csrp.phase_report.name=진화 단계 보고서
+tootip.csrp.phase_report=현재 스캔된 진화 보고서를 표시합니다.
+gui.csrp.phase_report.no_data=보고서 데이터가 없습니다.
+gui.csrp.phase_report.no_data_hint=중계 스캐너에 통과시켜 보고서를 생성하십시오.
+gui.csrp.phase_report.title=진화 단계 보고서
+gui.csrp.phase_report.empty=이 보고서에서 단계 데이터를 찾을 수 없습니다.
+gui.csrp.phase_report.mob_chart=몹 차트
+gui.csrp.phase_report.uninfected_hosts=감염되지 않은 호스트
+gui.csrp.phase_report.parasite_entities=기생충 개체
+gui.csrp.phase_report.infected_hosts=감염된 호스트
+gui.csrp.phase_report.point_gain=포인트 획득
+gui.csrp.phase_report.point_loss=포인트 감소
+gui.csrp.phase_report.enabled=활성화됨
+gui.csrp.phase_report.disabled=비활성화됨
+
+#INBORN
+lore.csrp.buglin=§l명칭:§r 로도(Lodo) §l|§r §o농구공만 한 크기의 이 유충 같은 덩어리는 비정상적인 방식으로 뒤틀리고 압축되는 불안정한 살점으로 이루어져 있으며, 금방이라도 터져버릴 듯한 모습을 하고 있습니다. 날카롭고 금속성 가득한 악취를 풍기며, 그 실체는 시큼하고 강렬한 산성을 띱니다. 배 밑면에는 약 1인치 길이의 작은 갈고리 모양 발톱 16개가 줄지어 있어 지형을 기어 다니거나 살아있는 먹잇감의 몸속을 강제로 드나들 수 있습니다. 눈에 보이는 구멍이 전혀 없으며, 몸은 기형적인 촉매제처럼 밀봉되어 있습니다. 유연한 몸에도 불구하고 극심한 압력에는 취약하여 철 고렘의 무게에 짓눌리면 즉시 터져버립니다. 주로 기생충 터널에서 기어 나오는 모습이 발견됩니다.
+lore.csrp.rupter=§l명칭:§r 무도(Mudo) §l|§r §o럽터는 무리를 지어 행동하며, 속도와 수적 우위를 이용해 대형을 무너뜨리고 고립된 목표를 괴롭힙니다. 혼자 있을 때는 처음엔 온순하지만, 이 행동은 순식간에 돌변할 수 있습니다. 근육 조직과 힘줄은 고밀도의 테서랙트(4차원 초입방체) 형태로 접혀 있고, 내부 장기는 명확한 구조 없이 뿌리 시스템처럼 온몸에 뻗어 있습니다. 무게는 대포알과 비슷하며 길고 빠른 도약이 가능하고 가파른 표면을 기어오를 수 있지만, 천장에 매달릴 만큼의 민첩성은 부족합니다. 흥분하면 촉수가 바깥쪽으로 경련하며 목표물을 움켜쥐고 구멍을 뚫습니다. 럽터는 종종 소나 작은 생물들을 찢어발기며, 의도치 않게 죽이는 경우도 많습니다. 고체 물질은 위장 내에서 용해되어 별다른 저항을 받지 않고 COTH를 효율적으로 전염시키기 위해 미세하고 형체를 알 수 없는 흔적으로 피해자에게 다시 역류됩니다. 장기는 채취하여 건조한 뒤 내구성 있는 섬유질 물질로 가공할 수 있습니다. 사지는 거미처럼 몸에서 뜯겨 나갈 수 있으나, 잃어버린 사지가 재생될 수 있는지는 아직 밝혀지지 않았습니다.
+lore.csrp.mangler=§l명칭:§r 누(Nuuh) §l|§r §o럽터에서 파생된 근접전용 괴수로, 소, 말, 라마와 같은 더 큰 먹잇감을 겨냥해 특별히 포스터되었습니다. 대형견과 비슷한 무게를 지녔으며, 속도보다는 지구력과 지속적인 물리력을 발휘하도록 설계되었습니다. 더 비대해진 체형을 가졌음에도 전 세대의 전염 능력을 그대로 유지하고 있습니다. 럽터에게서 나던 금속성 냄새가 훨씬 강해져 시각적으로 포착하기 전에도 냄새로 감지할 수 있는 경우가 많습니다.
+lore.csrp.carrier_flying=§l명칭:§r 버톨(Buthol) §l|§r §o활성화된 감염 구역 위를 배회하는 공중 감염 매개체입니다. 몸체 아래에는 세 개의 외부 전구형 돌기가 매달려 있으며, 각 돌기에는 서로 다른 화학 성분이 들어있습니다. 자극을 받으면 이 화합물들이 돌기 내부에서 강제로 혼합되어 급격히 팽창한 후 몸체가 바깥쪽으로 파열됩니다. 외기에 노출되면 방출된 혼합물은 독성이 강한 가스 상태의 물질로 변합니다. 이 생물은 산업 화학 폐기물과 유사한 냄새를 풍깁니다. 표면은 미세한 피하 주사 바늘과 송곳 같은 돌기로 뒤덮여 있어 폭발 시 주변 물질에 피해를 줍니다. 결과물로 나오는 화합물은 노출된 피부를 빠르게 녹여버립니다. 불길에 휩싸이면 반응이 불안정해져 폭발이 일부 상쇄되는 것으로 보입니다.
+lore.csrp.carrier_heavy=§l명칭:§r 라톨(Rathol) §l|§r §o밀도 높은 오물, 독소, 그리고 지원 기생충들을 광범위하게 퍼뜨리기 위해 설계된 중량 수송체입니다. 몸체는 완전히 밀봉되어 눈에 보이는 구멍이 없으며, 주로 저장된 유독 가스의 압력 용기 역할을 합니다. 생명체 질량이 비어 있는 상태로 형성되더라도 휘발성 화학 혼합물로 가득 차 있을 수 있습니다. 구획된 구조 내부에는 부분적으로 소화된 여러 기생충이 정지된 채 유동성을 유지하며 슬러리 속을 헤엄치고 있습니다. 폭발하기 전, 이 유기체는 자체 내부 장기와 구조적 장벽을 용해하여 파열하기 직전까지 내부 압력을 빠르게 상승시킵니다. 진동에 강하게 반응하며 밀폐된 따뜻한 용기에 담긴 상한 고기 요리와 유사한 냄새를 풍깁니다. 불길에 휩싸이면 반응이 불안정해져 폭발이 일부 상쇄되는 것으로 보입니다.
+lore.csrp.carrier_light=§l명칭:§r 고톨(Gothol) §l|§r §o신속한 타격과 단거리 씨앗 살포에 적응한 날렵한 수송체입니다. 몸체는 생명 유지 기능과 화학적으로 결합한 휘발성 슬러리로 채워진 수백 개의 작은 구획으로 구성되어 있습니다. 내부 장기는 고밀도로 중앙 집중화되어 있어 블랙베리의 중심부와 구조적으로 유사한 단단한 핵을 형성합니다. 불안정함에도 불구하고 이 유기체는 독립적으로 균형을 유지할 수 있으며 주변의 진동에 공격적으로 반응합니다. 밀폐된 따뜻한 용기에 담긴 상한 고기 요리와 유사한 냄새를 풍깁니다. 폭발하면 광범위한 잔류물을 남깁니다. 불길에 휩싸이면 반응이 불안정해져 폭발이 일부 상쇄되는 것으로 보입니다.
+lore.csrp.gnat=§l명칭:§r 아타(Ata) §l|§r §o촉수를 회전식 드릴 헤드로 사용하여 호스트의 몸에 구멍을 뚫고 들어가 유기적 및 무기적 개체 모두를 하이잭하여 조종하는 소형 기생충입니다. 개별적으로는 약하지만, 부속지는 매우 날카로워 밀도 높은 물질과 저항력이 강한 먹잇감을 갉아먹을 수 있습니다. 호스트의 몸속에 박히면 등 쪽의 전구형 돌기가 용해되거나 격렬하게 파열되어 내부 손상과 장악을 가속화합니다. 피 냄새에 극도로 끌리기 때문에 이를 이용해 의도적인 미끼로 부릴 수도 있습니다. 이 유기체는 청각이 전혀 없으며 오직 냄새에만 의존해 이동합니다. 개체들은 대개 해충들에게서 분비된 잔여물인 미끄러운 윤활유 같은 점액으로 뒤덮여 있습니다.
+lore.csrp.lice=§l명칭:§r 빈(Viin) §l|§r §o촉수를 회전식 드릴 헤드로 사용하여 호스트의 몸속으로 파고들어 유기적 및 무기적 개체를 하이잭하여 제어하는 매우 불규칙한 기생충입니다. 복부는 심하게 부풀어 올랐고, 연료와 폭약 역할을 동시에 하는 여러 개의 전구형 돌기가 줄지어 있어 저항하는 목표물에 강제 부착 및 침투를 가능하게 합니다. 움직임이 비효율적일 정도로 예측 불가능하여 추적하거나 때려잡기가 어렵습니다. 땀과 피 냄새에 강하게 이끌리며, 가까이 접근하면 희미한 윙윙거리는 소리를 냅니다.
+
+#ASSIMILATED
+lore.csrp.sim_adventurer=§l명칭:§r 심(Sim) §l|§r §o느슨하게 무리를 지어 이동하는 것이 관찰되지만, 충분한 수가 모이면 발걸음을 맞추기 시작합니다. 마치 기억의 파편이 남아있는 것처럼 보관함, 문가, 캠프 같은 구조물을 여전히 확인합니다. 때로는 한 마리가 가만히 서서 익숙한 공간을 몇 초 동안 응시하기도 하는데, 마치 자신이 한때 무엇이었는지 기억해 내려는 듯합니다. 이들은 동화된 개를 좋아하는 것처럼 보입니다. 어떤 것들은 결코 변하지 않는 모양입니다.
+lore.csrp.sim_bear=§l명칭:§r 심(Sim) §l|§r §o몸이 속도보다는 힘을 보존하는 방향으로 보존되었습니다. 이 개체들은 건강한 곰처럼 경고 자세를 취하거나 위협용 돌진을 하지 않습니다. 일단 자극을 받으면 온전히 몸을 던집니다. 나무, 바리케이드, 심지어 손상된 벽도 이 괴물에게는 그저 번거로운 장애물일 뿐입니다. 언젠가 한 마리가 가려움을 해소하려는 듯 자신의 몸에서 살점을 씹어 삼키는 것을 목격한 적이 있습니다.
+lore.csrp.sim_bigspider=§l명칭:§r 도르파(Dorpa) §l|§r §o이 개체는 불쾌한 유기적 유출수가 섞인 과도한 거미줄을 생성합니다. 이들이 지나간 자리는 호스트가 떠난 후에도 오랫동안 오염된 상태로 유지됩니다. 움직임은 이상할 정도로 계획적인데, 추격에는 별 관심이 없고 가능한 한 넓은 지면에 물질을 퍼뜨리는 데 더 집중하는 듯합니다. 이 녀석은 눈에 띄는 성질머리를 가지고 있는데, 언젠가 말 무리가 살덩어리 더미를 짓밟듯 다리로 돼지를 사정없이 찔러 구멍을 내는 것을 본 적이 있습니다. 먹잇감이 시끄러워서 그랬던 것으로 추정할 뿐입니다. 감염시키지도 않았으니까요. 그저 하위 기생충들을 위한 먹이였을까요?
+lore.csrp.sim_cow=§l명칭:§r 심(Sim) §l|§r §o사료의 존재나 축사에서 나던 익숙한 소리에 여전히 반응하긴 하지만, 아주 잠시뿐입니다. 일단 교전이 시작되면 머리를 낮추고 울타리를 부수거나 뼈를 부러뜨릴 정도의 힘으로 돌진합니다. 가축 특유의 온순한 버릇과 갑작스러운 폭력성 사이의 괴리감은 깊은 불쾌감을 줍니다. 해가 뜰 때마다 계속해서 울부짖고 비명을 지르는데, 왜 그러는지는 알 수 없습니다.
+lore.csrp.sim_dragone=§l명칭:§r 심(Sim) §l|§r §o해부학적 훼손이 심각한 탓인지 비행에 어려움을 겪는 듯 보입니다. 그렇다 하더라도 하강 및 근접 접근 시에는 여전히 치명적입니다. 무너져가는 육체를 거리 유지와 비행 능력으로 보완하는 듯합니다. 시체에서 회수된 방어구는 깨끗한 포식의 흔적이라기보다 은박지를 산에 담근 것처럼 찢어지고 녹아내린 형태를 보여줍니다. 자신의 몸에 아직 적응하지 못한 듯, 엔더의 흑요석 기둥에 메이스를 휘두르듯 두개골을 반복해서 부딪치는 모습이 포착됩니다.
+lore.csrp.sim_enderman=§l명칭:§r 심(Sim) §l|§r §o불안정한 순간이동 행동을 보이며 자신의 몸 상태에는 거의 개의치 않습니다. 불이 붙어도 예상과 달리 후퇴하지 않고 오히려 전진하여 그 과정에서 주변의 모든 것에 불을 붙일 수 있습니다. 자신을 보호하려는 기색이 전혀 없으며, 본질적으로 독약과 같을 물속으로도 몸을 던집니다. 이는 통증 반응이 둔화되었거나 무의미해졌음을 시사합니다. 하지만 신기하게도 머리가 잘린 변종은 물의 영향을 받지 않는 듯합니다.
+lore.csrp.sim_horse=§l명칭:§r 심(Sim) §l|§r §o복부가 압축된 부패 물질로 부풀어 올라 있어 작은 충격조차 위험합니다. 물리적 힘, 열, 또는 갑작스러운 파열에 쉽게 놀라 완전히 쓰러지기 전에 폭발할 수 있습니다. 이러한 불안정함에도 불구하고 순식간에 거리를 좁혀올 수 있습니다. 폭발 직전까지 살아있는 말처럼 몸부림치며 우는 모습을 본 적이 있습니다.
+lore.csrp.sim_human=§l명칭:§r 심(Sim) §l|§r §o감염된 다른 가축들에 비해 더 알아볼 수 있는 행동을 유지하고 있습니다. 일부 개체는 문앞에서 주저하거나, 목소리가 나는 쪽을 바라보거나, 갑작스러운 열기에 주춤거린 후 다시 공격을 재개합니다. 이러한 반응들은 의식이 완전히 지워지지 않았음을 암시합니다. 이들의 움직임은 적대감만큼이나 공포에 질린 것처럼 보이기 때문에 오랜 시간 관찰하기가 힘듭니다. 그들이 어떤 감정을 표출하고 있는지는 분간할 수 없습니다.
+lore.csrp.sim_pig=§l명칭:§r 심(Sim) §l|§r §o멀리서 보면, 특히 가만히 있을 때는 여전히 평범한 동물로 오인할 수 있습니다. 면밀히 관찰하면 끊임없이 무언가를 씹는 움직임과 급격한 시선 변화가 드러납니다. 이들은 유기 폐기물, 잔해, 오염된 증식물을 가리지 않고 똑같은 관심을 보이며 파헤칩니다. 뛰어난 지능을 제외하고는 원래의 기질이 거의 남아있지 않습니다. 흙바닥을 정처 없이 구르며 당근을 캐내는 모습을 보았지만, 당근들은 그저 턱 밑으로 툭툭 떨어질 뿐, 완전히 섭취하려는 의지는 보이지 않았습니다.
+lore.csrp.sim_sheep=§l명칭:§r 심(Sim) §l|§r §o이들의 울음소리는 감염된 가축들에게서 기록된 가장 끔찍한 소리 중 하나입니다. 발성 자체는 평범한 매 울음소리와 비슷하지만, 오래 듣고 있으면 자연물에서는 찾아볼 수 없는 쥐어짜는 듯한 축축한 음색이 드러납니다. 근처의 다른 개체들은 이 소리가 나면 종종 더 활발하게 움직입니다. 이것이 소통인지 단순한 자극 때문인지는 아직 밝혀지지 않았습니다. 몇 가지 선택된 색상으로 염색할 수 있다는 점을 알아냈습니다. 왜 그런 짓을 하고 싶어 하는 사람이 있는지는 모르겠지만요.
+lore.csrp.sim_squid=§l명칭:§r 심(Sim) §l|§r §o표류하면서 부패물, 파편, 감염 물질을 흘리며 물속을 거의 수동적인 우아함으로 이동합니다. 이들이 자주 드나드는 구역은 시간이 지남에 따라 눈에 띄게 오염됩니다. 접근해도 별다른 동요를 보이지 않습니다. 주변 조류는 종종 몸체 자체가 이동하는 것보다 더 멀리 살점 조각들을 실어 나릅니다. 어느 쪽 끝이 입인지 분간할 수 없습니다. 아마 두 개일지도 모르죠.
+lore.csrp.sim_villager=§l명칭:§r 심(Sim) §l|§r §o일반 주민들에게서 볼 수 있는 특유의 호기심 어린 리듬으로 여전히 움직임을 향해 고개를 돌립니다. 일부는 문, 작업대, 그리고 이전의 모임 장소 근처를 배회하는 것이 관찰되었습니다. 하지만 거리가 좁혀지는 순간 그 유사성은 끝이 납니다. 남아있던 사회적 본능은 무엇이든 간에 통째로 파내어져 기괴한 흉내를 내는 도구로 재활용되었습니다. 주민과는 전혀 닮지 않았지만 공격적으로 접근하지 않는 개체를 본 적이 있습니다. 다리 여섯 개, 긴 머리카락, 그리고 기괴한 '얼굴'을 하고 있었습니다. 길고 고동치는 무언가가 뒷목을 따라 흐르고 있었죠. 그것이 근처의 다른 개체 손에 기묘한 물건을 쥐여주는 것을 보았는데, 마치 모종의 거래를 수행하는 듯했습니다. 무언가 말하려는 것 같다는 느낌이 들지만, 그 공허한 소음은 이해할 수 없습니다. 적어도 아직은 말이죠.
+lore.csrp.sim_wolf=§l명칭:§r 심(Sim) §l|§r §o움직임에 빠르게 반응하며 거리를 재지 않고 공격하는 경우는 드뭅니다. 명확한 우두머리가 없을 때도 여러 개체가 원을 그리며 둘러싸는 행동을 시작하는데, 이는 옛 본능이 부서진 형태로 남아있음을 시사합니다. 어쩌면 자신의 꼬리를 쫓고 있는 걸까요? 물어뜯는 동작은 빠르고 반복적이며, 주로 발목을 겨냥해 낮게 들어옵니다. 목줄을 여전히 매고 있는 개체들을 본 적이 있는데, 목줄에 적힌 옛 이름을 부르면 기묘한 반응을 보입니다.
+
+#DETACHED HEADS
+lore.csrp.sim_cowhead=§l명칭:§r 데심(Desim) §l|§r §o꿈틀거리는 힘줄에 의해 살아 움직이는 잘린 호스트의 머리입니다. 위산과 소고기 냄새가 납니다. 하이젝트하기 위해 어떤 고기 무더기든 찾아 결합하려 듭니다.
+lore.csrp.sim_dragonehead=§l명칭:§r 데sim(Desim) §l|§r §o새로운 굶주림에 이끌리는 고대의 뼈와 이빨입니다. 어떻게 선가 여전히 썩은 숨결을 뿜어낼 수 있습니다.
+lore.csrp.sim_endermanhead=§l명칭:§r 데심(Desim) §l|§r §o여전히 바라보고... 여전히 찾아내며, 여전히 작동합니다. 여전히 성가십니다. 비슷한 크기의 물건만 운반할 수 있습니다.
+lore.csrp.sim_horsehead=§l명칭:§r 데심(Desim) §l|§r §o다리가 있던 자리에 돋아난 썩은 가죽으로 덮인 촉수로 질주합니다. 하이젝트하기 위해 어떤 고기 무더기든 찾아 결합하려 듭니다.
+lore.csrp.sim_humanhead=§l명칭:§r 데심(Desim) §l|§r §o텅 빈 안와는 시선을 형성할 만큼의 형태를 유지하고 있습니다. 하이젝트하기 위해 어떤 고기 무더기든 찾아 결합하려 듭니다.
+lore.csrp.sim_pighead=§l명칭:§r 데심(Desim) §l|§r §o고기 끈으로 묶인 채 킁킁거리는 덩어리입니다. 여전히 꿀꿀거립니다. 하이젝트하기 위해 어떤 고기 무더기든 찾아 결합하려 듭니다.
+lore.csrp.sim_sheephead=§l명칭:§r 데심(Desim) §l|§r §o살아있는 실타래로 뒤엉킨 양모입니다. 하이젝트하기 위해 어떤 고기 무더기든 찾아 결합하려 듭니다.
+lore.csrp.sim_villagerhead=§l명칭:§r 데심(Desim) §l|§r §o언어가 아닌 목소리로 중얼거립니다. 하이젝트하기 위해 어떤 고기 무더기든 찾아 결합하려 듭니다.
+lore.csrp.sim_wolfhead=§l명칭:§r 데심(Desim) §l|§r §o생각이란 건 사치입니다. 하이젝트하기 위해 어떤 고기 무더기든 찾아 결합하려 듭니다.
+
+#FERAL
+lore.csrp.fer_bear=§l명칭:§r 페럴(Fer) §l|§r §o멈출 수 없는 분노를 터뜨리며 먹잇감을 찢어발깁니다. 동화된 곰만으로도 버거웠는데 말이죠.
+lore.csrp.fer_cow=§l명칭:§r 페럴(Fer) §l|§r §o끝없는 굶주림에 이끌리는, 육직과 근육으로 이루어진 육중한 용기입니다. 모든 것을 부정하는 존재입니다.
+lore.csrp.fer_enderman=§l명칭:§r 페럴(Fer) §l|§r §o야수 같은 정밀함으로 공간을 왜곡하며 소리 없이 스토킹합니다. 더 큰 물건을 나를 수 있으며 물의 방해를 전혀 받지 않습니다. 영원한 분노입니다.
+lore.csrp.fer_horse=§l명칭:§r 페럴(Fer) §l|§r §o거침없는 속도로 질주하며 경로에 쓰러진 자들을 짓밟습니다.
+lore.csrp.fer_human=§l명칭:§r 페럴(Fer) §l|§r §o이성과 피부가 벗겨진 인간의 형태입니다.
+lore.csrp.fer_pig=§l명칭:§r 페럴(Fer) §l|§r §o굶주림에 겨워 비명을 지르는 기괴한 디바우러입니다.
+lore.csrp.fer_sheep=§l명칭:§r 페럴(Fer) §l|§r §o양털을 뒤집어쓴 아가리입니다.
+lore.csrp.fer_villager=§l명칭:§r 페럴(Fer) §l|§r §o타락해 버린 공동체 본능입니다.
+lore.csrp.fer_wolf=§l명칭:§r 페럴(Fer) §l|§r §o최상위 디바우러이자 무자비한 사냥꾼입니다.
+
+# CRUDE
+lore.csrp.crux=§l명칭:§r 크룩사(Cruxa) §l|§r §o여전히 스스로를 엮어내고 있는 야만적이고 이타적인 생물의 골격입니다. 시체를 남길 때마다 분노가 더욱 깊어집니다. 이 유기체가 도망치는 먹잇감을 향해 자신의 동료들을 내던지는 것을 보았는데, 그 충격으로 동료가 죽든 말든 거의 개의치 않았습니다. 극심한 압박을 받으면 몸에서 기묘하게 끓어오르는 주황색 물질을 분비하며, 엄청난 속도로 달릴 때는 마치 온몸이 타오르기 직전인 것처럼 수증기가 피어오릅니다. 그런 몸을 계속 움직이게 만드는 원동력이 얼마나 거대할지 상상조차 할 수 없습니다.
+lore.csrp.crux_incomplete=§l명칭:§r 크룩사(Cruxa) §l|§r §o어설프게 엮인 이빨들의 윤곽입니다. 남아있는 것은 시커멓게 탄 반쯤 형성된 뼈대에 불과하며, 더 완전한 육체가 뚫고 나올 때까지 시간과 살점을 벌어줄 뿐입니다. 이 기형적인 번데기 같은 몸의 치유를 촉진하려는 듯, 몸을 식히기 위해 얕은 개울과 시냇가에 자리를 잡는 경우가 많습니다.
+lore.csrp.heed=§l명칭:§r 히드(Heed) §l|§r §o개미 같은 골격 위에 다섯 개의 머리가 얹혀 있고, 얼굴 가로방향으로 아가리가 찢어진 정찰병입니다. 스스로 무리를 이끄는 일은 거의 없으며, 대신 신호를 전방으로 전달하고 저항이 발견되는 곳에서 사냥을 선동합니다. 더 작고 결핍된 기생충들과 영양 교환(trophallaxis)을 하는 모습을 본 적이 있습니다.
+lore.csrp.host=§l명칭:§r 호스트(Host) §l|§r §o지진은 흔히 파멸을 예언한다고 합니다. 이 생물의 대부분은 땅속에 묻혀 있으며, 기괴한 신음소리와 요동치는 지면만이 다른 부위가 어디로 갔는지 짐작게 할 뿐입니다. 시체들은 이 거대한 몸을 유연하게 유지하고 결합해 주는 기묘한 검은 타르 같은 물질로 환원됩니다. 각 촉수의 끝은 비어 있는 구멍으로 끝나며, 찢어진 살점을 치료하는 것부터 쓰러진 자들을 섭취하는 것까지 다양한 용도로 사용됩니다.
+lore.csrp.hostii=§l명칭:§r 호스티(Hostii) §l|§r §o마치 부드럽고 울퉁불퉁한 오염된 토양의 모든 날카로운 틈새에 몸을 맞출 수 있는 것처럼, 무리가 지면 아래로 이동합니다. 한때 묻혀 있던 수송체였던 것이 더 무거운 군락 형태로 부풀어 올랐으며, 알 수 없는 독과 질병으로 가득 찬 비대해진 폭탄들을 빠른 폭발과 함께 내뿜습니다. 이들이 지나갈 때 나는 소음 밑바닥에는 어떤 낮은 집단 지성이 존재함을 암시하듯 반복적인 중얼거림이 깔려 있으나, 아직 그 어떤 것도 이해할 수 있는 것으로 판명되지 않았습니다.
+lore.csrp.incompleteform_medium=§l명칭:§r 인후(Inhoo) §l|§r §o형태는 반만 갖춰졌으나, 온전히 치명적입니다. 육체도 없이 멋대로 돌아다니는 것이 아니라, 몸의 벽을 긁어대고 있을 법한 종류의 괴물입니다.
+lore.csrp.incompleteform_small=§l명칭:§r 인후(Inhoo) §l|§r §o작은 체구, 빠른 자상. 이빨로 가득 찬 자루를 붙잡은 것처럼 팔은 가볍고 타격은 끔찍합니다. 혐오스러운 냄새를 풍기며 빠르게 처리하는 것이 상책입니다.
+lore.csrp.thrall=§l명칭:§r 메스(Mes) §l|§r §o복종이 육체로 화한 존재입니다. 도축된 것이 강제로 다시 가동된 것처럼 몸이 대롱대롱 매달려 있으며, 어두운 필라멘트 가닥들이 끊어진 고삐처럼 뒤에서 채찍질하듯 휘날립니다. 한때 생명으로 붐비던 장소 근처에서 자주 발견되며, 사라진 일상의 물건들을 주무르고 만지작거립니다. 발은 딱딱하고 발굽 같은 그루터기로 뒤틀렸고, 얼굴은 인간이라고 부르기엔 너무 망가진 녹아내린 표정 형상이지만, 여전히 인간의 형태를 유지하려고 애쓰는 모습을 알아볼 수 있습니다.
+lore.csrp.dredge=§l명칭:§r 돈(Done) §l|§r §o정제된 폭력입니다. 저승의 집행관 같은 두개골 아래에서, 육체는 갈비뼈, 목구멍, 척추를 의도적인 루프 속에서 시험하며 좁혀옵니다. 이는 인간의 육체와 영혼이 어디서부터 먼저 무너지는지 이미 알고 있는 존재의 침착한 정밀함입니다. 꼬리는 몸을 묶고 조르며 산소를 고갈시키고, 피해자가 죽기 훨씬 전부터 격렬한 운동실조를 느끼며 비틀거리게 만듭니다. 희생자들은 '§4모세혈관 확장성 운동실조증(ataxia telangiectasia)§o§0'§b과 유사한 상태에 빠지지만, 잔인할 정도로 즉각적으로 가속됩니다. 고통 속에서도 먹잇감의 의식을 유지시키기 위해 너무나도 세심하게 공을 들이는 모습은 결코 우연이 아닙니다. 공포의 화학 물질을 먹고사는 것인지, 아니면 고통에 의해 흔들려 풀려나온 기억을 먹고사는 것인지는 아직 단정할 수 없습니다.
+lore.csrp.airscrew=§l명칭:§r 리어(Leer) §l|§r §o그 주둥이는 차량 한 대를 가볍게 들어 올릴 수 있을 만큼 강인합니다. 몸체 위의 주머니는 마치 상한 한치처럼 대롱대롱 매달려 있는데, 아마도 자체 조직에서 과도하게 생성되고 생물의 무게를 상쇄할 만큼 충분한 압력으로 유지되는 휘발성 저밀도 가스로 채워져 있을 것입니다. 그 아래의 입에서는 농축된 COTH가 축축하고 숨 막히는 바람과 함께 뿜어져 나옵니다. 웹 형태의 투사체에 걸린 먹잇감은 위로 끌어 올려져, 뼈에서 살점을 발라낼 때와 유사한 리듬으로 탈구된 아가리의 갈고리 모양 밑면에 문질러집니다. 둘 이상의 개체가 같은 사냥감을 두고 장님이 힘을 쓰듯 끌어당기다가 희생자가 그 사이에서 찢어져 버리는 것을 두 번 이상 목격했습니다. 이 포식에서 살아남은 자들이 언제나 온전한 정신을 유지하는 것은 아닙니다. 변이된 변종들은 종종 방치된 채 버려져 추락사하게 됩니다.
+
+#ASSIMARA
+lore.csrp.mar_bear=§l명칭:§r 마르(Mar) §l|§r §o그 육체의 그 어떤 것도 상식적으로 이해되지 않습니다. 군락이 내부에 둥지를 틀고 있습니다.
+lore.csrp.mar_cow=§l명칭:§r 마르(Mar) §l|§r §o그 육체의 그 어떤 것도 상식적으로 이해되지 않습니다. 내부의 방이 쉬지 않고 작동합니다.
+lore.csrp.mar_enderman=§l명칭:§r 마르(Mar) §l|§r §o그 육체의 그 어떤 것도 상식적으로 이해되지 않습니다. 알아볼 수 없을 정도로 뒤틀려 있습니다.
+lore.csrp.mar_human=§l명칭:§r 마르(Mar) §l|§r §o그 육체의 그 어떤 것도 상식적으로 이해되지 않습니다. 신경질적으로 방해를 일삼습니다.
+lore.csrp.mar_sheep=§l명칭:§r 마르(Mar) §l|§r §o그 육체의 그 어떤 것도 상식적으로 이해되지 않습니다. 커다란 워든입니다.
+lore.csrp.mar_villager=§l명칭:§r 마르(Mar) §l|§r §o그 육체의 그 어떤 것도 상식적으로 이해되지 않습니다. 망각의 얼굴입니다.
+
+#HIJACKED
+lore.csrp.hi_blaze=§l명칭:§r 하이잭(Hi) §l|§r §o불가능한 일이 일어나고야 말았습니다.
+lore.csrp.hi_skeleton=§l명칭:§r 하이잭(Hi) §l|§r §o무언가가 딛고 서기 위한 뼈대입니다.
+lore.csrp.hi_golem=§l명칭:§r 하이잭(Hi) §l|§r §o보호자에서 가장 위험한 존재로 타락했습니다.
+
+#PRIMITIVE
+lore.csrp.pri_arachnida=§l명칭:§r 란락(Ranrac) §l|§r §o더 거대한 형태로 진화하기 전의 조잡한 여덟 다리의 공포입니다.
+lore.csrp.pri_bolster=§l명칭:§r 바노 에제트모(Bano e'Zetmo) §l|§r §o비대하지만 원시적이고 탄탄한 골격입니다.
+lore.csrp.pri_devourer=§l명칭:§r 룸(Lum) §l|§r §o오직 굶주림과 물속에 퍼진 피 냄새만을 쫓아 움직입니다.
+lore.csrp.pri_longarms=§l명칭:§r 샤이코(Shyco) §l|§r §o붙잡으려는 팔이 길게 뻗어 나오지만, 후기 형태들에 비하면 어설픕니다.
+lore.csrp.pri_manducater=§l명칭:§r 훌(Hull) §l|§r §o결코 멈추지 않고 갈아대는 턱입니다. 시야 밖에 상주합니다.
+lore.csrp.pri_reeker=§l명칭:§r 노글라(Nogla) §l|§r §o지독한 악취를 풍깁니다. 머리부터 들이밀며 돌진합니다.
+lore.csrp.pri_summoner=§l명칭:§r 칸라(Canra) §l|§r §o불규칙한 폭발과 함께 하위 개체들을 소환합니다. 남은 찌꺼기로 쓰러진 자들을 다시 기워냅니다.
+lore.csrp.pri_tozoon=§l명칭:§r 위모(Wymo) §l|§r §o지진은 전조 증상입니다.
+lore.csrp.pri_yelloweye=§l명칭:§r 에마나(Emana) §l|§r §o힘줄과 뼈로 된 포니테일입니다. 이들의 강산성 담즙은 방어구의 천적입니다.
+lore.csrp.pri_vermin=§l명칭:§r 이키(Iki) §l|§r §o마치 기상 관측 기구 같습니다. 내부 내용물은 그보다 훨씬 끔찍합니다.
+lore.csrp.pri_burrower=§l명칭:§r 자(Zaa) §l|§r §o본능적으로 땅을 파내어 타 개체들을 위한 둥지를 개척합니다.
+lore.csrp.pri_viscera=§l명칭:§r 김(Gim) §l|§r §o조잡한 기동성을 부여받은 가공되지 않은 살점입니다.
+
+#ADAPTED
+lore.csrp.ada_burrower=§l명칭:§r 자(Zaa) §l|§r §o통제된 경로를 개척하는 효율적인 굴착꾼입니다.
+lore.csrp.ada_viscera=§l명칭:§r 김(Gim) §l|§r §o앵무조개(Nautilidae)처럼 생겼습니다. 다른 개체들은 이것을 어머니처럼 대합니다.
+lore.csrp.ada_devourer=§l명칭:§r 룸(Lum) §l|§r §o청소부 역할을 하는 작살입니다. 바다의 파멸입니다.
+lore.csrp.ada_tozoon=§l명칭:§r 위모(Wymo) §l|§r §o벌레 같습니다.
+lore.csrp.ada_arachnida=§l명칭:§r 란락(Ranrac) §l|§r §o정제된 사냥꾼으로, 거미줄과 습격을 정밀하게 구사합니다.
+lore.csrp.ada_bolster=§l명칭:§r 바노 에제트모(Bano e'Zetmo) §l|§r §o보호와 지원을 위해 구조된, 적응을 마친 거구의 괴수입니다.
+lore.csrp.ada_longarms=§l명칭:§r 샤이코(Shyco) §l|§r §o낭비되는 동작 없이 정확하게 팔을 길게 뻗습니다. 항복하든 말든 상관없습니다. 어느 쪽이든 개의치 않으니까요.
+lore.csrp.ada_manducater=§l명칭:§r 훌(Hull) §l|§r §o최대한 조직을 뜯어내기 위해 완벽하게 진화한 턱 구조입니다. 아무도 이들의 접근을 눈치채지 못합니다.
+lore.csrp.ada_reeker=§l명칭:§r 노글라(Nogla) §l|§r §o장거리를 질주하도록 설계되었습니다. 빠르게 움직이지 않으면 그저 서서히 죽음을 맞이할 뿐입니다.
+lore.csrp.ada_summoner=§l명칭:§r 칸라(Canra) §l|§r §o다른 기생충들의 잔해를 조합하여 하위 개체들을 소환합니다.
+lore.csrp.ada_yelloweye=§l명칭:§r 에마나(Emana) §l|§r §o하츠네 미쿠 혹은 카사네 테토를 닮았습니다. 고위험성 산성 물질을 품고 있습니다.
+lore.csrp.ada_vermin=§l명칭:§r 이키(Iki) §l|§r §o몸을 두 배 너비로 벌릴 수 있으며 강철도 가볍게 부술 수 있는 악력을 지녔습니다.
+#DETERRENT
+lore.csrp.dispatcherten=§l명칭:§r 도드T(DodT) §l|§r §o명령을 전달하는 가시 돋친 도관입니다.
+lore.csrp.kyphosis=§l명칭:§r 톤로(Tonro) §l|§r §o뒤틀린 힘줄이 살아있는 방패이자 공성 망치로 사용하는 구부정한 살점 덩어리입니다.
+lore.csrp.seizer=§l명칭:§r 낙(Nak) §l|§r §o목표를 움켜잡고 제압합니다. 먹잇감이 발버둥 칠수록 더욱 분노합니다.
+lore.csrp.sentry=§l명칭:§r 운보(Unvo) §l|§r §o이들이 발사하는 투사체는 뼈와 강철을 가리지 않고 모두 녹여버립니다.
+lore.csrp.worm=§l명칭:§r 로프(Rof) §l|§r §o이런 생물과 접촉하는 것조차 쉽지 않은 일입니다. 대체 어떻게 살아남은 겁니까?
+
+#PURE
+lore.csrp.grunt=§l명칭:§r 플로그(Flog) §l|§r §o낭비도, 자비도 없습니다. 당신들 중 누군가가 멈춰 세울 때까지 그저 전진할 뿐입니다. 더 거대한 기생충들에게는 그저 하나의 '소모품(Grunt)'에 불과합니다.
+lore.csrp.bomber_light=§l명칭:§r 옴부(Omboo) §l|§r §o휘발성 조직으로 가득 찬 텅 빈 골격입니다.
+lore.csrp.marauder=§l명칭:§r 에소르(Esor) §l|§r §o살아있는 방어선 사이에 통로를 뚫어버리는 개체입니다. 이들에게는 가속도 자체가 가장 치명적인 무기입니다.
+lore.csrp.monarch=§l명칭:§r 오크(Orch) §l|§r §o오직 충동만으로 하위 개체들을 지배합니다. 군락은 생각하는 과정도 없이 그의 앞에 무릎을 꿇습니다.
+lore.csrp.overseer=§l명칭:§r 알라파(Alafha) §l|§r §o군락을 감시하고 집행하는 감찰관입니다.
+lore.csrp.vigilante=§l명칭:§r 안게드(Anged) §l|§r §o본대에서 이탈한 자나 뒤처진 사냥감을 추적합니다. 참으로 훌륭한 역할이죠.
+lore.csrp.warden=§l명칭:§r 간로(Ganro) §l|§r §o방벽 역할을 하는 유기체입니다. 마치 악성 종양처럼 자신의 권위와 영역을 굳건히 고수합니다.
+
+#PREEMINENT
+lore.csrp.bogle=§l명칭:§r 렌시아(Lencia) §l|§r §o이게 대체 어떻게 비행하는 것일까요? 원리야 어찌 되었든, 이들이 지나간 자리에는 오직 깊게 파인 폭발의 흔적만이 남을 뿐입니다.
+lore.csrp.carrier_colony=§l명칭:§r 베스타(Vesta) §l|§r §o수많은 다리로 이동하는, 아가리와 구멍들로 이루어진 하나의 살아있는 도시입니다. 근처의 유기체들을 연결하고 조율하여, 그들이 더 빠르고 일제히 적응할 수 있도록 유도하는 것으로 보입니다.
+lore.csrp.haunter=§l명칭:§r 피온(Pheon) §l|§r §o시각적으로 포착되기 전부터 본능적인 공포로 그 존재가 먼저 느껴지는 괴수입니다.
+lore.csrp.bomber_heavy=§l명칭:§r 진조(Jinjo) §l|§r §o이들이 도달하는 순간 종말의 판결이 내려지며, 그 일대의 모든 환경이 재정의됩니다.
+lore.csrp.wraith=§l명칭:§r 엘비아(Elvia) §l|§r §o반은 육신에, 반은 악몽에 걸쳐져 있는 존재입니다. 벽이 가로막지 못하는 공간조차 유유히 통과합니다. 바라보기만 해도 극심한 두통을 유발하는 투사체를 발사합니다.
+lore.csrp.succor=§l명칭:§r 플람(Flam) §l|§r §o조그만 녀석입니다.
+
+#ANCIENT
+lore.csrp.anc_dreadnaut=§l명칭:§r 오론코(Oronco) §l|§r §4존재하지 않는 데이터 (NULL EXISTENCE)
+lore.csrp.anc_overlord=§l명칭:§r 테를라(Terla) §l|§r §4존재하지 않는 데이터 (NULL EXISTENCE)
+
+#NEXUS
+lore.csrp.beckon_si=§l명칭:§r 응집기(Venkrol) §l|§r §o상처 부위로 몰려드는 나방처럼 기생충들을 불러모으는 군락의 씨앗 구조물입니다.
+lore.csrp.beckon_sii=§l명칭:§r 응집기(Venkrol) §l|§r §o부름이 더욱 격렬해집니다. 대지조차 그 부름에 응답하는 법을 배우기 시작합니다.
+lore.csrp.beckon_siii=§l명칭:§r 응집기(Venkrol) §l|§r §o인도하는 신호등이자 산실입니다. 공기 중에서는 피비린내 나는 구리 맛이 나고 진흙처럼 무겁게 가라앉습니다.
+lore.csrp.beckon_siv=§l명칭:§r 응집기(Venkrol) §l|§r §o군락의 종착지입니다. 이제 주변의 모든 영역은 입구이자 출구, 그리고 공허 그 자체입니다.
+lore.csrp.dispatcher_si=§l명칭:§r 도드(Dod) §l|§r §o최초의 중계소입니다. 신호와 명령, 그리고 동료들을 정돈된 구조 속에 배치합니다.
+lore.csrp.dispatcher_sii=§l명칭:§r 도드(Dod) §l|§r §o도관이 확장됩니다. 수많은 사지들과 기생체의 통행이 단 한 순간도 끊이지 않습니다.
+lore.csrp.dispatcher_siii=§l명칭:§r 도드(Dod) §l|§r §o물류 체계가 완벽함에 도달했습니다. 당신이 미처 피를 흘리기도 전에, 군락의 증원군이 전장에 도착할 것입니다.
+lore.csrp.dispatcher_siv=§l명칭:§r 도드(Dod) §l|§r §o중심축이자 거대한 고속도로입니다. 이것을 당장 무너뜨리지 못한다면, 살아 움직이는 거대한 살점의 대륙이 한곳으로 집결하는 광경을 보게 될 것입니다.
+lore.csrp.rooter_si=§l명칭:§r 림(Leem) §l|§r §o다른 기생충들이 받아야 할 고통을 자신이 대신 짊어지고 견뎌내도록 설계된 군락의 씨앗 구조물입니다.
+lore.csrp.rooter_sii=§l명칭:§r 림(Leem) §l|§r §o다른 기생충들이 받아야 할 고통을 자신이 대신 짊어지고 견뎌내도록 설계된 군락의 씨앗 구조물입니다.
+lore.csrp.rooter_siii=§l명칭:§r 림(Leem) §l|§r §o다른 기생충들이 받아야 할 고통을 자신이 대신 짊어지고 견뎌내도록 설계된 군락의 씨앗 구조물입니다.
+lore.csrp.rooter_siv=§l명칭:§r 림(Leem) §l|§r §o다른 기생충들이 받아야 할 고통을 자신이 대신 짊어지고 견뎌내도록 설계된 군락의 씨앗 구조물입니다.
+lore.csrp.rooterball=§l명칭:§r 림(Leem) §l|§r §o다른 기생충들이 받아야 할 고통을 자신이 대신 짊어지고 견뎌내도록 설계된 군락의 씨앗 구조물입니다.
+
+#ABOMINATION
+lore.csrp.abo_bodies=§l명칭:§r 아보(Abo) §l|§r §o알 수 없는 원인으로 인해 의식을 가진 생물들이 한데 뒤엉켜 짓눌린 융합체입니다. 관해파리(Siphonophore)의 군집 구조와 유사한 형태를 띠고 있습니다.
+lore.csrp.abo_head=§l명칭:§r 아보(Abo) §l|§r §o알 수 없는 원인으로 인해 의식을 가진 생물들이 한데 뒤엉켜 짓눌린 융합체입니다. 거대한 머리의 형상을 한 관해파리를 연상케 합니다.
+
+#DETERRENT
+lore.csrp.draconite=§l명칭:§r 헤블루(Heblu) §l|§r §o이 생물은 몸 전체가 끊임없이 재로 뒤덮여 있으며, 내부에서부터 타오르고 있습니다. 가슴과 복부는 유독한 지옥의 용광로처럼 기능하여, 극심한 열기와 부식성 부산물을 몸틀과 주변 공기 중으로 순환시킵니다. 이 과정에서 유기체가 가동될 때마다 자체 살점이 녹아내려, 취약한 부위가 파열되고 골격 구석구석에 선명한 구멍이 뚫립니다. 피부층은 쉴 새 없이 숯처럼 타버리고 갈라져 벗겨지며, 이로 인해 창백하고 잿빛이 도는 흰색 외형을 띠게 됩니다. 여러 징후를 보아 이 생물은 네더랙 깊은 곳에 봉인되어 있던 무언가로부터 형성되었으며, 최근에서야 억지로 다시 존재하게 된 것으로 추정됩니다. 그 증식 속도가 너무나 폭력적이고 빨랐던 탓에, 신체가 안정되기도 전에 스스로를 탈피시켰습니다. 형성 과정에서 머리가 목덜미 기저부로부터 찢겨 나가, 그 자리에는 뭉뚝하고 그루터기 같은 구조만 남았습니다. 핵심 핵(Core)이 내부에서 연소하는 소리는 마치 화물 열차가 나를 태우고 지옥의 가장 깊은 구덩이를 통과하는 듯한 굉음으로 들립니다. 때때로 가슴에 묻힌 핵은 완전히 태우지 못한 잔여물을 전부 배출하며 왜곡되고 빛나는 물질의 압축된 폭발을 일으키는데, 이 물질들은 마치 살아있는 표적을 향해 끌려가듯 공기 중을 휘어지며 날아갑니다.
+lore.csrp.kirin=§l명칭:§r 기린(Kirin) §l|§r §o기린은 지속적인 구조적 붕괴 상태로 존재합니다. 신체가 매 순간 스스로를 찢어발기기 직전의 아슬아슬한 경계에 처해 있으며, 이는 이 생물의 멍들고 피투성이가 된 외형과 불안정한 움직임의 원인이 됩니다. 비어 있는 양팔 구조를 따라 커다란 공동들이 줄지어 배열되어 있는데, 이는 내부에서 생성되는 과도한 열기와 우주 방사선(Cosmic radiation)의 폭발을 외부로 방출하는 통풍구 역할을 합니다. 신체를 따라 나 있는 이 구멍들은 배출구 기능을 하며, 만약 이것들이 없었다면 이 개체는 진작에 폭발해 버렸을 것입니다. 형태에 가해지는 극심한 과부하로 인해 기린은 매일 허물을 벗습니다. 새로운 돌기가 발현될 때마다 신체는 더욱 불안정해지며, 이로 인해 손상된 조직층이 무시무시한 속도로 탈피되고 교체됩니다. 이 생물에게서는 그 어떤 자가 보존 본능도 찾아볼 수 없습니다. 아직 완전히 파멸하지 않았을 뿐입니다. 그렇지 않았다면 난 이미 죽은 목숨이었겠지요.
+
+#CREATE WORLD MENU OPTIONS
+gui.csrp.worldsettings.title=SRP 세계 설정
+gui.csrp.worldsettings.open=SRP 세계 옵션...
+gui.csrp.worldsettings.subtitle=임시 옵션
+gui.csrp.worldsettings.done=완료
+
+# Labels
+gui.csrp.worldsettings.difficulty=난이도 프리셋
+gui.csrp.worldsettings.challenge=도전 과제 설정
+gui.csrp.worldsettings.meteor=운석 감염
+
+# Difficulty options
+gui.csrp.worldsettings.difficulty.normal=§e보통
+gui.csrp.worldsettings.difficulty.easy=§a쉬움
+gui.csrp.worldsettings.difficulty.hard=§4어려움
+gui.csrp.worldsettings.difficulty.impossible=§4§l불가능
+
+# Vectors Option
+gui.csrp.worldsettings.vectors=매개체 (Vectors)
+gui.csrp.worldsettings.vectors.enabled=§a활성화됨
+gui.csrp.worldsettings.vectors.disabled=§4비활성화됨
+
+gui.csrp.worldsettings.tootip.vectors.enabled=출현하는 감염 매개체(Vector) 기능이 활성화됩니다. 기생충의 자연 스폰이 매개체 구역 내로 제한되며, 이 구역은 시간이 지남에 따라 확장될 수 있습니다. 기생충은 활성화된 매개체 구역 외부에서 자연적으로 스폰될 수 없습니다.
+gui.csrp.worldsettings.tootip.vectors.disabled=이 버튼은 아무런 기능도 하지 않습니다 (개발 중). 감염 매개체 기능이 비활성화됩니다. 기생충의 자연 스폰이 매개체 구역에 제한되지 않으며, 전 세계 어디에서나 기생충이 스폰될 수 있습니다.
+
+# Challenge options
+gui.csrp.worldsettings.challenge.c1=설정 §a1
+gui.csrp.worldsettings.challenge.c2=설정 §e2
+gui.csrp.worldsettings.challenge.c3=설정 §43
+gui.csrp.worldsettings.challenge.off=꺼짐
+gui.csrp.worldsettings.tootip.challenge.off=추가적인 도전 과제 보정치가 적용되지 않습니다.
+
+# Meteor options
+gui.csrp.worldsettings.meteor.on=§a켜짐
+gui.csrp.worldsettings.meteor.off=§4꺼짐
+
+# Difficulty tootips
+gui.csrp.worldsettings.tootip.difficulty.easy=쉬움 모드입니다.
+gui.csrp.worldsettings.tootip.difficulty.normal=보통 모드입니다.
+gui.csrp.worldsettings.tootip.difficulty.hard=어려움 모드입니다.
+gui.csrp.worldsettings.tootip.difficulty.impossible=불가능 모드입니다.
+
+# tootips
+gui.csrp.worldsettings.tootip.difficulty=감염 진행의 난이도입니다.
+gui.csrp.worldsettings.tootip.challenge=도전 과제 구성을 선택합니다.
+gui.csrp.worldsettings.tootip.challenge.c1=도전 과제 설정 1번의 구성입니다.
+gui.csrp.worldsettings.tootip.challenge.c2=도전 과제 설정 2번의 구성입니다.
+gui.csrp.worldsettings.tootip.challenge.c3=도전 과제 설정 3번의 구성입니다.
+gui.csrp.worldsettings.tootip.meteor=운석 낙하는 %s일 이후에 발생할 수 있습니다. %s일마다 (%s 틱) 낙하 여부를 확인합니다. 확인당 발생 확률: %s%%. §4매우 위험하며 진행 속도가 빨라지는 옵션입니다.
+
+# config openers
+gui.csrp.worldsettings.config.general=일반 설정 (General)
+gui.csrp.worldsettings.config.world=세계 설정 (World)
+gui.csrp.worldsettings.config.systems=시스템 설정 (Systems)
+gui.csrp.worldsettings.config.mobs=몹 설정 (Mobs)
+
+# config viewer titles
+gui.csrp.config.title.general=SRP 설정: 일반
+gui.csrp.config.title.world=SRP 설정: 세계
+gui.csrp.config.title.systems=SRP 설정: 시스템
+gui.csrp.config.title.mobs=SRP 설정: 몹
+
+# other config stuff
+gui.csrp.config.apply=적용
+gui.csrp.config.edit.title=SRP 구성 값 편집
+gui.csrp.config.edit.key=%s / %s
+gui.csrp.config.edit.todo=할 일: 변경된 사항을 설정 파일에 다시 저장하는 기능을 구현해야 합니다.
+
+# Viewer subtitle + tootips
+gui.csrp.config.subtitle.readonly=읽기 전용 보기 (저장 기능 개발 중)
+gui.csrp.config.search=검색:
+
+# srpevolution errors
+command.srpevolution.prefix=§8[§dSRP§8]§r
+command.srpevolution.error.evolution_disabled=§c진화 단계가 활성화되어 있지 않습니다.§r
+command.srpevolution.error.invalid_argument=§c올바르지 않은 인자입니다.§r
+command.srpevolution.error.invalid_arg=§c올바르지 않은 인자입니다.§r
+command.srpevolution.error.invalid_command=§c올바르지 않은 명령어입니다.§r
+command.srpevolution.error.generic=§c오류가 발생했습니다.§r
+
+# srpevolution evolutionloss
+command.srpevolution.evolutionloss.set.true=§7현재 §esrpevolutionloss§7 상태가 §atrue(참)§7으로 설정되었습니다.§r
+command.srpevolution.evolutionloss.set.false=§7현재 §esrpevolutionloss§7 상태가 §cfalse(거짓)§7으로 설정되었습니다.§r
+
+# srpevolution evolutiongain
+command.srpevolution.evolutiongaining.set.true=§7현재 §esrpevolutiongaining§7 상태가 §atrue(참)§7으로 설정되었습니다.§r
+command.srpevolution.evolutiongaining.set.false=§7현재 §esrpevolutiongaining§7 상태가 §cfalse(거짓)§7으로 설정되었습니다.§r
+
+# srpevolution evolution lock list
+command.srpevolution.evolutionlock.reset=§a목록이 초기화되었습니다.§r
+command.srpevolution.evolutionlock.unlockall=§a목록이 이제 비어 있습니다.§r
+command.srpevolution.evolutionlock.getlist=§7현재 목록: §f%s§r
+
+# srpevolution addpoints
+command.srpevolution.addpoints.error.phase_minus2=§c현재 진화 단계가 §4-2 단계§c이므로 포인트를 추가할 수 없습니다.§r
+command.srpevolution.addpoints.error.cooldown=§c현재 진화 단계가 재사용 대기시간 상태입니다. 포인트를 추가하거나 차감할 수 없습니다.§r
+command.srpevolution.addpoints.error.cannot_gain=§c현재 차원에서는 포인트를 획득할 수 없습니다.§r
+command.srpevolution.addpoints.error.cannot_lose=§c현재 차원에서는 포인트를 차감할 수 없습니다.§r
+
+command.srpevolution.addpoints.success.one=§e%d§a 포인트가 추가되었습니다.§r
+command.srpevolution.addpoints.success.many=§e%d§a 포인트가 추가되었습니다.§r
+
+# srpevolution setcooldown/addcooldown
+command.srpevolution.cooldown.error.negative=§c대기시간 값은 양수이거나 §e0§c이어야 합니다.§r
+command.srpevolution.cooldown.set=§a재사용 대기시간이 §e%d§a초로 설정되었습니다.§r
+
+# srpevolution setphase
+command.srpevolution.setphase.error.phase_too_high=§c올바르지 않은 인자: 진화 단계가 너무 높습니다.§r
+command.srpevolution.setphase.error.phase_too_low=§c올바르지 않은 인자: 진화 단계가 너무 낮습니다.§r
+
+command.srpevolution.setphase.changed_phase=§a기생충의 진화 단계를 §e%s§a(으)로 변경했습니다.§r
+
+command.srpevolution.setphase.error.generation_too_high=§c올바르지 않은 인자: 세대(Generation)가 너무 높습니다.§r
+command.srpevolution.setphase.error.generation_too_low=§c올바르지 않은 인자: 세대(Generation)가 너무 낮습니다.§r
+command.srpevolution.setphase.changed_generation=§a기생충의 세대를 §e%s§a(으)로 변경했습니다.§r
+command.srpevolution.setphase.error.invalid_arg_evo=§c올바르지 않은 진화 인자입니다.§r
+
+# srpevolution getphase
+command.srpevolution.getphase.header=§8§m-----§r §dSRP 진화 정보§r §8§m-----§r
+
+command.srpevolution.getphase.dimension=§7 -> 차원 ID: §e%d§r
+command.srpevolution.getphase.phase=§7 -> 진화 단계 (Evolution Phase): §b%d§r
+command.srpevolution.getphase.total_points=§7 -> 총 포인트: §a%d§r
+command.srpevolution.getphase.points_next=§7 -> 다음 단계에 필요한 포인트: §a%d§r
+command.srpevolution.getphase.progress=§7 -> 진행도: §e%s%%§r
+command.srpevolution.getphase.cooldown=§7 -> 단계 재사용 대기시간: §e%d§7초 남음§r
+
+command.srpevolution.getphase.gaining=§7 -> srpevolutiongaining: §f%s §8(§7True = 포인트 획득 가능§8)§r
+command.srpevolution.getphase.loss=§7 -> srpevolutionloss: §f%s §8(§7True = 포인트 차감 가능§8)§r
+
+command.srpevolution.getphase.dislodgement=§7 -> 정리(Dislodgment) 코드:§r
+command.srpevolution.getphase.dislodgement.value=§f%s§r
+
+command.srpevolution.getphase.mobcap=§7 -> 기생충 최대 스폰 제한 (Mob Cap): §e%d§r
+command.srpevolution.getphase.generation=§7 -> 세대 (Generation): §b%d§r
+command.srpevolution.getphase.gen_ticks=§7 -> 다음 세대까지 필요한 틱: §e%d§r
+command.srpevolution.getphase.udl=§7 -> 광범위한 발달 수준 (UDL): §d%d§r
+command.srpevolution.getphase.parasite_count=§7 -> 현재 기생충 수: §c%d§r
+command.srpevolution.getphase.coth_count=§7 -> COTH 감염된 몹 수: §5%d§r
+command.srpevolution.getphase.eivs=§7 -> 세계 내 EIV(매개체) 수: §6%d§r
+
+command.srpevolution.getphase.footer=§8§m----------------------§r
+command.srpevolution.getphase.all=§8§m-----§r §dSRP 진화 정보§r §8§m-----§r\n§7 -> 차원 ID: §e%d§r\n§7 -> 진화 단계 (Evolution Phase): §b%d§r\n§7 -> 총 포인트: §a%d§r\n§7 -> 다음 단계에 필요한 포인트: §a%d§r\n§7 -> 진행도: §e%s%%§r\n§7 -> 단계 재사용 대기시간: §e%d§7초 남음§r\n§7 -> srpevolutiongaining: §f%s §8(§7True = 포인트 획득 가능§8)§r\n§7 -> srpevolutionloss: §f%s §8(§7True = 포인트 차감 가능§8)§r\n§7 -> 정리(Dislodgment) 코드:§r\n§f%s§r\n§7 -> 기생충 최대 스폰 제한 (Mob Cap): §e%d§r\n§7 -> 세대 (Generation): §b%d§r\n§7 -> 다음 세대까지 필요한 틱: §e%d§r\n§7 -> 광범위한 발달 수준 (UDL): §d%d§r\n§7 -> 현재 기생충 수: §c%d§r\n§7 -> COTH 감염된 몹 수: §5%d§r\n§7 -> 세계 내 EIV(매개체) 수: §6%d§r\n§8§m----------------------§r

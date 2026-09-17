@@ -1,0 +1,6 @@
+{
+  "parent": "block/wall_inventory",
+  "textures": {
+    "wall": "csrp:blocks/parasitecanister_bag_up"
+  }
+}

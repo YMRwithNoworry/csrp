@@ -1,0 +1,8 @@
+{
+  "parent": "block/inner_stairs",
+  "textures": {
+    "bottom": "csrp:blocks/bricks",
+    "top": "csrp:blocks/bricks",
+    "side": "csrp:blocks/bricks"
+  }
+}

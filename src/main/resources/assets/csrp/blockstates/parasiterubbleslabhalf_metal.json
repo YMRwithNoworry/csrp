@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "csrp:block/slabmetal_bottom"
+    },
+    "type=double": {
+      "model": "csrp:block/slabmetal_double"
+    },
+    "type=top": {
+      "model": "csrp:block/slabmetal_top"
+    }
+  }
+}

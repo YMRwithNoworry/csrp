@@ -1,0 +1,674 @@
+//Entities
+
+entity.csrp.pri_longarms.name=İlkel Longarms
+entity.csrp.pri_manducater.name=İlkel Manducater
+entity.csrp.pri_summoner.name=İlkel Summoner
+entity.csrp.pri_reeker.name=İlkel Reeker
+entity.csrp.pri_yelloweye.name=İlkel Yelloweye
+entity.csrp.pri_bolster.name=İlkel Bolster
+entity.csrp.pri_arachnida.name=İlkel Arachnida
+entity.csrp.pri_devourer.name=İlkel Devourer
+entity.csrp.pri_vermin.name=İlkel Vermin
+entity.csrp.pri_tozoon.name=İlkel Tozoon
+
+entity.csrp.host.name=Konak
+entity.csrp.hostii.name=Sürü
+entity.csrp.crux.name=Temel
+entity.csrp.heed.name=Ehemmiyet
+entity.csrp.thrall.name=Esaret
+
+entity.csrp.sim_bear.name=Asimile Ayı
+entity.csrp.sim_squid.name=Asimile Mürekkep Balığı
+entity.csrp.sim_enderman.name=Asimile Enderman
+entity.csrp.sim_endermanhead.name=Yürüyen Kafa
+entity.csrp.sim_adventurer.name=Asimile Maceracı
+entity.csrp.sim_adventurerhead.name=Yürüyen Kafa
+entity.csrp.sim_bigspider.name=Asimile Dev Örümcek
+entity.csrp.sim_human.name=Asimile İnsan
+entity.csrp.sim_humanhead.name=Yürüyen Kafa
+entity.csrp.sim_villager.name=Asimile Köylü
+entity.csrp.sim_villagerhead.name=Yürüyen Kafa
+entity.csrp.sim_cow.name=Asimile İnek
+entity.csrp.sim_cowhead.name=Yürüyen Kafa
+entity.csrp.sim_horse.name=Asimile At
+entity.csrp.sim_horsehead.name=Yürüyen Kafa
+entity.csrp.sim_pig.name=Asimile Domuz
+entity.csrp.sim_pighead.name=Yürüyen Kafa
+entity.csrp.sim_sheep.name=Asimile Koyun
+entity.csrp.sim_sheephead.name=Yürüyen Kafa
+entity.csrp.sim_wolf.name=Asimile Kurt
+entity.csrp.sim_wolfhead.name=Yürüyen Kafa
+entity.csrp.incompleteform_medium.name=Eksik Form
+entity.csrp.incompleteform_small.name=Eksik Form
+entity.csrp.sim_dragone.name=Asimile Ender Ejderhası
+entity.csrp.sim_dragonehead.name=Yürüyen Kafa
+
+entity.csrp.fer_cow.name=Vahşi İnek
+entity.csrp.fer_bear.name=Vahşi Ayı
+entity.csrp.fer_enderman.name=Vahşi Enderman
+entity.csrp.fer_human.name=Vahşi İnsan
+entity.csrp.fer_horse.name=Vahşi At
+entity.csrp.fer_sheep.name=Vahşi Koyun
+entity.csrp.fer_pig.name=Vahşi Domuz
+entity.csrp.fer_villager.name=Vahşi Köylü
+entity.csrp.fer_wolf.name=Vahşi Kurt
+
+entity.csrp.hi_blaze.name=Ele Geçirilmiş Alaz
+entity.csrp.hi_golem.name=Ele Geçirilmiş Demir Golem
+entity.csrp.hi_skeleton.name=Ele Geçirilmiş İskelet
+
+entity.csrp.overseer.name=Müfettiş
+entity.csrp.bomber_light.name=Hafif Bombacı
+entity.csrp.carrier_heavy.name=Ağır Taşıyıcı
+entity.csrp.carrier_light.name=Hafif Taşıyıcı
+entity.csrp.buglin.name=Buglin
+entity.csrp.mangler.name=Mengene
+entity.csrp.gnat.name=Gnat
+entity.csrp.worker.name=İşçi
+entity.csrp.carrier_flying.name=Uçan Taşıyıcı
+entity.csrp.rupter.name=Yırtıcı
+entity.csrp.beckon_si.name=Beckon Aşama I
+entity.csrp.beckon_sii.name=Beckon Aşama II
+entity.csrp.beckon_siii.name=Beckon Aşama III
+entity.csrp.beckon_siv.name=Beckon Aşama IV
+entity.csrp.beckon_sv.name=Beckon Aşama V
+entity.csrp.warden.name=Bekçi
+entity.csrp.marauder.name=Yağmacı
+entity.csrp.monarch.name=Monarşi 
+entity.csrp.grunt.name=Hırıltı
+entity.csrp.sentry.name=Sentry
+entity.csrp.kyphosis.name=Kambur
+entity.csrp.dispatcherten.name=Dispatcher Kolu
+entity.csrp.dispatcher_si.name=Dispatcher Aşama I
+entity.csrp.dispatcher_sii.name=Dispatcher Aşama II
+entity.csrp.dispatcher_siii.name=Dispatcher Aşama III
+entity.csrp.dispatcher_siv.name=Dispatcher Aşama IV
+entity.csrp.seizer.name=Seizer
+
+entity.csrp.bomber_heavy.name=Ağır Bombacı
+entity.csrp.carrier_colony.name=Koloni Taşıyıcısı
+entity.csrp.wraith.name=Wraith
+entity.csrp.bogle.name=Bogle
+entity.csrp.haunter.name=Müdavim
+entity.csrp.succor.name=Yardım
+entity.csrp.seeker.name=Saklayıcı
+entity.csrp.architect.name=Yaratıcı
+
+entity.csrp.draconite.name=§9Ejderha
+
+entity.csrp.anc_dreadnaut.name=Antik Dreadnaut
+entity.csrp.anc_overlord.name=Antik Overlord
+entity.csrp.vigilante.name=İnfazcı
+entity.csrp.movingflesh.name=Yaşayan Et
+entity.csrp.tendril.name=Kol
+entity.csrp.anc_pod.name=Bomba
+entity.csrp.biomass.name=Biyokütle
+entity.csrp.gore.name=Vahşet
+
+entity.csrp.ada_longarms.name=Adapte Longarms
+entity.csrp.ada_summoner.name=Adapte Summoner
+entity.csrp.ada_manducater.name=Adapte Manducater
+entity.csrp.ada_reeker.name=Adapte Reeker
+entity.csrp.ada_yelloweye.name=Adapte Yelloweye
+entity.csrp.ada_bolster.name=Adapte Bolster
+entity.csrp.ada_arachnida.name=Adapte Arachnida
+
+entity.csrp.wave.name=Dalga
+entity.csrp.waveshock.name=Dalga Şoku
+
+entity.csrp.remain.name=Kalıntı
+//Creative Tab
+
+itemGroup.Scape & Run: Parasites=Scape and Run : Parazitler
+
+//Items
+item.csrp.itemmobspawner_pod.name=Pod Oluşturucusu
+
+item.csrp.itemmobspawner_host.name=Konak Oluşturucusu
+item.csrp.itemmobspawner_hostii.name=Sürü Oluşturucusu
+item.csrp.itemmobspawner_heed.name=Ehemmiyet Oluşturucusu
+item.csrp.itemmobspawner_cruxa.name=Temel Oluşturucusu
+item.csrp.itemmobspawner_mes.name=Esaret Oluşturucusu
+
+item.csrp.itemmobspawner_infbear.name=Asimile Ayı Oluşturucusu
+item.csrp.itemmobspawner_infsquid.name=Asimile Mürekkep Balığı Oluşturucusu
+item.csrp.itemmobspawner_infenderman.name=Asimile Enderman Oluşturucusu 
+item.csrp.itemmobspawner_infendermanhead.name=Yürüyen Enderman Kafası Oluşturucusu
+item.csrp.itemmobspawner_infplayer.name=Asimile Maceracı Oluşturucusu
+item.csrp.itemmobspawner_infplayerhead.name=Yürüyen Asimile Maceracı Kafası Oluşturucusu
+item.csrp.itemmobspawner_dorpa.name=Asimile Dev Örümcek Oluşturucusu
+item.csrp.itemmobspawner_infhuman.name=Asimile İnsan Oluşturucusu
+item.csrp.itemmobspawner_infhumanhead.name=Yürüyen Asimile İnsan Kafası Oluşturucusu
+item.csrp.itemmobspawner_infvillager.name=Asimile Köylü Oluşturucusu
+item.csrp.itemmobspawner_infvillagerhead.name=Yürüyen Asimile Köylü Kafası Oluşturucusu
+item.csrp.itemmobspawner_infcow.name=Asimile İnek Oluşturucusu
+item.csrp.itemmobspawner_infcowhead.name=Yürüyen Asimile İnek Kafası Oluşturucusu
+item.csrp.itemmobspawner_infpig.name=Asimile Domuz Oluşturucusu
+item.csrp.itemmobspawner_infpighead.name=Yürüyen Asimile Domuz Kafası Oluşturucusu
+item.csrp.itemmobspawner_infsheep.name=Asimile Koyun Oluşturucusu
+item.csrp.itemmobspawner_infsheephead.name=Yürüyen Asimile Koyun Kafası Oluşturucusu
+item.csrp.itemmobspawner_infwolf.name=Asimile Kurt Oluşturucusu
+item.csrp.itemmobspawner_infwolfhead.name=Yürüyen Asimile Kurt Kafası Oluşturucusu
+item.csrp.itemmobspawner_infhorse.name=Asimile At Oluşturucusu
+item.csrp.itemmobspawner_infhorsehead.name=Yürüyen Asimile At Kafası Oluşturucusu
+item.csrp.itemmobspawner_inhoos.name=Eksik Form Oluşturucusu
+item.csrp.itemmobspawner_inhoom.name=Eksik Form Oluşturucusu
+item.csrp.itemmobspawner_infdragone.name=Asimile Ender Ejderhası Oluşturucusu
+item.csrp.itemmobspawner_infdragonehead.name=Yürüyen Asimile Ender Ejderhası Kafası Oluşturucusu
+
+item.csrp.itemmobspawner_fercow.name=Vahşi İnek Oluşturucusu
+item.csrp.itemmobspawner_ferbear.name=Vahşi Ayı Oluşturucusu
+item.csrp.itemmobspawner_ferenderman.name=Vahşi Enderman Oluşturucusu
+item.csrp.itemmobspawner_ferhuman.name=Vahşi İnsan Oluşturucusu
+item.csrp.itemmobspawner_ferhorse.name=Vahşi At Oluşturucusu
+item.csrp.itemmobspawner_ferpig.name=Vahşi Domuz Oluşturucusu
+item.csrp.itemmobspawner_fersheep.name=Vahşi Koyun Oluşturucusu
+item.csrp.itemmobspawner_fervillager.name=Vahşi Köylü Oluşturucusu
+item.csrp.itemmobspawner_ferwolf.name=Vahşi Kurt Oluşturucusu
+
+item.csrp.itemmobspawner_hiblaze.name=Ele Geçirilmiş Alaz Oluşturucusu
+item.csrp.itemmobspawner_higolem.name=Ele Geçirilmiş Demir Golem Oluşturucusu
+item.csrp.itemmobspawner_hiskeleton.name=Ele Geçirilmiş İskelet Oluşturucusu
+
+item.csrp.itemmobspawner_alafha.name=Müfettiş Oluşturucusu
+item.csrp.itemmobspawner_omboo.name=Hafif Bombacı Oluşturucusu
+item.csrp.itemmobspawner_rathol.name=Ağır Taşıyıcı Oluşturucusu
+item.csrp.itemmobspawner_gothol.name=Hafif Taşıyıcı Oluşturucusu
+item.csrp.itemmobspawner_buthol.name=Uçan Taşıyıcı Oluşturucusu
+item.csrp.itemmobspawner_lodo.name=Buglin Oluşturucusu
+item.csrp.itemmobspawner_nuuh.name=Mengene Oluşturucusu
+item.csrp.itemmobspawner_ata.name=Gnat Oluşturucusu
+item.csrp.itemmobspawner_worker.name=İşçi Oluşturucusu
+item.csrp.itemmobspawner_mudo.name=Yırtıcı Oluşturucusu
+item.csrp.itemmobspawner_venkrol.name=Beckon Aşama I Oluşturucusu
+item.csrp.itemmobspawner_venkrolsii.name=Beckon Aşama II Oluşturucusu
+item.csrp.itemmobspawner_venkrolsiii.name=Beckon Aşama III Oluşturucusu
+item.csrp.itemmobspawner_venkrolsiv.name=Beckon Aşama IV Oluşturucusu
+item.csrp.itemmobspawner_venkrolsv.name=Beckon Aşama V Oluşturucusu
+item.csrp.itemmobspawner_ganro.name=Bekçi Oluşturucusu
+item.csrp.itemmobspawner_esor.name=Yağmacı Oluşturucusu
+item.csrp.itemmobspawner_orch.name=Monarşi Oluşturucsu
+item.csrp.itemmobspawner_flog.name=Hırıltı Oluşturucusu
+item.csrp.itemmobspawner_unvo.name=Sentry Oluşturucusu 
+item.csrp.itemmobspawner_tonro.name=Kambur Oluşturucusu
+item.csrp.itemmobspawner_dod.name=Dispatcher Aşama I Oluşturucusu
+item.csrp.itemmobspawner_dodsii.name=Dispatcher Aşama II Oluşturucusu
+item.csrp.itemmobspawner_dodsiii.name=Dispatcher Aşama III Oluşturucusu
+item.csrp.itemmobspawner_dodsiv.name=Dispatcher Aşama IV Oluşturucusu
+item.csrp.itemmobspawner_nak.name=Seizer Oluşturcusu
+
+item.csrp.itemmobspawner_jinjo.name=Ağır Bombacı Oluşturucusu
+item.csrp.itemmobspawner_vesta.name=Koloni Taşıyıcısı Oluşturucusu
+item.csrp.itemmobspawner_elvia.name=Wraith Oluşturucusu
+item.csrp.itemmobspawner_lencia.name=Bogle Oluşturucusu
+item.csrp.itemmobspawner_pheon.name=Müdavim Oluşturucusu
+item.csrp.itemmobspawner_flam.name=Yardım Oluşturucusu
+item.csrp.itemmobspawner_soo.name=Saklayıcı Oluşturucusu
+item.csrp.itemmobspawner_tenn.name=Yaratıcı Oluşturucusu
+
+item.csrp.itemmobspawner_heblu.name=Ejderha Oluşturucusu
+
+item.csrp.itemmobspawner_oronco.name=Antik Dreadnaut Oluşturucusu
+item.csrp.itemmobspawner_terla.name= Antik Overlord Oluşturucusu
+item.csrp.itemmobspawner_anged.name=İnfazcı Oluşturucusu
+item.csrp.itemmobspawner_lesh.name=Yaşayan Et Oluşturucusu
+
+item.csrp.itemmobspawner_shyco.name=İlkel Longarms Oluşturucusu
+item.csrp.itemmobspawner_hull.name=İlkel  Manducater Oluşturucusu
+item.csrp.itemmobspawner_canra.name=İlkel  Summoner Oluşturucusu
+item.csrp.itemmobspawner_emana.name=İlkel  Yelloweye Oluşturucusu
+item.csrp.itemmobspawner_nogla.name=İlkel  Reeker Oluşturucusu
+item.csrp.itemmobspawner_bano.name=İlkel  Bolster Oluşturucusu 
+item.csrp.itemmobspawner_ranrac.name=İlkel  Arachnida Oluşturucusu
+item.csrp.itemmobspawner_lum.name=İlkel  Devourer Oluşturucusu
+item.csrp.itemmobspawner_iki.name=İlkel  Vermin Oluşturucusu
+item.csrp.itemmobspawner_wymo.name=İlkel Tozoon  Oluşturucusu
+
+item.csrp.itemmobspawner_shycoadapted.name=Adapte Longarms Oluşturucusu
+item.csrp.itemmobspawner_canraadapted.name=Adapte Summoner Oluşturucusu
+item.csrp.itemmobspawner_noglaadapted.name=Adapte Reeker Oluşturucusu
+item.csrp.itemmobspawner_hulladapted.name=Adapte Manducater Oluşturucusu
+item.csrp.itemmobspawner_emanaadapted.name=Adapte Yelloweye Oluşturucusu
+item.csrp.itemmobspawner_banoadapted.name=Adapte Bolster Oluşturucusu
+item.csrp.itemmobspawner_ranracadapted.name=Adapte Arachnida Oluşturucusu
+
+item.csrp.itemthrow.name=§6Quench
+item.csrp.itemtab.name=§dNULL
+item.csrp.itemevolve.name=Evrim Değneği
+item.csrp.itemassimilate.name=Asimilasyon Değneği
+item.csrp.itemdevolve.name=Geri Evrim Değneği
+item.csrp.itemvariant.name=Varyant Değneği
+item.csrp.evclock.name=§cKanlı Saat
+item.csrp.weapon_scythe.name=§Yaşayan Tırpan
+item.csrp.weapon_scythe_sentient.name=§6Yaşayan Dev Tırpan
+item.csrp.weapon_bow.name=§eYaşayan Yay
+item.csrp.weapon_bow_sentient.name=§6Yaşayan Dev Yay
+item.csrp.weapon_axe.name=§eYaşayan Balta
+item.csrp.weapon_axe_sentient.name=§6Yaşayan Dev Balta
+item.csrp.weapon_sword.name=§eYaşayan Kılıç
+item.csrp.weapon_sword_sentient.name=§6Yaşayan Dev Kılıç
+item.csrp.weapon_cleaver.name=§eYaşayan Satır
+item.csrp.weapon_cleaver_sentient.name=§6Yaşayan Dev Satır
+
+item.csrp.armor_helm.name=§eYaşayan Dümen
+item.csrp.armor_chest.name=§eYaşayan Göğüslük
+item.csrp.armor_pants.name=§eYaşayan Pantalon
+item.csrp.armor_boots.name=§eYaşayan Botlar
+item.csrp.armor_helm_sentient.name=§6Duyarlı Dümen
+item.csrp.armor_chest_sentient.name=§6Duyarlı Göğüslük
+item.csrp.armor_pants_sentient.name=§6Duyarlı Pantalon
+item.csrp.armor_boots_sentient.name=§6Duyarlı Botlar
+
+//////
+item.csrp.bow_upperlimb.name=§6Yaşayan Dev Yay Üst Uzvu
+item.csrp.bow_lowerlimb.name=§6Yaşayan Dev Yay Alt Uzvu
+item.csrp.bow_string.name=§6Yaşayan Dev Yay İpi
+item.csrp.bow_grip.name=§6Yaşayan Dev Yay Sapı
+item.csrp.bow_core.name=§6Yaşayan Dev Yay Merkezi
+
+item.csrp.scythe_back.name=§6Yaşayan Tırpan Arkası
+item.csrp.scythe_blade.name=§6Yaşayan Tırpan Ağzı
+item.csrp.scythe_core.name=§6Yaşayan Tırpan Merkezi
+item.csrp.scythe_handle.name=§6Yaşayan Tırpan Kolu
+item.csrp.scythe_head.name=§6Yaşayan Tırpan Üstü
+///////
+
+item.csrp.dried_tendons.name=§eKuru Tendon
+item.csrp.hardened_bone_handle.name=§eSert Kemik
+item.csrp.infectious_blade_fragment.name=§eEnfeksiyonlu Bıçak Ağzı
+item.csrp.living_core.name=§eYaşayan Merkez
+item.csrp.vile_shell.name=§eKabuk
+item.csrp.bone.name=§eİlginç Kemik
+
+
+item.csrp.ada_longarms_drop.name=§bLongarm Zırhı Parçaları
+item.csrp.ada_summoner_drop.name=§bSummoner Merkezi
+item.csrp.ada_yelloweye_drop.name=§bYelloweye Kemiği
+item.csrp.ada_reeker_drop.name=§bReeker Dişi
+item.csrp.ada_manducater_drop.name=§bManducater Küresi
+item.csrp.ada_bolster_drop.name=§bBolster Kabuğu
+item.csrp.ada_arachnida_drop.name=§bArachnida Pençesi
+item.csrp.ada_devourer_drop.name=§bDevourer Dokunacı
+
+item.csrp.assimilated_flesh.name=Asimile Eti
+item.csrp.beckon_drop.name=§aBeckon Zarı
+item.csrp.dispatcher_drop.name=§cDispatcher Zarı
+
+item.csrp.lurecomponent1.name=§bYırtıcı İç Organı
+item.csrp.lurecomponent2.name=§bHastalıklı Kalp
+item.csrp.lurecomponent3.name=§bDeğişmiş Tendonlar
+item.csrp.lurecomponent4.name=§bToksik Akciğer
+item.csrp.lurecomponent5.name=§bZararlı Beğin
+item.csrp.lurecomponent6.name=§bTemel Parça
+item.csrp.nodecompass.name=§4Node Pusulası
+
+//Blocks
+
+tile.csrp.parasitesapling_tree.name=Veinwood Fidanı
+tile.csrp.parasitesapling_treethin.name=Eyesore Fidanı
+tile.csrp.parasitesapling_flowertall.name=Darkwood Fidanı
+
+tile.csrp.parasitebush_tendril.name=Kılcal Damar
+tile.csrp.parasitebush_pop.name=Parasitik Kese
+tile.csrp.parasitebush_bine.name=Sinir Halkası
+tile.csrp.parasitebush_eye.name=Sıcak Körüğü
+tile.csrp.parasitebush_tooh.name=Küçük Kesici
+
+tile.csrp.infestedore_co.name=Zararlı Kömür Madeni
+tile.csrp.infestedore_dia.name=Zararlı Elmas Madeni
+tile.csrp.infestedore_eme.name=Zararlı Zümrüt Madeni
+tile.csrp.infestedore_gol.name=Zararlı Altın Madeni
+tile.csrp.infestedore_iro.name=Zararlı Demir Madeni
+tile.csrp.infestedore_lap.name=Zararlı Lapis Madeni
+tile.csrp.infestedore_red.name=Zararlı Redstone Madeni
+tile.csrp.infestedore_un.name= Zararlı Maden
+
+tile.csrp.srpweb_one.name=§8Kısa Ağ
+tile.csrp.srpweb_two.name=§aTehlikeli Ağ
+tile.csrp.srpweb_three.name=§8Kara Ağ
+tile.csrp.tunnel.name=Buglin Tüneli
+tile.csrp.dispatchern.name=§cDispatcher Yuvası
+tile.csrp.biomeheart.name=Hive Merkezi
+tile.csrp.colonyheart.name=Parazitik Koloni Kalbi
+tile.csrp.colonyoutpost.name=Parazitik Koloni Kabuğu
+tile.csrp.biomepurifier.name=§bBiyom Temizleyici
+tile.csrp.parasitestructure.name=Tamamlanmamış Koloni Yapısı
+tile.csrp.parasitethin.name=Parazitik Odun
+tile.csrp.parasitemouth.name=Ağız
+tile.csrp.parasitetendril.name=Parazitik Filiz
+tile.csrp.parasitefog.name=Sisli
+
+tile.csrp.gore_sim_small.name=Asimile Kalıntısı
+tile.csrp.gore_sim_big.name=Asimile Kalıntısı
+tile.csrp.gore_sim_flat.name=Asimile Kalıntısı
+tile.csrp.gore_pri_small.name=İlkel Kalıntısı
+tile.csrp.gore_pri_big.name=İlkel Kalıntısı
+tile.csrp.gore_pri_flat.name=İlkel Kalıntısı
+tile.csrp.gore_ada_small.name=Adapte Kalıntısı
+tile.csrp.gore_ada_big.name=Adapte Kalıntısı
+tile.csrp.gore_ada_flat.name=Adapte Kalıntısı
+tile.csrp.gore_pure_small.name=Saf Kalıntısı
+tile.csrp.gore_pure_big.name=Saf Kalıntısı
+tile.csrp.gore_pure_flat.name=Saf Kalıntısı
+
+tile.csrp.infestedstain.name=Ele Geçirilmiş Toprak
+tile.csrp.infestedtrunk.name=Ele Geçirilmiş Odun
+tile.csrp.infestedrubble.name=Ele Geçirilmiş Taş
+tile.csrp.infestremain.name=Ele Geçirilmiş Kalıntı
+
+tile.csrp.infestedbush_infected.name=Ele Geçirilmiş Dikenler
+tile.csrp.infestedbush_grass1.name=Ele Geçirilmiş Dallar
+tile.csrp.infestedbush_flower1.name=Ele Geçirilmiş Filizler
+tile.csrp.infestedbush_spine.name=Ele Geçirilmiş Yaprak
+tile.csrp.infestedbush_vine.name=Ele Geçirilmiş Damar
+tile.csrp.infestedbush_arc.name=Ele Geçirilmiş Damar Kökleri
+
+tile.csrp.parasitecanister_sac.name=§aMesane Kesesi
+tile.csrp.parasitecanister_cyst.name=Kist
+tile.csrp.canisteractive.name=Obur Kist
+tile.csrp.parasitecanister_lump.name=Absürt Topak
+tile.csrp.parasitecanister_bag.name=Et Kesesi
+
+tile.csrp.parasitetrunk_ball.name=Çürük Odun
+tile.csrp.parasitetrunk_tree.name=Damar Odunu
+tile.csrp.parasitetrunk_plant.name=Kara Odun
+
+tile.csrp.parasitestain_dirt.name=Hive Toprağı
+tile.csrp.parasitestain_mud.name=İlkel Çamur
+tile.csrp.parasitestain_flesh.name=Et Yığını
+tile.csrp.parasitestain_fleshstairs.name=Et Merdiven
+tile.csrp.parasitestain_feeler.name=Sıkıştırılmış Atardamar
+
+tile.csrp.parasiterubble_slabhalf.name=Sertleştirilmiş Kemik Basamak
+tile.csrp.parasiterubble_slabdouble.name=Sertleştirilmiş Kemik
+tile.csrp.parasiterubble_flesh.name=Sıkıştırılmış Et Yığını
+tile.csrp.parasiterubble_bone.name=Sertleştirilmiş Kemik
+tile.csrp.parasiterubble_bonestairs.name=Sertleştirilmiş Kemik Merdiven
+tile.csrp.parasiterubble_stone.name=Hive Taşı
+tile.csrp.parasiterubble_stonedebris.name=Hive Taşı Kalıntısı
+tile.csrp.parasiterubble_wood.name=Zararlı Odun
+tile.csrp.parasiterubble_bricks.name=Hive Tuğla
+tile.csrp.parasiterubble_metal.name=Hive Çeliği
+tile.csrp.parasiterubble_obsidian.name=Kanayan Obsidyen
+tile.csrp.parasiterubble_fungus.name=Asimile Mantar
+
+tile.csrp.parasiterubbledense_wall.name=Setleştirilmiş Hive Taşı
+tile.csrp.parasiterubbledense_biome.name=Güçlendirilmiş Hive Taşı
+tile.csrp.parasiterubbledense_colony.name=Parazitik Güçlendirilmiş Koloni Taşı
+
+tile.csrp.evolutionlure_one.name=Yem (§4Zayıf§f)
+tile.csrp.evolutionlure_two.name=Yem (§cBayık§f)
+tile.csrp.evolutionlure_three.name=Yem (§6Narin§f)
+tile.csrp.evolutionlure_four.name=Yem (§2Kararlı§f)
+tile.csrp.evolutionlure_five.name=Yem (§eÖnemli§f)
+tile.csrp.evolutionlure_six.name=Yem (§aYoğun§f)
+tile.csrp.evolutionlure_seven.name=Yem (§bYoğun+§f)
+tile.csrp.evolutionlure_eight.name=Yem (§dYoğun++§f)
+
+tile.csrp.bloodyice.name=Kanlı Buz
+
+//Fluids
+
+fluid.deadblood=Pis Kan
+
+//Effects
+
+mob_effect.csrp:coth=§4Hive'ın Çağrısı
+splash_potion.effect.csrp:coth=§4Hive'ın Çağrısı§4nın Sıçrama İksiri
+potion.effect.csrp:coth=§4Hive'ın Çağrısı§4nın İksiri
+lingering_potion.effect.csrp:coth=§4Hive'ın Çağrısı§4nın Kalıcı İksiri
+tipped_arrow.effect.csrp:coth=§4Hive'ın Çağrısı§4 Oku
+
+mob_effect.csrp:fear=§8Korku
+splash_potion.effect.csrp:fear=§8Korku§8 Sıçrama İksiri
+potion.effect.csrp:fear=§8Korku§8 İksiri
+lingering_potion.effect.csrp:fear=§8Korku§8 Kalıcı İksiri
+tipped_arrow.effect.csrp:fear=§8Korku§8 Oku
+
+mob_effect.csrp:antimall=§7Anti Adaptasyon
+splash_potion.effect.csrp:antimall=§7Anti Adaptasyon§7 Sıçrama İksiri
+potion.effect.csrp:antimall=§7Anti Adaptasyon§7 İksiri
+lingering_potion.effect.csrp:antimall=§7Anti Adaptasyon§7 Kalıcı İksiri
+tipped_arrow.effect.csrp:antimall=§7Anti Adaptasyon§7 Oku
+
+mob_effect.csrp:bleed=§4Kanama
+splash_potion.effect.csrp:bleed=§4Kanama§4 Sıçrama İksiri
+potion.effect.csrp:bleed=§4Kanama§4 İksiri
+lingering_potion.effect.csrp:bleed=§4Kanama§4 Kalıcı İksiri
+tipped_arrow.effect.csrp:bleed=§4Kanama§4 Oku
+
+mob_effect.csrp:corrosive=§6Aşınma
+splash_potion.effect.csrp:corrosive=§6Aşınma§f Sıçrama İksiri
+potion.effect.csrp:corrosive=§6Aşınma§6 İksiri
+lingering_potion.effect.csrp:corrosive=§6Aşınma§6 Kalıcı İksiri
+tipped_arrow.effect.csrp:corrosive=§6Aşınma§6 Oku
+
+mob_effect.csrp:viral=§aViral
+splash_potion.effect.csrp:viral=§aViral§f Sıçrama İksiri
+potion.effect.csrp:viral=§aViral§a İksiri
+lingering_potion.effect.csrp:viral=§aViral§a Kalıcı İksiri
+tipped_arrow.effect.csrp:viral=§aViral§a Oku
+
+mob_effect.csrp:rage=§cÖfke§c
+splash_potion.effect.csrp:rage=§cÖfke§f Sıçrama İksiri
+potion.effect.csrp:rage=§cÖfke§c İksiri
+lingering_potion.effect.csrp:rage=§cÖfke§c Kalıcı İksiri
+tipped_arrow.effect.csrp:rage=§cÖfke§c Oku
+
+mob_effect.csrp:repel=§2Kamuflaj
+splash_potion.effect.csrp:repel=§2Kamuflaj§2 Sıçrama İksiri
+potion.effect.csrp:repel=§2Kamuflaj§2 İksiri
+lingering_potion.effect.csrp:repel=§2Kamuflaj§2 Kalıcı İksiri
+tipped_arrow.effect.csrp:repel=§2Kamuflaj§2 Oku
+
+mob_effect.csrp:senses=§3Daha Uzağı Görmek
+splash_potion.effect.csrp:senses=§3Daha Uzağı Görme§3 Sıçrama İksiri
+potion.effect.csrp:senses=§3Daha Uzağı Görme§3 İksiri
+lingering_potion.effect.csrp:senses=§3Daha Uzağı Görme§3 Kalıcı İksiri
+tipped_arrow.effect.csrp:senses=§3Daha Uzağı Görme§3 Oku
+
+mob_effect.csrp:debar=§7Mahrum
+splash_potion.effect.csrp:debar=§7Mahrum§7 Sıçrama İksiri
+potion.effect.csrp:debar=§7Mahrum§7 İksiri
+lingering_potion.effect.csrp:debar=§7Mahrum§7 Kalıcı İksiri
+tipped_arrow.effect.csrp:debar=§7Mahrum§7 Oku
+
+mob_effect.csrp:needler=§6Needler
+splash_potion.effect.csrp:needler=Splash Potion of §6Needler
+potion.effect.csrp:needler=Potion of §6Needler
+lingering_potion.effect.csrp:needler=Lingering Potion of §6Needler
+tipped_arrow.effect.csrp:needler=Arrow of §6Needler
+
+mob_effect.csrp:link=§aBağlılık
+splash_potion.effect.csrp:link=§aBağlılık§a Sıçrama İksiri
+potion.effect.csrp:link=§aBağlılık§a İksiri
+lingering_potion.effect.csrp:link=§aBağlılık§a Kalıcı İksiri
+tipped_arrow.effect.csrp:link=§aBağlılık§a Oku
+
+mob_effect.csrp:foster=§eAdaptasyon Artışı
+splash_potion.effect.csrp:foster=§eAdaptasyon Artışı§e Sıçrama İksiri
+potion.effect.csrp:foster=§eAdaptasyon Artışı§e İksiri
+lingering_potion.effect.csrp:foster=§eAdaptasyon Artışı§e Kalıcı İksiri
+tipped_arrow.effect.csrp:foster=§eAdaptasyon Artışı§e Oku
+
+mob_effect.csrp:prey=§eTalan
+splash_potion.effect.csrp:prey=§eTalan§e Sıçrama İksiri
+potion.effect.csrp:prey=§eTalan§e İksiri
+lingering_potion.effect.csrp:prey=§eTalan§e Kalıcı İksiri
+tipped_arrow.effect.csrp:prey=§eTalan§e Oku
+
+//extra
+
+message.csrp.lureb=Puanlar duraklatıldı!
+message.csrp.lurec=Puanlar azaltıldı!
+message.csrp.fearitem=Panikliyorsun!
+message.csrp.fearblock=Panikliyorsun!
+message.csrp.feargui=Panikliyorsun!
+message.csrp.evolutionsleep=Şu anda uyuyamazsın...
+message.csrp.armortooltips1=Şuan ki adaptasyon
+
+tootip.csrp.quench=§fDoymuş magma kremasından yapılmış sıcak, şekillendirilebilir bir madde. Yüksek konsantrasyonda alev tozu, onu parazit maddelere karşı inanılmaz derecede toksik hale getirecektir.
+
+tootip.csrp.lurecomp.1=§fBir §7Rupter'nın iç kısımlarının parçaları.§cYem §fbileşeni.
+tootip.csrp.lurecomp.2=§fBir §4asimile yaratıktan düşen hastalıklı kalp, §cYem §fbileşeni.
+tootip.csrp.lurecomp.3=§fLeş gibi koku yayan §cİlkel bir §fparazitin gövdesinden toplanan kas parçaları.§cYem§fBileşeni.
+tootip.csrp.lurecomp.4=§f§6Uyarlanmış §4Parazit gövdesinden alınan ve gelişmiş bir akciğer.§cYem §fBileşeni.
+tootip.csrp.lurecomp.5=§fBir §eSaf §fParazit gövdesinden toplanan vegelişmiş bir beyin. §cYem §fBileşeni.
+tootip.csrp.lurecomp.6=§fParazit biyomunda asılı olan keselerden toplanan omurga benzeri cisim.§cYem §fBileşeni.
+
+tootip.csrp.item.1=§4Summoner'ın§f bedeninden toplanmış, enerji yayıyormuş gibi görünen küçük bir küre.§6Silah malzemesi.
+tootip.csrp.item.2=§eYelloweye§f  gövdesinden alınmış sağlam kemik.§6Silah malzemesi.
+tootip.csrp.item.3=§6Manducater §fbedeninden toplanmış, enerji yayıyor gibi görünen küçük bir küre.§6Silah malzemesi.
+tootip.csrp.item.4=§6Reeker §fcesedinden §8alınmış korkunç derecede keskin bir diş.§6Silah malzemesi.
+tootip.csrp.item.5=§6Longarms §fgövdesinden toplanan hafif ama dayanıklı bir zırh parçası.§6Silah malzemesi.
+tootip.csrp.item.6=Bir §cAsimile §fYaratığın §cet parçası§f Temel bir crafting malzemesi.
+tootip.csrp.item.7=
+tootip.csrp.item.8=Parazitlerin vücut parçalarından üretilen elastik bir malzeme.§6Silah malzemesi.
+tootip.csrp.item.9=Parazitlerin vücut parçalarından yapılmış bir bıçak ağzı parçası§6Silah malzemesi
+tootip.csrp.item.10=Bu nesnede henüz yaşam alevi parlamadı.Tüm §6silahları§f besleyen çekirdek.
+tootip.csrp.item.11=Parazitin vücut parçalarından üretilen son derece dayanıklı bir kabuk.§6Silah malzemesi.
+tootip.csrp.item.12=Parazitlerin vücut kısımlarından üretilen, kemiklerden oluşan özellikle kalın bir sap.§6Silah malzemesi.
+tootip.csrp.item.13=Günlük hayatta göremeyeceğin ilginç bir kemik...
+
+tootip.csrp.item.20=Bir §7Bolster §f cesedinden alınan kuru deri parçası.
+tootip.csrp.item.21=Bir §7Arachnida §f cesedinden alınmış korkunç derecede keskin pençeler.
+tootip.csrp.item.22=§7Devourer §fcesedinden alınmık kemikli bir dokunaç.
+tootip.csrp.item.23=§aBeckon§f vüdudundan düşen parça.
+tootip.csrp.item.24=§4Dispatcher§f vücudundan düşen parça.
+
+tootip.csrp.item.25=Bir paraziti onu §aevrimleştirmek§f için hedef al.
+tootip.csrp.item.28=Bir yaratığı §4enfekte§f etmek için hedef al.
+tootip.csrp.item.26=Bir paraziti §cgeri evrimleştirmek§c için hedef al.
+tootip.csrp.item.27=Bir paraziti onun §evaryantını§f değiştirmek için hedef al.
+
+tootip.csrp.item.18=Saatten kan damlarken korkunç geceye doğru ilerlemektedir.
+
+tootip.csrp.weaponm.1=Çeşitli Parazitlerin vücut parçalarının bir Silah oluşturacak şekilde yeniden şekillendirilmesinin sonucu. İçinde hayat ateşi parlıyor.
+tootip.csrp.weaponm.2=§fYaşayan Tırpan'ın Sonraki Evrimi. Bir §bAkıl§f kazandı.
+tootip.csrp.weaponm.3=§fÇeşitli Parazitlerin vücut parçalarının bir Silah oluşturacak şekilde yeniden şekillendirilmesinin sonucu. İçinde hayat ateşi parlıyor.
+tootip.csrp.weaponm.4=§fYaşayan Baltanın Gizli Evrimi. Bir §bAkıl§f kazandı.
+tootip.csrp.weaponm.5=§f Çeşitli Parazitlerin vücut parçalarının bir Silah oluşturacak şekilde yeniden şekillendirilmesinin sonucu. İçinde hayat ateşi parlıyor.
+tootip.csrp.weaponm.6=§fYaşayan Kılıcın Sonraki Evrimi. Bir §bAkıl§f kazandı.
+tootip.csrp.weaponm.7=§f Çeşitli Parazitlerin vücut parçalarının bir Silah oluşturacak şekilde yeniden şekillendirilmesinin sonucu. İçinde hayat ateşi parlıyor.
+tootip.csrp.weaponm.8=§fYaşayan Satırın Gizli Evrimi. Bir §bAkıl§f kazandı.
+
+tootip.csrp.weaponm.10=§cGeniş bir alanı siler.
+tootip.csrp.weaponm.20=§cGeniş bir alanı siler.
+tootip.csrp.weaponm.30=§fZırhı sonsuza kadar §nedensiz hale getirir.
+tootip.csrp.weaponm.40=§fZırhı sonsuza kadar §nedensiz hale getirir.
+tootip.csrp.weaponm.50=§4Kritik§f yaralanmalara neden olur.
+tootip.csrp.weaponm.60=§4Kritik§f yaralanmalara neden olur.
+tootip.csrp.weaponm.70=§fŞiddetli §fsaldırılara saldırır.
+tootip.csrp.weaponm.80=§fŞiddetli §fsaldırılara saldırır.
+
+tootip.csrp.weaponm.100=Artık Saklanamazsın...
+tootip.csrp.weaponm.200=Artık Saklanamazsın...
+tootip.csrp.weaponm.300=Artık Saklanamazsın...
+tootip.csrp.weaponm.400=Artık Saklanamazsın...
+tootip.csrp.weaponm.500=Artık Saklanamazsın...
+tootip.csrp.weaponm.600=Artık Saklanamazsın...
+tootip.csrp.weaponm.700=Artık Saklanamazsın...
+tootip.csrp.weaponm.800=Artık Saklanamazsın...
+
+tootip.csrp.weaponr.1=§fParazitlerin çeşitli vücut parçalarının bir §6Silah§f oluşturacak şekilde yeniden şekillendirilmesinin sonucu. İçinde hayat ateşi parlıyor.
+tootip.csrp.weaponr.2=§fYaşayan Yay'ın Sonraki Evrimi. Bir §bAkıl§f kazandı.
+tootip.csrp.weaponr.10=O okları tutmaya devam et!
+tootip.csrp.weaponr.20=O okları tutmaya devam et!
+
+tootip.csrp.weaponr.100=Artık Saklanamazsın...
+tootip.csrp.weaponr.200=Artık Saklanamazsın...
+
+tooltip.tile.csrp.evolutionlure=Şu kadar saniye %(   )kadar puanlar durduralaktır.
+
+//subtitles
+
+subtitles.devourerliving=İlkel Deveourer Hırlıyor
+subtitles.devourerhurt=İlker Deveourer Acı Çekiyor
+subtitles.devourerdeath=İlker Deveourer Öldü
+subtitles.assimhumanliving=Haykırış
+subtitles.assimhumanhurt=Birşey acı çekiyor...
+subtitles.assimhumandeath=Ölüm Haykırışı
+subtitles.assimpigliving=Çarpık domuz sesleri
+subtitles.assimpighurt=Domuz acı çekiyor.
+subtitles.assimpigdeath=Domuz Öldü.
+subtitles.assimhorseliving=İnildemeler
+subtitles.assimhorsecharge=At Fırlıyor
+subtitles.assimhorsehurt=At Acı Çekiyor
+subtitles.assimhorsedeath=At Öldü.
+subtitles.assimspiderliving=Böcek tıslıyor.
+subtitles.assimspidersteps=Böcek hareket etti
+subtitles.assimspiderdeath=Böcek öldü
+subtitles.headliving=Yürüyen Asimile Kafası Çığlık atıyor
+subtitles.headhurt=Yürüyen Asimile Kafası Acı çekiyor
+subtitles.headdeath=Yürüyen Asimile Kafası Öldü
+subtitles.buglinliving=Buglin tıslıyor...
+subtitles.buglinhurt=Buglin eziliyor.
+subtitles.buglindeath=Buglin ezilerek öldü.
+subtitles.rupterliving=Yırtıcı bağrıyor.
+subtitles.rupterhurt=Yırtıcı acı çekti.
+subtitles.rupterdies=Yırtıcı öldü.
+subtitles.rupterinfects=Yırtıcı paraziti yayıyor.
+subtitles.wardenliving=Bekçi Hırlıyor
+subtitles.wardenhurt=Bekçi Acı Çekiyor.
+subtitles.wardendeath=Bekçi öldü.
+subtitles.adaarachliving=Adapte Arachnida Hırlıyor.
+subtitles.adaarachhurt=Adapte Arachnida Acı çekiyor.
+subtitles.adaarachdeath=Adapte Arachnida öldü.
+subtitles.assimcowliving=İnek möölüyor.
+subtitles.assimcowhurt=İnek Acı çekiyor.
+subtitles.assimcowdeath=Asimile İnek Öldü
+subtitles.assimsheepliving=Koyun sesleri
+subtitles.assimsheephurt=Koyun acı çekiyor.
+subtitles.assimsheepdeath=Koyun Öldü.
+subtitles.assimwolfliving=Çarpık havlama
+subtitles.assimwolfhurt=Kurt Acı çekiyor.
+subtitles.assimwolfdeath=Kurt öldü
+subtitles.assimbearliving=Ayı gırlıyor.
+subtitles.assimbearhurt=Ayı acı çekiyor.
+subtitles.assimbeardeath=Ayı bağırıyor
+subtitles.simmermanliving=Birşeyler ses çıkarıyor...
+subtitles.simmermanhurt=Çarpık acı çekme sesleri...
+subtitles.simmermanteleports=Çarpık Teleportasyon Sesleri...
+subtitles.simmermandeath=Enderman öldü
+subtitles.infectedfleshmelt=Yaratık ezilip ete dönüşüyor!
+subtitles.adasummonerliving=Adapte Summoner Bağırıyor
+subtitles.adasummonerhurt=Adapte Summoner Çığlık Atıyor!
+subtitles.adasummonerdeath=Adapte Summoner Öldü
+subtitles.adasummonersummon=Summoner yaratık çağrıyor!!
+subtitles.adayelloweyeliving=Adapte Yelloweye Hırıldıyor
+subtitles.adayelloweyehurt=Adapte Yelloweye Acı Çekiyor
+subtitles.adayelloweyedeath=Adapte Yelloweye Öldü.
+subtitles.adayelloweyeshoot=Adapte Yelloweye Tükürüyor
+subtitles.adareekerliving=Adapte Reeker Bağırıyor
+subtitles.adareekerhurt=Adapte Reeker Acı Çekiyor
+subtitles.adareekerdeath=Adapte Reeker Öldü
+subtitles.adamanduliving=Adapte Manducator Tıslıyor
+subtitles.adamanduhurt=Adapted Manducator Bağırdı
+subtitles.adamandudeath=Adapte Manducator Öldü
+subtitles.vigiliving=İnfazcı İnildiyor.
+subtitles.vigihurt=İnfazcı Acı Çekiyor.
+subtitles.vigideath=İnfazcı Öldü
+subtitles.bogleliving=Salya Küpürdüyor
+subtitles.boglehurt=İnilti
+subtitles.bogledeath=Birşey(ler) yok oldu
+subtitles.hostliving=Konak Ses Çıkarıyor
+subtitles.hosthurt=Konak Acı çekiyor
+subtitles.hostdeath=Konak Öldü
+subtitles.hostmerge=İnleme
+subtitles.adamaducamo=none
+subtitles.adavomit=Yaratık Kusuyor.
+subtitles.flesh=Et geziniyor.
+subtitles.sentryliving=Sentry Bağırıyor
+subtitles.sentryhurt=Sentry hırıldıyor.
+subtitles.sentrydeath=Sentry öldü.
+subtitles.beckonliving=Beckon fısıldıyor.
+subtitles.beckonhurt=Beckon Tıslıyor
+subtitles.beckondeath=Beckon ağlıyor.
+subtitles.beckonbell=Bell tolls
+subtitles.mobexplodes=Yaratık İmha Oldu
+subtitles.mobswipe=Yaratık Savuruyor.
+subtitles.moblands=Yaratık Devrildi
+subtitles.cysteats=Eşya Ezildi
+subtitles.adaptationpart=Parazit Adapte Oluyor
+subtitles.adaptationfull=Parazit Adapte Oldu
+subtitles.biomeheart=§cNode Kalbi Atıyor.............

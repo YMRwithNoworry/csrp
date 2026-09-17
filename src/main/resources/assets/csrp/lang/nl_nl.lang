@@ -1,0 +1,300 @@
+//Entities
+
+entity.csrp.pri_longarms.name=Primitieve Langarm
+entity.csrp.pri_manducater.name=Primitieve Manducator
+entity.csrp.pri_summoner.name=Primitieve Oproeper
+entity.csrp.pri_reeker.name=Primitieve Reeker
+entity.csrp.pri_yelloweye.name=Primitieve Geeloog
+entity.csrp.pri_bolster.name=Primitieve Versterker
+entity.csrp.pri_arachnida.name=Primitieve Arachnida
+
+entity.csrp.host.name=Gastheer
+entity.csrp.sim_bear.name=Geassimileerde Beer
+entity.csrp.sim_enderman.name=Geassimileerde Enderman
+entity.csrp.sim_adventurer.name=Geassimileerde Avonturier
+entity.csrp.sim_bigspider.name=Geassimileerde Grote Spin
+entity.csrp.sim_human.name=Geassimileerd Mens
+entity.csrp.sim_humanhead.name=Wandelend Hoofd
+entity.csrp.sim_villager.name=Geassimileerde Dorpeling
+entity.csrp.sim_villagerhead.name=Walking Head
+entity.csrp.sim_cow.name=Geassimileerde Koe
+entity.csrp.sim_cowhead.name=Wandelend Hoofd
+entity.csrp.sim_horse.name=Geassimileerd Paard
+entity.csrp.sim_horsehead.name=Wandelend Hoofd
+entity.csrp.sim_pig.name=Geassimileerd Varken
+entity.csrp.sim_pighead.name=Wandelend Hoofd
+entity.csrp.sim_sheep.name=Geassimileerd Schaap
+entity.csrp.sim_sheephead.name=Wandelend Hoofd
+entity.csrp.sim_wolf.name=Geassimileerde Wolf
+entity.csrp.sim_wolfhead.name=Wandelend Hoofd
+entity.csrp.incompleteform_medium.name=Onvolledige Samenstelling
+entity.csrp.incompleteform_small.name=Onvolledige Samenstelling
+
+entity.csrp.overseer.name=Opzichter
+entity.csrp.bomber_light.name=Lichte Bommenwerper
+entity.csrp.carrier_heavy.name=Zware Drager
+entity.csrp.buglin.name=Rupter Larve
+entity.csrp.carrier_flying.name=Vliegende Drager
+entity.csrp.rupter.name=Rupter
+entity.csrp.beckon_si.name=Beckon Stadium I
+entity.csrp.beckon_sii.name=Beckon Stadium II
+entity.csrp.beckon_siii.name=Beckon Stadium III
+entity.csrp.beckon_siv.name=Beckon Stadium IV
+entity.csrp.beckon_sv.name=Beckon Stadium V
+entity.csrp.warden.name=Bewaker
+entity.csrp.marauder.name=Stroper
+entity.csrp.grunt.name=Soldaat
+entity.csrp.sentry.name=Wachter
+entity.csrp.kyphosis.name=Kyphose
+
+entity.csrp.anc_dreadnaut.name=Oeroude Dreadnaut
+entity.csrp.anc_overlord.name=Oeroude Opperheer
+entity.csrp.vigilante.name=Wreker
+entity.csrp.movingflesh.name=Verplaatsend Vlees
+entity.csrp.tendril.name=Uitloper
+entity.csrp.anc_pod.name=Capsule
+entity.csrp.biomass.name=Biomassa
+entity.csrp.gore.name=Geronnen Bloed
+
+entity.csrp.ada_longarms.name=Aangepaste Langarm
+entity.csrp.ada_summoner.name=Aangepaste Oproeper
+entity.csrp.ada_manducater.name=Aangepaste Manducater
+entity.csrp.ada_reeker.name=Aangepaste Reeker
+entity.csrp.ada_yelloweye.name=Aangepaste Geeloog
+entity.csrp.ada_bolster.name=Aangepaste Versterker
+entity.csrp.ada_arachnida.name=Aangepaste Arachnida
+
+//Creative Tab
+
+itemGroup.SRParasites=SR:Parasieten
+
+//Items
+
+item.csrp.itemmobspawner_host.name=Spawn Gastheer
+item.csrp.itemmobspawner_infbear.name=Spawn Geassimileerde Beer
+item.csrp.itemmobspawner_infenderman.name=Spawn Geassimileerde Enderman 
+item.csrp.itemmobspawner_infplayer.name=Spawn Geassimileerde Avonturier
+item.csrp.itemmobspawner_dorpa.name=Spawn Assimilated Big Spider
+item.csrp.itemmobspawner_infhuman.name=Spawn Geassimileerd Mens
+item.csrp.itemmobspawner_infhumanhead.name=Spawn Wandelend Hoofd (Mens)
+item.csrp.itemmobspawner_infvillager.name=Spawn Geassimileerde Dorpeling
+item.csrp.itemmobspawner_infvillagerhead.name=Spawn Wandelend Hoofd (Dorpeling)
+item.csrp.itemmobspawner_infcow.name=Spawn Geassimileerde Koe
+item.csrp.itemmobspawner_infcowhead.name=Spawn Wandelend Hoofd (Koe)
+item.csrp.itemmobspawner_infpig.name=Spawn Geassimileerd Varken
+item.csrp.itemmobspawner_infpighead.name=Spawn Wandelend Hoofd (Varken)
+item.csrp.itemmobspawner_infsheep.name=Spawn Geassimileerd Schaap
+item.csrp.itemmobspawner_infsheephead.name=Spawn Wandelend Hoofd (Schaap)
+item.csrp.itemmobspawner_infwolf.name=Spawn Geassimileerde Wolf
+item.csrp.itemmobspawner_infwolfhead.name=Spawn Wandelend Hoofd (Wolf)
+item.csrp.itemmobspawner_infhorse.name=Spawn Geassimileerd Paard
+item.csrp.itemmobspawner_infhorsehead.name=Spawn Wandelend Hoofd (Paard)
+item.csrp.itemmobspawner_inhoos.name=Spawn Onvolledige Samenstelling (Klein)
+item.csrp.itemmobspawner_inhoom.name=Spawn Onvolledige Samenstelling (Gemiddeld)
+
+item.csrp.itemmobspawner_alafha.name=Spawn Opzichter
+item.csrp.itemmobspawner_omboo.name=Spawn Lichte Bommenwerper
+item.csrp.itemmobspawner_rathol.name=Spawn Zware Drager
+item.csrp.itemmobspawner_buthol.name=Spawn Vliegende Drager
+item.csrp.itemmobspawner_lodo.name=Spawn Rupter Larve
+item.csrp.itemmobspawner_mudo.name=Spawn Rupter
+item.csrp.itemmobspawner_venkrol.name=Spawn Beckon Stadium I
+item.csrp.itemmobspawner_venkrolsii.name=Spawn Beckon Stadium II
+item.csrp.itemmobspawner_venkrolsiii.name=Spawn Beckon Stadium III
+item.csrp.itemmobspawner_venkrolsiv.name=Spawn Beckon Stadium IV
+item.csrp.itemmobspawner_venkrolsv.name=Spawn Beckon Stadium V
+item.csrp.itemmobspawner_ganro.name=Spawn Bewaker
+item.csrp.itemmobspawner_esor.name=Spawn Stroper
+item.csrp.itemmobspawner_flog.name=Spawn Soldaat
+item.csrp.itemmobspawner_unvo.name=Spawn Wachter
+item.csrp.itemmobspawner_tonro.name=Spawn Kyphose
+
+item.csrp.itemmobspawner_oronco.name=Spawn Oeroude Dreadnaut
+item.csrp.itemmobspawner_terla.name=Spawn Oeroude Opperheer
+item.csrp.itemmobspawner_anged.name=Spawn Wreker
+item.csrp.itemmobspawner_lesh.name=Spawn Verplaatsend Vlees
+
+item.csrp.itemmobspawner_shyco.name=Spawn Primitieve Langarm
+item.csrp.itemmobspawner_hull.name=Spawn Primitieve Manducater
+item.csrp.itemmobspawner_canra.name=Spawn Primitieve Oproeper
+item.csrp.itemmobspawner_emana.name=Spawn Primitieve Geeloog
+item.csrp.itemmobspawner_nogla.name=Spawn Primitieve Reeker
+item.csrp.itemmobspawner_bano.name=Spawn Primitieve Versterker
+item.csrp.itemmobspawner_ranrac.name=Spawn Primitieve Arachnida
+
+item.csrp.itemmobspawner_shycoadapted.name=Spawn Aangepaste Langarm
+item.csrp.itemmobspawner_canraadapted.name=Spawn Aangepaste Oproeper
+item.csrp.itemmobspawner_noglaadapted.name=Spawn Aangepaste Reeker
+item.csrp.itemmobspawner_hulladapted.name=Spawn Aangepaste Manducater
+item.csrp.itemmobspawner_emanaadapted.name=Spawn Aangepaste Geeloog
+item.csrp.itemmobspawner_banoadapted.name=Spawn Aangepaste Versterker
+item.csrp.itemmobspawner_ranracadapted.name=Spawn Aangepaste Arachnida
+
+item.csrp.itemthrow.name=
+item.csrp.itemtab.name=NULL
+item.csrp.evclock.name=Vuile Klok
+item.csrp.weapon_scythe.name=Levende Zeis
+item.csrp.weapon_scythe_sentient.name=Bewuste Zeis
+item.csrp.weapon_bow.name=Levende Boog
+item.csrp.weapon_bow_sentient.name=Bewuste Boog
+item.csrp.weapon_axe.name=Levende Bijl
+item.csrp.weapon_axe_sentient.name=Bewuste Bijl
+
+item.csrp.bow_upperlimb.name=Levende Boog Bovenste Lid
+item.csrp.bow_lowerlimb.name=Levende Boog Onderste Lid
+item.csrp.bow_string.name=Levende Boog Koord
+item.csrp.bow_grip.name=Levende Boog Handvat
+item.csrp.bow_core.name=Levende Boog Middenstuk
+
+item.csrp.scythe_back.name=Levende Zeis Achterkant
+item.csrp.scythe_blade.name=Levende Zeis Blad
+item.csrp.scythe_core.name=Levende Zeis Middenstuk
+item.csrp.scythe_handle.name=Levende Zeis Handvat
+item.csrp.scythe_head.name=Levende Zeis Hoofd
+
+item.csrp.ada_longarms_drop.name=Langarm Pantserfragment
+item.csrp.ada_summoner_drop.name=Oproeper Kern
+item.csrp.ada_yelloweye_drop.name=Geeloogbot
+item.csrp.ada_reeker_drop.name=Reeker Slagtand
+item.csrp.ada_manducater_drop.name=Manducatorbol
+item.csrp.assimilated_flesh.name=Geïnfecteerd Vlees
+
+item.csrp.lurecomponent1.name=Fragiel Stuk
+item.csrp.lurecomponent2.name=Stinkend Stuk
+item.csrp.lurecomponent3.name=Verrot Deel
+item.csrp.lurecomponent4.name=Walgelijk Deel
+item.csrp.lurecomponent5.name=Vermolmd Segment
+item.csrp.lurecomponent6.name=Essentieel Segment
+
+//Blocks
+
+tile.csrp.parasitesapling_tree.name=Parasitische Kiemplant
+tile.csrp.parasitesapling_treethin.name=Parasitische Kiemplant
+tile.csrp.parasitesapling_flowertall.name=Parasitische Kiemplant
+
+tile.csrp.parasitebush_tendril.name=Parasitisch Net
+tile.csrp.parasitebush_pop.name=Parasitisch Vesikel
+tile.csrp.parasitebush_bine.name=Parasitische Wortels
+
+tile.csrp.srpweb.name=Web
+tile.csrp.biomeheart.name=Kern Parasitisch Klimaat
+tile.csrp.colonyheart.name=Kern Parasitische Kolonie
+tile.csrp.biomepurifier.name=Klimaat Reiniger
+tile.csrp.parasitestructure.name=Onvolledige Parasitische Kolonie-Structuur
+tile.csrp.parasitethin.name=Dunne Parasitische Stam
+tile.csrp.parasitemouth.name=Parasitische Mond
+tile.csrp.parasitetendril.name=Parasitische Rank
+tile.csrp.parasitefog.name=Mist
+
+tile.csrp.gore_sim_small.name=Geassimileerde Overblijfselen
+tile.csrp.gore_sim_big.name=Geassimileerde Overblijfselen
+tile.csrp.gore_pri_small.name=Primitieve Overblijfselen
+tile.csrp.gore_pri_big.name=Primitieve Overblijfselen
+tile.csrp.gore_ada_small.name=Aangepaste Overblijfselen
+tile.csrp.gore_ada_big.name=Aangepaste Overblijfselen
+tile.csrp.gore_pure_small.name=Pure Overblijfselen
+tile.csrp.gore_pure_big.name=Pure Overblijfselen
+
+tile.csrp.infestedstain.name=Aangetaste Aarde
+tile.csrp.infestedtrunk.name=Aangetaste Stam
+tile.csrp.infestedrubble.name=Aangetast Steen
+tile.csrp.infestremain.name=Aangetaste Restanten
+
+tile.csrp.infestedbush_infected.name=Aangetaste Nerven
+tile.csrp.infestedbush_grass1.name=Aangetaste Nerven
+tile.csrp.infestedbush_flower1.name=Aangetaste Nerven
+tile.csrp.infestedbush_spine.name=Aangetaste Nerven
+tile.csrp.infestedbush_vine.name=Aangetaste Nerven
+tile.csrp.infestedbush_arc.name=Aangetaste Nerven
+
+tile.csrp.parasitecanister_sac.name=Parasitische Zak
+tile.csrp.parasitecanister_cyst.name=Parasitisch Gezwel
+tile.csrp.parasitecanister_lump.name=Parasitische Bult
+tile.csrp.parasitecanister_bag.name=Parasitische Tas
+
+tile.csrp.parasitetrunk_ball.name=Parasitische Stam
+tile.csrp.parasitetrunk_tree.name=Parasitische Stam
+tile.csrp.parasitetrunk_plant.name=Parasitische Stam
+
+tile.csrp.parasitestain_dirt.name=Parasitische Aarde
+tile.csrp.parasitestain_mud.name=Parasitische Modder
+tile.csrp.parasitestain_flesh.name=Parasitisch Vlees
+tile.csrp.parasitestain_fleshstairs.name=Parasitische Vleestrap
+tile.csrp.parasitestain_feeler.name=Parasitische Aders
+
+tile.csrp.parasiterubble_slabhalf.name=Parasitische Plaat
+tile.csrp.parasiterubble_flesh.name=Geconcentreerd Parasitisch Vlees
+tile.csrp.parasiterubble_bone.name=Geconcentreerd Parasitisch Been
+tile.csrp.parasiterubble_bonestairs.name=Geconcentreerde Parasitische Benen Trap
+tile.csrp.parasiterubble_stone.name=Parasitisch Steen
+
+tile.csrp.parasiterubbledense_wall.name=Samengedrukt Parasitisch Steen
+tile.csrp.parasiterubbledense_biome.name=Samengedrukt Parasitisch Klimaatsteen
+tile.csrp.parasiterubbledense_colony.name=Samengedrukte Parasitische Koloniesteen
+
+tile.csrp.evolutionlure_one.name=Lokaas (Verzwakt)
+tile.csrp.evolutionlure_two.name=Lokaas (Zwak)
+tile.csrp.evolutionlure_three.name=Lokaas (Beperkt)
+tile.csrp.evolutionlure_four.name=Lokaas (Stabiel)
+tile.csrp.evolutionlure_five.name=Lokaas (Aanzienklijk)
+tile.csrp.evolutionlure_six.name=Lokaas (Geconcentreerd)
+tile.csrp.evolutionlure_seven.name=Lokaas (Geconcentreerd+)
+tile.csrp.evolutionlure_eight.name=Lokaas (Geconcentreerd++)
+
+//Effects
+
+mob_effect.csrp:coth=Roep van de Zwerm
+splash_potion.effect.csrp:coth=Spattende Drank der Roep van de Zwerm
+potion.effect.csrp:coth=Drank der Roep van de zwerm
+lingering_potion.effect.csrp:coth=Aanhoudende Drank der Roep van de Zwerm
+tipped_arrow.effect.csrp:coth=Pijl der Roep van de Zwerm
+
+mob_effect.csrp:fear=Angst
+splash_potion.effect.csrp:fear=Spattende Drank der Angst
+potion.effect.csrp:fear=Drank der Angst
+lingering_potion.effect.csrp:fear=Aanhoudende Drank der Angst
+tipped_arrow.effect.csrp:fear=Pijl der Angst
+
+mob_effect.csrp:antimall=Onklopbaarheid
+splash_potion.effect.csrp:antimall=Spattende Drank der Onklopbaarheid
+potion.effect.csrp:antimall=Drank der Onklopbaarheid
+lingering_potion.effect.csrp:antimall=Aanhoudende Drank der Onklopbaarheid
+tipped_arrow.effect.csrp:antimall=Pijl der Onklopbaarheid
+
+mob_effect.csrp:bleed=Bloeding
+splash_potion.effect.csrp:bleed=Spattende Drank der Bloeding
+potion.effect.csrp:bleed=Drank der Bloeding
+lingering_potion.effect.csrp:bleed=Aanhoudende Drank der Bloeding
+tipped_arrow.effect.csrp:bleed=Pijl der Bloeding
+
+mob_effect.csrp:corrosive=Corrosie
+splash_potion.effect.csrp:corrosive=Spattende Drank der Corrosie
+potion.effect.csrp:corrosive=Drank der Corrosie
+lingering_potion.effect.csrp:corrosive=Aanhoudende Drank der Corrosie
+tipped_arrow.effect.csrp:corrosive=Pijl der Corrosie
+
+mob_effect.csrp:viral=Viraal
+splash_potion.effect.csrp:viral=Spattende Drank der Viraal
+potion.effect.csrp:viral=Drank der Viraal
+lingering_potion.effect.csrp:viral=Aanhoudende Drank der Viraal
+tipped_arrow.effect.csrp:viral=Pijl der Viraal
+
+mob_effect.csrp:rage=Woede
+splash_potion.effect.csrp:rage=Spattende Drank der Woede
+potion.effect.csrp:rage=Drank der Woede
+lingering_potion.effect.csrp:rage=Aanhoudende Drank der Woede
+tipped_arrow.effect.csrp:rage=Pijl der Woede
+
+mob_effect.csrp:repel=Camouflage
+splash_potion.effect.csrp:repel=Spattende Drank der Camouflage
+potion.effect.csrp:repel=Drank der Camouflage
+lingering_potion.effect.csrp:repel=Aanhoudende Drank der Camouflage
+tipped_arrow.effect.csrp:repel=Pijl de Camouflage
+
+//extra
+
+message.csrp.lure=Punten vermindert!
+message.csrp.fearitem=Je raakt in paniek!
+message.csrp.fearblock=Je raakt in paniek!
+message.csrp.feargui=Je raakt in paniek!
+message.csrp.evolutionsleep=Je kan niet slapen...

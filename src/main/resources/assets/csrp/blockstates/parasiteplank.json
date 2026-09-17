@@ -1,0 +1,14 @@
+{
+  "variants": {
+    "variant=deadhead": [
+      {
+        "model": "csrp:block/parasiteplank_deadhead"
+      }
+    ],
+    "variant=deadheads": [
+      {
+        "model": "csrp:block/parasiteplank_deadheads"
+      }
+    ]
+  }
+}

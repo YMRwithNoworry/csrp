@@ -1,0 +1,8 @@
+{
+  "parent": "block/inner_stairs",
+  "textures": {
+    "bottom": "csrp:blocks/parasiterubble_bone",
+    "top": "csrp:blocks/parasiterubble_bone",
+    "side": "csrp:blocks/parasiterubble_bone"
+  }
+}

@@ -1,0 +1,2397 @@
+
+##Entities
+
+entity.csrp.scent.name=香識
+
+entity.csrp.abo_bodies.name=多体
+entity.csrp.abo_head.name=巨頭
+
+entity.csrp.pri_longarms.name=原始・長腕妖
+entity.csrp.pri_manducater.name=原始・噬生妖
+entity.csrp.pri_summoner.name=原始・召喚妖
+entity.csrp.pri_reeker.name=原始・汚臭妖
+entity.csrp.pri_yelloweye.name=原始・黄目妖
+entity.csrp.pri_bolster.name=原始・補強妖
+entity.csrp.pri_arachnida.name=原始・蛛形妖
+entity.csrp.pri_devourer.name=原始・貪食妖
+entity.csrp.pri_vermin.name=原始・悪殖妖
+entity.csrp.pri_tozoon.name=原始・千櫛妖
+entity.csrp.pri_burrower.name=原始・穴掘妖
+entity.csrp.pri_viscera.name=原始・臓腑妖
+entity.csrp.nametag.ricardo=リカルド
+
+# Advancements
+
+advancements.csrp.root.title=脱走と出奔：寄生虫
+advancements.csrp.root.description=堕ちていけ。
+
+advancements.csrp.kill_root.title=狩戮。
+advancements.csrp.kill_root.description=？？？
+
+advancements.csrp.secret_root.title=識知。
+advancements.csrp.secret_root.description=？？？
+
+advancements.csrp.monument_root.title=聖碑。
+advancements.csrp.monument_root.description=？？？
+
+advancements.csrp.firmamentum_root.title=蒼穹。
+advancements.csrp.firmamentum_root.description=？？？
+
+advancements.csrp.brew_fear.title=§b陶酔
+advancements.csrp.brew_fear.description=恐怖のポーションを醸造する
+
+advancements.csrp.guerilla.title=§b遊撃
+advancements.csrp.guerilla.description=恐怖のスプラッシュで撹乱したプレイヤーを討ち取る
+
+advancements.csrp.kill_inborn.title=先天種
+advancements.csrp.kill_inborn.description=先天種寄生虫を一体でも倒す
+
+advancements.csrp.kill_assimilated.title=同化種
+advancements.csrp.kill_assimilated.description=同化種生き物を一体でも倒す
+
+advancements.csrp.beheaded.title=ロボトミーコーポレーション
+advancements.csrp.beheaded.description=同化された頭を一体でも倒す
+
+advancements.csrp.kill_primitive.title=原始種
+advancements.csrp.kill_primitive.description=原始種寄生虫を一体でも倒す
+
+advancements.csrp.kill_adapted.title=適応種
+advancements.csrp.kill_adapted.description=適応種寄生虫を一体でも倒す
+
+advancements.csrp.kill_deterrent.title=抑止種
+advancements.csrp.kill_deterrent.description=抑止種寄生虫を一体でも倒す
+
+advancements.csrp.kill_pure.title=純粋種
+advancements.csrp.kill_pure.description=純粋種寄生虫を一体でも倒す
+
+advancements.csrp.controversial.title=異端
+advancements.csrp.controversial.description=同化されたエンダーマンを倒す
+
+advancements.csrp.kill_crude.title=粗雑種
+advancements.csrp.kill_crude.description=粗雑種寄生虫を一体でも倒す
+
+advancements.csrp.kill_beckon_s1.title=庭師
+advancements.csrp.kill_beckon_s1.description=Ⅰ期・召喚荊を倒す
+
+advancements.csrp.kill_beckon_s2.title=剪定者
+advancements.csrp.kill_beckon_s2.description=Ⅱ期・召喚荊を倒す
+
+advancements.csrp.kill_beckon_s3.title=抜根者
+advancements.csrp.kill_beckon_s3.description=Ⅲ期・召喚荊を倒す
+
+advancements.csrp.kill_beckon_s4.title=根絶者
+advancements.csrp.kill_beckon_s4.description=Ⅳ期・召喚荊を倒す
+
+advancements.csrp.kill_dispatcher_s1.title=ZAYIN 鎮圧
+advancements.csrp.kill_dispatcher_s1.description=Ⅰ期・指揮花を倒す
+
+advancements.csrp.kill_dispatcher_s2.title=TETH 鎮圧
+advancements.csrp.kill_dispatcher_s2.description=Ⅱ期・指揮花を倒す
+
+advancements.csrp.kill_dispatcher_s3.title=HE 鎮圧
+advancements.csrp.kill_dispatcher_s3.description=Ⅲ期・指揮花を倒す
+
+advancements.csrp.kill_dispatcher_s4.title=ALEPH 鎮圧
+advancements.csrp.kill_dispatcher_s4.description=Ⅳ期・指揮花を倒す
+
+advancements.csrp.fermented_arrogance.title=発酵した傲慢
+advancements.csrp.fermented_arrogance.description=狂気のエンダーマンを倒す
+
+advancements.csrp.monument.title=我は汝らの罪すべての碑なり
+advancements.csrp.monument.description=何者かがステージ「Ⅳ期」に到達した
+
+advancements.csrp.cut_roots.title=根絶やし
+advancements.csrp.cut_roots.description=ルプターを 1000 匹倒す
+
+advancements.csrp.peacekeeper.title=平和維持者
+advancements.csrp.peacekeeper.description=バイオーム浄化装置を入手する
+
+advancements.csrp.enemy_enemy.title=我が敵の敵
+advancements.csrp.enemy_enemy.description=クリーパーに寄生虫を倒させる
+
+advancements.csrp.ruin_of_fools.title=愚者の破滅
+advancements.csrp.ruin_of_fools.description=原始種寄生虫を全て倒す
+
+advancements.csrp.hunt_season.title=狩猟期
+advancements.csrp.hunt_season.description=一日で寄生虫 50 匹を駆除する
+
+advancements.csrp.qliphoth_overload.title=クリフォト過負荷
+advancements.csrp.qliphoth_overload.description=何かが「Ⅳ期」に達しました。
+
+advancement.csrp.thornshade_self_destruct.title=華麗なる自壊（Beautiful Self-Destruction）
+advancement.csrp.thornshade_self_destruct.desc=自らに影棘の棘の爆発を引き起こせ。
+
+advancement.csrp.sepeku.title=切腹
+advancement.csrp.sepeku.desc=自らの命を捧げた。
+
+advancement.csrp.hellfire_chemical_warfare.title=業火化学戦
+advancement.csrp.hellfire_chemical_warfare.desc=ドラコナイトを討ち果たし、その内なる炉から生き
+
+advancement.csrp.cosmic_structural_failure.title=宇宙構造崩壊
+advancement.csrp.cosmic_structural_failure.desc=ヴォイドウォーカーを永遠の自己崩壊から解放せよ
+
+# Esca Bulbs
+tile.csrp.esca_bulb.name=擬餌の電球
+tile.csrp.esca_bulb_white.name=擬餌の電球（白色）
+tile.csrp.esca_bulb_orange.name=擬餌の電球（橙色）
+tile.csrp.esca_bulb_magenta.name=擬餌の電球（赤紫色）
+tile.csrp.esca_bulb_light_blue.name=擬餌の電球（空色）
+tile.csrp.esca_bulb_yellow.name=擬餌の電球（黄色）
+tile.csrp.esca_bulb_lime.name=擬餌の電球（黄緑色）
+tile.csrp.esca_bulb_pink.name=擬餌の電球（桃色）
+tile.csrp.esca_bulb_gray.name=擬餌の電球（灰色）
+tile.csrp.esca_bulb_light_gray.name=擬餌の電球（薄灰色）
+tile.csrp.esca_bulb_cyan.name=擬餌の電球（青緑色）
+tile.csrp.esca_bulb_purple.name=擬餌の電球（紫色）
+tile.csrp.esca_bulb_blue.name=擬餌の電球（青色）
+tile.csrp.esca_bulb_brown.name=擬餌の電球（茶色）
+tile.csrp.esca_bulb_green.name=擬餌の電球（緑色）
+tile.csrp.esca_bulb_red.name=擬餌の電球（赤色）
+tile.csrp.esca_bulb_black.name=擬餌の電球（黒色）
+tooltip.esca_bulb=魚の匂いがする。
+
+tile.csrp.alveoli.name=肺胞
+tile.csrp.sick_alveoli.name=病気の肺胞
+tile.csrp.alveoli_growth.name=肺胞の腫瘍
+tile.csrp.solid_alveoli_block.name=固形肺胞ブロック
+item.csrp.alveolar_fluid.name=肺胞液
+item.csrp.deadblood_fluid.name=§2死血液
+
+tile.csrp.assimilated_reed.name=同化されたサトウキビ
+tile.csrp.infested_leaves.name=寄生された葉
+tile.csrp.infested_leaves_fast.name=寄生された葉（速い）
+tile.csrp.infested_planks.name=寄生された板材
+tile.csrp.infested_stone_bricks.name=寄生された石レンガ
+tile.csrp.residue_bricks.name=残渣レンガ
+tile.csrp.residue_stairs.name=残渣レンガの階段
+tile.csrp.residue_wall.name=残渣の塀
+tile.csrp.residue_block.name=残渣ブロック
+tile.csrp.diseased_sponge.name=病変したスポンジ
+tile.csrp.residue_plants.name=残渣の花
+tile.csrp.infested_column.name=寄生された柱
+tile.csrp.infested_terracotta.name=寄生されたテラコッタ
+tile.csrp.infested_stone_polished.name=磨かれた寄生された石
+tile.csrp.inf_ss.name=寄生された砂岩
+tile.csrp.inf_ss_chiseled.name=模様入りの寄生された砂岩
+tile.csrp.inf_ss_cut.name=模様入りの寄生された研がれた砂岩
+tile.csrp.ashen_glass.name=アシェンガラス
+tile.csrp.ashen_glass_pane.name=アシェンガラス板
+tile.csrp.infested_glass_pane.name=寄生されたガラス板
+tile.csrp.bloody_glass_pane.name=血まみれのガラス板
+tile.csrp.harlequinn_glass_pane.name=ハーレクインのガラス板
+tile.csrp.shrouded_glass_pane.name=覆われてガラス板
+tile.csrp.shrouded_glass.name=覆われてガラス
+tile.csrp.harlequinn_glass.name=ハーレクインのガラス
+tile.csrp.bloody_glass.name=血まみれのガラス
+tile.csrp.infested_glass.name=寄生されたガラス
+tile.csrp.biomass_block.name=バイオマスブロック
+tile.csrp.shade_glass_pane.name=影ガラス板
+tile.csrp.sepia_glass_pane.name=セピア色のガラス板
+tile.csrp.moody_glass_pane.name=物悲しげなガラス板
+tile.csrp.shade_glass.name=影のガラス
+tile.csrp.sepia_glass.name=セピア色のガラス
+tile.csrp.moody_glass.name=物悲しげなガラス
+
+#Fog Nullifier
+tile.csrp.fog_nullifier.name=霧消去装置
+advancements.csrp.fog_nullifier.title=霧消去装置
+advancements.csrp.fog_nullifier.description=寄生虫の霧を払う装置を手に入れよう
+
+tile.csrp.assimilated_pumpkin.name=同化されたカボチャ
+tile.csrp.assimilated_jack_o_lantern.name=同化されたジャック・オ・ランタン
+tile.csrp.goth_stem.name=ゴスの幹
+tile.csrp.goth_planks.name=ゴスの板材
+item.csrp.goth_door.name=ゴスのドア
+tile.csrp.brusewood_planks.name=痕木の板材
+item.csrp.brusewood_door.name=痕木のドア
+tile.csrp.brusewood_trapdoor.name=痕木のトラップドア
+tile.csrp.consumed_planks.name=喰われた板材
+tile.csrp.consumed_workbench.name=喰われた作業台
+item.csrp.consumed_door.name=喰われた木のドア
+tile.csrp.consumed_trapdoor.name=喰われた木のトラップドア
+
+
+entity.csrp.host.name=骸山塔
+entity.csrp.hostii.name=京観塔
+entity.csrp.crux.name=榾柮妖
+entity.csrp.crux_incomplete.name=不完備榾柮妖
+entity.csrp.heed.name=示惕妖
+entity.csrp.thrall.name=束奴
+entity.csrp.done.name=浚渫妖
+entity.csrp.carrier_worm.name=虫担体
+entity.csrp.airscrew.name=転旋虫
+
+death.attack.csrp.ricardo=%sは復讐の書に追加されました。
+item.csrp.book_of_vengeance.name=§d§l復讐の書
+item.csrp.book_of_vengeance.vengeance0=§7------------------
+item.csrp.book_of_vengeance.vengeance1=§6支配せよ、結集せよ、復讐を誓え。
+item.csrp.book_of_vengeance.vengeance3=§d出血、封鎖、衝撃煙軌跡§8（5秒）
+item.csrp.book_of_vengeance.vengeance5=§dインタラクト：§7復讐衝撃連鎖§8（命中時）
+item.csrp.book_of_vengeance.vengeance6=§dスニーク使用：§7衝撃波ノックバック
+
+death.attack.srp_dod_block=%1$sは指揮花の病巣に叩き潰された。
+death.attack.srp_dod_block.player=%1$sは%2$sと戦闘中、指揮花の病巣に叩き潰された。
+
+entity.csrp.sim_bear.name=同化されたクマ
+entity.csrp.sim_squid.name=同化されたイカ
+entity.csrp.sim_enderman.name=同化されたエンダーマン
+entity.csrp.sim_endermanhead.name=歩く頭
+entity.csrp.sim_adventurer.name=同化された冒険者
+entity.csrp.sim_adventurerhead.name=歩く頭
+entity.csrp.sim_bigspider.name=同化された大クモ
+entity.csrp.sim_human.name=同化された人間
+entity.csrp.sim_humanhead.name=歩く頭
+entity.csrp.sim_villager.name=同化された村人
+entity.csrp.sim_villagerhead.name=歩く頭
+entity.csrp.sim_cow.name=同化されたウシ
+entity.csrp.sim_cowhead.name=歩く頭
+entity.csrp.sim_horse.name=同化されたウマ
+entity.csrp.sim_horsehead.name=歩く頭
+entity.csrp.sim_pig.name=同化されたブタ
+entity.csrp.sim_pighead.name=歩く頭
+entity.csrp.sim_sheep.name=同化されたヒツジ
+entity.csrp.sim_sheephead.name=歩く頭
+entity.csrp.sim_wolf.name=同化されたオオカミ
+entity.csrp.sim_wolfhead.name=歩く頭
+entity.csrp.incompleteform_medium.name=不完備形態
+entity.csrp.incompleteform_small.name=不完備形態
+entity.csrp.sim_dragone.name=同化されたエンダードラゴン
+entity.csrp.sim_dragonehead.name=歩く頭
+
+entity.csrp.mar_bear.name=魔羅・クマ
+entity.csrp.mar_enderman.name=魔羅・エンダーマン
+entity.csrp.mar_human.name=魔羅・人間
+entity.csrp.mar_villager.name=魔羅・村人
+entity.csrp.mar_cow.name=魔羅・ウシ
+entity.csrp.mar_sheep.name=魔羅・ヒツジ
+
+entity.csrp.fer_cow.name=狂気のウシ
+entity.csrp.fer_bear.name=狂気のクマ
+entity.csrp.fer_enderman.name=狂気のエンダーマン
+entity.csrp.fer_human.name=狂気の人間
+entity.csrp.fer_horse.name=狂気のウマ
+entity.csrp.fer_sheep.name=狂気のヒツジ
+entity.csrp.fer_pig.name=狂気のブタ
+entity.csrp.fer_villager.name=狂気の村人
+entity.csrp.fer_wolf.name=狂気のオオカミ
+
+entity.csrp.hi_blaze.name=乗取られたブレイズ
+entity.csrp.hi_golem.name=乗取られたアイアンゴーレム
+entity.csrp.hi_skeleton.name=乗取られたスケルトン
+
+entity.csrp.overseer.name=オーヴァーシアー
+entity.csrp.bomber_light.name=軽爆
+entity.csrp.carrier_heavy.name=重担体
+entity.csrp.carrier_light.name=軽担体
+entity.csrp.buglin.name=バグリン
+entity.csrp.mangler.name=マングラー
+entity.csrp.gnat.name=ブヨ
+entity.csrp.lice.name=シラミ
+entity.csrp.worker.name=ワーカー
+entity.csrp.carrier_flying.name=空飛担体
+entity.csrp.rupter.name=ルプター
+entity.csrp.beckon_si.name=Ⅰ期・召喚荊
+entity.csrp.beckon_sii.name=Ⅱ期・召喚荊
+entity.csrp.beckon_siii.name=Ⅲ期・召喚荊
+entity.csrp.beckon_siv.name=Ⅳ期・召喚荊
+entity.csrp.beckon_sv.name=Ⅴ期・召喚荊
+entity.csrp.warden.name=ウォーデン
+entity.csrp.marauder.name=マラウダー
+entity.csrp.monarch.name=モナーク
+entity.csrp.grunt.name=グラント
+entity.csrp.sentry.name=歩哨爪
+entity.csrp.kyphosis.name=湾脊爪
+entity.csrp.dispatcherten.name=指揮花の触手
+entity.csrp.dispatcher_si.name=Ⅰ期・指揮花
+entity.csrp.dispatcher_sii.name=Ⅱ期・指揮花
+entity.csrp.dispatcher_siii.name=Ⅲ期・指揮花
+entity.csrp.dispatcher_siv.name=Ⅳ期・指揮花
+entity.csrp.rooter_si.name=Ⅰ期・補佐根
+entity.csrp.rooter_sii.name=Ⅱ期・補佐根
+entity.csrp.rooter_siii.name=Ⅲ期・補佐根
+entity.csrp.rooter_siv.name=Ⅳ期・補佐根
+entity.csrp.rooterball.name=補佐根の嚢胞
+entity.csrp.seizer.name=緊縛触手
+
+entity.csrp.bomber_heavy.name=重爆
+entity.csrp.carrier_colony.name=集落担体
+entity.csrp.wraith.name=幽霊
+entity.csrp.bogle.name=鬼霊
+entity.csrp.haunter.name=魂猟
+entity.csrp.succor.name=援助胞
+entity.csrp.seeker.name=シーカー
+entity.csrp.architect.name=築霊
+entity.csrp.dredge.name=浚渫妖
+entity.csrp.sim_dragonhead.name=ドラゴンの歩く頭
+
+entity.csrp.draconite.name=§9ドラコナイト
+entity.csrp.kirin.name=§9ヴォイドウォーカー
+
+entity.csrp.anc_dreadnaut.name=太古・無畏魔
+entity.csrp.anc_overlord.name=太古・主君魔
+entity.csrp.vigilante.name=ヴィジランティ
+entity.csrp.movingflesh.name=動く肉
+entity.csrp.tendril.name=巻鬚
+entity.csrp.anc_pod.name=ポッド
+entity.csrp.biomass.name=バイオマス
+entity.csrp.gore.name=遺骸
+
+entity.csrp.ada_longarms.name=適応・長腕妖
+entity.csrp.ada_summoner.name=適応・召喚妖
+entity.csrp.ada_manducater.name=適応・噬生妖
+entity.csrp.ada_reeker.name=適応・汚臭妖
+entity.csrp.ada_yelloweye.name=適応・黄目妖
+entity.csrp.ada_bolster.name=適応・補強妖
+entity.csrp.ada_arachnida.name=適応・蛛形妖
+entity.csrp.ada_devourer.name=適応・貪食妖
+entity.csrp.ada_vermin.name=適応・悪殖妖
+entity.csrp.ada_tozoon.name=適応・千櫛妖
+entity.csrp.ada_burrower.name=適応・穴掘妖
+entity.csrp.ada_viscera.name=適応・臓腑妖
+
+entity.csrp.wave.name=波
+entity.csrp.waveshock.name=波
+
+entity.csrp.worm.name=香識虫
+entity.csrp.anc_dreadnaut_ten.name=太古・無畏魔の巻鬚
+
+entity.csrp.remain.name=残骸
+
+entity.csrp.meteor.name=巣域衛星
+entity.csrp.cloudtoxic.name=毒ガス
+entity.csrp.orbscary.name=恐怖場
+entity.csrp.orbboom.name=爆燃場
+entity.csrp.orbvoid.name=虚空場
+entity.csrp.bomb.name=寄生爆弾
+
+# Creative Tab
+
+itemGroup.SRParasites=脱走と出奔：寄生虫
+
+# Items
+item.csrp.itemmobspawner_pod.name=スポーン ポッド
+
+item.csrp.itemmobspawner_abobodies.name=スポーン 嫌悪・多体
+item.csrp.itemmobspawner_abohead.name=スポーン 嫌悪・巨頭
+
+item.csrp.itemmobspawner_host.name=スポーン 骸山塔
+item.csrp.itemmobspawner_hostii.name=スポーン 京観塔
+item.csrp.itemmobspawner_heed.name=スポーン 示惕妖
+item.csrp.itemmobspawner_cruxa.name=スポーン 榾柮妖
+item.csrp.itemmobspawner_mes.name=スポーン 束奴
+item.csrp.itemmobspawner_done.name=スポーン 浚渫妖
+item.csrp.itemmobspawner_quac.name=スポーン 虫担体
+item.csrp.itemmobspawner_leer.name=スポーン 転旋虫
+item.csrp.itemmobspawner_cruxb.name=スポーン 不完備榾柮妖
+
+item.csrp.itemmobspawner_infbear.name=スポーン 同化されたクマ
+item.csrp.itemmobspawner_infsquid.name=スポーン 同化されたイカ
+item.csrp.itemmobspawner_infenderman.name=スポーン 同化されたエンダーマン
+item.csrp.itemmobspawner_infendermanhead.name=スポーン エンダーマンの歩く頭
+item.csrp.itemmobspawner_infplayer.name=スポーン 同化された冒険者
+item.csrp.itemmobspawner_infplayerhead.name=スポーン 冒険者の歩く頭
+item.csrp.itemmobspawner_dorpa.name=スポーン 同化された大クモ
+item.csrp.itemmobspawner_infhuman.name=スポーン 同化された人間
+item.csrp.itemmobspawner_infhumanhead.name=スポーン 人間の歩く頭
+item.csrp.itemmobspawner_infvillager.name=スポーン 同化された村人
+item.csrp.itemmobspawner_infvillagerhead.name=スポーン 村人の歩く頭
+item.csrp.itemmobspawner_infcow.name=スポーン 同化されたウシ
+item.csrp.itemmobspawner_infcowhead.name=スポーン ウシの歩く頭
+item.csrp.itemmobspawner_infpig.name=スポーン 同化されたブタ
+item.csrp.itemmobspawner_infpighead.name=スポーン ブタの歩く頭
+item.csrp.itemmobspawner_infsheep.name=スポーン 同化されたヒツジ
+item.csrp.itemmobspawner_infsheephead.name=スポーン ヒツジの歩く頭
+item.csrp.itemmobspawner_infwolf.name=スポーン 同化されたオオカミ
+item.csrp.itemmobspawner_infwolfhead.name=スポーン オオカミの歩く頭
+item.csrp.itemmobspawner_infhorse.name=スポーン 同化されたウマ
+item.csrp.itemmobspawner_infhorsehead.name=スポーン ウマの歩く頭
+item.csrp.itemmobspawner_inhoos.name=スポーン 小不完備形態
+item.csrp.itemmobspawner_inhoom.name=スポーン 中不完備形態
+item.csrp.itemmobspawner_infdragone.name=スポーン 同化されたエンダードラゴン
+item.csrp.itemmobspawner_infdragonehead.name=スポーン エンダードラゴンの歩く頭
+
+item.csrp.itemmobspawner_marbear.name=スポーン 魔羅・クマ
+item.csrp.itemmobspawner_marhuman.name=スポーン 魔羅・人間
+item.csrp.itemmobspawner_marcow.name=スポーン 魔羅・ウシ
+item.csrp.itemmobspawner_marsheep.name=スポーン 魔羅・ヒツジ
+item.csrp.itemmobspawner_marenderman.name=スポーン 魔羅・エンダーマン
+item.csrp.itemmobspawner_marvillager.name=スポーン 魔羅・村人
+
+item.csrp.itemmobspawner_fercow.name=スポーン 狂気のウシ
+item.csrp.itemmobspawner_ferbear.name=スポーン 狂気のクマ
+item.csrp.itemmobspawner_ferenderman.name=スポーン 狂気のエンダーマン
+item.csrp.itemmobspawner_ferhuman.name=スポーン 狂気の人間
+item.csrp.itemmobspawner_ferhorse.name=スポーン 狂気のウマ
+item.csrp.itemmobspawner_ferpig.name=スポーン 狂気のブタ
+item.csrp.itemmobspawner_fersheep.name=スポーン 狂気のヒツジ
+item.csrp.itemmobspawner_fervillager.name=スポーン 狂気の村人
+item.csrp.itemmobspawner_ferwolf.name=スポーン 狂気のオオカミ
+
+item.csrp.itemmobspawner_hiblaze.name=スポーン 乗取られたブレイズ
+item.csrp.itemmobspawner_higolem.name=スポーン 乗取られたアイアンゴーレム
+item.csrp.itemmobspawner_hiskeleton.name=スポーン 乗取られたスケルトン
+
+item.csrp.itemmobspawner_alafha.name=スポーン オーヴァーシアー
+item.csrp.itemmobspawner_omboo.name=スポーン 軽爆
+item.csrp.itemmobspawner_rathol.name=スポーン 重担体
+item.csrp.itemmobspawner_gothol.name=スポーン 軽担体
+item.csrp.itemmobspawner_buthol.name=スポーン 空飛担体
+item.csrp.itemmobspawner_lodo.name=スポーン バグリン
+item.csrp.itemmobspawner_nuuh.name=スポーン マングラー
+item.csrp.itemmobspawner_ata.name=スポーン ブヨ
+item.csrp.itemmobspawner_worker.name=スポーン ワーカー
+item.csrp.itemmobspawner_mudo.name=スポーン ルプター
+item.csrp.itemmobspawner_venkrol.name=スポーン Ⅰ期・召喚荊
+item.csrp.itemmobspawner_venkrolsii.name=スポーン Ⅱ期・召喚荊
+item.csrp.itemmobspawner_venkrolsiii.name=スポーン Ⅲ期・召喚荊
+item.csrp.itemmobspawner_venkrolsiv.name=スポーン Ⅳ期・召喚荊
+item.csrp.itemmobspawner_venkrolsv.name=スポーン Ⅴ期・召喚荊
+item.csrp.itemmobspawner_ganro.name=スポーン ウォーデン
+item.csrp.itemmobspawner_esor.name=スポーン マラウダー
+item.csrp.itemmobspawner_orch.name=スポーン モナーク
+item.csrp.itemmobspawner_flog.name=スポーン グラント
+item.csrp.itemmobspawner_unvo.name=スポーン 歩哨爪
+item.csrp.itemmobspawner_tonro.name=スポーン 湾脊爪
+item.csrp.itemmobspawner_dod.name=スポーン Ⅰ期・指揮花
+item.csrp.itemmobspawner_dodsii.name=スポーン Ⅱ期・指揮花
+item.csrp.itemmobspawner_dodsiii.name=スポーン Ⅲ期・指揮花
+item.csrp.itemmobspawner_dodsiv.name=スポーン Ⅳ期・指揮花
+item.csrp.itemmobspawner_leem.name=スポーン Ⅰ期・補佐根
+item.csrp.itemmobspawner_leemsii.name=スポーン Ⅱ期・補佐根
+item.csrp.itemmobspawner_leemsiii.name=スポーン Ⅲ期・補佐根
+item.csrp.itemmobspawner_leemsiv.name=スポーン Ⅳ期・補佐根
+item.csrp.itemmobspawner_nak.name=スポーン 緊縛触手
+
+item.csrp.itemmobspawner_jinjo.name=スポーン 重爆
+item.csrp.itemmobspawner_vesta.name=スポーン 集落担体
+item.csrp.itemmobspawner_elvia.name=スポーン 幽霊
+item.csrp.itemmobspawner_lencia.name=スポーン 鬼霊
+item.csrp.itemmobspawner_pheon.name=スポーン 魂猟
+item.csrp.itemmobspawner_flam.name=スポーン 援助胞
+item.csrp.itemmobspawner_soo.name=スポーン シーカー
+item.csrp.itemmobspawner_tenn.name=スポーン 築霊
+
+item.csrp.itemmobspawner_heblu.name=スポーン §9ドラコナイト
+item.csrp.itemmobspawner_kirin.name=スポーン §9ヴォイドウォーカー
+
+item.csrp.itemmobspawner_oronco.name=スポーン 太古・無畏魔
+item.csrp.itemmobspawner_terla.name=スポーン 太古・主君魔
+item.csrp.itemmobspawner_anged.name=スポーン ヴィジランティ
+item.csrp.itemmobspawner_lesh.name=スポーン 動く肉
+
+item.csrp.itemmobspawner_shyco.name=スポーン 原始・長腕妖
+item.csrp.itemmobspawner_hull.name=スポーン 原始・噬生妖
+item.csrp.itemmobspawner_canra.name=スポーン 原始・召喚妖
+item.csrp.itemmobspawner_emana.name=スポーン 原始・黄目妖
+item.csrp.itemmobspawner_nogla.name=スポーン 原始・汚臭妖
+item.csrp.itemmobspawner_bano.name=スポーン 原始・補強妖
+item.csrp.itemmobspawner_ranrac.name=スポーン 原始・蛛形妖
+item.csrp.itemmobspawner_lum.name=スポーン 原始・貪食妖
+item.csrp.itemmobspawner_iki.name=スポーン 原始・悪殖妖
+item.csrp.itemmobspawner_wymo.name=スポーン 原始・千櫛妖
+item.csrp.itemmobspawner_gim.name=スポーン 原始・臓腑妖
+item.csrp.itemmobspawner_zaa.name=スポーン 原始・穴掘妖
+
+item.csrp.itemmobspawner_shycoadapted.name=スポーン 適応・長腕妖
+item.csrp.itemmobspawner_canraadapted.name=スポーン 適応・召喚妖
+item.csrp.itemmobspawner_noglaadapted.name=スポーン 適応・汚臭妖
+item.csrp.itemmobspawner_hulladapted.name=スポーン 適応・噬生妖
+item.csrp.itemmobspawner_emanaadapted.name=スポーン 適応・黄目妖
+item.csrp.itemmobspawner_banoadapted.name=スポーン 適応・補強妖
+item.csrp.itemmobspawner_ranracadapted.name=スポーン 適応・蛛形妖
+item.csrp.itemmobspawner_lumadapted.name=スポーン 適応・貪食妖
+item.csrp.itemmobspawner_ikiadapted.name=スポーン 適応・悪殖妖
+item.csrp.itemmobspawner_wymoadapted.name=スポーン 適応・千櫛妖
+item.csrp.itemmobspawner_gimadapted.name=スポーン 適応・臓腑妖
+item.csrp.itemmobspawner_zaaadapted.name=スポーン 適応・穴掘妖
+
+item.csrp.itemthrow.name=§6焼入丸
+item.csrp.itemtab.name=§d無
+item.csrp.itemevolve.name=進化の杖
+item.csrp.itemassimilate.name=同化の杖
+item.csrp.itemdevolve.name=退化の杖
+item.csrp.itemvariant.name=変種の杖
+item.csrp.evclock.name=§c血まみれの時計
+item.csrp.levelclock.name=§bレベルでの時計
+item.csrp.weapon_scythe.name=§e生きた鎌
+item.csrp.weapon_scythe_sentient.name=§6知的な巨鎌
+item.csrp.weapon_bow.name=§e生きた弓
+item.csrp.weapon_bow_sentient.name=§6知的な巨弓
+item.csrp.weapon_axe.name=§e生きた斧
+item.csrp.weapon_axe_sentient.name=§6知的な巨斧
+item.csrp.weapon_sword.name=§e生きた剣
+item.csrp.weapon_sword_sentient.name=§6知的な巨剣
+item.csrp.weapon_cleaver.name=§e生きた包丁
+item.csrp.weapon_cleaver_sentient.name=§6知的な巨包丁
+item.csrp.weapon_maul.name=§e生きたマウル
+item.csrp.weapon_maul_sentient.name=§6知的な巨マウル
+item.csrp.weapon_lance.name=§e生きたランス
+item.csrp.weapon_lance_sentient.name=§6知的な巨ランス
+
+item.csrp.hijacked_iron_sword.name=§c乗取られた鉄の剣
+item.csrp.hijacked_iron_axe.name=§c乗取られた鉄の斧
+item.csrp.hijacked_iron_shovel.name=§c乗取られた鉄のシャベル
+item.csrp.hijacked_iron_hoe.name=§c乗取られた鉄のクワ
+item.csrp.hijacked_iron_pickaxe.name=§c乗取られた鉄のツルハシ
+
+item.csrp.hijacked_iron_sword.desc=§c出血§fさせ、寄生虫を引き裂く。瀕死の対象に§c怒り§f状態を引き起こす。
+item.csrp.hijacked_iron_axe.desc=§c出血§fさせ、寄生虫を引き裂く。瀕死の対象に§c怒り§f状態を引き起こす。
+item.csrp.hijacked_iron_shovel.desc=§c出血§fさせ、寄生虫を引き裂く。瀕死の対象に§c怒り§f状態を引き起こす。
+item.csrp.hijacked_iron_hoe.desc=§c出血§fさせ、寄生虫を引き裂く。瀕死の対象に§c怒り§f状態を引き起こす。
+item.csrp.hijacked_iron_pickaxe.desc=§c出血§fさせ、寄生虫を引き裂く。瀕死の対象に§c怒り§f状態を引き起こす。
+
+item.csrp.armor_helm.name=§e生きたヘルメット
+item.csrp.armor_chest.name=§e生きたチェストプレート
+item.csrp.armor_pants.name=§e生きたレギンス
+item.csrp.armor_boots.name=§e生きたブーツ
+item.csrp.armor_helm_sentient.name=§6知的なヘルメット
+item.csrp.armor_chest_sentient.name=§6知的なチェストプレート
+item.csrp.armor_pants_sentient.name=§6知的なレギンス
+item.csrp.armor_boots_sentient.name=§6知的なブーツ
+
+####
+item.csrp.bow_upperlimb.name=§6生きた巨弓の上肢
+item.csrp.bow_lowerlimb.name=§6生きた巨弓の下肢
+item.csrp.bow_string.name=§6生きた巨弓の弦
+item.csrp.bow_grip.name=§6生きた巨弓のグリップ
+item.csrp.bow_core.name=§6生きた巨弓のコア
+
+item.csrp.scythe_back.name=§6生きた鎌の背面
+item.csrp.scythe_blade.name=§6生きた鎌のブレード
+item.csrp.scythe_core.name=§6生きた鎌のコア
+item.csrp.scythe_handle.name=§6生きた鎌のハンドル
+item.csrp.scythe_head.name=§6生きた鎌の頭
+####
+
+
+item.csrp.dried_tendons.name=§e乾燥した腱
+item.csrp.hardened_bone_handle.name=§e硬化した骨のハンドル
+item.csrp.infectious_blade_fragment.name=§e同化されたブレードの断片
+item.csrp.living_core.name=§e生きたコア
+item.csrp.vile_shell.name=§e邪悪な殻
+item.csrp.bone.name=§e異質な骨
+
+item.csrp.ada_longarms_drop.name=§b長腕妖の甲の断片
+item.csrp.ada_summoner_drop.name=§b召喚妖のコア
+item.csrp.ada_yelloweye_drop.name=§b黄目妖の骨
+item.csrp.ada_reeker_drop.name=§b汚臭妖の牙
+item.csrp.ada_manducater_drop.name=§b噬生妖のオーブ
+item.csrp.ada_bolster_drop.name=§b補強妖の殻
+item.csrp.ada_arachnida_drop.name=§b蛛形妖の爪
+item.csrp.ada_devourer_drop.name=§b貪食妖の触手
+item.csrp.ada_vermin_drop.name=§d腐食性粘液
+item.csrp.ada_viscera_drop.name=§d欠けた母なる膜
+item.csrp.hijacked_drop.name=§c乗取られた腫瘍
+item.csrp.ada_burrower_drop.name=§c幻想
+item.csrp.hive_scrap.name=§7巣域の破片
+item.csrp.bloody_iron_ingot.name=乗取られた鉄インゴット
+item.csrp.semiorganic_ingot.name=半有機インゴット
+tile.csrp.semiorganic_block.name=半有機ブロック
+item.csrp.bloody_rod.name=乗取られたブレイズロッド
+item.csrp.bloody_bone.name=乗取られた骨
+tile.csrp.assimilated_blossom.name=同化された花
+tile.csrp.potted_assimilated_blossom.name=同化された花入り植木鉢
+tile.csrp.potted_consumed_assimilated_blossom.name=同化された花入り喰われた植木鉢
+tile.csrp.consumed_pot.name=喰われた植木鉢
+tile.csrp.infested_pot.name=寄生された植木鉢
+item.csrp.infested_bonemeal.name=寄生された骨粉
+tile.csrp.infested_cactus.name=寄生されたサボテン
+tile.csrp.infested_workbench.name=寄生された作業台
+tile.csrp.trophy_void_orb.name=ヴォイドウォーカートロフィー
+tile.csrp.trophy_boom_orb.name=ドラコナイトトロフィー
+
+item.csrp.assimilated_flesh.name=同化された肉
+item.csrp.beckon_drop.name=§a召喚荊の膜
+item.csrp.dispatcher_drop.name=§c指揮花の膜
+
+item.csrp.lurecomponent1.name=§bルプターの内臓
+item.csrp.lurecomponent2.name=§b病んだ心
+item.csrp.lurecomponent3.name=§b喰われた腱
+item.csrp.lurecomponent4.name=§b有毒な肺
+item.csrp.lurecomponent5.name=§b有害な脳
+item.csrp.lurecomponent6.name=§b歪みし脊髄信号
+item.csrp.lurecomponent7.name=§bLure Component 7
+item.csrp.lurecomponent8.name=§bLure Component 8
+item.csrp.lurecomponent9.name=§bLure Component 9
+item.csrp.lurecomponent10.name=§bLure Component 10
+
+item.csrp.greek_fire.name=ギリシア火
+item.csrp.bough.name=大枝
+tooltip.csrp.bough.line1=輝かしく暖かい黄色の輝きを放つ。
+tooltip.csrp.bough.line2=切腹に使用される。
+death.attack.sepeku=%1$s が切腹を行った
+
+item.csrp.nodecompass.name=§c節点の羅針盤
+item.csrp.colonycompass.name=§c集落の羅針盤
+item.csrp.origincompass.name=§c経路の羅針盤
+
+##Blocks
+
+tile.csrp.parasitesapling_tree.name=脈木の苗木
+tile.csrp.parasitesapling_treethin.name=異瞳の苗木
+tile.csrp.parasitesapling_flowertall.name=闇木の苗木
+tile.csrp.parasitesapling_consumed.name=喰われた木の苗木
+tile.csrp.parasitesapling_deadhead.name=枯槎木の苗木
+tile.csrp.parasitesapling_infested.name=寄生された木の苗木
+
+tile.csrp.parasiteplank_deadhead_wall.name=枯槎木の板材の塀
+tile.csrp.parasiterubble_weathb_wall.name=風化したレンガの塀
+tile.csrp.parasiterubbledense_colony_wall.name=寄生圧縮された集落石の塀
+tile.csrp.parasiterubble_weathfs_wall.name=霜風化した石の塀
+tile.csrp.parasiterubbledense_biome_wall.name=強化された巣域石の塀
+tile.csrp.parasiterubble_weathbc_wall.name=風化した丸石の塀
+tile.csrp.parasiterubble_bricks_wall.name=巣域レンガの塀
+tile.csrp.parasitecanister_bag_wall.name=肉嚢袋の塀
+tile.csrp.infestedrubble_wall.name=寄生された石の塀
+tile.csrp.infestedstain_wall.name=寄生された土の塀
+tile.csrp.parasitestain_flesh_wall.name=肉しこりの塀
+tile.csrp.parasiterubble_metal_wall.name=巣域鋼の塀
+
+tile.csrp.infested_plank_wall.name=寄生された板材の塀
+tile.csrp.bruisewood_plank_wall.name=痕木の板材の塀
+tile.csrp.polished_infested_stone_wall.name=磨かれた寄生された石の塀
+tile.csrp.infested_stone_brick_wall.name=寄生された石レンガの塀
+tile.csrp.goth_plank_wall.name=ゴスの板材の塀
+tile.csrp.infested_sandstone_wall.name=寄生された砂岩の塀
+tile.csrp.consumed_plank_wall.name=喰われた板材の塀
+
+tile.csrp.harlequinn_grass.name=ハーレクインの草ブロック
+tile.csrp.harleskinn_block.name=ハーレクインの皮膚ブロック
+tile.csrp.poland_skin_block.name=磨かれた皮膚ブロック
+tile.csrp.hair_follicle_block.name=気管支
+tile.csrp.locs_block.name=髪塊ブロック
+tile.csrp.hirsute_hair.name=毛深い髪
+tile.csrp.tresses_hair.name=長い髪
+tile.csrp.lipoma_mass.name=脂肪腫
+
+# Parasite Barrier Text
+tile.csrp.parasite_barrier.name=寄生虫チャンクバリア
+msg.csrp.barrier.no_permissionこのバリアを設定する権限がありません。
+msg.csrp.barrier.radius_set=[バリア] 半径を %s チャンクに設定しました。
+# Parasite Barrier Tooltip lines
+tooltip.csrp.parasite_barrier.creative_only= クリエイティブ専用アイテム
+tooltip.csrp.parasite_barrier.desc1=チャンクバリアの外へ寄生虫を強制的に排除します。
+tooltip.csrp.parasite_barrier.desc2=インタラクトでチャンク距離を変更できます。
+
+tile.csrp.parasitebush_tendril.name=毛細血管網
+tile.csrp.parasitebush_pop.name=寄生小胞
+tile.csrp.parasitebush_bine.name=神経小環
+tile.csrp.parasitebush_eye.name=終端遮眼器
+tile.csrp.parasitebush_tooh.name=小切歯
+tile.csrp.parasitebush_frostg.name=霜焼け草
+tile.csrp.parasitebush_frostgt.name=霜焼け草
+tile.csrp.parasitebush_thorn.name=影棘
+tile.csrp.parasitebush_thorndead.name=枯んだ影棘
+tile.csrp.parasitebush_thorndormat.name=休眠影棘
+tile.csrp.parasitebush_thorndormats.name=休眠影棘
+tile.csrp.parasitebush_thorntwo.name=影棘
+tile.csrp.parasitebush_thorntwos.name=影棘
+tile.csrp.parasitebush_decanter.name=デカンタ
+tile.csrp.parasitebush_decanterempty.name=空のデカンタ
+tooltip.csrp.thornshade_decanter.line1=近接ダメージの一部を攻撃者に反射する。
+tooltip.csrp.thornshade_decanter.line2=遠距魔法ダメージには影響しない。
+item.csrp.thornshade_decanter.name=§5影棘酒
+effect.csrp.thornshade_thorns=§5影棘の棘
+
+tile.csrp.infestedore_co.name=悪疫性の石炭鉱石
+tile.csrp.infestedore_dia.name=悪疫性のダイヤモンド鉱石
+tile.csrp.infestedore_eme.name=悪疫性のエメラルド鉱石
+tile.csrp.infestedore_gol.name=悪疫性の金鉱石
+tile.csrp.infestedore_iro.name=悪疫性の鉄鉱石
+tile.csrp.infestedore_lap.name=悪疫性のラピスラズリ鉱石
+tile.csrp.infestedore_red.name=悪疫性のレッドストーン鉱石
+tile.csrp.infestedore_un.name=悪疫性の鉱石
+
+# Harleskinn building set
+tile.csrp.harleskinn_stairs.name=ハーレクインの皮膚の階段
+tile.csrp.harleskinn_fence.name=ハーレクインの皮膚のフェンス
+tile.csrp.infested_fence.name=寄生された木フェンス
+tile.csrp.deadhead_fence.name=枯槎木のフェンス
+tile.csrp.goth_fence.name=ゴスのフェンス
+tile.csrp.consumed_fence.name=喰われた木フェンス
+tile.csrp.bruisewood_fence.name=痕木のフェンス
+tile.csrp.harleskinn_slab.name=ハーレクインの皮膚のハーフブロック
+# single slabs
+tile.csrp.infested_cobblestone_slab.name=寄生された丸石のハーフブロック
+tile.csrp.infested_plank_slab.name=寄生された板材のハーフブロック
+tile.csrp.infested_stone_slab.name=寄生された石のハーフブロック
+tile.csrp.infested_dirt_slab.name=寄生された土のハーフブロック
+tile.csrp.reinforced_hivestone_slab.name=強化された巣域石のハーフブロック
+tile.csrp.parasitic_colony_core_slab.name=寄生虫の集落コアのハーフブロック
+tile.csrp.sac_of_flesh_slab.name=肉嚢袋のハーフブロック
+tile.csrp.dead_head_plank_slab.name=枯槎木板材のハーフブロック
+tile.csrp.weathered_bricks_slab.name=風化したレンガのハーフブロック
+tile.csrp.parasitic_compressed_colony_stone_slab.name=寄生圧縮された集落石のハーフブロック
+tile.csrp.weathered_cobblestone_slab.name=風化した丸石のハーフブロック
+tile.csrp.frost_weathered_stone_slab.name=霜風化した石のハーフブロック
+tile.csrp.infested_stone_brick_slab.name=寄生された石レンガのハーフブロック
+tile.csrp.infested_terracotta_slab.name=寄生されたテラコッタのハーフブロック
+tile.csrp.polished_infested_stone_slab.name=磨かれた寄生された石のハーフブロック
+tile.csrp.residue_brick_slab.name=残渣レンガのハーフブロック
+tile.csrp.infested_sandstone_slab.name=寄生された砂岩のハーフブロック
+tile.csrp.goth_plank_slab.name=ゴス板材のハーフブロック
+tile.csrp.bruisewood_plank_slab.name=痕木板材のハーフブロック
+tile.csrp.consumed_plank_slab.name=喰われた板材のハーフブロック
+tile.csrp.harleskinn_block_slab.name=ハーレクインの皮膚ブロックのハーフブロック
+tile.csrp.poland_skin_slab.name=磨かれた皮膚のハーフブロック
+tile.csrp.locs_block_slab.name=髪塊ブロックのハーフブロック
+
+tile.csrp.infested_cobblestone_slab_double.name=寄生された丸石の双ハーフブロック
+tile.csrp.infested_stone_slab_double.name=寄生された石の双ハーフブロック
+tile.csrp.infested_dirt_slab_double.name=寄生された土の双ハーフブロック
+tile.csrp.reinforced_hivestone_slab_double.name=強化された巣域石の双ハーフブロック
+tile.csrp.parasitic_colony_core_slab_double.name=寄生集落コアの双ハーフブロック
+tile.csrp.sac_of_flesh_slab_double.name=肉嚢袋の双ハーフブロック
+tile.csrp.dead_head_plank_slab_double.name=枯槎木の板材の双ハーフブロック
+tile.csrp.weathered_bricks_slab_double.name=風化したレンガの双ハーフブロック
+tile.csrp.parasitic_compressed_colony_stone_slab_double.name=寄生圧縮された集落石の双ハーフブロック
+tile.csrp.weathered_cobblestone_slab_double.name=風化した丸石の双ハーフブロック
+tile.csrp.frost_weathered_stone_slab_double.name=霜風化した石の双ハーフブロック
+tile.csrp.infested_stone_brick_slab_double.name=寄生された石レンガの双ハーフブロック
+tile.csrp.infested_terracotta_slab_double.name=寄生されたテラコッタの双ハーフブロック
+tile.csrp.polished_infested_stone_slab_double.name=磨かれた寄生された石の双ハーフブロック
+tile.csrp.residue_brick_slab_double.name=残渣レンガの双ハーフブロック
+tile.csrp.infested_sandstone_slab_double.name=寄生された砂岩の双ハーフブロック
+tile.csrp.goth_plank_slab_double.name=ゴスの板材の双ハーフブロック
+tile.csrp.bruisewood_plank_slab_double.name=痕木の板材の双ハーフブロック
+tile.csrp.consumed_plank_slab_double.name=喰われた板材の双ハーフブロック
+tile.csrp.harleskinn_block_slab_double.name=ハーレクインの皮膚ブロックの双ハーフブロック
+tile.csrp.poland_skin_slab_double.name=磨かれた皮膚の双ハーフブロック
+tile.csrp.locs_block_slab_double.name=髪塊ブロックの双ハーフブロック
+
+tile.csrp.relaycontroller.name=リレー制御装置
+
+tile.csrp.srpweb_one.name=§8細い網
+tile.csrp.srpweb_two.name=§a毒性の網
+tile.csrp.srpweb_three.name=§8くすんだ網
+tile.csrp.tunnel.name=坑道
+tile.csrp.dispatchern.name=指揮花の病巣
+tile.csrp.biomeheart.name=巣域コア
+tile.csrp.colonyheart.name=寄生集落のコア
+tile.csrp.colonyoutpost.name=寄生集落の前哨
+tile.csrp.biomepurifier.name=§bバイオーム浄化装置
+tile.csrp.parasitestructure.name=不完備な寄生集落構造
+tile.csrp.parasitethin.name=細い寄生原木
+tile.csrp.parasitemouth.name=口
+tile.csrp.parasitetendril.name=寄生巻鬚
+tile.csrp.parasitefog.name=霧
+
+tile.csrp.parasitestainslabhalf_dirt.name=巣域土のハーフブロック
+tile.csrp.parasitestainslabhalf_mud.name=臓泥のハーフブロック
+tile.csrp.parasitestainslabhalf_sflesh.name=肉しこりのハーフブロック
+tile.csrp.parasitestainslabhalf_feeler.name=圧縮された動脈のハーフブロック
+tile.csrp.parasitestainslabhalf_spore.name=マイセリウムネットワークのハーフブロック
+tile.csrp.parasitestain_spore.name=マイセリウムネットワーク
+tile.csrp.parasitestainslabhalf_red.name=挫傷のハーフブロック
+tile.csrp.parasitestain_red.name=挫傷ブロック
+tile.csrp.parasitestainslabhalf_sackflesh.name=肉嚢のハーフブロック
+tile.csrp.parasitestain_sackflesh.name=肉嚢ブロック
+
+tile.csrp.parasiterubbleslabhalf_flesh.name=濃縮された肉しこりのハーフブロック
+tile.csrp.parasiterubbleslabhalf_bone.name=強化された骨のハーフブロック
+tile.csrp.parasiterubbleslabhalf_stone.name=巣域石のハーフブロック
+tile.csrp.parasiterubbleslabhalf_stonedebris.name=ひび割れた巣域石のハーフブロック
+tile.csrp.parasiterubbleslabhalf_wood.name=喰われた木のハーフブロック
+tile.csrp.parasiterubbleslabhalf_bricks.name=巣域レンガのハーフブロック
+tile.csrp.parasiterubbleslabhalf_metal.name=巣域鋼のハーフブロック
+tile.csrp.parasiterubbleslabhalf_obsidian.name=流血する黒曜石のハーフブロック
+tile.csrp.parasiterubbleslabhalf_fungus.name=同化された菌類のハーフブロック
+
+tile.csrp.parasiteloot_common.name=良性腫瘍
+tile.csrp.parasiteloot_uncommon.name=悪性腫瘍
+tile.csrp.parasiteloot_rare.name=転移性腫瘍
+
+tile.csrp.goresim_small.name=同化種の残骸（小）
+tile.csrp.goresim_big.name=同化種の残骸（大）
+tile.csrp.goresim_flat.name=同化種の残骸（中）
+tile.csrp.gorepri_small.name=原始種の残骸（小）
+tile.csrp.gorepri_big.name=原始種の残骸（大）
+tile.csrp.gorepri_flat.name=原始種の残骸（中）
+tile.csrp.goreada_small.name=適応種の残骸（小）
+tile.csrp.goreada_big.name=適応種の残骸（大）
+tile.csrp.goreada_flat.name=適応種の残骸（中）
+tile.csrp.gorepur_small.name=純粋種の残骸（小）
+tile.csrp.gorepur_big.name=純粋種の残骸（大）
+tile.csrp.gorepur_flat.name=純粋種の残骸（中）
+tile.csrp.gorefer_small.name=狂気種の残骸（小）
+tile.csrp.gorefer_big.name=狂気種の残骸（大）
+tile.csrp.gorefer_flat.name=狂気種の残骸（中）
+tile.csrp.goremar_small.name=魔羅種の残骸（小）
+tile.csrp.goremar_big.name=魔羅種の残骸（大）
+tile.csrp.goremar_flat.name=魔羅種の残骸（中）
+
+tile.csrp.infestedstain.name=寄生された土
+tile.csrp.infestedsand.name=寄生された砂
+tile.csrp.infestedtrunk.name=寄生された木
+tile.csrp.infestedrubble.name=寄生された石
+tile.csrp.infestremain.name=寄生された残渣
+
+tile.csrp.infestedbush_infected.name=寄生された脈荊
+tile.csrp.infestedbush_grass1.name=寄生された脈枝
+tile.csrp.infestedbush_flower1.name=寄生された脈芽
+tile.csrp.infestedbush_spine.name=寄生された脈叢
+tile.csrp.infestedbush_vine.name=寄生された脈輪
+tile.csrp.infestedbush_arc.name=寄生された脈根
+
+tile.csrp.parasitecanister_sac.name=§a膀胱嚢
+tile.csrp.parasitecanister_cyst.name=空虚な嚢胞
+tile.csrp.canisteractive.name=大食いの嚢胞
+tile.csrp.dermoid_cyst.name=類皮嚢胞
+container.dermoid_cyst=類皮嚢胞
+container.csrp.parasite_loot=寄生腫瘍
+tile.csrp.parasitecanister_lump.name=異形の塊
+tile.csrp.parasitecanister_bag.name=肉嚢袋
+
+tile.csrp.parasitetrunk_ball.name=痕木の原木
+tile.csrp.parasitetrunk_ballstairs.name=痕木の原木の階段
+tile.csrp.parasitetrunk_tree.name=脈木の原木
+tile.csrp.parasitetrunk_treestairs.name=脈木の原木の階段
+tile.csrp.parasitetrunk_plant.name=闇木の原木
+tile.csrp.parasitetrunk_plantstairs.name=闇木の原木の階段
+tile.csrp.parasitetrunk_deadhead.name=枯槎木の原木
+tile.csrp.parasitetrunk_circle.name=環木の原木
+tile.csrp.deadhead_plank_stairs.name=枯槎木の階段
+tile.csrp.flesh_stairs.name=肉しこりの板材の階段
+tile.csrp.cooked_flesh_stairs.name=焼き肉しこりの階段
+tile.csrp.flesh_planks.name=肉しこりの板材
+tile.csrp.cooked_flesh_planks.name=焼き肉しこりの板材
+tooltip.csrp.parasite_loot=§a空になればなるほど、一層強く攻撃する。
+item.csrp.pearl.name=観測者の瞳
+tooltip.csrp.pearl.desc=観測者の周囲にのみ存在する陶酔的な輝きを放つ。観測者に殺されると物品は消失する。
+
+item.csrp.false_apple.name=偽りのリンゴ
+tooltip.csrp.false_apple=§7§o「生き延びたことがそんなに悪いのか？」
+item.csrp.fishlin.name=フィッシュリン
+tooltip.csrp.fishlin=§7§o今、まさに蠢いている。
+item.csrp.alveoligrowth.name=肺胞
+tooltip.csrp.alveoligrowth=§7§o思う存分、息をして。
+
+tile.csrp.bruisewood_plank_stairs.name=痕木の板材の階段
+tile.csrp.infested_sandstone_stairs.name=寄生された砂岩の階段
+tile.csrp.goth_planks_stairs.name=ゴスの板材の階段
+tile.csrp.infested_planks_stairs.name=寄生された板材の階段
+tile.csrp.frost_weathered_stone_stairs.name=霜風化した石の階段
+tile.csrp.consumed_planks_stairs.name=喰われた板材の階段
+tile.csrp.infested_stone_bricks_stairs.name=寄生された石レンガの階段
+tile.csrp.infested_polished_stone_bricks_stairs.name=寄生された磨かれた石レンガの階段
+tile.csrp.infested_stone_stairs.name=寄生された石の階段
+tile.csrp.wheathered_bricks_stairs.name=風化したレンガの階段
+tile.csrp.wheathered_cobblestone_stairs.name=風化した丸石の階段
+
+
+tile.csrp.parasiteplank_deadhead.name=枯槎木の板材
+tile.csrp.parasiteplank_deadheads.name=枯槎木の板材
+
+tile.csrp.parasitestain_dirt.name=巣域土
+tile.csrp.parasitestain_dirtstairs.name=巣域土の階段
+tile.csrp.parasitestain_mud.name=臓泥
+tile.csrp.parasitestain_mudstairs.name=臓泥の階段
+tile.csrp.parasitestain_flesh.name=肉しこり
+tile.csrp.parasitestain_fleshstairs.name=肉しこりの階段
+tile.csrp.cooked_flesh_slab.name=焼き肉しこりの板材のハーフブロック
+tile.csrp.flesh_slab.name=肉しこりの板材のハーフブロック
+tile.csrp.cooked_flesh.name=焼き肉しこり
+tile.csrp.cooked_flesh_fence.name=焼き肉しこりのフェンス
+tile.csrp.flesh_fence.name=肉しこりのフェンス
+tile.csrp.parasitestain_feeler.name=圧縮された動脈
+tile.csrp.parasitestain_feelerstairs.name=圧縮された動脈の階段
+
+tile.csrp.parasiterubble_slabhalf.name=強化された骨の階段
+tile.csrp.parasiterubble_slabdouble.name=強化された骨
+tile.csrp.parasiterubble_flesh.name=濃縮された肉しこり
+tile.csrp.parasiterubble_fleshstairs.name=濃縮された肉しこりの階段
+tile.csrp.parasiterubble_flesh_wall.name=濃縮された肉しこりの塀
+tile.csrp.parasiterubble_bone.name=強化された骨
+tile.csrp.parasiterubble_boneslabhalf.name=強化された骨のハーフブロック
+tile.csrp.parasiterubble_boneslabdouble.name=強化された骨の双層ハーフブロック
+tile.csrp.parasiterubble_bonestairs.name=強化された骨の階段
+tile.csrp.parasiterubble_stone.name=巣域石
+tile.csrp.parasiterubble_stonestairs.name=巣域石の階段
+tile.csrp.parasiterubble_stonedebris.name=ひび割れた巣域石
+tile.csrp.parasiterubble_stonedebrisstairs.name=ひび割れた巣域石の階段
+tile.csrp.parasiterubble_wood.name=喰われた木
+tile.csrp.parasiterubble_woodstairs.name=喰われた木の階段
+tile.csrp.parasiterubble_bricks.name=巣域レンガ
+tile.csrp.parasiterubble_bricksstairs.name=巣域レンガの階段
+tile.csrp.parasiterubble_metal.name=巣域鋼ブロック
+tile.csrp.parasiterubble_metalstairs.name=巣域鋼ブロックの階段
+tile.csrp.parasiterubble_obsidian.name=流血する黒曜石
+tile.csrp.parasiterubble_obsidianstairs.name=流血する黒曜石の階段
+tile.csrp.parasiterubble_fungus.name=同化された菌類
+tile.csrp.parasiterubble_fungusstairs.name=同化された菌類の階段
+tile.csrp.parasiterubble_weathb.name=風化したレンガ
+tile.csrp.parasiterubble_weathbs.name=風化したレンガ
+tile.csrp.parasiterubble_weathbc.name=風化した丸石
+tile.csrp.parasiterubble_weathbcs.name=風化した丸石
+tile.csrp.parasiterubble_weathfs.name=霜風化した石
+tile.csrp.parasiterubble_weathfss.name=霜風化した石
+tile.csrp.infested_cobblestone.name=寄生された丸石
+
+tile.csrp.parasiterubbledense_wall.name=圧縮された巣域石
+tile.csrp.parasiterubbledense_wallstairs.name=圧縮された巣域石の階段
+tile.csrp.parasiterubbledense_biome.name=強化された巣域石
+tile.csrp.parasiterubbledense_biomestairs.name=強化された巣域石の階段
+tile.csrp.parasiterubbledense_colony.name=寄生圧縮集落石
+tile.csrp.parasiterubbledense_colonystairs.name=寄生圧縮集落石の階段
+
+tile.csrp.evolutionlure_one.name=誘引物質（§4弱化§f）
+tile.csrp.evolutionlure_two.name=誘引物質（§c微弱§f）
+tile.csrp.evolutionlure_three.name=誘引物質（§6細§f）
+tile.csrp.evolutionlure_four.name=誘引物質（§e安定§f）
+tile.csrp.evolutionlure_five.name=誘引物質（§2相当§f）
+tile.csrp.evolutionlure_six.name=誘引物質（§a濃縮§f）
+tile.csrp.evolutionlure_seven.name=誘引物質（§b濃縮 +§f）
+tile.csrp.evolutionlure_eight.name=誘引物質（§d濃縮 ++§f）
+tile.csrp.evolutionlure_nine.name=誘引物質（§5極端§f）
+tile.csrp.evolutionlure_ten.name=誘引物質（§9破格§f）
+
+tile.csrp.bloodyice.name=血氷
+tile.csrp.gothshroom.name=怪奇茸
+
+tile.csrp.node_redstone_lamp.name=節点ランプ
+
+tile.csrp.infested_furnace.name=寄生されたかまど
+tile.csrp.infested_furnace_lit.name=寄生されたかまど
+tile.csrp.infuser_furnace.name=冶金インフューザー炉
+container.infuser_furnace=冶金インフューザー炉
+
+
+tile.csrp.relay_base.name=リレーターミナル|下
+tile.csrp.relay_middle.name=リレーストラクチャー|中 
+tile.csrp.relay_roof.name=リレーアンテナ|上
+
+
+tile.node_lamp_off.name=節点ランプ
+tile.node_lamp_on.name=節点ランプ （開）
+
+# Compendium Block Page
+
+bestiary.blocks.home=ホーム
+bestiary.blocks.title=ブロック
+bestiary.blocks.subtitle=物体データベース
+bestiary.blocks.empty=注目すべき標本は見つかりません
+bestiary.block.csrp.harleskinn_block.desc=侵食された地形から生まれた高密度の寄生鉱物。
+bestiary.block.csrp.locs_block.desc=構造の支えとして使われる、石灰化した組織の塊。
+bestiary.block.csrp.fog_nullifier.desc=接続された霧ブロックを消滅させる。3回使用すると壊れ、回収することはできない。
+bestiary.block.csrp.dispatchern.desc=§c痛い。
+bestiary.block.csrp.assimilated_reed.desc=棒の内部はゼリー状の物質で満たされている。
+bestiary.block.csrp.infested_furnace.desc=寄生虫専用のブロック・アイテムを製錬するために使用される。
+bestiary.block.csrp.biomass_block.desc=触れたものすべてにダメージを与える。常に緑の蒸気と生体物質を滴らせている。寄生虫はこの影響を受けない。
+bestiary.block.csrp.residue_block.desc=建築レシピに使用される。このブロックの上には残渣咲きが自然に成長する。
+bestiary.block.csrp.sick_alveoli.desc=弱体化し侵食された肺泡ブロック。触れた生物を毒に冒し、気管支管の近くに置かれない限り病変したままとなる。
+bestiary.block.csrp.alveoli.desc=地下の巨大器官に空気中の栄養を供給する主要な源。瓶を使うと肺泡液を採取でき、これは生体醸造の重要な材料だ。気管支管から離れすぎると病変する。
+bestiary.block.csrp.hair_follicle_block.desc=地下の巨大器官に空気中の栄養を運搬する。
+bestiary.block.csrp.parasite_barrier.desc=すべての SRParasites エンティティを外側へ押し返す。1～10チャンクの範囲で切り替え可能。
+bestiary.block.csrp.assimilated_pumpkin.desc=装着可能。「巣域の呼び声」効果を付与する。
+bestiary.block.csrp.esca_bulb.desc=腐った魚のような臭いと感触がする。生物発光に満ちている。
+bestiary.block.csrp.node_redstone_lamp.desc=250 ブロック以内の指揮花に接続された脆いガラス製の節点。距離に応じて点灯し、コンパレーター信号を出力する。右クリックすると最も近い指揮花の段階と距離が表示される。強さ＝指揮花のレベル 距離＝指揮花までの距離（1 が最も近く、5 が最も遠い）
+bestiary.block.csrp.parasiteloot_common.desc=集落の巨大構造物内に見つかる。アイテムを取得するとプレイヤーにダメージを与える。容器が空に近いほどダメージが増加する（進捗バーを参照）。
+bestiary.block.csrp.infestation_purifier.desc=クリエイティブ専用ブロック。ダイヤモンドを使用すると召喚荊の侵食を除去できる。近くに召喚荊が存在してはならない。
+bestiary.block.csrp.parasitemouth.desc=地面に埋め込まれた肉質の寄生口。直接上に踏んだものは噛みつかれ、装甲貫通ダメージを受け、腐食とウイルス性感染にかかる。寄生虫とクリエイティブモードのプレイヤーは影響を受けない。
+bestiary.block.csrp.relay_base.desc=リレー塔の建設に使用。最下部に設置する。
+bestiary.block.csrp.relay_middle.desc=リレー塔の建設に使用。中央部に設置する。
+bestiary.block.csrp.relay_roof.desc=リレー塔の建設に使用。最上部に設置する。
+bestiary.block.csrp.biomepurifier.desc=放置しておき、かつ近くに召喚荊がいなければ召喚荊による侵食を浄化する。節点が除去された後に浄化装置を使用すると、寄生虫バイオームを論理的に消去できる。
+bestiary.block.csrp.infested_remain.desc=火で除去できる。クラフトや残渣咲きの収穫に使用される。
+bestiary.block.csrp.diseased_sponge.desc=水瓶や奇妙なポーションと醸造することで§2死血§7を作成できる。
+
+
+message.csrp.node_lamp.strength=信号強度：%s
+message.csrp.node_lamp.distance=信号距離：%s
+
+#Array text
+# Relay scan
+chat.csrp.relay.not_formed=[リレー] 構造物が形成されていません。
+chat.csrp.relay.insert_module=[リレー] スキャンするモジュールを挿入してください。
+chat.csrp.relay.no_profile=[リレー] モジュールのスキャンプロファイルがありません: %s
+chat.csrp.relay.scan_header=§b[リレー] スキャン - %s
+chat.csrp.relay.tier_line=  §7%s: §f%s
+chat.csrp.relay.total_parasites=  §7寄生虫(プロファイル): §f%s
+chat.csrp.relay.total_other=  §7その他モブ: §f%s
+chat.csrp.relay.percent=  §7モブに占める寄生虫割合: §f%s
+chat.csrp.relay.ratio=  §7寄生虫:非寄生虫 = §f%s
+block.csrp.relay_controller.no_space=§cリレーを設置するスペースが足りません。§r
+item.csrp.tissue_spike.name=モジュール組織スパイク
+item.csrp.module_base.name=モジュール遺伝子レセプタクル
+item.csrp.organ_synth.name=モジュール臓器シンセ
+gui.csrp.scanner.cooldown=スキャンクールダウン: %s秒
+
+
+chat.csrp.relay.scan_started=§aスキャンを開始しました...§r
+chat.csrp.relay.scan_busy=§cリレーは既にスキャン中です。§r
+chat.csrp.relay.scan_text=スキャン
+
+
+item.csrp.relay_report.name=§fリレースキャンレポート §7(%s)§r
+item.csrp.relay_report.lore.global_loaded=§7スコープ: §e読み込み済みエリア(ディメンション全体)§r
+item.csrp.relay_report.lore.tier=§7- §f%s§7: §e%d§r
+item.csrp.relay_report.lore.total_parasites=§7合計寄生虫数: §c%d§r
+item.csrp.relay_report.lore.total_other=§7合計その他モブ数: §a%d§r
+item.csrp.relay_report.lore.percent=§7寄生虫割合: §e%s§r
+item.csrp.relay_report.lore.ratio=§7寄生虫比率: §e%s§r
+
+
+# Tier display names (by ID)
+tier.csrp.inborn=先天種
+tier.csrp.assimilated=同化種
+tier.csrp.hijacked=乗取種
+tier.csrp.feral=狂気種
+tier.csrp.crude=粗雑種
+tier.csrp.primitive=原始種
+tier.csrp.adapted=適応種
+tier.csrp.nexus=連結種
+tier.csrp.deterrent=抑止種
+tier.csrp.pure=純粋種
+tier.csrp.preeminent=抜群種
+tier.csrp.ancient=太古種
+tier.csrp.assimara=Assimara
+tier.csrp.derived=Derived
+
+item.csrp.scan_report.name=Relay Scan Report
+item.csrp.scan_report.header=Relay scan results:
+item.csrp.scan_report.tiers=Tiers:
+item.csrp.scan_report.tier_line=- %s: %s
+
+item.csrp.scan_report.dimension=ディメンション: %s
+item.csrp.scan_report.total_mobs=Total mobs: %s
+item.csrp.scan_report.total_parasites=Parasites: %s
+item.csrp.scan_report.percent=Parasite share: %s
+item.csrp.scan_report.ratio=Parasite ratio: %s
+
+# Module profile names (printed in the header)
+profile.csrp.inborn=先天
+profile.csrp.assimilated=同化
+profile.csrp.hijacked=乗取
+profile.csrp.feral=狂気
+profile.csrp.crude=粗雑
+profile.csrp.primitive=原始
+profile.csrp.adapted=適応
+profile.csrp.nexus=連結
+profile.csrp.deterrent=抑止
+profile.csrp.pure=純粋
+profile.csrp.preeminent=抜群
+profile.csrp.ancient=太古
+profile.csrp.desmoid=線維腫
+profile.csrp.eschar=瘡痍
+profile.csrp.resistance=耐性
+profile.csrp.ideal=理想
+profile.csrp.origin=起源
+
+
+# Display names
+tile.relaycontroller.name=§6リレー制御装置
+tile.relay_base.name=§7リレー端末
+tile.relay_middle.name=§7リレー構造体
+tile.relay_roof.name=§7リレーアンテナ
+
+# Tooltips used by ItemBlockWithTooltip
+ooltip.relaycontroller=§7§6リレーマルチブロック§7を制御します。破壊すると構造物全体が解体されます。Model by Peter
+tooltip.relay_base=§7§6リレーマルチブロック§7の底部ブロック。中段・上段と積み上げるとリレーが完成します。
+tooltip.relay_middle=§7§6リレーマルチブロック§7の中段ブロック。底部とアンテナを接続します。
+tooltip.relay_roof=§7§6リレーマルチブロック§7の上部ブロック。指揮花の周波数を受信するためのリレー・アンテナ部です。
+
+# Module Names
+item.csrp.module_inborn.name=先天・モジュール
+item.csrp.module_assimilated.name=同化・モジュール
+item.csrp.module_hijacked.name=乗取・モジュール
+item.csrp.module_feral.name=狂気・モジュール
+item.csrp.module_crude.name=粗雑・モジュール
+item.csrp.module_primitive.name=原始・モジュール
+item.csrp.module_adapted.name=適応・モジュール
+item.csrp.module_nexus.name=連結・モジュール
+item.csrp.module_deterrent.name=抑止・モジュール
+item.csrp.module_pure.name=純粋・モジュール
+item.csrp.module_preeminent.name=抜群・モジュール
+item.csrp.module_ancient.name=太古・モジュール
+
+item.csrp.module_desmoid.name=線維腫・モジュール
+item.csrp.module_eschar.name=瘡痍・モジュール
+item.csrp.module_resistance.name=耐性・モジュール
+item.csrp.module_ideal.name=理想・モジュール
+item.csrp.module_origin.name=起源・モジュール
+item.csrp.module_vectors.name=経路・モジュール
+item.csrp.module_assimara.name=魔羅・モジュール
+item.csrp.module_derived.name=派生・モジュール
+item.csrp.module_phase.name=段階・モジュール
+item.csrp.module_dislodgement.name=異変・モジュール
+
+tile.csrp.thornshade.name=影棘
+item.csrp.thornshade_berry.name=§5影棘ベリー
+
+##Fluids
+
+fluid.deadblood=死血
+
+##Effects
+
+effect.csrp.dod_smoke_trail=衝撃煙軌跡
+mob_effect.csrp:dod_smoke_trail=衝撃煙軌跡
+
+mob_effect.csrp:thornshade_thorns=§5影棘
+splash_potion.effect.csrp:thornshade_thorns=§5影棘§fのスプラッシュポーション
+potion.effect.csrp:thornshade_thorns=§5影棘§fのポーション
+lingering_potion.effect.csrp:thornshade_thorns=§5影棘§fの残留ポーション
+tipped_arrow.effect.csrp:thornshade_thorns=§5影棘§fの矢
+
+mob_effect.csrp:coth=§4巣域の呼び声
+splash_potion.effect.csrp:coth=§4巣域の呼び声§fのスプラッシュポーション
+potion.effect.csrp:coth=§4巣域の呼び声§fのポーション
+lingering_potion.effect.csrp:coth=§4巣域の呼び声§fの残留ポーション
+tipped_arrow.effect.csrp:coth=§4巣域の呼び声§fの矢
+
+mob_effect.csrp:fear=§8恐怖
+splash_potion.effect.csrp:fear=§8恐怖§fのスプラッシュポーション
+potion.effect.csrp:fear=§8恐怖§fのポーション
+lingering_potion.effect.csrp:fear=§8恐怖§fの残留ポーション
+tipped_arrow.effect.csrp:fear=§8恐怖§fの矢
+
+mob_effect.csrp:vomit=§7嘔吐
+splash_potion.effect.csrp:vomit=§7嘔吐§fのスプラッシュポーション
+potion.effect.csrp:vomit=§7嘔吐§fのポーション
+lingering_potion.effect.csrp:vomit=§7嘔吐§fの残留ポーション
+tipped_arrow.effect.csrp:vomit=§7嘔吐§fの矢
+
+mob_effect.csrp:jugg=§7攪乱
+splash_potion.effect.csrp:jugg=§7攪乱§fのスプラッシュポーション
+potion.effect.csrp:jugg=§7攪乱§fのポーション
+lingering_potion.effect.csrp:jugg=§7攪乱§fの残留ポーション
+tipped_arrow.effect.csrp:jugg=§7攪乱§fの矢
+
+mob_effect.csrp:conta=§7伝染
+splash_potion.effect.csrp:conta=§7伝染§fのスプラッシュポーション
+potion.effect.csrp:conta=§7伝染§fのポーション
+lingering_potion.effect.csrp:conta=§7伝染§fの残留ポーション
+tipped_arrow.effect.csrp:conta=§7伝染§fの矢
+
+mob_effect.csrp:antimall=§7無適応性
+splash_potion.effect.csrp:antimall=§7無適応性§fのスプラッシュポーション
+potion.effect.csrp:antimall=§7無適応性§fのポーション
+lingering_potion.effect.csrp:antimall=§7無適応性§fの残留ポーション
+tipped_arrow.effect.csrp:antimall=§7無適応性§fの矢
+
+splash_potion.effect.csrp:the_sign=§b刻印§fのスプラッシュポーション
+potion.effect.csrp:the_sign=§b刻印§fのポーション
+lingering_potion.effect.csrp:the_sign=§b刻印§fの残留ポーション
+item.csrp.the_sign_charm.name=刻印
+tooltip.csrp.the_sign_charm.red=クリエイティブ専用アイテム
+tooltip.csrp.the_sign_charm.white=生まれようとする者はまず世界を滅ぼさねばならない。
+tooltip.csrp.the_sign_charm.gray=インベントリにある間、寄生虫はプレイヤーを無視する。
+mob_effect.csrp:the_sign=刻印
+effect.csrp.the_sign=刻印
+tipped_arrow.effect.csrp:the_sign=§b刻印§fの矢
+
+
+mob_effect.csrp:bleed=§4出血
+splash_potion.effect.csrp:bleed=§4出血§fのスプラッシュポーション
+potion.effect.csrp:bleed=§4出血§fのポーション
+lingering_potion.effect.csrp:bleed=§4出血§fの残留ポーション
+tipped_arrow.effect.csrp:bleed=§4出血§fの矢
+
+mob_effect.csrp:corrosive=§6腐食
+splash_potion.effect.csrp:corrosive=§6腐食§fのスプラッシュポーション
+potion.effect.csrp:corrosive=§6腐食§fのポーション
+lingering_potion.effect.csrp:corrosive=§6腐食§fの残留ポーション
+tipped_arrow.effect.csrp:corrosive=§6腐食§fの矢
+
+mob_effect.csrp:viral=§aウイルス性
+splash_potion.effect.csrp:viral=§aウイルス性§f薬水
+potion.effect.csrp:viral=§aウイルス性§fのポーション
+lingering_potion.effect.csrp:viral=§aウイルス性§fの残留ポーション
+tipped_arrow.effect.csrp:viral=§aウイルス性§fの矢
+
+mob_effect.csrp:rage=§c怒り
+splash_potion.effect.csrp:rage=§c怒り§のスプラッシュポーション
+potion.effect.csrp:rage=§c怒り§fのポーション
+lingering_potion.effect.csrp:rage=§c怒り§fの残留ポーション
+tipped_arrow.effect.csrp:rage=§c怒り§fの矢
+
+mob_effect.csrp:repel=§2迷彩
+splash_potion.effect.csrp:repel=§2迷彩§fのスプラッシュポーション
+potion.effect.csrp:repel=§2迷彩§fのポーション
+lingering_potion.effect.csrp:repel=§2迷彩§fの残留ポーション
+tipped_arrow.effect.csrp:repel=§2迷彩§fの矢
+
+mob_effect.csrp:senses=§3知覚を高める
+splash_potion.effect.csrp:senses=§3知覚を高める§fのスプラッシュポーション
+potion.effect.csrp:senses=§3知覚を高める§fのポーション
+lingering_potion.effect.csrp:senses=§3知覚を高める§fの残留ポーション
+tipped_arrow.effect.csrp:senses=§3知覚を高める§fの矢
+
+mob_effect.csrp:debar=§7禁断
+splash_potion.effect.csrp:debar=§7禁断§fのスプラッシュポーション
+potion.effect.csrp:debar=§7禁断§fのポーション
+lingering_potion.effect.csrp:debar=§7禁断§fの残留ポーション
+tipped_arrow.effect.csrp:debar=§7禁断§fの矢
+
+mob_effect.csrp:needler=§6穿刺
+splash_potion.effect.csrp:needler=§6穿刺§のスプラッシュポーション
+potion.effect.csrp:needler=§6穿刺§fのポーション
+lingering_potion.effect.csrp:needler=§6穿刺§fの残留ポーション
+tipped_arrow.effect.csrp:needler=§6穿刺§fの矢
+
+mob_effect.csrp:link=§aリンク
+splash_potion.effect.csrp:link=§aリンク§fのスプラッシュポーション
+potion.effect.csrp:link=§aリンク§fのポーション
+lingering_potion.effect.csrp:link=§aリンク§fの残留ポーション
+tipped_arrow.effect.csrp:link=§aリンク§fの矢
+
+mob_effect.csrp:foster=§e促進
+splash_potion.effect.csrp:foster=§e促進§fのスプラッシュポーション
+potion.effect.csrp:foster=§e促進§fのポーション
+lingering_potion.effect.csrp:foster=§e促進§fの残留ポーション
+tipped_arrow.effect.csrp:foster=§e促進§fの矢
+
+mob_effect.csrp:prey=§e獲物
+splash_potion.effect.csrp:prey=§e獲物§fのスプラッシュポーション
+potion.effect.csrp:prey=§e獲物§fのポーション
+lingering_potion.effect.csrp:prey=§e獲物§fの残留ポーション
+tipped_arrow.effect.csrp:prey=§e獲物§fの矢
+
+mob_effect.csrp:pivot=§e基点
+splash_potion.effect.csrp:pivot=§e基点§fのスプラッシュポーション
+potion.effect.csrp:pivot=§e基点§fのポーション
+lingering_potion.effect.csrp:pivot=§e基点§fの残留ポーション
+tipped_arrow.effect.csrp:pivot=§e基点§fの矢
+
+mob_effect.csrp:parate=§e強奪
+splash_potion.effect.csrp:parate=§e強奪§fのスプラッシュポーション
+potion.effect.csrp:parate=§e強奪§fのポーション
+lingering_potion.effect.csrp:parate=§e強奪§fの残留ポーション
+tipped_arrow.effect.csrp:parate=§e強奪§fの矢
+
+mob_effect.csrp:primitive=§e原始
+splash_potion.effect.csrp:primitive=§e原始§fのスプラッシュポーション
+potion.effect.csrp:primitive=§e原始§fのポーション
+lingering_potion.effect.csrp:primitive=§e原始§fの残留ポーション
+tipped_arrow.effect.csrp:primitive=§e原始§fの矢
+
+mob_effect.csrp:adapted=§e適応
+splash_potion.effect.csrp:adapted=§e適応§fのスプラッシュポーション
+potion.effect.csrp:adapted=§e適応§fのポーション
+lingering_potion.effect.csrp:adapted=§e適応§fの残留ポーション
+tipped_arrow.effect.csrp:adapted=§e適応§fの矢
+
+mob_effect.csrp:pure=§e純粋
+splash_potion.effect.csrp:pure=§e純粋§fのスプラッシュポーション
+potion.effect.csrp:pure=§e純粋§fのポーション
+lingering_potion.effect.csrp:pure=§e純粋§fの残留ポーション
+tipped_arrow.effect.csrp:pure=§e純粋§fの矢
+
+mob_effect.csrp:crude=§e粗雑
+splash_potion.effect.csrp:crude=§e粗雑§fのスプラッシュポーション
+potion.effect.csrp:crude=§e粗雑§fのポーション
+lingering_potion.effect.csrp:crude=§e粗雑§fの残留ポーション
+tipped_arrow.effect.csrp:crude=§e粗雑§fの矢
+
+mob_effect.csrp:feral=§e狂気
+splash_potion.effect.csrp:feral=§e狂気§fのスプラッシュポーション
+potion.effect.csrp:feral=§e狂気§fのポーション
+lingering_potion.effect.csrp:feral=§e狂気§fの残留ポーション
+tipped_arrow.effect.csrp:feral=§e狂気§fの矢
+
+mob_effect.csrp:nexus=§e連結
+splash_potion.effect.csrp:nexus=§e連結§fのスプラッシュポーション
+potion.effect.csrp:nexus=§e連結§fのポーション
+lingering_potion.effect.csrp:nexus=§e連結§fの残留ポーション
+tipped_arrow.effect.csrp:nexus=§e連結§fの矢
+
+mob_effect.csrp:muscleout=§e筋無力
+splash_potion.effect.csrp:muscleout=§e筋無力§fのスプラッシュポーション
+potion.effect.csrp:muscleout=§e筋無力§fのポーション
+lingering_potion.effect.csrp:muscleout=§e筋無力§fの残留ポーション
+tipped_arrow.effect.csrp:muscleout=§e筋無力§fの矢
+
+mob_effect.csrp:effectpos=§e良性効果罰則
+splash_potion.effect.csrp:effectpos=§e良性効果罰則のスプラッシュポーション
+potion.effect.csrp:effectpos=§e良性効果罰則のポーション
+lingering_potion.effect.csrp:effectpos=§e良性効果罰則の残留ポーション
+tipped_arrow.effect.csrp:effectpos=§e良性効果罰則の矢
+
+mob_effect.csrp:effectneg=§e悪性効果増幅
+splash_potion.effect.csrp:effectneg=§e悪性効果増幅のスプラッシュポーション
+potion.effect.csrp:effectneg=§e悪性効果増幅のポーション
+lingering_potion.effect.csrp:effectneg=§e悪性効果増幅の残留ポーション
+tipped_arrow.effect.csrp:effectneg=§e悪性効果増幅の矢
+
+mob_effect.csrp:spotted=§e発見
+splash_potion.effect.csrp:spotted=§e発見§fのスプラッシュポーション
+potion.effect.csrp:spotted=§e発見§fのポーション
+lingering_potion.effect.csrp:spotted=§e発見§fの残留ポーション
+tipped_arrow.effect.csrp:spotted=§e発見§fの矢
+
+mob_effect.csrp:braining=§e脳の制御
+splash_potion.effect.csrp:braining=§e脳の制御§fのスプラッシュポーション
+potion.effect.csrp:braining=§e脳の制御§fのポーション
+lingering_potion.effect.csrp:braining=§e脳の制御§fの残留ポーション
+tipped_arrow.effect.csrp:braining=§e脳の制御§fの矢
+
+mob_effect.csrp:novision=§e視覚無し
+splash_potion.effect.csrp:novision=§e視覚無し§fのスプラッシュポーション
+potion.effect.csrp:novision=§e視覚無し§fのポーション
+lingering_potion.effect.csrp:novision=§e視覚無し§fの残留ポーション
+tipped_arrow.effect.csrp:novision=§e視覚無し§fの矢
+
+mob_effect.csrp:indeaf=§e障害
+splash_potion.effect.csrp:indeaf=§e障害§fのスプラッシュポーション
+potion.effect.csrp:indeaf=§e障害§fのポーション
+lingering_potion.effect.csrp:indeaf=§e障害§fの残留ポーション
+tipped_arrow.effect.csrp:indeaf=§e障害§fの矢
+
+mob_effect.csrp:overheating=§e過熱
+splash_potion.effect.csrp:overheating=§e過熱§fのスプラッシュポーション
+potion.effect.csrp:overheating=§e過熱§fのポーション
+lingering_potion.effect.csrp:overheating=§e過熱§fの残留ポーション
+tipped_arrow.effect.csrp:overheating=§e過熱§fの矢
+
+mob_effect.csrp:contagion=§e伝染
+splash_potion.effect.csrp:contagion=§e伝染§fのスプラッシュポーション
+potion.effect.csrp:contagion=§e伝染§fのポーション
+lingering_potion.effect.csrp:contagion=§e伝染§fの残留ポーション
+tipped_arrow.effect.csrp:contagion=§e伝染§fの矢
+
+##extra
+
+message.csrp.lureb=ポイントクールダウンが追加されました！
+message.csrp.lurec=ポイントが減少しました！
+message.csrp.fearitem=あなたは恐慌状態に陥った！
+message.csrp.fearblock=あなたは恐慌状態に陥った！
+message.csrp.feargui=あなたは恐慌状態に陥った！
+message.csrp.evolutionsleep=今は眠れません……
+message.csrp.armortooltips1=現在の適応性
+
+tootip.csrp.quench=§f飽和マグマクリームで作られた暖かく延展性に富む物質。高濃度のブレイズパウダーを含むため、寄生物質に対して非常に§a有毒§fです。
+
+tootip.csrp.lurecomp.1=§f§7ルプター§fの内臓の断片だ。§c誘引物質§fの製作の素材です。
+tootip.csrp.lurecomp.2=§f§4同化種§f生き物から取った、すごく腫れた心臓だ。§c誘引物質§fの製作の素材です。
+tootip.csrp.lurecomp.3=§f§c原始種§f寄生虫の身上から採集して得た発達した筋肉の断片で、強烈な臭いを放つ。§c誘引物質§fの製作の素材です。
+tootip.csrp.lurecomp.4=§f§6適応種§f寄生虫の身上から採集して得た発達した肺だ。§c誘引物質§fの製作の素材です。
+tootip.csrp.lurecomp.5=§f§e純粋種§f寄生虫の身上から採集して得た発達した脳だ。§c誘引物質§fの製作の素材です。
+tootip.csrp.lurecomp.6=§fハイブに垂れ下がっている嚢から取った、脊柱のようなものだ。§c誘引物質§fの製作の素材です。
+
+tootip.csrp.item.0=§6リレー§fと§6モジュール§fの組み立てに欠かせない、必須のクラフト素材です
+tootip.csrp.item.1=気を外へと溢れさせる小さな球、§6召喚妖§fの身上から採集して得ることができます。§6武器§f製作の素材です。
+tootip.csrp.item.2=§6黄目妖§fの身上から採取した頑丈な骨。§6武器§f製作の素材です。
+tootip.csrp.item.3=気を外へと溢れさせる小さな珠、§6噬生妖§fの身上から採集して得ることができます。§6武器§f製作の素材です。
+tootip.csrp.item.4=§6汚臭妖§fの体から採集して得た鋭利な歯。§6武器§f製作の素材です。
+tootip.csrp.item.5=§6長腕妖§fの体から採集して得た鎧の破片、軽盈でありながら、非常に強靭です。§6武器§f製作の素材です。
+tootip.csrp.item.6=§c同化種§fの生物の体から剥がし取った肉。これは基本的な製作の素材です。
+tootip.csrp.item.7=
+tootip.csrp.item.8=寄生虫の一部を加工した弾性素材、§6武器§f製作の素材です。
+tootip.csrp.item.9=寄生虫の一部を加工した刃、§6武器§f製作の素材です。
+tootip.csrp.item.10=その内にある命火は既に燃え尽きている。各種§6武器§fのエネルギー源として使用可能です。
+tootip.csrp.item.11=寄生虫の一部を加工した甲殻、堅硬無類。§6武器§f製作の素材です。
+tootip.csrp.item.12=寄生虫の一部を加工した骨、重厚無類。§6武器§f製作の素材です。
+tootip.csrp.item.13=日常では見ることのない異質な骨。
+tootip.csrp.item.14=§8§o溶融状態で寄生虫の血リンパを浸透させた鉄合金。出来上がった合金は、寄生虫に関連する生体電気信号や異常な信号パターンに対して極めて高い感知能力を発揮する。鉄、死血入りビン、燃料を組み合わせて作成する。
+
+tootip.csrp.item.20=§7補強妖§fの体から採集して得た乾燥した皮膚片。
+tootip.csrp.item.21=§7蛛形妖§fの体から採集して得た鋭利な爪は。
+tootip.csrp.item.22=§b貪食妖§fの体から採集して得た骨質の触手。
+tootip.csrp.item.23=§a召喚荊§fの体から剥がし取った被膜。
+tootip.csrp.item.24=§c指揮花§fの体から剥がし取った被膜。
+
+tootip.csrp.item.25=§c進化§fで対象寄生虫を進化させる
+tootip.csrp.item.28=§c同化§fで対象生物を被同化させる
+tootip.csrp.item.26=§c退化§fで対象寄生虫を退化させる
+tootip.csrp.item.27=§c変種変更§fで対象寄生虫を他変種へ変化させる
+tootip.csrp.item.29=§f自らの§5傷§fを相手に転じ、近接ダメージの§5一部を反射する。§fこの加護は生涯で§5二度§fだけ発動する。トーテムはその後の効果を§5無効§fにする。
+tootip.csrp.item.30=§5影棘酒§fに使われる、必須の醸成素材。
+tootip.csrp.item.31=クリエイティブアイテム §l|§r §o寄生植物を即座に焼却
+
+tootip.csrp.item.18=血滴り落ち、時計の針は刻一刻と真夜中の恐怖へと進んでいる。
+
+tootip.csrp.weaponm.1=§f寄生虫の諸身体部位を再構築し、遂にこの武器を手に入れた。その核心の内なる命は灼熱を湛え、光り輝いている。
+tootip.csrp.weaponm.2=§fひっそりと音もなくして、生きた刃§b霊知§fを開き、進化を遂げた。
+tootip.csrp.weaponm.3=§f寄生虫の諸身体部位を再構築し、遂にこの武器を手に入れた。その核心の内なる命は灼熱を湛え、光り輝いている。
+tootip.csrp.weaponm.4=§fひっそりと音もなくして、生きた刃§b霊知§fを開き、進化を遂げた。
+tootip.csrp.weaponm.5=§f寄生虫の諸身体部位を再構築し、遂にこの武器を手に入れた。その核心の内なる命は灼熱を湛え、光り輝いている。
+tootip.csrp.weaponm.6=§fひっそりと音もなくして、生きた刃§b霊知§fを開き、進化を遂げた。
+tootip.csrp.weaponm.7=§f寄生虫の諸身体部位を再構築し、遂にこの武器を手に入れた。その核心の内なる命は灼熱を湛え、光り輝いている。
+tootip.csrp.weaponm.8=§fひっそりと音もなくして、生きた刃§b霊知§fを開き、進化を遂げた。
+tootip.csrp.weaponm.9=§f寄生虫の諸身体部位を再構築し、遂にこの武器を手に入れた。その核心の内なる命は灼熱を湛え、光り輝いている。
+
+tootip.csrp.weaponm.10=§c掃蕩§fにより広範囲の敵を一掃できます。
+tootip.csrp.weaponm.20=§c攻撃§fにより広範囲の敵を壊滅させます。
+tootip.csrp.weaponm.30=§f時間経過と共に鎧の防護を次第に§c無力化§fします。
+tootip.csrp.weaponm.40=§f時間経過と共に鎧の防護を次第に§c無力化§fします。
+tootip.csrp.weaponm.50=§f生命を脅かすに足る§c損傷§fを与えます。
+tootip.csrp.weaponm.60=§f生命を脅かすに足る§c損傷§fを与えます。
+tootip.csrp.weaponm.70=§f敵に§a致命的な§f斬撃を与えます。
+tootip.csrp.weaponm.80=§f敵に§a致命的な§f斬撃を与えます。
+tootip.csrp.weaponm.90=§c一を殺して§f百を戒める。
+
+tootip.csrp.weaponm.11=
+tootip.csrp.weaponm.110=
+tootip.csrp.weaponm.12=
+
+tootip.csrp.weaponm.1200=？？？
+tootip.csrp.weaponm.1000=？？？
+
+tootip.csrp.weaponm.100=？？？
+tootip.csrp.weaponm.200=？？？
+tootip.csrp.weaponm.300=？？？
+tootip.csrp.weaponm.400=？？？
+tootip.csrp.weaponm.500=？？？
+tootip.csrp.weaponm.600=？？？
+tootip.csrp.weaponm.700=？？？
+tootip.csrp.weaponm.800=？？？
+
+tootip.csrp.weaponr.1=§f寄生虫の諸身体部位を再構築し、遂にこの武器を手に入れた。その核心の内なる命は灼熱を湛え、光り輝いている。
+tootip.csrp.weaponr.2=§fひっそりと音もなくして、生きた弓§b霊知§fを開き、進化を遂げた。
+
+tootip.csrp.weaponr.10=心を凝らし、力を蓄えてこそ、致命の矢を放てるのだ。
+tootip.csrp.weaponr.20=心を凝らし、力を蓄えてこそ、致命の矢を放てるのだ。
+
+tootip.csrp.weaponr.100=？？？
+tootip.csrp.weaponr.200=？？？
+
+tooltip.tile.csrp.evolutionlure=進化のポイントを約 %s 秒間一時停止します。
+
+item.csrp.discone.name=二元性
+item.csrp.disctwo.name=終に再会せん
+item.csrp.discthree.name=§b静謐
+
+item.record.discone.desc=二元性
+item.record.disctwo.desc=終に再会せん
+item.record.discthree.desc=§b静謐
+
+##subtitles
+
+subtitles.carrierdeath=担体が滅びる
+subtitles.carrierliving=担体が泡を吐く
+subtitles.carrierhurt=担体が猛哮する
+subtitles.devourerliving=原始・貪食妖が低吼する
+subtitles.devourerhurt=原始・貪食妖が痛む
+subtitles.devourerdeath=原始・貪食妖が瀕死す
+subtitles.adabolsterdeath=適応・補強妖が死す
+subtitles.adabolsterliving=適応・補強妖が唸る
+subtitles.adabolsterhurt=適応・補強妖が猛哮する
+subtitles.monarchdeath=モナークが哀鳴する
+subtitles.monarchliving=モナークが呼び出す
+subtitles.monarchhurt=モナークが嘶鳴する
+subtitles.marauderdeath=マラウダーが滅びる
+subtitles.marauderliving=マラウダーが喉鳴る
+subtitles.marauderhurt=マラウダーが猛哮する
+subtitles.assimhumanliving=同化された人間が絶叫する
+subtitles.assimhumanhurt=同化された人間が悲鳴る
+subtitles.assimhumandeath=同化された人間が瀕死す
+subtitles.assimpigliving=歪んだブーブー音
+subtitles.assimpighurt=同化されたブタが尖鳴する
+subtitles.assimpigdeath=同化されたブタが死す
+subtitles.assimhorseliving=歪んだ嘶鳴
+subtitles.assimhorsecharge=同化されたウマが突進する
+subtitles.assimhorsehurt=同化されたウマが絶叫する
+subtitles.assimhorsedeath=同化されたウマが死す
+subtitles.assimspiderliving=歪んだ嘶き
+subtitles.assimspidersteps=蛛虫足音
+subtitles.assimspiderdeath=大クモが死す
+subtitles.headliving=頭が絶叫する
+subtitles.headhurt=頭が嘶鳴する
+subtitles.headdeath=頭が瀕死す
+subtitles.verminliving=悪殖妖が咽鳴る
+subtitles.verminhurt=悪殖妖が怒鳴る
+subtitles.vermindeath=悪殖妖滅びる
+subtitles.buglinliving=バグリンが嘶る
+subtitles.buglinhurt=バグリンが圧迫され
+subtitles.buglindeath=バグリンが砕かれる
+subtitles.rupterliving=ルプターがカチッと鳴る
+subtitles.rupterhurt=ルプターが嘶鳴する
+subtitles.rupterdies=ルプターが瀕死す
+subtitles.rupterinfect=ルプターが「巣域の呼び声」を放つ
+subtitles.wardenliving=ウォーデンが唸る
+subtitles.wardenhurt=ウォーデンが猛哮する
+subtitles.wardendeath=ウォーデンが死す
+subtitles.adaarachliving=適応・蛛形妖が唸る
+subtitles.adaarachhurt=適応・蛛形妖がが猛哮する
+subtitles.adaarachdeath=適応・蛛形妖がが嘶る
+subtitles.assimcowliving=歪んだモーモー音
+subtitles.assimcowhurt=同化されたウシが喘ぐ
+subtitles.assimcowdeath=同化されたウシが瀕死す
+subtitles.assimsheepliving=歪んだメーメー音
+subtitles.assimsheephurt=同化されたヒツジが鳴く
+subtitles.assimsheepdeath=同化されたヒツジが瀕死す
+subtitles.assimwolfliving=異様な吠え声
+subtitles.assimwolfhurt=歪んだキャッキャッ音
+subtitles.assimwolfdeath=同化されたオオカミが瀕死す
+subtitles.assimbearliving=歪んだゴロゴロ音
+subtitles.assimbearhurt=歪んだ低吼え声
+subtitles.assimbeardeath=同化されたクマが瀕死す
+subtitles.simmermanliving=異世界のヴーン音
+subtitles.simmermanhurt=歪んだブワーン音
+subtitles.simmermanteleports=壊れたワーン音
+subtitles.simmermandeath=同化されたエンダーマンが嗷々鳴く
+subtitles.infectedfleshmelt=肉が膿々と癒合する
+subtitles.adasummonerliving=適応・召喚妖が絶叫する
+subtitles.adasummonerhurt=適応・召喚妖が嘶鳴する
+subtitles.adasummonerdeath=適応・召喚妖が哀鳴する
+subtitles.adasummonersummon=激しい嘶鳴
+subtitles.adayelloweyeliving=適応・黄目妖が唸る
+subtitles.adayelloweyehurt=適応・黄目妖が低吼する
+subtitles.adayelloweyedeath=適応・黄目妖が瀕死す
+subtitles.adayelloweyeshoot=適応・黄目妖が唾を吐く
+subtitles.adareekerliving=適応・汚臭妖が唸る
+subtitles.adareekerhurt=適応・汚臭妖が喘ぐ
+subtitles.adareekerdeath=適応・汚臭妖が瀕死す
+subtitles.adamanduliving=適応・噬生妖が唸る
+subtitles.adamanduhurt=適応・噬生妖が絶叫する
+subtitles.adamandudeath=適応・噬生妖が低吼する
+subtitles.vigiliving=ヴィジランティが轟く
+subtitles.vigihurt=ヴィジランティが劈啪る
+subtitles.vigideath=ヴィジランティが泡立つ
+subtitles.bogleliving=霊が咕鳴する
+subtitles.boglehurt=霊が唸る
+subtitles.bogledeath=霊が滅びる
+subtitles.hostliving=ホストが出現する
+subtitles.hosthurt=ホストが絶叫する
+subtitles.hostdeath=ホストが瀕死す
+subtitles.hostmerge=衆声一斉に吟ずる
+subtitles.adamaducamo=戦慄の皮肉がする
+subtitles.adavomit=寄生虫が嘔吐する
+subtitles.flesh=肉が飛び散る
+subtitles.sentryliving=歩哨爪が唸る
+subtitles.sentryhurt=歩哨爪が嘶る
+subtitles.sentrydeath=歩哨爪が死す
+subtitles.beckonliving=召喚荊が囁き
+subtitles.beckonhurt=召喚荊が嘶る
+subtitles.beckondeath=召喚荊が哀鳴する
+subtitles.beckonbell=鐘が鳴り響く
+subtitles.mobexplodes=寄生虫が爆体する
+subtitles.mobswipe=寄生虫が揮打する
+subtitles.moblands=寄生虫が着地する
+subtitles.cysteats=物品が噛み砕かれる
+subtitles.adaptationpart=寄生虫が適応開始
+subtitles.adaptationfull=寄生虫が適応完了
+subtitles.biomeheart=§c心拍声
+subtitles.vengeance.chain=鎖のカチャカチャ音
+subtitles.vengeance.paper=ページめくり音
+subtitles.vengeance.impact=衝撃音
+subtitles.vengeance.whoosh=風切り音
+subtitles.vengeance.rock=衝撃音
+subtitles.orb.idle=オーブのブーン音
+subtitles.orb.summon=オーブの風切り音
+subtitles.beckonvortex=渦の収束音
+subtitles.block.unlocked=全書：ブロックを解放しました
+subtitles.item.unlocked=全書：アイテムを解放しました
+subtitles.celestial.unlocked=全書：天体イベントを解放しました
+subtitles.entity.unlocked=全書：エンティティを解放しました
+subtitles.entity.relaypaper=紙片の印刷音
+subtitles.entity.relayscan=リレーのスキャン音
+item.csrp.srp_field_guide.name=妖虫図鑑
+lore.csrp.compendium=大要
+
+bestiary.tier.assimilated=同化種
+bestiary.tier.walking_head=歩く頭
+bestiary.tier.inborn=先天種
+bestiary.tier.hijacked=乗取種
+bestiary.tier.feral=狂気種
+bestiary.tier.crude=粗雑種
+bestiary.tier.assimara=魔羅種
+bestiary.tier.primitive=原始種
+bestiary.tier.adapted=適応種
+bestiary.tier.abomination=嫌悪種
+bestiary.tier.deterrent=抑止種
+bestiary.tier.pure=純粋種
+bestiary.tier.preeminent=抜群種
+bestiary.tier.ancient=太古種
+bestiary.tier.nexus=連結種
+bestiary.tier.derived=派生種
+
+# Generic / GUI
+bestiary.capability_missing_client=機能が見つかりません（クライアント）。再度開いてください。
+bestiary.no_mobs_unlocked_in_tier=この種階で解放されたモブはまだありません。
+bestiary.tier_label=種階：%s
+bestiary.select_category=カテゴリを選択
+bestiary.parasite_tiers=寄生虫の種階
+bestiary.kills_label=撃破数
+bestiary.unlock_by_kill=（この種階のモブを倒すと項目が解放されます。）
+
+
+bestiary.stats=体力：%s  攻撃力：%s
+
+
+
+gui.csrp.escape_button=デスループ防止 |
+gui.csrp.escape_button_blocks=ブロック
+gui.csrp.escape_tooltip=大丈夫ですか？近くの場所を試してください。
+
+# Purifier messages
+message.csrp.purifier_use_diamond=ダイヤモンドで操作してください
+message.csrp.purifier_not_over_srp=SRPブロックの上に設置する必要があります。
+message.csrp.purifier_entities_marked=%s体のエンティティに発光効果を付与しました。
+message.csrp.purifier_purified=%sブロックを浄化しました。
+tile.csrp.infestation_purifier.name=クリエイティブ専用侵食浄化装置
+message.csrp.purifier_started=浄化を開始しました。
+
+tooltip.csrp.hijacked.fullset_bleed=フルセット：出血無効
+tooltip.csrp.hijacked.boots_save=ブーツ：致命的な落下を回避（クールダウン2m）
+tooltip.csrp.hijacked.fire_penalty=フルセット：火炎ダメージ増加（x%s）
+tooltip.csrp.hijacked.boots_cd=ブーツ回避クールダウン：%s
+tooltip.csrp.ready=準備完了
+
+item.csrp.hijacked_iron_boots.name=乗取られた鉄のブーツ
+item.csrp.hijacked_iron_leggings.name=乗取られた鉄のレギンス
+item.csrp.hijacked_iron_chestpiece.name=乗取られた鉄のチェストプレート
+item.csrp.hijacked_iron_helmet.name=乗取られた鉄のヘルメット
+
+item.csrp.venkrol_boots.name=§aヴェンクロル・アンカーブーツ
+tooltip.csrp.item.venkrol_boots.0=渦に引き込まれるのを防ぎます。
+
+
+# Bestiary Celestial
+
+bestiary.tab.celestial=天体
+
+bestiary.celestial.id=ID
+
+bestiary.celestial.title=天体現象
+bestiary.celestial.home=ホーム
+bestiary.celestial.none=記録された天体現象はありません。
+bestiary.celestial.select_hint=現象を選択して詳細を表示
+bestiary.celestial.missing_desc=（記録された説明はありません）
+bestiary.celestial.phase=段階
+bestiary.celestial.chance=確率
+
+bestiary.celestial.blip.name=輝点
+bestiary.celestial.blip.desc=記憶にある限りずっと存在する、空の瞬く光。
+
+bestiary.celestial.pulse.name=脈動
+bestiary.celestial.pulse.desc=ゆっくりとしたリズミカルな鼓動。
+
+bestiary.celestial.eight.name=八号天体
+bestiary.celestial.eight.desc=？？？
+
+bestiary.celestial.arrow.name=矢形天体
+bestiary.celestial.arrow.desc=奇妙な四面体。
+
+bestiary.celestial.twenty_seven.name=二十七号天体
+bestiary.celestial.twenty_seven.desc=？？|怒り
+
+bestiary.celestial.three.name=三号天体
+bestiary.celestial.three.desc=？？？
+
+bestiary.celestial.eighty_three.name=八十三号天体
+bestiary.celestial.eighty_three.desc=？？？
+
+bestiary.celestial.four_comet.name=四号彗星
+bestiary.celestial.four_comet.desc=？？？
+
+bestiary.celestial.jupiter.name=木星
+bestiary.celestial.jupiter.desc=闇に漂う膨れ上がった巨人。帯は傷のように煮えくり返り、目なしで見つめている。あまりに巨大で、重力が周囲の万物の軌道を再形成する。
+
+bestiary.celestial.mars.name=火星
+bestiary.celestial.mars.desc=天に浮かぶ赤い残り火。かつて液体の水が存在するほど暖かく、今でも表面に傷跡を刻んでいる。
+
+bestiary.celestial.mercury.name=水星
+bestiary.celestial.mercury.desc=空をかすめる蒼白き輝き。気温が激しく変動し、一日で同じ地面が燃えたり凍ったりする。あまりに近すぎる。
+
+bestiary.celestial.neptune.name=海王星
+bestiary.celestial.neptune.desc=夜に開いた深い青の穴。太陽系で最も速い風が吹き、音より速く表面を引き裂く。海王星は変異している。
+
+bestiary.celestial.pluto.name=冥王星
+bestiary.celestial.pluto.desc=視界の端にある忘れられた小さな玉。軌道は不安定で傾いている。
+
+bestiary.celestial.saturn.name=土星
+bestiary.celestial.saturn.desc=重たいシルエットに巻かれた輪の冠。輪は脆く一時的なもので、ゆっくりと解けていく。
+
+bestiary.celestial.uranus.name=天王星
+bestiary.celestial.uranus.desc=冷たく傾いた球体、空に正しく留まろうとしない。傾いた軸で季節を横に引きずる。
+
+bestiary.celestial.venus.name=金星
+bestiary.celestial.venus.desc=雲に閉ざされた輝く玉。一年より一日の方が長い。そこにはネズミがいる。
+
+# Bestiary UI
+bestiary.kills=撃破数
+bestiary.cap_missing_client=機能が不足しています（クライアント）。再度開いてみてください。
+bestiary.more_info_at_n=%s撃破数（体力/攻撃力）に関する詳細情報
+bestiary.lore_unlocks_at_n=%s 撃破で口伝解除
+bestiary.loot_looting=+戦利品
+bestiary.drops=ドロップ
+bestiary.no_drops=ドロップなし
+bestiary.drops_unlock_at_n=%s 撃破でドロップ解除
+bestiary.loot_unlocks_at_n=%s 撃破で戦利品解除
+
+bestiary.tab.parasites=寄生虫
+bestiary.tab.blocks=ブロック
+
+bestiary.nav.home=< ホーム
+bestiary.nav.tiers=< 種階
+bestiary.nav.mob_list=< モブリスト
+
+# Bestiary Mob Detail Controls
+bestiary.controls.greenscreen.on=グリーンスクリーン：オン
+bestiary.controls.greenscreen.off=グリーンスクリーン：オフ
+
+bestiary.controls.rotation.on=回転：オン
+bestiary.controls.rotation.off=回転：オフ
+
+bestiary.controls.run.on=歩行：オン
+bestiary.controls.run.off=歩行：オフ
+bestiary.tooltip.run_inaccurate=アニメーションは正確ではない場合があります。
+bestiary.pose.yaw=偏角
+bestiary.pose.pitch=仰角
+bestiary.pose.zoom=ズーム
+bestiary.pose.panx=X
+bestiary.pose.pany=Y
+bestiary.pose.apply=適用
+bestiary.pose.reset=リセット
+bestiary.pose.title=ポーズ
+
+
+# Bestiary Potions
+
+bestiary.tab.effects=状態効果
+bestiary.effects.title=状態効果
+bestiary.effects.home=ホーム
+bestiary.effects.none=発見された効果はありません。
+bestiary.effects.select_hint=効果を選択して詳細を表示
+bestiary.effects.id=ID
+bestiary.effects.missing_desc=説明がありません。
+
+# Bestiary Potion descriptions
+bestiary.effect.dod_smoke_trail.desc=影響を受けたエンティティには常に濃い煙の軌跡がまとわりつきます。
+bestiary.effect.bleed.desc=宿主は持続的な内出血に陥ります。ダメージは最大体力に比例し、移動中はさらに悪化します。
+bestiary.effect.conta.desc=宿主は生体汚染に侵され、周期的にダメージを受け、周囲のエンティティに感染が拡大する恐れがあります。
+bestiary.effect.corrosive.desc=腐食性の物質が宿主をゆっくりと蝕み、時間経過で周期的なダメージを与えます。
+bestiary.effect.foster.desc=宿主は寄生に適した対象として印づけられ、周囲の寄生虫の注目と保護を引き寄せます。
+bestiary.effect.prey.desc=宿主は獲物として指定され、寄生虫に標的にされ狩られやすくなります。
+bestiary.effect.needler.desc=寄生組織が宿主の体から噴き出し、針状の飛翔体を発射して周囲のエンティティにダメージを与えます。
+bestiary.effect.overheating.desc=宿主の体がオーバーヒートし、内部機能が崩壊するにつれて受けるダメージが上昇していきます。
+bestiary.effect.spotted.desc=宿主は標識され、寄生虫に追跡され発見されやすくなります。
+bestiary.effect.the_sign.desc=宿主は特別な印を宿しています。印が持続する限り、寄生虫は宿主の存在を無視します。この印は限られた者だけが持つ鮮やかな赤い紋章で、偉大な可能性や特別な存在、優れた統率力などの証とされています。
+bestiary.effect.thornshade_thorns.desc=棘のある組織が宿主から噴き出し、物理攻撃を加えた者にダメージを与えます。この効果が2回以上重なると宿主は激しく爆発し、同じ効果に侵された周囲のエンティティも近くにいれば爆発します。ブロックは破壊されません。
+bestiary.effect.coth.desc=段階的に進行する同化感染症です。効果は更新され強化され、阻止されない限り周囲の生物宿主に拡大し、宿主が弱体化するか進行限界に達すると最終的に変換を引き起こします。
+bestiary.effect.viral.desc=急速に変異する感染症が宿主の体内に広がり、周期的なダメージを与え、周囲の生物エンティティに伝染する恐れがあります。効果レベルが高いほど、症状は悪化し感染拡大の可能性が高まります。
+bestiary.effect.jugg.desc=死亡時に発動する離脱関連の効果です。有効なディスロコードに応じ、周囲の寄生虫が回復し、非寄生虫はダメージを受け、プレイヤーは疲労状態になることがあります。特定の死亡状況では、殺害者に短期間の攪乱サージが付与され、その強さは蓄積された離脱値に依存します。
+bestiary.effect.senses.desc=宿主の知覚が強化され、探知範囲と追跡範囲が拡大します。
+bestiary.effect.repel.desc=「巣域の呼び声」による感染から宿主を守る忌避印です。効果が有効な間は、変換や変容といった同化行動を遮断し、周囲への感染拡大を防ぎます。
+bestiary.effect.rage.desc=宿主は激しい狂戦状態になり、移動速度と攻撃ダメージが上昇します。両方の効果は倍率が掛かり、効果の強さに応じて増加します。
+bestiary.effect.primitive.desc=この効果が有効な間、原始的な寄生虫の変異体に与えるダメージが減少します。
+bestiary.effect.adapted.desc=この効果が有効な間、適応した寄生虫の変異体に与えるダメージが減少します。
+bestiary.effect.pure.desc=この効果が有効な間、純粋な寄生虫の変異体に与えるダメージが減少します。
+bestiary.effect.crude.desc=この効果が有効な間、粗製の寄生虫の変異体に与えるダメージが減少します。
+bestiary.effect.feral.desc=この効果が有効な間、野生的な寄生虫の変異体に与えるダメージが減少します。
+bestiary.effect.nexus.desc=この効果が有効な間、ネクサスに接続された寄生虫エンティティに与えるダメージが減少します。
+bestiary.effect.pivot.desc=効果が有効な間、キルによる進化・進行ポイントが増加し、特定の寄生虫イベントでは、ピボット印を持つエンティティをより強い信号として扱うことがあります。
+bestiary.effect.parate.desc=コア戦闘能力を高める変異活性です。効果が有効な間、宿主の最大体力、鎧防御力、攻撃ダメージが基本値の割合で上昇します。
+bestiary.effect.novision.desc=宿主の視界が全体的に遮られ、採掘疲労が付与されます。寄生虫が宿主に張り付いている間によく見られる状態です。
+bestiary.effect.muscleout.desc=宿主が与えるダメージを大幅に上昇させます。攻撃ダメージは設定された倍率で増幅され、効果の強さに応じて強くなります。
+bestiary.effect.link.desc=宿主をコロニーネットワークに接続します。効果が有効な間、コロニー関連の反応が発生しやすくなり、効果の強さに比例します。一部のコロニーエンティティは周囲の寄生虫にリンクを伝播させ、コロニーの一部として同期させることができます。
+bestiary.effect.fear.desc=行動制御を妨げる強烈なパニック状態です。高レベルではアイテム使用やブロック操作がランダムに阻まれ、アイテム使用が完全にキャンセルされることもあります。恐怖は落下ダメージを増幅し、空中で受けるダメージを上昇させることもあります。
+bestiary.effect.indeaf.desc=移動制御を遮断します。効果が有効な間、前進、後退、ジャンプなどの移動操作が強制的に無効化され、水平移動が継続的にキャンセルされるため、宿主は身動ごとになります。
+bestiary.effect.effectpos.desc=有益な効果に対して罰を与えます。宿主は有効なポジティブなポーション効果の数に応じてダメージを受け、効果の強さに比例して増加します。
+bestiary.effect.effectneg.desc=有害な効果を強化します。効果が有効な間、宿主にかかっているネガティブなポーション効果が強化され、効果の強さに比例して増加します。
+bestiary.effect.debar.desc=寄生虫のドロップを抑制します。デバー効果を受けた寄生虫は死亡時に設定されたアイテムをドロップしません。
+bestiary.effect.braining.desc=寄生虫の知覚を攪乱します。効果が有効な間、寄生虫エンティティはクライアント上に表示されなくなりますが、実体は存在し通常通り行動します。
+bestiary.effect.antimall.desc=適応可能な寄生虫の適応耐性を減少または無効にします。
+
+# Bestiary Systems
+
+bestiary.tab.systems=システム
+bestiary.systems.title=システム
+bestiary.systems.home=ホーム
+bestiary.systems.id=ID
+bestiary.systems.none=システムが見つかりません。
+bestiary.systems.missing_desc=説明がありません。
+
+bestiary.system.reinforcement.name=援軍
+bestiary.system.reinforcement.desc=寄生虫が倒されたとき、助けを求める信号を送ることがある。付近に召喚荊が現れ、仲間を呼び始める。召喚荊は期を経て成長し、期が上がるほど強力または多数の援軍が呼び寄せられ、小さな遭遇戦が急速に激化する。召喚荊が成長・進化する前に排除することが最重要となる。
+
+bestiary.system.merge.name=融合
+bestiary.system.merge.desc=同化された生物は融合し、新たな実体へと再生される。条件により、融合形態は特定の結果から選択されるか、ランダムに生成される。
+
+bestiary.system.status_effects.name=ステータス効果
+bestiary.system.status_effects.desc=寄生虫は恐怖、「巣域の呼び声」、穿刺、出血、迷彩などの独自のステータス効果を与える。これらの効果は戦闘、移動、生存に干渉し、戦闘が長引くほど重なったり強化されたりすることが多い。これらの効果が発動中は細心の注意を払うこと。
+
+bestiary.system.evolution.name=進化
+bestiary.system.evolution.desc=感染は力を得るにつれ、進化段階を経て進行する。各段階でさらなる行動パターンとメカニクスが解放される。誘引ブロックの使用などの特定の行動により、進化を抑制し、感染の拡大を遅らせることができる。
+
+bestiary.system.hives.name=巣域
+bestiary.system.hives.desc=巣域は寄生虫のテリトリーを管理し、守るための構造物。
+
+bestiary.system.collective_consciousness.name=集団意識
+bestiary.system.collective_consciousness.desc=寄生虫は単一の統合された生物として行動できる。集団意識が作動している間、近くの実体は意識を共有し、共に行動する。
+
+bestiary.system.eiv.name=伝播経路
+bestiary.system.eiv.desc=設定で制限を無効にしない限り、寄生虫は伝播経路のエリア内でのみスポーンします。各伝播経路は体力を保有し、寄生虫がモブを倒すか同化するたびに体力が上昇し、倒されたモブの総体力が伝播経路の体力に加算されます。伝播経路の半径と体力は毎日（約24000ティックごと）に独立して拡大・上昇します。伝播経路の情報を確認するには、アレイに伝播経路モジュールを設置し、スキャンを実行してください。
+
+bestiary.system.scent.name=香識
+bestiary.system.scent.desc=寄生虫は「香識」の蓄積によって活動に反応する。香識のレベルが上がると、敵の波が頻繁になり、攻撃的になる。不用意な戦闘や感染地域での滞留は、ますます危険な反応を引き起こす。
+srp.msg.scent.closest_notified=最寄り香識、通知済
+srp.msg.scent.deployed_area=このエリア、香識展開
+srp.msg.scent.active=香識作動中
+
+bestiary.system.ubiquitous_development.name=全域発展
+bestiary.system.ubiquitous_development.desc=寄生虫がさらに成長すると、世界中で新たなシステムが作動し始める。発展レベルが上がると、統一行動、融合、香識の波、構造物、拡張されたスポーンルールなどのメカニクスが解放される。
+
+bestiary.system.dislodgment.name=異変
+bestiary.system.dislodgment.desc=特定の行為によって感染が撹乱され、反撃を誘発することがあります。接触・回復・寄生虫の活動をきっかけに異変が発動し、強度に応じた複数の段階で反撃が激化していきます。現在の異変コードとその効果を確認するには、アレイに異変モジュールを設置し、スキャンを実行してください。
+
+bestiary.system.generations.name=世代
+bestiary.system.generations.desc=段階的な難易度と、寄生虫のステータス・関連システムの調整。寄生虫は時間の経過とともにこれらの世代を経て成熟する。各世代には継続的な成長が必要で、条件が整わないと進行が遅くなる。
+
+bestiary.system.vectors.name=伝播経路
+bestiary.system.vectors.desc=伝播経路は寄生虫が拡散するための源・道筋となる。発展が進むと、感染は通常の発生源を超えて現れるようになり、以前は安全だった地域でも新たな感染が発生する。
+
+bestiary.system.colonies.name=集落
+bestiary.system.colonies.desc=集落は感染の「産業拠点」として定着した区域。エリア内の寄生虫の存在を強化し、感染の根絶を困難にする。スポンジを使用することで、集落構造物から死血を除去できる。
+
+bestiary.system.nodes.name=節点
+bestiary.system.nodes.desc=節点は寄生虫が拡大するためのインフラ。作動中は拡散を支援し、付近の成長を強化する。
+
+bestiary.system.nests.name=窩
+bestiary.system.nests.desc=指揮花などの特殊なリレー（連結種）寄生虫は窩を形成し、巣の成長と拡大を加速させます。これらの拠点は周囲の地形を急速に活性化した霧の感染ゾーンに変え、霧消去装置を使用するとこの霧を除去できます。
+
+bestiary.system.variants.name=変種
+bestiary.system.variants.desc=寄生虫はウイルス性、出血、ブロックへのダメージ増加に限らない、複数の変種としてスポーンする確率がある。
+
+
+srphelp.header.warning=§c警告：情報は最新でない可能性があります。
+srphelp.header.topics=§eSRPのヘルプトピック：
+srphelp.header.topics_inline=§e既知のトピック：%s
+srphelp.topic.item= - %s
+srphelp.footer.hint=§7詳細については §b/srphelp <topic>§7 を使用してください。
+srphelp.error.unknown=§c不明なヘルプトピック：§f%s
+srphelp.topic.header=§6/srphelp %s
+
+# csrp
+srphelp.csrp.setgeneration.usage=§b/csrp setgeneration <0..5>
+srphelp.csrp.setgeneration.desc=現在のディメンションの寄生虫の世代を強制設定します。
+srphelp.csrp.getgeneration.usage=§b/csrp getgeneration
+srphelp.csrp.getgeneration.desc=現在のディメンションの寄生虫の世代を表示します。
+srphelp.csrp.readconfigurationfile.usage=§b/csrp readconfigurationfile
+srphelp.csrp.readconfigurationfile.desc=SRP設定をリロードし、一部システムを再初期化します。
+srphelp.csrp.toggle_dotiledrops.usage=§b/csrp toggle_dotiledrops
+srphelp.csrp.toggle_dotiledrops.desc=SRPのブロックドロップ動作を切り替えます。
+srphelp.csrp.toggle_domobevolution.usage=§b/csrp toggle_domobevolution
+srphelp.csrp.toggle_domobevolution.desc=SRPのモブ進化を切り替えます。
+srphelp.csrp.resetdatafile.usage=§b/csrp resetdatafile
+srphelp.csrp.resetdatafile.desc=このディメンションのSRPワールドデータをリセットします。
+srphelp.csrp.parasites.usage=§b/csrp parasites
+srphelp.csrp.parasites.desc=アクティブな寄生虫エンティティの簡易サマリーを表示します。
+
+# srpgeneration
+srphelp.srpgeneration.setgeneration.usage=§b/srpgeneration setgeneration <0..5>
+srphelp.srpgeneration.setgeneration.desc=寄生虫の世代を直接設定します。
+srphelp.srpgeneration.getgeneration.usage=§b/srpgeneration getgeneration
+srphelp.srpgeneration.getgeneration.desc=現在の寄生虫の世代を表示します。
+
+# srpevolution
+srphelp.srpevolution.getphase.usage=§b/srpevolution getphase
+srphelp.srpevolution.getphase.desc=現在の進化段階とステータスを通知します。
+srphelp.srpevolution.addpoints.usage=§b/srpevolution addpoints <数値>
+srphelp.srpevolution.addpoints.desc=進化ポイントを加算（または減算）します。
+srphelp.srpevolution.setcooldown.usage=§b/srpevolution setcooldown <秒数>
+srphelp.srpevolution.setcooldown.desc=進化のクールダウンを任意の値に設定します。
+srphelp.srpevolution.addcooldown.usage=§b/srpevolution addcooldown <秒数>
+srphelp.srpevolution.addcooldown.desc=クールダウンタイマーに秒数を加算します。
+srphelp.srpevolution.setphase.usage=§b/srpevolution setphase <段階> [世代]
+srphelp.srpevolution.setphase.desc=進化段階を強制設定（世代も任意で設定可）。
+srphelp.srpevolution.set_evolutiongaining.usage=§b/srpevolution set_evolutiongaining <true|false>
+srphelp.srpevolution.set_evolutiongaining.desc=時間経過による進化ポイント獲得を有効/無効化します。
+srphelp.srpevolution.set_evolutionloss.usage=§b/srpevolution set_evolutionloss <true|false>
+srphelp.srpevolution.set_evolutionloss.desc=時間経過による進化ポイント喪失を有効/無効化します。
+srphelp.srpevolution.evolutionlock_getlist.usage=§b/srpevolution evolutionlock_getlist
+srphelp.srpevolution.evolutionlock_getlist.desc=現在進化がロックされているモブ/アイテムを一覧表示します。
+srphelp.srpevolution.evolutionlock_reset.usage=§b/srpevolution evolutionlock_reset
+srphelp.srpevolution.evolutionlock_reset.desc=すべての進化ロックをクリアします。
+srphelp.srpevolution.evolutionlock_unlockall.usage=§b/srpevolution evolutionlock_unlockall
+srphelp.srpevolution.evolutionlock_unlockall.desc=すべての進化ロックを解除します。
+
+# srpudevelopment
+srphelp.srpudevelopment.getlevel.usage=§b/srpudevelopment getlevel
+srphelp.srpudevelopment.getlevel.desc=現在の全域発展レベルを表示します。
+srphelp.srpudevelopment.setlevel.usage=§b/srpudevelopment setlevel <レベル>
+srphelp.srpudevelopment.setlevel.desc=全域発展レベルを設定します。
+srphelp.srpudevelopment.viewalldims.usage=§b/srpudevelopment viewalldims
+srphelp.srpudevelopment.viewalldims.desc=ディメンション別の寄生虫進行度を一覧表示します。
+
+# srpnodes
+srphelp.srpnodes.viewall.usage=§b/srpnodes viewall
+srphelp.srpnodes.viewall.desc=すべての節点とそのポイントを一覧表示します。
+srphelp.srpnodes.setnode.usage=§b/srpnodes setnode <x> <y> <z> <種別>
+srphelp.srpnodes.setnode.desc=指定座標に節点を設置/登録します。
+srphelp.srpnodes.removenode.usage=§b/srpnodes removenode <x> <y> <z>
+srphelp.srpnodes.removenode.desc=指定座標付近の節点を削除します。
+srphelp.srpnodes.clearworld.usage=§b/srpnodes clearworld
+srphelp.srpnodes.clearworld.desc=このワールドのすべての節点を削除します。
+
+# srpcolonies
+srphelp.srpcolonies.viewall.usage=§b/srpcolonies viewall
+srphelp.srpcolonies.viewall.desc=すべての集落とそのポイントを一覧表示します。
+srphelp.srpcolonies.setcolony.usage=§b/srpcolonies setcolony <x> <y> <z>
+srphelp.srpcolonies.setcolony.desc=指定座標への集落設置/登録を試行します。
+srphelp.srpcolonies.removecolony.usage=§b/srpcolonies removecolony <x> <y> <z>
+srphelp.srpcolonies.removecolony.desc=指定座標付近の集落を削除します。
+srphelp.srpcolonies.clearworld.usage=§b/srpcolonies clearworld
+srphelp.srpcolonies.clearworld.desc=このワールドのすべての集落を削除します。
+srphelp.srpcolonies.resetglobaladaptation.usage=§b/srpcolonies resetglobaladaptation
+srphelp.srpcolonies.resetglobaladaptation.desc=グローバル適応値をリセットします。
+srphelp.srpcolonies.viewallglobaladaptation.usage=§b/srpcolonies viewallglobaladaptation
+srphelp.srpcolonies.viewallglobaladaptation.desc=ダメージ種別ごとのグローバル適応ポイントを表示します。
+
+# srpvectors
+srphelp.srpvectors.viewall.usage=§b/srpvectors viewall
+srphelp.srpvectors.viewall.desc=すべての感染伝播経路（EIV）を一覧表示します。
+srphelp.srpvectors.setvector.usage=§b/srpvectors setvector <x> <y> <z> <体力> <半径>
+srphelp.srpvectors.setvector.desc=指定座標に新たな EIV を作成/登録します。
+srphelp.srpvectors.removevector.usage=§b/srpvectors removevector <x> <y> <z>
+srphelp.srpvectors.removevector.desc=指定座標付近の EIV を削除します。
+srphelp.srpvectors.clearworld.usage=§b/srpvectors clearworld
+srphelp.srpvectors.clearworld.desc=このワールドのすべての EIV を削除します。
+
+# srpdislodgment
+srphelp.srpdislodgment.random_code.usage=§b/srpdislodgment random_code <持続秒数>
+srphelp.srpdislodgment.random_code.desc=指定時間、ランダムな異変コード/値を生成します。
+srphelp.srpdislodgment.set_code.usage=§b/srpdislodgment set_code <コード> <値> <持続秒数>
+srphelp.srpdislodgment.set_code.desc=持続時間付きで異変コード/値を手動設定します。
+srphelp.srpdislodgment.codes_reset.usage=§b/srpdislodgment codes_reset
+srphelp.srpdislodgment.codes_reset.desc=アクティブな異変コード/値をすべてクリアします。
+
+# srpguide
+srphelp.srpguide.unlockall.usage=§b/srpguide unlockall
+srphelp.srpguide.unlockall.desc=妖虫図鑑のすべてのエントリーを解放し、全種階を開放済みにします。
+srphelp.srpguide.restore.usage=§b/srpguide restore
+srphelp.srpguide.restore.desc=unlockall実行前のスナップショットから妖虫図鑑を復元します。
+srphelp.srpguide.clearall.usage=§b/srpguide clearall
+srphelp.srpguide.clearall.desc=妖虫図鑑の進行状況をクリアします。
+
+# srpguideclear
+srphelp.srpguideclear.self.usage=§b/srpguideclear
+srphelp.srpguideclear.self.desc=ショートカット: §b/srpguide clearall§r と同じです。
+
+# harlequin_here
+srphelp.harlequin_here.convert.usage=§b/harlequin_here [半径チャンク数=1]
+srphelp.harlequin_here.convert.desc=周辺のバイオームをハーレクインに変換し、チャンクをリフレッシュします。
+
+# harlequin_convert
+srphelp.harlequin_convert.blotch.usage=§b/harlequin_convert [半径] [サンプル確率] [深度] [斑状確率] [斑状最小直径] [斑状最大直径]
+srphelp.harlequin_convert.blotch.desc=円形のハーレクイン斑を生成し、半径内の対象地表を変換します。
+
+# harlequin_scatter
+srphelp.harlequin_scatter.ruins.usage=§b/harlequin_scatter <rock|bush|tree|ruin|both|all> [試行回数=32] [半径=32]
+srphelp.harlequin_scatter.ruins.desc=バイオーム内の有効な地面にハーレクインの岩/低木/木/遺跡を配置します。
+
+# conjure
+srphelp.conjure.usage=§b/conjure <エンティティID>
+srphelp.conjure.desc=指定のSRPエンティティをスポーンさせます (エイリアス: /conj)。
+
+# srpguide command messages
+command.srpguide.usage=/srpguide unlockall §l|§r §oclear §l|§r §oclearall §l|§r §oreset §l|§r §ounlockblocks §l|§r §oclearblocks §l|§r §ounlockcelestial §l|§r §oclearcelestial §l|§r §ounlockeffects §l|§r §ocleareffects
+command.srpguide.players_only=プレイヤーのみ実行可能です。
+command.srpguide.cap_missing=妖虫図鑑の機能が見つかりません。
+
+command.srpguide.unlockall_ok=妖虫図鑑：%s体のモブを解放、全種階を開放済みにしました。
+command.srpguide.unlockblocks_ok=妖虫図鑑：%s件のブロックエントリーを解放しました。
+command.srpguide.unlockcelestial_ok=妖虫図鑑：%s件の天体イベントを解放しました。
+
+command.srpguide.unlockeffects_ok=妖虫図鑑：%s件のステータス効果を解放しました。
+command.srpguide.cleareffects_ok=妖虫図鑑：ステータス効果の進行状況をクリアしました。
+command.srpguide.cleareffects_need_getter=妖虫図鑑：効果をクリアできません（getSeenEffects() または seenEffects NBTキーがありません）。
+
+command.srpguide.clear_restore_ok=妖虫図鑑を unlockall 実行前の状態に復元しました。
+command.srpguide.clear_no_snapshot=スナップショットが見つかりません。妖虫図鑑をゼロにクリアしました。
+command.srpguide.clearall_ok=妖虫図鑑をゼロにクリアしました。
+
+command.srpguide.clearblocks_ok=妖虫図鑑: ブロック全書の進行状況をクリアしました。
+command.srpguide.clearcelestial_ok=妖虫図鑑: 天体イベントの進行状況をクリアしました。
+command.srpguide.clearcelestial_need_getter=IBestiaryProgress/BestiaryProgressにgetSeenCelestials()がありません。/srpguide clearcelestialに対応するには追加してください。
+
+srpguide.sounds.on=フィールドガイド音: オン
+srpguide.sounds.off=フィールドガイド音: オフ
+
+tooltip.module_inborn=ディメンション内の先天種をスキャン。 §l|§r §oリレー端末に挿入、スキャン実行。
+tooltip.module_assimilated=ディメンション内の同化種をスキャン。 §l|§r §oリレー端末に挿入、スキャン実行。
+tooltip.module_hijacked=ディメンション内の乗取種をスキャン。 §l|§r §oリレー端末に挿入、スキャン実行。
+tooltip.module_feral=ディメンション内の狂気種をスキャン。 §l|§r §oリレー端末に挿入、スキャン実行。
+tooltip.module_crude=ディメンション内の粗雑種をスキャン。 §l|§r §oリレー端末に挿入、スキャン実行。
+tooltip.module_primitive=ディメンション内の原始種をスキャン。 §l|§r §oリレー端末に挿入、スキャン実行。
+tooltip.module_adapted=ディメンション内の適応種をスキャン。 §l|§r §oリレー端末に挿入、スキャン実行。
+tooltip.module_nexus=ディメンション内の連結種をスキャン。 §l|§r §oリレー端末に挿入、スキャン実行。
+tooltip.module_deterrent=ディメンション内の抑止種をスキャン。 §l|§r §oリレー端末に挿入、スキャン実行。
+tooltip.module_pure=ディメンション内の純粋種をスキャン。 §l|§r §oリレー端末に挿入、スキャン実行。
+tooltip.module_preeminent=ディメンション内の抜群種をスキャン。 §l|§r §oリレー端末に挿入、スキャン実行。
+tooltip.module_ancient=ディメンション内の太古種をスキャン。 §l|§r §oリレー端末に挿入、スキャン実行。
+tooltip.module_derived=ディメンション内の派生種をスキャン。 §l|§r §oリレー端末に挿入、スキャン実行。
+tooltip.module_assimara=ディメンション内の魔羅種をスキャン。 §l|§r §oリレー端末に挿入、スキャン実行。
+
+tooltip.module_vectors=ディメンション内のベクターをスキャン。 §l|§r §oリレー端末に挿入、スキャン実行。
+tooltip.module_phase=ディメンション内の段階情報をスキャン。 §l|§r §oリレー端末に挿入、スキャン実行。
+tooltip.dislodgement=異変イベント/情報/コードをスキャン・解読。 §l|§r §oリレー端末に挿入、スキャン実行。
+
+tooltip.module_desmoid=先天・同化・魔羅・乗取種をカバー。 §l|§r §oリレーテルミナルに挿入し、スキャンを押下。
+tooltip.module_eschar=狂気・粗雑・原始種をカバー。 §l|§r §oリレーテルミナルに挿入し、スキャンを押下。
+tooltip.module_resistance=適応・連結・抑止種をカバー。 §l|§r §oリレーテルミナルに挿入し、スキャンを押下。
+tooltip.module_ideal=純粋・抜群・太古・派生種をカバー。 §l|§r §oリレーテルミナルに挿入し、スキャンを押下。
+tooltip.module_origin=すべての寄生虫をカバー。 §l|§r §oリレーテルミナルに挿入し、スキャンを押下。
+
+# dislodgement Module
+tooltip.module_dislodgement=リレーコントローラーが現在の異変コードを出力するために使用。
+item.csrp.dislodgement_report.name=異変レポート
+tooltip.csrp.dislodgement_report=アレイで異変モジュールをスキャンすることで入手。
+
+csrp.dislodgement.header=異変コードレポート
+csrp.dislodgement.code=生コード：
+csrp.dislodgement.code.value=%s
+csrp.dislodgement.decoded=デコード済みイベント：
+csrp.dislodgement.line=次元 %s | イベント %s：%s （値=%s、時間=%ss）
+csrp.dislodgement.unknown_format=デコード失敗：未知のコード形式。
+csrp.dislodgement.truncated=…省略（エントリ数が多すぎる）
+
+csrp.dislodgement.event.unknown=未知のイベント
+csrp.dislodgement.event.0=COTHが増幅器を無視する。
+csrp.dislodgement.event.1=COTHが上位種階を生成（1=狂気種、2=原始種、3=適応種、4=純粋種）。値：%s
+csrp.dislodgement.event.2=寄生虫の撃破で単体を生成。値：%s
+csrp.dislodgement.event.3=寄生虫がポーション効果付きで生成。増幅値：%s
+csrp.dislodgement.event.4=寄生虫がステータス強化済みで生成。倍率：%s
+csrp.dislodgement.event.6=寄生虫が耐久値を多く消費。倍率：%s
+csrp.dislodgement.event.7=寄生虫死亡時：近くの寄生虫を回復。量：%s
+csrp.dislodgement.event.8=寄生虫死亡時：近くのエンティティにダメージ。量：%s
+csrp.dislodgement.event.9=寄生虫死亡時：近くのプレイヤーの空腹度を吸収。量：%s
+csrp.dislodgement.event.10=下位種階の撃破で上位種階を生成。モブ：%s
+csrp.dislodgement.event.11=寄生虫がポーション効果を無効化。
+csrp.dislodgement.event.12=非寄生虫モブから体力を吸収。量：%s
+csrp.dislodgement.event.13=全プレイヤーの空腹度を吸収。量：%s
+csrp.dislodgement.event.14=進化が次の進化段階生成リストを使用。段階：%s
+csrp.dislodgement.event.15=咆哮が無効化；連結種の生成が許可される。
+csrp.dislodgement.event.16=移動が無効化；連結種の進化が許可される。
+csrp.dislodgement.event.17=シールドが無効化；食料が腐敗する。
+csrp.dislodgement.event.18=寄生虫のドロップ/経験値が無効化。
+csrp.dislodgement.event.19=寄生虫の撃破数が増加。量：%s
+csrp.dislodgement.event.20=特定の形態に対して死体機能が有効化。
+csrp.dislodgement.event.21=寄生虫は燃焼中にのみ死亡可能。
+csrp.dislodgement.event.22=同種の寄生虫を撃破した場合のペナルティ。増幅値：%s
+csrp.dislodgement.event.25=寄生虫ブロックを破壊すると寄生虫を生成（1=同化種、2=狂気種、3=原始種、4=適応種、5=純粋種）。値：%s
+
+gui.csrp.dislodgement.title=異変レポート
+gui.csrp.dislodgement.none=異変エントリが見つかりません。
+gui.csrp.dislodgement.entry.head=ディメンション %s | イベント %s | %s
+gui.csrp.dislodgement.entry.value=値：%s
+
+# Vector Report paper
+item.csrp.vector_report.name=伝播経路レポート
+item.csrp.vector_report.lore.header=ワールド内の現在の感染拡散伝播経路（x, y, z, 体力, 半径）：
+item.csrp.vector_report.lore.none=-> （なし）
+item.csrp.vector_report.lore.line=-> [%s, %s, %s, %s, %s]
+item.csrp.vector_map.name=伝播経路マップ
+gui.csrp.vector_map.title=伝播経路マップ
+gui.csrp.vector_map.day=日数 %s
+gui.csrp.vector_map.page=伝播経路 %s/%s
+gui.csrp.vector_map.vector_coords=伝播経路：X=%s Z=%s  R=%s
+gui.csrp.vector_map.player_coords=自分：X=%s Z=%s
+gui.csrp.vector_map.range=マップ範囲：%sx%sブロック
+chat.csrp.vectors.disabled=感染拡散伝播経路が無効化されています。
+chat.csrp.vectors.not_activated=感染拡散伝播経路がアクティブ化されていません。
+tooltip.csrp.vector_map=リレーで伝播経路モジュールをスキャンすることで入手・データが充填される。
+
+#VECTOR MAP GUI
+gui.csrp.vector_map.vectors=伝播経路：
+
+gui.csrp.vector_map.entry.xyz=%d) XYZ = "%d, %d, %d"
+gui.csrp.vector_map.entry.size=   サイズ = "%d"
+gui.csrp.vector_map.entry.hp=   HP = "%s"
+gui.csrp.vector_map.legend.line1=赤い輪 = 伝播経路。
+gui.csrp.vector_map.legend.line2=(%s) スキャン距離外の伝播経路は黄色い点で表示。
+gui.csrp.vector_map.legend.line3=青いマーカー = スキャン起点。
+
+#PHASE REPORT
+item.csrp.phase_report.name=段階レポート
+tooltip.csrp.phase_report=現在スキャンされた進化レポートを表示。
+gui.csrp.phase_report.no_data=レポートデータが見つかりません。
+gui.csrp.phase_report.no_data_hint=スキャナーでスキャンすることでレポートを生成してください。
+gui.csrp.phase_report.title=進化段階レポート
+gui.csrp.phase_report.empty=このレポートに段階データは存在しません。
+gui.csrp.phase_report.mob_chart=モブチャート
+gui.csrp.phase_report.uninfected_hosts=未感染宿主
+gui.csrp.phase_report.parasite_entities=寄生虫エンティティ
+gui.csrp.phase_report.infected_hosts=感染宿主
+gui.csrp.phase_report.point_gain=ポイント獲得
+gui.csrp.phase_report.point_loss=ポイント損失
+gui.csrp.phase_report.enabled=有効
+gui.csrp.phase_report.disabled=無効
+#INBORN
+lore.csrp.buglin=§l異名：§r§rLodo §l|§r §oバスケットボールほどの太さの蛆様の肉塊。不安定な肉質が歪に折り重なり、今にも破裂しそうな姿をしている。鋭い金属臭を放ち、その体質は酸っぱく強い酸性を示す。腹部には16本の鉤爪が並び、地形を這い回り、生きた獲物に無理矢理侵入・脱出することができる。外見上の穴はなく、歪んだ触媒のように体は密閉されている。柔軟性があるものの、強い圧力には脆く、鉄ゴーレムの重さの下では即座に破裂する。寄生虫の坑道から湧き出ることが多い。
+lore.csrp.rupter=§l異名：§r§rMudo §l|§r §o群れで行動し、スピードと数で陣形を崩し、単独行動をとる標的を攪乱する。単体では最初は大人しいが、この行動は急速に変化する。筋肉と腱は四次元のように高密度に畳まれ、内臓は根のように体内に無構造で広がっている。質量は大砲の弾程度。長く速い跳躍、垂直な壁の登攀が可能だが、天井にぶら下がるほどの器用さはない。興奮すると触手が伸び、標的に食らいつき穿つ。家畜や小動物を引き裂くことが多く、故意でなくとも殺してしまう。固体は胃内で溶解し、無意味な微粒子となって被害者に吐き出され、少ない抵抗で効率よく「巣域の呼び声」を感染させる。内臓は収穫・乾燥・加工すると耐久性の繊維素材になる。肢体はクモのように千切れるが、再生可否は不明。
+lore.csrp.mangler=§l異名：§r§rNuuh |ラプターから派生した近接用の乱暴者。家畜、馬、ラマなど大型の獲物を狙って成長した。体は大型犬ほどの重さで、スピードより持久力と持続的な力を持つ。体は太くが、祖先の感染能力を受け継いでいる。ラプターが持つ金属臭がさらに強く、視覚的に確認する前に察知できるほど。
+lore.csrp.carrier_flying=§l異名：§r§rButhol §l|§r §o感染地帯に漂う空中の感染媒体。体の下に三つの外腫瘤がぶら下がり、それぞれ別の化学成分を蓄えている。興奮すると腫瘤内で強制的に混合され、急激に膨張して体が破裂する。外気に触れると、放出された混合物は猛毒のガス状物質に変化する。産業廃棄物のような臭いを放つ。体表面には微細な注射針状の突起があり、爆発時に周囲に損傷を与え、露出した皮膚を急速に融かす。火炎を浴びせると不安定化し、反応を部分的に中和できる。
+lore.csrp.carrier_heavy=§l異名：§r§rRathol §l|§r §o濃密な汚物、毒素、支援体をばらまくための重衛体。体は完全に密閉され外見上の穴はなく、有毒ガスを貯める圧力容器として機能する。生命組織を持たず、揮発性の混合物だけが詰まった個体も存在する。体内の区画には部分的に消化された寄生虫が浮遊し、スラリーの中を泳いでいる。爆発前には自らの内臓と構造壁を溶解し、急激に内圧を高めて破裂する。振動に強く反応し、温かい器に密封された腐った調理肉のような臭いを放つ。火炎を浴びせると不安定化し、反応を部分的に中和できる。
+lore.csrp.carrier_light=§l異名：§rGothol §l|§r §o速攻と短距離の種付けに適した敏捷な運搬体。体は何百もの小部屋からなり、揮発性スラリーが生命機能と化学的に結合している。内臓は高密度に集まり、ブラックベリーの芯のような硬い核を作る。不安定ながら単独でバランスを保て、周囲の振動に強く反応する。温かい器に密封された腐った調理肉のような臭いを放つ。爆発後は広範囲に残留物を残す。火炎を浴びせると不安定化し、反応を部分的に中和できる。
+lore.csrp.gnat=§l異名：§rAta §l|§r §o触手を回転式のドリルとして使い、宿主に穿入し、有機体・無機体を問わず乗っ取り支配する小さな寄生体。単体は弱いが、肢体は非常に鋭く、硬い物質や頑強な獲物でも削り貫く。背中の腫瘤は宿主に埋め込まれると溶解または激しく破裂し、内部の損傷と乗っ取りを加速させる。血の臭いに強く引き寄せられ、意図的に牽制として使うこともできる。聴覚はなく、臭いだけで行動する。体表には害虫から分泌された潤滑剤のような粘液が塗られている。
+lore.csrp.lice=§l異名：§rViin §l|§r §o非常に不規則な動きをする寄生虫。触手を回転式のドリルとして使い、宿主に穿入し、有機体・無機体を問わず乗っ取り支配する。腹部は極端に膨らみ、複数の腫瘤が燃料と爆弾の両方を兼ね、強制的に取りついて抵抗する標的を貫く。動きは不安定で非効率なほど予測不可能で、追跡や払い落としが難しい。汗と血の臭いに強く引き寄せられ、近くにいると微かなハミング音を立てる。
+
+#ASSIMILATED
+lore.csrp.sim_adventurer=§l異名：§rSim §l|§r §o感染した放浪者。数が集まれば群れで行動する。同じプレイヤーの物語は依然として謎に包まれている。
+lore.csrp.sim_bear=§l異名：§rSim §l|§r §o筋肉と躯体が生きた攻城兵器として調整されている。距離を取ること。
+lore.csrp.sim_bigspider=§l異名：§rDorpa §l|§r §o膨らんだ媒介体で、後ろに網と腐敗物を引きずっている。他のものたちとは違うように見えないか？
+lore.csrp.sim_cow=§l異名：§rSim §l|§r §o動きは遅く丈夫で、不気味なほど従順。麦の音に鼻口がまだ動く。突進して標的に体当たりすることができる。
+lore.csrp.sim_dragone=§l異名：§rSim §l|§r §o姿が崩れた飛翔体で、ほとんど高く飛ぶ方法を忘れている。それでも極めて危険で、より高い殺傷力のために歪められている。どんな鎧も永遠ではない。
+lore.csrp.sim_enderman=§l異名：§rSim §l|§r §o空間で歪められた運び屋。迷いの乗客の遠縁の存在。自身が燃えていても他を燃やすことを気にしていない。執拗だ。
+lore.csrp.sim_horse=§l異名：§rSim §l|§r §o四人のうちの一人。人を乗せず。極めて揮発性の高い腐敗液で満たされており激しく爆発する。火がなくても十分な衝撃や臓器破裂で爆発する。
+lore.csrp.sim_human=§l異名：§rSim §l|§r §o人の面影が残っている。死んでいない。ただ苦しんでいるだけ。本質的には他と同じ肉盾だが、ただ頭が良いだけ。
+lore.csrp.sim_pig=§l異名：§rSim §l|§r §o平静な外皮、飢えた核心。それでも豚だ。ただの生体物質に過ぎない。
+lore.csrp.sim_sheep=§l異名：§rSim §l|§r §o「我々の代わりに、それに我々の苦しみと悲しみを泣かせよ。」
+lore.csrp.sim_squid=§l異名：§rSim §l|§r §o水に種を蒔く静かな媒介体。腐敗した粒子や残骸が雪のように体から舞い落ちる。
+lore.csrp.sim_villager=§l異名：§rSim §l|§r §o品物ではなく、汚物と腐敗物の商人。多少の意識が残っていても、ただの生体物質で肉盾に過ぎない。
+lore.csrp.sim_wolf=§l異名：§rSim §l|§r §o捻じ曲げられた群れの本能。素早く噛みつく。
+
+#DETACHED HEADS
+lore.csrp.sim_cowhead=§l異名：§rDesim §l|§r §o這い回る筋で動かされる首を切り落とされた宿主。胃酸と牛肉の臭いがする。あらゆる肉の塊を探し出し、乗っ取って再結合しようとする。
+lore.csrp.sim_dragonehead=§l異名：§rDesim §l|§r §o新たな飢えに駆り立てられた古代の骨と牙。それでも何らかの方法で腐敗した吐息を使うことができる。
+lore.csrp.sim_endermanhead=§l異名：§rDesim §l|§r §oまだ見える……まだ見つける。まだ機能する。まだ迷惑だ。同程度の大きさの物だけを運ぶことができる。
+lore.csrp.sim_horsehead=§l異名：§rDesim §l|§r §oかつて脚だった場所に腐った皮で覆われた腱があり、それで疾走する。あらゆる肉の塊を探し出し、 乗っ取って再結合しようとする。
+lore.csrp.sim_humanhead=§l異名：§rDesim §l|§r §o空洞の眼窩は、まだ視線を形成できるほどの形を保っている。あらゆる肉の塊を探し出し、乗っ取って再結合しようとする。
+lore.csrp.sim_pighead=§l異名：§rDesim §l|§r §o肉の紐でつながれた鼻を鳴らす塊。まだ鼻歌を歌う。あらゆる肉の塊を探し出し、乗っ取って再結合しようとする。
+lore.csrp.sim_sheephead=§l異名：§rDesim §l|§r §o生きた糸で縺れた羊毛。あらゆる肉の塊を探し出し、乗っ取って再結合しようとする。
+lore.csrp.sim_villagerhead=§l異名：§rDesim §l|§r §o言葉ではない声で呟く。あらゆる肉の塊を探し出し、乗っ取って再結合しようとする。
+lore.csrp.sim_wolfhead=§l異名：§rDesim §l|§r §o思考など必要ない。あらゆる肉の塊を探し出し、乗っ取って再結合しようとする。
+
+#FERAL
+lore.csrp.fer_bear=§l異名：§rFer §l|§r §o止めがたい猛りを解き放ち、獲物を引き裂く。
+lore.csrp.fer_cow=§l異名：§rFer §l|§r §o無尽蔵の飢えに駆り立てられる、肉と筋肉ののろまな容器。すべてを否定する存在。
+lore.csrp.fer_enderman=§l異名：§rFer §l|§r §o静かに忍び寄り、狂気の確度で空間をワープする。
+lore.csrp.fer_horse=§l異名：§rFer §l|§r §o無謀な速さで疾走し、進路にある倒れた者を踏みつける。
+lore.csrp.fer_human=§l異名：§rFer §l|§r §o理性と皮膚を剥奪された人間の姿。
+lore.csrp.fer_pig=§l異名：§rFer §l|§r §o怪異な摂食者で、飢えて鳴き叫ぶ。
+lore.csrp.fer_sheep=§l異名：§rFer §l|§r §o羊毛の中の嘴。
+lore.csrp.fer_villager=§l異名：§rFer §l|§r §oコミュニティの本能が捻じ曲げられた。
+lore.csrp.fer_wolf=§l異名：§rFer §l|§r §o最上位の捕食者。執拗な狩猟者だ。
+
+# CRUDE
+lore.csrp.crux=§l異名：§rCruxA §l|§r §o自らを編み上げ続ける骨格の生物。死体の数ごとに増していく終わりのない怒り。
+lore.csrp.crux_incomplete=§l異名：§rCruxB §l|§r §o牙を備えた輪郭。かつて完全な姿だった者の焼け焦げた残骸。
+lore.csrp.heed=§l異名：§rHeed §l|§r §o他者の意志をささやく偵察者。
+lore.csrp.host=§l異名：§rHost §l|§r §o変容を待っている担い手の躯体。
+lore.csrp.hostii=§l異名：§rHostii §l|§r §o群れは一体となって動く。
+lore.csrp.incompleteform_medium=§l異名：§rInhooM §l|§r §o半分の形、全く致命的です。
+lore.csrp.incompleteform_small=§l異名：§rInhooL §l|§r §o小さな躯、素早い斬撃。体重は小型犬程度。
+lore.csrp.thrall=§l異名：§rMes §l|§r §o忠誠を具現化した肉塊。
+lore.csrp.dredge=§l異名：§rDone §l|§r §o戦場から肉塊と記憶を浚い集める。姿を隠す窒息の使い手。
+lore.csrp.airscrew=§l異名：§rLeer §l|§r §o口吻は貨物車を容易に持ち上げられるほどの力を秘めている。
+
+#ASSIMARA
+lore.csrp.mar_bear=§l異名：§rMar §l|§r §oその身体に関することは何も理解できません。内部にはクモの群れが巣を作っている。
+lore.csrp.mar_cow=§l異名：§rMar §l|§r §oその身体に関することは何も理解できません。内部の器官は休みなく働き続けている。
+lore.csrp.mar_enderman=§l異名：§rMar §l|§r §oその身体に関することは何も理解できません。体の構造は一切不自然だ。元の姿を留めないほど歪んでいる。
+lore.csrp.mar_human=§l異名：§rMar §l|§r §oその身体に関することは何も理解できません。忌まわしいほど周囲を攪乱する。
+lore.csrp.mar_sheep=§l異名：§rMar §l|§r §oその身体に関することは何も理解できません。背の高い監視のような存在。
+lore.csrp.mar_villager=§l異名：§rMar §l|§r §oその身体に関することは何も理解できません。終焉そのものの顔を持つ。
+
+#HIJACKED
+lore.csrp.hi_blaze=§l異名：§rHi §l|§r §o不可能なことが起こった。
+lore.csrp.hi_skeleton=§l異名：§rHi §l|§r §o何かが立つための骨格。
+lore.csrp.hi_golem=§l異名：§rHi §l|§r §o守り手から支配者へ。
+
+#PRIMITIVE
+lore.csrp.pri_arachnida=§l異名：§rRanrac §l|§r §o粗雑な八本足の恐怖、更なる形態の前身。
+lore.csrp.pri_bolster=§l異名：§rBano e'Zetmo §l|§r §o太った躯体、原始的だが頑丈。
+lore.csrp.pri_devourer=§l異名：§rLum §l|§r §o飢えと水中の血の匂いだけに導かれる。
+lore.csrp.pri_longarms=§l異名：§rShyco §l|§r §o掴む手足は遠くまで突き出すが、後の形態に比べれば不器用。
+lore.csrp.pri_manducater=§l異名：§rHull §l|§r §o休まない研磨するような顎。
+lore.csrp.pri_reeker=§l異名：§rNogla §l|§r §oすごく臭い。真っ直ぐ突進してくる。
+lore.csrp.pri_summoner=§l異名：§rCanra §l|§r §o不規則な間隔で下位の子孫を呼び寄せる。
+lore.csrp.pri_tozoon=§l異名：§rWymo §l|§r §o地震は兆候だ。
+lore.csrp.pri_yelloweye=§l異名：§rEmana §l|§r §o筋と骨のポニーテール。腐食性の胆汁は鎧にとっての忌み子。
+lore.csrp.pri_vermin=§l異名：§rIki §l|§r §o気象気球だ。中身は更に悪質だ。
+lore.csrp.pri_burrower=§l異名：§rZaa §l|§r §o本能的に穴を掘り、他のために巣を作り出す。
+lore.csrp.pri_viscera=§l異名：§rGim §l|§r §o粗雑な動きを与えられた生肉。
+
+#ADAPTED
+lore.csrp.ada_burrower=§l異名：§rZaa §l|§r §o効率的な穴掘り虫で、制御された通路を開ける。
+lore.csrp.ada_viscera=§l異名：§rGim §l|§r §oオウムガイに似ている。他の者は母のように崇める。
+lore.csrp.ada_devourer=§l異名：§rLum §l|§r §o漁夫の槍のような掃除屋。海の厄災そのもの。
+lore.csrp.ada_tozoon=§l異名：§rWymo §l|§r §o虫。
+lore.csrp.ada_arachnida=§l異名：§rRanrac §l|§r §o洗練された狩人。蜘蛛の巣と精密な一撃。
+lore.csrp.ada_bolster=§l異名：§rBano e'Zetmo §l|§r §o適応種巨体で、防御と支援をするように造られている。
+lore.csrp.ada_longarms=§l異名：§rShyco §l|§r §o手足が的確さを持って伸びており、無駄な動きがない。
+lore.csrp.ada_manducater=§l異名：§rHull §l|§r §o最大限の組織を摂取するために完成された顎の構造。
+lore.csrp.ada_reeker=§l異名：§rNogla §l|§r §o長距離突撃用に造られた。速く動け、さもなくばゆっくり死ぬ。
+lore.csrp.ada_summoner=§l異名：§rCanra §l|§r §o他の寄生虫の遺骸から蘇生した子を召喚する。
+lore.csrp.ada_yelloweye=§l異名：§rEmana §l|§r §o初音ミクまたは重音テト。 強い酸性の危険あり。
+lore.csrp.ada_vermin=§l異名：§rIki §l|§r §o体を二倍の幅に開裂させ、顎の力で鋼鉄を容易に砕く。
+
+
+#DETERRENT
+lore.csrp.dispatcherten=§l異名：§rDodT §l|§r §o棘のある命令伝導体。
+lore.csrp.kyphosis=§l異名：§rTonro §l|§r §o猫背の塊で、巻鬚ついた筋肉を生ける盾と攻城槌として使う。
+lore.csrp.seizer=§l異名：§rNak §l|§r §o掴んで押さえつける。抵抗するとさらに怒る。
+lore.csrp.sentry=§l異名：§rUnvo §l|§r §oその投射物は骨を溶かして貫く。
+lore.csrp.worm=§l異名：§rRof §l|§r §oこの生物に触れるのは至難の業。どうやってそんなことを？
+
+#PURE
+lore.csrp.grunt=§l異名：§rFlog §l|§r §o無駄はなく、容赦もない。どちらかが止まるまで前進する。外にいる大型のものたちにとっての「雑兵」だ。
+lore.csrp.bomber_light=§l異名：§rOmboo §l|§r §o揮発性の組織で満たされた中空の躯体。
+lore.csrp.marauder=§l異名：§rEsor §l|§r §o生きた列の中に通路を切り開くもの。運動量が最も得意な武器だ。
+lore.csrp.monarch=§l異名：§rOrch §l|§r §o本能だけで下位の個体を指揮する。群れは思考せずに服従する。
+lore.csrp.overseer=§l異名：§rAlafha §l|§r §o権威の監査者。
+lore.csrp.vigilante=§l異名：§rAnged §l|§r §o離群者と落伍者を狩る。良い仕事だな、相棒。
+lore.csrp.warden=§l異名：§rGanro §l|§r §o防壁となる生物。腫瘍のように自分の権威と陣地を守り通す。
+
+#PREEMINENT
+lore.csrp.bogle=§l異名：§rLencia §l|§r §o何で飛んでいるのか？そんなことは無意味で、残るのは深い爆発のクレーターだけだ。
+lore.csrp.carrier_colony=§l異名：§rVesta §l|§r §o無数の足で歩む、口と穴の都市。周囲の個体を繋ぎ統率し、共に素早く適応させる。
+lore.csrp.haunter=§l異名：§rPheon §l|§r §o姿を見せる前に、その気配を感じさせる存在。
+lore.csrp.bomber_heavy=§l異名：§rJinjo §l|§r §o到着すれば歩く裁き。その場所は書き換えられる。これ、どこで見たことがあるんだ？
+lore.csrp.wraith=§l異名：§rElvia §l|§r §o半分は肉体に、半分は悪夢に根ざしている。壁のある場所でも通り抜ける。頭痛を引き起こす投射物を発射する。
+lore.csrp.succor=§l異名：§rFlam §l|§r §o小さいヤツ。
+
+#ANCIENT
+lore.csrp.anc_dreadnaut=§l異名：§rOronco §l|§r §o無
+lore.csrp.anc_overlord=§l異名：§rTerla §l|§r §o無
+
+#NEXUS
+lore.csrp.beckon_si=§l異名：§rVenkrol §l|§r §o傷に蛾が集まるように寄生虫を呼び寄せる種子状の構造物。
+lore.csrp.beckon_sii=§l異名：§rVenkrol §l|§r §o呼び声は高まり、地面が応えるようになる。
+lore.csrp.beckon_siii=§l異名：§rVenkrol §l|§r §o誘導灯であり産房。空気は銅の味がし、泥のように濃い。
+lore.csrp.beckon_siv=§l異名：§rVenkrol §l|§r §o巣域の宛先。周辺のあらゆるものが、入口、出口、そして虚空となる。
+lore.csrp.dispatcher_si=§l異名：§rDod §l|§r §o初代の司令塔。信号や命令などが整然と循環している。
+lore.csrp.dispatcher_sii=§l異名：§rDod §l|§r §o伝達路は広がり、手足の往来と情報の流れは途切れることがない。
+lore.csrp.dispatcher_siii=§l異名：§rDod §l|§r §o兵站は完成され、出血が止む前に援軍が到着する。
+lore.csrp.dispatcher_siv=§l異名：§rDod §l|§r §o中枢であり幹線路。それを攻撃するか、生きた大陸が集まってくるのを見守るか。
+lore.csrp.rooter_si=§l異名：§rLeem §l|§r §o他の寄生虫の痛みを代わりに耐えるための、種子となる構造物。
+lore.csrp.rooter_sii=§l異名：§rLeem §l|§r §o他の寄生虫の痛みを代わりに耐えるための、種子となる構造物。
+lore.csrp.rooter_siii=§l異名：§rLeem §l|§r §o他の寄生虫の痛みを代わりに耐えるための、種子となる構造物。
+lore.csrp.rooter_siv=§l異名：§rLeem §l|§r §o他の寄生虫の痛みを代わりに耐えるための、種子となる構造物。
+lore.csrp.rooterball=§l異名：§rLeem §l|§r §o他の寄生虫の痛みを代わりに耐えるための、種子となる構造物。
+
+#ABOMINATION
+lore.csrp.abo_bodies=§l異名：§rAbo §l|§r §o原因不明の力で意識を持つ生物たちが融合した集合体。管水母のような姿をしている。
+lore.csrp.abo_head=§l異名：§rAbo §l|§r §o因不明の力で意識を持つ生物たちが融合した集合体。頭部の形をした管水母のような姿をしている。
+
+#DETERRENT
+lore.csrp.draconite=§l異名：§rHeblu§l|§r §oその身体は常に灰で覆われ、内側から外へと燃え続けている。胸部と腹部は有毒な地獄の鍛冶炉として機能し、極限の高熱と腐食性の副産物を自身の身体と周囲の空気中を循環させている。走るたびにこのプロセスが自身の肉を溶かし、弱点が破裂し、身体全体に穴が開いてしまう。皮膚の層は絶えず焦げ、裂け、はがれ落ち、蒼白な灰白色の外見を与えている。証拠から、これはネザーラックの深くに封印されていた何かから形成され、最近ようやく存在を取り戻したことがわかる。その成長は非常に激しく急速で、身体が安定するよりも早く脱皮していた——形成過程で頭が首の根元から引きちぎられ、鈍い切り株のような構造が残された。核の内部燃焼音は、貨物列車が私を地獄の最深部へと運ぶような音だ。
+lore.csrp.kirin=§l異名：§rKirin§l|§r §oヴォイドウォーカーは常に構造崩壊の状態にある。その身体は常に自壊しそうな瀬戸際にあり、それが打ち身と血まみれの外見、不安定な動きの理由だ。中空の腕構造のそれぞれに大きな空洞が並び、内部で発生する余分な熱と宇宙放射線の爆発を排出する通気口として機能している。身体に沿ったこれらの開口部は通気口または排出口として働いている——これらがなければ、この存在は爆発してしまうだろう。その形態にかかる負担により、ヴォイドウォーカーは毎日脱皮している。それが発現させる各突起はさらに身体を不安定にし、損傷した組織の層を驚異的な速度で脱皮させ、置き換えさせている。この生物は自己保存の兆しを示さない。まだ完全に崩壊していない。そうでなければ私は死んでいただろう。
+
+#CREATE WORLD MENU OPTIONS
+gui.csrp.worldsettings.title=SRPワールド設定
+gui.csrp.worldsettings.open=SRPワールドオプション...
+gui.csrp.worldsettings.subtitle=プレースホルダーオプション
+gui.csrp.worldsettings.done=完了
+
+# Labels
+gui.csrp.worldsettings.difficulty=難易度プリセット
+gui.csrp.worldsettings.challenge=チャレンジ設定
+gui.csrp.worldsettings.meteor=隕石感染
+
+# Difficulty options
+gui.csrp.worldsettings.difficulty.normal=§eノーマル
+gui.csrp.worldsettings.difficulty.easy=§aイージー
+gui.csrp.worldsettings.difficulty.hard=§4ハード
+gui.csrp.worldsettings.difficulty.impossible=§4§lインポッシブル
+
+# Challenge options
+gui.csrp.worldsettings.challenge.c1=設定§a一
+gui.csrp.worldsettings.challenge.c2=設定§e二
+gui.csrp.worldsettings.challenge.c3=設定§4三
+gui.csrp.worldsettings.challenge.off=オフ
+gui.csrp.worldsettings.tooltip.challenge.off=追加のチャレンジ補正は適用されません。
+
+# Meteor options
+gui.csrp.worldsettings.meteor.on=§aオン
+gui.csrp.worldsettings.meteor.off=§4オフ
+
+# Difficulty tooltips
+gui.csrp.worldsettings.tooltip.difficulty.easy=これはイージーモードです。
+gui.csrp.worldsettings.tooltip.difficulty.normal=これはノーマルモードです。
+gui.csrp.worldsettings.tooltip.difficulty.hard=これはハードモードです。
+gui.csrp.worldsettings.tooltip.difficulty.impossible=これはインポッシブルモードです。
+
+# Tooltips
+gui.csrp.worldsettings.tooltip.difficulty=感染の難易度
+gui.csrp.worldsettings.tooltip.challenge=チャレンジ設定を選択します。
+gui.csrp.worldsettings.tooltip.challenge.c1=これは設定一の内容です。
+gui.csrp.worldsettings.tooltip.challenge.c2=これは設定二の内容です。
+gui.csrp.worldsettings.tooltip.challenge.c3=これは設定三の内容です。
+gui.csrp.worldsettings.tooltip.meteor=日数%s以降に隕石衝突が発生する可能性があります。毎%s日（%sティック）ごとに判定され、1回の判定ごとの確率は%s%%です。
+
+# config openers
+gui.csrp.worldsettings.config.general=全般設定
+gui.csrp.worldsettings.config.world=ワールド設定
+gui.csrp.worldsettings.config.systems=システム設定
+gui.csrp.worldsettings.config.mobs=Mob設定
+
+# config viewer titles
+gui.csrp.config.title.general=SRP設定：全般
+gui.csrp.config.title.world=SRP設定：ワールド
+gui.csrp.config.title.systems=SRP設定：システム
+gui.csrp.config.title.mobs=SRP設定：Mobs
+
+# other config stuff
+gui.csrp.config.apply=適用
+gui.csrp.config.edit.title=SRP設定値の編集
+gui.csrp.config.edit.key=%s / %s
+gui.csrp.config.edit.todo=TODO: これらの変更を設定ファイルに保存してね。
+
+# Viewer subtitle + tooltips
+gui.csrp.config.subtitle.readonly=読み取り専用ビュー（保存機能は開発中/TODO）
+gui.csrp.config.search=検索：
+
+# srpevolution errors
+command.srpevolution.prefix=§8[§dSRP§8]§r
+command.srpevolution.error.evolution_disabled=§c進化段階が有効になっていません§r
+command.srpevolution.error.invalid_argument=§c不正な引数です§r
+command.srpevolution.error.invalid_arg=§c不正な引数です§r
+command.srpevolution.error.invalid_command=§c不正なコマンドです§r
+command.srpevolution.error.generic=§cエラーが発生しました§r
+
+# srpevolution evolutionloss
+command.srpevolution.evolutionloss.set.true=§7現在の§esrpevolutionloss§7は§atrue§7に設定されました§r
+command.srpevolution.evolutionloss.set.false=§7現在の§esrpevolutionloss§7は§cfalse§7に設定されました§r
+
+# srpevolution evolutiongain
+command.srpevolution.evolutiongaining.set.true=§7現在の§esrpevolutiongaining§7は§atrue§7に設定されました§r
+command.srpevolution.evolutiongaining.set.false=§7現在の§esrpevolutiongaining§7は§cfalse§7に設定されました§r
+
+# srpevolution evolution lock list
+command.srpevolution.evolutionlock.reset=§aリストがリセットされました§r
+command.srpevolution.evolutionlock.unlockall=§aリストが空になりました§r
+command.srpevolution.evolutionlock.getlist=§7現在のリスト：§f%s§r
+
+# srpevolution addpoints
+command.srpevolution.addpoints.error.phase_minus2=§c現在の段階は§4-2§cのため、ポイントを追加できません§r
+command.srpevolution.addpoints.error.cooldown=§c現在の段階はクールダウン中のため、ポイントの追加/削除ができません§r
+command.srpevolution.addpoints.error.cannot_gain=§c現在のディメンションではポイントを獲得できません§r
+command.srpevolution.addpoints.error.cannot_lose=§c現在のディメンションではポイントを失うことができません§r
+
+command.srpevolution.addpoints.success.one=§a§e%d§aポイントを追加しました§r
+command.srpevolution.addpoints.success.many=§a§e%d§aポイントを追加しました§r
+
+# srpevolution setcooldown/addcooldown
+command.srpevolution.cooldown.error.negative=§cクールダウン値は正数または§e0§cでなければなりません§r
+command.srpevolution.cooldown.set=§aクールダウンを§e%d§a秒に設定しました§r
+
+# srpevolution setphase
+command.srpevolution.setphase.error.phase_too_high=§c不正な引数：段階が高すぎます§r
+command.srpevolution.setphase.error.phase_too_low=§c不正な引数：段階が低すぎます§r
+
+command.srpevolution.setphase.changed_phase=§a寄生虫の進化段階を§e%s§aに変更しました§r
+
+command.srpevolution.setphase.error.generation_too_high=§c不正な引数：世代が高すぎます§r
+command.srpevolution.setphase.error.generation_too_low=§c不正な引数：世代が低すぎます§r
+command.srpevolution.setphase.changed_generation=§a寄生虫の世代を§e%s§aに変更しました§r
+command.srpevolution.setphase.error.invalid_arg_evo=§c不正な引数（進化）§r
+
+# srpevolution getphase
+command.srpevolution.getphase.header=§8§m-----§r §dSRP進化§r §8§m-----§r
+
+command.srpevolution.getphase.dimension=§7 -> ディメンション：§e%d§r
+command.srpevolution.getphase.phase=§7 -> 進化段階：§b%d§r
+command.srpevolution.getphase.total_points=§7 -> 合計ポイント：§a%d§r
+command.srpevolution.getphase.points_next=§7 -> 次の段階に必要なポイント：§a%d§r
+command.srpevolution.getphase.progress=§7 -> 進捗：§e%s%%§r
+command.srpevolution.getphase.cooldown=§7 -> 段階クールダウン：§e%d§7秒残り§r
+
+command.srpevolution.getphase.gaining=§7 -> srpevolutiongaining：§f%s §8(§7True = ポイント獲得可§8)§r
+command.srpevolution.getphase.loss=§7 -> srpevolutionloss：§f%s §8(§7True = ポイント喪失可§8)§r
+
+command.srpevolution.getphase.dislodgement=§7 -> 異変コード：§r
+command.srpevolution.getphase.dislodgement.value=§f%s§r
+
+command.srpevolution.getphase.mobcap=§7 -> 寄生虫 Mob 上限：§e%d§r
+command.srpevolution.getphase.generation=§7 -> 世代：§b%d§r
+command.srpevolution.getphase.gen_ticks=§7 -> 次の世代に必要なティック数：§e%d§r
+command.srpevolution.getphase.udl=§7 -> 全域発展レベル：§d%d§r
+command.srpevolution.getphase.parasite_count=§7 -> 寄生虫数：§c%d§r
+command.srpevolution.getphase.coth_count=§7 -> COTH 付与 Mob 数：§5%d§r
+command.srpevolution.getphase.eivs=§7 -> ワールド内の EIV 数：§6%d§r
+
+command.srpevolution.getphase.footer=§8§m----------------------§r
+command.srpevolution.getphase.all=§8§m-----§r §dSRP進化§r §8§m-----§r\n§7 -> ディメンション：§e%d§r\n§7 -> 進化段階：§b%d§r\n§7 -> 合計ポイント：§a%d§r\n§7 -> 次の段階に必要なポイント：§a%d§r\n§7 -> 進捗：§e%s%%§r\n§7 -> 段階クールダウン：§e%d§7秒残り§r\n§7 -> srpevolutiongaining：§f%s §8(§7True = ポイント獲得可§8)§r\n§7 -> srpevolutionloss：§f%s §8(§7True = ポイント喪失可§8)§r\n§7 -> 異変コード：§r\n§f%s§r\n§7 -> 寄生虫Mob上限：§e%d§r\n§7 -> 世代：§b%d§r\n§7 -> 次の世代に必要なティック数：§e%d§r\n§7 -> 全域発展レベル：§d%d§r\n§7 -> 寄生虫数：§c%d§r\n§7 -> COTH付与Mob数：§5%d§r\n§7 -> ワールド内のEIV数：§6%d§r\n§8§m----------------------§r

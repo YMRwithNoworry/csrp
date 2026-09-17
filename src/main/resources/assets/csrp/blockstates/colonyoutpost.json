@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "active=0": {
+      "model": "csrp:block/colonyoutpost"
+    },
+    "active=1": {
+      "model": "csrp:block/colonyoutpost"
+    },
+    "active=2": {
+      "model": "csrp:block/colonyoutpost"
+    },
+    "active=3": {
+      "model": "csrp:block/colonyoutpost"
+    }
+  }
+}

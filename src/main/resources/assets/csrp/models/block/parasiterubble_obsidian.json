@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "particle": "csrp:blocks/bleeding_obsidian",
+    "all": "csrp:blocks/bleeding_obsidian"
+  }
+}

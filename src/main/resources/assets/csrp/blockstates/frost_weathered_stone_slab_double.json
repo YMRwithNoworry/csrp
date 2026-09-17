@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "csrp:block/frost_weathered_stone_slab"
+    },
+    "type=top": {
+      "model": "csrp:block/frost_weathered_stone_slab_top"
+    },
+    "type=double": {
+      "model": "csrp:block/frost_weathered_stone_slab_double"
+    }
+  }
+}

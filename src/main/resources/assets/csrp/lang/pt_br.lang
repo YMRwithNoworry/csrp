@@ -1,0 +1,673 @@
+//Entities
+
+entity.csrp.pri_longarms.name=Longarms Primitivo
+entity.csrp.pri_manducater.name=Moedor Primitivo
+entity.csrp.pri_summoner.name=Summonador Primitivo
+entity.csrp.pri_reeker.name=Fétido Primitivo
+entity.csrp.pri_yelloweye.name=Olh-Amarelo Primitivo
+entity.csrp.pri_bolster.name=Bolster Primitivo
+entity.csrp.pri_arachnida.name=Aracnídeo Primitivo
+entity.csrp.pri_devourer.name=Devorador Primitivo
+entity.csrp.pri_vermin.name=Verme Primitivo
+entity.csrp.pri_tozoon.name=Tozoon Primitivo
+
+entity.csrp.host.name=Hospedeiro
+entity.csrp.hostii.name=Rebanho
+entity.csrp.crux.name=Cruz
+entity.csrp.heed.name=Atentado
+entity.csrp.thrall.name=Servo
+
+entity.csrp.sim_bear.name=Urso assimilado
+entity.csrp.sim_squid.name=Lula assimilada
+entity.csrp.sim_enderman.name=Enderman assimilado
+entity.csrp.sim_endermanhead.name=Cabeça ambulante
+entity.csrp.sim_adventurer.name=Aventureiro assimilado
+entity.csrp.sim_adventurerhead.name=Cabeça ambulante
+entity.csrp.sim_bigspider.name=Aranha grande assimilada
+entity.csrp.sim_human.name=Humano assimilado
+entity.csrp.sim_humanhead.name=Cabeça ambulante
+entity.csrp.sim_villager.name=Aldeão assimilado
+entity.csrp.sim_villagerhead.name=Cabeça ambulante
+entity.csrp.sim_cow.name=Vaca assimilada
+entity.csrp.sim_cowhead.name=Walking Head
+entity.csrp.sim_horse.name=Cavalo assimilado
+entity.csrp.sim_horsehead.name=Cabeça ambulante
+entity.csrp.sim_pig.name=Porco assimilado
+entity.csrp.sim_pighead.name=Cabeça ambulante
+entity.csrp.sim_sheep.name=Ovelha assimilada
+entity.csrp.sim_sheephead.name=Cabeça ambulante
+entity.csrp.sim_wolf.name=Lobo assimilado
+entity.csrp.sim_wolfhead.name=Cabeça ambulante
+entity.csrp.incompleteform_medium.name=Forma incompleta
+entity.csrp.incompleteform_small.name=Forma incompleta
+entity.csrp.sim_dragone.name=Dragão do fim assimilado
+entity.csrp.sim_dragonehead.name=Cabeça ambulante
+
+entity.csrp.fer_cow.name=Vaca ferina
+entity.csrp.fer_bear.name=Urso ferino
+entity.csrp.fer_enderman.name=Enderman ferino
+entity.csrp.fer_human.name=Humano ferino
+entity.csrp.fer_horse.name=Cavalo ferino
+entity.csrp.fer_sheep.name=Ovelha ferina
+entity.csrp.fer_pig.name=Porco ferino
+entity.csrp.fer_villager.name=Aldeão ferino
+entity.csrp.fer_wolf.name=Lobo ferino
+
+entity.csrp.hi_blaze.name=Blaze aprisionado
+entity.csrp.hi_golem.name=Golem de ferro aprisionado
+entity.csrp.hi_skeleton.name=Esqueleto aprisionado
+
+entity.csrp.overseer.name=Capataz
+entity.csrp.bomber_light.name=Bombardeiro leve
+entity.csrp.carrier_heavy.name=Carregador pesado
+entity.csrp.carrier_light.name=Carregador leve
+entity.csrp.buglin.name=Insetóide
+entity.csrp.mangler.name=Deturpador
+entity.csrp.gnat.name=Pulga
+entity.csrp.worker.name=Trabalhador
+entity.csrp.carrier_flying.name=Carregador voador
+entity.csrp.rupter.name=Rompedor
+entity.csrp.beckon_si.name=Pilar Stagio I
+entity.csrp.beckon_sii.name=Pilar Stagio II
+entity.csrp.beckon_siii.name=Pilar Stagio III
+entity.csrp.beckon_siv.name=Pilar Stagio IV
+entity.csrp.beckon_sv.name=Pilar Stagio V
+entity.csrp.warden.name=Guardião
+entity.csrp.marauder.name=Devastador
+entity.csrp.monarch.name=Monarca 
+entity.csrp.grunt.name=Embuste
+entity.csrp.sentry.name=Sentinela
+entity.csrp.kyphosis.name=Kifóse
+entity.csrp.dispatcherten.name=Tentaculo de Despachante
+entity.csrp.dispatcher_si.name=Despachante Stagio I
+entity.csrp.dispatcher_sii.name=Despachante Stagio II
+entity.csrp.dispatcher_siii.name=Despachante Stagio III
+entity.csrp.dispatcher_siv.name=Despachante Stagio IV
+entity.csrp.seizer.name=Agarrador
+
+entity.csrp.bomber_heavy.name=Bombardeiro pesado
+entity.csrp.carrier_colony.name=Carregador da colonia
+entity.csrp.wraith.name=Assombração
+entity.csrp.bogle.name=Espectro
+entity.csrp.haunter.name=Aterrador
+entity.csrp.succor.name=Sugador
+entity.csrp.seeker.name=Sonda
+entity.csrp.architect.name=Arquiteto
+
+entity.csrp.draconite.name=§9Draconita
+
+entity.csrp.anc_dreadnaut.name=Encouraçado Ancião
+entity.csrp.anc_overlord.name=Soberano ancião
+entity.csrp.vigilante.name=Vigilante
+entity.csrp.movingflesh.name=Carne ambulante
+entity.csrp.tendril.name=Gavinha
+entity.csrp.anc_pod.name=Casulo
+entity.csrp.biomass.name=Bio-massa
+entity.csrp.gore.name=Tripas
+
+entity.csrp.ada_longarms.name=Longarms Adaptado
+entity.csrp.ada_summoner.name=Summonador Adaptado
+entity.csrp.ada_manducater.name=Moedor Adaptado
+entity.csrp.ada_reeker.name=Fétido Adaptado
+entity.csrp.ada_yelloweye.name=Olh-amarelo adaptado
+entity.csrp.ada_bolster.name=Bolster Adaptado
+entity.csrp.ada_arachnida.name=Aracnídeo Adaptado
+
+entity.csrp.wave.name=Wave
+entity.csrp.waveshock.name=Wave
+
+entity.csrp.remain.name=Restante
+//Creative Tab
+
+itemGroup.Scape & Run: Parasites=Scape and Run: Parasites
+
+//Items
+item.csrp.itemmobspawner_pod.name=Invocar Casulo
+
+item.csrp.itemmobspawner_host.name=Invocar Hospedeiro
+item.csrp.itemmobspawner_hostii.name=Invocar Rebanho
+item.csrp.itemmobspawner_heed.name=Invocar Atentado
+item.csrp.itemmobspawner_cruxa.name=Invocar Cruz
+item.csrp.itemmobspawner_mes.name=Invocar Servo
+
+item.csrp.itemmobspawner_infbear.name=Invocar Urso assimilado
+item.csrp.itemmobspawner_infsquid.name=Invocar Lula assimilada
+item.csrp.itemmobspawner_infenderman.name=Invocar Enderman assimilado 
+item.csrp.itemmobspawner_infendermanhead.name=Invocar cabeça de Enderman assimilado
+item.csrp.itemmobspawner_infplayer.name=Invocar Aventureiro assimilado
+item.csrp.itemmobspawner_infplayerhead.name=Invocar cabeça de Aventureiro assimilado
+item.csrp.itemmobspawner_dorpa.name=Invocar Aranha grande assimilada
+item.csrp.itemmobspawner_infhuman.name=Invocar Humano assimilado
+item.csrp.itemmobspawner_infhumanhead.name=Invocar cabeça de Humano assimilado
+item.csrp.itemmobspawner_infvillager.name=Invocar aldeão assimilado
+item.csrp.itemmobspawner_infvillagerhead.name=Invocar cabeça de Aldeão assimilado
+item.csrp.itemmobspawner_infcow.name=Invocar Vaca assimilada
+item.csrp.itemmobspawner_infcowhead.name=Invocar cabeça de Vaca assimilada
+item.csrp.itemmobspawner_infpig.name=Invocar Porco assimilado
+item.csrp.itemmobspawner_infpighead.name=Invocar cabeça de Porco assimilado
+item.csrp.itemmobspawner_infsheep.name=Invocar ovelha assimilada
+item.csrp.itemmobspawner_infsheephead.name=Invocar cabeça de ovelha assimilada
+item.csrp.itemmobspawner_infwolf.name=Invocar Lobo assimilado
+item.csrp.itemmobspawner_infwolfhead.name=Invocar cabeça de Lobo assimilado
+item.csrp.itemmobspawner_infhorse.name=Invocar Cavalo assimilado
+item.csrp.itemmobspawner_infhorsehead.name=Invocar cabeça de Cavalo assimilado
+item.csrp.itemmobspawner_inhoos.name=Invocar Forma Incompleta pequena
+item.csrp.itemmobspawner_inhoom.name=Invocar Forma Incompleta Média
+item.csrp.itemmobspawner_infdragone.name=Invocar Dragão do fim assimilado
+item.csrp.itemmobspawner_infdragonehead.name=Invocar cabeça de Dragão do fim assimilado
+
+item.csrp.itemmobspawner_fercow.name=Invocar Vaca Ferina
+item.csrp.itemmobspawner_ferbear.name=Invocar Urso Ferino
+item.csrp.itemmobspawner_ferenderman.name=Invocar Enderman Ferino
+item.csrp.itemmobspawner_ferhuman.name=Invocar Humano Ferino
+item.csrp.itemmobspawner_ferhorse.name=Invocar Cavalo Ferino
+item.csrp.itemmobspawner_ferpig.name=Invocar Porco Ferino
+item.csrp.itemmobspawner_fersheep.name=Invocar Ovelha Ferina
+item.csrp.itemmobspawner_fervillager.name=Invocar Aldeão Ferino
+item.csrp.itemmobspawner_ferwolf.name=Invocar Lobo ferino
+
+item.csrp.itemmobspawner_hiblaze.name=Invocar Blaze Aprisionado
+item.csrp.itemmobspawner_higolem.name=Invocar Golem Aprisionado
+item.csrp.itemmobspawner_hiskeleton.name=Invocar Esqueleto Aprisionado
+
+item.csrp.itemmobspawner_alafha.name=Invocar Capataz
+item.csrp.itemmobspawner_omboo.name=Invocar Bombardeiro Leve
+item.csrp.itemmobspawner_rathol.name=Invocar Carregador Pesado
+item.csrp.itemmobspawner_gothol.name=Invocar Carregador Leve
+item.csrp.itemmobspawner_buthol.name=Invocar Carregador Voador
+item.csrp.itemmobspawner_lodo.name=Invocar Insetóide
+item.csrp.itemmobspawner_nuuh.name=Invocar Deturpador
+item.csrp.itemmobspawner_ata.name=Invocar Pulga
+item.csrp.itemmobspawner_worker.name=Invocar Trabalhador
+item.csrp.itemmobspawner_mudo.name=Invocar Rompedor
+item.csrp.itemmobspawner_venkrol.name=Invocar Pilar Estágio I
+item.csrp.itemmobspawner_venkrolsii.name=Invocar Pilar Estágio II
+item.csrp.itemmobspawner_venkrolsiii.name=Invocar Pilar Estágio III
+item.csrp.itemmobspawner_venkrolsiv.name=Invocar Pilar Estágio IV
+item.csrp.itemmobspawner_venkrolsv.name=Invocar Pilar Estágio V
+item.csrp.itemmobspawner_ganro.name=Invocar Guardião
+item.csrp.itemmobspawner_esor.name=Invocar Devastador
+item.csrp.itemmobspawner_orch.name=Invocar Monarca
+item.csrp.itemmobspawner_flog.name=Invocar Embuste
+item.csrp.itemmobspawner_unvo.name=Invocar Sentinela
+item.csrp.itemmobspawner_tonro.name=Invocar Kifóse
+item.csrp.itemmobspawner_dod.name=Invocar Despachante estágio I
+item.csrp.itemmobspawner_dodsii.name=Invocar Despachante estágio II
+item.csrp.itemmobspawner_dodsiii.name=Invocar Despachante estágio III
+item.csrp.itemmobspawner_dodsiv.name=Invocar Despachante estágio IV
+item.csrp.itemmobspawner_nak.name=Invocar Agarrador
+
+item.csrp.itemmobspawner_jinjo.name=Invocar Bombardeiro Pesado
+item.csrp.itemmobspawner_vesta.name=Invocar Carregador da Colônia
+item.csrp.itemmobspawner_elvia.name=Invocar Assombração
+item.csrp.itemmobspawner_lencia.name=Invocar Espectro
+item.csrp.itemmobspawner_pheon.name=Invocar Aterrador
+item.csrp.itemmobspawner_flam.name=Invocar Sugador
+item.csrp.itemmobspawner_soo.name=Invocar Sonda
+item.csrp.itemmobspawner_tenn.name=Invocar Arquiteto
+
+item.csrp.itemmobspawner_heblu.name=Invocar Draconita
+
+item.csrp.itemmobspawner_oronco.name=Invocar Encouraçado Ancião
+item.csrp.itemmobspawner_terla.name=Invocar Soberano Ancião
+item.csrp.itemmobspawner_anged.name=Invocar Vigilante
+item.csrp.itemmobspawner_lesh.name=Invocar Carne ambulante
+
+item.csrp.itemmobspawner_shyco.name=Invocar Longarms primitivo
+item.csrp.itemmobspawner_hull.name=Invocar Moedor Primitivo
+item.csrp.itemmobspawner_canra.name=Invocar Summonador Primitivo
+item.csrp.itemmobspawner_emana.name=Invocar Olh-amarelo Primitivo
+item.csrp.itemmobspawner_nogla.name=Invocar Fétido Primitivo
+item.csrp.itemmobspawner_bano.name=Invocar Bolster Primitivo
+item.csrp.itemmobspawner_ranrac.name=Invocar Aracnídeo Primitivo
+item.csrp.itemmobspawner_lum.name=Invocar Devorador Primitivo
+item.csrp.itemmobspawner_iki.name=Invocar Verme Primitivo
+item.csrp.itemmobspawner_wymo.name=Invocar Tozoon Primitivo 
+
+item.csrp.itemmobspawner_shycoadapted.name=Invocar Longarms Adaptado
+item.csrp.itemmobspawner_canraadapted.name=Invocar Summonador Adaptado
+item.csrp.itemmobspawner_noglaadapted.name=Invocar Fétido Adaptado
+item.csrp.itemmobspawner_hulladapted.name=Invocar Moedor Adaptado
+item.csrp.itemmobspawner_emanaadapted.name=Invocar Olha-marelo Adaptado
+item.csrp.itemmobspawner_banoadapted.name=Invocar Bolster Adaptado
+item.csrp.itemmobspawner_ranracadapted.name=Invocar Aracnídeo Adaptado
+
+item.csrp.itemthrow.name=§6Repressor
+item.csrp.itemtab.name=§dNULL
+item.csrp.itemevolve.name=Cajado de Evolução
+item.csrp.itemassimilate.name=Cajado de Assimilação
+item.csrp.itemdevolve.name=Cajado de Devolução
+item.csrp.itemvariant.name=Cajado de Variação
+item.csrp.evclock.name=§cRelógio Sanguínario
+item.csrp.weapon_scythe.name=§eFoice Viva
+item.csrp.weapon_scythe_sentient.name=§6Foice grandiosa Senciente
+item.csrp.weapon_bow.name=§eArco Vivo
+item.csrp.weapon_bow_sentient.name=§6Arco Grandioso Senciente
+item.csrp.weapon_axe.name=§eMachado Vivo
+item.csrp.weapon_axe_sentient.name=§6Machado Grandioso Senciente
+item.csrp.weapon_sword.name=§eEspada Viva
+item.csrp.weapon_sword_sentient.name=§6Espada Grandiosa Senciente
+item.csrp.weapon_cleaver.name=§eCutelo Vivo
+item.csrp.weapon_cleaver_sentient.name=§6Cutelo Grandioso Senciente
+
+item.csrp.armor_helm.name=§eElmo Vivo
+item.csrp.armor_chest.name=§ePeitoral Vivo
+item.csrp.armor_pants.name=§eCalças Vivas
+item.csrp.armor_boots.name=§eBotas Vivas
+item.csrp.armor_helm_sentient.name=§6Elmo Senciente
+item.csrp.armor_chest_sentient.name=§6Peitoral Senciente
+item.csrp.armor_pants_sentient.name=§6Calças Sencientes
+item.csrp.armor_boots_sentient.name=§6Botas Sencientes
+
+//////
+item.csrp.bow_upperlimb.name=§6Membro superior de Arco Grandioso Vivo
+item.csrp.bow_lowerlimb.name=§6Membro inferior de Arco Grandioso Vivo
+item.csrp.bow_string.name=§6Corda de Arco Grandioso
+item.csrp.bow_grip.name=§6Empunhadura de Arco Grandioso Vivo
+item.csrp.bow_core.name=§6Núcleo de Arco Grandioso Vivo
+
+item.csrp.scythe_back.name=§6Traseira de Foice Viva
+item.csrp.scythe_blade.name=§6Lâmina de Foice Viva
+item.csrp.scythe_core.name=§6Núcleo de Foice Viva
+item.csrp.scythe_handle.name=§6Empunhadura de Foice Viva
+item.csrp.scythe_head.name=§6Cabeça de Foice Viva
+///////
+
+item.csrp.dried_tendons.name=§eTendões Secos
+item.csrp.hardened_bone_handle.name=§eEmpunhadura de Osso endurecido
+item.csrp.infectious_blade_fragment.name=§eLâmina de osso infeccioso
+item.csrp.living_core.name=§eNúcleo vivo
+item.csrp.vile_shell.name=§eCarapaça Vil
+item.csrp.bone.name=§eOsso estranho
+
+
+item.csrp.ada_longarms_drop.name=§bFragmento de Armadura de Longarms
+item.csrp.ada_summoner_drop.name=§bNúcleo de Summonador
+item.csrp.ada_yelloweye_drop.name=§bOsso de Olh-amarelo
+item.csrp.ada_reeker_drop.name=§bPresa de Fétido
+item.csrp.ada_manducater_drop.name=§bEsféra de Moedor
+item.csrp.ada_bolster_drop.name=§bCasca de Bolster
+item.csrp.ada_arachnida_drop.name=§bGarra de Aracnídeo
+item.csrp.ada_devourer_drop.name=§bTentáculo de Devorador
+
+item.csrp.assimilated_flesh.name=Carne Infectada
+item.csrp.beckon_drop.name=§aMembrana de Pilar
+item.csrp.dispatcher_drop.name=§cMembrana de Despachante
+
+item.csrp.lurecomponent1.name=§bViscera de Rompedor
+item.csrp.lurecomponent2.name=§bCoração Adoecido
+item.csrp.lurecomponent3.name=§bTendões Alterados
+item.csrp.lurecomponent4.name=§bPulmão Tóxico
+item.csrp.lurecomponent5.name=§bCérebro Nocivo
+item.csrp.lurecomponent6.name=§bSegmento Essencial
+item.csrp.nodecompass.name=§cCompasso de Nódulo
+
+//Blocks
+
+tile.csrp.parasitesapling_tree.name=Muda de Lenha-de-Veia
+tile.csrp.parasitesapling_treethin.name=Muda de Ocular
+tile.csrp.parasitesapling_flowertall.name=Muda de Madeira Sinistra
+
+tile.csrp.parasitebush_tendril.name=Rede Capilar
+tile.csrp.parasitebush_pop.name=Vesícula Parasitaria
+tile.csrp.parasitebush_bine.name=Cacho Nervoso
+tile.csrp.parasitebush_eye.name=Cegante Terminal 
+tile.csrp.parasitebush_tooh.name=Incisor Pequeno
+
+tile.csrp.infestedore_co.name=Minério de Carvão Pestilento
+tile.csrp.infestedore_dia.name=Minério de Diamante Pestilento
+tile.csrp.infestedore_eme.name=Minério de Esmeralda Pestilento
+tile.csrp.infestedore_gol.name=Minério de Ouro Pestilento
+tile.csrp.infestedore_iro.name=Minério de Ferro Pestilento
+tile.csrp.infestedore_lap.name=Minério de Lapís Lazuli Pestilento
+tile.csrp.infestedore_red.name=Minério de Redstone Pestilento
+tile.csrp.infestedore_un.name=Minério Pestilento
+
+tile.csrp.srpweb_one.name=§8Teia fina
+tile.csrp.srpweb_two.name=§aTeia Intoxicante
+tile.csrp.srpweb_three.name=§8Teia Manchada
+tile.csrp.tunnel.name=Tunel
+tile.csrp.dispatchern.name=§cNinho de Despachante
+tile.csrp.biomeheart.name=Núcleo da Colméia
+tile.csrp.colonyheart.name=Núcleo da Colônia parasita
+tile.csrp.colonyoutpost.name=Posto da Colônia parasita
+tile.csrp.biomepurifier.name=§bPurificador de Bioma
+tile.csrp.parasitestructure.name=Estrutura incompleta de Colônia Parasita
+tile.csrp.parasitethin.name=Tora fina parasita
+tile.csrp.parasitemouth.name=Mandibula
+tile.csrp.parasitetendril.name=Gavinha Parasita
+tile.csrp.parasitefog.name=Névoa
+
+tile.csrp.gore_sim_small.name=Restos Assimilados (P)
+tile.csrp.gore_sim_big.name=Restos Assimilados (G)
+tile.csrp.gore_sim_flat.name=Restos Assimilados (M)
+tile.csrp.gore_pri_small.name=Restos Primitivos (P)
+tile.csrp.gore_pri_big.name=Restos Primitivos (G)
+tile.csrp.gore_pri_flat.name=Restos Primitivos (M)
+tile.csrp.gore_ada_small.name=Restos Adaptados (P)
+tile.csrp.gore_ada_big.name=Restos Adaptados (G)
+tile.csrp.gore_ada_flat.name=Restos Adaptados (M)
+tile.csrp.gore_pure_small.name=Restos Puros (P)
+tile.csrp.gore_pure_big.name=Restos Puros (G)
+tile.csrp.gore_pure_flat.name=Restos Puros (M)
+
+tile.csrp.infestedstain.name=Terra Infestada
+tile.csrp.infestedtrunk.name=Tora Infestada
+tile.csrp.infestedrubble.name=Pedra Infestada
+tile.csrp.infestremain.name=Residuo Infestado
+
+tile.csrp.infestedbush_infected.name=Veias Espinhosa Infestada
+tile.csrp.infestedbush_grass1.name=Galhos de Veias Infestadas
+tile.csrp.infestedbush_flower1.name=Broto de Veia Infestada
+tile.csrp.infestedbush_spine.name=Arbusto de Veia Infestada
+tile.csrp.infestedbush_vine.name=Espiral de Veia Infestada
+tile.csrp.infestedbush_arc.name=Raízes de Veia Infestada
+
+tile.csrp.parasitecanister_sac.name=§aBexiga
+tile.csrp.parasitecanister_cyst.name=Cisto vazio
+tile.csrp.canisteractive.name=Cisto Guloso
+tile.csrp.parasitecanister_lump.name=Caroço Grotesco
+tile.csrp.parasitecanister_bag.name=Saco de carne
+
+tile.csrp.parasitetrunk_ball.name=Tora de Lenha-Hematoma
+tile.csrp.parasitetrunk_tree.name=Tora de Lenha-de-Veia
+tile.csrp.parasitetrunk_plant.name=Tora de Madeira Sinistra
+
+tile.csrp.parasitestain_dirt.name=Solo da Colméia
+tile.csrp.parasitestain_mud.name=Lama visceral
+tile.csrp.parasitestain_flesh.name=Pedaço de carne
+tile.csrp.parasitestain_fleshstairs.name=Escadas de Pedaço de carne
+tile.csrp.parasitestain_feeler.name=Artérias Comprimidas
+
+tile.csrp.parasiterubble_slabhalf.name=Laje de Osso fortificado
+tile.csrp.parasiterubble_slabdouble.name=Osso Fortifiado
+tile.csrp.parasiterubble_flesh.name=Pedaço de Carne Concentrada
+tile.csrp.parasiterubble_bone.name=Osso Fortificado
+tile.csrp.parasiterubble_bonestairs.name=Escadas de Osso fortificado
+tile.csrp.parasiterubble_stone.name=Pedra de Colméia
+tile.csrp.parasiterubble_stonedebris.name=Destroço de Pedra de Colméia
+tile.csrp.parasiterubble_wood.name=Madeira Consumida
+tile.csrp.parasiterubble_bricks.name=Tijolos de Pedra de Colméia
+tile.csrp.parasiterubble_metal.name=Aço de Colméia
+tile.csrp.parasiterubble_obsidian.name=Obsidiana Sanguinaria
+tile.csrp.parasiterubble_fungus.name=Fungo Assimilado
+
+tile.csrp.parasiterubbledense_wall.name=Pedra de Colméia Comprimida
+tile.csrp.parasiterubbledense_biome.name=Pedra de Colméia Reforçada
+tile.csrp.parasiterubbledense_colony.name=Pedra de Colônia parasita Comprimida
+
+tile.csrp.evolutionlure_one.name=Isca (§4Enfraquecida§f)
+tile.csrp.evolutionlure_two.name=Isca (§cEsvaecida§f)
+tile.csrp.evolutionlure_three.name=Isca (§6Inferior§f)
+tile.csrp.evolutionlure_four.name=Isca (§eEstavel§f)
+tile.csrp.evolutionlure_five.name=Isca (§2Substancial§f)
+tile.csrp.evolutionlure_six.name=Isca (§aConcentrada§f)
+tile.csrp.evolutionlure_seven.name=Isca (§bConcentrada+§f)
+tile.csrp.evolutionlure_eight.name=Isca (§dConcentrada++§f)
+
+tile.csrp.bloodyice.name=Gelo Sangrento
+
+//Fluids
+
+fluid.deadblood=Sangue Morto
+
+//Effects
+
+mob_effect.csrp:coth=§4Chamado da Colméia
+splash_potion.effect.csrp:coth=Poção Arremessável de §4Chamado da Colméia
+potion.effect.csrp:coth=Poção de §4Chamado da Colméia
+lingering_potion.effect.csrp:coth=Poção prolongada de §4Chamado da Colméia
+tipped_arrow.effect.csrp:coth=Flecha de §4Chamado da Colméia
+
+mob_effect.csrp:fear=§8Medo
+splash_potion.effect.csrp:fear=Poção Arremessável de §8Medo
+potion.effect.csrp:fear=Poção de §8Medo
+lingering_potion.effect.csrp:fear=Poção prolongada de §8Medo
+tipped_arrow.effect.csrp:fear=Flecha de §8Medo
+
+mob_effect.csrp:antimall=§7Imaleavel
+splash_potion.effect.csrp:antimall=Poção Arremessável de §7Imaleavel
+potion.effect.csrp:antimall=Poção de §7Imaleavel
+lingering_potion.effect.csrp:antimall=Poção Prolongada de §7Imaleavel
+tipped_arrow.effect.csrp:antimall=Flecha de §7Imaleavel
+
+mob_effect.csrp:bleed=§4Sangramento
+splash_potion.effect.csrp:bleed=Poção arremessavel de §4Sangramento
+potion.effect.csrp:bleed=Poção de §4Sangramento
+lingering_potion.effect.csrp:bleed=Poção Prolongada de §4Sangramento
+tipped_arrow.effect.csrp:bleed=Flecha de §4Sangramento
+
+mob_effect.csrp:corrosive=§6Corrosão
+splash_potion.effect.csrp:corrosive=Poção Arremessavel §6Corrosão
+potion.effect.csrp:corrosive=Poção de §6Corrosão
+lingering_potion.effect.csrp:corrosive=Poção Prolongada de §6Corrosão
+tipped_arrow.effect.csrp:corrosive=Flecha §6Corrosão
+
+mob_effect.csrp:viral=§aViral
+splash_potion.effect.csrp:viral=Poção Arremessavel de §aViral
+potion.effect.csrp:viral=Poção de §aViral
+lingering_potion.effect.csrp:viral=Poção Prolongada de §aViral
+tipped_arrow.effect.csrp:viral=Flecha de §aViral
+
+mob_effect.csrp:rage=§cRaiva
+splash_potion.effect.csrp:rage=Poção Arremessavel de §cRaiva
+potion.effect.csrp:rage=Poção de §cRaiva
+lingering_potion.effect.csrp:rage=Poção Prolongada de §cRaiva
+tipped_arrow.effect.csrp:rage=Flecha de §cRaiva
+
+mob_effect.csrp:repel=§2Camuflagem
+splash_potion.effect.csrp:repel=Poção Arremessavel de §2Camuflagem
+potion.effect.csrp:repel=Poção de §2Camuflagem
+lingering_potion.effect.csrp:repel=Poção Prolongada de §2Camuflagem
+tipped_arrow.effect.csrp:repel=Flecha de §2Camuflagem
+
+mob_effect.csrp:senses=§3Sentidos aguçados
+splash_potion.effect.csrp:senses=Poção arremessavel de §3Sentidos aguçados
+potion.effect.csrp:senses=Poção de §3Sentidos aguçados
+lingering_potion.effect.csrp:senses=Poção prolongada de §3Sentidos aguçados
+tipped_arrow.effect.csrp:senses=Flecha de §3Sentidos aguçados
+
+mob_effect.csrp:debar=§7Debar
+splash_potion.effect.csrp:debar=Poção arremessavel de §7Debar
+potion.effect.csrp:debar=Poção de §7Debar
+lingering_potion.effect.csrp:debar=Poção prolongada de §7Debar
+tipped_arrow.effect.csrp:debar=Flecha de §7Debar
+
+mob_effect.csrp:needler=§6Acumulo
+splash_potion.effect.csrp:needler=Poção arremessavel de §6Acumulo
+potion.effect.csrp:needler=Poção de §6Acumulo
+lingering_potion.effect.csrp:needler=Poção prolongada de §6Acumulo
+tipped_arrow.effect.csrp:needler=Flecha de §6Acumulo
+
+mob_effect.csrp:link=§aligamento
+splash_potion.effect.csrp:link=Poção arremessavel de §aligamento
+potion.effect.csrp:link=Poção de §aligamento
+lingering_potion.effect.csrp:link=Poção prolongada de §aligamento
+tipped_arrow.effect.csrp:link=Flecha de §aligamento
+
+mob_effect.csrp:foster=§eNutrido
+splash_potion.effect.csrp:foster=Poção arremessavel de §eNutrido
+potion.effect.csrp:foster=Poção de §eNutrido
+lingering_potion.effect.csrp:foster=Poção prolongada de §eNutrido
+tipped_arrow.effect.csrp:foster=Flecha de §eNutrido
+
+mob_effect.csrp:prey=§ePresa
+splash_potion.effect.csrp:prey=Poção arremessavel de §ePresa
+potion.effect.csrp:prey=Poção de §ePresa
+lingering_potion.effect.csrp:prey=Poção prolongada de §ePresa
+tipped_arrow.effect.csrp:prey=Flecha de §ePresa
+
+//extra
+
+message.csrp.lureb=Cooldown de pontos adicionado!
+message.csrp.lurec=Pontos reduzidos!
+message.csrp.fearitem=Você está em pânico!
+message.csrp.fearblock=Você está em pânico!
+message.csrp.feargui=Você esta com pânico!
+message.csrp.evolutionsleep=Você não pode dormir agora...
+message.csrp.armortooltips1=Adaptação atual
+
+tootip.csrp.quench=§fUma substância maleavel de creme de magma saturada. A sua concentração de pó de blaze faz disso §atóxico §fpara massa parasitaria.
+
+tootip.csrp.lurecomp.1=§fPedaços do interior de um §7Rompedor§f. Um componente de §cIsca§f.
+tootip.csrp.lurecomp.2=§fUm coração grosseiramente inchado de uma criatura §4Assimilada§f. Um Componente de §cIsca§f.
+tootip.csrp.lurecomp.3=§f§fPedaços de musculos desenvolvidos de um Parasita §cPrimitivo§f, que emana um cheiro horrivel. Um componente de §cIsca§f.
+tootip.csrp.lurecomp.4=§fUm pulmão bem desenvolvido de um Parasita §6Adaptado§f. Um componente de §cIsca§f.
+tootip.csrp.lurecomp.5=§fUm cérebro bem desenvolvido de um Parasita §ePuro§f. Um componente de §cIsca§f.
+tootip.csrp.lurecomp.6=§fUm objeto parecido com uma espinha, tirado dos sacos pendurados no bioma. Um componente de §cIsca§f.
+
+tootip.csrp.item.1=Uma pequena esfera que emite energia, colhido do corpo de um §6Summonador§f. Ingrediente de crafting para §fComponentes de §6Armas.
+tootip.csrp.item.2=Um osso firme colhido do corpo de um §eOlh-Amarelo§f. Ingrediente de crafting para Componentes de §6Armas§f.
+tootip.csrp.item.3=Uma pequena esfera que emite energia, colhido do corpo de §6Moedor§f. Ingrediente de crafting para Componentes de §6Armas§f.
+tootip.csrp.item.4=Um dente terrivelmente afiado colhido do corpo de um §6Fétido§f. Ingrediente de crafting para Componentes de §6Armas§f.
+tootip.csrp.item.5=Um fragmento leve, mas resistênte fragmento de armadura do corpo de um §6Longarms§f. Ingrediente de crafting para Componentes de §6Armas§f.
+tootip.csrp.item.6=Um pedaço de carne removido de uma criatura §cAssimilada§f. Um material de crafting simples.
+tootip.csrp.item.7= 
+tootip.csrp.item.8=Um material elastico, produzido com pedaços de corpos de parasitas. Um componente de §6Arma§f.
+tootip.csrp.item.9=Um pedaço de lâmina, produzido com pedaços de corpos de parasitas. Um componente de §6Arma§f.
+tootip.csrp.item.10=A chama da vida não brilhou sobre este objeto. O núcleo que alimenta todas as §6Armas§f.
+tootip.csrp.item.11=Uma carapaça extremamente resistente, produzido com pedaços de corpos de parasitas. Um componente de §6Arma§f.
+tootip.csrp.item.12=Uma empunhadura particularmente grossa, composta de ossos, produzido com pedaços de corpos de parasitas. Um componente de §6Arma§f.
+tootip.csrp.item.13=Um osso estranho que não se vê todo dia.
+
+tootip.csrp.item.20=Um pedaço de pele seca colhido do corpo de um §7Bolster§f.
+tootip.csrp.item.21=Garras terrivelmente afiadas colhidas do corpo de um §7Aracnideo§f.
+tootip.csrp.item.22=Um tentaculo com isso colhido de um §bDevorador§f.
+tootip.csrp.item.23=O revestimento de §aPilar§f, arrancado de seu corpo.
+tootip.csrp.item.24=O revestimento de um §cDespachante§f, arrancado de seu corpo.
+
+tootip.csrp.item.25=Escolher uma criatura para §cEvolução
+tootip.csrp.item.28=Escolher uma criatura para §cAssimilação
+tootip.csrp.item.26=Escolher uma criatura para §cDevolução
+tootip.csrp.item.27=Escolher uma criatura para mudar de §cVariação
+
+tootip.csrp.item.18=Enquanto pinga sangue, O relógio aponta para uma meia-noite horrivel. 
+
+tootip.csrp.weaponm.1=§fResultado de varios pedaços de corpos de parasitas reconstruidos para que formem uma arma. A chama da vida brilha dentro.
+tootip.csrp.weaponm.2=§fA evolução da Foice Viva. Ela ganhou uma §bMente§f.
+tootip.csrp.weaponm.3=§fResultado de varios pedaços de corpos de parasitas reconstruidos para que formem uma arma. A chama da vida brilha dentro.
+tootip.csrp.weaponm.4=§fA evolução do Machado Vivo.. Ele ganhou uma §bMente§f.
+tootip.csrp.weaponm.5=§fResultado de varios pedaços de corpos de parasitas reconstruidos para que formem uma arma. A chama da vida brilha dentro.
+tootip.csrp.weaponm.6=§fA evolução da Espada Viva. Ela ganhou uma §bMente§f.
+tootip.csrp.weaponm.7=§fResultado de varios pedaços de corpos de parasitas reconstruidos para que formem uma arma. A chama da vida brilha dentro.
+tootip.csrp.weaponm.8=§fA evolução do Cutelo Viva. Ele ganhou uma §bMente§f..
+
+tootip.csrp.weaponm.10=§cLimpa§f uma grande area.
+tootip.csrp.weaponm.20=§cDizima§f uma grande area.
+tootip.csrp.weaponm.30=§fFaz armadura §cinútil §fcom o tempo.
+tootip.csrp.weaponm.40=§fFaz armadura §cinútil §fcom o tempo.
+tootip.csrp.weaponm.50=§fInflinge ferimentos §cSeveros§f.
+tootip.csrp.weaponm.60=§fInflinge ferimentos §cSeveros§f.
+tootip.csrp.weaponm.70=§fLança ataques §avirulentos§f.
+tootip.csrp.weaponm.80=§fLança ataques §avirulentos§f.
+
+tootip.csrp.weaponm.100=Você não pode mais se esconder...
+tootip.csrp.weaponm.200=Você não pode mais se esconder...
+tootip.csrp.weaponm.300=Você não pode mais se esconder...
+tootip.csrp.weaponm.400=Você não pode mais se esconder...
+tootip.csrp.weaponm.500=Você não pode mais se esconder...
+tootip.csrp.weaponm.600=Você não pode mais se esconder...
+tootip.csrp.weaponm.700=Você não pode mais se esconder...
+tootip.csrp.weaponm.800=Você não pode mais se esconder...
+
+tootip.csrp.weaponr.1=§fResultado de varios pedaços de corpos de parasitas reconstruidos para que formem uma §6arma§f. A chama da vida brilha dentro.
+tootip.csrp.weaponr.2=§fA evolução do Arco Vivo.. Ele ganhou uma §bMente§f.
+
+tootip.csrp.weaponr.10=Continue segurando essas flechas
+tootip.csrp.weaponr.20=Continue segurando essas flechas
+
+tootip.csrp.weaponr.100=Você não pode mais se esconder...
+tootip.csrp.weaponr.200=Você não pode mais se esconder...
+
+//subtitles
+
+subtitles.devourerliving=Devorador Primitivo ruge
+subtitles.devourerhurt=Devorador Primitivo machucado
+subtitles.devourerdeath=Devorador Primitivo morto
+subtitles.assimhumanliving=Humano assimilado grita
+subtitles.assimhumanhurt=Humano assimilado uiva
+subtitles.assimhumandeath=Humano assimilado morto
+subtitles.assimpigliving=Oincs distorcidos
+subtitles.assimpighurt=Porco assimilado grunhe
+subtitles.assimpigdeath=Porco assimilado morre
+subtitles.assimhorseliving=Relinchos distorcidos
+subtitles.assimhorsecharge=Cavalo assimilado investe
+subtitles.assimhorsehurt=Cavalo assimilado grita
+subtitles.assimhorsedeath=Cavalo assimilado morre
+subtitles.assimspiderliving=Assovio distorcido
+subtitles.assimspidersteps=Passos de inseto
+subtitles.assimspiderdeath=Aranha grande morre
+subtitles.headliving=Cabeça grita
+subtitles.headhurt=Cabeça guincha
+subtitles.headdeath=Cabeça morrendo
+subtitles.buglinliving=Insetóide guincha
+subtitles.buglinhurt=Insetóide apertado
+subtitles.buglindeath=Insetóide esmagado
+subtitles.rupterliving=Rompedor clica
+subtitles.rupterhurt=Rompedor guincha
+subtitles.rupterdeath=Rompedor morre
+subtitles.rupterinfects=Rompedor solta CDC
+subtitles.wardenliving=Guardião grunhe
+subtitles.wardenhurt=Guardião rosna
+subtitles.wardendeath=Guardião morre
+subtitles.adaarachliving=Aracnídeo adaptado grunhe
+subtitles.adaarachhurt=Aracnídeo adaptado rosna
+subtitles.adaarachdeath=Aracnídeo adaptado guincha
+subtitles.assimcowliving=Mugido distorcido
+subtitles.assimcowhurt=Grunhido de vaca assimilada
+subtitles.assimcowdeath=Vaca assimilada morre
+subtitles.assimsheepliving=Bééés distorcidos
+subtitles.assimsheephurt=Ovelha assimilada balia
+subtitles.assimsheepdeath=Ovelha assimilada morre
+subtitles.assimwolfliving=Latido estranho
+subtitles.assimwolfhurt=Latido distorcido
+subtitles.assimwolfdeath=Lobo assimilado distorcido
+subtitles.assimbearliving=Rugido distorcido
+subtitles.assimbearhurt=Bramir distorcido
+subtitles.assimbeardeath=Urso assimilado morre
+subtitles.simmermanliving=Vwoomps de outro mundo
+subtitles.simmermanhurt=Bwoonmps de outro mundo
+subtitles.simmermanteleports=Woomps corrompidos
+subtitles.simmermandeath=Enderman assimilado berra
+subtitles.infectedfleshmelt=Carne pulsante mescla
+subtitles.adasummonerliving=Summonador adaptado grita
+subtitles.adasummonerhurt=Summonador adaptado guincha
+subtitles.adasummonerdeath=Summonador adaptado berra
+subtitles.adasummonersummon=Grunhidos altos
+subtitles.adayelloweyeliving=Olh-amarelo adaptado grunhe
+subtitles.adayelloweyehurt=Olh-amarelo adaptado ruge
+subtitles.adayelloweyedeath=Olh-amarelo adaptado morre
+subtitles.adayelloweyeshoot=Olh-amarelo adaptado cospe
+subtitles.adareekerliving=Fétido adaptado grunhe
+subtitles.adareekerhurt=Fétido adaptado guincha
+subtitles.adareekerdeath=Fétido adaptado morre
+subtitles.adamanduliving=Moedor adaptado ruge
+subtitles.adamanduhurt=Moedor adaptado grita
+subtitles.adamandudeath=Moedor adaptado morre
+subtitles.vigiliving=Vigilante estronda
+subtitles.vigihurt= Vigilante estrala
+subtitles.vigideath=Vigilante morre
+subtitles.bogleliving=Gargarejos
+subtitles.boglehurt=Grunhido
+subtitles.bogledeath=Alguma coisa perece
+subtitles.hostliving=Hospedeiro se agita
+subtitles.hosthurt=Hospedeiro grita
+subtitles.hostdeath=Hospedeiro morrendo
+subtitles.hostmerge=Grunhidos coletivos
+subtitles.adamaducamo=Zombaria fantasmagórica
+subtitles.adavomit=Parasita vomita
+subtitles.flesh=Carne se move por aí
+subtitles.sentryliving=Sentinela grunhe
+subtitles.sentryhurt=Sentinela guincha
+subtitles.sentrydeath=Sentinela morre
+subtitles.beckonliving=Pilar sussurra
+subtitles.beckonhurt=Pilar guincha
+subtitles.beckondeath=Pilar grita
+subtitles.beckonbell=Sino toca
+subtitles.mobexplodes=Mob explode
+subtitles.mobswipe=Mob desliza
+subtitles.moblands=Mob aterrisa no chão
+subtitles.cysteats=Item esmagado
+subtitles.adaptationpart=Parasite se adapta
+subtitles.adaptationfull=Parasite adaptado
+subtitles.biomeheart=§cBatidas de coração

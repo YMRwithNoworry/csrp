@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/orientable",
+  "textures": {
+    "top": "csrp:block/consumed_workbench_top",
+    "side": "csrp:block/consumed_workbench_side",
+    "front": "csrp:block/consumed_workbench_front"
+  }
+}

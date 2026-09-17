@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "csrp:block/reinforced_hivestone_slab"
+    },
+    "type=top": {
+      "model": "csrp:block/reinforced_hivestone_slab_top"
+    },
+    "type=double": {
+      "model": "csrp:block/reinforced_hivestone_slab_double"
+    }
+  }
+}

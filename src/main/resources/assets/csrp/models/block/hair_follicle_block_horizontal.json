@@ -1,0 +1,7 @@
+{
+  "parent": "block/cube_column_horizontal",
+  "textures": {
+    "end": "csrp:blocks/hair_follicle",
+    "side": "csrp:blocks/hair_follicle_side"
+  }
+}

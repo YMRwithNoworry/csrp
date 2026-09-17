@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "csrp:block/goth_stem",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "csrp:block/goth_stem"
+    },
+    "axis=z": {
+      "model": "csrp:block/goth_stem",
+      "x": 90
+    }
+  }
+}

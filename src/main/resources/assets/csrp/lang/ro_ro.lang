@@ -1,0 +1,465 @@
+//Entities
+
+entity.csrp.pri_longarms.name=Longarms Primitiv
+entity.csrp.pri_manducater.name=Manducater Primitiv
+entity.csrp.pri_summoner.name=Summoner Primitiv
+entity.csrp.pri_reeker.name=Reeker Primitiv
+entity.csrp.pri_yelloweye.name=Yelloweye Primitiv
+entity.csrp.pri_bolster.name=Bolster Primitiv
+entity.csrp.pri_arachnida.name=Arachnida Primitiv
+entity.csrp.pri_lum.name=Devourer Primitiv
+
+entity.csrp.host.name=Gazdă
+entity.csrp.hostii.name=Turma
+entity.csrp.crux.name=Crux
+entity.csrp.heed.name=Heed
+entity.csrp.thrall.name=Thrall
+
+entity.csrp.sim_bear.name=Urs Asimilat
+entity.csrp.sim_enderman.name=Enderman Asimilat
+entity.csrp.sim_endermanhead.name=Cap Mergător
+entity.csrp.sim_adventurer.name=Aventurier Asimilat
+entity.csrp.sim_adventurerhead.name=Cap Mergător
+entity.csrp.sim_bigspider.name=Păianjen Urias Asimilat
+entity.csrp.sim_human.name=Om Asimilat
+entity.csrp.sim_humanhead.name=Cap Mergător
+entity.csrp.sim_villager.name=Sătean Asimilat
+entity.csrp.sim_villagerhead.name=Cap Mergător
+entity.csrp.sim_cow.name=Vacă Asimilată
+entity.csrp.sim_cowhead.name=Cap Mergător
+entity.csrp.sim_horse.name=Cal Asimilat
+entity.csrp.sim_horsehead.name=Cap Mergător
+entity.csrp.sim_pig.name=Porc Asimilat
+entity.csrp.sim_pighead.name=Cap Mergător
+entity.csrp.sim_sheep.name=Oaie Asimilată
+entity.csrp.sim_sheephead.name=Cap Mergător
+entity.csrp.sim_wolf.name=Lup Asimilat
+entity.csrp.sim_wolfhead.name=Cap Mergător
+entity.csrp.incompleteform_medium.name=Forma Incompletă
+entity.csrp.incompleteform_small.name=Forma Incompletă
+entity.csrp.sim_dragone.name=Ender Dragon Asimilat
+entity.csrp.sim_dragonehead.name=Cap Mergător
+
+entity.csrp.overseer.name=Overseer
+entity.csrp.bomber_light.name=Bombardier
+entity.csrp.carrier_heavy.name=Purtător Greu
+entity.csrp.buglin.name=Buglin
+entity.csrp.mangler.name=Mangler
+entity.csrp.worker.name=Muncitor
+entity.csrp.carrier_flying.name=Purtător Zburator
+entity.csrp.rupter.name=Rupter
+entity.csrp.beckon_si.name=Beckon Stagiu I
+entity.csrp.beckon_sii.name=Beckon Stagiu II
+entity.csrp.beckon_siii.name=Beckon Stagiu III
+entity.csrp.beckon_siv.name=Beckon Stagiu IV
+entity.csrp.beckon_sv.name=Beckon Stagiu V
+entity.csrp.warden.name=Gardian
+entity.csrp.marauder.name=Marauder
+entity.csrp.monarch.name=Monarh
+entity.csrp.grunt.name=Grunt
+entity.csrp.sentry.name=Santinelă
+entity.csrp.kyphosis.name=Kyphosis
+entity.csrp.dispatcherten.name=Tentacul Dispecer
+entity.csrp.dispatcher_si.name=Dispecer Stagiu I
+entity.csrp.dispatcher_sii.name=Dispecer Stagiu II
+entity.csrp.dispatcher_siii.name=Dispecer Stagiu III
+entity.csrp.dispatcher_siv.name=Dispecer Stagiu IV
+entity.csrp.seizer.name=Sechestrator
+
+entity.csrp.bomber_heavy.name=Bombardier Greu
+entity.csrp.carrier_colony.name=Purtatorul Coloniei
+entity.csrp.wraith.name=Wraith
+entity.csrp.bogle.name=Bogle
+entity.csrp.haunter.name=Vanator
+entity.csrp.succor.name=Succor
+
+entity.csrp.anc_dreadnaut.name=Dreadnaut Antic
+entity.csrp.anc_overlord.name=Overlord Antic
+entity.csrp.vigilante.name=Vigilante
+entity.csrp.movingflesh.name=Carne Miscătoare
+entity.csrp.tendril.name=Tentacul
+entity.csrp.anc_pod.name=Pod
+entity.csrp.biomass.name=Biomasa
+entity.csrp.gore.name=Gor
+
+entity.csrp.ada_longarms.name=Longarm Adaptat
+entity.csrp.ada_summoner.name=Summoner Adaptat
+entity.csrp.ada_manducater.name=Manducator Adaptat
+entity.csrp.ada_reeker.name=Reeker Adaptat
+entity.csrp.ada_yelloweye.name=Yelloweye Adaptat
+entity.csrp.ada_bolster.name=Bolster Adaptat
+entity.csrp.ada_arachnida.name=Arachnida Adaptat
+
+entity.csrp.remain.name=Remain
+//Creative Tab
+
+itemGroup.SRParasites=SR:Parasites
+
+//Items
+item.csrp.itemmobspawner_pod.name=Spawnează Pod
+
+item.csrp.itemmobspawner_host.name=Spawnează Gazdă
+item.csrp.itemmobspawner_hostii.name=Spawnează Turma
+item.csrp.itemmobspawner_heed.name=Spawnează Heed
+item.csrp.itemmobspawner_cruxa.name=Spawnează Crux
+item.csrp.itemmobspawner_mes.name=Spawnează Thrall
+
+item.csrp.itemmobspawner_infbear.name=Spawnează Urs Asimilat
+item.csrp.itemmobspawner_infenderman.name=Spawnează Enderman Asimilat
+item.csrp.itemmobspawner_infendermanhead.name=Spawnează Cap Mergător (Enderman)
+item.csrp.itemmobspawner_infplayer.name=Spawnează Aventurier Asimilat
+item.csrp.itemmobspawner_infplayerhead.name=Spawnează Cap Mergător (Aventurier)
+item.csrp.itemmobspawner_dorpa.name=Spawnează Păianjen Urias Asimilat
+item.csrp.itemmobspawner_infhuman.name=Spawnează Om Asimilat
+item.csrp.itemmobspawner_infhumanhead.name=Spawnează Cap Mergător (Om)
+item.csrp.itemmobspawner_infvillager.name=Spawnează Sătean Asimilat
+item.csrp.itemmobspawner_infvillagerhead.name=Spawnează Cap Mergător (Sătean)
+item.csrp.itemmobspawner_infcow.name=Spawnează Vacă Asimilată
+item.csrp.itemmobspawner_infcowhead.name=Spawn Cap Mergător (Vacă)
+item.csrp.itemmobspawner_infpig.name=Spawnează Porc Asimilat
+item.csrp.itemmobspawner_infpighead.name=Spawn Cap Mergător (Porc)
+item.csrp.itemmobspawner_infsheep.name=Spawnează Oaie Asimilată
+item.csrp.itemmobspawner_infsheephead.name=Spawn Cap Mergător (Oaie)
+item.csrp.itemmobspawner_infwolf.name=Spawnează Lup Asimilat
+item.csrp.itemmobspawner_infwolfhead.name=Spawn Cap Mergător (Lup)
+item.csrp.itemmobspawner_infhorse.name=Spawnează Cal Asimilat
+item.csrp.itemmobspawner_infhorsehead.name=Spawn Cap Mergător (Cal)
+item.csrp.itemmobspawner_inhoos.name=Spawnează Formă Incompletă (Mica)
+item.csrp.itemmobspawner_inhoom.name=Spawnează Formă Incompletă (Medium)
+item.csrp.itemmobspawner_infdragone.name=Spawnază  Ender Dragon Asimilat
+item.csrp.itemmobspawner_infdragonehead.name=Spawnează Cap Mergător (Ender Dragon)
+
+item.csrp.itemmobspawner_alafha.name=Spawnează Overseer
+item.csrp.itemmobspawner_omboo.name=Spawnează Bombardier
+item.csrp.itemmobspawner_rathol.name=Spawnează Purtător Greu
+item.csrp.itemmobspawner_buthol.name=Spawnează Purtător Zburător
+item.csrp.itemmobspawner_lodo.name=Spawnează Buglin
+item.csrp.itemmobspawner_nuuh.name=Spawnează Mangler
+item.csrp.itemmobspawner_worker.name=Spawnează Muncitor
+item.csrp.itemmobspawner_mudo.name=Spawnează Rupter
+item.csrp.itemmobspawner_venkrol.name=Spawnează Beckon Stagiu I
+item.csrp.itemmobspawner_venkrolsii.name=Spawnează Beckon Stagiu II
+item.csrp.itemmobspawner_venkrolsiii.name=Spawnează Beckon Stagiu III
+item.csrp.itemmobspawner_venkrolsiv.name=Spawnează Beckon Stagiu IV
+item.csrp.itemmobspawner_venkrolsv.name=Spawnează Beckon Stagiu V
+item.csrp.itemmobspawner_ganro.name=Spawnează Guardian
+item.csrp.itemmobspawner_esor.name=Spawnează Marauder
+item.csrp.itemmobspawner_orch.name=Spawnează Monarh
+item.csrp.itemmobspawner_flog.name=Spawnează Grunt
+item.csrp.itemmobspawner_unvo.name=Spawnează Santinelă
+item.csrp.itemmobspawner_tonro.name=Spawnează Kyphosis
+item.csrp.itemmobspawner_dod.name=Spawnează Dispecer Stagiu I
+item.csrp.itemmobspawner_dodsii.name=Spawnează Dispecer Stagiu II
+item.csrp.itemmobspawner_dodsiii.name=Spawnează Dispecer Stagiu III
+item.csrp.itemmobspawner_dodsiv.name=Spawnează Dispecer Stagiu IV
+item.csrp.itemmobspawner_nak.name=Spawnează Sechestrator
+
+item.csrp.itemmobspawner_jinjo.name=Spawnează Bombardier Greu
+item.csrp.itemmobspawner_vesta.name=Spawnează Purtatorul Coloniei
+item.csrp.itemmobspawner_elvia.name=Spawnează Wraith
+item.csrp.itemmobspawner_lencia.name=Spawnează Bogle
+item.csrp.itemmobspawner_pheon.name=Spawnează Vanator
+item.csrp.itemmobspawner_flam.name=Spawnează Succor
+
+item.csrp.itemmobspawner_oronco.name=Spawnează Dreadnaut Antic
+item.csrp.itemmobspawner_terla.name=Spawnează Overlord Antic
+item.csrp.itemmobspawner_anged.name=Spawnează Vigilante
+item.csrp.itemmobspawner_lesh.name=Spawnează Carne Miscătoare
+
+item.csrp.itemmobspawner_shyco.name=Spawnează Longarm Primitiv
+item.csrp.itemmobspawner_hull.name=Spawnează Manducater Primitiv
+item.csrp.itemmobspawner_canra.name=Spawnează Summoner Primitiv
+item.csrp.itemmobspawner_emana.name=Spawnează Yelloweye Primitiv
+item.csrp.itemmobspawner_nogla.name=Spawnează Reeker Primitiv
+item.csrp.itemmobspawner_bano.name=Spawnează Bolster Primitiv
+item.csrp.itemmobspawner_ranrac.name=Spawnează Arachnida Primitiv
+item.csrp.itemmobspawner_lum.name=Spawnează Devourer Primitiv
+
+item.csrp.itemmobspawner_shycoadapted.name=Spawnează Longarm Adaptat
+item.csrp.itemmobspawner_canraadapted.name=Spawnează Summoner Adaptat
+item.csrp.itemmobspawner_noglaadapted.name=Spawnează Reeker Adaptat
+item.csrp.itemmobspawner_hulladapted.name=Spawnează Manducater Adaptat
+item.csrp.itemmobspawner_emanaadapted.name=Spawnează Yelloweye Adaptat
+item.csrp.itemmobspawner_banoadapted.name=Spawnează Bolster Adaptat
+item.csrp.itemmobspawner_ranracadapted.name=Spawnează Arachnida Adaptat
+
+
+item.csrp.itemthrow.name=
+item.csrp.itemtab.name=NULL
+iitem.csrp.evclock.name=Ceas Murdar
+ item.csrp.weapon_scythe.name=Coasa Vie
+ item.csrp.weapon_scythe_sentient.name=Coasa Constienta
+ item.csrp.weapon_bow.name=Arc Viu
+ item.csrp.weapon_bow_sentient.name=Arc Constient
+ item.csrp.weapon_axe.name=Topor Viu
+ item.csrp.weapon_axe_sentient.name=Topor Simtitor
+ item.csrp.weapon_sword.name=Sabie Vie
+ item.csrp.weapon_sword_sentient.name=Sabie Constienta
+ item.csrp.weapon_cleaver.name=Satâr Viu
+ item.csrp.weapon_cleaver_sentient.name=Satâr Constient
+
+item.csrp.armor_helm.name=Casca Vie
+item.csrp.armor_chest.name=Placa de piept Vie
+item.csrp.armor_pants.name=Pantaloni Vii
+item.csrp.armor_boots.name=Cizme Vii
+item.csrp.armor_helm_sentient.name=Casca Constienta
+item.csrp.armor_chest_sentient.name=Placa de piept Constienta
+item.csrp.armor_pants_sentient.name=Pantaloni Constienti
+item.csrp.armor_boots_sentient.name=Cizme Constiente
+
+//////
+item.csrp.bow_upperlimb.name=Membru Superior al Marelui Arc Viu
+item.csrp.bow_lowerlimb.name=Membru Inferior al Marelui Arc Viu
+item.csrp.bow_string.name=Ața al Marelui Arc Viu
+item.csrp.bow_grip.name=Prinderea Marelui Arc Viu
+item.csrp.bow_core.name=Miezul Marelui Arc Viu
+
+item.csrp.scythe_back.name=Spatele Coasei Vii
+item.csrp.scythe_blade.name=Lama Coasei Vii
+item.csrp.scythe_core.name=Miezul Coasei Vii
+item.csrp.scythe_handle.name=Mâner Coasei Vii
+item.csrp.scythe_head.name=Capul Coasei Vii
+///////
+
+item.csrp.dried_tendons.name=Tendoane Uscate
+item.csrp.hardened_bone_handle.name=Mâner Intărit de Os
+item.csrp.infectious_blade_fragment.name=Fragment de Lamă Infectioasă
+item.csrp.living_core.name=Miez Viu
+item.csrp.vile_shell.name=Carapace
+item.csrp.bone.name=Os Ciudat
+
+
+item.csrp.ada_longarms_drop.name=Fragmentul Armuri Longarm
+item.csrp.ada_summoner_drop.name=Miezul Summonerului
+item.csrp.ada_yelloweye_drop.name=Os de Yelloweye
+item.csrp.ada_reeker_drop.name=Colț de Reeker
+item.csrp.ada_manducater_drop.name=Orb de Manducator
+item.csrp.ada_bolster_drop.name=Coaja de Bolster
+item.csrp.ada_arachnida_drop.name=Gheara de Arachnida
+item.csrp.ada_devourer_drop.name=Tentacul de Devourer
+
+item.csrp.assimilated_flesh.name=Carne Infectată
+item.csrp.beckon_drop.name=Membrana de Beckon
+item.csrp.dispatcher_drop.name=Membrana de Dispecer
+
+item.csrp.lurecomponent1.name=Viscerele de Rupter
+item.csrp.lurecomponent2.name=Inima infectată
+item.csrp.lurecomponent3.name=Tendoane Alterate
+item.csrp.lurecomponent4.name=Plămân Toxic
+item.csrp.lurecomponent5.name=Creier Nociv
+item.csrp.lurecomponent6.name=Segment Esential
+
+//Blocks
+
+tile.csrp.parasitesapling_tree.name=Copăcel Parazit
+tile.csrp.parasitesapling_treethin.name=Copăcel Parazit
+tile.csrp.parasitesapling_flowertall.name=Copăcel Parazit
+
+tile.csrp.parasitebush_tendril.name=Plasa Parazită
+tile.csrp.parasitebush_pop.name=Veziculă Parazită
+tile.csrp.parasitebush_bine.name=Inel Parazit
+
+tile.csrp.srpweb_one.name=Panza
+tile.csrp.srpweb_two.name=Panza
+tile.csrp.srpweb_three.name=Panza
+tile.csrp.tunnel.name=Tunel
+tile.csrp.dispatchern.name=Dispatcher Nidus
+tile.csrp.biomeheart.name=Miezul Biomului Parazit
+tile.csrp.colonyheart.name=Miezul Coloniei Parazite
+tile.csrp.biomepurifier.name=Purificator de Biom
+tile.csrp.parasitestructure.name=Structură Incompletă a Coloniei Parazite
+tile.csrp.parasitethin.name=Trunchi Subțire Parazit
+tile.csrp.parasitemouth.name=Gura Parazită
+tile.csrp.parasitetendril.name=Tentacul Parazit
+tile.csrp.parasitefog.name=Ceață
+
+tile.csrp.gore_sim_small.name=Resturi Asimilate
+tile.csrp.gore_sim_big.name=Resturi Asimilate
+tile.csrp.gore_sim_flat.name=Resturi Asimilate
+tile.csrp.gore_pri_small.name=Resturi Primitive
+tile.csrp.gore_pri_big.name=Resturi Primitive
+tile.csrp.gore_pri_flat.name=Resturi Primitive
+tile.csrp.gore_ada_small.name=Resturi Adaptate
+tile.csrp.gore_ada_big.name=Resturi Adaptate
+tile.csrp.gore_ada_flat.name=Resturi Adaptate
+tile.csrp.gore_pure_small.name=Resturi Pure
+tile.csrp.gore_pure_big.name=Resturi Pure
+tile.csrp.gore_pure_flat.name=Resturi Pure
+
+tile.csrp.infestedstain.name=Pământ Infestat
+tile.csrp.infestedtrunk.name=Trunchi Infestat
+tile.csrp.infestedrubble.name=Piatra Infestată
+tile.csrp.infestremain.name=Deşeu Infestat
+
+tile.csrp.infestedbush_infected.name=Vene Infectate
+tile.csrp.infestedbush_grass1.name=Vene Infectate
+tile.csrp.infestedbush_flower1.name=Vene Infectate
+tile.csrp.infestedbush_spine.name=Vene Infectate
+tile.csrp.infestedbush_vine.name=Vene Infectate
+tile.csrp.infestedbush_arc.name=Vene Infectate
+
+tile.csrp.parasitecanister_sac.name=Sac Parazit
+tile.csrp.parasitecanister_cyst.name=Chist Parazit
+tile.csrp.canisteractive.name=Chist Parazit
+tile.csrp.parasitecanister_lump.name=Coş Parazit
+tile.csrp.parasitecanister_bag.name=Pungă Parazită
+
+tile.csrp.parasitetrunk_ball.name=Trunchi Parazitat
+tile.csrp.parasitetrunk_tree.name=Trunchi Parazitat
+tile.csrp.parasitetrunk_plant.name=Trunchi Parazitat
+
+tile.csrp.parasitestain_dirt.name=Pământ Parazitat
+tile.csrp.parasitestain_mud.name=Noroi Parazitat
+tile.csrp.parasitestain_flesh.name=Carne Parazitată
+tile.csrp.parasitestain_fleshstairs.name=Scări din Carne Parazitată
+tile.csrp.parasitestain_feeler.name=Vene Parazitate
+
+tile.csrp.parasiterubble_slabhalf.name=Dală Parazită
+tile.csrp.parasiterubble_flesh.name=Carne Parazită Concentrată
+tile.csrp.parasiterubble_bone.name=Os Parazitat Concentrat
+tile.csrp.parasiterubble_bonestairs.name=Scări din Os Parazitat Concentrat
+tile.csrp.parasiterubble_stone.name=Piatra Parazitată
+
+tile.csrp.parasiterubbledense_wall.name=Piatră Parazită Compresată
+tile.csrp.parasiterubbledense_biome.name=Piatră Parazitată de Biom
+tile.csrp.parasiterubbledense_colony.name=Piatră Parazitată de Colonie
+
+tile.csrp.evolutionlure_one.name=Momeală (Slabă)
+tile.csrp.evolutionlure_two.name=Momeală (Slabuță)
+tile.csrp.evolutionlure_three.name=Momeală (Subtire)
+tile.csrp.evolutionlure_four.name=Momeală (Stabil)
+tile.csrp.evolutionlure_five.name=Momeală (Substanțială)
+tile.csrp.evolutionlure_six.name=Momeală (Concentrată)
+tile.csrp.evolutionlure_seven.name=Momeală (Concentrată+)
+tile.csrp.evolutionlure_eight.name=Momeală (Concentrată++)
+
+//Effects
+
+mob_effect.csrp:coth=Chemarea Stupului
+splash_potion.effect.csrp:coth=Poțiune Splash de Chemarea a Stupului
+potion.effect.csrp:coth=Poțiune de Chemarea Stupului
+lingering_potion.effect.csrp:coth=Poțiune Persistentă de Chemare a Stupului
+tipped_arrow.effect.csrp:coth=Săgeată de Chemare a Stupului
+
+mob_effect.csrp:fear=Frică
+splash_potion.effect.csrp:fear=Poțiune Splash de Frică
+potion.effect.csrp:fear=Poțiune de Frică
+lingering_potion.effect.csrp:fear=Poțiune Persistentă de Frică
+tipped_arrow.effect.csrp:fear=Săgeată de Frică
+
+mob_effect.csrp:antimall=Imeblabil
+splash_potion.effect.csrp:antimall=Poțiune Splash de Imeblabil
+potion.effect.csrp:antimall=Poțiune de Imeblabil
+lingering_potion.effect.csrp:antimall=Poțiune Persistentă de Imeblebil
+tipped_arrow.effect.csrp:antimall=Sageata de Imeblebil
+
+mob_effect.csrp:bleed=Sângerare
+splash_potion.effect.csrp:bleed=Poțiune Splash de Sângerare
+potion.effect.csrp:bleed=Poțiune de Sângerare
+lingering_potion.effect.csrp:bleed=Poțiune Persistentă de Sângerare
+tipped_arrow.effect.csrp:bleed=Săgeată de Sângerare
+
+mob_effect.csrp:corrosive=Coroziune
+splash_potion.effect.csrp:corrosive=Poțiune Splash de Coroziune
+potion.effect.csrp:corrosive=Poțiune de Coroziune
+lingering_potion.effect.csrp:corrosive=Poțiune Persistenă de Coroziune
+tipped_arrow.effect.csrp:corrosive=Săgeată de Coroziune
+
+mob_effect.csrp:viral=Viral
+splash_potion.effect.csrp:viral=Poțiune Splash de Viral
+potion.effect.csrp:viral=Poțiune de Viral
+lingering_potion.effect.csrp:viral=Poțiune Persistentă de Viral
+tipped_arrow.effect.csrp:viral=Săgeată de Viral
+
+mob_effect.csrp:rage=Furie
+splash_potion.effect.csrp:rage=Poțiune Splash de Furie
+potion.effect.csrp:rage=Poțiune de Furie
+lingering_potion.effect.csrp:rage=Poțiune Persistentă de Furie
+tipped_arrow.effect.csrp:rage=Săgeată de Furie
+
+mob_effect.csrp:repel=Camuflaj
+splash_potion.effect.csrp:repel=Poțiune Splash de Camuflaj
+potion.effect.csrp:repel=Poțiune de Camuflaj
+lingering_potion.effect.csrp:repel=Poțiune Persistentă de Camuflaj
+tipped_arrow.effect.csrp:repel=Săgeată de Camuflaj
+
+mob_effect.csrp:senses=Crestere a Simturilor
+splash_potion.effect.csrp:senses=Poțiune Splash de Crestere a Simturilor
+potion.effect.csrp:senses=Poțiune de Crestere a Simturilor
+lingering_potion.effect.csrp:senses=Poțiune Persistentă de Crestere a Simturilor
+tipped_arrow.effect.csrp:senses=Săgeată de Crestere a Simturilor
+
+
+//extra
+
+message.csrp.lure=Puncte Reduse!
+message.csrp.fearitem=Te panichezi!
+message.csrp.fearblock=Te panichezi!!
+message.csrp.feargui=Te panichezi!!
+message.csrp.evolutionsleep=Nu poți să dormi acum...
+
+tootip.csrp.lurecomp.1=Bucăți din corpul unui Rupter, recoltate de la un Parazit mic. O componentă a momelei.
+tootip.csrp.lurecomp.2=Un organ extrem de umflat recoltat de la o Creatură Asimilată. O componentă a momelei.
+tootip.csrp.lurecomp.3=O bucată de piele recoltată din corpul unui Parazit Primitiv, care excretă un miros oribil. O componentă a momelei.
+tootip.csrp.lurecomp.4=Un organ recoltat din corpul unui parazit adaptat, care excretă un miros oribil. O componentă a momelei.
+tootip.csrp.lurecomp.5=Un organ cu aspect de ciupercă recoltat din corpul unui parazit pur. O componentă a momelei.
+tootip.csrp.lurecomp.6=Un obiect asemănător coloanei vertebrale recoltat din ? . O componentă a momelei.
+
+tootip.csrp.item.1=O sferă mică care pare să emită Energie, recoltată de la un Summoner Adaptat. Un ingredient de fabricare pentru componentele armelor.
+tootip.csrp.item.2=Un os robust recoltat dintr-un Yelloweye adaptat. Un ingredient de fabricare pentru componentele armelor.
+tootip.csrp.item.3=Un orb mic care pare să emită Energie, recoltat dintr-un Manducator Adaptat. Un ingredient de fabricare pentru componentele armelor.
+tootip.csrp.item.4=Un colt ascuțit recoltat de la un Reeker adaptat. Un ingredient de fabricare pentru componentele armelor.
+tootip.csrp.item.5=Un fragment de armură ușor, dar rezistent, recoltat de la Longarm Adaptat . Un ingredient de fabricare pentru componentele armelor.
+tootip.csrp.item.6=O bucată de carne a smuls o Creatură Asimilată. O Componentă a momelei care poate fi folosită și ca mancare, în cele mai disperate situații.
+tootip.csrp.item.7=
+tootip.csrp.item.8=Un material elastic și organic, produs din părți ale corpului paraziților. O componentă pentru arme.
+tootip.csrp.item.9=O bucată dintr-o lamă, produsă din părți ale corpului paraziților. O componentă pentru arme.
+tootip.csrp.item.10=Flacăra vieții nu a strălucit încă în acest obiect. Miezul care alimentează toate Armele.
+tootip.csrp.item.11=O carcasă extrem de rezistentă, produsă din părți ale corpului Paraziților. O componentă pentru arme.
+tootip.csrp.item.12=Un os deosebit de gros, produs din părți ale corpului paraziților. O componentă pentru arme.
+
+//
+tootip.csrp.item.13=
+tootip.csrp.item.14=Este neted la atingere. O componentă a arcului viu.
+tootip.csrp.item.15=Este neted la atingere. O componentă a arcului viu.
+tootip.csrp.item.16=Foarte elastic. O componentă a arcului viu.
+tootip.csrp.item.17=Pulsează. O componentă a arcului viu.
+//
+
+tootip.csrp.item.18=
+
+tootip.csrp.weaponm.1=Rezultatul diferitelor părți ale corpului paraziților remodelate pentru a forma o armă. Înăuntrul ei strălucește flacăra vieții.
+tootip.csrp.weaponm.2=Evoluția ulterioară a Coasei Vii. A câștigat intelegenta.
+tootip.csrp.weaponm.3=Rezultatul diferitelor părți ale corpului paraziților remodelate pentru a forma o armă. Înăuntrul ei strălucește flacăra vieții.
+tootip.csrp.weaponm.4=Evoluția ulterioară a Toporului Viu. A câștigat intelegenta.
+tootip.csrp.weaponm.5=Rezultatul diferitelor părți ale corpului paraziților remodelate pentru a forma o armă. Înăuntrul ei strălucește flacăra vieții.
+tootip.csrp.weaponm.6=Evoluția ulterioară a Sabiei Vii. A câștigat intelegenta.
+tootip.csrp.weaponm.7=Rezultatul diferitelor părți ale corpului paraziților remodelate pentru a forma o armă. Înăuntrul ei strălucește flacăra vieții.
+tootip.csrp.weaponm.8=Evoluția ulterioară a Satârului Viu. A câștigat intelegenta.
+
+tootip.csrp.weaponm.10=Curata o suprafață mare.
+tootip.csrp.weaponm.20=Decimeaza o suprafață mare.
+tootip.csrp.weaponm.30=Face armura inutilă în timp.
+tootip.csrp.weaponm.40=Face armura inutilă în timp.
+tootip.csrp.weaponm.50=Provoacă leziuni care pun viața în pericol.
+tootip.csrp.weaponm.60=Provoacă leziuni care pun viața în pericol.
+tootip.csrp.weaponm.70=Creaza lovituri virulente.
+tootip.csrp.weaponm.80=Creaza lovituri virulente.
+
+tootip.csrp.weaponm.100=Nu te poti ascunde...
+tootip.csrp.weaponm.200=Nu te poti ascunde...
+tootip.csrp.weaponm.300=Nu te poti ascunde...
+tootip.csrp.weaponm.400=Nu te poti ascunde...
+tootip.csrp.weaponm.500=Nu te poti ascunde...
+tootip.csrp.weaponm.600=Nu te poti ascunde...
+tootip.csrp.weaponm.700=Nu te poti ascunde...
+tootip.csrp.weaponm.800=Nu te poti ascunde...
+
+tootip.csrp.weaponr.1=Rezultatul diferitelor părți ale corpului paraziților remodelate pentru a forma o armă. Înăuntrul ei strălucește flacăra vieții.
+tootip.csrp.weaponr.2=Evoluția ulterioară a Arcului Viu. A câștigat intelegenta.
+
+tootip.csrp.weaponr.10=Tine de săgeti
+tootip.csrp.weaponr.20=Tine de săgeti
+
+tootip.csrp.weaponr.100=Nu te poti ascunde...
+tootip.csrp.weaponr.200=Nu te poti ascunde...
