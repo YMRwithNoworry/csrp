@@ -1,10 +1,15 @@
 {
   "type": "neoforge:add_spawns",
   "biomes": "#minecraft:is_overworld",
-  "spawners": {
-    "type": "csrp:buglin",
-    "weight": 30,
-    "minCount": 2,
-    "maxCount": 5
-  }
+  "spawners": [
+    {
+      "type": "csrp:buglin",
+      "weight": 30,
+      "count": {
+        "type": "minecraft:uniform",
+        "min_inclusive": 2,
+        "max_inclusive": 5
+      }
+    }
+  ]
 }
