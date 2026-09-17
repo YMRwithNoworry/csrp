@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/relay_base"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/relay_base"
+  }
 }

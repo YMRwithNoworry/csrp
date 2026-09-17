@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/phase_report"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/phase_report"
+  }
 }

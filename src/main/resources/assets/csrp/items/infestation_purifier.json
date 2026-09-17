@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/infestation_purifier"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/infestation_purifier"
+  }
 }

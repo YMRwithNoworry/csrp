@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/inf_ss_chiseled"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/inf_ss_chiseled"
+  }
 }

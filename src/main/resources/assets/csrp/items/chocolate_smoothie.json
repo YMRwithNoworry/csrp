@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/chocolate_smoothie"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/chocolate_smoothie"
+  }
 }

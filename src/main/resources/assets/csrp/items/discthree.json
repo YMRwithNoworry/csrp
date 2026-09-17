@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/discthree"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/discthree"
+  }
 }

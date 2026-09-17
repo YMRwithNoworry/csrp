@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/parasite_barrier"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/parasite_barrier"
+  }
 }

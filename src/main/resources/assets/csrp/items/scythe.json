@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/scythe"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/scythe"
+  }
 }

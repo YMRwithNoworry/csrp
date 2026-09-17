@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/hirsute_hair"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/hirsute_hair"
+  }
 }

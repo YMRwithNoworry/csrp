@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/armor_boots"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/armor_boots"
+  }
 }

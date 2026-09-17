@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/self_destruct_icon"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/self_destruct_icon"
+  }
 }

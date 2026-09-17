@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/itemmobspawner_bano"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/itemmobspawner_bano"
+  }
 }

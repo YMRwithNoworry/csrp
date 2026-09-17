@@ -1,234 +1,236 @@
 {
-  "type": "minecraft:range_dispatch",
-  "property": "minecraft:angle",
-  "entries": [
-    {
-      "threshold": 0.015625,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_17"
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "property": "minecraft:angle",
+    "entries": [
+      {
+        "threshold": 0.015625,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_17"
+        }
+      },
+      {
+        "threshold": 0.046875,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_18"
+        }
+      },
+      {
+        "threshold": 0.078125,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_19"
+        }
+      },
+      {
+        "threshold": 0.109375,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_20"
+        }
+      },
+      {
+        "threshold": 0.140625,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_21"
+        }
+      },
+      {
+        "threshold": 0.171875,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_22"
+        }
+      },
+      {
+        "threshold": 0.203125,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_23"
+        }
+      },
+      {
+        "threshold": 0.234375,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_24"
+        }
+      },
+      {
+        "threshold": 0.265625,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_25"
+        }
+      },
+      {
+        "threshold": 0.296875,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_26"
+        }
+      },
+      {
+        "threshold": 0.328125,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_27"
+        }
+      },
+      {
+        "threshold": 0.359375,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_28"
+        }
+      },
+      {
+        "threshold": 0.390625,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_29"
+        }
+      },
+      {
+        "threshold": 0.421875,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_30"
+        }
+      },
+      {
+        "threshold": 0.453125,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_31"
+        }
+      },
+      {
+        "threshold": 0.484375,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_00"
+        }
+      },
+      {
+        "threshold": 0.515625,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_01"
+        }
+      },
+      {
+        "threshold": 0.546875,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_02"
+        }
+      },
+      {
+        "threshold": 0.578125,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_03"
+        }
+      },
+      {
+        "threshold": 0.609375,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_04"
+        }
+      },
+      {
+        "threshold": 0.640625,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_05"
+        }
+      },
+      {
+        "threshold": 0.671875,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_06"
+        }
+      },
+      {
+        "threshold": 0.703125,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_07"
+        }
+      },
+      {
+        "threshold": 0.734375,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_08"
+        }
+      },
+      {
+        "threshold": 0.765625,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_09"
+        }
+      },
+      {
+        "threshold": 0.796875,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_10"
+        }
+      },
+      {
+        "threshold": 0.828125,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_11"
+        }
+      },
+      {
+        "threshold": 0.859375,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_12"
+        }
+      },
+      {
+        "threshold": 0.890625,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_13"
+        }
+      },
+      {
+        "threshold": 0.921875,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_14"
+        }
+      },
+      {
+        "threshold": 0.953125,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass_15"
+        }
+      },
+      {
+        "threshold": 0.984375,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/nodecompass"
+        }
       }
-    },
-    {
-      "threshold": 0.046875,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_18"
-      }
-    },
-    {
-      "threshold": 0.078125,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_19"
-      }
-    },
-    {
-      "threshold": 0.109375,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_20"
-      }
-    },
-    {
-      "threshold": 0.140625,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_21"
-      }
-    },
-    {
-      "threshold": 0.171875,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_22"
-      }
-    },
-    {
-      "threshold": 0.203125,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_23"
-      }
-    },
-    {
-      "threshold": 0.234375,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_24"
-      }
-    },
-    {
-      "threshold": 0.265625,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_25"
-      }
-    },
-    {
-      "threshold": 0.296875,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_26"
-      }
-    },
-    {
-      "threshold": 0.328125,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_27"
-      }
-    },
-    {
-      "threshold": 0.359375,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_28"
-      }
-    },
-    {
-      "threshold": 0.390625,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_29"
-      }
-    },
-    {
-      "threshold": 0.421875,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_30"
-      }
-    },
-    {
-      "threshold": 0.453125,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_31"
-      }
-    },
-    {
-      "threshold": 0.484375,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_00"
-      }
-    },
-    {
-      "threshold": 0.515625,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_01"
-      }
-    },
-    {
-      "threshold": 0.546875,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_02"
-      }
-    },
-    {
-      "threshold": 0.578125,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_03"
-      }
-    },
-    {
-      "threshold": 0.609375,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_04"
-      }
-    },
-    {
-      "threshold": 0.640625,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_05"
-      }
-    },
-    {
-      "threshold": 0.671875,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_06"
-      }
-    },
-    {
-      "threshold": 0.703125,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_07"
-      }
-    },
-    {
-      "threshold": 0.734375,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_08"
-      }
-    },
-    {
-      "threshold": 0.765625,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_09"
-      }
-    },
-    {
-      "threshold": 0.796875,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_10"
-      }
-    },
-    {
-      "threshold": 0.828125,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_11"
-      }
-    },
-    {
-      "threshold": 0.859375,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_12"
-      }
-    },
-    {
-      "threshold": 0.890625,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_13"
-      }
-    },
-    {
-      "threshold": 0.921875,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_14"
-      }
-    },
-    {
-      "threshold": 0.953125,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass_15"
-      }
-    },
-    {
-      "threshold": 0.984375,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/nodecompass"
-      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "csrp:item/nodecompass"
     }
-  ],
-  "fallback": {
-    "type": "minecraft:model",
-    "model": "csrp:item/nodecompass"
   }
 }

@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/itemmobspawner_leemsiv"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/itemmobspawner_leemsiv"
+  }
 }

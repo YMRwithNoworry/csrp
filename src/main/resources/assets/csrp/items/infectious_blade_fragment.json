@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/infectious_blade_fragment"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/infectious_blade_fragment"
+  }
 }

@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/infested_planks_stairs"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/infested_planks_stairs"
+  }
 }

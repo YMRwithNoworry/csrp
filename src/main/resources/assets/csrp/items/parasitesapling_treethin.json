@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/parasitesapling_treethin"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/parasitesapling_treethin"
+  }
 }

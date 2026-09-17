@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/rooter_si_spawn_egg"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/rooter_si_spawn_egg"
+  }
 }

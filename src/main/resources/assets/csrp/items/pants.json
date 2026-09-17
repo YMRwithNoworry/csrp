@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/pants"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/pants"
+  }
 }

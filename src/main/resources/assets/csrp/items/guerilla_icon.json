@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/guerilla_icon"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/guerilla_icon"
+  }
 }

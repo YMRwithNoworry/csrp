@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/alveolar_fluid"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/alveolar_fluid"
+  }
 }

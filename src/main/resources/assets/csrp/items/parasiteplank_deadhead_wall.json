@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/parasiteplank_deadhead_wall"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/parasiteplank_deadhead_wall"
+  }
 }

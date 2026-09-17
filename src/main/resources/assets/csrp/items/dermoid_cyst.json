@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/dermoid_cyst"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/dermoid_cyst"
+  }
 }

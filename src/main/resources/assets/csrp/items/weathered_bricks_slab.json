@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/weathered_bricks_slab"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/weathered_bricks_slab"
+  }
 }

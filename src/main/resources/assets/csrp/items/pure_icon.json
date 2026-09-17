@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/pure_icon"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/pure_icon"
+  }
 }

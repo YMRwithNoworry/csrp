@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/esca_bulb_green"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/esca_bulb_green"
+  }
 }

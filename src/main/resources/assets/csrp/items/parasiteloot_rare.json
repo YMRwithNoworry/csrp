@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/parasiteloot_rare"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/parasiteloot_rare"
+  }
 }

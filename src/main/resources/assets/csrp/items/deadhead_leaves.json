@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/deadhead_leaves"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/deadhead_leaves"
+  }
 }

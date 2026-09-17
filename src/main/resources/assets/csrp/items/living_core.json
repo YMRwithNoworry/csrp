@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/living_core"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/living_core"
+  }
 }

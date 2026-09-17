@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/potted_consumed_assimilated_blossom"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/potted_consumed_assimilated_blossom"
+  }
 }

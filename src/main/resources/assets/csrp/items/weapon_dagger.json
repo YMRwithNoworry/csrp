@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/weapon_dagger"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/weapon_dagger"
+  }
 }

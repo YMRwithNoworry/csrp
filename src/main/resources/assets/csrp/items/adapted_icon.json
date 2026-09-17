@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/adapted_icon"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/adapted_icon"
+  }
 }

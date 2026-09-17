@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/false_apple"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/false_apple"
+  }
 }

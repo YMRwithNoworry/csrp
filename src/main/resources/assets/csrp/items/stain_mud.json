@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/stain_mud"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/stain_mud"
+  }
 }

@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/hijacked_iron_shovel"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/hijacked_iron_shovel"
+  }
 }

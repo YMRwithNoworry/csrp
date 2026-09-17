@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/evclock6"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/evclock6"
+  }
 }

@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/sick_alveoli"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/sick_alveoli"
+  }
 }

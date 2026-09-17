@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/infestedore_iro"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/infestedore_iro"
+  }
 }

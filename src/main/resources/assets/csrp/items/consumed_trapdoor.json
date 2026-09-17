@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/consumed_trapdoor"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/consumed_trapdoor"
+  }
 }

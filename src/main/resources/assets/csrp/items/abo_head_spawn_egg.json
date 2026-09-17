@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/abo_head_spawn_egg"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/abo_head_spawn_egg"
+  }
 }

@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/parasitestain_red"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/parasitestain_red"
+  }
 }

@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/dispatcher_nidus"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/dispatcher_nidus"
+  }
 }

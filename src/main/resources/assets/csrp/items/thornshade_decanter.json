@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/thornshade_decanter"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/thornshade_decanter"
+  }
 }

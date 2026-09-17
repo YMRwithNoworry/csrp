@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/hive_scrap"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/hive_scrap"
+  }
 }

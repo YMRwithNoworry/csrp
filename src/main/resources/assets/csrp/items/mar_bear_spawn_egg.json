@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/mar_bear_spawn_egg"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/mar_bear_spawn_egg"
+  }
 }

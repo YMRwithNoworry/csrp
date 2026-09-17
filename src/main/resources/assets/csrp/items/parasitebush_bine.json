@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/parasitebush_bine"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/parasitebush_bine"
+  }
 }

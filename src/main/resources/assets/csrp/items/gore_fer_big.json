@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/gore_fer_big"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/gore_fer_big"
+  }
 }

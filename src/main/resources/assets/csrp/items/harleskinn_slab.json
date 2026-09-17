@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/harleskinn_slab"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/harleskinn_slab"
+  }
 }

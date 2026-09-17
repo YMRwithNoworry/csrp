@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/itemevolve"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/itemevolve"
+  }
 }

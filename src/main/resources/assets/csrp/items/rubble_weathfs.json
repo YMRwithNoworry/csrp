@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/rubble_weathfs"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/rubble_weathfs"
+  }
 }

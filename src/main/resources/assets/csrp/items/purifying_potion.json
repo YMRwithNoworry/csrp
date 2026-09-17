@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/purifying_potion"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/purifying_potion"
+  }
 }

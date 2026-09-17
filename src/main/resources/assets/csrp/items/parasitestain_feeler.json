@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/parasitestain_feeler"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/parasitestain_feeler"
+  }
 }

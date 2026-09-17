@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/sepia_glass"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/sepia_glass"
+  }
 }

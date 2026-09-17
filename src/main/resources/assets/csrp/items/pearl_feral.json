@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/pearl_feral"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/pearl_feral"
+  }
 }

@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/potion_columbus_icon"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/potion_columbus_icon"
+  }
 }

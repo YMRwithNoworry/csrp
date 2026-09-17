@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/evolution_device"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/evolution_device"
+  }
 }

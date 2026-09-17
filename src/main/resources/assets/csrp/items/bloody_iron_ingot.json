@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/bloody_iron_ingot"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/bloody_iron_ingot"
+  }
 }

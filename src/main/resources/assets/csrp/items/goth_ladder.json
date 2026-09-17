@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/goth_ladder"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/goth_ladder"
+  }
 }

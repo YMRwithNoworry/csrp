@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/book_of_vengeance"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/book_of_vengeance"
+  }
 }

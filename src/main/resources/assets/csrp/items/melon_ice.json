@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/melon_ice"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/melon_ice"
+  }
 }

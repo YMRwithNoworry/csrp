@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/slab_stonedebris"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/slab_stonedebris"
+  }
 }

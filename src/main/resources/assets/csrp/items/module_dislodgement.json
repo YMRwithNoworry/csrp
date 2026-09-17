@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/module_dislodgement"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/module_dislodgement"
+  }
 }

@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/wheathered_cobblestone_stairs"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/wheathered_cobblestone_stairs"
+  }
 }

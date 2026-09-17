@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/fog_nullifier"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/fog_nullifier"
+  }
 }

@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/stain_feeler"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/stain_feeler"
+  }
 }

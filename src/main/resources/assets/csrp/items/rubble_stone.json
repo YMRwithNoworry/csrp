@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/rubble_stone"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/rubble_stone"
+  }
 }

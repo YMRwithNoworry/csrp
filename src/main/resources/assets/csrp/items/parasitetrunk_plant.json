@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/parasitetrunk_plant"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/parasitetrunk_plant"
+  }
 }

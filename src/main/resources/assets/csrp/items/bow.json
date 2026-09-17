@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/bow"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/bow"
+  }
 }

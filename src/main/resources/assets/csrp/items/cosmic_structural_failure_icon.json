@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/cosmic_structural_failure_icon"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/cosmic_structural_failure_icon"
+  }
 }

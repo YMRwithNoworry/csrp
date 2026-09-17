@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/cooked_flesh_button"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/cooked_flesh_button"
+  }
 }

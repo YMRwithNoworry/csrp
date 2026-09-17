@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/itemmobspawner_ranrac"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/itemmobspawner_ranrac"
+  }
 }

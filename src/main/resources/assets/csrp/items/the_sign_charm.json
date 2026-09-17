@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/the_sign_charm"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/the_sign_charm"
+  }
 }

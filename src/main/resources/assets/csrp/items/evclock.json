@@ -1,94 +1,96 @@
 {
-  "type": "minecraft:range_dispatch",
-  "property": "minecraft:phase",
-  "entries": [
-    {
-      "threshold": -1,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/evclockm1"
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "property": "minecraft:phase",
+    "entries": [
+      {
+        "threshold": -1,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/evclockm1"
+        }
+      },
+      {
+        "threshold": 0,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/evclock0"
+        }
+      },
+      {
+        "threshold": 1,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/evclock1"
+        }
+      },
+      {
+        "threshold": 2,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/evclock2"
+        }
+      },
+      {
+        "threshold": 3,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/evclock3"
+        }
+      },
+      {
+        "threshold": 4,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/evclock4"
+        }
+      },
+      {
+        "threshold": 5,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/evclock5"
+        }
+      },
+      {
+        "threshold": 6,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/evclock6"
+        }
+      },
+      {
+        "threshold": 7,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/evclock7"
+        }
+      },
+      {
+        "threshold": 8,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/evclock8"
+        }
+      },
+      {
+        "threshold": 9,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/evclock9"
+        }
+      },
+      {
+        "threshold": 10,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/evclock10"
+        }
       }
-    },
-    {
-      "threshold": 0,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/evclock0"
-      }
-    },
-    {
-      "threshold": 1,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/evclock1"
-      }
-    },
-    {
-      "threshold": 2,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/evclock2"
-      }
-    },
-    {
-      "threshold": 3,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/evclock3"
-      }
-    },
-    {
-      "threshold": 4,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/evclock4"
-      }
-    },
-    {
-      "threshold": 5,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/evclock5"
-      }
-    },
-    {
-      "threshold": 6,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/evclock6"
-      }
-    },
-    {
-      "threshold": 7,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/evclock7"
-      }
-    },
-    {
-      "threshold": 8,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/evclock8"
-      }
-    },
-    {
-      "threshold": 9,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/evclock9"
-      }
-    },
-    {
-      "threshold": 10,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/evclock10"
-      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "csrp:item/evclockm2"
     }
-  ],
-  "fallback": {
-    "type": "minecraft:model",
-    "model": "csrp:item/evclockm2"
   }
 }

@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/srp_field_guide"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/srp_field_guide"
+  }
 }

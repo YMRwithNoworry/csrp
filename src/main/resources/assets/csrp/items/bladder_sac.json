@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/bladder_sac"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/bladder_sac"
+  }
 }

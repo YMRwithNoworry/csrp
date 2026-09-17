@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/relay_scan_report"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/relay_scan_report"
+  }
 }

@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/bloody_rod"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/bloody_rod"
+  }
 }

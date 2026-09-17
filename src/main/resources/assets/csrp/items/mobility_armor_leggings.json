@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/mobility_armor_leggings"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/mobility_armor_leggings"
+  }
 }

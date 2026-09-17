@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/hardened_bone_handle"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/hardened_bone_handle"
+  }
 }

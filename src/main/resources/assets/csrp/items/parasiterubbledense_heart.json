@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/parasiterubbledense_heart"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/parasiterubbledense_heart"
+  }
 }

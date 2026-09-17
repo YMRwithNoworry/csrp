@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/armor_chest"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/armor_chest"
+  }
 }

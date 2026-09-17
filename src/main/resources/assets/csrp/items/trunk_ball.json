@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/trunk_ball"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/trunk_ball"
+  }
 }

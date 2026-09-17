@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/solid_alveoli_block"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/solid_alveoli_block"
+  }
 }

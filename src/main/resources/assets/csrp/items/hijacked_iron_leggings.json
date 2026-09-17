@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/hijacked_iron_leggings"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/hijacked_iron_leggings"
+  }
 }

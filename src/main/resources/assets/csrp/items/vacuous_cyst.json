@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/vacuous_cyst"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/vacuous_cyst"
+  }
 }

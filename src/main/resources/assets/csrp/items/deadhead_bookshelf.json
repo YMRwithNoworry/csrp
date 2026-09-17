@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/deadhead_bookshelf"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/deadhead_bookshelf"
+  }
 }

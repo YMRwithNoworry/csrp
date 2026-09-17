@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/itemmobspawner_ganro"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/itemmobspawner_ganro"
+  }
 }

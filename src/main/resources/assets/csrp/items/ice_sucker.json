@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/ice_sucker"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/ice_sucker"
+  }
 }

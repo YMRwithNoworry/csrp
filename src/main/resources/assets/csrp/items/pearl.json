@@ -1,31 +1,33 @@
 {
-  "type": "minecraft:range_dispatch",
-  "property": "csrp:pearl_state",
-  "entries": [
-    {
-      "threshold": 1,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/pearl_assimilated"
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "property": "csrp:pearl_state",
+    "entries": [
+      {
+        "threshold": 1,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/pearl_assimilated"
+        }
+      },
+      {
+        "threshold": 2,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/pearl_feral"
+        }
+      },
+      {
+        "threshold": 3,
+        "model": {
+          "type": "minecraft:model",
+          "model": "csrp:item/pearl_assimara"
+        }
       }
-    },
-    {
-      "threshold": 2,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/pearl_feral"
-      }
-    },
-    {
-      "threshold": 3,
-      "model": {
-        "type": "minecraft:model",
-        "model": "csrp:item/pearl_assimara"
-      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "csrp:item/pearl"
     }
-  ],
-  "fallback": {
-    "type": "minecraft:model",
-    "model": "csrp:item/pearl"
   }
 }

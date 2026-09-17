@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/residue_plants"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/residue_plants"
+  }
 }

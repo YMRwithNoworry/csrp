@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/strong_infecting_potion"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/strong_infecting_potion"
+  }
 }

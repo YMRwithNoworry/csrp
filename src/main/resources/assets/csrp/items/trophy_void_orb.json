@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/trophy_void_orb"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/trophy_void_orb"
+  }
 }

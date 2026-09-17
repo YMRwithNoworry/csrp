@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/brusewood_door"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/brusewood_door"
+  }
 }

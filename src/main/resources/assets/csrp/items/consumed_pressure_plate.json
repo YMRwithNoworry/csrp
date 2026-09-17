@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/consumed_pressure_plate"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/consumed_pressure_plate"
+  }
 }

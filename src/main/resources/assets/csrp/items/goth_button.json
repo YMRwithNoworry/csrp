@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/goth_button"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/goth_button"
+  }
 }

@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/anc_dreadnaut_ten_spawn_egg"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/anc_dreadnaut_ten_spawn_egg"
+  }
 }

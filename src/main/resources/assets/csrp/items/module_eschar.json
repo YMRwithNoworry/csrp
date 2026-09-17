@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/module_eschar"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/module_eschar"
+  }
 }

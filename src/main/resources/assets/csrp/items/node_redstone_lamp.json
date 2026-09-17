@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/node_redstone_lamp"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/node_redstone_lamp"
+  }
 }

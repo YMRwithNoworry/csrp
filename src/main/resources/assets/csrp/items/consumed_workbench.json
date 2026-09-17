@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/consumed_workbench"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/consumed_workbench"
+  }
 }

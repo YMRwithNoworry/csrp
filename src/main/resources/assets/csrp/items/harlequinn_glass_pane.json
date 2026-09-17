@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/harlequinn_glass_pane"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/harlequinn_glass_pane"
+  }
 }

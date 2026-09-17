@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/nodecompass_22"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/nodecompass_22"
+  }
 }

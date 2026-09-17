@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/infestedbush_vine"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/infestedbush_vine"
+  }
 }

@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/epitome_infestation_warp_diffuser"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/epitome_infestation_warp_diffuser"
+  }
 }

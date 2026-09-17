@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/axe_sentient"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/axe_sentient"
+  }
 }

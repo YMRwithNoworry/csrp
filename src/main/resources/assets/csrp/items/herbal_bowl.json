@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/herbal_bowl"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/herbal_bowl"
+  }
 }

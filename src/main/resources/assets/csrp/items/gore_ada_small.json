@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/gore_ada_small"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/gore_ada_small"
+  }
 }

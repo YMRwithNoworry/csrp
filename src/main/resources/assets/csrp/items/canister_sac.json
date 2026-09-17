@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/canister_sac"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/canister_sac"
+  }
 }

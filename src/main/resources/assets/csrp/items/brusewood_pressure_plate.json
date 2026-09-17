@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/brusewood_pressure_plate"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/brusewood_pressure_plate"
+  }
 }

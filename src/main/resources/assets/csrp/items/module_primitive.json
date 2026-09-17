@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/module_primitive"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/module_primitive"
+  }
 }

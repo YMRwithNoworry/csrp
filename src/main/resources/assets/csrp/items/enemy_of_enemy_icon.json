@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/enemy_of_enemy_icon"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/enemy_of_enemy_icon"
+  }
 }

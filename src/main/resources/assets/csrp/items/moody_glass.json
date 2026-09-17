@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/moody_glass"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/moody_glass"
+  }
 }

@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/dumpling"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/dumpling"
+  }
 }

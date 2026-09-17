@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/bruisewood_plank_wall"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/bruisewood_plank_wall"
+  }
 }

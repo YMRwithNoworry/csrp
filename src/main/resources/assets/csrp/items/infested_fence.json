@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/infested_fence"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/infested_fence"
+  }
 }

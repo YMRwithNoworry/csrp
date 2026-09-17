@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/lure_six"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/lure_six"
+  }
 }

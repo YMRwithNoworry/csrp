@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/itemthrow"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/itemthrow"
+  }
 }

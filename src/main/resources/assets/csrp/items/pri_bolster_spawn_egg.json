@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/pri_bolster_spawn_egg"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/pri_bolster_spawn_egg"
+  }
 }

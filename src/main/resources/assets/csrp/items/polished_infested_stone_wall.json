@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/polished_infested_stone_wall"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/polished_infested_stone_wall"
+  }
 }

@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/loot_rare"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/loot_rare"
+  }
 }

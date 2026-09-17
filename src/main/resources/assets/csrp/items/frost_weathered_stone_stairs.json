@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/frost_weathered_stone_stairs"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/frost_weathered_stone_stairs"
+  }
 }

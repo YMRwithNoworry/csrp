@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/parasiterubbledense_colony"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/parasiterubbledense_colony"
+  }
 }

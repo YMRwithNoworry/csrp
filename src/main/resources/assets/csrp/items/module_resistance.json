@@ -1,4 +1,6 @@
 {
-  "type": "minecraft:model",
-  "model": "csrp:item/module_resistance"
+  "model": {
+    "type": "minecraft:model",
+    "model": "csrp:item/module_resistance"
+  }
 }
