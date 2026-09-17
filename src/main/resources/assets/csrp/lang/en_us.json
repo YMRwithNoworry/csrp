@@ -1400,11 +1400,14 @@
   "block.csrp.deadhead_grass_short": "Short Deadhead Vines",
   "block.csrp.deadhead_grass_tall": "Long Deadhead Vines",
   "options.csrp.fractured_terrain": "Fractured Terrain",
-  "options.csrp.fractured_terrain.enabled": "Enabled",
-  "options.csrp.fractured_terrain.disabled": "Disabled",
-  "options.csrp.fractured_terrain.description": "Splits the cold star surface into drifting plates and ravines.",
+  "options.csrp.fractured_terrain.enabled": "On",
+  "options.csrp.fractured_terrain.disabled": "Off",
   "options.csrp.mushroom_trees": "Enable Mushroom Trees",
-  "options.csrp.mushroom_trees.enabled": "Enabled",
-  "options.csrp.mushroom_trees.disabled": "Disabled",
-  "options.csrp.mushroom_trees.description": "Allows the cold star to grow its mushroom-shaped deadhead trees."
+  "options.csrp.mushroom_trees.enabled": "On",
+  "options.csrp.mushroom_trees.disabled": "Off",
+  "options.csrp.fractured_terrain.enabled.description": "Violently fractures the terrain into separated plates, deep cuts, and unstable cliffs. Impossible to play on.",
+  "options.csrp.fractured_terrain.disabled.description": "Terrain fracture generation is disabled.",
+  "options.csrp.mushroom_trees.enabled.description": "Allows Deadhead trees to grow on top of existing Deadhead canopies. Stacked trees connect their trunks through intervening leaves, creating towering mushroom-like forests. Warning: this option can significantly increase chunk generation time.",
+  "options.csrp.mushroom_trees.disabled.description": "Uses normal tree placement and avoids spawning trees on leaves, ice, or other invalid surfaces.",
+  "block.csrp.parasitetrunk_deadhead": "Deadhead Trunk"
 }

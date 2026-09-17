@@ -14,6 +14,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -45,19 +46,31 @@ public final class StarBiomeGenerationEvents {
                 || level.dimension() != Level.OVERWORLD) {
             return;
         }
-        SrpStarType starType = SrpWorldData.get(level).starType();
+        SrpWorldData data = SrpWorldData.get(level);
+        SrpStarType starType = data.starType();
         if (starType == SrpStarType.NORMAL) {
             return;
         }
 
         ChunkAccess chunk = event.getChunk();
+        // 1.10.9 hooked PopulateChunkEvent.Pre(HIGHEST); 1.20.1 has no equivalent, so the fractured
+        // terrain pass runs here, before the biome remap (PLAN.md §5.5).
+        if (starType == SrpStarType.COLD && data.fracturedTerrainEnabled()
+                && chunk instanceof LevelChunk levelChunk) {
+            FracturedTerrainHandler.fractureChunk(level, levelChunk);
+        }
         replaceBiomes(level, chunk, starType);
         if (starType == SrpStarType.WARM) {
             dryWarmStarChunk(chunk);
-        } else if (ColdStarVillageGenerator.isVillageChunk(level.getSeed(), chunk.getPos())) {
+        } else {
             int chunkX = chunk.getPos().x;
             int chunkZ = chunk.getPos().z;
-            level.getServer().execute(() -> ColdStarVillageGenerator.generate(level, chunkX, chunkZ));
+            // 1.10.9 hooked DecorateBiomeEvent.Decorate(TREE); the deadhead tree pass is threaded the
+            // same way as the cold star village (server.execute + hasChunk guards).
+            level.getServer().execute(() -> ColdStarTreeHandler.decorate(level, chunkX, chunkZ));
+            if (ColdStarVillageGenerator.isVillageChunk(level.getSeed(), chunk.getPos())) {
+                level.getServer().execute(() -> ColdStarVillageGenerator.generate(level, chunkX, chunkZ));
+            }
         }
         chunk.setUnsaved(true);
     }

@@ -27,6 +27,13 @@ public final class SrpStarWorldEvents {
         }
     }
 
+    @SubscribeEvent
+    public static void playerRespawn(PlayerEvent.PlayerRespawnEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player) {
+            sync(player);
+        }
+    }
+
     public static void sync(ServerPlayer player) {
         SrpStarType starType = SrpWorldData.get(player.serverLevel().getServer().overworld()).starType();
         CsrpNetwork.sendToPlayer(player, new StarWorldStatePayload(starType));

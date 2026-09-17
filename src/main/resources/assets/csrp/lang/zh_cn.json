@@ -1414,11 +1414,14 @@
   "block.csrp.deadhead_grass_short": "枯骸短藤",
   "block.csrp.deadhead_grass_tall": "枯骸长藤",
   "options.csrp.fractured_terrain": "碎裂地形",
-  "options.csrp.fractured_terrain.enabled": "启用",
-  "options.csrp.fractured_terrain.disabled": "禁用",
-  "options.csrp.fractured_terrain.description": "把冷星的表面撕成漂移的板块与沟壑。",
+  "options.csrp.fractured_terrain.enabled": "开",
+  "options.csrp.fractured_terrain.disabled": "关",
   "options.csrp.mushroom_trees": "启用菌形树",
-  "options.csrp.mushroom_trees.enabled": "启用",
-  "options.csrp.mushroom_trees.disabled": "禁用",
-  "options.csrp.mushroom_trees.description": "允许冷星生长菌形的枯骸树。"
+  "options.csrp.mushroom_trees.enabled": "开",
+  "options.csrp.mushroom_trees.disabled": "关",
+  "options.csrp.fractured_terrain.enabled.description": "把地形剧烈撕成彼此分离的板块、深沟与不稳定的悬崖。几乎无法正常游玩。",
+  "options.csrp.fractured_terrain.disabled.description": "关闭地形碎裂生成。",
+  "options.csrp.mushroom_trees.enabled.description": "允许枯骸树在已有枯骸树冠之上生长；叠生的树会穿过夹层叶片连接树干，形成高耸的菌形森林。警告：该选项会显著增加区块生成耗时。",
+  "options.csrp.mushroom_trees.disabled.description": "使用普通树木放置规则，不会在叶片、冰面等无效表面生成树木。",
+  "block.csrp.parasitetrunk_deadhead": "枯骸树干"
 }

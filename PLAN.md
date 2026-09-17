@@ -339,6 +339,7 @@
 | **T25** | ~~`SnowyDirtBlock.SNOWY` 是否已在 `GrassBlock` 的 state definition 内~~ | **【B 已核实并结案】** `GrassBlock extends SpreadingSnowyDirtBlock extends SnowyDirtBlock`，`SnowyDirtBlock` 自带 `createBlockStateDefinition` 注册 `SNOWY` → **`SnowCoveredGrassBlock` 绝不能再次 `builder.add(SNOWY)`**（会重复注册）。C 阶段只需覆写 `getStateForPlacement` 强制 `snowy=true`。 |
 | **T26** | ~~自定义方块能否直接覆写 `codec()`~~ | **【B 已核实并结案】** 官方映射 jar 里 **`Block` 类没有任何 `codec()` 成员**（`javap -p net.minecraft.world.level.block.Block` 无命中）→ 覆写 `codec()` 会直接报「method does not override」。**新方块一律不要写 `codec()`/`MapCodec`**，除非查清 1.20.1 的确切位置。 |
 | **T27** | ~~`DoublePlantBlock.preventCreativeDropFromBottomPart` 能否被非 `DoublePlantBlock` 子类调用~~ | **【B 已核实并结案】** 它是 **`protected static`** 且声明在 `DoublePlantBlock` 上 → **`DeadheadGrassTallBlock`（`extends BushBlock`）无法调用**，C 必须在自己的类里重写等价逻辑（照 `DoublePlantBlock.playerWillDestroy` 的判定：上/下半 + 是否处于创造模式）。 |
+| **T12 / T13 / T21** | ~~相机插值坐标取名 / `POSITION_COLOR_TEX` 字段顺序 / `AbstractTickableSoundInstance` 构造~~ | **【C 片 4 已核实并结案】** 详见后文追加的 **§12.1 V10–V13**：相机用 `Camera.getPosition()`（已按 partialTick 插值）、风向取 `Camera.getYRot()`；`POSITION_COLOR_TEX` 顺序为 **POSITION→COLOR→TEX**；`AbstractTickableSoundInstance(SoundEvent, SoundSource, RandomSource)` + `isStopped()/stop()`。 |
 
 ---
 
@@ -705,6 +706,24 @@ C:\Users\P傲娇34\AppData\Local\Temp\verify1201\official\      # 抽出的官�
 `javap`：`D:\MC\jdk\graalvm-community-openjdk-21.0.2+13.1\bin\javap.exe`
 ForgeFlower：在 Gradle 缓存内（版本 2.0.629.0）
 
+### 10.5 C 阶段（片 3 冷星生态）新增核实结论
+
+全部用 `javap -p -classpath <官方映射 jar>` 真机核实（jar 路径同 §10.4）。
+
+| 结案项 | 结论 | 对片 3 代码的影响 |
+|---|---|---|
+| **T5（高度图）** | `ChunkAccess` 有 `public abstract BlockState setBlockState(BlockPos, BlockState, boolean)`、`public int getHeight(Heightmap.Types, int, int)`、`protected final Map<Heightmap.Types, Heightmap> heightmaps`、`getOrCreateHeightmapUnprimed`/`setHeightmap`；`LevelChunk` 公开覆写 `getBlockState(BlockPos)` 与 `setBlockState(...)` | 1.10.9 `chunk.func_76603_b()`（重算高度图）**无等价调用是安全的**：`LevelChunk.setBlockState` 自带 `heightmaps` 维护。`FracturedTerrainHandler` 用 `chunk.setBlockState(pos, state, false)` + `chunk.getHeight(Heightmap.Types.WORLD_SURFACE, x, z)`（对应 `func_76611_b`） |
+| **T16（旋转锚点）** | `public static BlockPos StructureTemplate.calculateRelativePosition(StructurePlaceSettings, BlockPos)`；`public static BlockPos transform(BlockPos, Mirror, Rotation, BlockPos)`；`public Vec3i getSize()`；`public BoundingBox getBoundingBox(StructurePlaceSettings, BlockPos)` | `DeadheadTreePlacer` 用它替代 1.12.2 `Template.func_186266_a`（锚点 `(4,0,5)` 等经 rotation 后加到 origin） |
+| **T18（BlockState 判定）** | `BlockState` 有 `public boolean isSolid()`、`liquid()`、`blocksMotion()`、`canBeReplaced()`、`isAir()`、`hasBlockEntity()`、`isFaceSturdy(BlockGetter, BlockPos, Direction)` | `ColdStarTreeHandler`/`FracturedTerrainHandler` 的 `Material` 判定按此改写 |
+| **getDrops 覆盖点（新）** | 覆写点是 **`BlockBehaviour.getDrops(BlockState, LootParams.Builder) : List<ItemStack>`**（`BlockBehaviour$BlockStateBase.getDrops(LootParams$Builder)` 无 BlockState 参数）。`Block` 上只有 **`public static`** 的同名便捷方法，**不可覆写** | 无掉落的 `DeadheadGrass*Block`（返回 `List.of()`）与 1/8 掉种子的 `SnowGrassBlock`、掉泥土的 `SnowCoveredGrassBlock` 均按此签名覆写；`LootParams.getLevel()` 返回 `ServerLevel`（可 `getRandom()`） |
+| **`MultiPlayerGameMode` 之外** | `LevelReader` 有 `public default boolean hasChunksAt(BlockPos, BlockPos)`；`LevelAccessor` 有 `public default boolean hasChunk(int, int)`；`Level` **不**直接声明 `hasChunksAt`/`canSeeSky`（后者在 `LevelHeightAccessor` 上） | `DeadheadTreePlacer` 用 `level.hasChunksAt(min, max)`；`SnowGrassEvents` 用 `level.hasChunk(x >> 4, z >> 4)` + `level.canSeeSky(pos)` |
+| **`Block.asItem()`** | `public Item asItem()` 存在于 `net.minecraft.world.level.block.Block` | 剪切/`getCloneItemStack` 直接 `new ItemStack(asItem())`，无需 `Item.BY_BLOCK` |
+| **`Biome`** | `public float getBaseTemperature()`（无参）、`public Precipitation getPrecipitationAt(BlockPos)`、`Precipitation` = `NONE/RAIN/SNOW` | `SnowGrassEvents.canSnowHere` 的 T6 落地 |
+| **`Level` 药丸** | `isRaining()`、`getGameTime()`、`getRainLevel(float)`、`isRainingAt(BlockPos)`、`setBlock(BlockPos,BlockState,int)`、`getBlockState`、`isClientSide()` 全在 `Level` 上；`ServerLevel.players()` 返回 `List<ServerPlayer>` | `SnowGrassEvents.onLevelTick` 的 T17 落地 |
+| **`BlockEvent.EntityPlaceEvent`** | 构造 `(BlockSnapshot, BlockState, Entity)`；`getPlacedBlock()`、`getBlockSnapshot()`、`getEntity()`、`getPlacedAgainst()`；`BlockSnapshot.getReplacedBlock()`（旧状态）与 `getCurrentBlock()` **均存在**，`getState()` 不存在 | `SnowGrassEvents.onSnowPlaced` 读旧状态 |
+| **1.10.9 结构 NBT 实读（新增证据）** | `deadhead_tree_large_1..4.nbt` 的 palette 只含 `csrp:parasitetrunk`（仅 `axis` 属性）、`csrp:deadhead_leaves`、`csrp:deadhead_grass_short`、`csrp:deadhead_grass_tall`（`half`）、`minecraft:snow`、`minecraft:air`。**原 1.12.2 的 `parasitetrunk` 带 `variant=deadhead`，转换时丢失** | 片 3 不能按 `variant` 属性识别死头树干；`ColdStarTreeHandler.isDeadheadTrunk` 退化为「方块就是 `csrp:parasitetrunk`」+ 注册名含 `deadhead` 的兜底（UNVERIFIED 行为近似，已在代码注释标注） |
+| **片 3 构建结果** | `./gradlew.bat build`（GraalVM 21.0.2 + Gradle 8.8，`--no-daemon`）**BUILD SUCCESSFUL**；jar 内新增 `alku/csrp/world/{ColdStarTreeHandler,DeadheadTreePlacer,FracturedTerrainHandler,SnowGrassEvents}.class` 与 4 个 `data/csrp/structures/deadhead_tree_large_*.nbt` | 若 `build/libs/csrp-1.10.9.jar` 被运行中的 JVM 占用，`:jar` 会以 `Could not add file ... to ZIP` 失败（**与源码无关**）→ 先关闭占用进程或删除该 jar 再构建 |
+
 示例命令：
 ```bash
 export JAVA_HOME='D:\MC\jdk\graalvm-community-openjdk-21.0.2+13.1'
@@ -779,3 +798,120 @@ python -c "import zipfile;z=zipfile.ZipFile(r'C:/Users/P傲娇34/.gradle/caches/
 | `src/main/java/alku/csrp/Csrp.java` | C（可选） | 改（+4 个 `output.accept`） |
 | `build/libs/csrp-1.10.9.jar` 及全部构建产物 | D | 构建 |
 | 全仓只读复核 + 跑 §8 验证 | D | 审阅/验证 |
+
+---
+
+## 12. 追加核实记录 — C 阶段（片 4 暴风雪客户端渲染）
+
+> 本节为**纯追加**，不修改上文任何既有结论。全部结论用
+> `javap -p -classpath <官方映射 jar>`（jar 路径同 §10.4）或读**反编译产物**真机核实。
+> 另：Forge 的 `forge-1.20.1-47.4.23-sources.jar` **只含 `net/minecraftforge/**` 与 `patches/`，
+> 不含任何 `net/minecraft/**` 源码**；`FogRenderer`/`LevelRenderer`/`DimensionSpecialEffects` 的
+> 方法体改用 Vineflower 1.10.1 反编译官方映射 jar 得到（**反编译产物，非 Mojang 原文**）。
+
+### 12.1 片 4 落地细节结论（§4.1 未覆盖的部分）
+
+| # | 结论 | 证据 | 对片 4 代码的影响 |
+|---|---|---|---|
+| V1 | `net.minecraftforge.client.IForgeDimensionSpecialEffects` 的**真实包**是 `net.minecraftforge.client.extensions.IForgeDimensionSpecialEffects`（`net.minecraftforge.client.` 下不存在该类） | 【核实】`javap` 前者报「找不到类」，换 `...client.extensions.` 成功 | `DimensionSpecialEffects` 的 `implements` 由 Forge patch 加上；**自有子类无需 import 该接口**，覆写方法直接写 `@Override` |
+| V2 | `DimensionSpecialEffects.OverworldEffects.renderSnowAndRain` **未在类中声明**（`javap -p` 只有 `getBrightnessDependentFogColor`/`isFoggyAt`/`CLOUD_LEVEL`/构造）→ 它是**接口 default 方法**，沿 `VANILLA` 调用返回 `false` | 【核实】`javap -p 'DimensionSpecialEffects$OverworldEffects'` | `return VANILLA.renderSnowAndRain(...)` 在非暴风雪时**必须**返回 `false`，原版雨雪才会继续渲染（S9 回归关键） |
+| V3 | `LevelRenderer.renderSnowAndRain` 的**全部内容**被 `if (!level.effects().renderSnowAndRain(level, ticks, partialTick, lightTexture, camX, camY, camZ)) { ...vanilla... }` 包住（Forge patch 在方法体首行） | 【核实】反编译 `LevelRenderer.java:285-436` + `LevelRenderer.java.patch` | 返回 `true` 即**完全接管**；无需 mixin |
+| V4 | `ForgeHooksClient.dispatchRenderStage(AFTER_WEATHER, ...)` 的**唯一两处调用点**就在 `renderSnowAndRain` 之后（`renderLevel` 的 1503/1512 行），且此时 `posestack` 已 `mulPoseMatrix(相机矩阵)` 且 `applyModelViewMatrix()` | 【核实】反编译 `LevelRenderer.java:1482-1515` | 暴风雪渲染挂 **`RenderLevelStageEvent.Stage.AFTER_WEATHER`** 即可落在原版天气槽位；该 stage 下**模型视图已是相机相对空间**，顶点须减相机坐标，**不可再 translate 相机位置**（会二次平移） |
+| V5 | `FogType` 常量 = `LAVA`/`WATER`/`POWDER_SNOW`/`NONE` | 【核实】`javap -p net.minecraft.world.level.material.FogType` | 片 4 的「水下/岩浆下不改雾」按 WATER/LAVA 判定，并额外排除 POWDER_SNOW |
+| V6 | `ViewportEvent.getPartialTick()` 是 **`double`**；`RenderGuiEvent.getPartialTick()` / `RenderLevelStageEvent.getPartialTick()` 是 **`float`** | 【核实】`javap -p` 三个事件类 | `RenderFog` 里必须 `(float) event.getPartialTick()`（否则编译报「有损转换」） |
+| V7 | `LevelAccessor` **没有** `isClientSide()`（它在 `LevelReader` 上，1.20.1 该接口不是 `LevelAccessor` 的父接口）；`LevelEvent.getLevel()` 返回 `LevelAccessor` | 【核实】`javap -p net.minecraft.world.level.LevelAccessor` 与 `net.minecraftforge.event.level.LevelEvent` | 片 4 的 `LevelEvent.Load/Unload` **不再做客户端判定**，直接调客户端状态机 `reset()`（服务端调用只写几个静态字段，无副作用） |
+| V8 | `AbstractTickableSoundInstance`：`protected AbstractTickableSoundInstance(SoundEvent, SoundSource, RandomSource)`、`public boolean isStopped()`、`protected final void stop()`；字段 `volume/pitch/x/y/z/looping/delay/attenuation/relative` 全在 `AbstractSoundInstance` 上；`SoundInstance.Attenuation` = `NONE`/`LINEAR` | 【核实】`javap -p` | `BlizzardReverseSound` 继承它、写 `this.attenuation = SoundInstance.Attenuation.NONE` 并实现 `tick()`；**结案 T21** |
+| V9 | `AbstractTickableSoundInstance.tick()` 自 1.17 起**必须自己 `stop()`**（无 `donePlaying` 字段语义） | 【核实】javap 无 `donePlaying` 字段 | `tick()` 中玩家失效时调 `stop()`（≈ 1.10.9 的 `field_147668_j = true`） |
+| V10 | `Level` 上：`getRainLevel(float)`、`getGameTime()`、`getDayTime()`、`isRaining()`；**`getSkyDarken()` 在 `Level` 上返回 `int`**，`ClientLevel` 另有 `getSkyDarken(float) -> float` | 【核实】`javap -p net.minecraft.world.level.Level` / `ClientLevel` | 渲染器取日光用 `(float) level.getSkyDarken()`（1.10.9 的 `world.func_72971_b(pt)` 带插值版本在客户端；`ClientLevel.getSkyDarken(float)` 也可用，但为兼容 `Minecraft.level` 的静态类型 `ClientLevel` 与 `Level` 两处，统一改用 `(float) getSkyDarken()`——**UNVERIFIED 近似**，见 §12.3） |
+| V11 | `Entity`：`public double xo/yo/zo`、`yRotO`、`public final double getX()/getY()/getZ()`、`public double getEyeY()`、`public boolean isAlive()` | 【核实】`javap -p` | 相机三插值坐标改用 `Camera.getPosition()`（返回**已按 partialTick 插值**的 `Vec3`）——**结案 T12** |
+| V12 | `Camera`：`getPosition(): Vec3`、`getXRot()`、`getYRot()`、`getEntity()` | 【核实】`javap -p` | 片 4 的风向基准直接取 `event.getCamera().getYRot()`，**无需**手写 `yRotO + wrapDegrees(yRot - yRotO) * pt`（更稳） |
+| V13 | 顶点元素顺序：`DefaultVertexFormat.POSITION_COLOR_TEX` 的写入顺序是 **POSITION → COLOR → TEX**（`BufferBuilder.vertex(...).color(...).uv(...).endVertex()`），与 `POSITION_TEX_COLOR` 相反 | 【核实】反编译 `LevelRenderer.renderSnowAndRain` 的 `PARTICLE` 写法为 `vertex(...).uv(...).color(...).uv2(...).endVertex()`；`PARTICLE` = POSITION_TEX_COLOR_LIGHTMAP | 斜向雪丝用 `POSITION_COLOR_TEX` 并**按 `.vertex().color().uv().endVertex()` 调用**——**结案 T13** |
+| V14 | `Tesselator(int bufferSize)`（第二构造）存在，`Tesselator.end()` 会 `BufferUploader.drawWithShader(buffer.end())` | 【核实】`javap -p com.mojang.blaze3d.vertex.Tesselator` / `LevelRenderer:341,380,428` | 雾壳 8×448×4 = 14336 个顶点，须自建 `new Tesselator(2 * 1024 * 1024)`，不能用默认 2MB 以下容量的单例 |
+| V15 | `RenderSystem`：`blendFunc(SourceFactor, DestFactor)`（**2 参**，非 4 参）、`polygonOffset(float, float)`、`setShaderFogStart/End/Shape/Color`、`depthMask/disableDepthTest/enableDepthTest/disableCull/enableBlend/disableBlend/setShaderTexture(int, ResourceLocation)/setShaderColor` 全部存在 | 【核实】`javap -p com.mojang.blaze3d.systems.RenderSystem` | 1.12.2 的 `GlStateManager.func_187428_a(...)`（4 参）→ `blendFunc(SRC_ALPHA, ONE_MINUS_SRC_ALPHA)` |
+| V16 | 原版雪纹理在客户端 jar 内路径 = `assets/minecraft/textures/environment/snow.png`（354 字节，CRC32 `f204a1f5`） | 【核实】`python zipfile` 读 `client.jar` 并**逐字节校验** | 已按字节复制到 `assets/csrp/textures/environment/snow.png`，渲染器引用 `csrp:textures/environment/snow.png`，**不依赖原版路径被其它 mod 覆盖** |
+| V17 | `Mth`：`clamp(float,float,float)`、`clamp(int,int,int)`、`floor(double)`、`floor(float)` 均存在 | 【核实】`javap -p net.minecraft.util.Mth` | 1.12.2 的 `MathHelper.func_76131_a/func_76125_a/func_76141_d/func_76128_c` 映射为上面这组 |
+
+### 12.2 片 4 构建结果
+
+| 项 | 结果 |
+|---|---|
+| 命令 | `./gradlew.bat build --console=plain --no-daemon --rerun-tasks`（GraalVM 21.0.2，Gradle 8.8） |
+| 结果 | **BUILD SUCCESSFUL in 1m 30s**，退出码 0，**0 个编译错误**（100 条警告全部为既有的 `ResourceLocation(String,String)` `[removal]` 弃用） |
+| jar 内新增 | `alku/csrp/client/weather/{BlizzardClient,BlizzardClientEvents,BlizzardDimensionEffects,BlizzardDimensionEffectsEvents,BlizzardDirectionClient,BlizzardFogRenderer,BlizzardRenderer,BlizzardReverseSound,BlizzardShaderEvents}.class`、`assets/csrp/shaders/post/blizzard_reverse.json`、`assets/csrp/shaders/program/blizzard_reverse.{json,fsh}` |
+| **mixin 数** | **csrp.mixins.json 未改动**（S4 满足：零新增 mixin） |
+
+### 12.3 片 4 的 UNVERIFIED 近似实现清单（需 `runClient` 目视验证）
+
+| # | 近似点 | 原实现 | 片 4 实现 | 风险 |
+|---|---|---|---|---|
+| U1 | 雾壳渲染的**触发条件** | 仅当 OptiFine shader pack 激活（`net.optifine.shaders.Shaders.currentShaderName` 非空且非 `OFF`） | 1.20.1 无 OptiFine 类，判定恒失败 → **只要 `intensity > 0.001` 就渲染** | 低（几何/常数逐字保留；仅"是否显示"的门槛变了，且这正是原作者的意图） |
+| U2 | 日光亮度取值 | `world.func_72971_b(partialTicks)`（带插值的 daylight） | `(float) minecraft.level.getSkyDarken()`（无插值） | 低（每 tick 阶跃，肉眼几乎不可见）；`ClientLevel.getSkyDarken(float)` 可作为 D 阶段的可选改进 |
+| U3 | 雾壳/雪丝的**渲染槽位** | `EntityRenderer.renderRainSnow(RETURN)` 注入 | `RenderLevelStageEvent.Stage.AFTER_WEATHER`（与 `renderSnowAndRain` 同一槽位，已由 V4 核实） | 低 |
+| U4 | 原版雨雪纹理 **V 坐标**超出 1.0 | `buffer.func_187315_a(0, textureOffset)`，`textureOffset = time*0.09 + randomC*8 + lane*0.37` 可达几十 | 逐字保留同一公式 | 低（1.12.2 依赖 GL_REPEAT；1.20.1 默认 `GL_REPEAT`，行为一致。若出现雪花被拉伸，需改 `% 1.0`） |
+| U5 | 斜向雪丝的**象限判断** `if (!(distance > radius))` 与 `randomF > 0.84F` 跳过逻辑 | 逐字照抄 | 逐字照抄（已核实与原文件一致） | 无 |
+| U6 | `blizzard_reverse` post effect 的**着色值** | 1.10.9 **没有**这个 post shader（`blackBlend` 只作用于雪丝与雾壳顶点色） | 新增 fsh：`dim = 1 - blackBlend*0.94` + 轻微偏暖压暗 | 低（纯视觉近似，不影响任何逻辑）；**需目视确认"变黑"观感与 1.10.9 一致** |
+| U7 | 该 post effect 与 `StarWorldShaderEvents` 的 **post chain 互斥** | 无此概念 | `gameRenderer.currentEffect() != null` 时**不抢占**（与 `KirinVhsEffectEvents` 同款礼让） | 低（冷星 shader 开启时 `blackBlend` 只作用于雪丝/雾壳顶点色，绕过 post） |
+| U8 | `BlizzardDirectionClient.setReverseRequested` 的**调用方** | `SRPBlizzardDerivedHandler`（服务端）+ `MsgSyncBlizzardReverse` 包 | **本片不接线**（片 5 负责网络）；方法已按 1.10.9 签名 `public static void setReverseRequested(boolean)` 备好 | 无（片 5 直接调用即可） |
+
+---
+
+## 13. 追加核实记录 — C 阶段（片 5 暴风雪网络同步）
+
+> 本节为**纯追加**，不修改上文任何既有结论。全部结论用
+> `javap -p -classpath <官方映射 jar>`（jar 路径同 §10.4）真机核实；片 5 代码已 `build` 通过。
+
+### 13.1 片 5 落地结论（§3.1 #16/#21/#24 与 §5.4 的细化）
+
+| # | 结论 | 证据 | 对片 5 代码的影响 |
+|---|---|---|---|
+| W1 | **T17 结案**：`TickEvent.PlayerTickEvent` **存在**，`public final Player player;` + 构造 `(Phase, Player)`；`TickEvent.Phase` 只有 `START`/`END`（`phase` 字段是 `public final` 且在父类 `TickEvent` 上） | 【核实】`javap` `TickEvent$PlayerTickEvent` / `TickEvent$Phase` / `TickEvent` | 1.10.9 的 `PlayerTickEvent` 判定 **可逐字保留**，**不需要**退化为 `LevelTickEvent` 遍历 `players()` |
+| W2 | **T17 结案**：`PlayerEvent.PlayerRespawnEvent` 与 `PlayerEvent.PlayerLoggedOutEvent` 均存在且嵌套名与 1.10.9 一致；`PlayerEvent` **自己声明** `public Player getEntity()`（另两个 `getEntity()` 是 `ACC_BRIDGE, ACC_SYNTHETIC` 桥） | 【核实】`javap -p` 三处 + `javap -v` 看 flags | `PlayerEvent` 家族全部直接可用；`instanceof ServerPlayer` 三元判断不变 |
+| W3 | `net.minecraft.world.entity.player.Player` **既不声明** `tickCount` **也不声明** `getUUID()`；二者都在 `Entity` 上（`public int tickCount;` / `public java.util.UUID getUUID();`，经 `LivingEntity` 继承） | 【核实】`javap -p Player` 全量无匹配，`javap -p Entity` 命中 | `player.tickCount % 10` 与 `player.getUUID()` 合法（只是继承而来） |
+| W4 | `Entity.isAlive()` 在 `LivingEntity` 上（`public boolean isAlive();`）；`Entity.distanceToSqr(Entity)` 存在（另有 `(double,double,double)` / `(Vec3)` 重载） | 【核实】`javap -p LivingEntity` / `Entity` | 1.10.9 的 `!entity.field_70128_L` → `candidate.isAlive()`；`getDistanceSq(ent)` → `distanceToSqr(ent)` |
+| W5 | `Level.getEntitiesOfClass(Class, AABB)` **不在 `Level`/`ServerLevel` 上声明**，它是 `net.minecraft.world.level.EntityGetter` 的 **default 方法**（`Level` 经 `LevelAccessor` 继承）；`Level.dimension()` 返回 `ResourceKey<Level>` | 【核实】`javap -p Level` 零匹配 → `javap -p EntityGetter` 命中，`Level` 只声明三个 `getEntities(...)` 重载 | `level.getEntitiesOfClass(DraconiteEntity.class, aabb)` 可编译；返回 `List<DraconiteEntity>`。**泛型不变**：形参须写 `List<? extends LivingEntity>`，不能写 `Iterable<? extends LivingEntity>` |
+| W6 | `AABB.inflate(double)`（单参）与 `inflate(double,double,double)` 都存在且**返回新 `AABB`** | 【核实】`javap -p AABB` | 1.10.9 的 `func_186662_g(100.0)` → `player.getBoundingBox().inflate(100.0)` |
+| W7 | `net.minecraftforge.fml.loading.FMLEnvironment.dist` 是 **`public static final Dist`**，位于 **`fmlloader-1.20.1-47.4.23.jar`**（**不在**官方映射 jar 里）；`LogicalSide` 有 `isServer()` / `isClient()`；`NetworkDirection.getReceptionSide()` 返回 `LogicalSide` | 【核实】`javap` 加 fmlloader/fmlcore/javafmllanguage 到 classpath 后命中 | 见 13.2 的隔离写法 |
+| W8 | `net.minecraftforge.api.distmarker.Dist` / `OnlyIn` **既不在官方映射 jar，也不在 fmlloader/fmlcore/javafmllanguage**，只在 `net.minecraftforge:mergetool:1.1.7:api` 中 | 【核实】扫描 `~/.gradle/caches` 全部 1376 个 jar，`net/minecraftforge/api/distmarker/` 仅命中 4 个 mergetool jar | 用 javap 单独核实 `Dist`/`OnlyIn` 时**必须额外加 mergetool-api jar**，否则会出现「找不到类」的**假阴性** |
+| W9 | `SimpleChannel` 只有**两个** `registerMessage` 重载：5 参（无方向）与 **6 参**（末参 `Optional<NetworkDirection>`）；`NetworkDirection` 恰好 4 个常量（`PLAY_TO_SERVER`/`PLAY_TO_CLIENT`/`LOGIN_TO_SERVER`/`LOGIN_TO_CLIENT`） | 【核实】`javap -p SimpleChannel` / `NetworkDirection` | 片 5 的注册沿用既有 6 参重载 + `Optional.of(NetworkDirection.PLAY_TO_CLIENT)` |
+| W10 | 工程既有 **`@OnlyIn(Dist.CLIENT)` 客户端类被直接引用在 payload 的 `handle` 里**（`ParasiteDeathFxPayload:24` → `ParasiteDeathFxClient`，该类带 `@OnlyIn(Dist.CLIENT)`），且工程 `build` 通过 | 【核实】工程源码 `ParasiteDeathFxPayload.java:3,24` + `ParasiteDeathFxClient.java:13` | 说明**既有隔离手段 = 把引用放进 `enqueueWork` 的 lambda 体内**（惰性解析，类验证期不解析客户端类）。片 5 沿用该手段，**并额外加一层 dist 判定**（见 13.2） |
+
+### 13.2 片 5 对「客户端类在服务端加载隔离」的处理
+
+`BlizzardDirectionClient` 是**纯客户端类**（读 `Minecraft.getInstance()`、`getSoundManager()`），但**未**标 `@OnlyIn`——与既有的
+`StarWorldClientState` / `CompendiumClient` / `CelestialClientState` 同一形态。片 5 采用**三重保险**，逐条说明：
+
+1. **引用只存在于 `enqueueWork` 的 lambda 体内**——这是工程既有手段（W10 证据）。lambda 体在类验证期**不被解析**（`invokestatic` 位于合成方法里，只在首次执行时才链接目标类），所以专用服务器上加载 `BlizzardReversePayload` 本身不会触发 `BlizzardDirectionClient` 的加载。
+2. **`if (FMLEnvironment.dist == Dist.CLIENT)` 显式判定**（W7）——在专用服务器上该分支不可达，调用点永不执行，客户端类**永不被链接**。
+3. **注册方向为 `PLAY_TO_CLIENT`**（W9）——服务端根本不存在该包的处理路径。
+
+> **未采用 `DistExecutor.runWhenOn`**：它在工程里**零使用**（已 grep 全量 `DistExecutor|safeRunWhenOn|PhysicalSide` = **0 命中**），引入会新增一套本工程不存在的范式；而 `FMLEnvironment.dist` 是同一信息的直接读法。若 D 阶段希望完全消除
+> `BlizzardReversePayload` 常量池里对客户端类的引用（当前**未被证实**为必要的加固），可退到二类模型：`handle` 里改为调
+> `alku.csrp.client.weather.BlizzardReverseClient.apply(boolean)`，把 `setReverseRequested` 的调用封进那个客户端类内部。
+
+### 13.3 片 5 构建结果
+
+| 项 | 结果 |
+|---|---|
+| 命令 | `./gradlew.bat build --console=plain`（GraalVM 21.0.2+13.1，Gradle 8.8，daemon pid 8052） |
+| 结果 | **BUILD SUCCESSFUL in 32s**，`8 actionable tasks: 2 executed, 6 up-to-date`，**0 个编译错误** |
+| 证据 | `~/.gradle/daemon/8.8/daemon-8052.out.log`：`Daemon is dispatching the build result: Success`；日志尾部无 `error:`/`What went wrong` |
+| 产物 | `build/libs/csrp-1.10.9.jar`（133,901,591 字节，mtime 21:49:39）+ `build/reobfJar/output.jar` 同尺寸 |
+| 新类已编译 | `build/classes/java/main/alku/csrp/network/BlizzardReversePayload.class`、`build/classes/java/main/alku/csrp/world/SrpBlizzardDerivedHandler.class` |
+
+### 13.4 片 5 与 §7 的文件名差异（**以下文为准**）
+
+§7「片 5」列的是 `src/main/java/alku/csrp/world/BlizzardDerivedHandler.java`，而 §3.1 #21 的目标路径是
+`SrpBlizzardDerivedHandler` 且与 1.10.9 原类 **同名同义**。实际落地采用 **`src/main/java/alku/csrp/world/SrpBlizzardDerivedHandler.java`**
+（与 `SrpStarWorldEvents` / `SrpWorldData` / `SrpCoreSystems` 的既有 `Srp` 前缀一致）。
+
+### 13.5 片 5 的 UNVERIFIED 近似实现清单
+
+| # | 近似点 | 原实现（1.10.9） | 片 5 实现 | 风险 |
+|---|---|---|---|---|
+| U9 | 「Heblu」实体 | `EntityHeblu` | **`DraconiteEntity`**（`alku/csrp/entity/DraconiteEntity.java`，`extends DerivedParasiteEntity`）。工程 **无任何文件名含 `heblu` 的类**（`find src/main/java -iname '*heblu*'` = 0 命中）；§3.1 #21 已核实 Draconite 是 Heblu 的直接 Citadel 移植（`ModelTabula_draconite.java:9` 注释） | 低，但**实体 ≠ 模型**：Draconite 的**行为**是否等价于 1.10.9 的 Heblu 未在本轮核实；若二者在 1.10.9 中并非同一生物，本条的触发条件需 D 阶段复核 |
+| U10 | 「存活」判定 | `!entity.field_70128_L`（1.12.2 的 `isDead` 标志） | `candidate.isAlive()`（W4） | 无（`isAlive()` 即 `!isRemoved() && health > 0`，与 1.10.9 语义一致） |
+| U11 | `LAST_STATE` 缓存的线程模型 | 普通 `HashMap` | **逐字保留普通 `HashMap`**（`PlayerTickEvent.END` 与 `PlayerLoggedOutEvent` 都在服务端主线程） | 低 |
+| U12 | 发包通道 | `SRPNetwork.CHANNEL.sendTo(msg, player)` | `CsrpNetwork.sendToPlayer(player, msg)`（= `PacketDistributor.PLAYER`），与工程其余 9 条包一致 | 无 |
+| U13 | 重生同步的触发次数 | `SRPStarTypeSyncHandler` 的 respawn 分支 | 新增 `PlayerEvent.PlayerRespawnEvent`；**`PlayerLoggedInEvent` 与 respawn 不重叠**（登录才发登录事件），故不会重复发包 | 无 |
+| U14 | 片 6（世界创建 UI 开关） | — | **本片未做**：`SrpDifficultyScreenEvents.java` 正被并行会话修改（属片 3/片 6 的 `world/` + 客户端 UI 重叠区），为避免覆盖未提交改动而按任务许可跳过。落地入口已就绪：`SrpStarWorldSelection.stage(boolean, boolean)` 与 `SrpWorldData.initialize()` 的两个 `consume*OrDefault()` 已存在且已接线 | 无（语言键 4×2 组已在 `en_us.json`/`zh_cn.json` 备好，见 §12 之外的 `options.csrp.{fractured_terrain,mushroom_trees}.*`） |
+

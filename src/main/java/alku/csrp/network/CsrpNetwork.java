@@ -56,6 +56,9 @@ public final class CsrpNetwork {
         CHANNEL.registerMessage(id++, MeteorShakePayload.class, MeteorShakePayload::encode,
                 MeteorShakePayload::decode, MeteorShakePayload::handle,
                 Optional.of(NetworkDirection.PLAY_TO_CLIENT));
+        CHANNEL.registerMessage(id++, BlizzardReversePayload.class, BlizzardReversePayload::encode,
+                BlizzardReversePayload::decode, BlizzardReversePayload::handle,
+                Optional.of(NetworkDirection.PLAY_TO_CLIENT));
     }
 
     public static void sendToPlayer(ServerPlayer player, Object message) {

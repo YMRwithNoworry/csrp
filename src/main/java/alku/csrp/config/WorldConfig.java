@@ -147,6 +147,21 @@ public final class WorldConfig {
         return METEOR_ENABLED.get();
     }
 
+    /**
+     * 冷星碎裂地形的默认值（创建世界界面的开关初值）。
+     *
+     * <p>1.10.9 把这两个开关存在世界存档里（{@code SRPStarWorldData}），只在创建世界时
+     * 选择；本工程同样以 {@link alku.csrp.world.SrpWorldData} 为准，这里只提供界面默认值。
+     */
+    public static boolean fracturedTerrainEnabled() {
+        return true;
+    }
+
+    /** 冷星菌形树的默认值；含义见 {@link #fracturedTerrainEnabled()}。 */
+    public static boolean mushroomTreesEnabled() {
+        return true;
+    }
+
     public static int meteorCheckInterval() {
         return METEOR_CHECK_INTERVAL.get();
     }

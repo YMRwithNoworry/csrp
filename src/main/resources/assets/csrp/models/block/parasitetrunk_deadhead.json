@@ -1,5 +1,5 @@
 {
-  "parent": "block/cube_column",
+  "parent": "minecraft:block/cube_column",
   "textures": {
     "particle": "csrp:blocks/parasitetrunk_deadhead",
     "end": "csrp:blocks/parasitetrunk_deadhead",

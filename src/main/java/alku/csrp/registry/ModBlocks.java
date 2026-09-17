@@ -14,6 +14,7 @@ import alku.csrp.block.DeadBloodBlock;
 import alku.csrp.block.DeadheadGrassShortBlock;
 import alku.csrp.block.DeadheadGrassTallBlock;
 import alku.csrp.block.DeadheadLeavesBlock;
+import alku.csrp.block.DeadheadTrunkBlock;
 import alku.csrp.block.SnowCoveredGrassBlock;
 import alku.csrp.block.SnowShortGrassBlock;
 import alku.csrp.block.SnowTallGrassBlock;
@@ -630,6 +631,11 @@ public final class ModBlocks {
     public static final RegistryObject<RotatedPillarBlock> PARASITETRUNK_PLANT = BLOCKS.register(
             "parasitetrunk_plant", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
+    /** 死头树干：1.10.9 {@code parasitetrunk} 的 {@code variant=deadhead} 形态，独立方块承载
+     * （理由见 {@link alku.csrp.block.DeadheadTrunkBlock}）。枯骸树结构 NBT 直接引用本 id。 */
+    public static final RegistryObject<DeadheadTrunkBlock> PARASITETRUNK_DEADHEAD = BLOCKS.register(
+            "parasitetrunk_deadhead", () -> new DeadheadTrunkBlock(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_BROWN).strength(1.6F).sound(SoundType.WOOD)));
     public static final RegistryObject<ParasiteThinBlock> PARASITETHIN = BLOCKS.register(
             "parasitethin", () -> new ParasiteThinBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED).strength(2.2F).sound(SoundType.WOOD)));

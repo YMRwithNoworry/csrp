@@ -39,6 +39,7 @@ TARGET_DATA_VERSION = 3465  # 1.20.1
 ALLOWED = {
     "csrp:deadhead_leaves": {"snowy"},
     "csrp:parasitetrunk": {"axis"},
+    "csrp:parasitetrunk_deadhead": {"axis"},
     "csrp:deadhead_grass_short": {"texture"},
     "csrp:deadhead_grass_tall": {"half"},
     "csrp:snow_short_grass": set(),
@@ -50,7 +51,16 @@ VALUE_MAP = {("csrp:deadhead_grass_tall", "part", "top"): ("half", "upper"),
              ("csrp:deadhead_grass_tall", "part", "bottom"): ("half", "lower"),
              ("csrp:deadhead_grass_tall", "half", "top"): ("half", "upper"),
              ("csrp:deadhead_grass_tall", "half", "bottom"): ("half", "lower")}
-NAME_MAP = {"minecraft:snow_layer": "minecraft:snow"}
+NAME_MAP = {
+    "minecraft:snow_layer": "minecraft:snow",
+    # 1.10.9 的死头树干是 `parasitetrunk` + `variant=deadhead`。本工程不给 parasitetrunk
+    # 加 `variant` 属性（会把它的状态空间从 3 扩到 15，连带 parasitetrunk_ball / _plant /
+    # _treestairs 等 5 个既有 blockstate 都要补组合，否则 missing model），改用独立方块
+    # `csrp:parasitetrunk_deadhead` 承载；稀有纹理由 blockstate 的 19:1 权重表达。
+    # 已经转换过的文件里名字已是 csrp:...，两条映射保证脚本可重复运行。
+    "srparasites:parasitetrunk": "csrp:parasitetrunk_deadhead",
+    "csrp:parasitetrunk": "csrp:parasitetrunk_deadhead",
+}
 
 # ---------------------------------------------------------------- NBT 读写
 

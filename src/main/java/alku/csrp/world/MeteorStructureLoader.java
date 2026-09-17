@@ -61,7 +61,7 @@ final class MeteorStructureLoader {
         return template.placeInWorld(level, origin, origin, settings, random, Block.UPDATE_CLIENTS);
     }
 
-    private static StructureTemplate load(ServerLevel level, String name) {
+    static StructureTemplate load(ServerLevel level, String name) {
         ResourceLocation location = new ResourceLocation(Csrp.MODID, "structures/" + name + ".nbt");
         Optional<Resource> resource = level.getServer().getResourceManager().getResource(location);
         if (resource.isEmpty()) {

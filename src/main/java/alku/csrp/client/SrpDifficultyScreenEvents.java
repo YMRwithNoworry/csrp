@@ -7,6 +7,7 @@ import alku.csrp.world.SrpDifficultySelection;
 import alku.csrp.world.SrpMeteorSelection;
 import alku.csrp.world.SrpStarType;
 import alku.csrp.world.SrpStarTypeSelection;
+import alku.csrp.world.SrpStarWorldSelection;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -28,6 +29,8 @@ public final class SrpDifficultyScreenEvents {
     private static final Map<CreateWorldScreen, SrpDifficulty> SELECTIONS = new WeakHashMap<>();
     private static final Map<CreateWorldScreen, SrpStarType> STAR_SELECTIONS = new WeakHashMap<>();
     private static final Map<CreateWorldScreen, Boolean> METEOR_SELECTIONS = new WeakHashMap<>();
+    private static final Map<CreateWorldScreen, Boolean> FRACTURED_SELECTIONS = new WeakHashMap<>();
+    private static final Map<CreateWorldScreen, Boolean> MUSHROOM_SELECTIONS = new WeakHashMap<>();
 
     private SrpDifficultyScreenEvents() {
     }
@@ -80,6 +83,41 @@ public final class SrpDifficultyScreenEvents {
                         });
         updateMeteorTooltip(meteorSelector, meteorsEnabled);
         event.addListener(meteorSelector);
+
+        // 两个世界生成开关（1.10.9 的 fractured terrain / mushroom trees）并排放在最下面一排，
+        // 单选按钮本身按整宽居中会超出屏幕，所以拆成左右两半。
+        int gap = 6;
+        int halfWidth = (width - gap) / 2;
+        int leftX = (screen.width - width) / 2;
+        int toggleY = screen.height - 124;
+
+        boolean fracturedEnabled = FRACTURED_SELECTIONS.getOrDefault(screen, WorldConfig.fracturedTerrainEnabled());
+        CycleButton<Boolean> fracturedSelector = CycleButton.<Boolean>builder(enabled -> Component.translatable(
+                        enabled ? "options.csrp.fractured_terrain.enabled" : "options.csrp.fractured_terrain.disabled"))
+                .withValues(List.of(Boolean.TRUE, Boolean.FALSE))
+                .withInitialValue(fracturedEnabled)
+                .create(leftX, toggleY, halfWidth, 20,
+                        Component.translatable("options.csrp.fractured_terrain"),
+                        (button, enabled) -> {
+                            FRACTURED_SELECTIONS.put(screen, enabled);
+                            updateToggleTooltip(button, enabled, "options.csrp.fractured_terrain");
+                        });
+        updateToggleTooltip(fracturedSelector, fracturedEnabled, "options.csrp.fractured_terrain");
+        event.addListener(fracturedSelector);
+
+        boolean mushroomEnabled = MUSHROOM_SELECTIONS.getOrDefault(screen, WorldConfig.mushroomTreesEnabled());
+        CycleButton<Boolean> mushroomSelector = CycleButton.<Boolean>builder(enabled -> Component.translatable(
+                        enabled ? "options.csrp.mushroom_trees.enabled" : "options.csrp.mushroom_trees.disabled"))
+                .withValues(List.of(Boolean.TRUE, Boolean.FALSE))
+                .withInitialValue(mushroomEnabled)
+                .create(leftX + halfWidth + gap, toggleY, halfWidth, 20,
+                        Component.translatable("options.csrp.mushroom_trees"),
+                        (button, enabled) -> {
+                            MUSHROOM_SELECTIONS.put(screen, enabled);
+                            updateToggleTooltip(button, enabled, "options.csrp.mushroom_trees");
+                        });
+        updateToggleTooltip(mushroomSelector, mushroomEnabled, "options.csrp.mushroom_trees");
+        event.addListener(mushroomSelector);
     }
 
     @SubscribeEvent
@@ -89,17 +127,18 @@ public final class SrpDifficultyScreenEvents {
             return;
         }
         int width = Math.min(180, Math.max(120, screen.width - 20));
-        int x = (screen.width - width) / 2 - 38;
-        if (x >= 2) {
+        int x = (screen.width - width) / 2 - 38;        if (x >= 2) {
             event.getGuiGraphics().blit(METEOR_ORBIT, x, screen.height - 106,
-                    0.0F, 0.0F, 32, 32, 32, 32);
-        }
+                    0.0F, 0.0F, 32, 32, 32, 32);        }
     }
 
     public static void stageSelection(CreateWorldScreen screen) {
         SrpDifficultySelection.stage(SELECTIONS.getOrDefault(screen, SrpDifficulty.NORMAL));
         SrpStarTypeSelection.stage(STAR_SELECTIONS.getOrDefault(screen, SrpStarType.NORMAL));
         SrpMeteorSelection.stage(METEOR_SELECTIONS.getOrDefault(screen, WorldConfig.meteorsEnabled()));
+        SrpStarWorldSelection.stage(
+                FRACTURED_SELECTIONS.getOrDefault(screen, WorldConfig.fracturedTerrainEnabled()),
+                MUSHROOM_SELECTIONS.getOrDefault(screen, WorldConfig.mushroomTreesEnabled()));
     }
 
     private static void updateTooltip(CycleButton<SrpDifficulty> button, SrpDifficulty difficulty) {
@@ -114,5 +153,11 @@ public final class SrpDifficultyScreenEvents {
         button.setTooltip(Tooltip.create(Component.translatable(enabled
                 ? "options.csrp.meteors.enabled.description"
                 : "options.csrp.meteors.disabled.description")));
+    }
+
+    /** 供 fractured_terrain / mushroom_trees 两个开关复用：描述键由 base + enabled|disabled + .description 组成。 */
+    private static void updateToggleTooltip(CycleButton<Boolean> button, boolean enabled, String baseKey) {
+        button.setTooltip(Tooltip.create(Component.translatable(
+                baseKey + (enabled ? ".enabled.description" : ".disabled.description"))));
     }
 }
