@@ -6,15 +6,9 @@
     "   "
   ],
   "key": {
-    "A": {
-      "item": "csrp:ada_summoner_drop"
-    },
-    "B": {
-      "item": "csrp:ada_manducater_drop"
-    },
-    "C": {
-      "item": "csrp:assimilated_flesh"
-    }
+    "A": "csrp:ada_summoner_drop",
+    "B": "csrp:ada_manducater_drop",
+    "C": "csrp:assimilated_flesh"
   },
   "result": {
     "count": 1,

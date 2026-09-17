@@ -1,9 +1,7 @@
 {
   "type": "minecraft:smelting",
   "category": "blocks",
-  "ingredient": {
-    "item": "csrp:infested_coal_ore"
-  },
+  "ingredient": "csrp:infested_coal_ore",
   "result": {
     "id": "minecraft:coal",
     "count": 4

@@ -1,12 +1,10 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "csrp:ada_vermin_drop"
-    }
+    "csrp:ada_vermin_drop"
   ],
   "result": {
-    "item": "minecraft:slime_ball",
+    "id": "minecraft:slime_ball",
     "count": 1
   }
 }

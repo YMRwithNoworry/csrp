@@ -1,9 +1,7 @@
 {
   "type": "minecraft:smelting",
   "category": "misc",
-  "ingredient": {
-    "item": "csrp:bloody_bone"
-  },
+  "ingredient": "csrp:bloody_bone",
   "result": {
     "id": "minecraft:bone_meal"
   },

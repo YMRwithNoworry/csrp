@@ -5,13 +5,10 @@
     "CCC"
   ],
   "key": {
-    "C": {
-      "item": "csrp:parasiterubble",
-      "data": 5
-    }
+    "C": "csrp:parasiterubble"
   },
   "result": {
-    "item": "csrp:parasiterubble_bricks_wall",
+    "id": "csrp:parasiterubble_bricks_wall",
     "count": 6
   }
 }

@@ -60,7 +60,7 @@
         },
         {
           "type": "item",
-          "name": "minecraft:fireworks",
+          "name": "minecraft:firework_rocket",
           "weight": 1
         }
       ]

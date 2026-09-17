@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "food",
+  "category": "misc",
   "ingredients": [
-    { "item": "csrp:polluted_herbal_bowl" },
-    { "item": "minecraft:milk_bucket" }
+    "csrp:polluted_herbal_bowl",
+    "minecraft:milk_bucket"
   ],
   "result": { "count": 1, "id": "csrp:herbal_bowl" }
 }

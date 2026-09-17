@@ -3,12 +3,12 @@
   "category": "misc",
   "pattern": ["ILG", "LCL", "OLD"],
   "key": {
-    "I": { "item": "minecraft:iron_ingot" },
-    "L": { "item": "csrp:lurecomponent3" },
-    "G": { "item": "minecraft:gold_ingot" },
-    "C": { "item": "minecraft:compass" },
-    "O": { "item": "minecraft:coal" },
-    "D": { "item": "minecraft:diamond" }
+    "I": "minecraft:iron_ingot",
+    "L": "csrp:lurecomponent3",
+    "G": "minecraft:gold_ingot",
+    "C": "minecraft:compass",
+    "O": "minecraft:coal",
+    "D": "minecraft:diamond"
   },
   "result": { "count": 1, "id": "csrp:evolution_device" }
 }

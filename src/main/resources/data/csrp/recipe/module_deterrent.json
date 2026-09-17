@@ -7,15 +7,9 @@
     " X "
   ],
   "key": {
-    "X": {
-      "item": "csrp:infestedstain"
-    },
-    "Y": {
-      "item": "csrp:lurecomponent2"
-    },
-    "M": {
-      "item": "csrp:module_base"
-    }
+    "X": "csrp:infestedstain",
+    "Y": "csrp:lurecomponent2",
+    "M": "csrp:module_base"
   },
   "result": {
     "count": 1,

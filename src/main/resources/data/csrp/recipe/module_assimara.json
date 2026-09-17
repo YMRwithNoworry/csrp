@@ -7,15 +7,9 @@
     " E "
   ],
   "key": {
-    "A": {
-      "item": "csrp:module_assimilated"
-    },
-    "M": {
-      "item": "csrp:hijacked_drop"
-    },
-    "E": {
-      "item": "csrp:fishlin"
-    }
+    "A": "csrp:module_assimilated",
+    "M": "csrp:hijacked_drop",
+    "E": "csrp:fishlin"
   },
   "result": {
     "count": 1,

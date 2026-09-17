@@ -5,9 +5,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "csrp:infested_planks"
-    }
+    "#": "csrp:infested_planks"
   },
   "result": {
     "id": "csrp:infested_plank_slab",

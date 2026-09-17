@@ -1,12 +1,12 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "food",
+  "category": "misc",
   "pattern": ["WWW", "SMS", " B "],
   "key": {
-    "W": {"item": "minecraft:wheat"},
-    "S": {"item": "minecraft:sugar"},
-    "M": {"tag": "csrp:dumpling_fillings"},
-    "B": {"item": "minecraft:water_bucket"}
+    "W": "minecraft:wheat",
+    "S": "minecraft:sugar",
+    "M": "#csrp:dumpling_fillings",
+    "B": "minecraft:water_bucket"
   },
   "result": {"count": 4, "id": "csrp:dumpling"}
 }

@@ -5,14 +5,10 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "csrp:parasiterubble",
-      "data": 13
-    }
+    "#": "csrp:parasiterubble"
   },
   "result": {
-    "item": "csrp:parasiterubble",
-    "data": 9,
+    "id": "csrp:parasiterubble",
     "count": 4
   }
 }

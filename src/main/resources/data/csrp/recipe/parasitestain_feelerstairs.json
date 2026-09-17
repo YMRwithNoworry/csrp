@@ -6,13 +6,10 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "csrp:parasitestain",
-      "data": 3
-    }
+    "#": "csrp:parasitestain"
   },
   "result": {
-    "item": "csrp:parasitestain_feelerstairs",
+    "id": "csrp:parasitestain_feelerstairs",
     "count": 4
   }
 }

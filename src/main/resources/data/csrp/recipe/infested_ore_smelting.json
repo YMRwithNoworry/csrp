@@ -1,9 +1,7 @@
 {
   "type": "minecraft:smelting",
   "category": "blocks",
-  "ingredient": {
-    "item": "csrp:infested_ore"
-  },
+  "ingredient": "csrp:infested_ore",
   "result": {
     "id": "csrp:lurecomponent6"
   },

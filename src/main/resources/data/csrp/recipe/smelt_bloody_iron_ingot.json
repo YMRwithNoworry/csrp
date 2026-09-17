@@ -1,9 +1,7 @@
 {
   "type": "minecraft:smelting",
   "category": "misc",
-  "ingredient": {
-    "item": "csrp:bloody_iron_ingot"
-  },
+  "ingredient": "csrp:bloody_iron_ingot",
   "result": {
     "id": "minecraft:iron_ingot"
   },

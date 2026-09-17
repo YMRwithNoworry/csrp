@@ -6,12 +6,10 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "csrp:brusewood_planks"
-    }
+    "#": "csrp:brusewood_planks"
   },
   "result": {
-    "item": "csrp:brusewood_door",
+    "id": "csrp:brusewood_door",
     "count": 3
   }
 }

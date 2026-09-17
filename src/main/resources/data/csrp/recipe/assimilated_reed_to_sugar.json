@@ -1,15 +1,11 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "csrp:assimilated_reed"
-    },
-    {
-      "item": "csrp:assimilated_reed"
-    }
+    "csrp:assimilated_reed",
+    "csrp:assimilated_reed"
   ],
   "result": {
-    "item": "minecraft:sugar",
+    "id": "minecraft:sugar",
     "count": 1
   }
 }

@@ -5,13 +5,10 @@
     "#"
   ],
   "key": {
-    "#": {
-      "type": "forge:ore_dict",
-      "ore": "plankParasiteWood"
-    }
+    "#": ["csrp:parasiteplank_deadhead","csrp:infested_planks","csrp:cooked_flesh_planks","csrp:flesh_planks","csrp:goth_planks","csrp:brusewood_planks","csrp:consumed_planks"]
   },
   "result": {
-    "item": "minecraft:stick",
+    "id": "minecraft:stick",
     "count": 4
   }
 }

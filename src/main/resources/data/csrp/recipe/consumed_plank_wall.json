@@ -1,16 +1,14 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "XXX",
     "XXX"
   ],
   "key": {
-    "X": {
-      "item": "csrp:consumed_planks"
-    }
+    "X": "csrp:consumed_planks"
   },
   "result": {
-    "item": "csrp:consumed_plank_wall",
+    "id": "csrp:consumed_plank_wall",
     "count": 6
   }
 }

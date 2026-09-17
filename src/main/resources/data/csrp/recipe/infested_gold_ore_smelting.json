@@ -1,9 +1,7 @@
 {
   "type": "minecraft:smelting",
   "category": "blocks",
-  "ingredient": {
-    "item": "csrp:infested_gold_ore"
-  },
+  "ingredient": "csrp:infested_gold_ore",
   "result": {
     "id": "minecraft:gold_ingot",
     "count": 2

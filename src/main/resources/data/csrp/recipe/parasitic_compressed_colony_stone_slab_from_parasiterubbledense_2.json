@@ -4,14 +4,10 @@
     "XXX"
   ],
   "key": {
-    "X": {
-      "item": "csrp:parasiterubbledense",
-      "data": 2
-    }
+    "X": "csrp:parasiterubbledense"
   },
   "result": {
-    "item": "csrp:parasitic_compressed_colony_stone_slab",
-    "data": 0,
+    "id": "csrp:parasitic_compressed_colony_stone_slab",
     "count": 6
   }
 }

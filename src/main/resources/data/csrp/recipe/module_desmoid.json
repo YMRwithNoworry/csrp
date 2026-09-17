@@ -7,21 +7,11 @@
     "XYX"
   ],
   "key": {
-    "X": {
-      "item": "minecraft:iron_ingot"
-    },
-    "Y": {
-      "item": "csrp:organ_synth"
-    },
-    "A": {
-      "item": "csrp:module_inborn"
-    },
-    "B": {
-      "item": "csrp:module_assimara"
-    },
-    "C": {
-      "item": "csrp:module_hijacked"
-    }
+    "X": "minecraft:iron_ingot",
+    "Y": "csrp:organ_synth",
+    "A": "csrp:module_inborn",
+    "B": "csrp:module_assimara",
+    "C": "csrp:module_hijacked"
   },
   "result": {
     "count": 1,

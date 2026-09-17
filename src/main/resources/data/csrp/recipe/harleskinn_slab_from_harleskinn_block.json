@@ -4,13 +4,10 @@
     "XXX"
   ],
   "key": {
-    "X": {
-      "item": "csrp:harleskinn_block"
-    }
+    "X": "csrp:harleskinn_block"
   },
   "result": {
-    "item": "csrp:harleskinn_slab",
-    "data": 0,
+    "id": "csrp:harleskinn_slab",
     "count": 6
   }
 }

@@ -4,14 +4,10 @@
     "XXX"
   ],
   "key": {
-    "X": {
-      "item": "csrp:parasiterubble",
-      "data": 6
-    }
+    "X": "csrp:parasiterubble"
   },
   "result": {
-    "item": "csrp:parasiterubbleslabhalf",
-    "data": 6,
+    "id": "csrp:parasiterubbleslabhalf",
     "count": 6
   }
 }

@@ -6,12 +6,8 @@
     " S"
   ],
   "key": {
-    "X": {
-      "item": "csrp:bloody_iron_ingot"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "X": "csrp:bloody_iron_ingot",
+    "S": "minecraft:stick"
   },
   "result": {
     "id": "csrp:hijacked_iron_hoe",

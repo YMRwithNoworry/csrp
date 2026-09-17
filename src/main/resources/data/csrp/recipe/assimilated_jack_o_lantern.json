@@ -1,12 +1,8 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "csrp:assimilated_pumpkin"
-    },
-    {
-      "item": "minecraft:torch"
-    }
+    "csrp:assimilated_pumpkin",
+    "minecraft:torch"
   ],
   "result": {
     "id": "csrp:assimilated_jack_o_lantern"

@@ -1,5 +1,5 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "mirrored": true,
   "pattern": [
     "X  ",
@@ -7,12 +7,10 @@
     "XXX"
   ],
   "key": {
-    "X": {
-      "item": "csrp:infestedstain"
-    }
+    "X": "csrp:infestedstain"
   },
   "result": {
-    "item": "csrp:parasitestain_dirtstairs",
+    "id": "csrp:parasitestain_dirtstairs",
     "count": 4
   }
 }

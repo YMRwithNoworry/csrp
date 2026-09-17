@@ -1,16 +1,14 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "XXX",
     "XXX"
   ],
   "key": {
-    "X": {
-      "item": "csrp:brusewood_planks"
-    }
+    "X": "csrp:brusewood_planks"
   },
   "result": {
-    "item": "csrp:bruisewood_plank_wall",
+    "id": "csrp:bruisewood_plank_wall",
     "count": 6
   }
 }

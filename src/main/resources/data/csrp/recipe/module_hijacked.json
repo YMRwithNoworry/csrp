@@ -7,15 +7,9 @@
     " X "
   ],
   "key": {
-    "X": {
-      "item": "csrp:hijacked_drop"
-    },
-    "Y": {
-      "item": "csrp:bloody_iron_ingot"
-    },
-    "M": {
-      "item": "csrp:module_base"
-    }
+    "X": "csrp:hijacked_drop",
+    "Y": "csrp:bloody_iron_ingot",
+    "M": "csrp:module_base"
   },
   "result": {
     "count": 1,

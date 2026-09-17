@@ -5,9 +5,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "csrp:infested_cobblestone"
-    }
+    "#": "csrp:infested_cobblestone"
   },
   "result": {
     "id": "csrp:infested_cobblestone_slab",

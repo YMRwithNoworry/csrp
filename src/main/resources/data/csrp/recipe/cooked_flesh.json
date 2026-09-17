@@ -1,9 +1,7 @@
 {
   "type": "minecraft:smelting",
   "category": "food",
-  "ingredient": {
-    "item": "csrp:assimilated_flesh"
-  },
+  "ingredient": "csrp:assimilated_flesh",
   "result": {
     "id": "csrp:cooked_flesh"
   },

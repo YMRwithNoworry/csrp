@@ -2,6 +2,6 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "pattern": ["##", "##"],
-  "key": {"#": {"item": "csrp:residue_block"}},
+  "key": {"#": "csrp:residue_block"},
   "result": {"id": "csrp:residue_bricks", "count": 4}
 }

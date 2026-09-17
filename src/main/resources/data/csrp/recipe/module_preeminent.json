@@ -7,15 +7,9 @@
     " Y "
   ],
   "key": {
-    "X": {
-      "item": "csrp:living_core"
-    },
-    "Y": {
-      "item": "csrp:lurecomponent6"
-    },
-    "M": {
-      "item": "csrp:module_base"
-    }
+    "X": "csrp:living_core",
+    "Y": "csrp:lurecomponent6",
+    "M": "csrp:module_base"
   },
   "result": {
     "count": 1,

@@ -2,8 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "category": "building",
   "ingredients": [
-    {"item": "minecraft:terracotta"},
-    {"item": "csrp:infestedstain"}
+    "minecraft:terracotta",
+    "csrp:infestedstain"
   ],
   "result": {"id": "csrp:infested_terracotta", "count": 2}
 }

@@ -6,18 +6,10 @@
     "ED "
   ],
   "key": {
-    "B": {
-      "item": "csrp:infectious_blade_fragment"
-    },
-    "C": {
-      "item": "csrp:living_core"
-    },
-    "D": {
-      "item": "csrp:vile_shell"
-    },
-    "E": {
-      "item": "csrp:hardened_bone_handle"
-    }
+    "B": "csrp:infectious_blade_fragment",
+    "C": "csrp:living_core",
+    "D": "csrp:vile_shell",
+    "E": "csrp:hardened_bone_handle"
   },
   "result": {
     "count": 1,

@@ -6,12 +6,10 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "csrp:goth_planks"
-    }
+    "#": "csrp:goth_planks"
   },
   "result": {
-    "item": "csrp:goth_door",
+    "id": "csrp:goth_door",
     "count": 3
   }
 }

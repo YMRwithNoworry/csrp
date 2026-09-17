@@ -1,19 +1,15 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "PSP",
     "PSP"
   ],
   "key": {
-    "P": {
-      "item": "csrp:brusewood_planks"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "P": "csrp:brusewood_planks",
+    "S": "minecraft:stick"
   },
   "result": {
-    "item": "csrp:bruisewood_fence",
+    "id": "csrp:bruisewood_fence",
     "count": 3
   }
 }

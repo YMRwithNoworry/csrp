@@ -7,21 +7,11 @@
     "CTC"
   ],
   "key": {
-    "I": {
-      "item": "minecraft:iron_ingot"
-    },
-    "S": {
-      "item": "minecraft:stone_bricks"
-    },
-    "B": {
-      "item": "minecraft:iron_bars"
-    },
-    "C": {
-      "item": "minecraft:coal_block"
-    },
-    "T": {
-      "item": "csrp:tissue_spike"
-    }
+    "I": "minecraft:iron_ingot",
+    "S": "minecraft:stone_bricks",
+    "B": "minecraft:iron_bars",
+    "C": "minecraft:coal_block",
+    "T": "csrp:tissue_spike"
   },
   "result": {
     "id": "csrp:infuser_furnace"

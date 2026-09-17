@@ -3,6 +3,6 @@
   "category": "misc",
   "cookingtime": 200,
   "experience": 0.1,
-  "ingredient": {"item": "csrp:parasiterubble_stonedebris"},
+  "ingredient": "csrp:parasiterubble_stonedebris",
   "result": {"id": "csrp:hive_scrap"}
 }

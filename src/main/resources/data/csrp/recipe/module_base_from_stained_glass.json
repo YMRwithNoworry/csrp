@@ -6,15 +6,9 @@
     "ZXZ"
   ],
   "key": {
-    "Z": {
-      "tag": "csrp:stained_glass"
-    },
-    "X": {
-      "item": "csrp:tissue_spike"
-    },
-    "Y": {
-      "item": "csrp:organ_synth"
-    }
+    "Z": "#csrp:stained_glass",
+    "X": "csrp:tissue_spike",
+    "Y": "csrp:organ_synth"
   },
   "result": {
     "count": 1,

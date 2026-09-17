@@ -5,16 +5,11 @@
     "XSX"
   ],
   "key": {
-    "X": {
-      "item": "csrp:flesh_planks"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "X": "csrp:flesh_planks",
+    "S": "minecraft:stick"
   },
   "result": {
-    "item": "csrp:flesh_fence",
-    "data": 0,
+    "id": "csrp:flesh_fence",
     "count": 3
   }
 }

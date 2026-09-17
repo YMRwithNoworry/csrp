@@ -6,13 +6,10 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "csrp:parasiterubble",
-      "data": 4
-    }
+    "#": "csrp:parasiterubble"
   },
   "result": {
-    "item": "csrp:parasiterubble_woodstairs",
+    "id": "csrp:parasiterubble_woodstairs",
     "count": 4
   }
 }

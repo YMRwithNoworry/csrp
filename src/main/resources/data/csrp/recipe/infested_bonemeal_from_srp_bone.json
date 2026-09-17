@@ -1,9 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "csrp:bone"
-    }
+    "csrp:bone"
   ],
   "result": {
     "count": 8,

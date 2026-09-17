@@ -6,16 +6,11 @@
     "CCC"
   ],
   "key": {
-    "A": {
-      "item": "csrp:lurecomponent3"
-    },
-    "C": {
-      "item": "minecraft:cobblestone"
-    }
+    "A": "csrp:lurecomponent3",
+    "C": "minecraft:cobblestone"
   },
   "result": {
-    "item": "csrp:evolutionlure",
-    "data": 2,
+    "id": "csrp:evolutionlure_three",
     "count": 1
   }
 }

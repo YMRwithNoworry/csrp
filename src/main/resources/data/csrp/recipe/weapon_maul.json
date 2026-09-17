@@ -6,18 +6,10 @@
     "Z  "
   ],
   "key": {
-    "X": {
-      "item": "csrp:living_core"
-    },
-    "Y": {
-      "item": "csrp:infectious_blade_fragment"
-    },
-    "Z": {
-      "item": "csrp:vile_shell"
-    },
-    "R": {
-      "item": "csrp:hardened_bone_handle"
-    }
+    "X": "csrp:living_core",
+    "Y": "csrp:infectious_blade_fragment",
+    "Z": "csrp:vile_shell",
+    "R": "csrp:hardened_bone_handle"
   },
   "result": {
     "count": 1,

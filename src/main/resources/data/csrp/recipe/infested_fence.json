@@ -1,19 +1,15 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "PSP",
     "PSP"
   ],
   "key": {
-    "P": {
-      "item": "csrp:infested_planks"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "P": "csrp:infested_planks",
+    "S": "minecraft:stick"
   },
   "result": {
-    "item": "csrp:infested_fence",
+    "id": "csrp:infested_fence",
     "count": 3
   }
 }

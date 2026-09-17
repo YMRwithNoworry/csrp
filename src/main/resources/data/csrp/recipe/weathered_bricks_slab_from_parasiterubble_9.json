@@ -4,14 +4,10 @@
     "XXX"
   ],
   "key": {
-    "X": {
-      "item": "csrp:parasiterubble",
-      "data": 9
-    }
+    "X": "csrp:parasiterubble"
   },
   "result": {
-    "item": "csrp:weathered_bricks_slab",
-    "data": 0,
+    "id": "csrp:weathered_bricks_slab",
     "count": 6
   }
 }

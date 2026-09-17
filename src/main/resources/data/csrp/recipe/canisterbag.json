@@ -6,13 +6,10 @@
     "CCC"
   ],
   "key": {
-    "C": {
-      "item": "csrp:assimilated_flesh"
-    }
+    "C": "csrp:assimilated_flesh"
   },
   "result": {
-    "item": "csrp:parasitecanister",
-    "data": 3,
+    "id": "csrp:parasitecanister",
     "count": 1
   }
 }

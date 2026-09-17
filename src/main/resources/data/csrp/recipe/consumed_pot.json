@@ -6,15 +6,11 @@
     " W "
   ],
   "key": {
-    "W": {
-      "item": "csrp:consumed_planks"
-    },
-    "S": {
-      "item": "csrp:infestedsand"
-    }
+    "W": "csrp:consumed_planks",
+    "S": "csrp:infestedsand"
   },
   "result": {
-    "item": "csrp:consumed_pot",
+    "id": "csrp:consumed_pot",
     "count": 1
   }
 }

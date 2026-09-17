@@ -7,8 +7,8 @@
     "CCC"
   ],
   "key": {
-    "A": { "item": "csrp:lurecomponent4" },
-    "C": { "item": "minecraft:cobblestone" }
+    "A": "csrp:lurecomponent4",
+    "C": "minecraft:cobblestone"
   },
   "result": {
     "id": "csrp:evolutionlure_four",

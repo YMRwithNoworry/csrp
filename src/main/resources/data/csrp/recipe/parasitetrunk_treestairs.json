@@ -6,13 +6,10 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "csrp:parasitetrunk",
-      "data": 1
-    }
+    "#": "csrp:parasitetrunk"
   },
   "result": {
-    "item": "csrp:parasitetrunk_treestairs",
+    "id": "csrp:parasitetrunk_treestairs",
     "count": 4
   }
 }

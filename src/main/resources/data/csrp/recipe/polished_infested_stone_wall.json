@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "csrp:infested_stone_polished"
-    }
+    "#": "csrp:infested_stone_polished"
   },
   "result": {
     "id": "csrp:polished_infested_stone_wall",

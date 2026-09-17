@@ -6,13 +6,10 @@
     "XXX"
   ],
   "key": {
-    "X": {
-      "item": "csrp:flesh_planks"
-    }
+    "X": "csrp:flesh_planks"
   },
   "result": {
-    "item": "csrp:flesh_stairs",
-    "data": 0,
+    "id": "csrp:flesh_stairs",
     "count": 4
   }
 }

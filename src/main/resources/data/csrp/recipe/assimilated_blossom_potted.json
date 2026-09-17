@@ -2,15 +2,11 @@
   "type": "minecraft:crafting_shapeless",
   "group": "srp_potted_assimilated",
   "ingredients": [
-    {
-      "item": "csrp:consumed_pot"
-    },
-    {
-      "item": "csrp:assimilated_blossom"
-    }
+    "csrp:consumed_pot",
+    "csrp:assimilated_blossom"
   ],
   "result": {
-    "item": "csrp:potted_consumed_assimilated_blossom",
+    "id": "csrp:potted_consumed_assimilated_blossom",
     "count": 1
   }
 }

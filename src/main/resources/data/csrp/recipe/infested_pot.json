@@ -6,15 +6,11 @@
     " W "
   ],
   "key": {
-    "W": {
-      "item": "csrp:infested_planks"
-    },
-    "S": {
-      "item": "csrp:infestedsand"
-    }
+    "W": "csrp:infested_planks",
+    "S": "csrp:infestedsand"
   },
   "result": {
-    "item": "csrp:infested_pot",
+    "id": "csrp:infested_pot",
     "count": 1
   }
 }

@@ -4,8 +4,8 @@
   "group": "csrp:biomass",
   "pattern": ["LL", "LB"],
   "key": {
-    "L": {"tag": "csrp:lure_components"},
-    "B": {"item": "csrp:beckon_drop"}
+    "L": "#csrp:lure_components",
+    "B": "csrp:beckon_drop"
   },
   "result": {"id": "csrp:biomass_block", "count": 4}
 }

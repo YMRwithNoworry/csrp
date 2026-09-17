@@ -7,9 +7,7 @@
     "XXX"
   ],
   "key": {
-    "X": {
-      "item": "csrp:infested_glass"
-    }
+    "X": "csrp:infested_glass"
   },
   "result": {
     "count": 16,

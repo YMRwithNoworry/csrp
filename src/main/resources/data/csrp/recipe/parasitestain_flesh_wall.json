@@ -5,13 +5,10 @@
     "CCC"
   ],
   "key": {
-    "C": {
-      "item": "csrp:parasitestain",
-      "data": 2
-    }
+    "C": "csrp:parasitestain"
   },
   "result": {
-    "item": "csrp:parasitestain_flesh_wall",
+    "id": "csrp:parasitestain_flesh_wall",
     "count": 6
   }
 }

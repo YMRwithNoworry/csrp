@@ -6,13 +6,10 @@
     "XXX"
   ],
   "key": {
-    "X": {
-      "item": "csrp:cooked_flesh_planks"
-    }
+    "X": "csrp:cooked_flesh_planks"
   },
   "result": {
-    "item": "csrp:cooked_flesh_stairs",
-    "data": 0,
+    "id": "csrp:cooked_flesh_stairs",
     "count": 4
   }
 }

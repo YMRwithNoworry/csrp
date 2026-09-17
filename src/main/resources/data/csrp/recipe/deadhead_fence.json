@@ -1,20 +1,15 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "PSP",
     "PSP"
   ],
   "key": {
-    "P": {
-      "item": "csrp:parasiteplank",
-      "data": 0
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "P": "csrp:parasiteplank",
+    "S": "minecraft:stick"
   },
   "result": {
-    "item": "csrp:deadhead_fence",
+    "id": "csrp:deadhead_fence",
     "count": 3
   }
 }

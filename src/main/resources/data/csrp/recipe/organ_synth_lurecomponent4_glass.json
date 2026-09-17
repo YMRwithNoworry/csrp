@@ -6,18 +6,10 @@
     "XZX"
   ],
   "key": {
-    "X": {
-      "item": "minecraft:iron_ingot"
-    },
-    "Y": {
-      "item": "minecraft:glass"
-    },
-    "Z": {
-      "item": "minecraft:redstone"
-    },
-    "U": {
-      "item": "csrp:lurecomponent4"
-    }
+    "X": "minecraft:iron_ingot",
+    "Y": "minecraft:glass",
+    "Z": "minecraft:redstone",
+    "U": "csrp:lurecomponent4"
   },
   "result": {
     "count": 1,

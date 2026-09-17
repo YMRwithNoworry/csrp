@@ -1,9 +1,7 @@
 {
   "type": "minecraft:smelting",
   "category": "blocks",
-  "ingredient": {
-    "item": "csrp:infested_redstone_ore"
-  },
+  "ingredient": "csrp:infested_redstone_ore",
   "result": {
     "id": "minecraft:redstone",
     "count": 7

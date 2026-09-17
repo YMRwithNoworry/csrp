@@ -6,18 +6,10 @@
     "YIY"
   ],
   "key": {
-    "X": {
-      "item": "minecraft:glass"
-    },
-    "A": {
-      "item": "csrp:assimilated_flesh"
-    },
-    "Y": {
-      "item": "minecraft:gold_nugget"
-    },
-    "I": {
-      "item": "minecraft:iron_ingot"
-    }
+    "X": "minecraft:glass",
+    "A": "csrp:assimilated_flesh",
+    "Y": "minecraft:gold_nugget",
+    "I": "minecraft:iron_ingot"
   },
   "result": {
     "count": 1,

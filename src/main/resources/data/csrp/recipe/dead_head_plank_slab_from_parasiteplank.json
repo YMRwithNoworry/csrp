@@ -4,14 +4,10 @@
     "XXX"
   ],
   "key": {
-    "X": {
-      "item": "csrp:parasiteplank",
-      "data": 0
-    }
+    "X": "csrp:parasiteplank"
   },
   "result": {
-    "item": "csrp:dead_head_plank_slab",
-    "data": 0,
+    "id": "csrp:dead_head_plank_slab",
     "count": 6
   }
 }

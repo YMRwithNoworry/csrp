@@ -6,15 +6,9 @@
     "ZXZ"
   ],
   "key": {
-    "Z": {
-      "item": "minecraft:glass"
-    },
-    "X": {
-      "item": "csrp:tissue_spike"
-    },
-    "Y": {
-      "item": "csrp:organ_synth"
-    }
+    "Z": "minecraft:glass",
+    "X": "csrp:tissue_spike",
+    "Y": "csrp:organ_synth"
   },
   "result": {
     "count": 1,

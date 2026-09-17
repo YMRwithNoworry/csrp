@@ -6,12 +6,10 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "csrp:infested_cobblestone"
-    }
+    "#": "csrp:infested_cobblestone"
   },
   "result": {
-    "item": "csrp:infested_furnace",
+    "id": "csrp:infested_furnace",
     "count": 1
   }
 }

@@ -1,11 +1,11 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "building_blocks",
+  "category": "building",
   "pattern": [" F ", "ASA", " F "],
   "key": {
-    "A": {"item": "csrp:assimilated_flesh"},
-    "F": {"tag": "csrp:esca_fish"},
-    "S": {"item": "minecraft:sea_lantern"}
+    "A": "csrp:assimilated_flesh",
+    "F": "#csrp:esca_fish",
+    "S": "minecraft:sea_lantern"
   },
   "result": {"id": "csrp:esca_bulb", "count": 4}
 }

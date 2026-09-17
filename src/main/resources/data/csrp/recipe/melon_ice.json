@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "food",
+  "category": "misc",
   "ingredients": [
-    { "item": "minecraft:stick" }, { "item": "minecraft:snowball" },
-    { "item": "minecraft:snowball" }, { "item": "minecraft:melon_slice" }
+    "minecraft:stick", "minecraft:snowball",
+    "minecraft:snowball", "minecraft:melon_slice"
   ],
   "result": { "count": 1, "id": "csrp:melon_ice" }
 }

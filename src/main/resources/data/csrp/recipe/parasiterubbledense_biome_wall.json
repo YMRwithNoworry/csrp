@@ -5,13 +5,10 @@
     "CCC"
   ],
   "key": {
-    "C": {
-      "item": "csrp:parasiterubbledense",
-      "data": 1
-    }
+    "C": "csrp:parasiterubbledense"
   },
   "result": {
-    "item": "csrp:parasiterubbledense_biome_wall",
+    "id": "csrp:parasiterubbledense_biome_wall",
     "count": 6
   }
 }

@@ -7,9 +7,7 @@
     "XXX"
   ],
   "key": {
-    "X": {
-      "item": "csrp:moody_glass"
-    }
+    "X": "csrp:moody_glass"
   },
   "result": {
     "count": 16,

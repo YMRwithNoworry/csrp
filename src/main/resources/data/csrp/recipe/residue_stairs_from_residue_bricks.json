@@ -7,9 +7,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "csrp:residue_bricks"
-    }
+    "#": "csrp:residue_bricks"
   },
   "result": {
     "id": "csrp:residue_stairs",

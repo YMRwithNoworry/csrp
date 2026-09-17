@@ -7,21 +7,11 @@
     "XYX"
   ],
   "key": {
-    "X": {
-      "item": "minecraft:iron_ingot"
-    },
-    "Y": {
-      "item": "csrp:organ_synth"
-    },
-    "A": {
-      "item": "csrp:module_adapted"
-    },
-    "B": {
-      "item": "csrp:module_nexus"
-    },
-    "C": {
-      "item": "csrp:module_deterrent"
-    }
+    "X": "minecraft:iron_ingot",
+    "Y": "csrp:organ_synth",
+    "A": "csrp:module_adapted",
+    "B": "csrp:module_nexus",
+    "C": "csrp:module_deterrent"
   },
   "result": {
     "count": 1,

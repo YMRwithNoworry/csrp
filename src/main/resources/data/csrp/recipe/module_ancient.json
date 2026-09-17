@@ -7,12 +7,8 @@
     " Y "
   ],
   "key": {
-    "Y": {
-      "item": "csrp:lurecomponent6"
-    },
-    "M": {
-      "item": "csrp:module_base"
-    }
+    "Y": "csrp:lurecomponent6",
+    "M": "csrp:module_base"
   },
   "result": {
     "count": 1,

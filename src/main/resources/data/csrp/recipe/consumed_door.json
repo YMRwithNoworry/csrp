@@ -6,12 +6,10 @@
     "##"
   ],
   "key": {
-    "#": {
-      "item": "csrp:consumed_planks"
-    }
+    "#": "csrp:consumed_planks"
   },
   "result": {
-    "item": "csrp:consumed_door",
+    "id": "csrp:consumed_door",
     "count": 3
   }
 }

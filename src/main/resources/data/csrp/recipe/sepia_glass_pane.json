@@ -7,9 +7,7 @@
     "XXX"
   ],
   "key": {
-    "X": {
-      "item": "csrp:sepia_glass"
-    }
+    "X": "csrp:sepia_glass"
   },
   "result": {
     "count": 16,

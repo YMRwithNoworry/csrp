@@ -1,9 +1,7 @@
 {
   "type": "minecraft:smelting",
   "category": "blocks",
-  "ingredient": {
-    "item": "csrp:infested_iron_ore"
-  },
+  "ingredient": "csrp:infested_iron_ore",
   "result": {
     "id": "minecraft:iron_ingot",
     "count": 2

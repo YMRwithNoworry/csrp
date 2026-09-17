@@ -1,19 +1,15 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     "PSP",
     "PSP"
   ],
   "key": {
-    "P": {
-      "item": "csrp:consumed_planks"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "P": "csrp:consumed_planks",
+    "S": "minecraft:stick"
   },
   "result": {
-    "item": "csrp:consumed_fence",
+    "id": "csrp:consumed_fence",
     "count": 3
   }
 }

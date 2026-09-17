@@ -2,8 +2,8 @@
   "type": "csrp:canteen_shapeless",
   "category": "misc",
   "ingredients": [
-    { "item": "csrp:drinking_potion" }, { "item": "csrp:lurecomponent2" },
-    { "item": "csrp:ada_manducater_drop" }, { "item": "csrp:biomepurifier" }
+    "csrp:drinking_potion", "csrp:lurecomponent2",
+    "csrp:ada_manducater_drop", "csrp:biomepurifier"
   ],
   "result": { "count": 1, "id": "csrp:purifying_potion" }
 }

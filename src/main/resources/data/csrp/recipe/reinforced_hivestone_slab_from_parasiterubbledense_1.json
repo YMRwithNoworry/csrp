@@ -4,14 +4,10 @@
     "XXX"
   ],
   "key": {
-    "X": {
-      "item": "csrp:parasiterubbledense",
-      "data": 1
-    }
+    "X": "csrp:parasiterubbledense"
   },
   "result": {
-    "item": "csrp:reinforced_hivestone_slab",
-    "data": 0,
+    "id": "csrp:reinforced_hivestone_slab",
     "count": 6
   }
 }

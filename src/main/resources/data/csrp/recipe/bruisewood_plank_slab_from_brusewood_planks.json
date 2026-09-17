@@ -4,13 +4,10 @@
     "XXX"
   ],
   "key": {
-    "X": {
-      "item": "csrp:brusewood_planks"
-    }
+    "X": "csrp:brusewood_planks"
   },
   "result": {
-    "item": "csrp:bruisewood_plank_slab",
-    "data": 0,
+    "id": "csrp:bruisewood_plank_slab",
     "count": 6
   }
 }

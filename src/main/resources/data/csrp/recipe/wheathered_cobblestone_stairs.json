@@ -1,5 +1,5 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "mirrored": true,
   "pattern": [
     "X  ",
@@ -7,13 +7,10 @@
     "XXX"
   ],
   "key": {
-    "X": {
-      "item": "csrp:parasiterubble",
-      "data": 11
-    }
+    "X": "csrp:parasiterubble"
   },
   "result": {
-    "item": "csrp:wheathered_cobblestone_stairs",
+    "id": "csrp:wheathered_cobblestone_stairs",
     "count": 4
   }
 }

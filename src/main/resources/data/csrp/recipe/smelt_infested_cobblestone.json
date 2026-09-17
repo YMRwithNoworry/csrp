@@ -1,9 +1,7 @@
 {
   "type": "minecraft:smelting",
   "category": "misc",
-  "ingredient": {
-    "item": "csrp:infested_cobblestone"
-  },
+  "ingredient": "csrp:infested_cobblestone",
   "result": {
     "id": "csrp:infestedrubble"
   },

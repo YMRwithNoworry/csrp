@@ -1,29 +1,16 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "pattern": [
     " 2 ",
     "1 1",
     "111"
   ],
   "key": {
-    "1": {
-      "type": "forge:ore_dict",
-      "ore": "blockGlass"
-    },
-    "2": [
-      {
-        "type": "forge:ore_dict",
-        "ore": "plankWood"
-      },
-      {
-        "item": "csrp:parasiteplank",
-        "data": 0
-      }
-    ]
+    "1": "#c:glass_blocks/colorless",
+    "2": {"neoforge:ingredient_type":"neoforge:compound","ingredients":["#minecraft:planks","csrp:parasiteplank"]}
   },
   "result": {
-    "item": "csrp:parasitebush",
-    "data": 10,
+    "id": "csrp:parasitebush",
     "count": 1
   }
 }

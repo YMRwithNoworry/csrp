@@ -7,18 +7,10 @@
     " B "
   ],
   "key": {
-    "A": {
-      "item": "csrp:module_ancient"
-    },
-    "M": {
-      "item": "csrp:false_apple"
-    },
-    "N": {
-      "item": "csrp:trophy_void_orb"
-    },
-    "B": {
-      "item": "csrp:trophy_boom_orb"
-    }
+    "A": "csrp:module_ancient",
+    "M": "csrp:false_apple",
+    "N": "csrp:trophy_void_orb",
+    "B": "csrp:trophy_boom_orb"
   },
   "result": {
     "count": 1,

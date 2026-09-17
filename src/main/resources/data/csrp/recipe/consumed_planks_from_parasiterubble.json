@@ -1,13 +1,10 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "csrp:parasiterubble",
-      "data": 4
-    }
+    "csrp:parasiterubble"
   ],
   "result": {
-    "item": "csrp:consumed_planks",
+    "id": "csrp:consumed_planks",
     "count": 4
   }
 }

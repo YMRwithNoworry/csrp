@@ -1,13 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "building_blocks",
+  "category": "building",
   "ingredients": [
-    {
-      "item": "csrp:esca_bulb"
-    },
-    {
-      "item": "minecraft:yellow_dye"
-    }
+    "csrp:esca_bulb",
+    "minecraft:yellow_dye"
   ],
   "result": {
     "id": "csrp:esca_bulb_yellow"

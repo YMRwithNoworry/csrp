@@ -5,9 +5,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "csrp:infestedrubble"
-    }
+    "#": "csrp:infestedrubble"
   },
   "result": {
     "id": "csrp:infested_stone_slab",

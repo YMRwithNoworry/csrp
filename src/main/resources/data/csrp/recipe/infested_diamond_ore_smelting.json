@@ -1,9 +1,7 @@
 {
   "type": "minecraft:smelting",
   "category": "blocks",
-  "ingredient": {
-    "item": "csrp:infested_diamond_ore"
-  },
+  "ingredient": "csrp:infested_diamond_ore",
   "result": {
     "id": "minecraft:diamond",
     "count": 2

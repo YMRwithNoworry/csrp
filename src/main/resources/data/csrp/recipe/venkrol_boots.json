@@ -6,12 +6,8 @@
     " Y "
   ],
   "key": {
-    "Y": {
-      "item": "csrp:beckon_drop"
-    },
-    "X": {
-      "item": "minecraft:diamond_boots"
-    }
+    "Y": "csrp:beckon_drop",
+    "X": "minecraft:diamond_boots"
   },
   "result": {
     "count": 1,

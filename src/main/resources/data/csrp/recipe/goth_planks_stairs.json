@@ -1,5 +1,5 @@
 {
-  "type": "forge:ore_shaped",
+  "type": "minecraft:crafting_shaped",
   "mirrored": true,
   "pattern": [
     "X  ",
@@ -7,12 +7,10 @@
     "XXX"
   ],
   "key": {
-    "X": {
-      "item": "csrp:goth_planks"
-    }
+    "X": "csrp:goth_planks"
   },
   "result": {
-    "item": "csrp:goth_planks_stairs",
+    "id": "csrp:goth_planks_stairs",
     "count": 4
   }
 }

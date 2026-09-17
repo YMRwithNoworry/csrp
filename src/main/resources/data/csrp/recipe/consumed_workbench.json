@@ -5,12 +5,10 @@
     "XX"
   ],
   "key": {
-    "X": {
-      "item": "csrp:consumed_planks"
-    }
+    "X": "csrp:consumed_planks"
   },
   "result": {
-    "item": "csrp:consumed_workbench",
+    "id": "csrp:consumed_workbench",
     "count": 1
   }
 }

@@ -2,6 +2,6 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "pattern": ["##", "##"],
-  "key": {"#": {"item": "csrp:infestremain"}},
+  "key": {"#": "csrp:infestremain"},
   "result": {"id": "csrp:residue_block", "count": 1}
 }

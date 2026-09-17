@@ -5,13 +5,10 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "csrp:parasiterubble",
-      "data": 0
-    }
+    "#": "csrp:parasiterubble"
   },
   "result": {
-    "item": "csrp:parasiterubble_flesh_wall",
+    "id": "csrp:parasiterubble_flesh_wall",
     "count": 6
   }
 }

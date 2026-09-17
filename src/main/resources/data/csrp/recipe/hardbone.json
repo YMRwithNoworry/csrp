@@ -6,12 +6,8 @@
     "CA "
   ],
   "key": {
-    "A": {
-      "item": "csrp:ada_yelloweye_drop"
-    },
-    "C": {
-      "item": "csrp:assimilated_flesh"
-    }
+    "A": "csrp:ada_yelloweye_drop",
+    "C": "csrp:assimilated_flesh"
   },
   "result": {
     "count": 1,

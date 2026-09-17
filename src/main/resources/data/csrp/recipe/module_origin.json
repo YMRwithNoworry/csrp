@@ -7,24 +7,12 @@
     "RXI"
   ],
   "key": {
-    "X": {
-      "item": "minecraft:iron_ingot"
-    },
-    "Y": {
-      "item": "csrp:module_base"
-    },
-    "D": {
-      "item": "csrp:module_desmoid"
-    },
-    "E": {
-      "item": "csrp:module_eschar"
-    },
-    "R": {
-      "item": "csrp:module_resistance"
-    },
-    "I": {
-      "item": "csrp:module_ideal"
-    }
+    "X": "minecraft:iron_ingot",
+    "Y": "csrp:module_base",
+    "D": "csrp:module_desmoid",
+    "E": "csrp:module_eschar",
+    "R": "csrp:module_resistance",
+    "I": "csrp:module_ideal"
   },
   "result": {
     "count": 1,

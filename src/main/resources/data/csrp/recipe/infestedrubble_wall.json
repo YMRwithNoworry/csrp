@@ -6,9 +6,7 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "csrp:infestedrubble"
-    }
+    "#": "csrp:infestedrubble"
   },
   "result": {
     "id": "csrp:infestedrubble_wall",

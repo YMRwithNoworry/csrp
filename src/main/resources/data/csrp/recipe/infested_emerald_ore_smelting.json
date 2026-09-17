@@ -1,9 +1,7 @@
 {
   "type": "minecraft:smelting",
   "category": "blocks",
-  "ingredient": {
-    "item": "csrp:infested_emerald_ore"
-  },
+  "ingredient": "csrp:infested_emerald_ore",
   "result": {
     "id": "minecraft:emerald",
     "count": 2

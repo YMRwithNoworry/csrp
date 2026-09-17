@@ -6,12 +6,10 @@
     "###"
   ],
   "key": {
-    "#": {
-      "item": "csrp:harleskinn_block"
-    }
+    "#": "csrp:harleskinn_block"
   },
   "result": {
-    "item": "csrp:harleskinn_stairs",
+    "id": "csrp:harleskinn_stairs",
     "count": 4
   }
 }

@@ -4,12 +4,8 @@
     "AB"
   ],
   "key": {
-    "A": {
-      "item": "minecraft:pumpkin"
-    },
-    "B": {
-      "item": "csrp:infestedstain"
-    }
+    "A": "minecraft:pumpkin",
+    "B": "csrp:infestedstain"
   },
   "result": {
     "id": "csrp:assimilated_pumpkin"

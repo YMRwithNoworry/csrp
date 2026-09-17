@@ -7,15 +7,9 @@
     " X "
   ],
   "key": {
-    "X": {
-      "item": "csrp:lurecomponent2"
-    },
-    "Y": {
-      "item": "csrp:assimilated_flesh"
-    },
-    "M": {
-      "item": "csrp:module_assimilated"
-    }
+    "X": "csrp:lurecomponent2",
+    "Y": "csrp:assimilated_flesh",
+    "M": "csrp:module_assimilated"
   },
   "result": {
     "count": 1,

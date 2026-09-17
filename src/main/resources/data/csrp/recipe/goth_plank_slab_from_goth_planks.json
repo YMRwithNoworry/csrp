@@ -4,13 +4,10 @@
     "XXX"
   ],
   "key": {
-    "X": {
-      "item": "csrp:goth_planks"
-    }
+    "X": "csrp:goth_planks"
   },
   "result": {
-    "item": "csrp:goth_plank_slab",
-    "data": 0,
+    "id": "csrp:goth_plank_slab",
     "count": 6
   }
 }

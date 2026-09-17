@@ -2,8 +2,8 @@
   "type": "minecraft:crafting_shapeless",
   "category": "misc",
   "ingredients": [
-    { "item": "minecraft:dragon_breath" }, { "item": "minecraft:cyan_stained_glass" },
-    { "item": "minecraft:glass" }, { "item": "minecraft:glass" }
+    "minecraft:dragon_breath", "minecraft:cyan_stained_glass",
+    "minecraft:glass", "minecraft:glass"
   ],
   "result": { "count": 1, "id": "csrp:drinking_potion" }
 }

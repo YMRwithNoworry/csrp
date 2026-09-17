@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "food",
+  "category": "misc",
   "ingredients": [
-    { "item": "minecraft:snowball" }, { "item": "minecraft:snowball" },
-    { "item": "minecraft:snowball" }, { "item": "minecraft:stick" }
+    "minecraft:snowball", "minecraft:snowball",
+    "minecraft:snowball", "minecraft:stick"
   ],
   "result": { "count": 1, "id": "csrp:ice_sucker" }
 }

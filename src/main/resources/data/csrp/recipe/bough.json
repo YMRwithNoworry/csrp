@@ -6,15 +6,9 @@
     "Z"
   ],
   "key": {
-    "X": {
-      "tag": "minecraft:saplings"
-    },
-    "Y": {
-      "item": "csrp:assimilated_flesh"
-    },
-    "Z": {
-      "item": "minecraft:stick"
-    }
+    "X": "#minecraft:saplings",
+    "Y": "csrp:assimilated_flesh",
+    "Z": "minecraft:stick"
   },
   "result": {
     "count": 1,

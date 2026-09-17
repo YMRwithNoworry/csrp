@@ -6,12 +6,8 @@
     " A "
   ],
   "key": {
-    "A": {
-      "item": "csrp:assimilated_flesh"
-    },
-    "C": {
-      "item": "minecraft:clock"
-    }
+    "A": "csrp:assimilated_flesh",
+    "C": "minecraft:clock"
   },
   "result": {
     "count": 1,

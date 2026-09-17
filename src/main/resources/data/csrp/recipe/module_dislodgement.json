@@ -7,15 +7,9 @@
     "RPR"
   ],
   "key": {
-    "R": {
-      "item": "csrp:hive_scrap"
-    },
-    "P": {
-      "item": "csrp:ada_viscera_drop"
-    },
-    "C": {
-      "item": "csrp:module_base"
-    }
+    "R": "csrp:hive_scrap",
+    "P": "csrp:ada_viscera_drop",
+    "C": "csrp:module_base"
   },
   "result": {
     "count": 1,

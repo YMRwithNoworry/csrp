@@ -6,16 +6,11 @@
     "CCC"
   ],
   "key": {
-    "A": {
-      "item": "minecraft:diamond"
-    },
-    "C": {
-      "item": "minecraft:stonebrick",
-      "data": 3
-    }
+    "A": "minecraft:diamond",
+    "C": "minecraft:chiseled_stone_bricks"
   },
   "result": {
-    "item": "csrp:biomepurifier",
+    "id": "csrp:biomepurifier",
     "count": 1
   }
 }

@@ -6,12 +6,8 @@
     " C "
   ],
   "key": {
-    "C": {
-      "item": "minecraft:blaze_rod"
-    },
-    "A": {
-      "item": "minecraft:magma_cream"
-    }
+    "C": "minecraft:blaze_rod",
+    "A": "minecraft:magma_cream"
   },
   "result": {
     "count": 3,

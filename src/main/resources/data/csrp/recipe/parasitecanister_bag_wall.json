@@ -5,13 +5,10 @@
     "CCC"
   ],
   "key": {
-    "C": {
-      "item": "csrp:parasitecanister",
-      "data": 3
-    }
+    "C": "csrp:parasitecanister"
   },
   "result": {
-    "item": "csrp:parasitecanister_bag_wall",
+    "id": "csrp:parasitecanister_bag_wall",
     "count": 6
   }
 }

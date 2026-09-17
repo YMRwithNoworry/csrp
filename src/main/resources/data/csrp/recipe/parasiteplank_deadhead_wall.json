@@ -5,13 +5,10 @@
     "CCC"
   ],
   "key": {
-    "C": {
-      "item": "csrp:parasiteplank",
-      "data": 0
-    }
+    "C": "csrp:parasiteplank"
   },
   "result": {
-    "item": "csrp:parasiteplank_deadhead_wall",
+    "id": "csrp:parasiteplank_deadhead_wall",
     "count": 6
   }
 }

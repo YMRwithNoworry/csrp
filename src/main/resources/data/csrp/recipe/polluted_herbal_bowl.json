@@ -1,14 +1,14 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "food",
+  "category": "misc",
   "pattern": ["FAD", "SWS", " B "],
   "key": {
-    "F": { "item": "csrp:assimilated_flesh" },
-    "A": { "item": "csrp:lurecomponent1" },
-    "D": { "item": "minecraft:dandelion" },
-    "S": { "item": "minecraft:wheat_seeds" },
-    "W": { "item": "minecraft:wheat" },
-    "B": { "item": "minecraft:bowl" }
+    "F": "csrp:assimilated_flesh",
+    "A": "csrp:lurecomponent1",
+    "D": "minecraft:dandelion",
+    "S": "minecraft:wheat_seeds",
+    "W": "minecraft:wheat",
+    "B": "minecraft:bowl"
   },
   "result": { "count": 1, "id": "csrp:polluted_herbal_bowl" }
 }

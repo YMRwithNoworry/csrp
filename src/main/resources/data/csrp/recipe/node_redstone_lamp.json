@@ -3,8 +3,8 @@
   "category": "redstone",
   "pattern": [" R ", "RPR", " R "],
   "key": {
-    "R": { "item": "csrp:dispatcher_drop" },
-    "P": { "item": "minecraft:redstone_lamp" }
+    "R": "csrp:dispatcher_drop",
+    "P": "minecraft:redstone_lamp"
   },
   "result": { "id": "csrp:node_redstone_lamp", "count": 1 }
 }

@@ -6,15 +6,9 @@
     "YZY"
   ],
   "key": {
-    "Y": {
-      "item": "csrp:residue_plants"
-    },
-    "Z": {
-      "item": "csrp:semiorganic_ingot"
-    },
-    "S": {
-      "item": "minecraft:clock"
-    }
+    "Y": "csrp:residue_plants",
+    "Z": "csrp:semiorganic_ingot",
+    "S": "minecraft:clock"
   },
   "result": {
     "count": 1,

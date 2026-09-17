@@ -1,9 +1,7 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    {
-      "item": "csrp:hardened_bone_handle"
-    }
+    "csrp:hardened_bone_handle"
   ],
   "result": {
     "count": 16,

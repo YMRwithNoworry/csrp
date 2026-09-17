@@ -6,20 +6,14 @@
     "XYX"
   ],
   "key": {
-    "X": { "item": "csrp:assimilated_flesh" },
+    "X": "csrp:assimilated_flesh",
 
-    "Y": {
-      "item": "csrp:parasitestain",
-      "data": 2
-    },
+    "Y": "csrp:parasitestain",
 
-    "Z": {
-      "item": "csrp:parasitecanister",
-      "data": 1
-    }
+    "Z": "csrp:parasitecanister"
   },
   "result": {
-    "item": "csrp:dermoid_cyst",
+    "id": "csrp:dermoid_cyst",
     "count": 1
   }
 }
