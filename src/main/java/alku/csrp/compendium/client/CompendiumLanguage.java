@@ -6,7 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public final class CompendiumLanguage {
     private static final Map<String, String> VALUES = new LinkedHashMap<>();
@@ -36,7 +36,7 @@ public final class CompendiumLanguage {
     }
 
     private static void load(String language) {
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(
+        Identifier id = Identifier.fromNamespaceAndPath(
                 "csrp", "compendium/lang/" + language + ".lang");
         Minecraft.getInstance().getResourceManager().getResource(id).ifPresent(resource -> {
             try (BufferedReader reader = new BufferedReader(

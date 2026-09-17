@@ -23,9 +23,9 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.animal.fish.WaterAnimal;
 import net.minecraft.world.entity.monster.Creeper;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
@@ -87,7 +87,7 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
     @Override public void tick() {
         super.tick();
         setNoGravity(true);
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             if (random.nextInt(25) == 0) {
                 VerminParticles.spawnMouthDrips(level(), this);
             }
@@ -139,7 +139,7 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
         if (gnatCount < Config.worldGnatCap()) {
             GnatEntity gnat = ModEntities.GNAT.get().create(serverLevel);
             if (gnat != null) {
-                gnat.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+                gnat.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
                 serverLevel.addFreshEntity(gnat);
                 spawnPayloadParticles(serverLevel);
             }
@@ -152,7 +152,7 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
         if (bomb != null) {
             bomb.configure(this, 60, 0.0F, (float) getAttributeValue(Attributes.ATTACK_DAMAGE),
                     2, 1, false);
-            bomb.moveTo(getX(), getY(), getZ(), getYRot(), getXRot() + 20.0F);
+            bomb.snapTo(getX(), getY(), getZ(), getYRot(), getXRot() + 20.0F);
             serverLevel.addFreshEntity(bomb);
             spawnPayloadParticles(serverLevel);
         }

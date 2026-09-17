@@ -13,11 +13,11 @@ import com.mojang.math.Axis;
 import com.github.alexthe666.citadel.client.model.AdvancedEntityModel;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -25,11 +25,11 @@ import net.minecraft.world.phys.Vec3;
 
 public final class PrimitiveParasiteRenderer<T extends Mob & CitadelAnimatedEntity>
         extends ParasiteGeoRenderer<T> {
-    private static final ResourceLocation YELLOWEYE_GLOW_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final Identifier YELLOWEYE_GLOW_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/pri_yelloweye_glow.png");
-    private static final ResourceLocation YELLOWEYE_HEAVY_GLOW_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final Identifier YELLOWEYE_HEAVY_GLOW_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/pri_yelloweye_heavy_glow.png");
-    private static final ResourceLocation GUARDIAN_BEAM_TEXTURE = ResourceLocation.withDefaultNamespace(
+    private static final Identifier GUARDIAN_BEAM_TEXTURE = Identifier.withDefaultNamespace(
             "textures/entity/guardian_beam.png");
     private static final RenderType GUARDIAN_BEAM_RENDER_TYPE = RenderType.entityTranslucentEmissive(
             GUARDIAN_BEAM_TEXTURE);
@@ -161,7 +161,7 @@ public final class PrimitiveParasiteRenderer<T extends Mob & CitadelAnimatedEnti
             if (!(entity instanceof PrimitiveVariantEntity yelloweye) || !yelloweye.isPrimitiveYelloweye()) {
                 return;
             }
-            ResourceLocation texture = yelloweye.getYelloweyeSkin() == 7
+            Identifier texture = yelloweye.getYelloweyeSkin() == 7
                     ? YELLOWEYE_HEAVY_GLOW_TEXTURE : YELLOWEYE_GLOW_TEXTURE;
             RenderType glowType = RenderType.eyes(texture);
             getParentModel().renderToBuffer(poseStack, bufferSource.getBuffer(glowType),

@@ -5,8 +5,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -167,10 +167,10 @@ public final class ColdStarVillageGenerator {
         for (int i = 0; i < count; i++) {
             Villager villager = EntityType.VILLAGER.create(level);
             if (villager == null) continue;
-            villager.moveTo(center.getX() + 0.5D + i % 3, center.getY() + 1.0D,
+            villager.snapTo(center.getX() + 0.5D + i % 3, center.getY() + 1.0D,
                     center.getZ() + 0.5D + i / 3, 0.0F, 0.0F);
             villager.finalizeSpawn(level, level.getCurrentDifficultyAt(center),
-                    MobSpawnType.STRUCTURE, null);
+                    EntitySpawnReason.STRUCTURE, null);
             level.addFreshEntity(villager);
         }
     }

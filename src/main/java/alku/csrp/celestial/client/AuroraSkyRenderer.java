@@ -14,7 +14,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.biome.Biome;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -34,8 +34,8 @@ import org.slf4j.LoggerFactory;
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class AuroraSkyRenderer {
     private static final Logger LOGGER = LoggerFactory.getLogger(AuroraSkyRenderer.class);
-    private static final ResourceLocation SHADER_LOCATION =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "aurora_sky");
+    private static final Identifier SHADER_LOCATION =
+            Identifier.fromNamespaceAndPath(Csrp.MODID, "aurora_sky");
     private static final float RADIUS = 100.0F;
     private static final float BRIGHTNESS = 1.7F;
     private static final float SPEED = 0.12F;

@@ -13,7 +13,7 @@ public final class EffectNegMobEffect extends MarkerMobEffect {
 
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
-        if (!entity.level().isClientSide && entity.tickCount % 20 == 0) {
+        if (!entity.level().isClientSide() && entity.tickCount % 20 == 0) {
             for (MobEffectInstance active : new ArrayList<>(entity.getActiveEffects())) {
                 if (active.getEffect().value().getCategory() == MobEffectCategory.HARMFUL) {
                     if (active.getEffect().is(alku.csrp.registry.ModMobEffects.EFFECTNEG)) {

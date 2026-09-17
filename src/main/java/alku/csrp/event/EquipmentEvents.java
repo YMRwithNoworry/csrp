@@ -42,7 +42,7 @@ public final class EquipmentEvents {
     public static void adaptAndApplySetPenalty(LivingIncomingDamageEvent event) {
         LivingEntity entity = event.getEntity();
         if (event.getAmount() <= 0.0F) return;
-        if (entity.level().isClientSide) return;
+        if (entity.level().isClientSide()) return;
 
         if (entity instanceof Player player && wearsFullHijackedSet(player)) {
             player.removeEffect(ModMobEffects.BLEED);
@@ -143,14 +143,14 @@ public final class EquipmentEvents {
         if (!(boots.getItem() instanceof HijackedArmorItem) || player.getCooldowns().isOnCooldown(boots.getItem())) return;
         event.setCanceled(true);
         player.fallDistance = 0.0F;
-        player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 200, 1));
+        player.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 200, 1));
         player.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 200, 1));
         player.getCooldowns().addCooldown(boots.getItem(), 2400);
     }
 
     @SubscribeEvent
     public static void clearBleedForHijackedSet(PlayerTickEvent.Post event) {
-        if (!event.getEntity().level().isClientSide && wearsFullHijackedSet(event.getEntity())) {
+        if (!event.getEntity().level().isClientSide() && wearsFullHijackedSet(event.getEntity())) {
             event.getEntity().removeEffect(ModMobEffects.BLEED);
         }
     }

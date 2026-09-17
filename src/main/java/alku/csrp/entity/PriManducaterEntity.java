@@ -15,7 +15,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -94,7 +94,7 @@ public class PriManducaterEntity extends PrimitiveParasiteEntity implements Cita
 
     public static boolean checkPriManducaterSpawnRules(EntityType<? extends Monster> type,
                                                         ServerLevelAccessor level,
-                                                        MobSpawnType spawnType,
+                                                        EntitySpawnReason spawnType,
                                                         BlockPos pos,
                                                         RandomSource random) {
         int phase = Config.evolutionPhase(level.getLevel());
@@ -137,7 +137,7 @@ public class PriManducaterEntity extends PrimitiveParasiteEntity implements Cita
     public void tick() {
         super.tick();
 
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
 
@@ -215,7 +215,7 @@ public class PriManducaterEntity extends PrimitiveParasiteEntity implements Cita
                 // 持续施加效果
                 if (tickCount % 20 == 0) {
                     targetedEntity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 40, 0), this);
-                    targetedEntity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1), this);
+                    targetedEntity.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 40, 1), this);
                 }
             }
         }

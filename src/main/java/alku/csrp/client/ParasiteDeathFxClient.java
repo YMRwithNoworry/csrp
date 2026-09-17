@@ -23,7 +23,7 @@ public final class ParasiteDeathFxClient {
 
         float scale = Mth.clamp(payload.scale(), 0.25F, 4.0F);
         int count = Mth.clamp(Math.round(42.0F * scale), 24, 168);
-        RandomSource random = level.random;
+        RandomSource random = level.getRandom();
         DustParticleOptions blood = new DustParticleOptions(new Vector3f(0.61F, 0.06F, 0.09F),
                 Mth.clamp(0.65F * scale, 0.35F, 2.5F));
         for (int i = 0; i < count; i++) {

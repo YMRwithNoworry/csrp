@@ -75,7 +75,7 @@ public final class HostEntity extends AbstractHostEntity {
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         float timer = getBuriedTimer();
@@ -138,7 +138,7 @@ public final class HostEntity extends AbstractHostEntity {
         if (hostII == null) {
             return;
         }
-        hostII.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        hostII.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         level.addFreshEntity(hostII);
         discard();
     }

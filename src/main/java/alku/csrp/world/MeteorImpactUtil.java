@@ -10,7 +10,7 @@ import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
@@ -62,7 +62,7 @@ public final class MeteorImpactUtil {
                 return false;
             }
             StructurePlacer.place(level,
-                    ResourceLocation.fromNamespaceAndPath(Csrp.MODID, pending.name()),
+                    Identifier.fromNamespaceAndPath(Csrp.MODID, pending.name()),
                     pending.origin().offset(pending.offX(), pending.offY(), pending.offZ()),
                     RandomSource.create(pending.seed()));
             return true;

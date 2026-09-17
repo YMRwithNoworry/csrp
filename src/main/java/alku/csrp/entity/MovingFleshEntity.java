@@ -9,7 +9,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
@@ -19,7 +19,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -107,7 +107,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             // 客户端：更新进化闪烁效果
             if (getEvolutionFuse() > 0) {
                 float progress = 1.0F - (getEvolutionFuse() / (float) EVOLUTION_DELAY_TICKS);
@@ -313,9 +313,9 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         if (primitive == null) {
             return;
         }
-        primitive.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        primitive.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         primitive.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         primitive.setHealth(primitive.getMaxHealth() * (float) MobsConfig.mergeSystemMobHealth());
         primitive.setCustomName(getCustomName());
         primitive.setCustomNameVisible(isCustomNameVisible());
@@ -356,12 +356,12 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         if (selected == null) {
             selected = table.get(random.nextInt(table.size())).split(";", -1)[0].trim();
         }
-        ResourceLocation location = ResourceLocation.tryParse(selected);
+        Identifier location = Identifier.tryParse(selected);
         if (location == null) {
             return null;
         }
         if (location.getNamespace().equals("srparasites")) {
-            location = ResourceLocation.fromNamespaceAndPath("csrp", location.getPath());
+            location = Identifier.fromNamespaceAndPath("csrp", location.getPath());
         }
         EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(location).orElse(null);
         if (type == null || !(type.create(serverLevel) instanceof Mob primitive)) {
@@ -406,7 +406,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
                 }
                 return;
             }
-            navigation.moveTo(target, 1.1D);
+            navigation.snapTo(target, 1.1D);
         }
 
         @Override

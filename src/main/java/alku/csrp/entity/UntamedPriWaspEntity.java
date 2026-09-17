@@ -14,7 +14,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.ClimbOnTopOfPowderSnowGoal;
@@ -86,7 +86,7 @@ public class UntamedPriWaspEntity extends Monster implements CitadelAnimatedEnti
 
     public static boolean checkUntamedPriWaspSpawnRules(EntityType<? extends Monster> type,
                                                          ServerLevelAccessor level,
-                                                         MobSpawnType spawnType,
+                                                         EntitySpawnReason spawnType,
                                                          BlockPos pos,
                                                          RandomSource random) {
         int phase = Config.evolutionPhase(level.getLevel());
@@ -120,11 +120,11 @@ public class UntamedPriWaspEntity extends Monster implements CitadelAnimatedEnti
         super.tick();
 
         // 攀爬能力
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             setClimbing(horizontalCollision);
         }
 
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             updateParasiteStatus();
             updatePullCooldown();
             handleSkillExecution();

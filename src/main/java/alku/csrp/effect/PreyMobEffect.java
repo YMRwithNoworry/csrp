@@ -37,7 +37,7 @@ public final class PreyMobEffect extends MobEffect {
         if (scent == null) {
             return true;
         }
-        scent.moveTo(entity.getX(), entity.getY(), entity.getZ(), entity.getYRot(), entity.getXRot());
+        scent.snapTo(entity.getX(), entity.getY(), entity.getZ(), entity.getYRot(), entity.getXRot());
         scent.setScentState(1);
         scent.setTargetToKill(entity, false);
         scent.setScentLife(ParasiticScentEntity.OBSERVER_LIFE_TICKS);

@@ -6,30 +6,30 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public final class ParasiteProjectileRenderer extends EntityRenderer<ParasiteProjectileEntity> {
-    private static final ResourceLocation DEFAULT_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final Identifier DEFAULT_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/scary_orb.png");
-    private static final ResourceLocation LENCIA_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final Identifier LENCIA_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/projectile/lencia.png");
-    private static final ResourceLocation ELVIA_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final Identifier ELVIA_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/projectile/elvia.png");
-    private static final ResourceLocation NADE_PROJECTILE_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final Identifier NADE_PROJECTILE_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/projectile/nade.png");
-    private static final ResourceLocation SPINEBALL_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final Identifier SPINEBALL_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/projectile/spineball.png");
-    private static final ResourceLocation YELLOWEYE_NADE_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final Identifier YELLOWEYE_NADE_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/monster/nade.png");
-    private static final ResourceLocation ALAFHA_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final Identifier ALAFHA_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/projectile/alafha.png");
-    private static final ResourceLocation ANGED_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final Identifier ANGED_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/projectile/anged.png");
-    private static final ResourceLocation BIOMASS_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final Identifier BIOMASS_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/projectile/biomass.png");
 
     public ParasiteProjectileRenderer(EntityRendererProvider.Context context) {
@@ -138,7 +138,7 @@ public final class ParasiteProjectileRenderer extends EntityRenderer<ParasitePro
     }
 
     @Override
-    public ResourceLocation getTextureLocation(ParasiteProjectileEntity entity) {
+    public Identifier getTextureLocation(ParasiteProjectileEntity entity) {
         return switch (entity.getMode()) {
             case LENCIA_BALL -> LENCIA_TEXTURE;
             case ELVIA_BALL -> ELVIA_TEXTURE;

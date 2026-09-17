@@ -13,7 +13,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.player.Player;
@@ -41,22 +41,22 @@ public final class EvolutionLureBlock extends Block {
         if (level instanceof ServerLevel serverLevel) {
             activate(serverLevel, pos, state.getValue(TIER), player);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.SUCCESS;
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
             Player player, net.minecraft.world.InteractionHand hand, BlockHitResult hitResult) {
         if (player.getMainHandItem().isEmpty()) {
             if (level instanceof ServerLevel serverLevel) {
                 activate(serverLevel, pos, state.getValue(TIER), player);
             }
-            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.SUCCESS;
         }
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             player.displayClientMessage(Component.translatable("message.csrp.lure_empty_hand"), true);
         }
-        return ItemInteractionResult.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
     private static void activate(ServerLevel level, BlockPos center, Tier tier, Player player) {
@@ -75,7 +75,7 @@ public final class EvolutionLureBlock extends Block {
         level.sendParticles(ParticleTypes.SMOKE, center.getX() + 0.5D, center.getY() + 0.5D,
                 center.getZ() + 0.5D, 24, 0.35D, 0.35D, 0.35D, 0.02D);
         level.playSound(null, center, ModSounds.LURE_USE.get(), net.minecraft.sounds.SoundSource.BLOCKS,
-                1.0F, 0.9F + level.random.nextFloat() * 0.2F);
+                1.0F, 0.9F + level.getRandom().nextFloat() * 0.2F);
         player.displayClientMessage(Component.translatable("message.csrp.lure_cooldown_added",
                 tier.cooldownSeconds()), true);
     }
@@ -127,7 +127,7 @@ public final class EvolutionLureBlock extends Block {
     private static void spawnVisualLightning(ServerLevel level, BlockPos center) {
         LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(level);
         if (lightning != null) {
-            lightning.moveTo(center.getX() + 0.5D, center.getY(), center.getZ() + 0.5D);
+            lightning.snapTo(center.getX() + 0.5D, center.getY(), center.getZ() + 0.5D);
             lightning.setVisualOnly(true);
             level.addFreshEntity(lightning);
         }
@@ -138,7 +138,7 @@ public final class EvolutionLureBlock extends Block {
         if (scent == null) {
             return;
         }
-        scent.moveTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
+        scent.snapTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
         scent.setScentLevel(tier.scentLevel());
         scent.setTargetToKill(player, false);
         scent.setDieAfterKilling(true);

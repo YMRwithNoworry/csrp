@@ -8,7 +8,7 @@ import java.util.Comparator;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageTypes;
@@ -38,7 +38,7 @@ public final class CognitioEvents {
 
     @SubscribeEvent
     public static void onEntityInteract(PlayerInteractEvent.EntityInteract event) {
-        if (event.getLevel().isClientSide) {
+        if (event.getLevel().isClientSide()) {
             return;
         }
         Entity target = event.getTarget();
@@ -55,7 +55,7 @@ public final class CognitioEvents {
     @SubscribeEvent
     public static void onLivingDeath(LivingDeathEvent event) {
         LivingEntity victim = event.getEntity();
-        if (victim.level().isClientSide) {
+        if (victim.level().isClientSide()) {
             return;
         }
         Entity sourceEntity = event.getSource().getEntity();
@@ -97,7 +97,7 @@ public final class CognitioEvents {
 
     private static void award(ServerPlayer player, String advancement, String criterion) {
         AdvancementHolder holder = player.server.getAdvancements()
-                .get(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, advancement));
+                .get(Identifier.fromNamespaceAndPath(Csrp.MODID, advancement));
         if (holder != null) {
             player.getAdvancements().award(holder, criterion);
         }

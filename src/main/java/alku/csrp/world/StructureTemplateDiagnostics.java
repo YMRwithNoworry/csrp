@@ -10,7 +10,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtAccounter;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.Tag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -48,7 +48,7 @@ public final class StructureTemplateDiagnostics {
         int checked = 0;
         List<String> unknownBlocks = new ArrayList<>();
 
-        for (ResourceLocation id : level.getStructureManager().listTemplates().toList()) {
+        for (Identifier id : level.getStructureManager().listTemplates().toList()) {
             if (!id.getNamespace().equals(Csrp.MODID)) {
                 continue;
             }
@@ -76,7 +76,7 @@ public final class StructureTemplateDiagnostics {
         LOGGER.info("CSRPCHECK finished: {} unusable templates out of {}", unusable, checked);
     }
 
-    private static List<String> unresolvedPaletteBlocks(ResourceLocation id) {
+    private static List<String> unresolvedPaletteBlocks(Identifier id) {
         List<String> unknown = new ArrayList<>();
         String path = "data/" + id.getNamespace() + "/structure/" + id.getPath() + ".nbt";
         try (InputStream stream = StructureTemplateDiagnostics.class.getClassLoader().getResourceAsStream(path)) {
@@ -88,7 +88,7 @@ public final class StructureTemplateDiagnostics {
             ListTag palette = tag.getList("palette", Tag.TAG_COMPOUND);
             for (int i = 0; i < palette.size(); i++) {
                 String blockName = palette.getCompound(i).getString("Name");
-                ResourceLocation blockId = ResourceLocation.tryParse(blockName);
+                Identifier blockId = Identifier.tryParse(blockName);
                 if (blockId == null || !BuiltInRegistries.BLOCK.containsKey(blockId)) {
                     unknown.add(id.getPath() + " -> " + blockName);
                 }

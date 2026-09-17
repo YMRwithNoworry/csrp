@@ -21,7 +21,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -112,10 +112,10 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
             stillAnimationTicks = 0;
         }
         super.tick();
-        if (!level().isClientSide && isInWaterOrBubble() && getTarget() != null && tickCount % 20 == 0) {
+        if (!level().isClientSide() && isInWaterOrBubble() && getTarget() != null && tickCount % 20 == 0) {
             setDeltaMovement(getDeltaMovement().add(0.0, 0.095, 0.0));
         }
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             if (attackAnimationCooldown > 0) {
                 attackAnimationCooldown--;
             }
@@ -155,7 +155,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     }
 
     private void breakSoftBlockTowards(LivingEntity target) {
-        if (blockBreakCooldown > 0 || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+        if (blockBreakCooldown > 0 || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
             return;
         }
         Vec3 horizontal = target.position().subtract(position()).multiply(1.0D, 0.0D, 1.0D);
@@ -241,7 +241,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         if (shockwave == null) {
             return;
         }
-        shockwave.moveTo(getX(), getY(), getZ(), getYRot(), 0.0F);
+        shockwave.snapTo(getX(), getY(), getZ(), getYRot(), 0.0F);
         shockwave.configure(this, target);
         level().addFreshEntity(shockwave);
         triggerAttackAnimation();
@@ -271,7 +271,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (!level().isClientSide && amount > 0.0F && tickCount > 5
+        if (!level().isClientSide() && amount > 0.0F && tickCount > 5
                 && !source.is(DamageTypeTags.BYPASSES_ARMOR)
                 && random.nextFloat() < RANDOM_BLOCK_CHANCE) {
             playSound(SoundEvents.SHIELD_BLOCK, 0.7F, 1.15F + random.nextFloat() * 0.15F);

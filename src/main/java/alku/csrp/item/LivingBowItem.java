@@ -13,8 +13,8 @@ import net.minecraft.stats.Stats;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.AbstractArrow;
-import net.minecraft.world.entity.projectile.Arrow;
+import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
+import net.minecraft.world.entity.projectile.arrow.Arrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.BowItem;
 import net.minecraft.world.item.Item;
@@ -85,7 +85,7 @@ public final class LivingBowItem extends BowItem {
     public void inventoryTick(ItemStack stack, Level level, net.minecraft.world.entity.Entity entity,
             int slot, boolean selected) {
         super.inventoryTick(stack, level, entity, slot, selected);
-        if (!level.isClientSide && sentient && entity instanceof LivingEntity holder
+        if (!level.isClientSide() && sentient && entity instanceof LivingEntity holder
                 && holder.tickCount % 40 == 0 && Config.evolutionPhase(level) >= 2
                 && holder.getRandom().nextInt(10) == 0) {
             holder.addEffect(new MobEffectInstance(ModMobEffects.PREY, 1200, 0, false, false));
@@ -93,7 +93,7 @@ public final class LivingBowItem extends BowItem {
     }
 
     public void addDamage(ItemStack stack, float damage, LivingEntity holder) {
-        if (holder.level().isClientSide) return;
+        if (holder.level().isClientSide()) return;
         CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putInt(DAMAGE,
                 tag.getInt(DAMAGE) + Math.round(damage)));
         CompoundData.evolve(stack, holder, sentient, next, DAMAGE, EVOLUTION_DAMAGE);

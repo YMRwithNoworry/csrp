@@ -66,7 +66,7 @@ public final class AssimilatedDragonHeadEntity extends Monster implements Citade
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         if (fireballCooldown > 0) fireballCooldown--;

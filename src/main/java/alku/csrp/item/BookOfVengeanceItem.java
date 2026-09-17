@@ -8,7 +8,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -39,17 +39,17 @@ public final class BookOfVengeanceItem extends Item {
             BookOfVengeanceEvents.beginSlamChain(serverLevel, serverPlayer, target);
             player.getCooldowns().addCooldown(this, BookOfVengeanceEvents.SLAM_COOLDOWN_TICKS);
         }
-        return InteractionResult.sidedSuccess(player.level().isClientSide);
+        return InteractionResult.SUCCESS;
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (!player.isShiftKeyDown() || player.getCooldowns().isOnCooldown(this)) {
-            return InteractionResultHolder.pass(stack);
+            return InteractionResult.PASS;
         }
         pulse(player, stack);
-        return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
+        return InteractionResult.SUCCESS;
     }
 
     @Override
@@ -80,6 +80,6 @@ public final class BookOfVengeanceItem extends Item {
             BookOfVengeanceEvents.pulse(serverLevel, serverPlayer);
             player.getCooldowns().addCooldown(this, BookOfVengeanceEvents.PULSE_COOLDOWN_TICKS);
         }
-        return InteractionResult.sidedSuccess(player.level().isClientSide);
+        return InteractionResult.SUCCESS;
     }
 }

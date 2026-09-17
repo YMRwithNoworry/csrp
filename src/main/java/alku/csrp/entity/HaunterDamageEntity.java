@@ -33,7 +33,7 @@ public final class HaunterDamageEntity extends Entity {
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         PreeminentParasiteEntity owner = owner();

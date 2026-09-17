@@ -13,7 +13,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
@@ -74,14 +74,14 @@ public final class GoreEntity extends Entity {
         }
         setDeltaMovement(movement);
 
-        if (level().isClientSide && tickCount % 5 == 0 && !onGround()) {
+        if (level().isClientSide() && tickCount % 5 == 0 && !onGround()) {
             spawnTrailParticles();
         }
         if (tickCount >= LIFETIME_TICKS) {
             discard();
             return;
         }
-        if (!level().isClientSide && groundTicks >= 1) {
+        if (!level().isClientSide() && groundTicks >= 1) {
             applyLandingPayload((ServerLevel) level());
             discard();
         }
@@ -148,12 +148,12 @@ public final class GoreEntity extends Entity {
         for (int index = 0; index < legacyBlockNames.size() && slot < cyst.getContainerSize(); index++) {
             String encoded = legacyBlockNames.get(index);
             String name = encoded.contains(";") ? encoded.substring(0, encoded.indexOf(';')) : encoded;
-            ResourceLocation id = ResourceLocation.tryParse(name);
+            Identifier id = Identifier.tryParse(name);
             if (id == null) {
                 continue;
             }
             if (id.getNamespace().equals("srparasites")) {
-                id = ResourceLocation.fromNamespaceAndPath("csrp", id.getPath());
+                id = Identifier.fromNamespaceAndPath("csrp", id.getPath());
             }
             Block block = BuiltInRegistries.BLOCK.getOptional(id).orElse(Blocks.AIR);
             if (block == Blocks.AIR || block.asItem() == net.minecraft.world.item.Items.AIR) {

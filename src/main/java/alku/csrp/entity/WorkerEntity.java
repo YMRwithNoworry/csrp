@@ -16,7 +16,7 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import alku.csrp.animation.CitadelAnimationManager;
@@ -65,7 +65,7 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide && colonyOrigin == null && tickCount % 10 == 0 && random.nextInt(7) == 0
+        if (!level().isClientSide() && colonyOrigin == null && tickCount % 10 == 0 && random.nextInt(7) == 0
                 && level() instanceof ServerLevel serverLevel) {
             SrpWorldData.ColonyEntry colony = SrpWorldData.get(serverLevel)
                     .nearestColonyInConstructionRange(blockPosition());
@@ -117,7 +117,7 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
 
     private boolean placeNextStructure() {
         if (colonyOrigin == null || !(level() instanceof ServerLevel serverLevel)
-                || !serverLevel.getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+                || !serverLevel.getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
             return false;
         }
         BlockPos current = blockPosition();

@@ -14,7 +14,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -73,7 +73,7 @@ public class AdaLonglegEntity extends BurrowingVariantEntity implements PullingB
 
     public static boolean checkAdaLonglegSpawnRules(EntityType<? extends AdaLonglegEntity> type,
                                                      ServerLevelAccessor level,
-                                                     MobSpawnType spawnType,
+                                                     EntitySpawnReason spawnType,
                                                      BlockPos pos,
                                                      RandomSource random) {
         int phase = Config.evolutionPhase(level.getLevel());
@@ -124,7 +124,7 @@ public class AdaLonglegEntity extends BurrowingVariantEntity implements PullingB
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             if (abilityCooldown > 0) abilityCooldown--;
             if (pullingDuration > 0) pullingDuration--;
 
@@ -190,7 +190,7 @@ public class AdaLonglegEntity extends BurrowingVariantEntity implements PullingB
 
         // 每秒施加负面效果
         if (pullingDuration % 20 == 0) {
-            pullingTarget.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 2), this);
+            pullingTarget.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 40, 2), this);
             pullingTarget.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 40, 1), this);
         }
     }
@@ -301,8 +301,8 @@ public class AdaLonglegEntity extends BurrowingVariantEntity implements PullingB
 
             // 施加初始负面效果
             target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 120, 1), AdaLonglegEntity.this);
-            target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2), AdaLonglegEntity.this);
-            target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, 2), AdaLonglegEntity.this);
+            target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 100, 2), AdaLonglegEntity.this);
+            target.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 100, 2), AdaLonglegEntity.this);
 
             // 设置拉拽目标和持续时间
             pullingTarget = target;
@@ -325,7 +325,7 @@ public class AdaLonglegEntity extends BurrowingVariantEntity implements PullingB
         if (direction.lengthSqr() < 0.001D) {
             return;
         }
-        projectile.moveTo(start.x, start.y, start.z, getYRot(), getXRot());
+        projectile.snapTo(start.x, start.y, start.z, getYRot(), getXRot());
         projectile.setOwner(this);
         projectile.setDeltaMovement(direction.normalize().scale(0.8D));
         level().addFreshEntity(projectile);
@@ -337,8 +337,8 @@ public class AdaLonglegEntity extends BurrowingVariantEntity implements PullingB
             return false;
         }
         target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 120, 1), this);
-        target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2), this);
-        target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, 2), this);
+        target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 100, 2), this);
+        target.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 100, 2), this);
         pullingTarget = target;
         pullingDuration = 60;
         Vec3 pull = position().subtract(target.position());

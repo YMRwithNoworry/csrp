@@ -50,8 +50,8 @@ public final class CelestialEvents {
     public static void dropArrowShrimp(LivingDropsEvent event) {
         if (!(event.getEntity() instanceof Parasite)
                 || !(event.getEntity().level() instanceof ServerLevel level)
-                || !CelestialSystem.isActive(level, "arrow") || level.random.nextFloat() >= 0.25F) return;
-        ItemStack shrimp = new ItemStack(ModItems.SHRIMP.get(), 1 + level.random.nextInt(5));
+                || !CelestialSystem.isActive(level, "arrow") || level.getRandom().nextFloat() >= 0.25F) return;
+        ItemStack shrimp = new ItemStack(ModItems.SHRIMP.get(), 1 + level.getRandom().nextInt(5));
         event.getDrops().add(new ItemEntity(level, event.getEntity().getX(), event.getEntity().getY(),
                 event.getEntity().getZ(), shrimp));
     }

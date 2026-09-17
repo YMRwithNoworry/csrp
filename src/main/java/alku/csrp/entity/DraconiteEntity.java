@@ -151,7 +151,7 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     public void tick() {
         super.tick();
         setNoGravity(isFlying());
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             spawnFireBreathParticles();
             spawnMeteorWarningParticles();
             return;

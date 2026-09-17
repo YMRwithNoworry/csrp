@@ -2,7 +2,7 @@ package alku.csrp.item;
 
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -22,13 +22,13 @@ public final class DeadBloodFluidItem extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         return ItemUtils.startUsingInstantly(level, player, hand);
     }
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity user) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             user.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, DURATION_TICKS, 1));
         }
         if (user instanceof Player player) {

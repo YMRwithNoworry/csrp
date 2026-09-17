@@ -16,7 +16,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -30,7 +30,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
@@ -44,10 +44,10 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.animal.fish.WaterAnimal;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
@@ -356,7 +356,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, net.minecraft.world.DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
+                                        EntitySpawnReason spawnType, @Nullable SpawnGroupData spawnGroupData) {
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
         if (!level.isClientSide() && activeKind() == Kind.GRUNT
                 && (random.nextDouble() < Config.variantSpawnChance()
@@ -401,7 +401,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             setNoGravity(true);
         }
         updateBodyParts();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         if (activeKind == Kind.VIGILANTE) {
@@ -513,7 +513,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
 
     @Override
     public void push(Entity entity) {
-        if (!level().isClientSide && activeKind() == Kind.GRUNT && getGruntSkin() == 5
+        if (!level().isClientSide() && activeKind() == Kind.GRUNT && getGruntSkin() == 5
                 && entity instanceof LivingEntity living && living != this && !(living instanceof Parasite)) {
             EffectStacking.apply(living, ModMobEffects.VIRAL, 40, 0);
         }
@@ -627,7 +627,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
 
     @Override
     public void die(DamageSource source) {
-        if (!level().isClientSide && !deathBurstFired && random.nextFloat() < 0.25F) {
+        if (!level().isClientSide() && !deathBurstFired && random.nextFloat() < 0.25F) {
             deathBurstFired = true;
             triggerPureDeathBurst();
         }
@@ -934,7 +934,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         double side = left ? 1.0D : -1.0D;
         double yaw = Math.toRadians(getYRot());
         tendril.setSkin(TendrilEntity.ANGED);
-        tendril.moveTo(getX() + side * Math.cos(yaw) * 1.1D,
+        tendril.snapTo(getX() + side * Math.cos(yaw) * 1.1D,
                 getY() + 2.3D,
                 getZ() + side * Math.sin(yaw) * 1.1D,
                 getYRot(), 0.0F);
@@ -1133,7 +1133,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     private void breakBlocksTowardsTarget(LivingEntity target, Kind activeKind) {
         if (activeKind == Kind.GRUNT || activeKind == Kind.BOMBER_LIGHT
                 || activeKind.blockHardness <= 0.0F || blockBreakCooldown > 0
-                || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+                || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
             return;
         }
         Vec3 direction = target.position().subtract(position());
@@ -1172,10 +1172,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                 return;
             }
             double angle = random.nextDouble() * Math.PI * 2.0D;
-            seizer.moveTo(target.getX() + Math.cos(angle) * 3.0D, target.getY(),
+            seizer.snapTo(target.getX() + Math.cos(angle) * 3.0D, target.getY(),
                     target.getZ() + Math.sin(angle) * 3.0D, getYRot(), 0.0F);
             seizer.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(seizer.blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
+                    EntitySpawnReason.MOB_SUMMONED, null);
             seizer.setTarget(target);
             serverLevel.addFreshEntity(seizer);
             return;
@@ -1185,7 +1185,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             if (dispatcher == null) {
                 return;
             }
-            dispatcher.moveTo(target.getX(), target.getY(), target.getZ(), getYRot(), 0.0F);
+            dispatcher.snapTo(target.getX(), target.getY(), target.getZ(), getYRot(), 0.0F);
             dispatcher.setDispatchTarget(this);
             dispatcher.setLifetimeTicks(0);
             serverLevel.addFreshEntity(dispatcher);
@@ -1215,7 +1215,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         }
         double distance = distanceToSqr(target);
         boolean primaryBranch = (distance <= 64.0D || random.nextInt(3) != 0) && random.nextInt(10) != 0;
-        MobEffectInstance slowness = target.getEffect(MobEffects.MOVEMENT_SLOWDOWN);
+        MobEffectInstance slowness = target.getEffect(MobEffects.SLOWNESS);
         if (primaryBranch && slowness != null && slowness.getAmplifier() == 2) {
             return;
         }
@@ -1239,9 +1239,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             if (seizer == null) {
                 return;
             }
-            seizer.moveTo(spawnX, target.getY(), spawnZ, getYRot(), 0.0F);
+            seizer.snapTo(spawnX, target.getY(), spawnZ, getYRot(), 0.0F);
             seizer.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(seizer.blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
+                    EntitySpawnReason.MOB_SUMMONED, null);
             seizer.setTarget(target);
             serverLevel.addFreshEntity(seizer);
             return;
@@ -1249,7 +1249,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
 
         DeterrentParasiteEntity dispatcher = ModEntities.DISPATCHERTEN.get().create(serverLevel);
         if (dispatcher != null) {
-            dispatcher.moveTo(spawnX, target.getY(), spawnZ, getYRot(), 0.0F);
+            dispatcher.snapTo(spawnX, target.getY(), spawnZ, getYRot(), 0.0F);
             dispatcher.setDispatchTarget(this);
             dispatcher.setLifetimeTicks(0);
             serverLevel.addFreshEntity(dispatcher);
@@ -1277,7 +1277,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         if (scent == null) {
             return;
         }
-        scent.moveTo(target.getX(), target.getY(), target.getZ(), target.getYRot(), target.getXRot());
+        scent.snapTo(target.getX(), target.getY(), target.getZ(), target.getYRot(), target.getXRot());
         scent.setTargetToKill(target, false);
         scent.setDieAfterKilling(true);
         scent.setCanFollow(true);
@@ -1352,7 +1352,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
 
     private void triggerPureDeathBurst() {
         DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(2.0D));
-        Level.ExplosionInteraction interaction = level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
+        Level.ExplosionInteraction interaction = level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)
                 ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
         level().explode(this, getX(), getY() + getBbHeight() * 0.5D, getZ(), 2.0F, interaction);
         ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), getX(), getY(), getZ());
@@ -1424,7 +1424,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         }
         bomb.configure(this, 80, 1.0F, MobsConfig.ombooBombDamage(), 4, 0,
                 MobsConfig.ombooGriefing());
-        bomb.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        bomb.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         level().addFreshEntity(bomb);
     }
 
@@ -1476,10 +1476,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                 continue;
             }
             double angle = Math.PI * 2.0D * index / Math.max(1, count);
-            buglin.moveTo(getX() + Math.cos(angle) * 1.5D, getY() + 0.2D,
+            buglin.snapTo(getX() + Math.cos(angle) * 1.5D, getY() + 0.2D,
                     getZ() + Math.sin(angle) * 1.5D, getYRot(), 0.0F);
             buglin.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(buglin.blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
+                    EntitySpawnReason.MOB_SUMMONED, null);
             buglin.setTarget(target);
             serverLevel.addFreshEntity(buglin);
         }
@@ -1541,12 +1541,12 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             if (parts.length != 3) {
                 continue;
             }
-            ResourceLocation id = ResourceLocation.tryParse(parts[0].trim());
+            Identifier id = Identifier.tryParse(parts[0].trim());
             if (id == null) {
                 continue;
             }
             if (id.getNamespace().equals("srparasites")) {
-                id = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, id.getPath());
+                id = Identifier.fromNamespaceAndPath(Csrp.MODID, id.getPath());
             }
             EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(id).orElse(null);
             if (type == null) {
@@ -1840,7 +1840,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             if (hasLineOfSight(target) && distance >= 100.0D && distance < 10_000.0D) {
                 chargeTicks++;
             }
-            if (chargeTicks >= 40 && onGround() && !hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
+            if (chargeTicks >= 40 && onGround() && !hasEffect(MobEffects.SLOWNESS)) {
                 chargeTicks = 0;
                 startGruntSkillLeap(target);
             }
@@ -1923,7 +1923,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             if (hasEffect(ModMobEffects.RAGE)) {
                 chargeTicks++;
             }
-            if (chargeTicks >= 40 && onGround() && !hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
+            if (chargeTicks >= 40 && onGround() && !hasEffect(MobEffects.SLOWNESS)) {
                 chargeTicks = 0;
                 startMonarchSkillLeap(target);
             }
@@ -2257,14 +2257,14 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         }
         BuglinEntity buglin = ModEntities.BUGLIN.get().create(serverLevel);
         if (buglin != null) {
-            buglin.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+            buglin.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
             serverLevel.addFreshEntity(buglin);
         }
     }
 
     private void breakBlocksForMonarchSkill() {
         if (!(level() instanceof ServerLevel serverLevel)
-                || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
+                || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)
                 || !EventHooks.canEntityGrief(level(), this)) {
             return;
         }
@@ -3140,7 +3140,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         public boolean canUse() {
             LivingEntity target = getTarget();
             if (target == null || !target.isAlive() || !onGround()
-                    || hasEffect(MobEffects.MOVEMENT_SLOWDOWN) || getWardenStatus() > 2) {
+                    || hasEffect(MobEffects.SLOWNESS) || getWardenStatus() > 2) {
                 return false;
             }
             double distance = distanceToSqr(target);
@@ -3407,7 +3407,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         if (shockwave == null) {
             return;
         }
-        shockwave.moveTo(getX(), getY(), getZ(), getYRot(), 0.0F);
+        shockwave.snapTo(getX(), getY(), getZ(), getYRot(), 0.0F);
         shockwave.configure(this, target);
         if (serverLevel.noCollision(shockwave, shockwave.getBoundingBox())) {
             serverLevel.addFreshEntity(shockwave);

@@ -118,8 +118,8 @@ public final class PearlClientEvents {
         if (tick != lastTickSeen) {
             lastTickSeen = tick;
             float chance = 0.09F * (0.75F + 0.5F * strength);
-            if (glitchFrames <= 0 && minecraft.level.random.nextFloat() < chance) {
-                glitchFrames = 2 + minecraft.level.random.nextInt(4);
+            if (glitchFrames <= 0 && minecraft.level.getRandom().nextFloat() < chance) {
+                glitchFrames = 2 + minecraft.level.getRandom().nextInt(4);
             }
         }
 
@@ -157,11 +157,11 @@ public final class PearlClientEvents {
                         * 27.0F * (0.9F + 0.2F * strength)) * 0.0045F * (0.75F + 0.6F * strength);
                 for (int pass = 0; pass < 7; pass++) {
                     float spread = 0.016F * (0.6F + 0.6F * strength);
-                    float offsetX = (minecraft.level.random.nextFloat() * 2.0F - 1.0F) * spread + shake;
-                    float offsetY = (minecraft.level.random.nextFloat() * 2.0F - 1.0F) * spread + shake;
-                    float rotation = (minecraft.level.random.nextFloat() * 2.0F - 1.0F)
+                    float offsetX = (minecraft.level.getRandom().nextFloat() * 2.0F - 1.0F) * spread + shake;
+                    float offsetY = (minecraft.level.getRandom().nextFloat() * 2.0F - 1.0F) * spread + shake;
+                    float rotation = (minecraft.level.getRandom().nextFloat() * 2.0F - 1.0F)
                             * 14.0F * (0.75F + 0.4F * strength);
-                    float scale = 1.0F + minecraft.level.random.nextFloat() * 0.09F;
+                    float scale = 1.0F + minecraft.level.getRandom().nextFloat() * 0.09F;
                     poseStack.pushPose();
                     poseStack.translate(offsetX, offsetY, 0.0F);
                     poseStack.mulPose(Axis.ZP.rotationDegrees(rotation));

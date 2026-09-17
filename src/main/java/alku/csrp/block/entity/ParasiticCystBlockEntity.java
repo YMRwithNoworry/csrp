@@ -40,7 +40,7 @@ public final class ParasiticCystBlockEntity extends BaseContainerBlockEntity {
 
     public static void serverTick(Level level, BlockPos pos, BlockState state,
             net.minecraft.world.level.block.entity.BlockEntity blockEntity) {
-        if (!(blockEntity instanceof ParasiticCystBlockEntity cyst) || level.isClientSide) {
+        if (!(blockEntity instanceof ParasiticCystBlockEntity cyst) || level.isClientSide()) {
             return;
         }
         cyst.tickCyst((ServerLevel) level);

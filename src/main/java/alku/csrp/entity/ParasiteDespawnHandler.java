@@ -3,7 +3,7 @@ package alku.csrp.entity;
 import alku.csrp.Csrp;
 import alku.csrp.block.entity.ParasiteCanisterBlockEntity;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.monster.Monster;
@@ -27,7 +27,7 @@ public final class ParasiteDespawnHandler {
         if (!(mob.level() instanceof ServerLevel level) || !(mob instanceof Parasite)) {
             return;
         }
-        ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(mob.getType());
+        Identifier id = BuiltInRegistries.ENTITY_TYPE.getKey(mob.getType());
         if (id == null || !Csrp.MODID.equals(id.getNamespace())) {
             return;
         }

@@ -15,7 +15,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -85,7 +85,7 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         if (burrowCooldown > 0) {
@@ -147,7 +147,7 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
         }
         double angle = getYRot() * Mth.DEG_TO_RAD;
         double distance = 3.0D * Mth.cos(Mth.PI / 18.0F);
-        wave.moveTo(getX() - Mth.sin((float) angle) * distance, getY(),
+        wave.snapTo(getX() - Mth.sin((float) angle) * distance, getY(),
                 getZ() + Mth.cos((float) angle) * distance, getYRot(), 0.0F);
         wave.configure(getAttributeValue(Attributes.ATTACK_DAMAGE) * 0.3D,
                 Config.primitiveMinimumDamage(), 1, 60, target);
@@ -199,9 +199,9 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
         if (minion == null) {
             return;
         }
-        minion.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        minion.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         minion.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         minion.setTarget(getTarget());
         serverLevel.addFreshEntity(minion);
     }

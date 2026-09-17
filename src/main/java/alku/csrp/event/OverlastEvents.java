@@ -16,7 +16,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
@@ -44,7 +44,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class OverlastEvents {
     public static final ResourceKey<Enchantment> PARASITE_KILLER = ResourceKey.create(
-            Registries.ENCHANTMENT, ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "parasite_killer"));
+            Registries.ENCHANTMENT, Identifier.fromNamespaceAndPath(Csrp.MODID, "parasite_killer"));
     private static final Map<String, EntityType<?>> CURED_FORMS = Map.ofEntries(
             Map.entry("sim_bigspider", EntityType.SPIDER),
             Map.entry("sim_bear", EntityType.POLAR_BEAR),
@@ -112,9 +112,9 @@ public final class OverlastEvents {
         if (!living.hasEffect(ModMobEffects.PARASITES_PURIFY)) {
             InfectionMechanics.applyCothEffect(living, null, 60, strength == 0 ? 1 : 3, false, false);
         }
-        living.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 60, strength == 0 ? 2 : 3, false, false));
-        living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 60, 2, false, false));
-        living.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 60, strength == 0 ? 1 : 2, false, false));
+        living.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 60, strength == 0 ? 2 : 3, false, false));
+        living.addEffect(new MobEffectInstance(MobEffects.SPEED, 60, 2, false, false));
+        living.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 60, strength == 0 ? 1 : 2, false, false));
         living.addEffect(new MobEffectInstance(MobEffects.INVISIBILITY, 60, 0, false, false));
     }
 
@@ -126,7 +126,7 @@ public final class OverlastEvents {
         }
         Entity restored = restoredType.create(level);
         if (restored != null) {
-            restored.moveTo(parasite.getX(), parasite.getY(), parasite.getZ(), parasite.getYRot(), parasite.getXRot());
+            restored.snapTo(parasite.getX(), parasite.getY(), parasite.getZ(), parasite.getYRot(), parasite.getXRot());
             level.addFreshEntity(restored);
             parasite.discard();
             level.levelEvent(2001, parasite.blockPosition(), 0);
@@ -167,13 +167,13 @@ public final class OverlastEvents {
             return;
         }
         int enchantmentLevel = EnchantmentHelper.getItemEnchantmentLevel(enchantment, attacker.getMainHandItem());
-        if (enchantmentLevel <= 0 || level.random.nextFloat() > 0.3F + 0.1F * enchantmentLevel) {
+        if (enchantmentLevel <= 0 || level.getRandom().nextFloat() > 0.3F + 0.1F * enchantmentLevel) {
             return;
         }
         event.setAmount(event.getAmount() * 1.2F + 1.25F + 0.75F * enchantmentLevel);
         List<MobEffectInstance> effects = List.copyOf(event.getEntity().getActiveEffects());
         if (!effects.isEmpty()) {
-            event.getEntity().removeEffect(effects.get(level.random.nextInt(effects.size())).getEffect());
+            event.getEntity().removeEffect(effects.get(level.getRandom().nextInt(effects.size())).getEffect());
         }
     }
 

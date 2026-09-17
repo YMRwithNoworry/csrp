@@ -73,7 +73,7 @@ public final class NadeEntity extends Entity {
     public void tick() {
         super.tick();
         setDeltaMovement(0.0D, 0.0D, 0.0D);
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             spawnClientParticles();
             return;
         }

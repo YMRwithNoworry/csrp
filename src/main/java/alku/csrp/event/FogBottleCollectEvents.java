@@ -28,7 +28,7 @@ public final class FogBottleCollectEvents {
     @SubscribeEvent
     public static void onRightClickBlock(PlayerInteractEvent.RightClickBlock event) {
         if (tryCollect(event.getLevel(), event.getEntity(), event.getHand(), event.getPos())) {
-            event.setCancellationResult(InteractionResult.sidedSuccess(event.getLevel().isClientSide));
+            event.setCancellationResult(InteractionResult.SUCCESS);
             event.setCanceled(true);
         }
     }
@@ -36,7 +36,7 @@ public final class FogBottleCollectEvents {
     @SubscribeEvent
     public static void onRightClickItem(PlayerInteractEvent.RightClickItem event) {
         if (tryCollect(event.getLevel(), event.getEntity(), event.getHand(), findFogInLook(event.getEntity()))) {
-            event.setCancellationResult(InteractionResult.sidedSuccess(event.getLevel().isClientSide));
+            event.setCancellationResult(InteractionResult.SUCCESS);
             event.setCanceled(true);
         }
     }
@@ -53,7 +53,7 @@ public final class FogBottleCollectEvents {
         if (fogPos == null) {
             return false;
         }
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return true;
         }
         if (!player.getAbilities().instabuild) {

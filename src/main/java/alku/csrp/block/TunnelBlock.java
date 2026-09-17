@@ -94,7 +94,7 @@ public final class TunnelBlock extends Block {
         if (buglin == null) {
             return;
         }
-        buglin.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0.0F, 0.0F);
+        buglin.snapTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D, 0.0F, 0.0F);
         if (buried) {
             buglin.startBuriedEmergence();
         }

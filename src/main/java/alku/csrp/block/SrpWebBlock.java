@@ -79,7 +79,7 @@ public class SrpWebBlock extends Block {
         }
         Kind kind = state.getValue(KIND);
         entity.makeStuckInBlock(state, new Vec3(kind.slowFactor(), 0.05D, kind.slowFactor()));
-        if (!level.isClientSide && kind.damage() > 0.0F && level.getGameTime() % 20L == 0L) {
+        if (!level.isClientSide() && kind.damage() > 0.0F && level.getGameTime() % 20L == 0L) {
             entity.hurt(level.damageSources().magic(), kind.damage());
         }
     }

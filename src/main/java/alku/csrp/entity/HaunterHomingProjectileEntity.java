@@ -50,18 +50,18 @@ public final class HaunterHomingProjectileEntity extends Entity {
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide && level().getDifficulty() == Difficulty.PEACEFUL) {
+        if (!level().isClientSide() && level().getDifficulty() == Difficulty.PEACEFUL) {
             discard();
             return;
         }
 
         LivingEntity target = target();
-        if (!level().isClientSide && targetId != null && target == null) {
+        if (!level().isClientSide() && targetId != null && target == null) {
             discard();
             return;
         }
         PreeminentParasiteEntity owner = owner();
-        if (!level().isClientSide && ownerId != null && owner == null) {
+        if (!level().isClientSide() && ownerId != null && owner == null) {
             discard();
             return;
         }
@@ -83,7 +83,7 @@ public final class HaunterHomingProjectileEntity extends Entity {
         }
         setDeltaMovement(movement);
 
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
 
@@ -143,7 +143,7 @@ public final class HaunterHomingProjectileEntity extends Entity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             playSound(SoundEvents.SHULKER_BULLET_HURT, 1.0F, 1.0F);
             if (level() instanceof ServerLevel serverLevel) {
                 serverLevel.sendParticles(ParticleTypes.CRIT, getX(), getY(), getZ(), 15,

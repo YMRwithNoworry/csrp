@@ -99,7 +99,7 @@ public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntit
     public void tick() {
         super.tick();
         updateCitadelAnimationState();
-        if (level().isClientSide || tickCount % 10 != 0 || isOnFire() || parasiteKills <= 1
+        if (level().isClientSide() || tickCount % 10 != 0 || isOnFire() || parasiteKills <= 1
                 || getHealth() >= getMaxHealth()) {
             return;
         }
@@ -112,7 +112,7 @@ public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntit
     }
 
     private void updateCitadelAnimationState() {
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
 

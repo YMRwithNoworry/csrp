@@ -7,7 +7,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.state.BlockState;
@@ -60,10 +60,10 @@ public final class ParasiteBiomeGenerator {
 
     /** 原版 4 个寄生群系（Boils/Demen/Harlequinn/Shrouded）：感染成熟后按区块连片替换。 */
     private static final List<ResourceKey<Biome>> PARASITE_BIOMES = List.of(
-            ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath("csrp", "srp_boils")),
-            ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath("csrp", "srp_demen")),
-            ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath("csrp", "srp_harlequinn")),
-            ResourceKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath("csrp", "srp_shrouded")));
+            ResourceKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath("csrp", "srp_boils")),
+            ResourceKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath("csrp", "srp_demen")),
+            ResourceKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath("csrp", "srp_harlequinn")),
+            ResourceKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath("csrp", "srp_shrouded")));
 
     private static void applyParasiteBiome(ServerLevel level, BlockPos center, int stage) {
         if (stage < 2) {

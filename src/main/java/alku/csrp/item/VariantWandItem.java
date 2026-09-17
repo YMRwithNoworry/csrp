@@ -24,7 +24,7 @@ public final class VariantWandItem extends Item {
         if (hand != InteractionHand.MAIN_HAND || !(target instanceof ManualVariantProvider variants)) {
             return InteractionResult.PASS;
         }
-        if (!target.level().isClientSide) {
+        if (!target.level().isClientSide()) {
             variants.cycleManualVariant();
         }
         return InteractionResult.SUCCESS;

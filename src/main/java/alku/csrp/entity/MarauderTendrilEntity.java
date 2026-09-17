@@ -145,12 +145,12 @@ public final class MarauderTendrilEntity extends Monster implements CitadelAnima
             if (owner != null) {
                 updateAttachedPosition(owner);
             }
-            if (!level().isClientSide && (owner == null || !owner.isAlive() || !owner.isTendrilAttached(getAttachedSide()))) {
+            if (!level().isClientSide() && (owner == null || !owner.isAlive() || !owner.isTendrilAttached(getAttachedSide()))) {
                 discard();
             }
             return;
         }
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
 
@@ -199,7 +199,7 @@ public final class MarauderTendrilEntity extends Monster implements CitadelAnima
             return;
         }
         target.stopRiding();
-        target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 2, false, false), this);
+        target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 20, 2, false, false), this);
         Vec3 direction = position().subtract(target.position());
         if (direction.lengthSqr() > 0.001D) {
             Vec3 pull = direction.normalize().scale(0.10D);

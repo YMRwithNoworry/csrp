@@ -7,7 +7,7 @@ import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -30,8 +30,8 @@ public final class ThornshadeThornsEvents {
     private static final String EXPLODE_DELAY_TAG = "ExplodeDelay";
     private static final String EXPLODED_TAG = "HasExplodedOnce";
     private static final float MAX_ALLOWED_HEALTH = 120.0F;
-    private static final ResourceLocation SELF_DESTRUCT_ADVANCEMENT =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "thornshade_self_destruct");
+    private static final Identifier SELF_DESTRUCT_ADVANCEMENT =
+            Identifier.fromNamespaceAndPath(Csrp.MODID, "thornshade_self_destruct");
     private static final String SELF_DESTRUCT_CRITERION = "exploded";
 
     private ThornshadeThornsEvents() {
@@ -44,7 +44,7 @@ public final class ThornshadeThornsEvents {
             return;
         }
         LivingEntity living = event.getEntity();
-        if (living.level().isClientSide) {
+        if (living.level().isClientSide()) {
             return;
         }
         if (living instanceof Parasite || living.getMaxHealth() > MAX_ALLOWED_HEALTH
@@ -91,7 +91,7 @@ public final class ThornshadeThornsEvents {
     @SubscribeEvent
     public static void tickExplosion(EntityTickEvent.Post event) {
         if (!(event.getEntity() instanceof LivingEntity living)
-                || living.level().isClientSide || !living.isAlive()) {
+                || living.level().isClientSide() || !living.isAlive()) {
             return;
         }
         CompoundTag data = thornData(living);
@@ -187,8 +187,8 @@ public final class ThornshadeThornsEvents {
 
     private static void spawnRing(ServerLevel level, double x, double y, double z, double radius, int count) {
         for (int index = 0; index < count; index++) {
-            double angle = level.random.nextDouble() * Math.PI * 2.0D;
-            double distance = radius * (0.7D + level.random.nextDouble() * 0.3D);
+            double angle = level.getRandom().nextDouble() * Math.PI * 2.0D;
+            double distance = radius * (0.7D + level.getRandom().nextDouble() * 0.3D);
             double px = x + Math.cos(angle) * distance;
             double pz = z + Math.sin(angle) * distance;
             level.sendParticles(ParticleTypes.WITCH, px, y, pz, 1, 0.0D, 0.1D, 0.0D, 0.05D);

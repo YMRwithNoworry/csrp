@@ -10,7 +10,7 @@ public final class OverheatingMobEffect extends MarkerMobEffect {
 
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
-        if (!entity.level().isClientSide && entity.tickCount % 20 == 0) {
+        if (!entity.level().isClientSide() && entity.tickCount % 20 == 0) {
             entity.igniteForSeconds(2.0F);
         }
         return true;

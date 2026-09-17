@@ -51,7 +51,7 @@ public final class FogNullifierBlock extends Block implements EntityBlock {
     public void setPlacedBy(Level level, BlockPos pos, BlockState state,
             LivingEntity placer, ItemStack stack) {
         super.setPlacedBy(level, pos, state, placer, stack);
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             readUsesFromItem(level, pos, stack);
             attemptClear((ServerLevel) level, pos);
         }
@@ -61,7 +61,7 @@ public final class FogNullifierBlock extends Block implements EntityBlock {
     public void neighborChanged(BlockState state, Level level, BlockPos pos,
             Block neighborBlock, BlockPos neighborPos, boolean movedByPiston) {
         super.neighborChanged(state, level, pos, neighborBlock, neighborPos, movedByPiston);
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             attemptClear((ServerLevel) level, pos);
         }
     }
@@ -69,10 +69,10 @@ public final class FogNullifierBlock extends Block implements EntityBlock {
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
             Player player, BlockHitResult hitResult) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             attemptClear((ServerLevel) level, pos);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.SUCCESS;
     }
 
     @Override

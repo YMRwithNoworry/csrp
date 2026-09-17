@@ -12,7 +12,7 @@ import alku.csrp.world.SrpWorldData.GlobalAdaptation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -122,9 +122,9 @@ public final class ColonyEvents {
         if (adventurer == null) {
             return;
         }
-        adventurer.moveTo(thrall.getX(), thrall.getY(), thrall.getZ(), thrall.getYRot(), thrall.getXRot());
+        adventurer.snapTo(thrall.getX(), thrall.getY(), thrall.getZ(), thrall.getYRot(), thrall.getXRot());
         adventurer.finalizeSpawn(level, level.getCurrentDifficultyAt(thrall.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         adventurer.setCustomName(thrall.getCustomName());
         adventurer.setCustomNameVisible(thrall.isCustomNameVisible());
         if (thrall.isPersistenceRequired()) {

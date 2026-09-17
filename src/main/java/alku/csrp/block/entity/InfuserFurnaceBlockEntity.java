@@ -79,7 +79,7 @@ public final class InfuserFurnaceBlockEntity extends BaseContainerBlockEntity {
 
     public static void serverTick(Level level, BlockPos pos, BlockState state,
             net.minecraft.world.level.block.entity.BlockEntity blockEntity) {
-        if (!(blockEntity instanceof InfuserFurnaceBlockEntity furnace) || level.isClientSide) {
+        if (!(blockEntity instanceof InfuserFurnaceBlockEntity furnace) || level.isClientSide()) {
             return;
         }
         furnace.tickFurnace();

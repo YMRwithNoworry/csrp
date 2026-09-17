@@ -5,13 +5,13 @@ import alku.csrp.compendium.CompendiumSavedData;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record CompendiumRequestPayload() implements CustomPacketPayload {
     public static final Type<CompendiumRequestPayload> TYPE = new Type<>(
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "compendium_request"));
+            Identifier.fromNamespaceAndPath(Csrp.MODID, "compendium_request"));
     public static final StreamCodec<RegistryFriendlyByteBuf, CompendiumRequestPayload> STREAM_CODEC =
             StreamCodec.unit(new CompendiumRequestPayload());
 

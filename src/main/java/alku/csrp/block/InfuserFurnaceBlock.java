@@ -30,7 +30,7 @@ public final class InfuserFurnaceBlock extends Block implements EntityBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state,
             BlockEntityType<T> type) {
-        return level.isClientSide ? null
+        return level.isClientSide() ? null
                 : (level1, pos, state1, blockEntity) ->
                         InfuserFurnaceBlockEntity.serverTick(level1, pos, state1, blockEntity);
     }
@@ -41,10 +41,10 @@ public final class InfuserFurnaceBlock extends Block implements EntityBlock {
         if (!(level.getBlockEntity(pos) instanceof InfuserFurnaceBlockEntity furnace)) {
             return InteractionResult.PASS;
         }
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             player.openMenu(furnace);
         }
-        return InteractionResult.sidedSuccess(level.isClientSide);
+        return InteractionResult.SUCCESS;
     }
 
     @Override

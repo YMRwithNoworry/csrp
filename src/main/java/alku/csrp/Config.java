@@ -1,7 +1,7 @@
 package alku.csrp;
 
 import alku.csrp.world.SrpWorldData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.ModConfigSpec;
@@ -314,7 +314,7 @@ public final class Config {
     private static final ModConfigSpec.ConfigValue<List<? extends String>> DISLO_POTION_EFFECTS = BUILDER
             .defineList("disloPotionEffects", List.of(
                     "minecraft:speed", "minecraft:fire_resistance", "minecraft:invisibility"),
-                    value -> value instanceof String && ResourceLocation.tryParse((String) value) != null);
+                    value -> value instanceof String && Identifier.tryParse((String) value) != null);
     private static final ModConfigSpec.ConfigValue<List<? extends Integer>> DISLO_POTION_EFFECT_TRIGGERS =
             dislodgmentTriggers("disloPotionEffectTriggers", List.of(4, 13, 14, 15, 16));
     private static final ModConfigSpec.BooleanValue DISLO_STATS = BUILDER.define("disloStats", true);
@@ -535,7 +535,7 @@ public final class Config {
     private static final ModConfigSpec.ConfigValue<List<? extends String>> METEOR_DIMENSION_BLACKLIST = BUILDER
             .comment("Dimension ids where periodic meteor infection is disabled.")
             .defineList("meteorDimensionBlacklist", List.of("minecraft:the_nether"),
-                    value -> value instanceof String entry && ResourceLocation.tryParse(entry) != null);
+                    value -> value instanceof String entry && Identifier.tryParse(entry) != null);
 
 
     static final ModConfigSpec SPEC = BUILDER.build();

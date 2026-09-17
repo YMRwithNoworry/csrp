@@ -17,7 +17,7 @@ public final class EffectStacking {
 
     public static void apply(LivingEntity entity, Holder<MobEffect> effect, int duration, int amplifier,
             int maxAmplifier) {
-        if (entity.level().isClientSide || amplifier < -255 || amplifier > 254) {
+        if (entity.level().isClientSide() || amplifier < -255 || amplifier > 254) {
             return;
         }
         MobEffectInstance current = entity.getEffect(effect);

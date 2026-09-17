@@ -8,7 +8,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Mob;
 
 /** Shared Citadel renderer gate and adaptation tint used by SRP parasites. */
@@ -19,7 +19,7 @@ public class ParasiteGeoRenderer<T extends Mob & CitadelAnimatedEntity>
     }
 
     @Override
-    public ResourceLocation getTextureLocation(T entity) {
+    public Identifier getTextureLocation(T entity) {
         if (model instanceof CitadelTextureProvider<?> provider) {
             @SuppressWarnings("unchecked")
             CitadelTextureProvider<T> typed = (CitadelTextureProvider<T>) provider;

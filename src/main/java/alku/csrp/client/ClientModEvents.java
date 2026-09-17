@@ -60,7 +60,7 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -415,13 +415,13 @@ public final class ClientModEvents {
             registerBowProperties(ModItems.WEAPON_BOW.get());
             registerBowProperties(ModItems.WEAPON_BOW_SENTIENT.get());
             ItemProperties.register(ModItems.PEARL.get(),
-                    ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "pearl_state"),
+                    Identifier.fromNamespaceAndPath(Csrp.MODID, "pearl_state"),
                     PearlClientEvents::pearlState);
-            ItemProperties.register(ModItems.EVCLOCK.get(), ResourceLocation.withDefaultNamespace("phase"),
+            ItemProperties.register(ModItems.EVCLOCK.get(), Identifier.withDefaultNamespace("phase"),
                     (stack, level, entity, seed) -> stack
                             .getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
                             .copyTag().getInt(alku.csrp.item.EvolutionClockItem.PHASE_TAG));
-            ItemProperties.register(ModItems.LEVELCLOCK.get(), ResourceLocation.withDefaultNamespace("level"),
+            ItemProperties.register(ModItems.LEVELCLOCK.get(), Identifier.withDefaultNamespace("level"),
                     (stack, level, entity, seed) -> stack
                             .getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
                             .copyTag().getInt(alku.csrp.item.LevelClockItem.DEVELOPMENT_TAG));
@@ -432,7 +432,7 @@ public final class ClientModEvents {
     }
 
     private static void registerCompassProperty(net.minecraft.world.item.Item compass) {
-        ItemProperties.register(compass, ResourceLocation.withDefaultNamespace("angle"),
+        ItemProperties.register(compass, Identifier.withDefaultNamespace("angle"),
                 ClientModEvents::compassAngle);
     }
 
@@ -454,10 +454,10 @@ public final class ClientModEvents {
     }
 
     private static void registerBowProperties(net.minecraft.world.item.Item bow) {
-        ItemProperties.register(bow, ResourceLocation.withDefaultNamespace("pulling"),
+        ItemProperties.register(bow, Identifier.withDefaultNamespace("pulling"),
                 (stack, level, entity, seed) -> entity != null && entity.isUsingItem()
                         && entity.getUseItem() == stack ? 1.0F : 0.0F);
-        ItemProperties.register(bow, ResourceLocation.withDefaultNamespace("pull"),
+        ItemProperties.register(bow, Identifier.withDefaultNamespace("pull"),
                 (stack, level, entity, seed) -> entity == null || entity.getUseItem() != stack ? 0.0F
                         : (float) (stack.getUseDuration(entity) - entity.getUseItemRemainingTicks()) / 20.0F);
     }

@@ -6,7 +6,7 @@ import alku.csrp.world.SrpStarType;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.PostChain;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -19,13 +19,13 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class StarWorldShaderEvents {
-    private static final ResourceLocation COLD_SHADER = ResourceLocation.fromNamespaceAndPath(
+    private static final Identifier COLD_SHADER = Identifier.fromNamespaceAndPath(
             Csrp.MODID, "shaders/post/star_cold.json");
-    private static final ResourceLocation WARM_SHADER = ResourceLocation.fromNamespaceAndPath(
+    private static final Identifier WARM_SHADER = Identifier.fromNamespaceAndPath(
             Csrp.MODID, "shaders/post/star_warm.json");
 
     private static PostChain loadedEffect;
-    private static ResourceLocation activeShader;
+    private static Identifier activeShader;
     private static boolean loadAttempted;
     private static long startedAt;
     private static float fade;
@@ -37,7 +37,7 @@ public final class StarWorldShaderEvents {
     @SubscribeEvent
     public static void updateShader(ClientTickEvent.Post event) {
         Minecraft minecraft = Minecraft.getInstance();
-        ResourceLocation wanted = wantedShader(minecraft);
+        Identifier wanted = wantedShader(minecraft);
         if (wanted == null) {
             unload(minecraft);
             loadAttempted = false;
@@ -84,7 +84,7 @@ public final class StarWorldShaderEvents {
         loadedEffect.setUniform("SRP_HandLight", handLight);
     }
 
-    private static ResourceLocation wantedShader(Minecraft minecraft) {
+    private static Identifier wantedShader(Minecraft minecraft) {
         if (!WorldConfig.starWorldShadersEnabled() || minecraft.level == null || minecraft.player == null
                 || minecraft.level.dimension() != Level.OVERWORLD) {
             return null;

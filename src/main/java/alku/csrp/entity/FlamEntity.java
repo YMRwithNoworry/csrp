@@ -28,7 +28,7 @@ import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
@@ -160,7 +160,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
         super.tick();
         setNoGravity(true);
         fallDistance = 0.0F;
-        if (level().isClientSide || isNoAi() || actionConsumed) {
+        if (level().isClientSide() || isNoAi() || actionConsumed) {
             return;
         }
 
@@ -248,7 +248,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
     private void completeTeleportAction(@Nullable PrimitiveParasiteEntity father) {
         if (father != null && targetPosition != null
                 && distanceToSqr(Vec3.atCenterOf(targetPosition)) < 16.0D) {
-            father.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+            father.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
             father.setDeltaMovement(Vec3.ZERO);
             return;
         }
@@ -295,7 +295,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
     }
 
     private void breakNearbyBlocks() {
-        if (!level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
+        if (!level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)
                 || !EventHooks.canEntityGrief(level(), this)) {
             return;
         }

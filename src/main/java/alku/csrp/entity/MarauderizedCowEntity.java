@@ -12,7 +12,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -51,7 +51,7 @@ public final class MarauderizedCowEntity extends MarauderizedParasiteEntity impl
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-            MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
+            EntitySpawnReason spawnType, @Nullable SpawnGroupData spawnGroupData) {
         SpawnGroupData result = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
         String biome = level.getBiome(blockPosition()).unwrapKey()
                 .map(key -> key.location().getPath()).orElse("");
@@ -76,7 +76,7 @@ public final class MarauderizedCowEntity extends MarauderizedParasiteEntity impl
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             applyVariantAttributes();
             if (isRageVariant()) {
                 var rage = getEffect(ModMobEffects.RAGE);
@@ -86,7 +86,7 @@ public final class MarauderizedCowEntity extends MarauderizedParasiteEntity impl
                 }
             }
         }
-        if (level().isClientSide && vomitTicks-- > 0) {
+        if (level().isClientSide() && vomitTicks-- > 0) {
             spawnVomitParticles();
         }
     }
@@ -146,14 +146,14 @@ public final class MarauderizedCowEntity extends MarauderizedParasiteEntity impl
 
     @Override
     public void die(DamageSource source) {
-        if (!level().isClientSide && level() instanceof ServerLevel serverLevel) {
+        if (!level().isClientSide() && level() instanceof ServerLevel serverLevel) {
             int count = 3 + random.nextInt(2);
             for (int index = 0; index < count; index++) {
                 BuglinEntity buglin = ModEntities.BUGLIN.get().create(serverLevel);
                 if (buglin == null) {
                     continue;
                 }
-                buglin.moveTo(getX() + (random.nextDouble() - 0.5D) * 1.5D,
+                buglin.snapTo(getX() + (random.nextDouble() - 0.5D) * 1.5D,
                         getY() + getBbHeight() * 0.5D + 0.5D,
                         getZ() + (random.nextDouble() - 0.5D) * 1.5D, getYRot(), 0.0F);
                 buglin.setTarget(getTarget());

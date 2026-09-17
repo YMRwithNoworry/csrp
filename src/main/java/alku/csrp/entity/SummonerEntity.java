@@ -75,13 +75,13 @@ public final class SummonerEntity extends PrimitiveParasiteEntity implements Sum
 
     @Override public void tick() {
         super.tick();
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             if (summonCooldown > 0) summonCooldown--;
             if (tickCount % 20 == 0 && level() instanceof net.minecraft.server.level.ServerLevel serverLevel) {
                 summonTracker.prune(serverLevel);
             }
         }
-        if (level().isClientSide && vomitTicks > 0) {
+        if (level().isClientSide() && vomitTicks > 0) {
             vomitTicks--;
             spawnVomitParticles();
         }

@@ -14,7 +14,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
@@ -27,7 +27,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -46,9 +46,9 @@ import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WallClimberNavigation;
 import net.minecraft.world.entity.ambient.Bat;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.animal.fish.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -83,12 +83,12 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
     private static final String FAILED_BAT_LEAPS_NBT_KEY = "rupter_failed_bat_leaps";
     private static final String FAILED_BAT_TARGET_NBT_KEY = "rupter_failed_bat_target";
     private static final String CREATED_PHASE_NBT_KEY = "rupter_created_phase";
-    private static final ResourceLocation OVERHEAT_ATTACK_MODIFIER =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "rupter_overheat_attack");
-    private static final ResourceLocation OVERHEAT_SPEED_MODIFIER =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "rupter_overheat_speed");
-    private static final ResourceLocation OVERHEAT_JUMP_MODIFIER =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "rupter_overheat_jump");
+    private static final Identifier OVERHEAT_ATTACK_MODIFIER =
+            Identifier.fromNamespaceAndPath(Csrp.MODID, "rupter_overheat_attack");
+    private static final Identifier OVERHEAT_SPEED_MODIFIER =
+            Identifier.fromNamespaceAndPath(Csrp.MODID, "rupter_overheat_speed");
+    private static final Identifier OVERHEAT_JUMP_MODIFIER =
+            Identifier.fromNamespaceAndPath(Csrp.MODID, "rupter_overheat_jump");
     private static final EntityDataAccessor<Byte> CLIMBING =
             SynchedEntityData.defineId(RupterEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Byte> TEXTURE_VARIANT =
@@ -133,7 +133,7 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
     public RupterEntity(EntityType<? extends RupterEntity> entityType, Level level) {
         super(entityType, level);
         this.xpReward = 5;
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             initializeVariants();
         }
     }
@@ -149,7 +149,7 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
     }
 
     public static boolean checkRupterSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor level,
-                                                 MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+                                                 EntitySpawnReason spawnType, BlockPos pos, RandomSource random) {
         int phase = Config.evolutionPhase(level.getLevel());
         return phase >= 1 && phase <= 7
                 && Monster.checkAnyLightMonsterSpawnRules(type, level, spawnType, pos, random);
@@ -242,7 +242,7 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
 
@@ -398,7 +398,7 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
         addPermanentModifier(Attributes.JUMP_STRENGTH, OVERHEAT_JUMP_MODIFIER, 0.5D);
     }
 
-    private void addPermanentModifier(Holder<Attribute> attribute, ResourceLocation id, double amount) {
+    private void addPermanentModifier(Holder<Attribute> attribute, Identifier id, double amount) {
         AttributeInstance instance = getAttribute(attribute);
         if (instance != null && instance.getModifier(id) == null) {
             instance.addPermanentModifier(new AttributeModifier(
@@ -442,7 +442,7 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
             } else if (getBehaviorVariant() == BehaviorVariant.VIRULENT) {
                 living.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), this);
             }
-            living.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 1), this);
+            living.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 40, 1), this);
             if (!living.hasEffect(ModMobEffects.COTH)) {
                 InfectionMechanics.applyCoth(living, this);
             }
@@ -474,7 +474,7 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
 
     @Override
     public void push(Entity entity) {
-        if (!level().isClientSide && getBehaviorVariant() == BehaviorVariant.VIRULENT
+        if (!level().isClientSide() && getBehaviorVariant() == BehaviorVariant.VIRULENT
                 && entity instanceof LivingEntity living && isValidContactTarget(living)) {
             living.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 100, 0), this);
         }
@@ -499,7 +499,7 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
         if (!victim.hasEffect(ModMobEffects.COTH)) {
             InfectionMechanics.applyCothEffect(victim, this, 3600, 0, false, false);
         }
-        addEffect(new MobEffectInstance(MobEffects.CONFUSION, 80, 0, false, false));
+        addEffect(new MobEffectInstance(MobEffects.NAUSEA, 80, 0, false, false));
         return super.killedEntity(level, victim);
     }
 
@@ -509,9 +509,9 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
             if (mangler == null) {
                 return;
             }
-            mangler.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+            mangler.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
             mangler.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
+                    EntitySpawnReason.MOB_SUMMONED, null);
             mangler.setCustomName(getCustomName());
             mangler.setCustomNameVisible(isCustomNameVisible());
             if (isPersistenceRequired()) {
@@ -649,7 +649,7 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
+                                        EntitySpawnReason spawnType, @Nullable SpawnGroupData spawnGroupData) {
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
         if (createdPhase == Integer.MIN_VALUE) {
             createdPhase = Config.evolutionPhase(level.getLevel());

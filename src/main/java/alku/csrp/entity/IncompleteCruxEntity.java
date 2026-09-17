@@ -51,7 +51,7 @@ public final class IncompleteCruxEntity extends CrudeParasiteEntity {
     public void tick() {
         super.tick();
 
-        if (level().isClientSide || !isAlive()) {
+        if (level().isClientSide() || !isAlive()) {
             return;
         }
 
@@ -117,7 +117,7 @@ public final class IncompleteCruxEntity extends CrudeParasiteEntity {
         }
         CruxEntity adult = ModEntities.CRUX.get().create(serverLevel);
         if (adult != null) {
-            adult.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+            adult.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
             LivingEntity target = getTarget();
             if (target != null && target.isAlive()) {
                 adult.setTarget(target);

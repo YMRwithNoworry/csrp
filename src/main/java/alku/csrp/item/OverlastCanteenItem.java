@@ -3,7 +3,7 @@ package alku.csrp.item;
 import java.util.List;
 import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModMobEffects;
-import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
@@ -11,7 +11,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -38,13 +38,13 @@ public final class OverlastCanteenItem extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         if (dose == Dose.EMPTY || getSips(stack) <= 0) {
-            return InteractionResultHolder.pass(stack);
+            return InteractionResult.PASS;
         }
         player.startUsingItem(hand);
-        return InteractionResultHolder.consume(stack);
+        return InteractionResult.CONSUME;
     }
 
     @Override
@@ -56,7 +56,7 @@ public final class OverlastCanteenItem extends Item {
         if (user instanceof ServerPlayer serverPlayer) {
             CriteriaTriggers.CONSUME_ITEM.trigger(serverPlayer, stack);
         }
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             user.addEffect(createEffect());
         }
         user.gameEvent(GameEvent.DRINK);

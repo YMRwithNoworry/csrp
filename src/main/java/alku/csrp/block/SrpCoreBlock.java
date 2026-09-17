@@ -24,7 +24,7 @@ public abstract class SrpCoreBlock extends Block {
 
     @Override
     public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-        if (!state.is(newState.getBlock()) && !level.isClientSide && state.getValue(ACTIVE) > 0) {
+        if (!state.is(newState.getBlock()) && !level.isClientSide() && state.getValue(ACTIVE) > 0) {
             removeRecord(level, pos);
         }
         super.onRemove(state, level, pos, newState, isMoving);

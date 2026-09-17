@@ -10,11 +10,11 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,9 +22,9 @@ import net.minecraft.world.phys.Vec3;
 
 /** Restores the translucent cosmical shadow pass used by legacy derived parasites. */
 public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> extends ParasiteGeoRenderer<T> {
-    private static final ResourceLocation COSMIC_HACKING_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final Identifier COSMIC_HACKING_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/layer/cosmichasking.png");
-    private static final ResourceLocation GUARDIAN_BEAM_TEXTURE = ResourceLocation.withDefaultNamespace(
+    private static final Identifier GUARDIAN_BEAM_TEXTURE = Identifier.withDefaultNamespace(
             "textures/entity/guardian_beam.png");
     private static final RenderType GUARDIAN_BEAM_RENDER_TYPE = RenderType.entityTranslucentEmissive(
             GUARDIAN_BEAM_TEXTURE);
@@ -37,12 +37,12 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
     private static final int KIRIN_BEAM_GREEN = 72;
     private static final int KIRIN_BEAM_BLUE = 196;
 
-    private final ResourceLocation shadowTexture;
+    private final Identifier shadowTexture;
 
     public DerivedParasiteRenderer(EntityRendererProvider.Context context, String id, String shadowTexture,
             float shadowRadius) {
         super(context, new PrimitiveParasiteModel<>(id));
-        this.shadowTexture = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+        this.shadowTexture = Identifier.fromNamespaceAndPath(Csrp.MODID,
                 "textures/entity/" + shadowTexture + ".png");
         this.shadowRadius = shadowRadius;
         addLayer(new ShadowLayer<>(this, this.shadowTexture));
@@ -51,7 +51,7 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
     }
 
     @Override
-    public ResourceLocation getTextureLocation(T entity) {
+    public Identifier getTextureLocation(T entity) {
         return entity.isShadowClone() ? shadowTexture : super.getTextureLocation(entity);
     }
 
@@ -163,9 +163,9 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
 
     private static final class ShadowLayer<T extends DerivedParasiteEntity>
             extends RenderLayer<T, AdvancedEntityModel<T>> {
-        private final ResourceLocation texture;
+        private final Identifier texture;
 
-        private ShadowLayer(DerivedParasiteRenderer<T> renderer, ResourceLocation texture) {
+        private ShadowLayer(DerivedParasiteRenderer<T> renderer, Identifier texture) {
             super(renderer);
             this.texture = texture;
         }
@@ -225,7 +225,7 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
             if (!(entity instanceof KirinEntity kirin) || !kirin.isLaserCharging()) {
                 return;
             }
-            ResourceLocation texture = getTextureLocation(entity);
+            Identifier texture = getTextureLocation(entity);
             RenderType glowType = RenderType.entityTranslucentEmissive(texture);
             getParentModel().renderToBuffer(poseStack, bufferSource.getBuffer(glowType),
                     LightTexture.FULL_BRIGHT, OverlayTexture.NO_OVERLAY, 0x99FF48C4);

@@ -24,7 +24,7 @@ final class ParasiteCombatEffects {
     }
 
     static void applyFearFromDamage(LivingEntity target, float healthBefore, Entity source) {
-        if (target.level().isClientSide) {
+        if (target.level().isClientSide()) {
             return;
         }
         float dealt = Math.max(0.0F, healthBefore - healthWithAbsorption(target));
@@ -63,7 +63,7 @@ final class ParasiteCombatEffects {
         cloud.addEffect(new MobEffectInstance(ModMobEffects.VOMIT, effectDuration, 0, false, true));
         cloud.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, effectDuration,
                 severeAmplifier, false, true));
-        cloud.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, effectDuration,
+        cloud.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, effectDuration,
                 severeAmplifier, false, true));
         cloud.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, effectDuration,
                 severeAmplifier, false, true));

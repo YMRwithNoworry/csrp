@@ -5,13 +5,13 @@ import alku.csrp.client.ParasiteDeathFxClient;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public record ParasiteDeathFxPayload(double x, double y, double z, float scale)
         implements CustomPacketPayload {
     public static final Type<ParasiteDeathFxPayload> TYPE = new Type<>(
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "parasite_death_fx"));
+            Identifier.fromNamespaceAndPath(Csrp.MODID, "parasite_death_fx"));
     public static final StreamCodec<RegistryFriendlyByteBuf, ParasiteDeathFxPayload> STREAM_CODEC =
             StreamCodec.ofMember(ParasiteDeathFxPayload::encode, ParasiteDeathFxPayload::decode);
 

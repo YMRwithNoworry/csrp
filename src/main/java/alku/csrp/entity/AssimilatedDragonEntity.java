@@ -30,7 +30,7 @@ import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.util.Mth;
 import net.neoforged.neoforge.event.EventHooks;
@@ -156,7 +156,7 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
         setNoGravity(isFlying());
         updateBodyParts();
         updateParasiteStatus();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         if (rangedCooldown > 0) rangedCooldown--;
@@ -180,7 +180,7 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
         }
         LivingEntity target = getTarget();
         if (blockBreakCooldown > 0 || target == null || !target.isAlive() || distanceToSqr(target) > 4096.0D
-                || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
+                || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)
                 || !EventHooks.canEntityGrief(level(), this)) {
             return;
         }
@@ -225,7 +225,7 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
     public boolean hurt(DamageSource source, float amount) {
         float applied = source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount;
         boolean hurt = super.hurt(source, applied);
-        if (hurt && !level().isClientSide && random.nextInt(12) == 0 && !isFlying() && canFly()) {
+        if (hurt && !level().isClientSide() && random.nextInt(12) == 0 && !isFlying() && canFly()) {
             setFlying(true);
         }
         return hurt;
@@ -438,7 +438,7 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
             return;
         }
         Vec3 position = getEyePosition().add(getLookAngle().scale(1.4D));
-        head.moveTo(position.x, position.y, position.z, getYRot(), getXRot());
+        head.snapTo(position.x, position.y, position.z, getYRot(), getXRot());
         head.setTarget(getTarget());
         serverLevel.addFreshEntity(head);
     }
@@ -452,7 +452,7 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
             return;
         }
         tendril.setSkin(skin);
-        tendril.moveTo(part.getX(), part.getY(), part.getZ(), getYRot(), getXRot());
+        tendril.snapTo(part.getX(), part.getY(), part.getZ(), getYRot(), getXRot());
         serverLevel.addFreshEntity(tendril);
     }
 

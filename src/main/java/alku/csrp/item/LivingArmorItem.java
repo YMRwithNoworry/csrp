@@ -12,7 +12,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorMaterial;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -53,7 +53,7 @@ public final class LivingArmorItem extends ArmorItem {
     public void inventoryTick(ItemStack stack, net.minecraft.world.level.Level level, Entity entity,
             int slot, boolean selected) {
         super.inventoryTick(stack, level, entity, slot, selected);
-        if (level.isClientSide || !(entity instanceof LivingEntity holder)) return;
+        if (level.isClientSide() || !(entity instanceof LivingEntity holder)) return;
         if (sentient && holder.tickCount % 40 == 0 && Config.evolutionPhase(level) >= 2
                 && holder.getRandom().nextInt(10) == 0) {
             holder.addEffect(new MobEffectInstance(ModMobEffects.PREY, 1200, 0, false, false));
@@ -71,7 +71,7 @@ public final class LivingArmorItem extends ArmorItem {
         if (holder.level() instanceof ServerLevel serverLevel) {
             LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(serverLevel);
             if (lightning != null) {
-                lightning.moveTo(holder.position());
+                lightning.snapTo(holder.position());
                 lightning.setVisualOnly(true);
                 serverLevel.addFreshEntity(lightning);
             }

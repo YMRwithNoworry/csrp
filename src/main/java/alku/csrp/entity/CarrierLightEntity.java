@@ -8,7 +8,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
@@ -36,7 +36,7 @@ public final class CarrierLightEntity extends CarrierEntity {
     }
 
     public static boolean checkCarrierLightSpawnRules(EntityType<? extends Monster> type,
-                                                       ServerLevelAccessor level, MobSpawnType spawnType,
+                                                       ServerLevelAccessor level, EntitySpawnReason spawnType,
                                                        BlockPos pos, RandomSource random) {
         int phase = Config.evolutionPhase(level.getLevel());
         return phase >= 1 && phase <= 4

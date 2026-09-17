@@ -6,9 +6,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.projectile.Snowball;
+import net.minecraft.world.entity.projectile.throwableitemprojectile.Snowball;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -21,18 +21,18 @@ public final class QuenchItem extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             Snowball projectile = new Snowball(level, player);
             projectile.setItem(new ItemStack(this));
             projectile.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 1.0F, 1.0F);
             level.addFreshEntity(projectile);
             level.playSound(null, player.blockPosition(), SoundEvents.SNOWBALL_THROW,
-                    SoundSource.PLAYERS, 0.5F, 0.35F + level.random.nextFloat() * 0.15F);
+                    SoundSource.PLAYERS, 0.5F, 0.35F + level.getRandom().nextFloat() * 0.15F);
             stack.consume(1, player);
         }
-        return InteractionResultHolder.sidedSuccess(stack, level.isClientSide);
+        return InteractionResult.SUCCESS;
     }
 
     @Override

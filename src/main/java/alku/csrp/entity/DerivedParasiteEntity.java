@@ -72,8 +72,8 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
     private static final int DERIVED_ORB_ITEM_COOLDOWN_TICKS = 20 * 20;
     private static final int DERIVED_ORB_EXPERIENCE_STEAL = 340;
     private static final List<Holder<MobEffect>> NEURAL_NEGATIVE_EFFECTS = List.of(
-            MobEffects.DIG_SLOWDOWN,
-            MobEffects.CONFUSION,
+            MobEffects.MINING_FATIGUE,
+            MobEffects.NAUSEA,
             MobEffects.BLINDNESS,
             MobEffects.HUNGER,
             MobEffects.WEAKNESS,
@@ -176,7 +176,7 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             tickShadowRenderAlpha();
             spawnShadowParticles();
             spawnShadowHitParticles();
@@ -202,7 +202,7 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (level().isClientSide || source.is(DamageTypes.FELL_OUT_OF_WORLD)) {
+        if (level().isClientSide() || source.is(DamageTypes.FELL_OUT_OF_WORLD)) {
             return super.hurt(source, amount);
         }
         if (!isShadowed() && !isShadowClone()) {
@@ -382,7 +382,7 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
             return false;
         }
 
-        clone.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        clone.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         clone.markAsShadowClone(getUUID());
         clone.setTarget(getTarget());
         scaleCloneAttribute(clone, Attributes.MOVEMENT_SPEED, 1.33D);
@@ -706,7 +706,7 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
     public void setShadowed(boolean shadowed) {
         boolean changed = entityData.get(SHADOWED) != shadowed;
         entityData.set(SHADOWED, shadowed);
-        if (changed && shadowed && !level().isClientSide) {
+        if (changed && shadowed && !level().isClientSide()) {
             level().broadcastEntityEvent(this, SHADOW_HIT_EVENT);
         }
     }

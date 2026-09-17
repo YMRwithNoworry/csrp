@@ -27,8 +27,8 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
-import net.minecraft.world.entity.animal.WaterAnimal;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.animal.fish.WaterAnimal;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -120,7 +120,7 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
         super.tick();
         setNoGravity(true);
         noPhysics = true;
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         if (onGround()) {
@@ -201,7 +201,7 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
         if (worker == null) {
             return;
         }
-        worker.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        worker.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         worker.setColonyTask(colony.pos(), WorkerEntity.colonyRadius(colony));
         level.addFreshEntity(worker);
     }
@@ -224,7 +224,7 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
         float spawnDistance = 4.0F * Mth.cos((float) Math.PI / 18.0F);
         Vec3 spawn = position().add(-Mth.sin(heading) * spawnDistance, getEyeHeight(),
                 Mth.cos(heading) * spawnDistance);
-        succor.moveTo(spawn.x, spawn.y, spawn.z, getYRot(), 0.0F);
+        succor.snapTo(spawn.x, spawn.y, spawn.z, getYRot(), 0.0F);
         int actionType = random.nextInt(3) + 1;
         boolean teleportReserved = false;
         for (Entity entity : level.getAllEntities()) {

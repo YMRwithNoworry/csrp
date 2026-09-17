@@ -4,10 +4,10 @@ import alku.csrp.Csrp;
 import alku.csrp.entity.PullingBallEntity;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public final class PullingBallRenderer extends EntityRenderer<PullingBallEntity> {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/pulling_ball.png");
 
     public PullingBallRenderer(EntityRendererProvider.Context context) {
@@ -15,7 +15,7 @@ public final class PullingBallRenderer extends EntityRenderer<PullingBallEntity>
     }
 
     @Override
-    public ResourceLocation getTextureLocation(PullingBallEntity entity) {
+    public Identifier getTextureLocation(PullingBallEntity entity) {
         return TEXTURE;
     }
 }

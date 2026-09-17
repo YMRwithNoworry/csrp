@@ -19,7 +19,7 @@ public final class ScentMusicEvents {
 
     @SubscribeEvent
     public static void onEntityJoin(EntityJoinLevelEvent event) {
-        if (!event.getLevel().isClientSide || !(event.getEntity() instanceof ParasiticScentEntity)) {
+        if (!event.getLevel().isClientSide() || !(event.getEntity() instanceof ParasiticScentEntity)) {
             return;
         }
         if (current == null || current.isStopped()) {

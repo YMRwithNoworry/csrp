@@ -96,7 +96,7 @@ public final class VisceraEntity extends PrimitiveParasiteEntity implements Manu
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             setClimbing(horizontalCollision);
             LivingEntity target = getTarget();
             if (target == null || !target.isAlive()) {
@@ -121,7 +121,7 @@ public final class VisceraEntity extends PrimitiveParasiteEntity implements Manu
     @Override
     public void push(Entity entity) {
         super.push(entity);
-        if (!level().isClientSide && getSkin() == SKIN_VIRULENT
+        if (!level().isClientSide() && getSkin() == SKIN_VIRULENT
                 && entity instanceof LivingEntity target && !(target instanceof Parasite)) {
             EffectStacking.apply(target, ModMobEffects.VIRAL, 40, 0);
         }
@@ -380,7 +380,7 @@ public final class VisceraEntity extends PrimitiveParasiteEntity implements Manu
             LivingEntity target = getTarget();
             return evading || target != null && target.isAlive() && getParasiteStatus() > 0
                     && getParasiteStatus() < 3 && onGround()
-                    && !hasEffect(MobEffects.MOVEMENT_SLOWDOWN)
+                    && !hasEffect(MobEffects.SLOWNESS)
                     && distanceToSqr(target) > 16.0D && distanceToSqr(target) < 225.0D
                     && hasLineOfSight(target);
         }
@@ -410,7 +410,7 @@ public final class VisceraEntity extends PrimitiveParasiteEntity implements Manu
                 }
                 return;
             }
-            if (target == null || hasEffect(MobEffects.MOVEMENT_SLOWDOWN)) {
+            if (target == null || hasEffect(MobEffects.SLOWNESS)) {
                 return;
             }
             double distance = distanceToSqr(target);

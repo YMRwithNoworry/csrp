@@ -23,8 +23,8 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.WaterAnimal;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.animal.fish.WaterAnimal;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
@@ -174,7 +174,7 @@ public final class DredgeEntity extends CrudeParasiteEntity {
             stillAnimationTicks = 0;
         }
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
 
@@ -232,8 +232,8 @@ public final class DredgeEntity extends CrudeParasiteEntity {
             clearTargetedEntity();
         } else if (hasLineOfSight(target) && distanceToSqr(target) > 0.0D
                 && canPull && getTargetedEntity() != null) {
-            target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 20, 1, false, false), this);
-            target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 20, 1, false, false), this);
+            target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 20, 1, false, false), this);
+            target.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 20, 1, false, false), this);
             lookAt(target, 30.0F, 30.0F);
             applyPrimitiveMinimumDamage(target, 0.02F);
             setParasiteStatus(STATUS_PULLING);
@@ -288,7 +288,7 @@ public final class DredgeEntity extends CrudeParasiteEntity {
             targetedEntity = null;
             return null;
         }
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             return getTarget();
         }
         if (targetedEntity != null && targetedEntity.getId() == entityId) {

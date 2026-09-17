@@ -4,7 +4,7 @@ import alku.csrp.Csrp;
 import alku.csrp.compendium.network.CompendiumUnlockPayload;
 import alku.csrp.entity.Parasite;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
@@ -25,7 +25,7 @@ public final class CompendiumEvents {
     @SubscribeEvent
     public static void onDeath(LivingDeathEvent event) {
         if (event.getSource().getEntity() instanceof ServerPlayer killer) {
-            ResourceLocation victimId = BuiltInRegistries.ENTITY_TYPE.getKey(event.getEntity().getType());
+            Identifier victimId = BuiltInRegistries.ENTITY_TYPE.getKey(event.getEntity().getType());
             if (victimId.getNamespace().equals(Csrp.MODID)) {
                 CompendiumSavedData data = CompendiumSavedData.get(killer.getServer());
                 int kills = data.progress(killer.getUUID()).addKill(victimId.toString());
@@ -72,7 +72,7 @@ public final class CompendiumEvents {
         if (!(event.getEntity() instanceof ServerPlayer player)) {
             return;
         }
-        ResourceLocation id = BuiltInRegistries.BLOCK.getKey(
+        Identifier id = BuiltInRegistries.BLOCK.getKey(
                 event.getLevel().getBlockState(event.getPos()).getBlock());
         unlockBlock(player, id);
     }
@@ -82,7 +82,7 @@ public final class CompendiumEvents {
         if (!(event.getEntity() instanceof ServerPlayer player)) {
             return;
         }
-        ResourceLocation id = BuiltInRegistries.MOB_EFFECT.getKey(event.getEffectInstance().getEffect().value());
+        Identifier id = BuiltInRegistries.MOB_EFFECT.getKey(event.getEffectInstance().getEffect().value());
         if (!id.getNamespace().equals(Csrp.MODID)) {
             return;
         }
@@ -104,7 +104,7 @@ public final class CompendiumEvents {
         }
     }
 
-    private static void unlockBlock(ServerPlayer player, ResourceLocation id) {
+    private static void unlockBlock(ServerPlayer player, Identifier id) {
         if (!id.getNamespace().equals(Csrp.MODID)) {
             return;
         }

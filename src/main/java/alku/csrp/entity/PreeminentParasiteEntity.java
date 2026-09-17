@@ -27,7 +27,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -35,7 +35,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
@@ -215,7 +215,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
             setNoGravity(true);
             noPhysics = true;
         }
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         if (blockBreakCooldown > 0) {
@@ -277,7 +277,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (!level().isClientSide && isStealthKind()) {
+        if (!level().isClientSide() && isStealthKind()) {
             revealStealth();
         }
         return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
@@ -302,7 +302,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
         }
         target.addEffect(new MobEffectInstance(MobEffects.HUNGER, 300, 4, false, false), this);
         target.addEffect(new MobEffectInstance(ModMobEffects.NEEDLER, 2400, 4, false, false), this);
-        target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 300, 4, false, false), this);
+        target.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 300, 4, false, false), this);
         target.addEffect(new MobEffectInstance(MobEffects.WITHER, 200, 4, false, false), this);
         return true;
     }
@@ -376,7 +376,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
+                                        EntitySpawnReason spawnType, @Nullable SpawnGroupData spawnGroupData) {
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
         if (random.nextDouble() < Config.variantSpawnChance()
                 || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase()) {
@@ -630,7 +630,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
         if (worker == null) {
             return;
         }
-        worker.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        worker.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         worker.setColonyTask(colony.pos(), WorkerEntity.colonyRadius(colony));
         serverLevel.addFreshEntity(worker);
     }
@@ -725,7 +725,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     }
 
     private void breakBlocksTowardsTarget(LivingEntity target, Kind activeKind) {
-        if (blockBreakCooldown > 0 || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+        if (blockBreakCooldown > 0 || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
             return;
         }
         Vec3 direction = target.position().subtract(position());
@@ -773,7 +773,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
         float spawnDistance = 4.0F * Mth.cos((float) Math.PI / 18.0F);
         Vec3 spawn = position().add(-Mth.sin(heading) * spawnDistance, getEyeHeight(),
                 Mth.cos(heading) * spawnDistance);
-        flam.moveTo(spawn.x, spawn.y, spawn.z, getYRot(), 0.0F);
+        flam.snapTo(spawn.x, spawn.y, spawn.z, getYRot(), 0.0F);
         int actionType = random.nextInt(3) + 1;
         if (actionType == FlamEntity.ACTION_TELEPORT && (distanceToSqr(target) < 100.0D
                 || !target.onGround() || teleportActionReserved)) {
@@ -834,7 +834,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
         bomb.configure(this, 80, spawningBomb ? 4.0F : 8.0F,
                 (float) getAttributeValue(Attributes.ATTACK_DAMAGE) * MobsConfig.jinjoExplosionMultiplier(),
                 7, spawningBomb ? 2 : 3, MobsConfig.jinjoGriefing());
-        bomb.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        bomb.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         level().addFreshEntity(bomb);
         triggerAttackAnimation();
     }
@@ -1448,7 +1448,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     }
 
     private void breakHaunterBlocks(LivingEntity target) {
-        if (!level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
+        if (!level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)
                 || !EventHooks.canEntityGrief(level(), this)) {
             return;
         }

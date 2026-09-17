@@ -6,7 +6,7 @@ import alku.csrp.block.entity.ParasiteLootBlockEntity;
 import alku.csrp.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.Mth;
@@ -57,7 +57,7 @@ public final class MeteorCrashFeature {
             default -> {
             }
         }
-        StructurePlacer.place(level, ResourceLocation.fromNamespaceAndPath(Csrp.MODID, out), impactCenter);
+        StructurePlacer.place(level, Identifier.fromNamespaceAndPath(Csrp.MODID, out), impactCenter);
 
         int fires = 18 + random.nextInt(18);
         int fireRadius = 10;
@@ -168,7 +168,7 @@ public final class MeteorCrashFeature {
         int half = 22;
         int fix = 2;
         BlockPos meteorPos = structPos.above(14).offset(-half - fix, 0, -half - fix);
-        StructurePlacer.place(level, ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "meteor"), meteorPos);
+        StructurePlacer.place(level, Identifier.fromNamespaceAndPath(Csrp.MODID, "meteor"), meteorPos);
 
         int i1 = meteorPos.above(14).getY();
         int l1 = meteorPos.above(14).offset(half, 0, 0).getX();
@@ -336,7 +336,7 @@ public final class MeteorCrashFeature {
     }
 
     private static boolean isParasiteBlock(BlockState state) {
-        ResourceLocation id = BuiltInRegistries.BLOCK.getKey(state.getBlock());
+        Identifier id = BuiltInRegistries.BLOCK.getKey(state.getBlock());
         return id.getNamespace().equals(Csrp.MODID);
     }
 }

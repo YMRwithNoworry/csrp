@@ -79,7 +79,7 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide || activeKind() != Kind.BODIES) {
+        if (level().isClientSide() || activeKind() != Kind.BODIES) {
             return;
         }
         if (--supportCooldown > 0) {

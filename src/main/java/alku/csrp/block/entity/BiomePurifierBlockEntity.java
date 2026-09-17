@@ -38,7 +38,7 @@ public final class BiomePurifierBlockEntity extends BlockEntity {
 
     public static void serverTick(Level level, BlockPos pos, BlockState state,
             BlockEntity blockEntity) {
-        if (!(blockEntity instanceof BiomePurifierBlockEntity purifier) || level.isClientSide) {
+        if (!(blockEntity instanceof BiomePurifierBlockEntity purifier) || level.isClientSide()) {
             return;
         }
         purifier.tick((ServerLevel) level);

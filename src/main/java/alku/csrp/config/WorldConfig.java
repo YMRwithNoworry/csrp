@@ -1,6 +1,6 @@
 package alku.csrp.config;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.neoforged.neoforge.common.ModConfigSpec;
 
@@ -45,7 +45,7 @@ public final class WorldConfig {
     private static final ModConfigSpec.ConfigValue<List<? extends String>> DIMENSION_LIST = BUILDER
             .comment("Dimension ids used by dimensionListIsBlacklist.")
             .defineList("dimensionList", List.of(), value -> value instanceof String id
-                    && ResourceLocation.tryParse(id) != null);
+                    && Identifier.tryParse(id) != null);
 
     public static final ModConfigSpec SPEC = BUILDER.build();
 

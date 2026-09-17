@@ -4,7 +4,7 @@ import alku.csrp.registry.ModMobEffects;
 import alku.csrp.Csrp;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -14,7 +14,7 @@ import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -35,21 +35,21 @@ public final class ThornshadeDecanterItem extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         player.startUsingItem(hand);
-        return InteractionResultHolder.consume(player.getItemInHand(hand));
+        return InteractionResult.CONSUME;
     }
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity user) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             user.addEffect(new MobEffectInstance(ModMobEffects.THORNSHADE_THORNS,
                     EFFECT_DURATION_TICKS, 0, false, true));
         }
         if (!(user instanceof Player player) || !player.getAbilities().instabuild) {
             stack.shrink(1);
         }
-        if (!level.isClientSide && user instanceof Player drinker) {
+        if (!level.isClientSide() && user instanceof Player drinker) {
             int uses = drinker.getPersistentData().getInt(USES_KEY) + 1;
             drinker.getPersistentData().putInt(USES_KEY, uses);
             if (uses >= EXPLOSION_USE) {
@@ -72,7 +72,7 @@ public final class ThornshadeDecanterItem extends Item {
                 SoundSource.PLAYERS, 1.2F, 0.8F);
         if (player instanceof ServerPlayer serverPlayer) {
             AdvancementHolder holder = serverPlayer.server.getAdvancements()
-                    .get(ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+                    .get(Identifier.fromNamespaceAndPath(Csrp.MODID,
                             "beautiful_self_destruction"));
             if (holder != null) {
                 serverPlayer.getAdvancements().award(holder, "triggered");

@@ -23,14 +23,14 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -152,7 +152,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind() == Kind.DREADNAUT) {
             setNoGravity(true);
         }
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         bossEvent.setProgress(Math.max(0.0F, getHealth() / getMaxHealth()));
@@ -204,7 +204,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         if (hurt && source.getEntity() instanceof ServerPlayer player) {
             bossEvent.addPlayer(player);
         }
-        if (hurt && activeKind() == Kind.DREADNAUT && !level().isClientSide
+        if (hurt && activeKind() == Kind.DREADNAUT && !level().isClientSide()
                 && !source.is(DamageTypeTags.IS_FALL)) {
             detachTendrilAtHealthThreshold();
         }
@@ -376,7 +376,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void breakBlocksTowardsTarget(LivingEntity target) {
-        if (blockBreakCooldown > 0 || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+        if (blockBreakCooldown > 0 || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
             return;
         }
         Vec3 direction = target.position().subtract(position());
@@ -485,9 +485,9 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
             return;
         }
         AncientPart part = bodyParts[Math.max(0, Math.min(bodyParts.length - 1, partId - 1))];
-        tendril.moveTo(part.getX(), part.getY(), part.getZ(), getYRot(), 0.0F);
+        tendril.snapTo(part.getX(), part.getY(), part.getZ(), getYRot(), 0.0F);
         tendril.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(tendril.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         tendril.setTarget(getTarget());
         tendril.setDeltaMovement(getDeltaMovement().scale(0.5D).add(0.0D, -0.1D, 0.0D));
         serverLevel.addFreshEntity(tendril);
@@ -512,10 +512,10 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         }
         double angle = random.nextDouble() * Math.PI * 2.0D;
         double radius = random.nextDouble() * 10.0D;
-        pod.moveTo(x + Math.cos(angle) * radius, y, z + Math.sin(angle) * radius,
+        pod.snapTo(x + Math.cos(angle) * radius, y, z + Math.sin(angle) * radius,
                 random.nextFloat() * 360.0F, 0.0F);
         pod.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(pod.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         pod.setOwner((byte) 62);
         pod.setTarget(target);
         pod.setDeltaMovement(0.0D, -0.35D, 0.0D);

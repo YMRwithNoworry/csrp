@@ -36,7 +36,7 @@ public final class MarauderizedBearEntity extends TetheredMarauderizedEntity {
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             tickTether();
         }
     }

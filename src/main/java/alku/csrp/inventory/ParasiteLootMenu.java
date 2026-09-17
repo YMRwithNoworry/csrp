@@ -121,7 +121,7 @@ public final class ParasiteLootMenu extends AbstractContainerMenu {
     }
 
     private void applyParasiteEffects(Player player, float fullness) {
-        if (player.level().isClientSide) {
+        if (player.level().isClientSide()) {
             return;
         }
         float clamped = Math.max(0.0F, Math.min(1.0F, fullness));

@@ -125,7 +125,7 @@ public final class ParasiteLootBlockEntity extends BaseContainerBlockEntity {
      * tumor never refreshes or rerolls already collected loot.</p>
      */
     private void generateLootIfNeeded() {
-        if (lootGenerated || level == null || level.isClientSide) {
+        if (lootGenerated || level == null || level.isClientSide()) {
             return;
         }
         if (!(getBlockState().getBlock() instanceof ParasiteLootBlock block)) {

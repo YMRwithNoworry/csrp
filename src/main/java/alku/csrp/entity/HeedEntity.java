@@ -28,8 +28,8 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.animal.WaterAnimal;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.animal.fish.WaterAnimal;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
@@ -162,7 +162,7 @@ public final class HeedEntity extends CrudeParasiteEntity {
         if (scent == null) {
             return;
         }
-        scent.moveTo(target.getX(), target.getY(), target.getZ(), target.getYRot(), target.getXRot());
+        scent.snapTo(target.getX(), target.getY(), target.getZ(), target.getYRot(), target.getXRot());
         scent.setTargetToKill(target, false);
         scent.setDieAfterKilling(true);
         scent.setCanFollow(true);
@@ -179,7 +179,7 @@ public final class HeedEntity extends CrudeParasiteEntity {
     }
 
     private boolean hurtHead(DamageSource source, float amount) {
-        if (!level().isClientSide && random.nextBoolean()) {
+        if (!level().isClientSide() && random.nextBoolean()) {
             EffectStacking.apply(this, ModMobEffects.BLEED, 80, 0);
         }
         return hurt(source, amount * 3.0F);

@@ -3,7 +3,7 @@ package alku.csrp.registry;
 import alku.csrp.Csrp;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.damagesource.DamageType;
 
 public final class ModDamageTypes {
@@ -17,6 +17,6 @@ public final class ModDamageTypes {
 
     private static ResourceKey<DamageType> key(String id) {
         return ResourceKey.create(Registries.DAMAGE_TYPE,
-                ResourceLocation.fromNamespaceAndPath(Csrp.MODID, id));
+                Identifier.fromNamespaceAndPath(Csrp.MODID, id));
     }
 }

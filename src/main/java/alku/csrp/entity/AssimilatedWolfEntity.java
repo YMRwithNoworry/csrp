@@ -17,7 +17,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -102,7 +102,7 @@ public final class AssimilatedWolfEntity extends Monster implements CitadelAnima
     public net.minecraft.world.entity.SpawnGroupData finalizeSpawn(
             net.minecraft.world.level.ServerLevelAccessor level,
             net.minecraft.world.DifficultyInstance difficulty,
-            MobSpawnType spawnType,
+            EntitySpawnReason spawnType,
             net.minecraft.world.entity.SpawnGroupData spawnGroupData) {
         net.minecraft.world.entity.SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
 
@@ -188,21 +188,21 @@ public final class AssimilatedWolfEntity extends Monster implements CitadelAnima
         if (!stack.is(ModItems.SHRIMP.get()) || isShrimpFed()) {
             return super.mobInteract(player, hand);
         }
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             setShrimpFed(true);
             playSound(ModSounds.get("shrimp.eat"), 1.0F, 1.0F);
             if (!player.getAbilities().instabuild) {
                 stack.shrink(1);
             }
         }
-        return InteractionResult.sidedSuccess(level().isClientSide);
+        return InteractionResult.SUCCESS;
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             spawnMeltParticles();
             return;
         }
@@ -243,7 +243,7 @@ public final class AssimilatedWolfEntity extends Monster implements CitadelAnima
         // 转换为MovingFlesh实体
         Entity flesh = ModEntities.MOVINGFLESH.get().create(serverLevel);
         if (flesh instanceof LivingEntity living) {
-            living.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+            living.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
             serverLevel.addFreshEntity(living);
         }
         discard();

@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 /**
  * Evaluates the animation formulae exported from the 1.10.8 Tabula Java models.
@@ -100,7 +100,7 @@ final class LegacyAnimationLibrary {
     }
 
     private JsonObject loadEmbeddedAnimations() {
-        ResourceLocation location = ResourceLocation.fromNamespaceAndPath(
+        Identifier location = Identifier.fromNamespaceAndPath(
                 Csrp.MODID, "tabula/" + modelId + ".tbl");
         var resource = Minecraft.getInstance().getResourceManager().getResource(location).orElse(null);
         if (resource == null) {
@@ -121,7 +121,7 @@ final class LegacyAnimationLibrary {
     }
 
     private JsonObject loadLegacyAnimationResource() {
-        ResourceLocation location = ResourceLocation.fromNamespaceAndPath(
+        Identifier location = Identifier.fromNamespaceAndPath(
                 Csrp.MODID, "animations/" + modelId + ".animation.json");
         try (InputStream stream = Minecraft.getInstance().getResourceManager()
                 .getResource(location)

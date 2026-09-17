@@ -4,7 +4,7 @@ import alku.csrp.Csrp;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public final class CelestialCatalog {
     private static final Map<String, CelestialDefinition> BY_ID = new LinkedHashMap<>();
@@ -60,7 +60,7 @@ public final class CelestialCatalog {
             float extraOpacity, boolean fastStreak, float rotation, boolean animated, int frameCount,
             int frameTime, float yaw, float pitch, CelestialDefinition.OrbitPath path, float yawRange,
             float pitchMin, float pitchMax, float period, boolean oneShot) {
-        return new CelestialDefinition(id, ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+        return new CelestialDefinition(id, Identifier.fromNamespaceAndPath(Csrp.MODID,
                 "textures/celestial/" + texture), minPhase, maxPhase, chance, followsStars, stationary,
                 size, baseOpacity, extraOpacity, fastStreak, rotation, animated, frameCount, frameTime,
                 yaw, pitch, path, yawRange, pitchMin, pitchMax, period, oneShot);

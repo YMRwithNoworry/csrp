@@ -10,10 +10,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -55,7 +55,7 @@ public final class LegacyMobSpawnerItem extends Item {
         Level level = context.getLevel();
         ItemStack stack = context.getItemInHand();
         Player player = context.getPlayer();
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return InteractionResult.SUCCESS;
         }
         BlockPos spawnPos = context.getClickedPos().relative(context.getClickedFace());
@@ -76,31 +76,31 @@ public final class LegacyMobSpawnerItem extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
-        if (level.isClientSide) {
-            return InteractionResultHolder.pass(stack);
+        if (level.isClientSide()) {
+            return InteractionResult.PASS;
         }
         HitResult hit = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
         if (!(hit instanceof BlockHitResult blockHit) || hit.getType() != HitResult.Type.BLOCK) {
-            return InteractionResultHolder.pass(stack);
+            return InteractionResult.PASS;
         }
         BlockPos fluidPos = blockHit.getBlockPos();
         if (level.getFluidState(fluidPos).isEmpty()
                 || !player.mayUseItemAt(fluidPos, blockHit.getDirection(), stack)) {
-            return InteractionResultHolder.pass(stack);
+            return InteractionResult.PASS;
         }
         Entity entity = createEntity(level, fluidPos.getX() + 0.5D,
                 fluidPos.getY() + 0.5D, fluidPos.getZ() + 0.5D);
         if (entity == null) {
-            return InteractionResultHolder.pass(stack);
+            return InteractionResult.PASS;
         }
         finishSpawn(level, player, stack, entity);
         if (!level.addFreshEntity(entity)) {
-            return InteractionResultHolder.pass(stack);
+            return InteractionResult.PASS;
         }
         consume(player, stack);
-        return InteractionResultHolder.success(stack);
+        return InteractionResult.SUCCESS;
     }
 
     private Entity createEntity(Level level, double x, double y, double z) {
@@ -108,14 +108,14 @@ public final class LegacyMobSpawnerItem extends Item {
             return null;
         }
         String currentId = currentEntityId(legacyName);
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, currentId);
+        Identifier id = Identifier.fromNamespaceAndPath(Csrp.MODID, currentId);
         Optional<EntityType<?>> type = BuiltInRegistries.ENTITY_TYPE.getOptional(id);
         Entity entity = type.orElse(ModEntities.CRUX.get()).create(level);
         if (entity == null) {
             return null;
         }
-        entity.moveTo(x, y + (legacyName.equals("pod") ? 25.0D : 0.0D), z,
-                level.random.nextFloat() * 360.0F, 0.0F);
+        entity.snapTo(x, y + (legacyName.equals("pod") ? 25.0D : 0.0D), z,
+                level.getRandom().nextFloat() * 360.0F, 0.0F);
         return entity;
     }
 

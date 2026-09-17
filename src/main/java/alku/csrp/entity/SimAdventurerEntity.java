@@ -23,7 +23,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -135,13 +135,13 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
         super.tick();
         if (isMelting()) {
             freezeMelting();
-            if (level().isClientSide) {
+            if (level().isClientSide()) {
                 return;
             }
             tickMelting();
             return;
         }
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
 
@@ -172,7 +172,7 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
     @Override
     public void die(DamageSource source) {
         super.die(source);
-        if (level().isClientSide || isMelting()) {
+        if (level().isClientSide() || isMelting()) {
             return;
         }
 
@@ -251,7 +251,7 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, @Nullable SpawnGroupData spawnGroupData) {
+                                        EntitySpawnReason spawnType, @Nullable SpawnGroupData spawnGroupData) {
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
         if (!level.isClientSide() && getCustomName() == null) {
             setCustomName(Component.literal(PLAYER_IDENTITY_NAMES[random.nextInt(PLAYER_IDENTITY_NAMES.length)]));
@@ -311,9 +311,9 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
             if (thrall == null) {
                 return;
             }
-            thrall.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+            thrall.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
             thrall.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
+                    EntitySpawnReason.MOB_SUMMONED, null);
             copyIdentity(thrall);
             thrall.setTarget(getTarget());
             serverLevel.addFreshEntity(thrall);
@@ -361,9 +361,9 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
         if (head == null) {
             return;
         }
-        head.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        head.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         head.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         serverLevel.addFreshEntity(head);
     }
 
@@ -389,10 +389,10 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
             if (buglin == null) {
                 continue;
             }
-            buglin.moveTo(getX() + (random.nextDouble() - 0.5D), getY(), getZ() + (random.nextDouble() - 0.5D),
+            buglin.snapTo(getX() + (random.nextDouble() - 0.5D), getY(), getZ() + (random.nextDouble() - 0.5D),
                     getYRot(), 0.0F);
             buglin.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
+                    EntitySpawnReason.MOB_SUMMONED, null);
             serverLevel.addFreshEntity(buglin);
         }
     }

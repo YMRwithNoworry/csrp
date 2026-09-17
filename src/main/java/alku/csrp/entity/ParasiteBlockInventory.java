@@ -70,7 +70,7 @@ public final class ParasiteBlockInventory {
         }
         gore.setType((byte) 10);
         gore.setStoredItems(items);
-        gore.moveTo(parasite.getX(), parasite.getY() + parasite.getBbHeight() * 0.5D,
+        gore.snapTo(parasite.getX(), parasite.getY() + parasite.getBbHeight() * 0.5D,
                 parasite.getZ(), parasite.getYRot(), parasite.getXRot());
         gore.setMotion(level.getRandom().nextDouble() - 0.5D, 0.75D,
                 level.getRandom().nextDouble() - 0.5D, 0.25D, 0.75D);

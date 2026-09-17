@@ -19,7 +19,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
@@ -36,7 +36,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LeapAtTargetGoal;
@@ -48,7 +48,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.util.Mth;
@@ -82,7 +82,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
     private static final int NEW_DAMAGE_COOLDOWN_TICKS = 20;
     private static final int FIRE_ADAPTATION_BLOCK_TICKS = 10;
     private static final TagKey<DamageType> TACZ_BULLET_DAMAGE = TagKey.create(Registries.DAMAGE_TYPE,
-            ResourceLocation.fromNamespaceAndPath("tacz", "bullets"));
+            Identifier.fromNamespaceAndPath("tacz", "bullets"));
     private static final Map<Class<?>, Optional<Method>> TACZ_BULLET_GUN_ID_METHODS = new ConcurrentHashMap<>();
     private static final Map<Class<?>, Optional<Method>> TACZ_ITEM_GUN_ID_METHODS = new ConcurrentHashMap<>();
 
@@ -126,14 +126,14 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             tickBlockBreaking();
             int leapTicks = entityData.get(SPECIAL_LEAP_TICKS);
             if (leapTicks > 0) {
                 entityData.set(SPECIAL_LEAP_TICKS, leapTicks - 1);
             }
         }
-        if (!level().isClientSide && tickCount % 20 == 0 && !Config.useEvolutionPhases()
+        if (!level().isClientSide() && tickCount % 20 == 0 && !Config.useEvolutionPhases()
                 && level().getDifficulty() == Difficulty.HARD && Config.killcountPlus() > 0.0D) {
             double previous = legacyKillCount;
             legacyKillCount += Config.killcountPlus();
@@ -148,10 +148,10 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
                 }
             }
         }
-        if (!level().isClientSide && tickCount % 21 == 10 && hasEffect(ModMobEffects.ANTIMALL)) {
+        if (!level().isClientSide() && tickCount % 21 == 10 && hasEffect(ModMobEffects.ANTIMALL)) {
             reduceAllResistances(1);
         }
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             if (adaptationLearningCooldown > 0) {
                 adaptationLearningCooldown--;
             }
@@ -173,7 +173,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
         LivingEntity target = getTarget();
         if (profile == null || blockBreakCooldown > 0 || target == null || !target.isAlive()
                 || distanceToSqr(target) > 4096.0D
-                || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)
+                || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)
                 || !EventHooks.canEntityGrief(level(), this)) {
             return;
         }
@@ -321,7 +321,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
     @Override
     public boolean hurt(DamageSource source, float amount) {
         lastDamageAdaptationReduction = 0.0F;
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             entityData.set(ADAPTATION_HIT_STATUS, (byte) 0);
         }
         Entity attacker = source.getEntity();
@@ -340,13 +340,13 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
         if (source.is(DamageTypes.IN_WALL) || source.is(DamageTypes.FELL_OUT_OF_WORLD)) {
             return hurtWithIncomingDamageCap(source, amount);
         }
-        if (!level().isClientSide && (isOnFire() || source.is(DamageTypeTags.IS_FIRE))
+        if (!level().isClientSide() && (isOnFire() || source.is(DamageTypeTags.IS_FIRE))
                 && random.nextFloat() < fireAdaptationSuppressionChance()) {
             fireAdaptationBlockTicks = FIRE_ADAPTATION_BLOCK_TICKS;
         }
         String damageId = damageTypeId(source);
         int adaptationHits = damageAdaptations.getOrDefault(damageId, 0);
-        if (!level().isClientSide && adaptationLearningCooldown <= 0 && fireAdaptationBlockTicks <= 0
+        if (!level().isClientSide() && adaptationLearningCooldown <= 0 && fireAdaptationBlockTicks <= 0
                 && (damageAdaptations.containsKey(damageId)
                 || damageAdaptations.size() < maxLearnableDamageSources())
                 && shouldLearnDamageSource(source, damageId, adaptationHits)) {
@@ -355,7 +355,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
             adaptationLearningCooldown = NEW_DAMAGE_COOLDOWN_TICKS;
         }
         byte hitStatus = 0;
-        if (!level().isClientSide && adaptationHits > 0) {
+        if (!level().isClientSide() && adaptationHits > 0) {
             hitStatus = adaptationHits <= maxDamageAdaptationHits() ? (byte) 1 : (byte) 2;
             entityData.set(ADAPTATION_HIT_STATUS, hitStatus);
         }
@@ -364,7 +364,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
         float adaptedDamage = amount * (1.0F - reduction);
         lastDamageAdaptationReduction = Math.max(0.0F, amount - adaptedDamage);
         boolean hurt = hurtWithIncomingDamageCap(source, adaptedDamage);
-        if (hurt && !level().isClientSide && hitStatus != 0) {
+        if (hurt && !level().isClientSide() && hitStatus != 0) {
             playSound(hitStatus == 2 ? ModSounds.ADAPTATION_FULL.get() : ModSounds.ADAPTATION_PARTIAL.get(),
                     getSoundVolume(), getVoicePitch());
         }
@@ -593,7 +593,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
             return null;
         }
 
-        ResourceLocation gunId = gunIdFromTaczBullet(direct);
+        Identifier gunId = gunIdFromTaczBullet(direct);
         if (gunId == null && source.getEntity() instanceof LivingEntity shooter) {
             gunId = gunIdFromTaczItem(shooter.getMainHandItem());
         }
@@ -605,11 +605,11 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
         if (entity == null) {
             return false;
         }
-        ResourceLocation entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
+        Identifier entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
         return entityId.getNamespace().equals("tacz") && entityId.getPath().equals("bullet");
     }
 
-    private static ResourceLocation gunIdFromTaczBullet(Entity bullet) {
+    private static Identifier gunIdFromTaczBullet(Entity bullet) {
         if (!isTaczBullet(bullet)) {
             return null;
         }
@@ -618,7 +618,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
         return invokeGunId(method, bullet);
     }
 
-    private static ResourceLocation gunIdFromTaczItem(ItemStack stack) {
+    private static Identifier gunIdFromTaczItem(ItemStack stack) {
         if (stack.isEmpty()) {
             return null;
         }
@@ -636,13 +636,13 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
         }
     }
 
-    private static ResourceLocation invokeGunId(Optional<Method> method, Object owner, Object... arguments) {
+    private static Identifier invokeGunId(Optional<Method> method, Object owner, Object... arguments) {
         if (method.isEmpty()) {
             return null;
         }
         try {
             Object result = method.get().invoke(owner, arguments);
-            return result instanceof ResourceLocation id ? id : null;
+            return result instanceof Identifier id ? id : null;
         } catch (ReflectiveOperationException | RuntimeException ignored) {
             return null;
         }
@@ -719,8 +719,8 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
             return;
         }
         adaptedFormSpawned = true;
-        adapted.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
-        adapted.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()), MobSpawnType.MOB_SUMMONED, null);
+        adapted.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        adapted.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()), EntitySpawnReason.MOB_SUMMONED, null);
         adapted.setCustomName(getCustomName());
         adapted.setCustomNameVisible(isCustomNameVisible());
         if (isPersistenceRequired()) {

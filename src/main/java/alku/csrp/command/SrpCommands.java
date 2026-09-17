@@ -34,7 +34,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -660,10 +660,10 @@ public final class SrpCommands {
         if (entity == null) {
             return failure(source, "Unable to create Nidus/Nexus entity");
         }
-        entity.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D,
+        entity.snapTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D,
                 source.getLevel().getRandom().nextFloat() * 360.0F, 0.0F);
         entity.finalizeSpawn(source.getLevel(), source.getLevel().getCurrentDifficultyAt(pos),
-                MobSpawnType.COMMAND, null);
+                EntitySpawnReason.COMMAND, null);
         source.getLevel().addFreshEntity(entity);
         return success(source, "Summoned Nidus/Nexus at " + format(pos) + " with stage " + stage);
     }

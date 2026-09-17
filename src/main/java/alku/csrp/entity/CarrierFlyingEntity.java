@@ -68,10 +68,10 @@ public final class CarrierFlyingEntity extends CarrierEntity {
         super.tick();
         if (!isRemoved()) {
             setNoGravity(true);
-            if (!level().isClientSide && onGround()) {
+            if (!level().isClientSide() && onGround()) {
                 getMoveControl().setWantedPosition(getX(), getY() + 5.0, getZ(), 0.5);
             }
-            if (!level().isClientSide && getY() > MobsConfig.carrierFlyingMaxY()) {
+            if (!level().isClientSide() && getY() > MobsConfig.carrierFlyingMaxY()) {
                 setDeltaMovement(getDeltaMovement().add(0.0D, -0.08D, 0.0D));
             }
         }

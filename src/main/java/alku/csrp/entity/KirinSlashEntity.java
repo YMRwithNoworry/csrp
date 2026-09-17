@@ -153,7 +153,7 @@ public class KirinSlashEntity extends Entity {
             return;
         }
 
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
 

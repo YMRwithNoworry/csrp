@@ -11,7 +11,7 @@ public final class FosterMobEffect extends MarkerMobEffect {
 
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
-        if (!entity.level().isClientSide && entity instanceof PrimitiveParasiteEntity parasite) {
+        if (!entity.level().isClientSide() && entity instanceof PrimitiveParasiteEntity parasite) {
             parasite.increaseAllResistances();
         }
         return true;

@@ -15,7 +15,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -77,7 +77,7 @@ public class AdaScuttlerEntity extends BurrowingVariantEntity implements Pulling
 
     public static boolean checkAdaScuttlerSpawnRules(EntityType<? extends AdaScuttlerEntity> type,
                                                       ServerLevelAccessor level,
-                                                      MobSpawnType spawnType,
+                                                      EntitySpawnReason spawnType,
                                                       BlockPos pos,
                                                       RandomSource random) {
         int phase = Config.evolutionPhase(level.getLevel());
@@ -126,7 +126,7 @@ public class AdaScuttlerEntity extends BurrowingVariantEntity implements Pulling
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             if (abilityCooldown > 0) abilityCooldown--;
             updateArachnidaStatus();
         }
@@ -364,7 +364,7 @@ public class AdaScuttlerEntity extends BurrowingVariantEntity implements Pulling
 
     @Override
     public boolean captureTarget(LivingEntity target) {
-        if (level().isClientSide || target == null || !target.isAlive()) {
+        if (level().isClientSide() || target == null || !target.isAlive()) {
             return false;
         }
 
@@ -377,8 +377,8 @@ public class AdaScuttlerEntity extends BurrowingVariantEntity implements Pulling
 
         // 施加负面效果
         target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 120, 1), this);
-        target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 100, 2), this);
-        target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 100, 2), this);
+        target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 100, 2), this);
+        target.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 100, 2), this);
 
         return true;
     }

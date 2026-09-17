@@ -19,7 +19,7 @@ import net.minecraft.world.item.component.CustomData;
 import alku.csrp.registry.ModTiers;
 import alku.csrp.Csrp;
 import alku.csrp.registry.ModMobEffects;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -39,7 +39,7 @@ public class LivingWeaponItem extends SwordItem {
             Supplier<? extends Item> next, Item.Properties properties) {
         super(ModTiers.LIVING, properties.attributes(SwordItem.createAttributes(ModTiers.LIVING, damage - 1.0F, attackSpeed)
                 .withModifierAdded(Attributes.ENTITY_INTERACTION_RANGE,
-                        new AttributeModifier(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "living_weapon_reach"),
+                        new AttributeModifier(Identifier.fromNamespaceAndPath(Csrp.MODID, "living_weapon_reach"),
                                 reach, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)));
         this.sentient = sentient;
         this.next = next;
@@ -53,8 +53,8 @@ public class LivingWeaponItem extends SwordItem {
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
         boolean result = super.hurtEnemy(stack, target, attacker);
-        if (result && !target.level().isClientSide) applyWeaponEffect(stack, target, attacker);
-        if (result && !target.level().isClientSide && target.isDeadOrDying()) {
+        if (result && !target.level().isClientSide()) applyWeaponEffect(stack, target, attacker);
+        if (result && !target.level().isClientSide() && target.isDeadOrDying()) {
             CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {
                 tag.putInt(KILLS, tag.getInt(KILLS) + Math.round(target.getMaxHealth()));
             });
@@ -113,7 +113,7 @@ public class LivingWeaponItem extends SwordItem {
     public void inventoryTick(ItemStack stack, Level level, net.minecraft.world.entity.Entity entity,
             int slot, boolean selected) {
         super.inventoryTick(stack, level, entity, slot, selected);
-        if (level.isClientSide || !(entity instanceof LivingEntity holder)) return;
+        if (level.isClientSide() || !(entity instanceof LivingEntity holder)) return;
         if (sentient && holder.tickCount % 40 == 0 && Config.evolutionPhase(level) >= 2
                 && holder.getRandom().nextInt(100) == 0) {
             holder.addEffect(new MobEffectInstance(ModMobEffects.PREY, 1200, 0, false, false));
@@ -138,7 +138,7 @@ public class LivingWeaponItem extends SwordItem {
         if (holder.level() instanceof ServerLevel serverLevel) {
             LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(serverLevel);
             if (lightning != null) {
-                lightning.moveTo(holder.position());
+                lightning.snapTo(holder.position());
                 lightning.setVisualOnly(true);
                 serverLevel.addFreshEntity(lightning);
             }

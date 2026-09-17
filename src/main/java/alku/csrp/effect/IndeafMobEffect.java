@@ -11,7 +11,7 @@ public final class IndeafMobEffect extends MarkerMobEffect {
 
     @Override
     public boolean applyEffectTick(LivingEntity entity, int amplifier) {
-        if (!entity.level().isClientSide) {
+        if (!entity.level().isClientSide()) {
             var velocity = entity.getDeltaMovement();
             entity.setDeltaMovement(0.0D, velocity.y, 0.0D);
             if (entity instanceof Player player) {

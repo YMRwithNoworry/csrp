@@ -60,7 +60,7 @@ public final class WaveEntity extends PathfinderMob implements Parasite {
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             spawnGroundParticles();
             return;
         }

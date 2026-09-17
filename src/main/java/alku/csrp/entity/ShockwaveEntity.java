@@ -14,7 +14,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -53,7 +53,7 @@ public final class ShockwaveEntity extends Entity {
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         LongarmsEntity owner = resolveOwner();
@@ -100,7 +100,7 @@ public final class ShockwaveEntity extends Entity {
     }
 
     private void breakContactBlocks(LongarmsEntity owner, Vec3 movement) {
-        if (!level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+        if (!level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
             return;
         }
         Vec3 next = position().add(movement);

@@ -4,10 +4,10 @@ import alku.csrp.entity.KirinSlashEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -122,8 +122,8 @@ public class KirinSlashRenderer extends EntityRenderer<KirinSlashEntity> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(KirinSlashEntity entity) {
-        return ResourceLocation.withDefaultNamespace("textures/entity/kirin_slash.png");
+    public Identifier getTextureLocation(KirinSlashEntity entity) {
+        return Identifier.withDefaultNamespace("textures/entity/kirin_slash.png");
     }
 
     @Override

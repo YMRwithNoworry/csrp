@@ -5,13 +5,13 @@ import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModSounds;
 import java.util.Optional;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 /** Shared immediate transformations used by the original creative evolution tools. */
 public final class ParasiteTransformation {
@@ -65,7 +65,7 @@ public final class ParasiteTransformation {
             return nexus;
         }
 
-        ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(type);
+        Identifier id = BuiltInRegistries.ENTITY_TYPE.getKey(type);
         if (!id.getNamespace().equals(Csrp.MODID)) {
             return null;
         }
@@ -93,7 +93,7 @@ public final class ParasiteTransformation {
             return nexus;
         }
 
-        ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(type);
+        Identifier id = BuiltInRegistries.ENTITY_TYPE.getKey(type);
         if (!id.getNamespace().equals(Csrp.MODID)) {
             return null;
         }
@@ -162,7 +162,7 @@ public final class ParasiteTransformation {
     }
 
     private static Optional<EntityType<?>> registeredType(String path) {
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, path);
+        Identifier id = Identifier.fromNamespaceAndPath(Csrp.MODID, path);
         return BuiltInRegistries.ENTITY_TYPE.containsKey(id)
                 ? Optional.of(BuiltInRegistries.ENTITY_TYPE.get(id)) : Optional.empty();
     }
@@ -172,9 +172,9 @@ public final class ParasiteTransformation {
         if (!(created instanceof Mob replacement)) {
             return false;
         }
-        replacement.moveTo(source.getX(), source.getY(), source.getZ(), source.getYRot(), source.getXRot());
+        replacement.snapTo(source.getX(), source.getY(), source.getZ(), source.getYRot(), source.getXRot());
         replacement.finalizeSpawn(level, level.getCurrentDifficultyAt(source.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         replacement.setCustomName(source.getCustomName());
         replacement.setCustomNameVisible(source.isCustomNameVisible());
         if (source instanceof Mob sourceMob) {

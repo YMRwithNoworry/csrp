@@ -3,7 +3,7 @@ package alku.csrp.client.model;
 import alku.csrp.Csrp;
 import alku.csrp.entity.TendrilEntity;
 import java.util.Map;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public final class TendrilModel extends CitadelModelSet<TendrilEntity> {
     private static final String[] KEYS = {
@@ -26,7 +26,7 @@ public final class TendrilModel extends CitadelModelSet<TendrilEntity> {
                 "dragonelw", new ModelSpec("tendril_dragonelw", "tendril_static"),
                 "dragonerw", new ModelSpec("tendril_dragonerw", "tendril_static")),
                 entity -> KEYS[entity.getSkin()],
-                entity -> ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+                entity -> Identifier.fromNamespaceAndPath(Csrp.MODID,
                         "textures/entity/monster/" + TEXTURES[entity.getSkin()]));
     }
 }

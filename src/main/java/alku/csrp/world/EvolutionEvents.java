@@ -11,14 +11,14 @@ import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.effect.MobEffects;
@@ -55,10 +55,10 @@ public final class EvolutionEvents {
             + "or an issue with the mod or an addon you have installed. Excess parasites will be removed as a "
             + "result, THIS IS INTENDED.";
     private static final double SPRINT_MIN_HORIZONTAL_DISTANCE_SQR = 1.0E-4D;
-    private static final ResourceLocation PHASE_TEN_HEALTH =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "phase_ten_health");
-    private static final ResourceLocation PHASE_TEN_DAMAGE =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "phase_ten_damage");
+    private static final Identifier PHASE_TEN_HEALTH =
+            Identifier.fromNamespaceAndPath(Csrp.MODID, "phase_ten_health");
+    private static final Identifier PHASE_TEN_DAMAGE =
+            Identifier.fromNamespaceAndPath(Csrp.MODID, "phase_ten_damage");
 
     private EvolutionEvents() {
     }
@@ -151,7 +151,7 @@ public final class EvolutionEvents {
     @SubscribeEvent
     public static void slowCropGrowth(CropGrowEvent.Pre event) {
         if (event.getLevel() instanceof ServerLevel level
-                && level.random.nextFloat() < EvolutionSystem.cropGrowthBlockChance(
+                && level.getRandom().nextFloat() < EvolutionSystem.cropGrowthBlockChance(
                         SrpWorldData.get(level).evolutionPhase())) {
             event.setResult(CropGrowEvent.Pre.Result.DO_NOT_GROW);
         }
@@ -209,7 +209,7 @@ public final class EvolutionEvents {
             return;
         }
         for (var entry : List.copyOf(event.getSpawnerDataList())) {
-            ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(entry.type);
+            Identifier id = BuiltInRegistries.ENTITY_TYPE.getKey(entry.type);
             if (id.getNamespace().equals(Csrp.MODID)) {
                 event.removeSpawnerData(entry);
             }
@@ -228,8 +228,8 @@ public final class EvolutionEvents {
     @SubscribeEvent
     public static void gateNaturalSpawns(MobSpawnEvent.PositionCheck event) {
         if (!(event.getLevel() instanceof ServerLevel level)
-                || event.getSpawnType() != MobSpawnType.NATURAL
-                        && event.getSpawnType() != MobSpawnType.CHUNK_GENERATION) {
+                || event.getSpawnType() != EntitySpawnReason.NATURAL
+                        && event.getSpawnType() != EntitySpawnReason.CHUNK_GENERATION) {
             return;
         }
         int phase = SrpWorldData.get(level).evolutionPhase();
@@ -272,12 +272,12 @@ public final class EvolutionEvents {
     @SubscribeEvent
     public static void applyCothToNaturalSpawns(FinalizeSpawnEvent event) {
         if (!(event.getLevel() instanceof ServerLevel level) || event.getEntity() instanceof Parasite
-                || event.getSpawnType() != MobSpawnType.NATURAL
-                        && event.getSpawnType() != MobSpawnType.CHUNK_GENERATION) {
+                || event.getSpawnType() != EntitySpawnReason.NATURAL
+                        && event.getSpawnType() != EntitySpawnReason.CHUNK_GENERATION) {
             return;
         }
         int phase = SrpWorldData.get(level).evolutionPhase();
-        if (level.random.nextFloat() < EvolutionSystem.phaseCothChance(phase)) {
+        if (level.getRandom().nextFloat() < EvolutionSystem.phaseCothChance(phase)) {
             InfectionMechanics.applyCoth(event.getEntity(), null);
         }
     }

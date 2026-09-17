@@ -29,7 +29,7 @@ public final class SourceEntity extends Entity {
     public void tick() {
         super.tick();
         bossEvent.setProgress(Mth.clamp(charging / total, 0.0F, 1.0F));
-        if (!level().isClientSide && tickCount % 20 == 0) {
+        if (!level().isClientSide() && tickCount % 20 == 0) {
             charging++;
             if (charging > total) {
                 attack();

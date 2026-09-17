@@ -38,14 +38,14 @@ public final class DispatcherNidusBlock extends Block implements EntityBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state,
             BlockEntityType<T> type) {
-        return level.isClientSide ? null
+        return level.isClientSide() ? null
                 : (level1, pos, state1, blockEntity) ->
                         DispatcherNidusBlockEntity.serverTick(level1, pos, state1, blockEntity);
     }
 
     @Override
     public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
-        if (level.isClientSide || !(entity instanceof Player player)
+        if (level.isClientSide() || !(entity instanceof Player player)
                 || level.getGameTime() % 20L != 0L) {
             return;
         }

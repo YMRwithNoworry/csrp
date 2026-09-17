@@ -22,7 +22,7 @@ import alku.csrp.world.EvolutionSystem;
 import alku.csrp.world.SrpWorldData;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -30,12 +30,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.sounds.SoundSource;
 
 /** Server-side COTH and Viral infection progression, spread, and host conversion. */
@@ -91,7 +91,7 @@ public final class InfectionMechanics {
         int duration = Math.max(COTH_BASE_DURATION_TICKS, minimumDurationTicks);
         boolean effectChanged = target.addEffect(
                 new MobEffectInstance(ModMobEffects.COTH, duration, 0, false, false, true), source);
-        if (effectChanged && !target.level().isClientSide) {
+        if (effectChanged && !target.level().isClientSide()) {
             playInfectionSound(target);
         }
     }
@@ -115,7 +115,7 @@ public final class InfectionMechanics {
         boolean effectChanged = target.addEffect(
                 new MobEffectInstance(ModMobEffects.COTH, mergedDuration, mergedAmplifier,
                         mergedAmbient, mergedVisible, true), source);
-        if (effectChanged && !alreadyInfected && !target.level().isClientSide) {
+        if (effectChanged && !alreadyInfected && !target.level().isClientSide()) {
             playInfectionSound(target);
         }
     }
@@ -179,7 +179,7 @@ public final class InfectionMechanics {
     }
 
     public static void tickCoth(LivingEntity entity, int amplifier) {
-        if (entity.level().isClientSide || !isInfectable(entity)) {
+        if (entity.level().isClientSide() || !isInfectable(entity)) {
             return;
         }
         MobEffectInstance coth = entity.getEffect(ModMobEffects.COTH);
@@ -234,7 +234,7 @@ public final class InfectionMechanics {
     }
 
     private static boolean convertIncompleteCothHost(LivingEntity host) {
-        if (host.level().isClientSide || host.isRemoved() || !isConvertible(host) || isCothImmune(host)
+        if (host.level().isClientSide() || host.isRemoved() || !isConvertible(host) || isCothImmune(host)
                 || host instanceof Player
                 || !(host.level() instanceof ServerLevel serverLevel)) {
             return false;
@@ -244,7 +244,7 @@ public final class InfectionMechanics {
     }
 
     public static boolean convertInfectedHost(LivingEntity host) {
-        if (host.level().isClientSide || host.isRemoved() || !isConvertible(host) || host instanceof Player
+        if (host.level().isClientSide() || host.isRemoved() || !isConvertible(host) || host instanceof Player
                 || !(host.level() instanceof ServerLevel serverLevel)) {
             return false;
         }
@@ -266,7 +266,7 @@ public final class InfectionMechanics {
 
     /** Immediately converts a configured host, matching the original creative Assimilation Wand. */
     public static boolean forceAssimilate(LivingEntity host) {
-        if (host.level().isClientSide || host.isRemoved() || !canForceAssimilate(host)
+        if (host.level().isClientSide() || host.isRemoved() || !canForceAssimilate(host)
                 || !(host.level() instanceof ServerLevel serverLevel)) {
             return false;
         }
@@ -279,7 +279,7 @@ public final class InfectionMechanics {
     }
 
     public static boolean isAssimilatedBody(LivingEntity entity) {
-        ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
+        Identifier id = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
         return entity instanceof Parasite && id.getNamespace().equals(Csrp.MODID)
                 && id.getPath().startsWith("sim_") && !id.getPath().endsWith("head");
     }
@@ -319,11 +319,11 @@ public final class InfectionMechanics {
     }
 
     private static boolean disguiseAssimilated(LivingEntity assimilated, boolean automatic) {
-        if (assimilated.level().isClientSide || assimilated.isRemoved() || !isAssimilatedBody(assimilated)
+        if (assimilated.level().isClientSide() || assimilated.isRemoved() || !isAssimilatedBody(assimilated)
                 || !(assimilated.level() instanceof ServerLevel serverLevel)) {
             return false;
         }
-        ResourceLocation hostId = ResourceLocation.tryParse(
+        Identifier hostId = Identifier.tryParse(
                 assimilated.getPersistentData().getString(ASSIMILATION_HOST_TAG));
         if (hostId == null) {
             return false;
@@ -334,7 +334,7 @@ public final class InfectionMechanics {
             return false;
         }
         playAssimilationStart(serverLevel, assimilated, ASSIMILATION_RESTORE_NAUSEA_TICKS);
-        disguise.moveTo(assimilated.getX(), assimilated.getY(), assimilated.getZ(),
+        disguise.snapTo(assimilated.getX(), assimilated.getY(), assimilated.getZ(),
                 assimilated.getYRot(), assimilated.getXRot());
         disguise.setCustomName(assimilated.getCustomName());
         disguise.setCustomNameVisible(assimilated.isCustomNameVisible());
@@ -358,11 +358,11 @@ public final class InfectionMechanics {
 
     /** Recreates the exact Assimilated body saved by a disguise without awarding conversion points. */
     public static boolean revealHiddenAssimilated(LivingEntity disguise, Entity attacker) {
-        if (disguise.level().isClientSide || disguise.isRemoved() || !isHiddenAssimilated(disguise)
+        if (disguise.level().isClientSide() || disguise.isRemoved() || !isHiddenAssimilated(disguise)
                 || !(disguise.level() instanceof ServerLevel level)) {
             return false;
         }
-        ResourceLocation assimilatedId = ResourceLocation.tryParse(
+        Identifier assimilatedId = Identifier.tryParse(
                 disguise.getPersistentData().getString(HIDDEN_ASSIMILATED_TAG));
         if (assimilatedId == null || !assimilatedId.getNamespace().equals(Csrp.MODID)
                 || !assimilatedId.getPath().startsWith("sim_") || assimilatedId.getPath().endsWith("head")) {
@@ -375,10 +375,10 @@ public final class InfectionMechanics {
         }
         float healthFraction = disguise.getMaxHealth() <= 0.0F
                 ? 1.0F : disguise.getHealth() / disguise.getMaxHealth();
-        converted.moveTo(disguise.getX(), disguise.getY(), disguise.getZ(),
+        converted.snapTo(disguise.getX(), disguise.getY(), disguise.getZ(),
                 disguise.getYRot(), disguise.getXRot());
         converted.finalizeSpawn(level, level.getCurrentDifficultyAt(disguise.blockPosition()),
-                MobSpawnType.CONVERSION, null);
+                EntitySpawnReason.CONVERSION, null);
         converted.setHealth(Math.max(1.0F, converted.getMaxHealth() * Math.max(0.0F, healthFraction)));
         converted.setCustomName(disguise.getCustomName());
         converted.setCustomNameVisible(disguise.isCustomNameVisible());
@@ -413,7 +413,7 @@ public final class InfectionMechanics {
 
     /** Gnat conversion always prefers a Feral form, then an assimilated or hijacked form. */
     public static boolean convertGnatHost(LivingEntity host) {
-        if (host.level().isClientSide || host.isRemoved() || !isConvertible(host) || host instanceof Player
+        if (host.level().isClientSide() || host.isRemoved() || !isConvertible(host) || host instanceof Player
                 || !(host.level() instanceof ServerLevel serverLevel)) {
             return false;
         }
@@ -431,7 +431,7 @@ public final class InfectionMechanics {
 
     /** Gnat and Lice kills turn an Enderman directly into its Feral form. */
     public static boolean convertFeralEndermanHost(LivingEntity host) {
-        if (host.getType() != EntityType.ENDERMAN || host.level().isClientSide || host.isRemoved()
+        if (host.getType() != EntityType.ENDERMAN || host.level().isClientSide() || host.isRemoved()
                 || !(host.level() instanceof ServerLevel serverLevel)) {
             return false;
         }
@@ -448,7 +448,7 @@ public final class InfectionMechanics {
         boolean terminalCothAssimilation = coth != null && coth.getAmplifier() >= COTH_MAX_AMPLIFIER;
         boolean assimilatedEnderman = host.getType() == EntityType.ENDERMAN
                 && BuiltInRegistries.ENTITY_TYPE.getKey(converted.getType()).getPath().equals("sim_enderman");
-        converted.moveTo(host.getX(), host.getY(), host.getZ(), host.getYRot(), host.getXRot());
+        converted.snapTo(host.getX(), host.getY(), host.getZ(), host.getYRot(), host.getXRot());
         converted.setHealth(Math.max(1.0F, converted.getMaxHealth() * Math.max(0.1F, healthFraction)));
         converted.setCustomName(host.getCustomName());
         converted.setCustomNameVisible(host.isCustomNameVisible());
@@ -472,7 +472,7 @@ public final class InfectionMechanics {
 
     /** Converts a COTH victim on a successful parasite kill-conversion roll. */
     public static boolean convertKilledHost(LivingEntity host, Entity attacker) {
-        if (!(attacker instanceof Parasite) || host.level().isClientSide || host instanceof Parasite
+        if (!(attacker instanceof Parasite) || host.level().isClientSide() || host instanceof Parasite
                 || host instanceof Player || host.isRemoved()
                 || !(host.level() instanceof ServerLevel serverLevel)) {
             return false;
@@ -505,7 +505,7 @@ public final class InfectionMechanics {
 
     /** A COTH-infected player killed by a parasite leaves an Assimilated Adventurer behind. */
     public static boolean convertKilledPlayer(Player player, Entity attacker) {
-        if (!(attacker instanceof Parasite) || player.level().isClientSide || player.isRemoved()
+        if (!(attacker instanceof Parasite) || player.level().isClientSide() || player.isRemoved()
                 || !(player.level() instanceof ServerLevel serverLevel)) {
             return false;
         }
@@ -519,9 +519,9 @@ public final class InfectionMechanics {
         if (converted == null) {
             return false;
         }
-        converted.moveTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
+        converted.snapTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
         converted.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(player.blockPosition()),
-                MobSpawnType.CONVERSION, null);
+                EntitySpawnReason.CONVERSION, null);
         converted.setCustomName(player.getName().copy());
         converted.setCustomNameVisible(true);
         converted.setPersistenceRequired();
@@ -589,9 +589,9 @@ public final class InfectionMechanics {
     private static boolean replaceForcedHost(LivingEntity host, Mob converted, ServerLevel level) {
         boolean assimilatedEnderman = host.getType() == EntityType.ENDERMAN
                 && BuiltInRegistries.ENTITY_TYPE.getKey(converted.getType()).getPath().equals("sim_enderman");
-        converted.moveTo(host.getX(), host.getY(), host.getZ(), host.getYRot(), host.getXRot());
+        converted.snapTo(host.getX(), host.getY(), host.getZ(), host.getYRot(), host.getXRot());
         converted.finalizeSpawn(level, level.getCurrentDifficultyAt(host.blockPosition()),
-                MobSpawnType.CONVERSION, null);
+                EntitySpawnReason.CONVERSION, null);
         converted.setHealth(converted.getMaxHealth());
         converted.setCustomName(host.getCustomName());
         converted.setCustomNameVisible(host.isCustomNameVisible());
@@ -612,7 +612,7 @@ public final class InfectionMechanics {
     }
 
     private static void playAssimilationStart(ServerLevel level, LivingEntity entity, int nauseaTicks) {
-        entity.addEffect(new MobEffectInstance(MobEffects.CONFUSION, nauseaTicks,
+        entity.addEffect(new MobEffectInstance(MobEffects.NAUSEA, nauseaTicks,
                 ASSIMILATION_NAUSEA_AMPLIFIER, false, false));
         level.sendParticles(ModParticles.ASSIMILATION_SPLASH.get(),
                 entity.getX(), entity.getY() + entity.getBbHeight() * 0.5D, entity.getZ(), 1,
@@ -628,18 +628,18 @@ public final class InfectionMechanics {
     }
 
     private static Mob createMappedHost(LivingEntity host, ServerLevel level, boolean preferFeral) {
-        ResourceLocation hostId = BuiltInRegistries.ENTITY_TYPE.getKey(host.getType());
+        Identifier hostId = BuiltInRegistries.ENTITY_TYPE.getKey(host.getType());
         for (String mapping : Config.cothVictimParasites()) {
             String[] parts = mapping.split(";", -1);
             if (parts.length != 2 || !parts[0].trim().equals(hostId.toString())) {
                 continue;
             }
-            ResourceLocation targetId = ResourceLocation.tryParse(parts[1].trim());
+            Identifier targetId = Identifier.tryParse(parts[1].trim());
             if (targetId == null) {
                 continue;
             }
             if (preferFeral && targetId.getPath().startsWith("sim_")) {
-                ResourceLocation feralId = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+                Identifier feralId = Identifier.fromNamespaceAndPath(Csrp.MODID,
                         "fer_" + targetId.getPath().substring("sim_".length()));
                 if (BuiltInRegistries.ENTITY_TYPE.containsKey(feralId)) {
                     targetId = feralId;
@@ -655,13 +655,13 @@ public final class InfectionMechanics {
     }
 
     private static boolean hasMappedHost(LivingEntity host) {
-        ResourceLocation hostId = BuiltInRegistries.ENTITY_TYPE.getKey(host.getType());
+        Identifier hostId = BuiltInRegistries.ENTITY_TYPE.getKey(host.getType());
         for (String mapping : Config.cothVictimParasites()) {
             String[] parts = mapping.split(";", -1);
             if (parts.length != 2 || !parts[0].trim().equals(hostId.toString())) {
                 continue;
             }
-            ResourceLocation targetId = ResourceLocation.tryParse(parts[1].trim());
+            Identifier targetId = Identifier.tryParse(parts[1].trim());
             if (targetId != null && BuiltInRegistries.ENTITY_TYPE.containsKey(targetId)) {
                 return true;
             }
@@ -681,7 +681,7 @@ public final class InfectionMechanics {
         if (targetPath == null) {
             return null;
         }
-        ResourceLocation targetId = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, targetPath);
+        Identifier targetId = Identifier.fromNamespaceAndPath(Csrp.MODID, targetPath);
         Entity entity = BuiltInRegistries.ENTITY_TYPE.getOptional(targetId)
                 .map(type -> type.create(level)).orElse(null);
         return entity instanceof Mob mob ? mob : null;
@@ -698,7 +698,7 @@ public final class InfectionMechanics {
         if (value >= Config.disloCothTiersPure()) {
             pool = PURE;
         }
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+        Identifier id = Identifier.fromNamespaceAndPath(Csrp.MODID,
                 pool[level.getRandom().nextInt(pool.length)]);
         Entity entity = BuiltInRegistries.ENTITY_TYPE.getOptional(id)
                 .map(type -> type.create(level)).orElse(null);

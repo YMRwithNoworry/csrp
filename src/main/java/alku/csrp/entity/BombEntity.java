@@ -7,7 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -18,9 +18,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.MoverType;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -99,7 +99,7 @@ public final class BombEntity extends Entity {
         setDeltaMovement(movement);
         collideWithNearbyEntities();
 
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             setFuse(fuseTicks - 1);
             if (fuseTicks <= 0) {
                 explode();
@@ -110,7 +110,7 @@ public final class BombEntity extends Entity {
     private void explode() {
         PrimitiveParasiteEntity owner = owner();
         if (strength > 0.0F) {
-            boolean grief = canGrief && level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING);
+            boolean grief = canGrief && level().getGameRules().getBoolean(GameRules.MOB_GRIEFING);
             level().explode(owner == null ? this : owner, getX(), getY(), getZ(), strength,
                     grief ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE);
         }
@@ -164,21 +164,21 @@ public final class BombEntity extends Entity {
         if (entries.isEmpty()) {
             return;
         }
-        ResourceLocation parsed = ResourceLocation.tryParse(entries.get(random.nextInt(entries.size())));
+        Identifier parsed = Identifier.tryParse(entries.get(random.nextInt(entries.size())));
         if (parsed == null) {
             return;
         }
         if (parsed.getNamespace().equals("srparasites")) {
-            parsed = ResourceLocation.fromNamespaceAndPath("csrp", parsed.getPath());
+            parsed = Identifier.fromNamespaceAndPath("csrp", parsed.getPath());
         }
         EntityType<?> payloadType = BuiltInRegistries.ENTITY_TYPE.getOptional(parsed).orElse(null);
         Entity created = payloadType == null ? null : payloadType.create(serverLevel);
         if (!(created instanceof Mob payload)) {
             return;
         }
-        payload.moveTo(getX(), getY(), getZ(), getYRot(), 0.0F);
+        payload.snapTo(getX(), getY(), getZ(), getYRot(), 0.0F);
         payload.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(payload.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         if (owner != null) {
             payload.setTarget(owner.getTarget());
         }
@@ -205,7 +205,7 @@ public final class BombEntity extends Entity {
     }
 
     public int getFuse() {
-        return level().isClientSide ? entityData.get(FUSE) : fuseTicks;
+        return level().isClientSide() ? entityData.get(FUSE) : fuseTicks;
     }
 
     public void setSkin(int skin) {

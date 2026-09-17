@@ -21,7 +21,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -32,7 +32,7 @@ import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.monster.AbstractSkeleton;
+import net.minecraft.world.entity.monster.skeleton.AbstractSkeleton;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -150,7 +150,7 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
         } else {
             stillAnimationTicks++;
         }
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         if (isMelting()) {
@@ -289,7 +289,7 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
     @Override
     public void die(DamageSource source) {
         super.die(source);
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         if (kind != Kind.BIGSPIDER && random.nextFloat() < HEAD_SPAWN_CHANCE) {
@@ -390,7 +390,7 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
                 getBoundingBox().expandTowards(direction.normalize().scale(12.0D)).inflate(1.0D),
                 this::isValidParasiteTarget)) {
             if (hasLineOfSight(victim)) {
-                victim.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 120, 1), this);
+                victim.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 120, 1), this);
                 victim.addEffect(new MobEffectInstance(MobEffects.POISON, 80, 0), this);
                 InfectionMechanics.applyCoth(victim, this);
                 break;
@@ -411,9 +411,9 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
         if (head == null) {
             return;
         }
-        head.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        head.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         head.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         head.setCustomName(getCustomName());
         head.setCustomNameVisible(isCustomNameVisible());
         if (isPersistenceRequired()) {
@@ -432,7 +432,7 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
         if (feral == null) {
             return;
         }
-        feral.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        feral.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         feral.setTarget(getTarget());
         feral.setCustomName(getCustomName());
         feral.setCustomNameVisible(isCustomNameVisible());
@@ -448,9 +448,9 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
         if (host == null) {
             return;
         }
-        host.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        host.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         host.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         host.setCustomName(getCustomName());
         host.setCustomNameVisible(isCustomNameVisible());
         if (isPersistenceRequired()) {

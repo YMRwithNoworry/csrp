@@ -76,7 +76,7 @@ public final class MeteorEntity extends Entity {
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             spawnClientParticles();
             return;
         }

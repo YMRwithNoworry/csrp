@@ -6,7 +6,7 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
@@ -54,7 +54,7 @@ public class InfestedSlabBlock extends SlabBlock {
     }
 
     private void scheduleCheck(Level level, BlockPos pos, int delay) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             level.scheduleTick(pos, this, delay);
         }
     }
@@ -65,7 +65,7 @@ public class InfestedSlabBlock extends SlabBlock {
             if (block instanceof InfestedBlock) {
                 return true;
             }
-            ResourceLocation id = BuiltInRegistries.BLOCK.getKey(block);
+            Identifier id = BuiltInRegistries.BLOCK.getKey(block);
             if (Csrp.MODID.equals(id.getNamespace()) && id.getPath().contains("infest")) {
                 return true;
             }

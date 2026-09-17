@@ -70,7 +70,7 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
     public void tick() {
         previousBurrowDepth = entityData.get(BURROW_DEPTH);
         super.tick();
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             if (entityData.get(BODY_ATTACK_TICKS) > 0) {
                 entityData.set(BODY_ATTACK_TICKS, entityData.get(BODY_ATTACK_TICKS) - 1);
             }
@@ -79,7 +79,7 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
                 bodyPartEffect();
             }
         }
-        if (level().isClientSide || !supportsBurrowing() || getBodyNumber() > 0) {
+        if (level().isClientSide() || !supportsBurrowing() || getBodyNumber() > 0) {
             return;
         }
         if (!isBurrowTransitionActive()) {
@@ -189,9 +189,9 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
             segment.bodyPredecessor = previous.getUUID();
             segment.bodyChainInitialized = true;
             segment.setPersistenceRequired();
-            segment.moveTo(previous.getX(), previous.getY(), previous.getZ(), previous.getYRot(), 0.0F);
+            segment.snapTo(previous.getX(), previous.getY(), previous.getZ(), previous.getYRot(), 0.0F);
             segment.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(segment.blockPosition()),
-                    net.minecraft.world.entity.MobSpawnType.MOB_SUMMONED, null);
+                    net.minecraft.world.entity.EntitySpawnReason.MOB_SUMMONED, null);
             serverLevel.addFreshEntity(segment);
             previous = segment;
         }
@@ -395,7 +395,7 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
     @Override
     public boolean doHurtTarget(Entity entity) {
         boolean hit = !isBurrowing() && super.doHurtTarget(entity);
-        if (hit && !level().isClientSide) {
+        if (hit && !level().isClientSide()) {
             startBodyAttackAnimation();
         }
         return hit;

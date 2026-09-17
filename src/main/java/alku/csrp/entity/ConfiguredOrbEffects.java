@@ -2,7 +2,7 @@ package alku.csrp.entity;
 
 import alku.csrp.effect.EffectStacking;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 
 import java.util.List;
@@ -25,7 +25,7 @@ final class ConfiguredOrbEffects {
                 int amplifier = Integer.parseInt(parts[2].trim());
                 int amplifierStep = Integer.parseInt(parts[4].trim());
                 int durationStep = Integer.parseInt(parts[5].trim());
-                ResourceLocation effectId = ResourceLocation.tryParse(parts[3].trim());
+                Identifier effectId = Identifier.tryParse(parts[3].trim());
                 if (effectId == null) {
                     continue;
                 }

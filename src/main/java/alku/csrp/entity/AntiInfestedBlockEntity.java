@@ -45,7 +45,7 @@ public final class AntiInfestedBlockEntity extends Entity {
                 ClipContext.Fluid.NONE, this));
         setPos(end);
         setDeltaMovement(movement.scale(0.99D).add(0.0D, -0.03D, 0.0D));
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             level().addParticle(ParticleTypes.EXPLOSION, getX(), getY(), getZ(), 0.0D, 0.0D, 0.0D);
             return;
         }

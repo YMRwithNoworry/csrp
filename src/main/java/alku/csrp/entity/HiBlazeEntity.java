@@ -60,7 +60,7 @@ public final class HiBlazeEntity extends HijackedParasiteEntity implements Citad
     public void tick() {
         super.tick();
         setNoGravity(true);
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         if (onGround()) {

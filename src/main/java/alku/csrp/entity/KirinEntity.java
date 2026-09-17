@@ -28,7 +28,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
@@ -37,7 +37,7 @@ import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.ClipContext;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -151,7 +151,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
     }
 
     public static boolean checkKirinSpawnRules(EntityType<? extends Monster> type,
-            ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+            ServerLevelAccessor level, EntitySpawnReason spawnType, BlockPos pos, RandomSource random) {
         ServerLevel currentLevel = level.getLevel();
         ServerLevel endLevel = currentLevel.getServer().getLevel(Level.END);
         return endLevel != null
@@ -188,7 +188,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
     public void tick() {
         super.tick();
         setNoGravity(false);
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             spawnAmbientPortalParticles();
             spawnBlinkWarningParticles();
             if (isChargingJudgementCut()) {
@@ -525,7 +525,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
             return;
         }
         orb.configure(this, VOID_ORB_FUSE_TICKS, VOID_ORB_START_TICKS, true, VOID_ORB_OFFSET);
-        orb.moveTo(getX(), getY() + getBbHeight() + VOID_ORB_OFFSET, getZ());
+        orb.snapTo(getX(), getY() + getBbHeight() + VOID_ORB_OFFSET, getZ());
         level().addFreshEntity(orb);
         playSound(ModSounds.KIRIN_BLACK_HOLE.get(), getSoundVolume() * 2.0F,
                 (random.nextFloat() - random.nextFloat()) * 0.2F + 1.0F);
@@ -592,8 +592,8 @@ public final class KirinEntity extends DerivedParasiteEntity {
     }
 
     private void applyLaserDebuffs(LivingEntity target) {
-        target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, LASER_EFFECT_DURATION_TICKS, 1), this);
-        target.addEffect(new MobEffectInstance(MobEffects.CONFUSION, LASER_EFFECT_DURATION_TICKS, 0), this);
+        target.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, LASER_EFFECT_DURATION_TICKS, 1), this);
+        target.addEffect(new MobEffectInstance(MobEffects.NAUSEA, LASER_EFFECT_DURATION_TICKS, 0), this);
         target.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, LASER_EFFECT_DURATION_TICKS, 0), this);
         target.addEffect(new MobEffectInstance(MobEffects.HUNGER, LASER_EFFECT_DURATION_TICKS, 1), this);
         target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, LASER_EFFECT_DURATION_TICKS, 1), this);
@@ -817,7 +817,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
     private void tryBreakBlocks() {
         LivingEntity target = getTarget();
         if (blockBreakCooldown > 0 || target == null || !target.isAlive()
-                || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+                || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
             return;
         }
         int verticalOffset = 0;

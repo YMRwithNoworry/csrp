@@ -3,7 +3,7 @@ package alku.csrp.world;
 import alku.csrp.Csrp;
 import java.util.Optional;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Mirror;
@@ -19,16 +19,16 @@ public final class StructurePlacer {
     private static final Logger LOGGER = LoggerFactory.getLogger(Csrp.MODID + "/structures");
 
     /** Templates already reported as unusable, so a broken file cannot spam the log. */
-    private static final java.util.Set<ResourceLocation> REPORTED = java.util.concurrent.ConcurrentHashMap.newKeySet();
+    private static final java.util.Set<Identifier> REPORTED = java.util.concurrent.ConcurrentHashMap.newKeySet();
 
     private StructurePlacer() {
     }
 
-    public static boolean place(ServerLevel level, ResourceLocation id, BlockPos pos) {
+    public static boolean place(ServerLevel level, Identifier id, BlockPos pos) {
         return place(level, id, pos, level.getRandom());
     }
 
-    public static boolean place(ServerLevel level, ResourceLocation id, BlockPos pos, RandomSource random) {
+    public static boolean place(ServerLevel level, Identifier id, BlockPos pos, RandomSource random) {
         Optional<StructureTemplate> optional = level.getStructureManager().get(id);
         if (optional.isEmpty()) {
             reportOnce(id, "template not found; expected it at data/" + id.getNamespace()
@@ -56,7 +56,7 @@ public final class StructurePlacer {
         return placed;
     }
 
-    private static void reportOnce(ResourceLocation id, String reason) {
+    private static void reportOnce(Identifier id, String reason) {
         if (REPORTED.add(id)) {
             LOGGER.warn("Could not place structure {}: {}", id, reason);
         }

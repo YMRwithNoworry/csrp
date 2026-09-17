@@ -64,7 +64,7 @@ public final class BookOfVengeanceEvents {
             Vec3 away = entity.position().subtract(player.position());
             Vec3 horizontal = new Vec3(away.x, 0.0D, away.z);
             if (horizontal.lengthSqr() < 1.0E-4D) {
-                double angle = level.random.nextDouble() * Math.PI * 2.0D;
+                double angle = level.getRandom().nextDouble() * Math.PI * 2.0D;
                 horizontal = new Vec3(Math.cos(angle), 0.0D, Math.sin(angle));
             } else {
                 horizontal = horizontal.normalize();
@@ -222,7 +222,7 @@ public final class BookOfVengeanceEvents {
         if (summonLightning) {
             LightningBolt lightning = EntityType.LIGHTNING_BOLT.create(level);
             if (lightning != null) {
-                lightning.moveTo(position.x, position.y, position.z);
+                lightning.snapTo(position.x, position.y, position.z);
                 lightning.setCause(player);
                 level.addFreshEntity(lightning);
             }

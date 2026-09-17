@@ -4,7 +4,7 @@ import java.util.List;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -29,11 +29,11 @@ public final class LureComponentItem extends Item {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, net.minecraft.world.InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, net.minecraft.world.InteractionHand hand) {
         // The original ItemLure did not consume the component and had no
         // visible world-side effect beyond incrementing SRP's update number.
         // Keep the item non-consuming while preserving the interaction hook.
-        return InteractionResultHolder.success(player.getItemInHand(hand));
+        return InteractionResult.SUCCESS;
     }
 
     @Override

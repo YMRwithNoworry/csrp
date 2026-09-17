@@ -16,7 +16,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.item.FallingBlockEntity;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -98,7 +98,7 @@ public final class CruxEntity extends CrudeParasiteEntity {
         } else {
             stillAnimationTicks++;
         }
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             if (attackCooldown > 0) {
                 attackCooldown--;
             }
@@ -214,7 +214,7 @@ public final class CruxEntity extends CrudeParasiteEntity {
     }
 
     private boolean throwBlockAt(LivingEntity target, BlockPos source) {
-        if (level().isClientSide || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+        if (level().isClientSide() || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
             return false;
         }
 
@@ -346,7 +346,7 @@ public final class CruxEntity extends CrudeParasiteEntity {
             throwSource = null;
             LivingEntity target = getTarget();
             if (target == null || throwCooldown > 0
-                    || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+                    || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
                 return false;
             }
             double verticalOffset = target.getY() - getY();

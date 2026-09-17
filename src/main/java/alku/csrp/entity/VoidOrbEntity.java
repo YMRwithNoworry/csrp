@@ -83,7 +83,7 @@ public final class VoidOrbEntity extends Entity {
     public void tick() {
         super.tick();
         DerivedParasiteEntity owner = owner();
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             if (followOwner) {
                 if (owner == null || !owner.isAlive()) {
                     discard();
@@ -96,7 +96,7 @@ public final class VoidOrbEntity extends Entity {
             setPos(anchorX, anchorY, anchorZ);
         }
 
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             spawnPortalParticles();
             return;
         }

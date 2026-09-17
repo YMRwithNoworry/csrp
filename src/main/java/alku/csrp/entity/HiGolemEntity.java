@@ -74,7 +74,7 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             if (chargeCooldown > 0) {
                 chargeCooldown--;
             }
@@ -229,7 +229,7 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
                     continue;
                 }
                 victim.hurt(damageSources().mobAttack(HiGolemEntity.this), damage);
-                victim.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 2), HiGolemEntity.this);
+                victim.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 80, 2), HiGolemEntity.this);
                 victim.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 80, 1), HiGolemEntity.this);
                 victim.push(direction.x * 0.85D, 0.35D, direction.z * 0.85D);
             }

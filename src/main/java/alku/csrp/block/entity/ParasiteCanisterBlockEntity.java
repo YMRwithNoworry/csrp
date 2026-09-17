@@ -35,7 +35,7 @@ public final class ParasiteCanisterBlockEntity extends BlockEntity implements Co
     }
 
     public static void serverTick(Level level, BlockPos pos, BlockState state, BlockEntity blockEntity) {
-        if (!(blockEntity instanceof ParasiteCanisterBlockEntity cyst) || level.isClientSide) {
+        if (!(blockEntity instanceof ParasiteCanisterBlockEntity cyst) || level.isClientSide()) {
             return;
         }
         cyst.age++;
@@ -44,7 +44,7 @@ public final class ParasiteCanisterBlockEntity extends BlockEntity implements Co
         }
         if (cyst.consumeOne()) {
             EvolutionSystem.addPoints((ServerLevel) level, 2, EvolutionSystem.PointSource.CYST);
-            if (level.random.nextFloat() < 0.5F) {
+            if (level.getRandom().nextFloat() < 0.5F) {
                 ((ServerLevel) level).sendParticles(ParticleTypes.PORTAL,
                         pos.getX() + 0.5D, pos.getY() + 0.4D, pos.getZ() + 0.5D,
                         4, 0.2D, 0.2D, 0.2D, 0.02D);

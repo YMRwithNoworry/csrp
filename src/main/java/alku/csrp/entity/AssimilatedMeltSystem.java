@@ -6,7 +6,7 @@ import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
@@ -85,9 +85,9 @@ final class AssimilatedMeltSystem {
         if (flesh == null) {
             return false;
         }
-        flesh.moveTo(source.getX(), source.getY(), source.getZ(), source.getYRot(), source.getXRot());
+        flesh.snapTo(source.getX(), source.getY(), source.getZ(), source.getYRot(), source.getXRot());
         flesh.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(source.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         flesh.setMergeValue(mergeValue);
         flesh.setCustomName(source.getCustomName());
         flesh.setCustomNameVisible(source.isCustomNameVisible());

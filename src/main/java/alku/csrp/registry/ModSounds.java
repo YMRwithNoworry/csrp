@@ -2,7 +2,7 @@ package alku.csrp.registry;
 
 import alku.csrp.Csrp;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -174,7 +174,7 @@ public final class ModSounds {
         if (existing != null) {
             return existing;
         }
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, name);
+        Identifier id = Identifier.fromNamespaceAndPath(Csrp.MODID, name);
         DeferredHolder<SoundEvent, SoundEvent> sound =
                 SOUNDS.register(name, () -> SoundEvent.createVariableRangeEvent(id));
         REGISTERED.put(name, sound);

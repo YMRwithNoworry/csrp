@@ -17,7 +17,7 @@ public final class FishlinItem extends Item {
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity user) {
         ItemStack result = super.finishUsingItem(stack, level, user);
-        if (!level.isClientSide) user.hurt(level.damageSources().magic(), 8.0F);
+        if (!level.isClientSide()) user.hurt(level.damageSources().magic(), 8.0F);
         return result;
     }
 }

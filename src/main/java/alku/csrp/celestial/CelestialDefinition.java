@@ -1,9 +1,9 @@
 package alku.csrp.celestial;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public record CelestialDefinition(
-        String id, ResourceLocation texture, int minPhase, int maxPhase, float chance,
+        String id, Identifier texture, int minPhase, int maxPhase, float chance,
         boolean followsStars, boolean stationary, float size, float baseOpacity, float extraOpacity,
         boolean fastStreak, float rotationSpeed, boolean animated, int frameCount, int frameTimeTicks,
         float yaw, float pitch, OrbitPath orbitPath, float orbitYawRange, float orbitPitchMin,

@@ -26,7 +26,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -152,7 +152,7 @@ public final class AssimilatedEndermanEntity extends Monster
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                        MobSpawnType spawnType, SpawnGroupData spawnGroupData) {
+                                        EntitySpawnReason spawnType, SpawnGroupData spawnGroupData) {
         SpawnGroupData data = super.finalizeSpawn(level, difficulty, spawnType, spawnGroupData);
         setCrawling(random.nextDouble() < Config.variantSpawnChance()
                 || Config.evolutionPhase(level.getLevel()) >= Config.alwaysVariantPhase());
@@ -242,14 +242,14 @@ public final class AssimilatedEndermanEntity extends Monster
         if (!stack.is(ModItems.SHRIMP.get()) || isShrimpFed()) {
             return super.mobInteract(player, hand);
         }
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             setShrimpFed(true);
             playSound(ModSounds.get("shrimp.eat"), 1.0F, 1.0F);
             if (!player.getAbilities().instabuild) {
                 stack.shrink(1);
             }
         }
-        return InteractionResult.sidedSuccess(level().isClientSide);
+        return InteractionResult.SUCCESS;
     }
 
     @Override
@@ -260,7 +260,7 @@ public final class AssimilatedEndermanEntity extends Monster
         } else {
             stillAnimationTicks++;
         }
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             spawnPortalParticles();
             return;
         }
@@ -314,7 +314,7 @@ public final class AssimilatedEndermanEntity extends Monster
         if (parasiteKills >= AssimilatedParasiteEntity.FERAL_KILL_THRESHOLD) {
             FeralEndermanEntity feral = ModEntities.FER_ENDERMAN.get().create(level);
             if (feral != null) {
-                feral.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+                feral.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
                 feral.setTarget(getTarget());
                 feral.setCustomName(getCustomName());
                 feral.setCustomNameVisible(isCustomNameVisible());
@@ -357,7 +357,7 @@ public final class AssimilatedEndermanEntity extends Monster
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        if (!level().isClientSide && source.getDirectEntity() != null && source.getDirectEntity() != source.getEntity()) {
+        if (!level().isClientSide() && source.getDirectEntity() != null && source.getDirectEntity() != source.getEntity()) {
             for (int attempt = 0; attempt < 64; attempt++) {
                 if (teleportAwayFromTarget(getTarget())) {
                     return true;
@@ -366,7 +366,7 @@ public final class AssimilatedEndermanEntity extends Monster
             return false;
         }
         boolean hurt = super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
-        if (hurt && !level().isClientSide) {
+        if (hurt && !level().isClientSide()) {
             allyTeleportCooldown = 0;
             if (random.nextBoolean()) {
                 teleportAwayFromTarget(getTarget());
@@ -378,15 +378,15 @@ public final class AssimilatedEndermanEntity extends Monster
     @Override
     public void die(DamageSource source) {
         super.die(source);
-        if (level().isClientSide || random.nextFloat() >= 0.5F || !(level() instanceof ServerLevel serverLevel)) {
+        if (level().isClientSide() || random.nextFloat() >= 0.5F || !(level() instanceof ServerLevel serverLevel)) {
             return;
         }
         AssimilatedHeadEntity head = ModEntities.SIM_ENDERMAN_HEAD.get().create(serverLevel);
         if (head == null) {
             return;
         }
-        head.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
-        head.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()), MobSpawnType.MOB_SUMMONED, null);
+        head.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        head.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()), EntitySpawnReason.MOB_SUMMONED, null);
         serverLevel.addFreshEntity(head);
     }
 

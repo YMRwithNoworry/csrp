@@ -102,7 +102,7 @@ public final class HostIIEntity extends AbstractHostEntity {
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             updateBuriedTimer();
             updateAttackTimer();
             updateMouthState();

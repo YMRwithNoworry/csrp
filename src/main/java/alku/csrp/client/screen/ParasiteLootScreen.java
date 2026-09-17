@@ -10,13 +10,13 @@ import java.util.Random;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 
 public final class ParasiteLootScreen extends AbstractContainerScreen<ParasiteLootMenu> {
-    private static final ResourceLocation BACKGROUND = ResourceLocation.fromNamespaceAndPath(
+    private static final Identifier BACKGROUND = Identifier.fromNamespaceAndPath(
             Csrp.MODID, "textures/gui/parasite_loot.png");
-    private static final ResourceLocation BUBBLE_TEXTURE = ResourceLocation.fromNamespaceAndPath(
+    private static final Identifier BUBBLE_TEXTURE = Identifier.fromNamespaceAndPath(
             Csrp.MODID, "textures/gui/blood_bubble.png");
     private static final int MAX_BUBBLES = 28;
     private final List<Bubble> bubbles = new ArrayList<>();

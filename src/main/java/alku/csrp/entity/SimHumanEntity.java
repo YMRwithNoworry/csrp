@@ -16,7 +16,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -28,7 +28,7 @@ import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.monster.AbstractSkeleton;
+import net.minecraft.world.entity.monster.skeleton.AbstractSkeleton;
 import net.minecraft.world.level.Level;
 import alku.csrp.animation.CitadelAnimatedEntity;
 import alku.csrp.animation.CitadelAnimationCache;
@@ -150,7 +150,7 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
             stillAnimationTicks++;
         }
 
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         if (isMelting()) {
@@ -208,7 +208,7 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
         LivingEntity livingTarget = target instanceof LivingEntity living ? living : null;
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
         boolean hit = super.doHurtTarget(target);
-        if (hit && !level().isClientSide) {
+        if (hit && !level().isClientSide()) {
             if (livingTarget != null) {
                 ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
                 InfectionMechanics.applyCoth(livingTarget, this);
@@ -382,7 +382,7 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
         if (feral == null) {
             return;
         }
-        feral.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        feral.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         feral.setTarget(getTarget());
         feral.setCustomName(getCustomName());
         feral.setCustomNameVisible(isCustomNameVisible());
@@ -399,9 +399,9 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
         if (host == null) {
             return;
         }
-        host.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        host.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         host.finalizeSpawn(level, level.getCurrentDifficultyAt(blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         host.setCustomName(getCustomName());
         host.setCustomNameVisible(isCustomNameVisible());
         if (isPersistenceRequired()) {

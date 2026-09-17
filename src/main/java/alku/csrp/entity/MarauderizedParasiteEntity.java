@@ -88,7 +88,7 @@ public abstract class MarauderizedParasiteEntity extends HijackedParasiteEntity 
     @Override
     public void tick() {
         super.tick();
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             updateCitadelAnimationState();
         }
     }
@@ -102,7 +102,7 @@ public abstract class MarauderizedParasiteEntity extends HijackedParasiteEntity 
     }
 
     protected final void startAttackAnimation() {
-        if (!level().isClientSide) {
+        if (!level().isClientSide()) {
             forcedStatus = 1;
             forcedStatusTicks = ATTACK_ANIMATION_TICKS;
             entityData.set(PARASITE_STATUS, forcedStatus);

@@ -56,7 +56,7 @@ public final class MeteorInfectionSystem {
         }
         COUNTERS.put(dimension, 0);
 
-        if (level.random.nextDouble() >= Config.meteorChance()) {
+        if (level.getRandom().nextDouble() >= Config.meteorChance()) {
             return;
         }
         if (level.getGameTime() < Config.meteorStartTicks()) {
@@ -93,7 +93,7 @@ public final class MeteorInfectionSystem {
 
     /** Original {@code ParasiteSummon.spawnMeteor(BlockPos, rad, minRad, World)}. */
     public static boolean spawnMeteorAround(ServerLevel level, BlockPos center) {
-        int rad = level.random.nextInt(Math.max(2, Config.meteorRadius()));
+        int rad = level.getRandom().nextInt(Math.max(2, Config.meteorRadius()));
         int minRad = Config.meteorMinimumRadius();
         if (rad > Config.meteorRadius()) {
             rad = Config.meteorRadius();
@@ -105,7 +105,7 @@ public final class MeteorInfectionSystem {
             rad = minRad + 1;
         }
         int span = Math.max(1, rad - minRad + 1);
-        RandomSource random = level.random;
+        RandomSource random = level.getRandom();
         int originX = signedOffset(random, minRad, span);
         int originY = level.getMaxBuildHeight();
         int originZ = signedOffset(random, minRad, span);

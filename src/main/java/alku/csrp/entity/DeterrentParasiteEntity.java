@@ -10,7 +10,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
@@ -24,13 +24,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -159,7 +159,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         anchorStationaryPosition();
@@ -346,7 +346,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         dispatchEntityId = type == null ? null : BuiltInRegistries.ENTITY_TYPE.getKey(type).toString();
     }
 
-    public void setDispatchEntity(ResourceLocation type) {
+    public void setDispatchEntity(Identifier type) {
         dispatchEntityId = type == null ? null : type.toString();
     }
 
@@ -364,12 +364,12 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     /** Configures the exact registered parasite pool launched by this Worm. */
-    public void setWormPayloadTypes(List<ResourceLocation> types) {
+    public void setWormPayloadTypes(List<Identifier> types) {
         if (activeKind() != Kind.WORM) {
             return;
         }
         wormPayloadTypes.clear();
-        types.stream().map(ResourceLocation::toString).distinct().forEach(wormPayloadTypes::add);
+        types.stream().map(Identifier::toString).distinct().forEach(wormPayloadTypes::add);
     }
 
     public Kind getKind() {
@@ -489,7 +489,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         if (!(level() instanceof ServerLevel serverLevel)) {
             return false;
         }
-        net.minecraft.resources.ResourceLocation entityId = net.minecraft.resources.ResourceLocation.tryParse(dispatchEntityId);
+        net.minecraft.resources.Identifier entityId = net.minecraft.resources.Identifier.tryParse(dispatchEntityId);
         if (entityId == null) {
             return false;
         }
@@ -497,9 +497,9 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         if (type == null || !(type.create(serverLevel) instanceof Mob mob)) {
             return false;
         }
-        mob.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        mob.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         mob.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(mob.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         mob.setTarget(getTarget());
         if (isOnFire()) {
             mob.setHealth(Math.max(1.0F, mob.getMaxHealth() * 0.5F));
@@ -524,12 +524,12 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
             pull = pull.normalize().scale(0.50D);
             target.push(pull.x, 0.0D, pull.z);
         }
-        target.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 40, 6, false, false), this);
-        target.addEffect(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 40, 2, false, false), this);
+        target.addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 40, 6, false, false), this);
+        target.addEffect(new MobEffectInstance(MobEffects.MINING_FATIGUE, 40, 2, false, false), this);
     }
 
     private LivingEntity getSeizerTarget() {
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             Entity target = level().getEntity(entityData.get(SEIZER_TARGET_ID));
             return target instanceof LivingEntity living && living.isAlive() ? living : null;
         }
@@ -740,7 +740,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void breakBlocksTowardsTarget(float maximumHardness, double range) {
-        if (abilityCooldown > 0 || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+        if (abilityCooldown > 0 || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
             return;
         }
         LivingEntity target = getTarget();
@@ -777,9 +777,9 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
             if (minion == null) {
                 continue;
             }
-            minion.moveTo(getX(), getY() + getBbHeight() + 0.5D, getZ(), getYRot(), 0.0F);
+            minion.snapTo(getX(), getY() + getBbHeight() + 0.5D, getZ(), getYRot(), 0.0F);
             minion.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(minion.blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
+                    EntitySpawnReason.MOB_SUMMONED, null);
             minion.setTarget(getTarget());
             minion.addEffect(new MobEffectInstance(ModMobEffects.RAGE, 1200, 1, false, false), this);
             minion.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, 100, 15, false, false), this);
@@ -796,7 +796,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
                 default -> ModEntities.PRI_LONGARMS.get().create(level);
             };
         }
-        ResourceLocation id = ResourceLocation.tryParse(wormPayloadTypes.get(random.nextInt(wormPayloadTypes.size())));
+        Identifier id = Identifier.tryParse(wormPayloadTypes.get(random.nextInt(wormPayloadTypes.size())));
         if (id == null) {
             return null;
         }
@@ -913,7 +913,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         }
         double angle = getYRot() * Mth.DEG_TO_RAD;
         double distance = 2.0D * Mth.cos(Mth.PI / 18.0F);
-        wave.moveTo(getX() - Mth.sin((float) angle) * distance, getY(),
+        wave.snapTo(getX() - Mth.sin((float) angle) * distance, getY(),
                 getZ() + Mth.cos((float) angle) * distance, getYRot(), 0.0F);
         if (!level().noCollision(wave)) {
             return;

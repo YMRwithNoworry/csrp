@@ -4,7 +4,7 @@ import alku.csrp.Csrp;
 import alku.csrp.registry.ModEntities;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -16,8 +16,8 @@ public final class RupterKillMilestoneEvents {
     public static final String RUPTER_KILL_COUNT_KEY = "csrpRupterKills";
     public static final int RUPTER_KILL_TARGET = 1000;
     private static final String CRITERION = "reached_1000_rupter_kills";
-    private static final ResourceLocation ADVANCEMENT_ID =
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "cut_roots");
+    private static final Identifier ADVANCEMENT_ID =
+            Identifier.fromNamespaceAndPath(Csrp.MODID, "cut_roots");
 
     private RupterKillMilestoneEvents() {
     }

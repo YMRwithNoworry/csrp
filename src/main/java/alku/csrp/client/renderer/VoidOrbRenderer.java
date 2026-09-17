@@ -6,17 +6,17 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 public final class VoidOrbRenderer extends EntityRenderer<VoidOrbEntity> {
-    private static final ResourceLocation CORE_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final Identifier CORE_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/orbvoid.png");
-    private static final ResourceLocation AURA_TEXTURE = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+    private static final Identifier AURA_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/orbvoid_armor.png");
     private static final float VOID_ORB_DIAMETER = 2.4F;
     private static final float SPHERE_RADIUS = VOID_ORB_DIAMETER * 0.5F;
@@ -89,7 +89,7 @@ public final class VoidOrbRenderer extends EntityRenderer<VoidOrbEntity> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(VoidOrbEntity entity) {
+    public Identifier getTextureLocation(VoidOrbEntity entity) {
         return CORE_TEXTURE;
     }
 }

@@ -131,7 +131,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
         float tendrilHealth = maxTendrilHealth();
         entityData.set(LEFT_TENDRIL_HEALTH, tendrilHealth);
         entityData.set(RIGHT_TENDRIL_HEALTH, tendrilHealth);
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             initializeVariant();
         }
     }
@@ -170,7 +170,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             spawnSmashParticles();
             return;
         }
@@ -289,7 +289,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
     }
 
     private boolean performSweepAttack(LivingEntity center) {
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return false;
         }
         entityData.set(ATTACK_TICKS, ATTACK_ANIMATION_TICKS);
@@ -348,7 +348,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
         if (tendril == null) {
             return;
         }
-        tendril.moveTo(position.getX() + 0.5D, position.getY(), position.getZ() + 0.5D, getYRot(), 0.0F);
+        tendril.snapTo(position.getX() + 0.5D, position.getY(), position.getZ() + 0.5D, getYRot(), 0.0F);
         tendril.startSupport(this, target, spawnTeleport
                 ? MarauderTendrilEntity.Mode.TELEPORT
                 : MarauderTendrilEntity.Mode.SNARE);
@@ -383,7 +383,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
     }
 
     boolean hurtTendril(MarauderTendrilEntity tendril, DamageSource source, float amount) {
-        if (level().isClientSide || !hurt(source, amount)) {
+        if (level().isClientSide() || !hurt(source, amount)) {
             return false;
         }
         TendrilSide side = tendril.getAttachedSide();
@@ -717,7 +717,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
             smashTicks++;
             entityData.set(SMASH_TICKS, smashTicks);
             if (smashTicks <= SMASH_CHARGE_TICKS) {
-                addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 110, 100, false, false));
+                addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 110, 100, false, false));
                 return;
             }
 

@@ -108,7 +108,7 @@ public final class ScaryOrbEntity extends Entity {
         } else if (owner != null && owner.isAlive()) {
             setPos(owner.getX(), owner.getY() + owner.getBbHeight() * 0.5, owner.getZ());
         }
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             return;
         }
         if (!anchored) return;

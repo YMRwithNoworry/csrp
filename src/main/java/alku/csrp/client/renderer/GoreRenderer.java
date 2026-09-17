@@ -12,18 +12,18 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 /** Original four-size gore model used for assimilated, primitive, adapted and pure payloads. */
 public final class GoreRenderer extends EntityRenderer<GoreEntity> {
     public static final ModelLayerLocation LAYER = new ModelLayerLocation(
-            ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "gore"), "main");
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(
+            Identifier.fromNamespaceAndPath(Csrp.MODID, "gore"), "main");
+    private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(
             Csrp.MODID, "textures/entity/monster/gore.png");
 
     private final ModelPart assimilated;
@@ -104,7 +104,7 @@ public final class GoreRenderer extends EntityRenderer<GoreEntity> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(GoreEntity entity) {
+    public Identifier getTextureLocation(GoreEntity entity) {
         return TEXTURE;
     }
 }

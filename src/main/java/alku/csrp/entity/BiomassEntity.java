@@ -10,7 +10,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -19,7 +19,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -144,7 +144,7 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
             return false;
         }
         biomass.configure(summoner, option.type(), option.cost(), skin, target);
-        biomass.moveTo(position.x, position.y, position.z, yaw, pitch);
+        biomass.snapTo(position.x, position.y, position.z, yaw, pitch);
         if (summoner.isOnFire()) {
             biomass.igniteForSeconds(8.0F);
         }
@@ -181,7 +181,7 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
     @Override
     public void tick() {
         super.tick();
-        if (level().isClientSide) {
+        if (level().isClientSide()) {
             spawnClientParticles();
             return;
         }
@@ -243,7 +243,7 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
                 11, 0.5D, 0.5D, 0.5D, 0.15D);
 
         Mob parent = resolveMob(level, entityData.get(PARENT));
-        ResourceLocation spawnTypeId = ResourceLocation.tryParse(entityData.get(SPAWN_TYPE));
+        Identifier spawnTypeId = Identifier.tryParse(entityData.get(SPAWN_TYPE));
         Entity created = spawnTypeId == null ? null
                 : BuiltInRegistries.ENTITY_TYPE.getOptional(spawnTypeId).map(type -> type.create(level)).orElse(null);
         if (!(created instanceof Mob spawned)) {
@@ -254,9 +254,9 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
 
         float yaw = parent == null ? getYRot() : parent.getYRot();
         float pitch = parent == null ? getXRot() : parent.getXRot();
-        spawned.moveTo(getX(), getY(), getZ(), yaw, pitch);
+        spawned.snapTo(getX(), getY(), getZ(), yaw, pitch);
         spawned.finalizeSpawn(level, level.getCurrentDifficultyAt(spawned.blockPosition()),
-                MobSpawnType.MOB_SUMMONED, null);
+                EntitySpawnReason.MOB_SUMMONED, null);
         AttributeInstance followRange = spawned.getAttribute(Attributes.FOLLOW_RANGE);
         if (followRange != null) {
             followRange.setBaseValue(16.0D + (getStage() - 1.0F) * 8.0D);

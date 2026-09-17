@@ -27,7 +27,7 @@ import alku.csrp.effect.PreyMobEffect;
 import alku.csrp.effect.OverlastMobEffect;
 import alku.csrp.effect.NoVisionMobEffect;
 import alku.csrp.effect.PivotMobEffect;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.effect.MobEffect;
@@ -104,7 +104,7 @@ public final class ModMobEffects {
             EFFECTS.register("vomit", () -> new MarkerMobEffect(true, 7498817));
     public static final DeferredHolder<MobEffect, MobEffect> SENSES =
             EFFECTS.register("senses", () -> new AttributeMobEffect(false, 9346775,
-                    Attributes.FOLLOW_RANGE, ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "senses_follow_range"), 0.1D));
+                    Attributes.FOLLOW_RANGE, Identifier.fromNamespaceAndPath(Csrp.MODID, "senses_follow_range"), 0.1D));
     public static final DeferredHolder<MobEffect, MobEffect> PREY =
             EFFECTS.register("prey", PreyMobEffect::new);
     public static final DeferredHolder<MobEffect, MobEffect> DEBAR =

@@ -3,13 +3,13 @@ package alku.csrp.client.model;
 import alku.csrp.Csrp;
 import alku.csrp.entity.BiomassEntity;
 import java.util.Map;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 public final class BiomassModel extends CitadelModelSet<BiomassEntity> {
-    private static final ResourceLocation POD_TEXTURE = ResourceLocation.fromNamespaceAndPath(
+    private static final Identifier POD_TEXTURE = Identifier.fromNamespaceAndPath(
             Csrp.MODID, "textures/entity/biomass_pod.png");
-    private static final ResourceLocation VENKROL_TEXTURE = ResourceLocation.fromNamespaceAndPath(
+    private static final Identifier VENKROL_TEXTURE = Identifier.fromNamespaceAndPath(
             Csrp.MODID, "textures/entity/biomass_venkrol.png");
 
     public BiomassModel() {

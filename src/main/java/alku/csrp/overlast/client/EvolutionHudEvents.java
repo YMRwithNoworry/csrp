@@ -10,7 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -64,7 +64,7 @@ public final class EvolutionHudEvents {
                 : position.startsWith("middle") ? screenHeight / 2 - 30 : 10;
         int progress = progressWidth(state);
         int texturePhase = Math.max(-2, Math.min(8, state.phase()));
-        ResourceLocation texture = ResourceLocation.fromNamespaceAndPath(Csrp.MODID,
+        Identifier texture = Identifier.fromNamespaceAndPath(Csrp.MODID,
                 "textures/gui/overlast/evolutionbar" + texturePhase + ".png");
 
         if (progress > 0) {

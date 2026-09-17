@@ -2,7 +2,7 @@ package alku.csrp.world;
 
 import alku.csrp.Csrp;
 import alku.csrp.entity.Parasite;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,10 +16,10 @@ import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 /** Applies the selected per-world SRP difficulty to every parasite instance. */
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class SrpDifficultyEvents {
-    private static final ResourceLocation HEALTH = id("difficulty_health");
-    private static final ResourceLocation DAMAGE = id("difficulty_damage");
-    private static final ResourceLocation ARMOR = id("difficulty_armor");
-    private static final ResourceLocation KNOCKBACK = id("difficulty_knockback");
+    private static final Identifier HEALTH = id("difficulty_health");
+    private static final Identifier DAMAGE = id("difficulty_damage");
+    private static final Identifier ARMOR = id("difficulty_armor");
+    private static final Identifier KNOCKBACK = id("difficulty_knockback");
 
     private SrpDifficultyEvents() {
     }
@@ -62,7 +62,7 @@ public final class SrpDifficultyEvents {
         entity.setHealth(Mth.clamp(entity.getMaxHealth() * healthFraction, 1.0F, entity.getMaxHealth()));
     }
 
-    private static boolean multiply(AttributeInstance attribute, ResourceLocation id, double multiplier) {
+    private static boolean multiply(AttributeInstance attribute, Identifier id, double multiplier) {
         if (attribute == null || multiplier == 1.0D || attribute.getModifier(id) != null) {
             return false;
         }
@@ -71,20 +71,20 @@ public final class SrpDifficultyEvents {
         return true;
     }
 
-    private static void add(AttributeInstance attribute, ResourceLocation id, double amount) {
+    private static void add(AttributeInstance attribute, Identifier id, double amount) {
         if (attribute == null || attribute.getModifier(id) != null) {
             return;
         }
         attribute.addPermanentModifier(new AttributeModifier(id, amount, AttributeModifier.Operation.ADD_VALUE));
     }
 
-    private static void remove(AttributeInstance attribute, ResourceLocation id) {
+    private static void remove(AttributeInstance attribute, Identifier id) {
         if (attribute != null) {
             attribute.removeModifier(id);
         }
     }
 
-    private static ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(Csrp.MODID, path);
+    private static Identifier id(String path) {
+        return Identifier.fromNamespaceAndPath(Csrp.MODID, path);
     }
 }
