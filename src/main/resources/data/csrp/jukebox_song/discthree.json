@@ -1,0 +1,8 @@
+{
+  "comparator_output": 3,
+  "description": {
+    "translate": "jukebox_song.csrp.discthree"
+  },
+  "length_in_seconds": 240.0,
+  "sound_event": "csrp:srparasites.discthree"
+}

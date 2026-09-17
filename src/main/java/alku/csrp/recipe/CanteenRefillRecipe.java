@@ -10,6 +10,7 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CraftingRecipe;
@@ -22,11 +23,11 @@ import net.neoforged.neoforge.common.util.RecipeMatcher;
 public final class CanteenRefillRecipe implements CraftingRecipe {
     private final String group;
     private final CraftingBookCategory category;
-    private final ItemStack result;
+    private final ItemStackTemplate result;
     private final NonNullList<Ingredient> ingredients;
     private final boolean simple;
 
-    public CanteenRefillRecipe(String group, CraftingBookCategory category, ItemStack result,
+    public CanteenRefillRecipe(String group, CraftingBookCategory category, ItemStackTemplate result,
             NonNullList<Ingredient> ingredients) {
         this.group = group;
         this.category = category;
@@ -50,7 +51,7 @@ public final class CanteenRefillRecipe implements CraftingRecipe {
             return false;
         }
         for (ItemStack ingredient : input.items()) {
-            if (ingredient.is(result.getItem())
+            if (ingredient.is(result.item())
                     && ingredient.getItem() instanceof OverlastCanteenItem
                     && OverlastCanteenItem.getSips(ingredient) >= OverlastCanteenItem.MAX_SIPS) {
                 return false;
@@ -61,7 +62,7 @@ public final class CanteenRefillRecipe implements CraftingRecipe {
 
     @Override
     public ItemStack assemble(CraftingInput input) {
-        ItemStack output = result.copy();
+        ItemStack output = result.create();
         for (ItemStack ingredient : input.items()) {
             if (ingredient.getItem() instanceof OverlastCanteenItem) {
                 OverlastCanteenItem.setState(output,
@@ -102,7 +103,7 @@ public final class CanteenRefillRecipe implements CraftingRecipe {
             Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
             CraftingBookCategory.CODEC.fieldOf("category").orElse(CraftingBookCategory.MISC)
                     .forGetter(recipe -> recipe.category),
-            ItemStack.CODEC.fieldOf("result").forGetter(recipe -> recipe.result),
+            ItemStackTemplate.CODEC.fieldOf("result").forGetter(recipe -> recipe.result),
             Ingredient.CODEC.listOf().fieldOf("ingredients").flatXmap(ingredients -> {
                 if (ingredients.isEmpty()) {
                     return DataResult.error(() -> "No ingredients for canteen recipe");
@@ -127,7 +128,7 @@ public final class CanteenRefillRecipe implements CraftingRecipe {
         for (int i = 0; i < size; i++) {
             ingredients.add(Ingredient.CONTENTS_STREAM_CODEC.decode(buffer));
         }
-        return new CanteenRefillRecipe(group, category, ItemStack.STREAM_CODEC.decode(buffer), ingredients);
+        return new CanteenRefillRecipe(group, category, ItemStackTemplate.STREAM_CODEC.decode(buffer), ingredients);
     }
 
     private static void toNetwork(RegistryFriendlyByteBuf buffer, CanteenRefillRecipe recipe) {
@@ -137,6 +138,6 @@ public final class CanteenRefillRecipe implements CraftingRecipe {
         for (Ingredient ingredient : recipe.ingredients) {
             Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, ingredient);
         }
-        ItemStack.STREAM_CODEC.encode(buffer, recipe.result);
+        ItemStackTemplate.STREAM_CODEC.encode(buffer, recipe.result);
     }
 }

@@ -1040,6 +1040,18 @@ public final class ModBlocks {
         return java.util.Map.copyOf(result);
     }
 
+    /**
+     * Compatibility ids are registered in a batch ({@link #LEGACY_BLOCKS}) rather than as
+     * individual fields; this exposes one so it can still receive a matching {@code BlockItem}.
+     */
+    public static DeferredBlock<? extends Block> legacyBlock(String id) {
+        DeferredBlock<? extends Block> block = LEGACY_BLOCKS.get(id);
+        if (block == null) {
+            throw new IllegalArgumentException("Not a legacy block id: " + id);
+        }
+        return block;
+    }
+
     /** Base properties shared by the compatibility ids. */
     private static BlockBehaviour.Properties legacyProperties(Identifier key) {
         return BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key)).mapColor(MapColor.COLOR_RED)

@@ -1077,6 +1077,106 @@ public static final DeferredItem<BlockItem> PARASITERUBBLE_BONE = ITEMS.register
     public static final DeferredItem<BlockItem> FLESH_FENCE = ITEMS.registerSimpleBlockItem("flesh_fence", ModBlocks.FLESH_FENCE);
     public static final DeferredItem<BlockItem> DEADHEAD_FENCE = ITEMS.registerSimpleBlockItem("deadhead_fence", ModBlocks.DEADHEAD_FENCE);
 
+    // ==================== 批次4：成就图标物品（advancement icon 引用） ====================
+    public static final DeferredItem<Item> ADAPTED_ICON = simple("adapted_icon");
+    public static final DeferredItem<Item> COSMIC_STRUCTURAL_FAILURE_ICON = simple("cosmic_structural_failure_icon");
+    public static final DeferredItem<Item> CRUDE_ICON = simple("crude_icon");
+    public static final DeferredItem<Item> DARK_DAYS_ICON = simple("dark_days_icon");
+    public static final DeferredItem<Item> ECSTASY_ICON = simple("ecstasy_icon");
+    public static final DeferredItem<Item> ENEMY_OF_ENEMY_ICON = simple("enemy_of_enemy_icon");
+    public static final DeferredItem<Item> FOG_NULLIFIER_ICON = simple("fog_nullifier_icon");
+    public static final DeferredItem<Item> GUERILLA_ICON = simple("guerilla_icon");
+    public static final DeferredItem<Item> HELLFIRE_CHEMICAL_WARFARE_ICON = simple("hellfire_chemical_warfare_icon");
+    public static final DeferredItem<Item> HUNT_SEASON_ICON = simple("hunt_season_icon");
+    public static final DeferredItem<Item> POTION_COLUMBUS_ICON = simple("potion_columbus_icon");
+    public static final DeferredItem<Item> POTION_STOLAS_ICON = simple("potion_stolas_icon");
+    public static final DeferredItem<Item> PRIMITIVE_ICON = simple("primitive_icon");
+    public static final DeferredItem<Item> PURE_ICON = simple("pure_icon");
+    public static final DeferredItem<Item> ROOTS_ICON = simple("roots_icon");
+
+    // ==================== 批次4：配方/成就引用的兼容方块物品 ====================
+    public static final DeferredItem<BlockItem> ASSIMILATED_BLOSSOM = legacyBlockItem("assimilated_blossom");
+    public static final DeferredItem<BlockItem> BRUISEWOOD_FENCE = legacyBlockItem("bruisewood_fence");
+    public static final DeferredItem<BlockItem> BRUISEWOOD_PLANK_SLAB = legacyBlockItem("bruisewood_plank_slab");
+    public static final DeferredItem<BlockItem> BRUISEWOOD_PLANK_STAIRS = legacyBlockItem("bruisewood_plank_stairs");
+    public static final DeferredItem<BlockItem> BRUISEWOOD_PLANK_WALL = legacyBlockItem("bruisewood_plank_wall");
+    public static final DeferredItem<BlockItem> CONSUMED_PLANK_SLAB = legacyBlockItem("consumed_plank_slab");
+    public static final DeferredItem<BlockItem> CONSUMED_PLANK_WALL = legacyBlockItem("consumed_plank_wall");
+    public static final DeferredItem<BlockItem> CONSUMED_PLANKS_STAIRS = legacyBlockItem("consumed_planks_stairs");
+    public static final DeferredItem<BlockItem> CONSUMED_POT = legacyBlockItem("consumed_pot");
+    public static final DeferredItem<BlockItem> DEAD_HEAD_PLANK_SLAB = legacyBlockItem("dead_head_plank_slab");
+    public static final DeferredItem<BlockItem> DEADHEAD_PLANK_STAIRS = legacyBlockItem("deadhead_plank_stairs");
+    public static final DeferredItem<BlockItem> DERMOID_CYST = legacyBlockItem("dermoid_cyst");
+    public static final DeferredItem<BlockItem> DISPATCHERN = legacyBlockItem("dispatchern");
+    public static final DeferredItem<BlockItem> FLESH_SLAB = legacyBlockItem("flesh_slab");
+    public static final DeferredItem<BlockItem> FLESH_STAIRS = legacyBlockItem("flesh_stairs");
+    public static final DeferredItem<BlockItem> FROST_WEATHERED_STONE_SLAB = legacyBlockItem("frost_weathered_stone_slab");
+    public static final DeferredItem<BlockItem> FROST_WEATHERED_STONE_STAIRS = legacyBlockItem("frost_weathered_stone_stairs");
+    public static final DeferredItem<BlockItem> GOTH_PLANK_SLAB = legacyBlockItem("goth_plank_slab");
+    public static final DeferredItem<BlockItem> GOTH_PLANK_WALL = legacyBlockItem("goth_plank_wall");
+    public static final DeferredItem<BlockItem> GOTH_PLANKS_STAIRS = legacyBlockItem("goth_planks_stairs");
+    public static final DeferredItem<BlockItem> HARLESKINN_FENCE = legacyBlockItem("harleskinn_fence");
+    public static final DeferredItem<BlockItem> HARLESKINN_SLAB = legacyBlockItem("harleskinn_slab");
+    public static final DeferredItem<BlockItem> HARLESKINN_STAIRS = legacyBlockItem("harleskinn_stairs");
+    public static final DeferredItem<BlockItem> INFESTED_FURNACE = legacyBlockItem("infested_furnace");
+    public static final DeferredItem<BlockItem> INFESTED_POT = legacyBlockItem("infested_pot");
+    public static final DeferredItem<BlockItem> INFESTEDBUSH = legacyBlockItem("infestedbush");
+    public static final DeferredItem<BlockItem> LOCS_BLOCK_SLAB = legacyBlockItem("locs_block_slab");
+    public static final DeferredItem<BlockItem> PARASITEBUSH = legacyBlockItem("parasitebush");
+    public static final DeferredItem<BlockItem> PARASITECANISTER = legacyBlockItem("parasitecanister");
+    public static final DeferredItem<BlockItem> PARASITECANISTER_BAG_WALL = legacyBlockItem("parasitecanister_bag_wall");
+    public static final DeferredItem<BlockItem> PARASITEPLANK = legacyBlockItem("parasiteplank");
+    public static final DeferredItem<BlockItem> PARASITEPLANK_DEADHEAD_WALL = legacyBlockItem("parasiteplank_deadhead_wall");
+    public static final DeferredItem<BlockItem> PARASITERUBBLE = legacyBlockItem("parasiterubble");
+    public static final DeferredItem<BlockItem> PARASITERUBBLE_BONESTAIRS = ITEMS.registerSimpleBlockItem("parasiterubble_bonestairs", ModBlocks.PARASITERUBBLE_BONESTAIRS);
+    public static final DeferredItem<BlockItem> PARASITERUBBLE_BRICKS_WALL = ITEMS.registerSimpleBlockItem("parasiterubble_bricks_wall", ModBlocks.PARASITERUBBLE_BRICKS_WALL);
+    public static final DeferredItem<BlockItem> PARASITERUBBLE_BRICKSSTAIRS = ITEMS.registerSimpleBlockItem("parasiterubble_bricksstairs", ModBlocks.PARASITERUBBLE_BRICKSSTAIRS);
+    public static final DeferredItem<BlockItem> PARASITERUBBLE_FLESH_WALL = ITEMS.registerSimpleBlockItem("parasiterubble_flesh_wall", ModBlocks.PARASITERUBBLE_FLESH_WALL);
+    public static final DeferredItem<BlockItem> PARASITERUBBLE_FLESHSTAIRS = ITEMS.registerSimpleBlockItem("parasiterubble_fleshstairs", ModBlocks.PARASITERUBBLE_FLESHSTAIRS);
+    public static final DeferredItem<BlockItem> PARASITERUBBLE_FUNGUSSTAIRS = ITEMS.registerSimpleBlockItem("parasiterubble_fungusstairs", ModBlocks.PARASITERUBBLE_FUNGUSSTAIRS);
+    public static final DeferredItem<BlockItem> PARASITERUBBLE_METAL_WALL = ITEMS.registerSimpleBlockItem("parasiterubble_metal_wall", ModBlocks.PARASITERUBBLE_METAL_WALL);
+    public static final DeferredItem<BlockItem> PARASITERUBBLE_METALSTAIRS = ITEMS.registerSimpleBlockItem("parasiterubble_metalstairs", ModBlocks.PARASITERUBBLE_METALSTAIRS);
+    public static final DeferredItem<BlockItem> PARASITERUBBLE_OBSIDIANSTAIRS = ITEMS.registerSimpleBlockItem("parasiterubble_obsidianstairs", ModBlocks.PARASITERUBBLE_OBSIDIANSTAIRS);
+    public static final DeferredItem<BlockItem> PARASITERUBBLE_STONEDEBRISSTAIRS = ITEMS.registerSimpleBlockItem("parasiterubble_stonedebrisstairs", ModBlocks.PARASITERUBBLE_STONEDEBRISSTAIRS);
+    public static final DeferredItem<BlockItem> PARASITERUBBLE_STONESTAIRS = ITEMS.registerSimpleBlockItem("parasiterubble_stonestairs", ModBlocks.PARASITERUBBLE_STONESTAIRS);
+    public static final DeferredItem<BlockItem> PARASITERUBBLE_WEATHB_WALL = ITEMS.registerSimpleBlockItem("parasiterubble_weathb_wall", ModBlocks.PARASITERUBBLE_WEATHB_WALL);
+    public static final DeferredItem<BlockItem> PARASITERUBBLE_WEATHBC_WALL = ITEMS.registerSimpleBlockItem("parasiterubble_weathbc_wall", ModBlocks.PARASITERUBBLE_WEATHBC_WALL);
+    public static final DeferredItem<BlockItem> PARASITERUBBLE_WEATHFS_WALL = ITEMS.registerSimpleBlockItem("parasiterubble_weathfs_wall", ModBlocks.PARASITERUBBLE_WEATHFS_WALL);
+    public static final DeferredItem<BlockItem> PARASITERUBBLE_WOODSTAIRS = ITEMS.registerSimpleBlockItem("parasiterubble_woodstairs", ModBlocks.PARASITERUBBLE_WOODSTAIRS);
+    public static final DeferredItem<BlockItem> PARASITERUBBLEDENSE_BIOME_WALL = ITEMS.registerSimpleBlockItem("parasiterubbledense_biome_wall", ModBlocks.PARASITERUBBLEDENSE_BIOME_WALL);
+    public static final DeferredItem<BlockItem> PARASITERUBBLEDENSE_BIOMESTAIRS = ITEMS.registerSimpleBlockItem("parasiterubbledense_biomestairs", ModBlocks.PARASITERUBBLEDENSE_BIOMESTAIRS);
+    public static final DeferredItem<BlockItem> PARASITERUBBLEDENSE_COLONY_WALL = ITEMS.registerSimpleBlockItem("parasiterubbledense_colony_wall", ModBlocks.PARASITERUBBLEDENSE_COLONY_WALL);
+    public static final DeferredItem<BlockItem> PARASITERUBBLEDENSE_COLONYSTAIRS = ITEMS.registerSimpleBlockItem("parasiterubbledense_colonystairs", ModBlocks.PARASITERUBBLEDENSE_COLONYSTAIRS);
+    public static final DeferredItem<BlockItem> PARASITERUBBLEDENSE_WALLSTAIRS = ITEMS.registerSimpleBlockItem("parasiterubbledense_wallstairs", ModBlocks.PARASITERUBBLEDENSE_WALLSTAIRS);
+    public static final DeferredItem<BlockItem> PARASITERUBBLESLABHALF = legacyBlockItem("parasiterubbleslabhalf");
+    public static final DeferredItem<BlockItem> PARASITESAPLING = legacyBlockItem("parasitesapling");
+    public static final DeferredItem<BlockItem> PARASITESTAIN = legacyBlockItem("parasitestain");
+    public static final DeferredItem<BlockItem> PARASITESTAIN_DIRTSTAIRS = legacyBlockItem("parasitestain_dirtstairs");
+    public static final DeferredItem<BlockItem> PARASITESTAIN_FEELERSTAIRS = legacyBlockItem("parasitestain_feelerstairs");
+    public static final DeferredItem<BlockItem> PARASITESTAIN_FLESH_WALL = legacyBlockItem("parasitestain_flesh_wall");
+    public static final DeferredItem<BlockItem> PARASITESTAIN_FLESHSTAIRS = legacyBlockItem("parasitestain_fleshstairs");
+    public static final DeferredItem<BlockItem> PARASITESTAIN_MUDSTAIRS = legacyBlockItem("parasitestain_mudstairs");
+    public static final DeferredItem<BlockItem> PARASITESTAINSLABHALF = legacyBlockItem("parasitestainslabhalf");
+    public static final DeferredItem<BlockItem> PARASITETRUNK_BALLSTAIRS = ITEMS.registerSimpleBlockItem("parasitetrunk_ballstairs", ModBlocks.PARASITETRUNK_BALLSTAIRS);
+    public static final DeferredItem<BlockItem> PARASITETRUNK_PLANTSTAIRS = ITEMS.registerSimpleBlockItem("parasitetrunk_plantstairs", ModBlocks.PARASITETRUNK_PLANTSTAIRS);
+    public static final DeferredItem<BlockItem> PARASITETRUNK_TREESTAIRS = ITEMS.registerSimpleBlockItem("parasitetrunk_treestairs", ModBlocks.PARASITETRUNK_TREESTAIRS);
+    public static final DeferredItem<BlockItem> PARASITIC_COLONY_CORE_SLAB = legacyBlockItem("parasitic_colony_core_slab");
+    public static final DeferredItem<BlockItem> PARASITIC_COMPRESSED_COLONY_STONE_SLAB = legacyBlockItem("parasitic_compressed_colony_stone_slab");
+    public static final DeferredItem<BlockItem> POLAND_SKIN_SLAB = legacyBlockItem("poland_skin_slab");
+    public static final DeferredItem<BlockItem> POTTED_ASSIMILATED_BLOSSOM = legacyBlockItem("potted_assimilated_blossom");
+    public static final DeferredItem<BlockItem> POTTED_CONSUMED_ASSIMILATED_BLOSSOM = legacyBlockItem("potted_consumed_assimilated_blossom");
+    public static final DeferredItem<BlockItem> REINFORCED_HIVESTONE_SLAB = legacyBlockItem("reinforced_hivestone_slab");
+    public static final DeferredItem<BlockItem> SAC_OF_FLESH_SLAB = legacyBlockItem("sac_of_flesh_slab");
+    public static final DeferredItem<BlockItem> WEATHERED_BRICKS_SLAB = legacyBlockItem("weathered_bricks_slab");
+    public static final DeferredItem<BlockItem> WEATHERED_COBBLESTONE_SLAB = legacyBlockItem("weathered_cobblestone_slab");
+    public static final DeferredItem<BlockItem> WHEATHERED_BRICKS_STAIRS = legacyBlockItem("wheathered_bricks_stairs");
+    public static final DeferredItem<BlockItem> WHEATHERED_COBBLESTONE_STAIRS = legacyBlockItem("wheathered_cobblestone_stairs");
+
+    /** Compatibility ids are batch-registered ({@link ModBlocks#legacyBlock(String)}); fetch one for its item. */
+    private static DeferredItem<BlockItem> legacyBlockItem(String id) {
+        return ITEMS.registerSimpleBlockItem(id, () -> ModBlocks.legacyBlock(id).get());
+    }
+
     private ModItems() {
     }
 }
