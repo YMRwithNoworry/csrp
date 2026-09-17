@@ -2,7 +2,7 @@
   "parent": "csrp:secret_root",
   "display": {
     "icon": {
-      "item": "csrp:ecstasy_icon"
+      "id": "csrp:ecstasy_icon"
     },
     "title": {
       "translate": "advancements.csrp.brew_fear.title"
@@ -19,7 +19,9 @@
     "brewed_fear": {
       "trigger": "minecraft:brewed_potion",
       "conditions": {
-        "potion": "csrp:fear"
+        "potion": {
+          "potions": "csrp:fear"
+        }
       }
     }
   }

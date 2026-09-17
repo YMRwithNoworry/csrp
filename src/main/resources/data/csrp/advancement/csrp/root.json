@@ -9,6 +9,7 @@
     "description": {
       "translate": "advancements.csrp.root.desc"
     },
+    "background": "csrp:textures/gui/advancement_wallpaper.png",
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
@@ -20,6 +21,8 @@
     }
   },
   "requirements": [
-    "root"
+    [
+      "root"
+    ]
   ]
 }

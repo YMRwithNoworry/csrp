@@ -1,7 +1,7 @@
 {
   "parent": "csrp:root",
   "display": {
-    "icon": { "item": "csrp:itemmobspawner_oronco" },
+    "icon": { "id": "csrp:itemmobspawner_oronco" },
     "title": { "translate": "advancements.csrp.monument_root.title" },
     "description": { "translate": "advancements.csrp.monument_root.description" },
     "frame": "task",

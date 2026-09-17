@@ -21,6 +21,8 @@
     }
   },
   "requirements": [
-    "monument_of_sins"
+    [
+      "monument_of_sins"
+    ]
   ]
 }

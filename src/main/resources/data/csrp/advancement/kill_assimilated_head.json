@@ -2,7 +2,7 @@
   "parent": "csrp:kill_inborn",
   "display": {
     "icon": {
-      "item": "csrp:assimilated_flesh"
+      "id": "csrp:assimilated_flesh"
     },
     "title": {
       "translate": "advancements.csrp.beheaded.title"
@@ -18,43 +18,43 @@
   "criteria": {
     "k_sim_adventurerhead": {
       "trigger": "minecraft:player_killed_entity",
-      "conditions": { "entity": { "type": "csrp:sim_adventurerhead" } }
+      "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:sim_adventurerhead"}} }
     },
     "k_sim_cowhead": {
       "trigger": "minecraft:player_killed_entity",
-      "conditions": { "entity": { "type": "csrp:sim_cowhead" } }
+      "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:sim_cowhead"}} }
     },
     "k_sim_dragonehead": {
       "trigger": "minecraft:player_killed_entity",
-      "conditions": { "entity": { "type": "csrp:sim_dragonehead" } }
+      "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:sim_dragonehead"}} }
     },
     "k_sim_endermanhead": {
       "trigger": "minecraft:player_killed_entity",
-      "conditions": { "entity": { "type": "csrp:sim_endermanhead" } }
+      "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:sim_endermanhead"}} }
     },
     "k_sim_horsehead": {
       "trigger": "minecraft:player_killed_entity",
-      "conditions": { "entity": { "type": "csrp:sim_horsehead" } }
+      "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:sim_horsehead"}} }
     },
     "k_sim_humanhead": {
       "trigger": "minecraft:player_killed_entity",
-      "conditions": { "entity": { "type": "csrp:sim_humanhead" } }
+      "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:sim_humanhead"}} }
     },
     "k_sim_pighead": {
       "trigger": "minecraft:player_killed_entity",
-      "conditions": { "entity": { "type": "csrp:sim_pighead" } }
+      "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:sim_pighead"}} }
     },
     "k_sim_sheephead": {
       "trigger": "minecraft:player_killed_entity",
-      "conditions": { "entity": { "type": "csrp:sim_sheephead" } }
+      "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:sim_sheephead"}} }
     },
     "k_sim_villagerhead": {
       "trigger": "minecraft:player_killed_entity",
-      "conditions": { "entity": { "type": "csrp:sim_villagerhead" } }
+      "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:sim_villagerhead"}} }
     },
     "k_sim_wolfhead": {
       "trigger": "minecraft:player_killed_entity",
-      "conditions": { "entity": { "type": "csrp:sim_wolfhead" } }
+      "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:sim_wolfhead"}} }
     }
   },
   "requirements": [

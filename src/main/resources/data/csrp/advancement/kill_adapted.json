@@ -1,7 +1,7 @@
 {
   "parent": "csrp:kill_assimilated",
   "display": {
-    "icon": { "item": "csrp:adapted_icon" },
+    "icon": { "id": "csrp:adapted_icon" },
     "title": { "translate": "advancements.csrp.kill_adapted.title" },
     "description": { "translate": "advancements.csrp.kill_adapted.description" },
     "frame": "task",
@@ -10,17 +10,17 @@
     "hidden": true
   },
   "criteria": {
-    "k_ada_arachnida": { "trigger": "minecraft:player_killed_entity", "conditions": { "entity": { "type": "csrp:ada_arachnida" } } },
-    "k_ada_bolster":   { "trigger": "minecraft:player_killed_entity", "conditions": { "entity": { "type": "csrp:ada_bolster" } } },
-    "k_ada_burrower":  { "trigger": "minecraft:player_killed_entity", "conditions": { "entity": { "type": "csrp:ada_burrower" } } },
-    "k_ada_devourer":  { "trigger": "minecraft:player_killed_entity", "conditions": { "entity": { "type": "csrp:ada_devourer" } } },
-    "k_ada_longarms":  { "trigger": "minecraft:player_killed_entity", "conditions": { "entity": { "type": "csrp:ada_longarms" } } },
-    "k_ada_manducater":{ "trigger": "minecraft:player_killed_entity", "conditions": { "entity": { "type": "csrp:ada_manducater" } } },
-    "k_ada_reeker":    { "trigger": "minecraft:player_killed_entity", "conditions": { "entity": { "type": "csrp:ada_reeker" } } },
-    "k_ada_summoner":  { "trigger": "minecraft:player_killed_entity", "conditions": { "entity": { "type": "csrp:ada_summoner" } } },
-    "k_ada_tozoon":    { "trigger": "minecraft:player_killed_entity", "conditions": { "entity": { "type": "csrp:ada_tozoon" } } },
-    "k_ada_viscera":   { "trigger": "minecraft:player_killed_entity", "conditions": { "entity": { "type": "csrp:ada_viscera" } } },
-    "k_ada_yelloweye": { "trigger": "minecraft:player_killed_entity", "conditions": { "entity": { "type": "csrp:ada_yelloweye" } } }
+    "k_ada_arachnida": { "trigger": "minecraft:player_killed_entity", "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:ada_arachnida"}} } },
+    "k_ada_bolster":   { "trigger": "minecraft:player_killed_entity", "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:ada_bolster"}} } },
+    "k_ada_burrower":  { "trigger": "minecraft:player_killed_entity", "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:ada_burrower"}} } },
+    "k_ada_devourer":  { "trigger": "minecraft:player_killed_entity", "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:ada_devourer"}} } },
+    "k_ada_longarms":  { "trigger": "minecraft:player_killed_entity", "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:ada_longarms"}} } },
+    "k_ada_manducater":{ "trigger": "minecraft:player_killed_entity", "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:ada_manducater"}} } },
+    "k_ada_reeker":    { "trigger": "minecraft:player_killed_entity", "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:ada_reeker"}} } },
+    "k_ada_summoner":  { "trigger": "minecraft:player_killed_entity", "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:ada_summoner"}} } },
+    "k_ada_tozoon":    { "trigger": "minecraft:player_killed_entity", "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:ada_tozoon"}} } },
+    "k_ada_viscera":   { "trigger": "minecraft:player_killed_entity", "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:ada_viscera"}} } },
+    "k_ada_yelloweye": { "trigger": "minecraft:player_killed_entity", "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:ada_yelloweye"}} } }
   },
   "requirements": [
     [ "k_ada_arachnida" ],

@@ -2,7 +2,7 @@
   "parent": "csrp:controversial",
   "display": {
     "icon": {
-      "item": "csrp:guerilla_icon"
+      "id": "csrp:guerilla_icon"
     },
     "title": {
       "translate": "advancements.csrp.guerilla.title"

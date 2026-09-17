@@ -30,6 +30,8 @@
     }
   },
   "requirements": [
-    "fog_nullifier"
+    [
+      "fog_nullifier"
+    ]
   ]
 }

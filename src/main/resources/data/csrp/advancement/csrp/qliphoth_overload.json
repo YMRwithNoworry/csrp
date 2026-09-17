@@ -21,6 +21,8 @@
     }
   },
   "requirements": [
-    "qliphoth_overload"
+    [
+      "qliphoth_overload"
+    ]
   ]
 }

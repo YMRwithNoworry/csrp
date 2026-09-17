@@ -19,15 +19,13 @@
     "kill_assimilated_enderman": {
       "trigger": "minecraft:player_killed_entity",
       "conditions": {
-        "entity": [
-          {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {
-              "type": "csrp:sim_enderman"
-            }
+        "entity": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "csrp:sim_enderman"
           }
-        ]
+        }
       }
     }
   },

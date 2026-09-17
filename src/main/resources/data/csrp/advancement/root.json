@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "csrp:roots_icon"
+      "id": "csrp:roots_icon"
     },
     "title": {
       "translate": "advancements.csrp.root.title"

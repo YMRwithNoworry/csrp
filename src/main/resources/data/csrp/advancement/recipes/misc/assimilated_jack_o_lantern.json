@@ -11,10 +11,10 @@
       "conditions": {
         "items": [
           {
-            "item": "csrp:assimilated_pumpkin"
+            "items": "csrp:assimilated_pumpkin"
           },
           {
-            "item": "minecraft:torch"
+            "items": "minecraft:torch"
           }
         ]
       }

@@ -2,7 +2,7 @@
   "parent": "csrp:firmamentum_root",
   "display": {
     "icon": {
-      "item": "csrp:fog_nullifier_icon"
+      "id": "csrp:fog_nullifier_icon"
     },
     "title": {
       "translate": "advancements.csrp.fog_nullifier.title"
@@ -21,7 +21,7 @@
       "conditions": {
         "items": [
           {
-            "item": "csrp:fog_nullifier"
+            "items": "csrp:fog_nullifier"
           }
         ]
       }

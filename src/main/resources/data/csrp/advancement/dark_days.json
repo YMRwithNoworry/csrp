@@ -2,7 +2,7 @@
   "parent": "csrp:stolas",
   "display": {
     "icon": {
-      "item": "csrp:dark_days_icon"
+      "id": "csrp:dark_days_icon"
     },
     "title": {
       "translate": "advancements.csrp.dark_days.title"

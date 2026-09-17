@@ -2,7 +2,7 @@
   "parent": "csrp:firmamentum_root",
   "display": {
     "icon": {
-      "item": "csrp:biomepurifier"
+      "id": "csrp:biomepurifier"
     },
     "title": {
       "translate": "advancements.csrp.peacekeeper.title"
@@ -21,7 +21,7 @@
       "conditions": {
         "items": [
           {
-            "item": "csrp:biomepurifier"
+            "items": "csrp:biomepurifier"
           }
         ]
       }

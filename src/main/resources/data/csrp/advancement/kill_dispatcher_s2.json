@@ -2,8 +2,7 @@
   "parent": "csrp:kill_dispatcher_s1",
   "display": {
     "icon": {
-      "item": "csrp:parasitesapling",
-      "data": 2
+      "id": "csrp:parasitesapling"
     },
     "title": {
       "translate": "advancements.csrp.kill_dispatcher_s2.title"
@@ -21,7 +20,11 @@
       "trigger": "minecraft:player_killed_entity",
       "conditions": {
         "entity": {
-          "type": "csrp:dispatcher_sii"
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "csrp:dispatcher_sii"
+          }
         }
       }
     }

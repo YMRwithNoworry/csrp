@@ -1,7 +1,7 @@
 {
   "parent": "csrp:root",
   "display": {
-    "icon": { "item": "csrp:srp_field_guide" },
+    "icon": { "id": "csrp:srp_field_guide" },
     "title": { "translate": "advancements.csrp.kill_root.title" },
     "description": { "translate": "advancements.csrp.kill_root.description" },
     "frame": "task",

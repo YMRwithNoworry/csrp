@@ -2,7 +2,7 @@
   "parent": "csrp:enemy_enemy",
   "display": {
     "icon": {
-      "item": "csrp:hunt_season_icon"
+      "id": "csrp:hunt_season_icon"
     },
     "title": {
       "translate": "advancements.csrp.hunt_season.title"

@@ -2,7 +2,7 @@
   "parent": "csrp:thornshade_self_destruct",
   "display": {
     "icon": {
-      "item": "csrp:enemy_of_enemy_icon"
+      "id": "csrp:enemy_of_enemy_icon"
     },
     "title": {
       "translate": "advancements.csrp.enemy_enemy.title"

@@ -11,7 +11,7 @@
       "conditions": {
         "items": [
           {
-            "item": "minecraft:book"
+            "items": "minecraft:book"
           }
         ]
       }
@@ -21,7 +21,7 @@
       "conditions": {
         "items": [
           {
-            "item": "csrp:assimilated_flesh"
+            "items": "csrp:assimilated_flesh"
           }
         ]
       }

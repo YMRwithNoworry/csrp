@@ -2,7 +2,7 @@
   "parent": "csrp:cut_roots",
   "display": {
     "icon": {
-      "item": "csrp:potion_columbus_icon"
+      "id": "csrp:potion_columbus_icon"
     },
     "title": {
       "translate": "advancements.csrp.columbus.title"

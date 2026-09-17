@@ -2,7 +2,7 @@
   "parent": "csrp:kill_assimilated",
   "display": {
     "icon": {
-      "item": "csrp:primitive_icon"
+      "id": "csrp:primitive_icon"
     },
     "title": {
       "translate": "advancements.csrp.kill_primitive.title"
@@ -18,51 +18,51 @@
   "criteria": {
     "k_pri_arachnida": {
       "trigger": "minecraft:player_killed_entity",
-      "conditions": { "entity": { "type": "csrp:pri_arachnida" } }
+      "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:pri_arachnida"}} }
     },
     "k_pri_bolster": {
       "trigger": "minecraft:player_killed_entity",
-      "conditions": { "entity": { "type": "csrp:pri_bolster" } }
+      "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:pri_bolster"}} }
     },
     "k_pri_burrower": {
       "trigger": "minecraft:player_killed_entity",
-      "conditions": { "entity": { "type": "csrp:pri_burrower" } }
+      "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:pri_burrower"}} }
     },
     "k_pri_devourer": {
       "trigger": "minecraft:player_killed_entity",
-      "conditions": { "entity": { "type": "csrp:pri_devourer" } }
+      "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:pri_devourer"}} }
     },
     "k_pri_longarms": {
       "trigger": "minecraft:player_killed_entity",
-      "conditions": { "entity": { "type": "csrp:pri_longarms" } }
+      "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:pri_longarms"}} }
     },
     "k_pri_manducater": {
       "trigger": "minecraft:player_killed_entity",
-      "conditions": { "entity": { "type": "csrp:pri_manducater" } }
+      "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:pri_manducater"}} }
     },
     "k_pri_reeker": {
       "trigger": "minecraft:player_killed_entity",
-      "conditions": { "entity": { "type": "csrp:pri_reeker" } }
+      "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:pri_reeker"}} }
     },
     "k_pri_summoner": {
       "trigger": "minecraft:player_killed_entity",
-      "conditions": { "entity": { "type": "csrp:pri_summoner" } }
+      "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:pri_summoner"}} }
     },
     "k_pri_tozoon": {
       "trigger": "minecraft:player_killed_entity",
-      "conditions": { "entity": { "type": "csrp:pri_tozoon" } }
+      "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:pri_tozoon"}} }
     },
     "k_pri_vermin": {
       "trigger": "minecraft:player_killed_entity",
-      "conditions": { "entity": { "type": "csrp:pri_vermin" } }
+      "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:pri_vermin"}} }
     },
     "k_pri_viscera": {
       "trigger": "minecraft:player_killed_entity",
-      "conditions": { "entity": { "type": "csrp:pri_viscera" } }
+      "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:pri_viscera"}} }
     },
     "k_pri_yelloweye": {
       "trigger": "minecraft:player_killed_entity",
-      "conditions": { "entity": { "type": "csrp:pri_yelloweye" } }
+      "conditions": { "entity": {"type": "minecraft:entity_properties", "entity": "this", "predicate": {"minecraft:entity_type": "csrp:pri_yelloweye"}} }
     }
   },
   "requirements": [

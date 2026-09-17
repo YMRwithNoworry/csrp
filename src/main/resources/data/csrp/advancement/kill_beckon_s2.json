@@ -2,8 +2,7 @@
   "parent": "csrp:kill_beckon_s1",
   "display": {
     "icon": {
-      "item": "csrp:infestedbush",
-      "data": 5
+      "id": "csrp:infestedbush"
     },
     "title": {
       "translate": "advancements.csrp.kill_beckon_s2.title"
@@ -21,7 +20,11 @@
       "trigger": "minecraft:player_killed_entity",
       "conditions": {
         "entity": {
-          "type": "csrp:beckon_sii"
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "csrp:beckon_sii"
+          }
         }
       }
     }

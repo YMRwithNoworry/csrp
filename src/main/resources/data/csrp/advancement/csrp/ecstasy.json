@@ -26,7 +26,7 @@
             ],
             "predicates": {
               "minecraft:potion_contents": {
-                "potion": "csrp:fear"
+                "potions": "csrp:fear"
               }
             }
           }

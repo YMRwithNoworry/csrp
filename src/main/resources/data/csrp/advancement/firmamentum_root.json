@@ -1,7 +1,7 @@
 {
   "parent": "csrp:root",
   "display": {
-    "icon": { "item": "csrp:greek_fire" },
+    "icon": { "id": "csrp:greek_fire" },
     "title": { "translate": "advancements.csrp.firmamentum_root.title" },
     "description": { "translate": "advancements.csrp.firmamentum_root.description" },
     "frame": "task",

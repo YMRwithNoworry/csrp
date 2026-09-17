@@ -19,19 +19,19 @@
     "teth_suppression": {
       "trigger": "minecraft:player_killed_entity",
       "conditions": {
-        "entity": [
-          {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {
-              "type": "csrp:dispatcher_sii"
-            }
+        "entity": {
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "csrp:dispatcher_sii"
           }
-        ]
+        }
       }
     }
   },
   "requirements": [
-    "teth_suppression"
+    [
+      "teth_suppression"
+    ]
   ]
 }
