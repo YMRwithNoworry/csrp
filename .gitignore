@@ -19,3 +19,8 @@ hs_err_pid*
 
 .vanilla-assets/
 .ref*/
+
+# 本地调研临时产物（不入库）
+.research-scratch/
+net/
+.ref263/
