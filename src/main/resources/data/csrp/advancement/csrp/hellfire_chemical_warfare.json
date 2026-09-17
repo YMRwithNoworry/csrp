@@ -1,5 +1,5 @@
 {
-  "parent": "csrp:pure",
+  "parent": "csrp:csrp/pure",
   "display": {
     "icon": {
       "id": "csrp:draconite_spawn_egg"

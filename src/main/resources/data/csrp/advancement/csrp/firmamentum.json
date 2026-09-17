@@ -1,5 +1,5 @@
 {
-  "parent": "csrp:root",
+  "parent": "csrp:csrp/root",
   "display": {
     "icon": {
       "id": "csrp:biomepurifier"

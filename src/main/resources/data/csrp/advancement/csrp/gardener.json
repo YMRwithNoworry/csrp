@@ -1,5 +1,5 @@
 {
-  "parent": "csrp:monumenta",
+  "parent": "csrp:csrp/monumenta",
   "display": {
     "icon": {
       "id": "csrp:beckon_drop"

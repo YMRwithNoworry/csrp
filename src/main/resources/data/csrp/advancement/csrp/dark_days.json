@@ -1,5 +1,5 @@
 {
-  "parent": "csrp:cognitio",
+  "parent": "csrp:csrp/cognitio",
   "display": {
     "icon": {
       "id": "minecraft:black_dye"

@@ -1,5 +1,5 @@
 {
-  "parent": "csrp:columbus",
+  "parent": "csrp:csrp/columbus",
   "display": {
     "icon": {
       "id": "csrp:evclock"

@@ -1,5 +1,5 @@
 {
-  "parent": "csrp:inborn",
+  "parent": "csrp:csrp/inborn",
   "display": {
     "icon": {
       "id": "csrp:airscrew_spawn_egg"

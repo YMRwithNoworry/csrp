@@ -1,5 +1,5 @@
 {
-  "parent": "csrp:crude",
+  "parent": "csrp:csrp/crude",
   "display": {
     "icon": {
       "id": "csrp:pri_longarms_spawn_egg"

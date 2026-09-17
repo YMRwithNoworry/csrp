@@ -1,5 +1,5 @@
 {
-  "parent": "csrp:teth_suppression",
+  "parent": "csrp:csrp/teth_suppression",
   "display": {
     "icon": {
       "id": "csrp:dispatcher_drop"

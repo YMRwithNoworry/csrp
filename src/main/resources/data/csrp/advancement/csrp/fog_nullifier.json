@@ -1,5 +1,5 @@
 {
-  "parent": "csrp:firmamentum",
+  "parent": "csrp:csrp/firmamentum",
   "display": {
     "icon": {
       "id": "csrp:fog_nullifier"

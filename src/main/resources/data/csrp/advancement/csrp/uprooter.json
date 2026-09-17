@@ -1,5 +1,5 @@
 {
-  "parent": "csrp:pruner",
+  "parent": "csrp:csrp/pruner",
   "display": {
     "icon": {
       "id": "csrp:beckon_drop"

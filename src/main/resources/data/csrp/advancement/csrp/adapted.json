@@ -1,5 +1,5 @@
 {
-  "parent": "csrp:primitive",
+  "parent": "csrp:csrp/primitive",
   "display": {
     "icon": {
       "id": "csrp:ada_longarms_spawn_egg"

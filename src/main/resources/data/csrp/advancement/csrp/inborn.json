@@ -1,5 +1,5 @@
 {
-  "parent": "csrp:venari",
+  "parent": "csrp:csrp/venari",
   "display": {
     "icon": {
       "id": "csrp:buglin_spawn_egg"

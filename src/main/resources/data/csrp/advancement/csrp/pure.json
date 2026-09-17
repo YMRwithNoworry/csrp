@@ -1,5 +1,5 @@
 {
-  "parent": "csrp:deterrent",
+  "parent": "csrp:csrp/deterrent",
   "display": {
     "icon": {
       "id": "csrp:monarch_spawn_egg"

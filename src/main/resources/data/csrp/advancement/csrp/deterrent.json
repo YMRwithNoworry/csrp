@@ -1,5 +1,5 @@
 {
-  "parent": "csrp:adapted",
+  "parent": "csrp:csrp/adapted",
   "display": {
     "icon": {
       "id": "csrp:seizer_spawn_egg"

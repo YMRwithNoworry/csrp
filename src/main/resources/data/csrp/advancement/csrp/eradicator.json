@@ -1,5 +1,5 @@
 {
-  "parent": "csrp:uprooter",
+  "parent": "csrp:csrp/uprooter",
   "display": {
     "icon": {
       "id": "csrp:beckon_drop"

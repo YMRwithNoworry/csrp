@@ -1,5 +1,5 @@
 {
-  "parent": "csrp:he_suppression",
+  "parent": "csrp:csrp/he_suppression",
   "display": {
     "icon": {
       "id": "csrp:dispatcher_drop"
