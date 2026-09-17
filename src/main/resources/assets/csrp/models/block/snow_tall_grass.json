@@ -1,0 +1,64 @@
+{
+  "ambientocclusion": false,
+  "render_type": "minecraft:cutout",
+  "textures": {
+    "particle": "minecraft:block/snow",
+    "snow": "minecraft:block/snow",
+    "grass_bottom": "csrp:block/snowy_double_plant_grass_bottom",
+    "grass_top": "csrp:block/snowy_double_plant_grass_top"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 2, 16],
+      "faces": {
+        "down": {"uv": [0, 0, 16, 16], "texture": "#snow", "cullface": "down"},
+        "up": {"uv": [0, 0, 16, 16], "texture": "#snow"},
+        "north": {"uv": [0, 14, 16, 16], "texture": "#snow"},
+        "south": {"uv": [0, 14, 16, 16], "texture": "#snow"},
+        "west": {"uv": [0, 14, 16, 16], "texture": "#snow"},
+        "east": {"uv": [0, 14, 16, 16], "texture": "#snow"}
+      }
+    },
+    {
+      "from": [0, 0, 7.99],
+      "to": [16, 16, 8.01],
+      "rotation": {"origin": [8, 8, 8], "axis": "y", "angle": 45},
+      "shade": false,
+      "faces": {
+        "north": {"uv": [0, 0, 16, 16], "texture": "#grass_bottom"},
+        "south": {"uv": [0, 0, 16, 16], "texture": "#grass_bottom"}
+      }
+    },
+    {
+      "from": [0, 0, 7.99],
+      "to": [16, 16, 8.01],
+      "rotation": {"origin": [8, 8, 8], "axis": "y", "angle": -45},
+      "shade": false,
+      "faces": {
+        "north": {"uv": [0, 0, 16, 16], "texture": "#grass_bottom"},
+        "south": {"uv": [0, 0, 16, 16], "texture": "#grass_bottom"}
+      }
+    },
+    {
+      "from": [0, 16, 7.99],
+      "to": [16, 32, 8.01],
+      "rotation": {"origin": [8, 24, 8], "axis": "y", "angle": 45},
+      "shade": false,
+      "faces": {
+        "north": {"uv": [0, 0, 16, 16], "texture": "#grass_top"},
+        "south": {"uv": [0, 0, 16, 16], "texture": "#grass_top"}
+      }
+    },
+    {
+      "from": [0, 16, 7.99],
+      "to": [16, 32, 8.01],
+      "rotation": {"origin": [8, 24, 8], "axis": "y", "angle": -45},
+      "shade": false,
+      "faces": {
+        "north": {"uv": [0, 0, 16, 16], "texture": "#grass_top"},
+        "south": {"uv": [0, 0, 16, 16], "texture": "#grass_top"}
+      }
+    }
+  ]
+}

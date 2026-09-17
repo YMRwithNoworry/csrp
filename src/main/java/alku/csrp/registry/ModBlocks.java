@@ -11,7 +11,12 @@ import alku.csrp.block.BiomeHeartBlock;
 import alku.csrp.block.ColonyHeartBlock;
 import alku.csrp.block.ColonyStructureBlock;
 import alku.csrp.block.DeadBloodBlock;
+import alku.csrp.block.DeadheadGrassShortBlock;
+import alku.csrp.block.DeadheadGrassTallBlock;
 import alku.csrp.block.DeadheadLeavesBlock;
+import alku.csrp.block.SnowCoveredGrassBlock;
+import alku.csrp.block.SnowShortGrassBlock;
+import alku.csrp.block.SnowTallGrassBlock;
 import alku.csrp.block.DispatcherNidusBlock;
 import alku.csrp.block.DiseasedSpongeBlock;
 import alku.csrp.block.EscaBulbBlock;
@@ -623,6 +628,58 @@ public final class ModBlocks {
                     .randomTicks()
                     .noOcclusion()
                     .sound(SoundType.GRASS)));
+
+    /**
+     * 1.10.9 cold-star vegetation.  The deadhead vines cling to deadhead wood and carry five
+     * textures keyed by position; the snow grass converts the grass block under it into
+     * {@link #SNOW_COVERED_GRASS} while it is alive.
+     */
+    public static final DeferredBlock<DeadheadGrassShortBlock> DEADHEAD_GRASS_SHORT = BLOCKS.register(
+            "deadhead_grass_short", key -> new DeadheadGrassShortBlock(
+                    BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                            .mapColor(MapColor.COLOR_BROWN)
+                            .replaceable()
+                            .noCollision()
+                            .instabreak()
+                            .noOcclusion()
+                            .sound(SoundType.GRASS)));
+    public static final DeferredBlock<DeadheadGrassTallBlock> DEADHEAD_GRASS_TALL = BLOCKS.register(
+            "deadhead_grass_tall", key -> new DeadheadGrassTallBlock(
+                    BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                            .mapColor(MapColor.COLOR_BROWN)
+                            .replaceable()
+                            .noCollision()
+                            .instabreak()
+                            .noOcclusion()
+                            .sound(SoundType.GRASS)));
+    public static final DeferredBlock<SnowShortGrassBlock> SNOW_SHORT_GRASS = BLOCKS.register(
+            "snow_short_grass", key -> new SnowShortGrassBlock(
+                    BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                            .mapColor(MapColor.SNOW)
+                            .replaceable()
+                            .noCollision()
+                            .randomTicks()
+                            .strength(0.1F)
+                            .noOcclusion()
+                            .sound(SoundType.GRASS)));
+    public static final DeferredBlock<SnowTallGrassBlock> SNOW_TALL_GRASS = BLOCKS.register(
+            "snow_tall_grass", key -> new SnowTallGrassBlock(
+                    BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                            .mapColor(MapColor.SNOW)
+                            .replaceable()
+                            .noCollision()
+                            .randomTicks()
+                            .strength(0.1F)
+                            .noOcclusion()
+                            .sound(SoundType.GRASS)));
+    /** Placed by {@link #SNOW_SHORT_GRASS} / {@link #SNOW_TALL_GRASS}; deliberately has no BlockItem. */
+    public static final DeferredBlock<SnowCoveredGrassBlock> SNOW_COVERED_GRASS = BLOCKS.register(
+            "snow_covered_grass", key -> new SnowCoveredGrassBlock(
+                    BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                            .mapColor(MapColor.SNOW)
+                            .randomTicks()
+                            .strength(0.6F)
+                            .sound(SoundType.GRASS)));
 
     /**
      * The 1.10.8 jar shipped a number of legacy block ids which are referenced

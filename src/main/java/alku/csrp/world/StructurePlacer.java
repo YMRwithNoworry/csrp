@@ -29,6 +29,22 @@ public final class StructurePlacer {
     }
 
     public static boolean place(ServerLevel level, Identifier id, BlockPos pos, RandomSource random) {
+        return place(level, id, pos, random, null, Rotation.NONE);
+    }
+
+    /**
+     * Places a template at an arbitrary rotation while keeping the block that maps to
+     * {@code anchor} at {@code placementPos}.  The 1.10.9 deadhead trees are authored around a
+     * sapling anchor and the original used {@code Template#transformedBlockPos} to line that anchor
+     * up; this is the modern equivalent, expressed without touching
+     * {@code StructureTemplate#placeInWorld}.
+     *
+     * @param anchor   the template-local position that should end up on {@code placementPos};
+     *                 {@code null} places the template origin at {@code placementPos}
+     * @param rotation template rotation applied before the anchor is aligned
+     */
+    public static boolean place(ServerLevel level, Identifier id, BlockPos placementPos, RandomSource random,
+            BlockPos anchor, Rotation rotation) {
         Optional<StructureTemplate> optional = level.getStructureTemplateManager().get(id);
         if (optional.isEmpty()) {
             reportOnce(id, "template not found; expected it at data/" + id.getNamespace()
@@ -43,17 +59,35 @@ public final class StructurePlacer {
                     + "; its NBT \"size\" must be a LIST<INT>");
             return false;
         }
-        BlockState state = level.getBlockState(pos);
-        level.sendBlockUpdated(pos, state, state, 3);
+        BlockPos origin = placementPos;
+        if (anchor != null) {
+            origin = placementPos.subtract(rotateAnchor(anchor, rotation));
+        }
+        BlockState state = level.getBlockState(origin);
+        level.sendBlockUpdated(origin, state, state, 3);
         StructurePlaceSettings settings = new StructurePlaceSettings()
                 .setMirror(Mirror.NONE)
-                .setRotation(Rotation.NONE)
+                .setRotation(rotation)
                 .setIgnoreEntities(false);
-        boolean placed = template.placeInWorld(level, pos, pos, settings, random, 2);
+        boolean placed = template.placeInWorld(level, origin, origin, settings, random, 2);
         if (!placed) {
-            reportOnce(id, "placement was rejected at " + pos.toShortString());
+            reportOnce(id, "placement was rejected at " + origin.toShortString());
         }
         return placed;
+    }
+
+    /**
+     * Mirrors vanilla's internal position transform for the four horizontal rotations (the only
+     * ones the deadhead trees use).  Kept local so the behaviour stays verifiable without
+     * depending on a package-private vanilla helper.
+     */
+    private static BlockPos rotateAnchor(BlockPos anchor, Rotation rotation) {
+        return switch (rotation) {
+            case CLOCKWISE_90 -> new BlockPos(-anchor.getZ(), anchor.getY(), anchor.getX());
+            case CLOCKWISE_180 -> new BlockPos(-anchor.getX(), anchor.getY(), -anchor.getZ());
+            case COUNTERCLOCKWISE_90 -> new BlockPos(anchor.getZ(), anchor.getY(), -anchor.getX());
+            default -> anchor;
+        };
     }
 
     private static void reportOnce(Identifier id, String reason) {

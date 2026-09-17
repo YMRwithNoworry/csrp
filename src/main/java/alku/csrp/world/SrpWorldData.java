@@ -38,6 +38,12 @@ public final class SrpWorldData extends SavedData {
      * stored one (older saves), so {@link Config#meteorEnabled()} stays authoritative.
      */
     private SrpMeteorMode meteorInfection;
+    /**
+     * 1.10.9 cold-star world options from {@code GuiSRPWorldSettings}.  Both default to off, which
+     * is the index the 1.10.9 cycle buttons started on.
+     */
+    private Boolean fracturedTerrain;
+    private Boolean mushroomTrees;
     private double difficultyPointRemainder;
     private long cooldownEnd;
     private boolean canGain = true;
@@ -86,6 +92,12 @@ public final class SrpWorldData extends SavedData {
         data.meteorInfection = tag.contains("meteor_infection")
                 ? SrpMeteorMode.byId(tag.getStringOr("meteor_infection", ""))
                 : null;
+        data.fracturedTerrain = tag.contains("fractured_terrain")
+                ? tag.getBooleanOr("fractured_terrain", false)
+                : null;
+        data.mushroomTrees = tag.contains("mushroom_trees")
+                ? tag.getBooleanOr("mushroom_trees", true)
+                : null;
         data.difficultyPointRemainder = tag.getDoubleOr("difficulty_point_remainder", 0.0D);
         data.cooldownEnd = tag.getLongOr("cooldown_end", 0L);
         data.canGain = !tag.contains("can_gain") || tag.getBooleanOr("can_gain", false);
@@ -123,6 +135,12 @@ public final class SrpWorldData extends SavedData {
         tag.putString("star_type", data.starType.id());
         if (data.meteorInfection != null) {
             tag.putString("meteor_infection", data.meteorInfection.id());
+        }
+        if (data.fracturedTerrain != null) {
+            tag.putBoolean("fractured_terrain", data.fracturedTerrain);
+        }
+        if (data.mushroomTrees != null) {
+            tag.putBoolean("mushroom_trees", data.mushroomTrees);
         }
         tag.putDouble("difficulty_point_remainder", data.difficultyPointRemainder);
         tag.putLong("cooldown_end", data.cooldownEnd);
@@ -193,6 +211,30 @@ public final class SrpWorldData extends SavedData {
     /** @return the create-world choice, or {@code null} when the world follows the config. */
     public SrpMeteorMode meteorInfection() {
         return meteorInfection;
+    }
+
+    /** 1.10.9 {@code SRPStarWorldData.isFracturedTerrainEnabled()}: cold star only. */
+    public boolean fracturedTerrainEnabled() {
+        return starType == SrpStarType.COLD && Boolean.TRUE.equals(fracturedTerrain);
+    }
+
+    public void setFracturedTerrainEnabled(boolean enabled) {
+        if (!Boolean.valueOf(enabled).equals(fracturedTerrain)) {
+            fracturedTerrain = enabled;
+            setDirty();
+        }
+    }
+
+    /** 1.10.9 {@code SRPStarWorldData.isMushroomTreesEnabled()}. */
+    public boolean mushroomTreesEnabled() {
+        return Boolean.TRUE.equals(mushroomTrees);
+    }
+
+    public void setMushroomTreesEnabled(boolean enabled) {
+        if (!Boolean.valueOf(enabled).equals(mushroomTrees)) {
+            mushroomTrees = enabled;
+            setDirty();
+        }
     }
 
     /** Effective gate for the periodic meteor infection event. */
@@ -688,6 +730,14 @@ public final class SrpWorldData extends SavedData {
         meteorInfection = level == level.getServer().overworld()
                 ? SrpMeteorSelection.consume()
                 : SrpWorldData.get(level.getServer().overworld()).meteorInfection;
+        if (level == level.getServer().overworld()) {
+            fracturedTerrain = SrpColdStarSelection.consumeFractured();
+            mushroomTrees = SrpColdStarSelection.consumeMushroomTrees();
+        } else {
+            SrpWorldData overworldData = SrpWorldData.get(level.getServer().overworld());
+            fracturedTerrain = overworldData == null ? null : overworldData.fracturedTerrain;
+            mushroomTrees = overworldData == null ? null : overworldData.mushroomTrees;
+        }
         difficultyPointRemainder = 0.0D;
         generation = 0;
         generationTicks = 0;

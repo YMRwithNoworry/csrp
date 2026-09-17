@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "texture=0": {
+      "model": "csrp:block/deadhead_grass_short1"
+    },
+    "texture=1": {
+      "model": "csrp:block/deadhead_grass_short2"
+    },
+    "texture=2": {
+      "model": "csrp:block/deadhead_grass_short3"
+    },
+    "texture=3": {
+      "model": "csrp:block/deadhead_grass_short4"
+    },
+    "texture=4": {
+      "model": "csrp:block/deadhead_grass_short5"
+    }
+  }
+}

@@ -2,6 +2,7 @@ package alku.csrp.client;
 
 import alku.csrp.Csrp;
 import alku.csrp.Config;
+import alku.csrp.world.SrpColdStarSelection;
 import alku.csrp.world.SrpDifficulty;
 import alku.csrp.world.SrpDifficultySelection;
 import alku.csrp.world.SrpMeteorMode;
@@ -26,6 +27,10 @@ public final class SrpDifficultyScreenEvents {
     private static final Map<CreateWorldScreen, SrpDifficulty> SELECTIONS = new WeakHashMap<>();
     private static final Map<CreateWorldScreen, SrpStarType> STAR_SELECTIONS = new WeakHashMap<>();
     private static final Map<CreateWorldScreen, SrpMeteorMode> METEOR_SELECTIONS = new WeakHashMap<>();
+    private static final Map<CreateWorldScreen, SrpMeteorMode> MUSHROOM_TREES_SELECTIONS =
+            new WeakHashMap<>();
+    private static final Map<CreateWorldScreen, SrpMeteorMode> FRACTURED_SELECTIONS =
+            new WeakHashMap<>();
 
     private SrpDifficultyScreenEvents() {
     }
@@ -78,15 +83,68 @@ public final class SrpDifficultyScreenEvents {
                         });
         updateMeteorTooltip(meteorSelector, selectedMeteor);
         event.addListener(meteorSelector);
+
+        // 1.10.9 GuiSRPWorldSettings added two cold-star-only options (BTN_MUSHROOM_TREES = 15 and
+        // BTN_FRACTURED_TERRAIN = 16) at topY + 96 / topY + 120; the same layout is kept here and
+        // both buttons follow the star-type selection.
+        SrpMeteorMode selectedMushroomTrees = MUSHROOM_TREES_SELECTIONS.getOrDefault(screen,
+                SrpMeteorMode.OFF);
+        CycleButton<SrpMeteorMode> mushroomTreesSelector = CycleButton.<SrpMeteorMode>builder(
+                        mode -> Component.translatable(mushroomTreesKey(mode)), selectedMushroomTrees)
+                .withValues(List.of(SrpMeteorMode.values()))
+                .create((screen.width - width) / 2, screen.height - 124, width, 20,
+                        Component.translatable("options.csrp.mushroom_trees"),
+                        (button, mode) -> {
+                            MUSHROOM_TREES_SELECTIONS.put(screen, mode);
+                            updateMushroomTreesTooltip(button, mode);
+                        });
+        updateMushroomTreesTooltip(mushroomTreesSelector, selectedMushroomTrees);
+        mushroomTreesSelector.visible = selectedStar == SrpStarType.COLD;
+        event.addListener(mushroomTreesSelector);
+
+        SrpMeteorMode selectedFractured = FRACTURED_SELECTIONS.getOrDefault(screen, SrpMeteorMode.OFF);
+        CycleButton<SrpMeteorMode> fracturedSelector = CycleButton.<SrpMeteorMode>builder(
+                        mode -> Component.translatable(fracturedKey(mode)), selectedFractured)
+                .withValues(List.of(SrpMeteorMode.values()))
+                .create((screen.width - width) / 2, screen.height - 148, width, 20,
+                        Component.translatable("options.csrp.fractured"),
+                        (button, mode) -> {
+                            FRACTURED_SELECTIONS.put(screen, mode);
+                            updateFracturedTooltip(button, mode);
+                        });
+        updateFracturedTooltip(fracturedSelector, selectedFractured);
+        fracturedSelector.visible = selectedStar == SrpStarType.COLD;
+        event.addListener(fracturedSelector);
+    }
+
+    private static String mushroomTreesKey(SrpMeteorMode mode) {
+        return mode.enabled() ? "options.csrp.mushroom_trees.on" : "options.csrp.mushroom_trees.off";
+    }
+
+    private static String fracturedKey(SrpMeteorMode mode) {
+        return mode.enabled() ? "options.csrp.fractured.on" : "options.csrp.fractured.off";
+    }
+
+    private static void updateMushroomTreesTooltip(CycleButton<SrpMeteorMode> button, SrpMeteorMode mode) {
+        button.setTooltip(Tooltip.create(Component.translatable(mushroomTreesKey(mode) + ".description")));
+    }
+
+    private static void updateFracturedTooltip(CycleButton<SrpMeteorMode> button, SrpMeteorMode mode) {
+        button.setTooltip(Tooltip.create(Component.translatable(fracturedKey(mode) + ".description")));
     }
 
     public static void stageSelection(CreateWorldScreen screen) {
         SrpDifficultySelection.stage(SELECTIONS.getOrDefault(screen, SrpDifficulty.NORMAL));
-        SrpStarTypeSelection.stage(STAR_SELECTIONS.getOrDefault(screen, SrpStarType.NORMAL));
+        SrpStarType starType = STAR_SELECTIONS.getOrDefault(screen, SrpStarType.NORMAL);
+        SrpStarTypeSelection.stage(starType);
         SrpMeteorMode meteor = METEOR_SELECTIONS.get(screen);
         if (meteor != null) {
             SrpMeteorSelection.stage(meteor);
         }
+        boolean cold = starType == SrpStarType.COLD;
+        SrpColdStarSelection.stage(
+                cold && FRACTURED_SELECTIONS.getOrDefault(screen, SrpMeteorMode.OFF).enabled(),
+                cold && MUSHROOM_TREES_SELECTIONS.getOrDefault(screen, SrpMeteorMode.OFF).enabled());
     }
 
     private static boolean defaultMeteorEnabled() {

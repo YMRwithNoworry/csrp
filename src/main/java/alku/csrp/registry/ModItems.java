@@ -571,6 +571,14 @@ public final class ModItems {
             "infestedstain_wall", ModBlocks.INFESTED_STAIN_WALL);
     public static final DeferredItem<BlockItem> DEADHEAD_LEAVES = ITEMS.registerSimpleBlockItem(
             "deadhead_leaves", ModBlocks.DEADHEAD_LEAVES);
+    public static final DeferredItem<BlockItem> DEADHEAD_GRASS_SHORT = ITEMS.registerSimpleBlockItem(
+            "deadhead_grass_short", ModBlocks.DEADHEAD_GRASS_SHORT);
+    public static final DeferredItem<BlockItem> DEADHEAD_GRASS_TALL = ITEMS.registerSimpleBlockItem(
+            "deadhead_grass_tall", ModBlocks.DEADHEAD_GRASS_TALL);
+    public static final DeferredItem<BlockItem> SNOW_SHORT_GRASS = ITEMS.registerSimpleBlockItem(
+            "snow_short_grass", ModBlocks.SNOW_SHORT_GRASS);
+    public static final DeferredItem<BlockItem> SNOW_TALL_GRASS = ITEMS.registerSimpleBlockItem(
+            "snow_tall_grass", ModBlocks.SNOW_TALL_GRASS);
     public static final DeferredItem<BlockItem> BIOMEHEART = ITEMS.registerSimpleBlockItem("biomeheart", ModBlocks.BIOMEHEART);
     public static final DeferredItem<BlockItem> COLONYHEART = ITEMS.registerSimpleBlockItem("colonyheart", ModBlocks.COLONYHEART);
     public static final DeferredItem<BlockItem> PARASITE_STRUCTURE = ITEMS.registerSimpleBlockItem(
