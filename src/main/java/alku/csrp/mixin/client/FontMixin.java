@@ -10,26 +10,24 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(Font.class)
 public abstract class FontMixin {
     @ModifyVariable(
-            method = "drawInternal(Ljava/lang/String;FFIZLorg/joml/Matrix4f;"
-                    + "Lnet/minecraft/client/renderer/MultiBufferSource;"
-                    + "Lnet/minecraft/client/gui/Font$DisplayMode;IIZ)I",
+            method = "prepareText(Ljava/lang/String;FFIZI)"
+                    + "Lnet/minecraft/client/gui/Font$PreparedText;",
             at = @At("HEAD"), argsOnly = true, ordinal = 0)
     private String csrp$distortString(String text) {
         return DerivedTextDistortion.distort(text);
     }
 
     @ModifyVariable(
-            method = "drawInternal(Lnet/minecraft/util/FormattedCharSequence;FFIZLorg/joml/Matrix4f;"
-                    + "Lnet/minecraft/client/renderer/MultiBufferSource;"
-                    + "Lnet/minecraft/client/gui/Font$DisplayMode;II)I",
+            method = "prepareText(Lnet/minecraft/util/FormattedCharSequence;FFIZZI)"
+                    + "Lnet/minecraft/client/gui/Font$PreparedText;",
             at = @At("HEAD"), argsOnly = true, ordinal = 0)
     private FormattedCharSequence csrp$distortSequence(FormattedCharSequence text) {
         return DerivedTextDistortion.distort(text);
     }
 
     @ModifyVariable(
-            method = "drawInBatch8xOutline(Lnet/minecraft/util/FormattedCharSequence;FFII"
-                    + "Lorg/joml/Matrix4f;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
+            method = "prepare8xTextOutline(Lnet/minecraft/util/FormattedCharSequence;FFI)"
+                    + "Lnet/minecraft/client/gui/Font$PreparedText;",
             at = @At("HEAD"), argsOnly = true, ordinal = 0)
     private FormattedCharSequence csrp$distortOutlinedSequence(FormattedCharSequence text) {
         return DerivedTextDistortion.distort(text);
