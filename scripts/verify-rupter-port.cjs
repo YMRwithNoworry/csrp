@@ -27,7 +27,10 @@ const mobsConfig = read("src/main/java/alku/csrp/config/MobsConfig.java");
 const infection = read("src/main/java/alku/csrp/infection/InfectionMechanics.java");
 const sounds = read("src/main/java/alku/csrp/registry/ModSounds.java");
 const client = read("src/main/java/alku/csrp/client/ClientModEvents.java");
-const model = read("src/main/java/alku/csrp/client/model/RupterModel.java");
+const model = read("src/main/java/alku/csrp/client/model/tabula/inborn/ModelMudo.java");
+const modelBase = read("src/main/java/alku/csrp/client/model/tabula/ModelSRP.java");
+const tabulaRegistry = read("src/main/java/alku/csrp/client/model/tabula/TabulaModelRegistry.java");
+const renderer = read("src/main/java/alku/csrp/client/renderer/RupterRenderer.java");
 const modEntry = read("src/main/java/alku/csrp/Csrp.java");
 const evolution = read("src/main/java/alku/csrp/entity/ManglerEvolutionTarget.java");
 const buglinEvolution = read("src/main/java/alku/csrp/entity/BuglinEvolutionTarget.java");
@@ -164,8 +167,51 @@ expect(advancement, /"trigger"\s*:\s*"minecraft:impossible"/,
 expect(config, /defineInRange\("evolutionPhase",\s*-1,\s*-2,\s*10\)/,
         "runtime evolution phase config is missing");
 expect(evolution, /registerMangler/, "Mangler evolution registration contract is missing");
-expect(client, /RupterRenderer/, "Rupter renderer is not registered");
-expect(model, /getTextureVariant\(\)/, "Rupter texture variants are not wired");
+expect(client, /ModEntities\.RUPTER\.get\(\),\s*RupterRenderer::new/,
+        "Rupter renderer is not registered");
+expect(renderer, /class RupterRenderer extends ParasiteMobRenderer<RupterEntity, ModelMudo>/,
+        "Rupter is not rendered through the original Citadel ModelMudo");
+expect(renderer, /super\(context, new ModelMudo\(\), 0\.45F\)/,
+        "Rupter renderer shadow radius or Citadel model wiring is wrong");
+expect(renderer, /entity\.getTextureVariant\(\)\.suffix\(\)/,
+        "Rupter texture variants are not wired");
+expect(renderer, /behaviorVariant\.suffix\(\)/,
+        "Rupter behavior variant textures are not wired");
+expect(renderer, /"textures\/entity\/rupter" \+ suffix \+ "\.png"/,
+        "Rupter renderer does not resolve the original variant texture");
+expect(modelBase, /class ModelSRP<T extends Entity> extends AdvancedEntityModel<T>/,
+        "the shared Citadel Tabula model base used by the ports is missing");
+expect(model, /public final class ModelMudo extends ModelSRP<RupterEntity>/,
+        "ModelMudo does not extend the project's Citadel Tabula base");
+expect(tabulaRegistry, /case "rupter" -> ModelMudo::new;/,
+        "the Citadel model registry does not expose the original Rupter model");
+// The removed RupterModel wired geo/rupter.geo.json. The Citadel port keeps the same
+// skeleton as model fields, so the geometry contract is asserted on those bones instead.
+for (const bone of ["mainbody", "head", "body", "tail", "leg", "jointFLLX", "jointFRLX",
+    "jointBLLX", "jointBRLX", "hair_jointM1"]) {
+    expect(model, new RegExp(`public AdvancedModelBox ${bone};`),
+            `ModelMudo is missing the original Rupter geometry bone ${bone}`);
+}
+// The removed RupterModel wired animations/rupter.animation.json. The Citadel port carries the
+// original per-frame animation math, so the animation keys are asserted on those expressions.
+expect(model, /protected void func_78087_a\(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, RupterEntity entityIn\)/,
+        "ModelMudo lost the original func_78087_a animation entry point");
+expect(model, /parasite\.getParasiteStatus\(\)/,
+        "ModelMudo lost the original get_parasite_status branch");
+expect(model, /parasite\.getStillAni\(\)/,
+        "ModelMudo lost the original get_still_ani branch");
+expect(model, /this\.swingY\(this\.jointFLLX, 0\.2F \* GS, 1\.5F \* GD, -1, limbSwing, limbSwingAmount\);/,
+        "ModelMudo lost the original limb_swing locomotion expression");
+expect(model, /this\.moveY\(this\.mainbody, 0\.4F \* GS, 1, limbSwing, limbSwingAmount, 0\.02F\);/,
+        "ModelMudo lost the original limb_swing body bob expression");
+expect(model, /Mth\.cos\(ageInTicks \* 0\.1F\) \* 0\.05F/,
+        "ModelMudo lost the original age_in_ticks hair expression");
+expect(model, /0\.3F \+ Mth\.cos\(ageInTicks \* 0\.8F\) \* 0\.08F/,
+        "ModelMudo lost the original age_in_ticks hair sway expression");
+expect(model, /Mth\.cos\(ageInTicks \* 0\.9F\) \* 0\.04F/,
+        "ModelMudo lost the original age_in_ticks leg expression");
+expect(model, /this\.mainbody\.rotateAngleX = -0\.9F;/,
+        "ModelMudo lost the original age_in_ticks body-pitch expression");
 expect(geo, /"identifier"\s*:\s*"geometry\.srparasites\.rupter"/,
         "Rupter geometry identifier is wrong");
 for (const animation of [

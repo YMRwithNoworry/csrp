@@ -25,7 +25,10 @@ const effects = read("src/main/java/alku/csrp/registry/ModMobEffects.java");
 const sounds = read("src/main/java/alku/csrp/registry/ModSounds.java");
 const evolution = read("src/main/java/alku/csrp/entity/BuglinEvolutionTarget.java");
 const client = read("src/main/java/alku/csrp/client/ClientModEvents.java");
-const model = read("src/main/java/alku/csrp/client/model/BuglinModel.java");
+const model = read("src/main/java/alku/csrp/client/model/tabula/inborn/ModelLodo.java");
+const modelBase = read("src/main/java/alku/csrp/client/model/tabula/ModelSRP.java");
+const tabulaRegistry = read("src/main/java/alku/csrp/client/model/tabula/TabulaModelRegistry.java");
+const renderer = read("src/main/java/alku/csrp/client/renderer/BuglinRenderer.java");
 const tunnel = read("src/main/java/alku/csrp/block/TunnelBlock.java");
 const biomeModifier = read("src/main/resources/data/csrp/neoforge/biome_modifier/buglin_spawns.json");
 const geo = read("src/main/resources/assets/csrp/geo/buglin.geo.json");
@@ -67,9 +70,41 @@ expect(tunnel, /onRemove[\s\S]*spawnBuglin\(serverLevel,\s*pos,\s*false\)/,
         "breaking a Tunnel incorrectly buries the released Buglin");
 expect(entity, /BuglinEvolutionTarget\.rupterType\(\)\.ifPresent/, "mature Buglin does not wait for a real Rupter type");
 expect(evolution, /registerRupter/, "Rupter evolution registration contract is missing");
-expect(client, /BuglinRenderer/, "Buglin renderer is not registered");
-expect(model, /geo\/buglin\.geo\.json/, "Buglin geometry is not wired");
-expect(model, /animations\/buglin\.animation\.json/, "Buglin animations are not wired");
+expect(client, /ModEntities\.BUGLIN\.get\(\),\s*BuglinRenderer::new/,
+        "Buglin renderer is not registered");
+expect(renderer, /class BuglinRenderer extends ParasiteMobRenderer<BuglinEntity, ModelLodo>/,
+        "Buglin is not rendered through the original Citadel ModelLodo");
+expect(renderer, /super\(context, new ModelLodo\(\), 0\.25F\)/,
+        "Buglin renderer shadow radius or Citadel model wiring is wrong");
+expect(renderer, /textures\/entity\/buglin\.png/,
+        "Buglin renderer does not use the original entity texture");
+expect(modelBase, /class ModelSRP<T extends Entity> extends AdvancedEntityModel<T>/,
+        "the shared Citadel Tabula model base used by the ports is missing");
+expect(model, /public final class ModelLodo extends ModelSRP<BuglinEntity>/,
+        "ModelLodo does not extend the project's Citadel Tabula base");
+expect(tabulaRegistry, /case "buglin" -> ModelLodo::new;/,
+        "the Citadel model registry does not expose the original Buglin model");
+// The removed BuglinModel wired geo/buglin.geo.json. The Citadel port keeps the same
+// skeleton as model fields, so the geometry contract is asserted on those bones instead.
+for (const bone of ["mainbody", "bodyfront", "body", "bodyMiddle", "bodyback", "body_1", "body_2",
+    "joint1", "joint2", "joint3", "joint4", "joint5"]) {
+    expect(model, new RegExp(`public AdvancedModelBox ${bone};`),
+            `ModelLodo is missing the original Buglin geometry bone ${bone}`);
+}
+// The removed BuglinModel wired animations/buglin.animation.json. The Citadel port carries the
+// original per-frame animation math, so the animation keys are asserted on those expressions.
+expect(model, /protected void func_78087_a\(float limbSwing, float limbSwingAmount, float ageInTicks,[\s\S]*?BuglinEntity entityIn\)/,
+        "ModelLodo lost the original func_78087_a animation entry point");
+expect(model, /float floorTimer = entityIn\.getTabulaFloorTimer\(\);/,
+        "ModelLodo does not read the original get_floor_timer emergence state");
+expect(model, /this\.mainbody\.offsetY = floorTimer;/,
+        "ModelLodo lost the original floor-timer emergence motion");
+expect(model, /Mth\.cos\(ageInTicks \* 2\.6F\) \* 0\.015F/,
+        "ModelLodo lost the original age_in_ticks emergence shake expression");
+expect(model, /Mth\.cos\(ageInTicks \* 0\.643219F\) \* 0\.06510051F/,
+        "ModelLodo lost the original age_in_ticks joint yaw expression");
+expect(model, /Mth\.cos\(limbSwing \* 1\.5F\) \* limbSwingAmount \* 0\.25F/,
+        "ModelLodo lost the original limb_swing joint yaw expression");
 expect(geo, /"identifier"\s*:\s*"geometry\.srparasites\.buglin"/, "Buglin geometry identifier is wrong");
 for (const animation of ["func_78087_a.age_in_ticks", "get_floor_timer"]) {
     expect(animations, new RegExp(`"animation\\.buglin\\.${animation}"\\s*:`),

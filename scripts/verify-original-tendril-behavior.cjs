@@ -15,13 +15,16 @@ const legacy = exists("src/main/java/alku/csrp/entity/LegacyAuxiliaryEntity.java
 const registry = read("src/main/java/alku/csrp/registry/ModEntities.java");
 const attributes = read("src/main/java/alku/csrp/registry/CommonModEvents.java");
 const client = read("src/main/java/alku/csrp/client/ClientModEvents.java");
-const model = read("src/main/java/alku/csrp/client/model/TendrilModel.java");
+const model = read("src/main/java/alku/csrp/client/renderer/TabulaTendrilRenderer.java");
+const tabulaRegistry = read("src/main/java/alku/csrp/client/model/tabula/TabulaModelRegistry.java");
 const parentModel = read("src/main/java/alku/csrp/client/model/PrimitiveParasiteModel.java");
 const adapted = read("src/main/java/alku/csrp/entity/AdaptedVariantEntity.java");
 const pure = read("src/main/java/alku/csrp/entity/PureParasiteEntity.java");
 const dragon = read("src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java");
 
-expect(entity, /class TendrilEntity extends Monster implements GeoEntity, Parasite/,
+// The tendril is a Citadel/Tabula-rendered entity now, so it no longer implements GeoEntity:
+// the Citadel renderer owns the model and texture lookup instead of a GeckoLib model.
+expect(entity, /public final class TendrilEntity extends Monster implements Parasite/,
   "Tendril is not a dedicated living parasite entity");
 expect(entity, /registerGoals\(\)[\s\S]*?original removes its wander and parasite-follow goals/,
   "Tendril does not preserve the original no-wander/no-follow behavior");
@@ -38,10 +41,31 @@ expect(registry, /EntityType<TendrilEntity>> TENDRIL[\s\S]*?register\("tendril"[
   "Tendril registration does not preserve its original id, size, or tracking");
 expect(attributes, /ModEntities\.TENDRIL\.get\(\), TendrilEntity\.createAttributes\(\)\.build\(\)/,
   "Tendril attributes are not registered");
-expect(client, /ModEntities\.TENDRIL\.get\(\), TendrilRenderer::new/,
-  "Tendril still uses the placeholder renderer");
-expect(model, /tendril_shyco[\s\S]*?tendril_nogla[\s\S]*?tendril_canra[\s\S]*?tendril_bano[\s\S]*?marauder_tendril[\s\S]*?tendril_anged[\s\S]*?tendril_dragonelw[\s\S]*?tendril_dragonerw/,
-  "Tendril model does not map all eight original skins");
+expect(client, /ModEntities\.TENDRIL\.get\(\),\s*TabulaTendrilRenderer::new/,
+  "Tendril does not use the Citadel Tabula tendril renderer");
+// The removed TendrilModel selected geo/tendril_<skin>.geo.json per skin. In the Citadel
+// port the same eight skins are the renderer's model and texture lookup tables, so the
+// skin-mapping contract is asserted on those tables instead.
+expect(model, /private static final String\[\] MODEL_IDS = \{[\s\S]*?"tendril_shyco",[\s\S]*?"tendril_nogla",[\s\S]*?"tendril_canra",[\s\S]*?"tendril_bano",[\s\S]*?"marauder_tendril",[\s\S]*?"tendril_anged",[\s\S]*?"tendril_dragonelw",[\s\S]*?"tendril_dragonerw"[\s\S]*?\};/,
+  "Tendril renderer does not map all eight original skins");
+expect(model, /private static final ResourceLocation\[\] TEXTURES = \{[\s\S]*?texture\("tendrilshyco\.png"\)[\s\S]*?texture\("tendrilnogla\.png"\)[\s\S]*?texture\("tendrilcanra\.png"\)[\s\S]*?texture\("tendrilbano\.png"\)[\s\S]*?texture\("tendrilesor\.png"\)[\s\S]*?texture\("tendrilanged\.png"\)[\s\S]*?texture\("tendrildragonelw\.png"\)[\s\S]*?texture\("tendrildragonerw\.png"\)/,
+  "Tendril renderer does not resolve all eight original skin textures");
+expect(model, /model = models\[skin\(entity\)\];/,
+  "Tendril renderer does not swap to the model selected by the synced skin");
+expect(model, /getTextureLocation\(TendrilEntity entity\)[\s\S]*?return TEXTURES\[skin\(entity\)\];/,
+  "Tendril renderer does not resolve the texture from the synced skin");
+expect(model, /super\(context, model\(MODEL_IDS\[TendrilEntity\.SHYCO\]\), 0\.3F\)/,
+  "Tendril renderer default skin model or shadow radius is wrong");
+expect(model, /TabulaModelRegistry\.create\(id\)/,
+  "Tendril renderer does not resolve the Citadel Tabula models through the shared registry");
+expect(tabulaRegistry, /"alku\.csrp\.client\.model\.tabula\.generated\.ModelTabula_"/,
+  "the Citadel model registry does not resolve generated Tabula tendril models");
+for (const id of ["tendril_shyco", "tendril_nogla", "tendril_canra", "tendril_bano",
+  "tendril_anged", "tendril_dragonelw", "tendril_dragonerw", "marauder_tendril"]) {
+  if (!exists(`src/main/java/alku/csrp/client/model/tabula/generated/ModelTabula_${id}.java`)) {
+    failures.push(`Missing generated Citadel tendril model: ${id}`);
+  }
+}
 
 for (const id of ["shyco", "nogla", "canra", "bano", "anged", "dragonelw", "dragonerw"]) {
   const geometryFile = `src/main/resources/assets/csrp/geo/tendril_${id}.geo.json`;

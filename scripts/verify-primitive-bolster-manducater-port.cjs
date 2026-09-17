@@ -13,6 +13,7 @@ const shared = read("src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java
 const config = read("src/main/java/alku/csrp/config/MobsConfig.java");
 const model = read("src/main/java/alku/csrp/client/model/PrimitiveParasiteModel.java");
 const client = read("src/main/java/alku/csrp/client/ClientModEvents.java");
+const bolsterRenderer = read("src/main/java/alku/csrp/client/renderer/BolsterRenderer.java");
 
 expect(entity, /case BOLSTER -> \{[\s\S]*?health = 35\.0D[\s\S]*?armor = 4\.0D[\s\S]*?damage = 6\.0D[\s\S]*?speed = 0\.19D[\s\S]*?knockbackResistance = 0\.35D/,
   "Primitive Bolster original attributes are missing");
@@ -35,7 +36,13 @@ expect(entity, /BOLSTER_SKIN[\s\S]*?setBolsterSkin\(tag\.getInt\("bolster_skin"\
   "Primitive Bolster skin synchronization or persistence is missing");
 expect(model, /textures\/entity\/banov\.png[\s\S]*?textures\/entity\/banoh\.png/,
   "Primitive Bolster variant textures are not selected");
-expect(client, /"pri_bolster", 0\.5F/,
+// The Bolster keeps its own variant-skin renderer, so its shadow radius lives in that
+// renderer rather than in the shared pri_<id> registration pattern.
+expect(client, /ModEntities\.PRI_BOLSTER\.get\(\)[\s\S]*?new BolsterRenderer\(context\)/,
+  "Primitive Bolster renderer is not registered");
+expect(bolsterRenderer, /class BolsterRenderer extends ParasiteMobRenderer<PrimitiveVariantEntity, ModelBano>/,
+  "Primitive Bolster is not rendered through the original Citadel ModelBano");
+expect(bolsterRenderer, /super\(context, new ModelBano\(\), 0\.5F\)/,
   "Primitive Bolster original shadow radius is missing");
 
 expect(entity, /case MANDUCATER -> \{[\s\S]*?health = 30\.0D[\s\S]*?armor = 4\.0D[\s\S]*?damage = 12\.0D[\s\S]*?speed = 0\.35D[\s\S]*?knockbackResistance = 0\.50D/,

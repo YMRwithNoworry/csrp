@@ -16,8 +16,12 @@ const sounds = read("src/main/java/alku/csrp/registry/ModSounds.java");
 const attributes = read("src/main/java/alku/csrp/registry/CommonModEvents.java");
 const client = read("src/main/java/alku/csrp/client/ClientModEvents.java");
 const creative = read("src/main/java/alku/csrp/Csrp.java");
-const model = read("src/main/java/alku/csrp/client/model/MarauderModel.java");
+const model = read("src/main/java/alku/csrp/client/model/tabula/pure/ModelEsor.java");
+const modelBase = read("src/main/java/alku/csrp/client/model/tabula/ModelSRP.java");
+const tabulaRegistry = read("src/main/java/alku/csrp/client/model/tabula/TabulaModelRegistry.java");
+const renderer = read("src/main/java/alku/csrp/client/renderer/MarauderRenderer.java");
 const tendrilModel = read("src/main/java/alku/csrp/client/model/MarauderTendrilModel.java");
+const tendrilRenderer = read("src/main/java/alku/csrp/client/renderer/TabulaMarauderTendrilRenderer.java");
 const english = read("src/main/resources/assets/csrp/lang/en_us.json");
 const chinese = read("src/main/resources/assets/csrp/lang/zh_cn.json");
 const soundsJson = read("src/main/resources/assets/csrp/sounds.json");
@@ -28,8 +32,15 @@ for (const [source, hooks] of [
     "EntityDataAccessor<Integer> PARASITE_STATUS", "EntityDataAccessor<Boolean> STILL_ANI", '"age_controller"',
     "if (getAttackTicks() > 0)", "ParasiteAnimations.isMoving(this, state.isMoving())"]],
   [tendril, ["Mode.ATTACHED", "Mode.DETACHED", "Mode.TELEPORT", "Mode.SNARE", "updateAttachedPosition", "tickSnareSupport"]],
-  [model, ["geo/marauder.geo.json", "marauder_hardened.png", "taclejointLA0", "taclejointRA0"]],
-  [tendrilModel, ["geo/marauder_tendril.geo.json", "marauder_tendril.animation.json"]]
+  [modelBase, ["class ModelSRP<T extends Entity> extends AdvancedEntityModel<T>"]],
+  [model, ["public final class ModelEsor extends ModelSRP<MarauderEntity>", "taclejointLA0", "taclejointRA0",
+    "taclejointLA0.showModel", "taclejointRA0.showModel"]],
+  [tabulaRegistry, ["case \"marauder\" -> ModelEsor::new;"]],
+  [renderer, ["super(context, new ModelEsor(), 1.1F)", "textures/entity/marauder.png",
+    "marauder_hardened.png", "entity.isHardenedVariant()"]],
+  [tendrilModel, ["geo/marauder_tendril.geo.json", "marauder_tendril.animation.json"]],
+  [tendrilRenderer, ["class TabulaMarauderTendrilRenderer extends TabulaMobRenderer<MarauderTendrilEntity>",
+    "super(context, \"marauder_tendril\", 0.2F)", "if (tendril.isAttached()) return;"]]
 ]) {
   for (const hook of hooks) {
     if (!source.includes(hook)) failures.push(`missing behavior or model hook: ${hook}`);
@@ -44,7 +55,7 @@ for (const [source, hook, description] of [
   [attributes, "ModEntities.MARAUDER", "Marauder attributes"],
   [attributes, "ModEntities.MARAUDER_TENDRIL", "Marauder tendril attributes"],
   [client, "MarauderRenderer::new", "Marauder renderer"],
-  [client, "MarauderTendrilRenderer::new", "Marauder tendril renderer"],
+  [client, "new TabulaMarauderTendrilRenderer(context)", "Marauder tendril renderer"],
   [creative, "ModItems.MARAUDER_SPAWN_EGG", "Marauder creative-tab entry"],
   [english, "\"entity.csrp.marauder\"", "Marauder English name"],
   [chinese, "\"entity.csrp.marauder\"", "Marauder Chinese name"],
@@ -152,4 +163,4 @@ if (failures.length) {
   process.exit(1);
 }
 
-console.log("Verified Marauder legacy behavior hooks, source resources, GeckoLib assets, sounds, loot, and registrations.");
+console.log("Verified Marauder legacy behavior hooks, source resources, Citadel Tabula model, tendril Geo model, sounds, loot, and registrations.");

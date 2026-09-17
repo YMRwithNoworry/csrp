@@ -20,8 +20,9 @@ const summoner = read("src/main/java/alku/csrp/entity/SummonerEntity.java");
 const adapted = read("src/main/java/alku/csrp/entity/AdaptedVariantEntity.java");
 const biomass = read("src/main/java/alku/csrp/entity/BiomassEntity.java");
 const capacity = read("src/main/java/alku/csrp/entity/SummonCapacityTracker.java");
-const biomassModel = read("src/main/java/alku/csrp/client/model/BiomassModel.java");
-const biomassRenderer = read("src/main/java/alku/csrp/client/renderer/BiomassRenderer.java");
+const biomassRenderer = read("src/main/java/alku/csrp/client/renderer/TabulaBiomassRenderer.java");
+const biomassPodModel = read("src/main/java/alku/csrp/client/model/tabula/generated/ModelTabula_biomass_pod.java");
+const biomassVenkrolModel = read("src/main/java/alku/csrp/client/model/tabula/generated/ModelTabula_biomass_venkrol.java");
 const projectile = read("src/main/java/alku/csrp/entity/ParasiteProjectileEntity.java");
 expect(shared, /parasitekills/, "legacy parasite kill state is missing");
 expect(shared, /damageAdaptations/, "primitive damage adaptation is missing");
@@ -109,10 +110,34 @@ expect(biomass, /(?:igniteForSeconds\(8\.0F\)|setSecondsOnFire\(8\)|setRemaining
 expect(biomass, /attacker instanceof Parasite[\s\S]*direct instanceof Parasite/, "Biomass parasite damage immunity is missing");
 expect(capacity, /putUUID\("entity"/, "Summon capacity UUID persistence is missing");
 expect(capacity, /replace\(UUID previousId, UUID replacementId/, "Summon capacity replacement tracking is missing");
-expect(biomassModel, /applyGrowthScale[\s\S]*setScaleX[\s\S]*setScaleY[\s\S]*setScaleZ/,
-  "Biomass growth is not applied to the selected original root bone");
+// The removed BiomassModel wired a synthetic root bone. The Citadel port keeps the original
+// per-variant root bone and applies the entity growth ticks to it, so the growth contract is
+// asserted on the original root bone of each of the two biomass models.
+for (const [modelName, biomassModel, roots] of [
+  ["ModelTabula_biomass_venkrol", biomassVenkrolModel, [["mainbodysi", 1], ["mainbodysii", 2], ["mainbodysiii", 3]]],
+  ["ModelTabula_biomass_pod", biomassPodModel, [["alafha", 4], ["pri_sum", 5], ["ada_sum", 6]]]
+]) {
+  expect(biomassModel, /private void configureVariant\(BiomassEntity entity, float partialTick\)[\s\S]*?entity\.getGrowthWidth\(partialTick\)[\s\S]*?entity\.getGrowthHeight\(partialTick\)/,
+    `${modelName} does not apply the original biomass growth ticks`);
+  expect(biomassModel, /float pulse = 1\.4F \+ net\.minecraft\.util\.Mth\.sin\(\(entity\.tickCount \+ partialTick\) \* 0\.8F\) \* 0\.05F;/,
+    `${modelName} is missing the original biomass pulse scale`);
+  for (const [bone, skin] of roots) {
+    expect(biomassModel, new RegExp(`this\\.${bone}\\.setScale\\(entity\\.getSkin\\(\\) == ${skin} \\? width : 1\\.0F,\\s*entity\\.getSkin\\(\\) == ${skin} \\? height : 1\\.0F,\\s*entity\\.getSkin\\(\\) == ${skin} \\? width : 1\\.0F\\)`),
+      `${modelName}: biomass growth is not applied to the original root bone ${bone}`);
+  }
+}
+expect(client, /ModEntities\.BIOMASS\.get\(\),\s*TabulaBiomassRenderer::new/,
+  "Biomass renderer is not registered against the Citadel Tabula renderer");
+expect(biomassRenderer, /class TabulaBiomassRenderer extends MobRenderer<BiomassEntity, EntityModel<BiomassEntity>>/,
+  "Biomass renderer is not the Citadel Tabula renderer");
+expect(biomassRenderer, /new ModelTabula_biomass_venkrol\(\), 0\.5F\)/,
+  "Biomass renderer shadow radius or default Citadel model is wrong");
+expect(biomassRenderer, /model = entity\.getSkin\(\) <= 3 \? venkrolModel : podModel;/,
+  "Biomass renderer does not select the original Citadel model by skin");
+expect(biomassRenderer, /entity\.getSkin\(\) <= 3 \? VENKROL_TEXTURE : POD_TEXTURE/,
+  "Biomass renderer does not select the original texture by skin");
 if (biomassRenderer.includes("poseStack.scale")) {
-  failures.push("Biomass renderer still scales the full pose stack instead of its selected root bone");
+  failures.push("Biomass renderer still scales the full pose stack instead of its selected original root bone");
 }
 expect(summoner, /TOTAL_SUMMON_CAPACITY\s*=\s*4/, "Primitive Summoner capacity is wrong");
 expect(summoner, /SUMMON_COOLDOWN_TICKS\s*=\s*200/, "Primitive Summoner cooldown is wrong");
