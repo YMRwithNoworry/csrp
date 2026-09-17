@@ -249,6 +249,30 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         }
     }
 
+    /**
+     * Nexus 家族（召唤柱／调度柱／支庇柱）永远不会被自然规则回收。
+     *
+     * <p>原版把 EntityLiving#checkDespawn 整体改写为带 spawnCyst/storeBefDes 的版本（1.21.1 对应
+     * Mob#checkDespawn / Mob#removeWhenFarAway），并以 EntityParasiteBase#canDespawn（func_70692_ba，
+     * NBT "parasitedespawn"）门控；Nexus 家族的基类 EntityPStationaryArchitect 把该值固定成
+     * SRPConfig.rsDespawn（配置项 "Nexus Versions Despawn"，默认 false），所以柱子既不会因为玩家走远
+     * （>128 格）而消失，也不会因长时间闲置（noActionTime>600 且 >32 格）被随机回收——与官方 wiki
+     * 「Nexuses do not despawn by default」一致。
+     *
+     * <p>返回 false 同时让 {@link ParasiteDespawnHandler} 的超距回收／落地囊肿流程对柱子失效，
+     * 避免柱子被替换成活体囊肿。普通寄生体不受影响，仍按原版逻辑回收入库或落地成囊。
+     */
+    @Override
+    public boolean removeWhenFarAway(double distanceToClosestPlayer) {
+        return false;
+    }
+
+    /** 和平难度同样不回收 Nexus 家族，对应原版 canDespawn=false 时不执行任何自然消失分支。 */
+    @Override
+    protected boolean shouldDespawnInPeaceful() {
+        return false;
+    }
+
     private void tryPlaceFirstColony() {
         if (tickCount < 1_200 || random.nextInt(10) != 0 || !(level() instanceof ServerLevel serverLevel)) {
             return;

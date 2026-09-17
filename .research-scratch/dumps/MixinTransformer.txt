@@ -1,0 +1,312 @@
+Compiled from "MixinTransformer.java"
+final class org.spongepowered.asm.mixin.transformer.MixinTransformer extends org.spongepowered.asm.transformers.TreeTransformer implements org.spongepowered.asm.mixin.transformer.IMixinTransformer {
+  private final org.spongepowered.asm.mixin.transformer.SyntheticClassRegistry syntheticClassRegistry;
+
+  private final org.spongepowered.asm.mixin.transformer.ext.Extensions extensions;
+
+  private final org.spongepowered.asm.mixin.transformer.ext.IHotSwap hotSwapper;
+
+  private final org.spongepowered.asm.mixin.transformer.MixinCoprocessorNestHost nestHostCoprocessor;
+
+  private final org.spongepowered.asm.mixin.transformer.MixinProcessor processor;
+
+  private final org.spongepowered.asm.mixin.transformer.MixinClassGenerator generator;
+
+  org.spongepowered.asm.mixin.transformer.MixinTransformer();
+    Code:
+         0: aload_0
+         1: invokespecial #81                 // Method org/spongepowered/asm/transformers/TreeTransformer."<init>":()V
+         4: invokestatic  #58                 // Method org/spongepowered/asm/mixin/MixinEnvironment.getCurrentEnvironment:()Lorg/spongepowered/asm/mixin/MixinEnvironment;
+         7: astore_1
+         8: aload_1
+         9: invokevirtual #56                 // Method org/spongepowered/asm/mixin/MixinEnvironment.getActiveTransformer:()Ljava/lang/Object;
+        12: astore_2
+        13: aload_2
+        14: instanceof    #20                 // class org/spongepowered/asm/mixin/transformer/IMixinTransformer
+        17: ifeq          47
+        20: new           #18                 // class org/spongepowered/asm/mixin/throwables/MixinException
+        23: dup
+        24: new           #10                 // class java/lang/StringBuilder
+        27: dup
+        28: invokespecial #49                 // Method java/lang/StringBuilder."<init>":()V
+        31: ldc           #3                  // String Terminating MixinTransformer instance
+        33: invokevirtual #51                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+        36: aload_0
+        37: invokevirtual #50                 // Method java/lang/StringBuilder.append:(Ljava/lang/Object;)Ljava/lang/StringBuilder;
+        40: invokevirtual #52                 // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+        43: invokespecial #62                 // Method org/spongepowered/asm/mixin/throwables/MixinException."<init>":(Ljava/lang/String;)V
+        46: athrow
+        47: aload_1
+        48: aload_0
+        49: invokevirtual #60                 // Method org/spongepowered/asm/mixin/MixinEnvironment.setActiveTransformer:(Lorg/spongepowered/asm/mixin/transformer/IMixinTransformer;)V
+        52: aload_0
+        53: new           #26                 // class org/spongepowered/asm/mixin/transformer/SyntheticClassRegistry
+        56: dup
+        57: invokespecial #79                 // Method org/spongepowered/asm/mixin/transformer/SyntheticClassRegistry."<init>":()V
+        60: putfield      #41                 // Field syntheticClassRegistry:Lorg/spongepowered/asm/mixin/transformer/SyntheticClassRegistry;
+        63: aload_0
+        64: new           #27                 // class org/spongepowered/asm/mixin/transformer/ext/Extensions
+        67: dup
+        68: aload_0
+        69: getfield      #41                 // Field syntheticClassRegistry:Lorg/spongepowered/asm/mixin/transformer/SyntheticClassRegistry;
+        72: invokespecial #80                 // Method org/spongepowered/asm/mixin/transformer/ext/Extensions."<init>":(Lorg/spongepowered/asm/service/ISyntheticClassRegistry;)V
+        75: putfield      #36                 // Field extensions:Lorg/spongepowered/asm/mixin/transformer/ext/Extensions;
+        78: aload_0
+        79: aload_0
+        80: aload_1
+        81: invokespecial #75                 // Method initHotSwapper:(Lorg/spongepowered/asm/mixin/MixinEnvironment;)Lorg/spongepowered/asm/mixin/transformer/ext/IHotSwap;
+        84: putfield      #38                 // Field hotSwapper:Lorg/spongepowered/asm/mixin/transformer/ext/IHotSwap;
+        87: aload_0
+        88: new           #22                 // class org/spongepowered/asm/mixin/transformer/MixinCoprocessorNestHost
+        91: dup
+        92: invokespecial #66                 // Method org/spongepowered/asm/mixin/transformer/MixinCoprocessorNestHost."<init>":()V
+        95: putfield      #39                 // Field nestHostCoprocessor:Lorg/spongepowered/asm/mixin/transformer/MixinCoprocessorNestHost;
+        98: aload_0
+        99: new           #23                 // class org/spongepowered/asm/mixin/transformer/MixinProcessor
+       102: dup
+       103: aload_1
+       104: aload_0
+       105: getfield      #36                 // Field extensions:Lorg/spongepowered/asm/mixin/transformer/ext/Extensions;
+       108: aload_0
+       109: getfield      #38                 // Field hotSwapper:Lorg/spongepowered/asm/mixin/transformer/ext/IHotSwap;
+       112: aload_0
+       113: getfield      #39                 // Field nestHostCoprocessor:Lorg/spongepowered/asm/mixin/transformer/MixinCoprocessorNestHost;
+       116: invokespecial #67                 // Method org/spongepowered/asm/mixin/transformer/MixinProcessor."<init>":(Lorg/spongepowered/asm/mixin/MixinEnvironment;Lorg/spongepowered/asm/mixin/transformer/ext/Extensions;Lorg/spongepowered/asm/mixin/transformer/ext/IHotSwap;Lorg/spongepowered/asm/mixin/transformer/MixinCoprocessorNestHost;)V
+       119: putfield      #40                 // Field processor:Lorg/spongepowered/asm/mixin/transformer/MixinProcessor;
+       122: aload_0
+       123: new           #21                 // class org/spongepowered/asm/mixin/transformer/MixinClassGenerator
+       126: dup
+       127: aload_1
+       128: aload_0
+       129: getfield      #36                 // Field extensions:Lorg/spongepowered/asm/mixin/transformer/ext/Extensions;
+       132: invokespecial #64                 // Method org/spongepowered/asm/mixin/transformer/MixinClassGenerator."<init>":(Lorg/spongepowered/asm/mixin/MixinEnvironment;Lorg/spongepowered/asm/mixin/transformer/ext/Extensions;)V
+       135: putfield      #37                 // Field generator:Lorg/spongepowered/asm/mixin/transformer/MixinClassGenerator;
+       138: aload_1
+       139: aload_0
+       140: getfield      #36                 // Field extensions:Lorg/spongepowered/asm/mixin/transformer/ext/Extensions;
+       143: aload_0
+       144: getfield      #41                 // Field syntheticClassRegistry:Lorg/spongepowered/asm/mixin/transformer/SyntheticClassRegistry;
+       147: aload_0
+       148: getfield      #39                 // Field nestHostCoprocessor:Lorg/spongepowered/asm/mixin/transformer/MixinCoprocessorNestHost;
+       151: invokestatic  #63                 // Method org/spongepowered/asm/mixin/transformer/DefaultExtensions.create:(Lorg/spongepowered/asm/mixin/MixinEnvironment;Lorg/spongepowered/asm/mixin/transformer/ext/Extensions;Lorg/spongepowered/asm/mixin/transformer/SyntheticClassRegistry;Lorg/spongepowered/asm/mixin/transformer/MixinCoprocessorNestHost;)V
+       154: return
+
+  private org.spongepowered.asm.mixin.transformer.ext.IHotSwap initHotSwapper(org.spongepowered.asm.mixin.MixinEnvironment);
+    Code:
+         0: aload_1
+         1: getstatic     #34                 // Field org/spongepowered/asm/mixin/MixinEnvironment$Option.HOT_SWAP:Lorg/spongepowered/asm/mixin/MixinEnvironment$Option;
+         4: invokevirtual #59                 // Method org/spongepowered/asm/mixin/MixinEnvironment.getOption:(Lorg/spongepowered/asm/mixin/MixinEnvironment$Option;)Z
+         7: ifne          12
+        10: aconst_null
+        11: areturn
+        12: getstatic     #35                 // Field org/spongepowered/asm/mixin/transformer/MixinProcessor.logger:Lorg/spongepowered/asm/logging/ILogger;
+        15: ldc           #1                  // String Attempting to load Hot-Swap agent
+        17: iconst_0
+        18: anewarray     #8                  // class java/lang/Object
+        21: invokeinterface #82,  3           // InterfaceMethod org/spongepowered/asm/logging/ILogger.info:(Ljava/lang/String;[Ljava/lang/Object;)V
+        26: ldc           #5                  // String org.spongepowered.tools.agent.MixinAgent
+        28: invokestatic  #43                 // Method java/lang/Class.forName:(Ljava/lang/String;)Ljava/lang/Class;
+        31: astore_2
+        32: aload_2
+        33: iconst_1
+        34: anewarray     #7                  // class java/lang/Class
+        37: dup
+        38: iconst_0
+        39: ldc           #20                 // class org/spongepowered/asm/mixin/transformer/IMixinTransformer
+        41: aastore
+        42: invokevirtual #44                 // Method java/lang/Class.getDeclaredConstructor:([Ljava/lang/Class;)Ljava/lang/reflect/Constructor;
+        45: astore_3
+        46: aload_3
+        47: iconst_1
+        48: anewarray     #8                  // class java/lang/Object
+        51: dup
+        52: iconst_0
+        53: aload_0
+        54: aastore
+        55: invokevirtual #54                 // Method java/lang/reflect/Constructor.newInstance:([Ljava/lang/Object;)Ljava/lang/Object;
+        58: checkcast     #28                 // class org/spongepowered/asm/mixin/transformer/ext/IHotSwap
+        61: areturn
+        62: astore_2
+        63: getstatic     #35                 // Field org/spongepowered/asm/mixin/transformer/MixinProcessor.logger:Lorg/spongepowered/asm/logging/ILogger;
+        66: ldc           #2                  // String Hot-swap agent could not be loaded, hot swapping of mixins won\'t work. {}: {}
+        68: iconst_2
+        69: anewarray     #8                  // class java/lang/Object
+        72: dup
+        73: iconst_0
+        74: aload_2
+        75: invokevirtual #47                 // Method java/lang/Object.getClass:()Ljava/lang/Class;
+        78: invokevirtual #46                 // Method java/lang/Class.getSimpleName:()Ljava/lang/String;
+        81: aastore
+        82: dup
+        83: iconst_1
+        84: aload_2
+        85: invokevirtual #53                 // Method java/lang/Throwable.getMessage:()Ljava/lang/String;
+        88: aastore
+        89: invokeinterface #82,  3           // InterfaceMethod org/spongepowered/asm/logging/ILogger.info:(Ljava/lang/String;[Ljava/lang/Object;)V
+        94: aconst_null
+        95: areturn
+      Exception table:
+         from    to  target type
+            12    61    62   Class java/lang/Throwable
+
+  public org.spongepowered.asm.mixin.transformer.ext.IExtensionRegistry getExtensions();
+    Code:
+         0: aload_0
+         1: getfield      #36                 // Field extensions:Lorg/spongepowered/asm/mixin/transformer/ext/Extensions;
+         4: areturn
+
+  public java.lang.String getName();
+    Code:
+         0: aload_0
+         1: invokevirtual #47                 // Method java/lang/Object.getClass:()Ljava/lang/Class;
+         4: invokevirtual #45                 // Method java/lang/Class.getName:()Ljava/lang/String;
+         7: areturn
+
+  public boolean isDelegationExcluded();
+    Code:
+         0: iconst_1
+         1: ireturn
+
+  public void audit(org.spongepowered.asm.mixin.MixinEnvironment);
+    Code:
+         0: aload_0
+         1: getfield      #40                 // Field processor:Lorg/spongepowered/asm/mixin/transformer/MixinProcessor;
+         4: aload_1
+         5: invokevirtual #69                 // Method org/spongepowered/asm/mixin/transformer/MixinProcessor.audit:(Lorg/spongepowered/asm/mixin/MixinEnvironment;)V
+         8: return
+
+  public java.util.List<java.lang.String> reload(java.lang.String, org.objectweb.asm.tree.ClassNode);
+    Code:
+         0: aload_0
+         1: getfield      #40                 // Field processor:Lorg/spongepowered/asm/mixin/transformer/MixinProcessor;
+         4: aload_1
+         5: aload_2
+         6: invokevirtual #71                 // Method org/spongepowered/asm/mixin/transformer/MixinProcessor.reload:(Ljava/lang/String;Lorg/objectweb/asm/tree/ClassNode;)Ljava/util/List;
+         9: areturn
+
+  public byte[] transformClassBytes(java.lang.String, java.lang.String, byte[]);
+    Code:
+         0: aload_2
+         1: ifnonnull     6
+         4: aload_3
+         5: areturn
+         6: invokestatic  #58                 // Method org/spongepowered/asm/mixin/MixinEnvironment.getCurrentEnvironment:()Lorg/spongepowered/asm/mixin/MixinEnvironment;
+         9: astore        4
+        11: aload_3
+        12: ifnonnull     23
+        15: aload_0
+        16: aload         4
+        18: aload_2
+        19: invokevirtual #74                 // Method generateClass:(Lorg/spongepowered/asm/mixin/MixinEnvironment;Ljava/lang/String;)[B
+        22: areturn
+        23: aload_0
+        24: aload         4
+        26: aload_2
+        27: aload_3
+        28: invokevirtual #77                 // Method transformClass:(Lorg/spongepowered/asm/mixin/MixinEnvironment;Ljava/lang/String;[B)[B
+        31: areturn
+
+  public boolean computeFramesForClass(org.spongepowered.asm.mixin.MixinEnvironment, java.lang.String, org.objectweb.asm.tree.ClassNode);
+    Code:
+         0: iconst_0
+         1: ireturn
+
+  public synchronized byte[] transformClass(org.spongepowered.asm.mixin.MixinEnvironment, java.lang.String, byte[]);
+    Code:
+         0: aload_0
+         1: aload_1
+         2: aload_2
+         3: invokevirtual #72                 // Method couldTransformClass:(Lorg/spongepowered/asm/mixin/MixinEnvironment;Ljava/lang/String;)Z
+         6: ifne          11
+         9: aload_3
+        10: areturn
+        11: aload_0
+        12: aload_2
+        13: aload_3
+        14: invokevirtual #76                 // Method readClass:(Ljava/lang/String;[B)Lorg/objectweb/asm/tree/ClassNode;
+        17: astore        4
+        19: aload_0
+        20: getfield      #40                 // Field processor:Lorg/spongepowered/asm/mixin/transformer/MixinProcessor;
+        23: aload_1
+        24: aload_2
+        25: aload         4
+        27: invokevirtual #68                 // Method org/spongepowered/asm/mixin/transformer/MixinProcessor.applyMixins:(Lorg/spongepowered/asm/mixin/MixinEnvironment;Ljava/lang/String;Lorg/objectweb/asm/tree/ClassNode;)Z
+        30: ifeq          40
+        33: aload_0
+        34: aload         4
+        36: invokevirtual #78                 // Method writeClass:(Lorg/objectweb/asm/tree/ClassNode;)[B
+        39: areturn
+        40: aload_3
+        41: areturn
+
+  public synchronized boolean transformClass(org.spongepowered.asm.mixin.MixinEnvironment, java.lang.String, org.objectweb.asm.tree.ClassNode);
+    Code:
+         0: aload_0
+         1: getfield      #40                 // Field processor:Lorg/spongepowered/asm/mixin/transformer/MixinProcessor;
+         4: aload_1
+         5: aload_2
+         6: aload_3
+         7: invokevirtual #68                 // Method org/spongepowered/asm/mixin/transformer/MixinProcessor.applyMixins:(Lorg/spongepowered/asm/mixin/MixinEnvironment;Ljava/lang/String;Lorg/objectweb/asm/tree/ClassNode;)Z
+        10: ireturn
+
+  public synchronized boolean couldTransformClass(org.spongepowered.asm.mixin.MixinEnvironment, java.lang.String);
+    Code:
+         0: aload_0
+         1: getfield      #40                 // Field processor:Lorg/spongepowered/asm/mixin/transformer/MixinProcessor;
+         4: aload_1
+         5: aload_2
+         6: invokevirtual #70                 // Method org/spongepowered/asm/mixin/transformer/MixinProcessor.couldTransformClass:(Lorg/spongepowered/asm/mixin/MixinEnvironment;Ljava/lang/String;)Z
+         9: ireturn
+
+  public synchronized byte[] generateClass(org.spongepowered.asm.mixin.MixinEnvironment, java.lang.String);
+    Code:
+         0: aload_2
+         1: invokestatic  #73                 // Method createEmptyClass:(Ljava/lang/String;)Lorg/objectweb/asm/tree/ClassNode;
+         4: astore_3
+         5: aload_0
+         6: getfield      #37                 // Field generator:Lorg/spongepowered/asm/mixin/transformer/MixinClassGenerator;
+         9: aload_1
+        10: aload_2
+        11: aload_3
+        12: invokevirtual #65                 // Method org/spongepowered/asm/mixin/transformer/MixinClassGenerator.generateClass:(Lorg/spongepowered/asm/mixin/MixinEnvironment;Ljava/lang/String;Lorg/objectweb/asm/tree/ClassNode;)Z
+        15: ifeq          24
+        18: aload_0
+        19: aload_3
+        20: invokevirtual #78                 // Method writeClass:(Lorg/objectweb/asm/tree/ClassNode;)[B
+        23: areturn
+        24: aconst_null
+        25: areturn
+
+  public synchronized boolean generateClass(org.spongepowered.asm.mixin.MixinEnvironment, java.lang.String, org.objectweb.asm.tree.ClassNode);
+    Code:
+         0: aload_0
+         1: getfield      #37                 // Field generator:Lorg/spongepowered/asm/mixin/transformer/MixinClassGenerator;
+         4: aload_1
+         5: aload_2
+         6: aload_3
+         7: invokevirtual #65                 // Method org/spongepowered/asm/mixin/transformer/MixinClassGenerator.generateClass:(Lorg/spongepowered/asm/mixin/MixinEnvironment;Ljava/lang/String;Lorg/objectweb/asm/tree/ClassNode;)Z
+        10: ireturn
+
+  private static org.objectweb.asm.tree.ClassNode createEmptyClass(java.lang.String);
+    Code:
+         0: new           #13                 // class org/objectweb/asm/tree/ClassNode
+         3: dup
+         4: getstatic     #42                 // Field org/spongepowered/asm/util/asm/ASM.API_VERSION:I
+         7: invokespecial #55                 // Method org/objectweb/asm/tree/ClassNode."<init>":(I)V
+        10: astore_1
+        11: aload_1
+        12: aload_0
+        13: bipush        46
+        15: bipush        47
+        17: invokevirtual #48                 // Method java/lang/String.replace:(CC)Ljava/lang/String;
+        20: putfield      #31                 // Field org/objectweb/asm/tree/ClassNode.name:Ljava/lang/String;
+        23: aload_1
+        24: invokestatic  #57                 // Method org/spongepowered/asm/mixin/MixinEnvironment.getCompatibilityLevel:()Lorg/spongepowered/asm/mixin/MixinEnvironment$CompatibilityLevel;
+        27: invokevirtual #61                 // Method org/spongepowered/asm/mixin/MixinEnvironment$CompatibilityLevel.getClassVersion:()I
+        30: putfield      #33                 // Field org/objectweb/asm/tree/ClassNode.version:I
+        33: aload_1
+        34: ldc           #4                  // String java/lang/Object
+        36: putfield      #32                 // Field org/objectweb/asm/tree/ClassNode.superName:Ljava/lang/String;
+        39: aload_1
+        40: areturn
+}
