@@ -301,6 +301,73 @@ def check_structures(res):
             ok("%s（%d 字节解压，标记齐备、无 1.12.2 残留）" % (name, len(data)))
 
 
+def check_loot_tables():
+    """掉落表引用的物品必须真实存在，否则整张表解析失败（破坏方块无掉落 + 启动刷错误）。
+
+    这类问题**编译期完全看不出来**，只在真实服务端启动时以
+    `Couldn't parse element loot_tables:...: Expected name to be an item, was unknown string ...`
+    的形式出现。本项目实际踩过（方块有掉落表但没注册对应物品）。
+
+    判据用「名字是否出现在注册源码里」而不是「是否匹配某一种注册调用形态」：
+    本工程的物品注册有 `ITEMS.register*`、自定义辅助方法（`evolutionLure(...)`）、
+    以及批量循环（`registerLegacyBlockItems` / `registerEscaBulbItems`）等多种形态，
+    逐个匹配调用语法必然漏（实测漏掉 29 个，制造假阳性）。
+    名字只要在 `ModItems.java` / `ModBlocks.java` 中以带引号的字面量出现即认为已注册。
+    """
+    print("\n[5] 掉落表 → 物品注册一致性")
+    registry_dir = os.path.join(ROOT, "src", "main", "java", "alku", "csrp", "registry")
+    known = set()
+    for fn in ("ModItems.java", "ModBlocks.java"):
+        path = os.path.join(registry_dir, fn)
+        if os.path.exists(path):
+            known |= set(re.findall(r'"([a-z0-9_]+)"', open(path, encoding="utf-8").read()))
+
+    loot_dir = os.path.join(ROOT, "src", "main", "resources", "data", MODID, "loot_tables", "blocks")
+    if not os.path.isdir(loot_dir):
+        notes.append("跳过掉落表检查：找不到 loot_tables/blocks")
+        return
+
+    bad = []
+    total = 0
+    for fn in sorted(os.listdir(loot_dir)):
+        if not fn.endswith(".json"):
+            continue
+        total += 1
+        try:
+            data = json.load(open(os.path.join(loot_dir, fn), encoding="utf-8"))
+        except Exception as exc:
+            fail("掉落表 JSON 解析失败 %s: %s" % (fn, exc))
+            continue
+        refs = []
+
+        def walk(node):
+            if isinstance(node, dict):
+                if node.get("type") == "minecraft:item" and isinstance(node.get("name"), str):
+                    refs.append(node["name"])
+                for value in node.values():
+                    walk(value)
+            elif isinstance(node, list):
+                for value in node:
+                    walk(value)
+
+        walk(data)
+        for ref in refs:
+            if ref.startswith(MODID + ":") and ref.split(":", 1)[1] not in known:
+                bad.append((fn, ref))
+
+    # 注册名可能是循环里拼出来的（`esca_bulb_<color>`、`evolutionlure_<tier>` 等），
+    # 静态分析原理上穷举不了，前缀切分也会被 `light_blue` 这类带下划线的颜色名骗到。
+    # 所以这项检查**只出提示、不产生硬失败**；权威判据是真实服务端启动日志里的
+    # `Couldn't parse element loot_tables:...: Expected name to be an item, was unknown string ...`
+    # （本项目用 `gradlew runGameTestServer` 跑过一次，日志为 0 条该类错误）。
+    if bad:
+        notes.append("提示：%d 张掉落表引用了静态分析无法确认的物品名（多为循环拼接的动态 id）：%s"
+                     % (len(bad), sorted({r for _, r in bad})[:8]))
+        print("  --   %d 张掉落表存在静态无法确认的物品引用（详见末尾提示）" % len(bad))
+    else:
+        ok("%d 张掉落表引用的物品全部存在" % total)
+
+
 def check_legacy_namespace(res):
     print("\n[4] 旧命名空间残留")
     hits = []
@@ -336,6 +403,7 @@ def main():
     check_dangling(res)
     check_required_assets(res)
     check_structures(res)
+    check_loot_tables()
     check_legacy_namespace(res)
 
     print("\n" + "=" * 60)

@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "csrp:parasitetrunk_deadhead"
+          "name": "csrp:parasitetrunk"
         }
       ],
       "rolls": 1
