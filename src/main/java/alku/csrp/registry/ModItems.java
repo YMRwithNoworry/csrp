@@ -548,6 +548,12 @@ public final class ModItems {
             "parasitestain_flesh", ModBlocks.PARASITESTAIN_FLESH);
     public static final RegistryObject<BlockItem> PARASITESTAIN_DIRT = ITEMS.registerSimpleBlockItem(
             "parasitestain_dirt", ModBlocks.PARASITESTAIN_DIRT);
+    public static final RegistryObject<BlockItem> PARASITESTAIN_FEELER = ITEMS.registerSimpleBlockItem(
+            "parasitestain_feeler", ModBlocks.PARASITESTAIN_FEELER);
+    public static final RegistryObject<BlockItem> PARASITESTAIN_MUD = ITEMS.registerSimpleBlockItem(
+            "parasitestain_mud", ModBlocks.PARASITESTAIN_MUD);
+    public static final RegistryObject<BlockItem> PARASITESTAIN_SACKFLESH = ITEMS.registerSimpleBlockItem(
+            "parasitestain_sackflesh", ModBlocks.PARASITESTAIN_SACKFLESH);
     public static final RegistryObject<BlockItem> PARASITETRUNK = ITEMS.registerSimpleBlockItem(
             "parasitetrunk", ModBlocks.PARASITETRUNK);
     public static final RegistryObject<BlockItem> PARASITETRUNK_BALL = ITEMS.registerSimpleBlockItem(

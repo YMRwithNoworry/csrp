@@ -61,3 +61,43 @@
 ## 提交规范
 
 每次批次完成：`mc_gradle build` 必须 `BUILD SUCCESSFUL`，`node scripts/run-all-verifications.cjs` 不得出现新的失败项，然后提交（`-（类别）说明`）并推送到 `origin/port-1.20.1-forge`。
+
+### 3b. `[~]` 结构 NBT 的「属性合法性」缺口（2026-09-18 发现，阻塞第 3 批次）
+
+`StructureTemplate.load` → `BlockStateParser.parseForBlock` 对 palette 里**属性名不存在**的条目会抛
+`IllegalArgumentException`，结构**静默不生成**（只有一条日志）。已确认并修复的部分：
+
+- `[x]` `csrp:infestedbush`（被 10 个结构引用）—— `MeteorStructureLoader.BLOCK_RENAMES` 之前只
+  处理 `srparasites:` 前缀，而捐赠同步来的 NBT 已是 `csrp:` 前缀，改名表一条都没生效。已修
+  （`rewriteId` 现在同时处理两种前缀，`csrp:infestedbush → csrp:residue_plants`）。
+- `[x]` `csrp:parasitestain_feeler` —— 方块根本没注册（原 `BlockParasiteStain` 的 7 个变体，
+  本工程按变体拆成独立方块时只注册了 flesh/dirt）。已补注册 `feeler`/`mud`/`sackflesh`
+  + BlockItem + 中英译名（译名取自原版 `en_us.lang`/`zh_cn.lang`：Compressed Arteries 交汇动脉管 /
+  Visceral Mud 内脏烂泥 / Sacked Flesh Block 肉囊块）。顺带校正了 dirt/flesh 的占位译名
+  （"Parasite Stain (Dirt)" → "Hivesoil"，与同家族 `*stairs` 一致）。
+- `[x]` 全部 55 个结构的 palette **方块 id** 均可解析（`scripts/verify-1.10.9-port.py` 的 `[6]`
+  检查常驻守卫）。
+
+**仍未验证/待做**（下一步必须先解决，否则第 3 批次的结构即使接了触发点也不会出现）：
+
+- `[ ]` **属性合法性**：上述检查只覆盖方块 id，未覆盖属性名。已知风险点：
+  `tresses_hair`（legacy 占位方块，实际是普通 `Block`，无 `facing`/`half`）、
+  `parasitethin`（`ParasiteThinBlock` 的 6 个连接布尔量）、各类 `*_wall`（
+  `legacyBlock` 返回 `WallBlock`，属性应为 `east/west/north/south/up`，与 NBT 对得上）、
+  `*slabhalf`/`*slabdouble`/`*stairs`（`SlabBlock` 用 `type`，`StairBlock` 用 `facing/half/shape`）。
+  `deadblood` 的 `level` 已确认为合法（`LiquidBlock.LEVEL` 的序列化名就是 `level`，
+  与 vanilla `water.json` 同样不在 blockstate 里声明）。
+- `[ ]` **权威验证手段**：静态源码解析无法可靠判定（继承链 + legacy 占位方块是工厂生成的）。
+  可用的两条路：① 给 `ModBlocks` 里每个 legacy 方块补一个显式 `createBlockStateDefinition`
+  断言测试；② 让服务端在 `ServerStartedEvent` 里遍历结构 NBT 并逐个 `StructureTemplate.load`，
+  把失败项打进日志（推荐，最接近真实加载路径）。
+
+### 3c. `[~]` 球体特性（2026-09-18 完成首块）
+
+`[x]` `WorldGenParasiteBall` + `WorldGenParasiteBigBall` → `world/ParasiteBallPlacer.java`，
+由 `StarBiomeGenerationEvents` 的冷星分支驱动（`ball.nbt` 7×10×7 / `ballbig.nbt` 13×21×13）。
+常数额字搬运（净空 12 高 × 半径 4、锚点 (3,0,3)/(6,0,6)、细枝跳过率 0.5/0.15、侧枝率 0.2）。
+`[ ]` 尚未在真实世界目视确认（需要冷星世界）。
+`[ ]` 其余 25 个 `world/gen/feature/*` 仍缺（spine/mouth/nodecore/colony 家族/nexus protection/
+meteor crash/tree/treeThin/bush/tallFlower/tenFlower…），且 harlequin/beckon/dh_village 需要先决定
+是否补自定义生物群系（原模组用 5 个 SRP 生物群系驱动装饰，本工程完全没有）。

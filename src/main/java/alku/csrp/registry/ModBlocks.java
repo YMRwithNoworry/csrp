@@ -620,6 +620,25 @@ public final class ModBlocks {
     public static final RegistryObject<Block> PARASITESTAIN_DIRT = BLOCKS.register(
             "parasitestain_dirt", () -> new Block(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
+    /**
+     * 原模组 {@code BlockParasiteStain} 的 {@code FEELER} 变体。
+     *
+     * <p>1.12.2 用一个方块 + {@code VARIANT} 属性表达 7 种污渍；本工程按变体拆成独立方块，
+     * 但此前只注册了 {@code flesh}/{@code dirt}，漏掉了 {@code mud}/{@code feeler}/{@code sackflesh}。
+     * 结果是引用它们的结构 NBT 在 {@code StructureTemplate.load} 阶段因「方块未注册」整张调色板
+     * 解析失败、结构静默不生成（实测 {@code ballbig.nbt} 引用 {@code csrp:parasitestain_feeler}）。
+     */
+    public static final RegistryObject<Block> PARASITESTAIN_FEELER = BLOCKS.register(
+            "parasitestain_feeler", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
+    /** 原模组 {@code BlockParasiteStain} 的 {@code MUD} 变体；见 {@link #PARASITESTAIN_FEELER}。 */
+    public static final RegistryObject<Block> PARASITESTAIN_MUD = BLOCKS.register(
+            "parasitestain_mud", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
+    /** 原模组 {@code BlockParasiteStain} 的 {@code SACKFLESH} 变体；见 {@link #PARASITESTAIN_FEELER}。 */
+    public static final RegistryObject<Block> PARASITESTAIN_SACKFLESH = BLOCKS.register(
+            "parasitestain_sackflesh", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
     /** RotatedPillarBlock so the `axis` property exists; the blockstates rotate the
      * trunk models the same way vanilla logs do. */
     public static final RegistryObject<RotatedPillarBlock> PARASITETRUNK = BLOCKS.register(
@@ -762,6 +781,8 @@ public final class ModBlocks {
                 "parasitetrunk", "parasitetrunk_ball", "parasitetrunk_plant", "parasitetrunk_deadhead",
                 "parasitethin", "goth_stem", "infested_workbench",
                 "parasitestain", "parasitestain_red", "parasitestain_spore", "parasitestain_dirt",
+                "parasitestain_flesh", "parasitestain_feeler", "parasitestain_mud",
+                "parasitestain_sackflesh",
                 "deadhead_leaves", "deadhead_grass_short", "deadhead_grass_tall",
                 "snow_short_grass", "snow_tall_grass", "snow_covered_grass",
                 "infested_stone_stairs", "infested_stone_slab", "infested_sandstone_stairs",

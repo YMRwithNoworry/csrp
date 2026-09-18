@@ -68,6 +68,9 @@ public final class StarBiomeGenerationEvents {
             // 1.10.9 hooked DecorateBiomeEvent.Decorate(TREE); the deadhead tree pass is threaded the
             // same way as the cold star village (server.execute + hasChunk guards).
             level.getServer().execute(() -> ColdStarTreeHandler.decorate(level, chunkX, chunkZ));
+            // 1.10.9 的球体特性是 SRP 生物群系装饰；本工程没有自定义生物群系，故与枯骸树在
+            // 同一处、同一代驱动（理由见 ParasiteBallPlacer 的类注释）。
+            level.getServer().execute(() -> ParasiteBallPlacer.decorate(level, chunkX, chunkZ));
             if (ColdStarVillageGenerator.isVillageChunk(level.getSeed(), chunk.getPos())) {
                 level.getServer().execute(() -> ColdStarVillageGenerator.generate(level, chunkX, chunkZ));
             }

@@ -1301,8 +1301,8 @@
   "block.csrp.parasiterubble_flesh": "血肉寄生残骸",
   "block.csrp.parasiterubble_stone": "石质寄生残骸",
   "block.csrp.parasiterubbledense": "致密寄生残骸",
-  "block.csrp.parasitestain_dirt": "泥土寄生污渍",
-  "block.csrp.parasitestain_flesh": "血肉寄生污渍",
+  "block.csrp.parasitestain_dirt": "巢土",
+  "block.csrp.parasitestain_flesh": "肉块",
   "block.csrp.parasitethin": "纤细寄生原木",
   "block.csrp.parasitetrunk": "寄生树干",
   "block.csrp.assimilated_blossom": "被同化的花卉",
@@ -1423,5 +1423,8 @@
   "options.csrp.fractured_terrain.disabled.description": "关闭地形碎裂生成。",
   "options.csrp.mushroom_trees.enabled.description": "允许枯骸树在已有枯骸树冠之上生长；叠生的树会穿过夹层叶片连接树干，形成高耸的菌形森林。警告：该选项会显著增加区块生成耗时。",
   "options.csrp.mushroom_trees.disabled.description": "使用普通树木放置规则，不会在叶片、冰面等无效表面生成树木。",
-  "block.csrp.parasitetrunk_deadhead": "枯骸树干"
+  "block.csrp.parasitetrunk_deadhead": "枯骸树干",
+  "block.csrp.parasitestain_feeler": "交汇动脉管",
+  "block.csrp.parasitestain_mud": "内脏烂泥",
+  "block.csrp.parasitestain_sackflesh": "肉囊块"
 }

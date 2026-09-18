@@ -111,11 +111,28 @@ final class MeteorStructureLoader {
         }
     }
 
+    /**
+     * 把结构 NBT 里的旧方块 id 改写成 1.20.1 工程实际注册的 id。
+     *
+     * <p>必须同时处理两种命名空间，否则改名表形同虚设：
+     * <ul>
+     *   <li>{@code srparasites:} —— 原模组 1.12.2 的命名空间（早期手写 NBT 走这条）；</li>
+     *   <li>{@code csrp:} —— 从捐赠分支同步过来的 NBT 已经是本模组的命名空间，
+     *       但它们沿用了上游的方块名（例如上游仍叫 {@code infestedbush}），
+     *       只认 {@code srparasites:} 的话这些条目**一条都不会被改写**，
+     *       而未注册的方块 id 会让 {@code StructureTemplate.load} 抛异常、整个结构静默失败。
+     *       实测：{@code csrp:infestedbush} 被 10 个结构引用（ball / beckon_* / box）。</li>
+     * </ul>
+     */
     private static String rewriteId(String value) {
-        if (!value.startsWith(LEGACY_NAMESPACE)) {
+        String path;
+        if (value.startsWith(LEGACY_NAMESPACE)) {
+            path = value.substring(LEGACY_NAMESPACE.length());
+        } else if (value.startsWith(Csrp.MODID + ":")) {
+            path = value.substring(Csrp.MODID.length() + 1);
+        } else {
             return value;
         }
-        String path = value.substring(LEGACY_NAMESPACE.length());
         return Csrp.MODID + ":" + BLOCK_RENAMES.getOrDefault(path, path);
     }
 }

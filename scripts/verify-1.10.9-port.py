@@ -14,6 +14,7 @@
 """
 import glob
 import gzip
+import importlib.util
 import json
 import os
 import re
@@ -301,6 +302,70 @@ def check_structures(res):
             ok("%s（%d 字节解压，标记齐备、无 1.12.2 残留）" % (name, len(data)))
 
 
+def check_structure_palettes():
+    """每个结构 NBT 的调色板方块都必须在工程里注册（否则结构静默不生成）。
+
+    为什么这是硬性检查：`StructureTemplate.load` 遇到未注册的方块 id 会抛异常，
+    整个结构**静默**失败（只有一条日志），且方块调色板里出现未注册 id 时不会崩溃、
+    只是不生成 —— 属于最难发现的一类缺失。本项目实测踩过两次：
+    `csrp:infestedbush`（被 10 个结构引用，改名表只认 `srparasites:` 前缀所以没生效）
+    与 `csrp:parasitestain_feeler`（方块根本没注册）。
+
+    判据：`csrp:<name>` 经 `MeteorStructureLoader.BLOCK_RENAMES` 改名后，
+    名字必须出现在 `ModBlocks.java` 的字面量集合里。
+    """
+    print("\n[6] 结构 NBT 调色板方块可解析性")
+    struct_dir = os.path.join(ROOT, "src", "main", "resources", "data", MODID, "structures")
+    if not os.path.isdir(struct_dir):
+        notes.append("跳过结构调色板检查：找不到 structures 目录")
+        return
+
+    loader_path = os.path.join(ROOT, "src", "main", "java", "alku", "csrp", "world",
+                               "MeteorStructureLoader.java")
+    renames = {}
+    if os.path.exists(loader_path):
+        renames = dict(re.findall(r'Map\.entry\("([a-z0-9_]+)",\s*"([a-z0-9_]+)"\)',
+                                  open(loader_path, encoding="utf-8").read()))
+
+    blocks_path = os.path.join(ROOT, "src", "main", "java", "alku", "csrp", "registry", "ModBlocks.java")
+    known = set(re.findall(r'"([a-z0-9_]+)"', open(blocks_path, encoding="utf-8").read()))
+
+    sys.path.insert(0, os.path.join(ROOT, "scripts"))
+    converter = os.path.join(ROOT, "scripts", "convert-deadhead-tree-nbt.py")
+    if not os.path.exists(converter):
+        notes.append("跳过结构调色板检查：找不到 convert-deadhead-tree-nbt.py（NBT 读取器）")
+        return
+    spec = importlib.util.spec_from_file_location("_nbtread", converter)
+    nbt = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(nbt)
+
+    files = sorted(f for f in os.listdir(struct_dir) if f.endswith(".nbt"))
+    unresolved = {}
+    for fn in files:
+        path = os.path.join(struct_dir, fn)
+        try:
+            with gzip.open(path, "rb") as fh:
+                tree = nbt.bare(nbt.read_nbt(fh.read()))
+        except Exception as exc:
+            fail("结构 NBT 无法解析 %s: %s" % (fn, exc))
+            continue
+        for entry in (tree.get("palette") or []):
+            name = entry.get("Name", "")
+            if not name.startswith(MODID + ":"):
+                continue
+            short = name.split(":", 1)[1]
+            final = renames.get(short, short)
+            if final not in known:
+                unresolved.setdefault(name, []).append(fn)
+
+    if unresolved:
+        for name, files_using in sorted(unresolved.items()):
+            fail("结构引用了未注册方块 %s（被 %d 个结构引用: %s）"
+                 % (name, len(files_using), files_using[:3]))
+    else:
+        ok("%d 个结构 NBT 的调色板方块全部已注册（改名表 %d 条）" % (len(files), len(renames)))
+
+
 def check_loot_tables():
     """掉落表引用的物品必须真实存在，否则整张表解析失败（破坏方块无掉落 + 启动刷错误）。
 
@@ -403,6 +468,7 @@ def main():
     check_dangling(res)
     check_required_assets(res)
     check_structures(res)
+    check_structure_palettes()
     check_loot_tables()
     check_legacy_namespace(res)
 

@@ -1287,8 +1287,8 @@
   "block.csrp.parasiterubble_flesh": "Parasite Rubble (Flesh)",
   "block.csrp.parasiterubble_stone": "Parasite Rubble (Stone)",
   "block.csrp.parasiterubbledense": "Dense Parasite Rubble",
-  "block.csrp.parasitestain_dirt": "Parasite Stain (Dirt)",
-  "block.csrp.parasitestain_flesh": "Parasite Stain (Flesh)",
+  "block.csrp.parasitestain_dirt": "Hivesoil",
+  "block.csrp.parasitestain_flesh": "Flesh Chunk",
   "block.csrp.parasitethin": "Thin Parasitic Log",
   "block.csrp.parasitetrunk": "Parasite Trunk",
   "block.csrp.assimilated_blossom": "Assimilated Blossom",
@@ -1409,5 +1409,8 @@
   "options.csrp.fractured_terrain.disabled.description": "Terrain fracture generation is disabled.",
   "options.csrp.mushroom_trees.enabled.description": "Allows Deadhead trees to grow on top of existing Deadhead canopies. Stacked trees connect their trunks through intervening leaves, creating towering mushroom-like forests. Warning: this option can significantly increase chunk generation time.",
   "options.csrp.mushroom_trees.disabled.description": "Uses normal tree placement and avoids spawning trees on leaves, ice, or other invalid surfaces.",
-  "block.csrp.parasitetrunk_deadhead": "Deadhead Trunk"
+  "block.csrp.parasitetrunk_deadhead": "Deadhead Trunk",
+  "block.csrp.parasitestain_feeler": "Compressed Arteries",
+  "block.csrp.parasitestain_mud": "Visceral Mud",
+  "block.csrp.parasitestain_sackflesh": "Sacked Flesh Block"
 }
