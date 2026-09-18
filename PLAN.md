@@ -915,3 +915,150 @@ python -c "import zipfile;z=zipfile.ZipFile(r'C:/Users/P傲娇34/.gradle/caches/
 | U13 | 重生同步的触发次数 | `SRPStarTypeSyncHandler` 的 respawn 分支 | 新增 `PlayerEvent.PlayerRespawnEvent`；**`PlayerLoggedInEvent` 与 respawn 不重叠**（登录才发登录事件），故不会重复发包 | 无 |
 | U14 | 片 6（世界创建 UI 开关） | — | **本片未做**：`SrpDifficultyScreenEvents.java` 正被并行会话修改（属片 3/片 6 的 `world/` + 客户端 UI 重叠区），为避免覆盖未提交改动而按任务许可跳过。落地入口已就绪：`SrpStarWorldSelection.stage(boolean, boolean)` 与 `SrpWorldData.initialize()` 的两个 `consume*OrDefault()` 已存在且已接线 | 无（语言键 4×2 组已在 `en_us.json`/`zh_cn.json` 备好，见 §12 之外的 `options.csrp.{fractured_terrain,mushroom_trees}.*`） |
 
+---
+
+## 14. 追加核实记录 — D 阶段（独立编译与审查验证）
+
+> 本节为**纯追加**，不修改上文任何既有结论。全部结论来自 D 阶段独立真机复现。
+> **勘误一条（对上文，见 §4.1.2 委托实现要求）**：`getCloudColor(...)` **不是** `DimensionSpecialEffects`
+> / `IForgeDimensionSpecialEffects` 的方法（javap 全量扫描：该方法只存在于
+> `ClientLevel.getCloudColor(float)`，1.20.1 无 DimensionSpecialEffects 级云色钩子，本工程 0 引用）。
+> 上文的「必须覆写 `getCloudColor(...)`」应作废；`BlizzardDimensionEffects` 实际覆写了全部
+> **13 个**可覆写实例方法（无遗漏），故该错误未造成实际缺口。
+
+### 14.1 编译与构建
+
+| 项 | 结果 |
+|---|---|
+| 工具链 | GraalVM Community 21.0.2+13.1，Gradle 8.8，ForgeGradle 6.0.54（`gradlew.bat --version` 实测） |
+| 第一轮 | `clean` + `build` → SUCCESSFUL 1m30s，但 **`:compileJava FROM-CACHE`** → 不构成 S1 证据 |
+| **强制真编译** | `build --rerun-tasks --no-build-cache` → **BUILD SUCCESSFUL in 2m2s，`8 actionable tasks: 8 executed`，`:compileJava` 实执行，0 error**（100 条警告全部为既有 `ResourceLocation(String,String)` `[removal]` 弃用） |
+| 收尾 | 修完 D 阶段 3 处缺陷后 `build` → **BUILD SUCCESSFUL in 40s** |
+| 产物 | `build/libs/csrp-1.10.9.jar`，133,902,546 字节，sha256 `a868bc6b…4923f` |
+
+### 14.2 S1–S9 判定
+
+| # | 判定 | 证据 |
+|---|---|---|
+| S1 | **通过** | 强制真编译 0 error；`build/libs/csrp-1.10.9.jar` 存在；`mods.toml` `version = "1.10.9"` |
+| S2 | **通过** | 6 个 blockstate（含新增 `parasitetrunk_deadhead.json`）+ 4 个 `.nbt` 全在 jar 内 |
+| S3 | **通过** | `sounds.json` 的 `blizzard_reverse` = `{"category":"ambient","sounds":[{"name":"csrp:misc/snow_reversal","stream":true}]}`；`.ogg` 存在 |
+| S4 | **通过** | `csrp.mixins.json` `client` 数组与 HEAD **内容逐字节等价**（仅 CRLF/LF 差异，`git diff` 为空）；**零新增 mixin** |
+| S5 | **无法验证** | 需 `runClient`（无 GUI/耗时长）→ 归入 §14.7 人工清单 |
+| S6 | **无法验证** | 同上（雪丝/无霞光为目视项） |
+| S7 | **通过（按判据原义）** | `grep -rn "srparasites:" src/main/resources/data/csrp` = **0**；`assets/csrp/**` 下唯一的命中全在**既有的** `compendium/{entries/*.json,lang/*.lang}`（245 个 tracked 文件，`git diff`/`git status` 均**为空**，非本片引入）。新增资产 0 命中 |
+| S8 | **通过** | 4 个方块名键全在；两开关各 4 键齐全（注意真实键形为 `options.csrp.<base>.enabled.description` / `.disabled.description`，由 `SrpDifficultyScreenEvents.updateToggleTooltip` 拼接，1:1 匹配） |
+| S9 | **代码级通过 / 目视待验** | 见 §14.5；需 `runClient` 目视的部分归入 §14.7 |
+
+### 14.3 资源交叉引用审计（自写 python，1.20.1 精确解析规则）
+
+扫描规模：blockstates 363、模型 1735、`.png` 纹理 2236（+91 `.mcmeta`）、blockstate→模型引用 3569、模型 parent 引用 1671、纹理引用 2196（`#var` 8）。**JSON 语法 3368/3368 全部可解析。**
+
+| 类别 | 修复前 | 修复后 |
+|---|---|---|
+| **FAIL 合计** | **2**（均为本片新增文件） | **0** |
+| B2 模型 `parent` 悬空（非 minecraft 命名空间） | **2** | **0** |
+| B1 blockstate→模型 悬空 | 0 | 0 |
+| B3 纹理悬空 | 0 | 0 |
+| B4 `#var` 未解析 | 0（6 个来自从未被烘焙的孤儿模型，无害） | 0 |
+| B5 1.12.2 时代变体键 | 246 命中 / 18 文件——**全部为既有遗留**，本片新增文件 0 命中 | 不变 |
+| FATAL | 0 | 0 |
+
+- 修复前 2 条 FAIL 明细（D 阶段已修，见 §14.6）：
+  `assets/csrp/models/item/snow_short_grass.json` → `csrp:item/block/snow_short_grass` 解析到
+  `assets/csrp/models/item/block/…json`（1.16 起无目录回退，该目录不存在）；
+  `snow_tall_grass.json` 同型。
+- 说明：`csrp:blocks/xxx`（复数）与 `csrp:block/xxx`（单数）在本工程**都合法**——11 个本片纹理实际落在
+  `textures/blocks/`，模型也照该路径写，属对 §3.5 规则 M1 的有意偏离（结果等价，纹理全部解析成功）。
+- B5 的 246 条命中与 31 个孤儿 blockstate **均无危害**：`ModelBakery` 只加载**已注册**方块的 blockstate
+  （`javap -c` 实证其构造器遍历 `BuiltInRegistries.BLOCK`），且这 6 个 id 是 `legacyBlock()` 造出的
+  无属性 `Block`。属既有历史债，不在本片范围。
+
+### 14.4 NBT 可加载性（自写 gzip+struct 解析器，逐文件逐属性）
+
+4 个文件全部：gzip 魔数 `1f 8b` 正确、根为 COMPOUND、尾部无残留字节。
+
+| 文件 | size | DataVersion | palette | blocks | state 下标越界 | `pos` 标签 | `state` 标签 |
+|---|---|---|---|---|---|---|---|
+| `_1` | [10,16,11] | **3465** | 7 | 329 | **0** | LIST<INT>×3 ✓ | INT ✓ |
+| `_2` | [11,16,11] | **3465** | 9 | 352 | **0** | LIST<INT>×3 ✓ | INT ✓ |
+| `_3` | [11,17,11] | **3465** | 9 | 349 | **0** | LIST<INT>×3 ✓ | INT ✓ |
+| `_4` | [13,18,13] | **3465** | 9 | 506 | **0** | LIST<INT>×3 ✓ | INT ✓ |
+
+palette 属性 vs Java 实声明（逐个比对）：
+
+| 方块 | NBT 属性 | Java 实声明属性 | 判定 |
+|---|---|---|---|
+| `csrp:deadhead_leaves` | `snowy` | `distance,persistent,snowy,waterlogged`（继承 `LeavesBlock`） | ✓ 无未声明属性 |
+| `csrp:parasitetrunk_deadhead` | `axis` (x/y/z) | `axis` | ✓ 精确匹配 |
+| `csrp:deadhead_grass_short` | `texture` (0) | `texture` | ✓ 精确匹配 |
+| `csrp:deadhead_grass_tall` | `half` (upper/lower) | `half` | ✓ 精确匹配 |
+| `minecraft:snow` | `layers` (1) | `layers` | ✓ 精确匹配 |
+
+- **1.12.2 残留属性名（`check_decay`/`decayable`/`variant`/`part`/`snow_layer`）= 0 命中** → 不构成致命缺陷。
+- palette 内全部 `csrp:` id 均已注册：`deadhead_leaves`(513)、`deadhead_grass_short`(523)、
+  `deadhead_grass_tall`(532)、`parasitetrunk_deadhead`(637)。**无未注册 id。**
+- **判定：4 个结构均可被 1.20.1 原版 `StructureTemplate.load` 正常加载。**
+
+### 14.5 S9 回归逐条核对（`BlizzardDimensionEffects` + 事件）
+
+| 核对项 | 结果 |
+|---|---|
+| 仅 `getSunriseColor` / `renderSnowAndRain` 会因冷星走非 VANILLA 分支 | **是**（两者都以 `BlizzardClient.getIntensity(pt) > 0.001F` 为唯一分流条件） |
+| 其余方法无条件转发 VANILLA | **是，无遗漏**：javap 实测可覆写实例方法共 **13 个**，`BlizzardDimensionEffects` **全部覆写**并全部 `return VANILLA.…`，不依赖 `super` 默认实现；`OverworldEffects` 为 public 且有 public 无参构造，`new OverworldEffects()` 合法 |
+| 3 个事件监听均有 `intensity <= 阈值` 提前返回 | **是**（`renderBlizzard` 先查 stage 再查 intensity；`renderFog` 查 intensity + WATER/LAVA/POWDER_SNOW 排除；`renderOverlay` 查 intensity）；另有 `MIN_INTENSITY = 0.001F` |
+| 注册键为 `minecraft:overworld` | **是**（`new ResourceLocation("minecraft","overworld")`，`RegisterDimensionSpecialEffectsEvent.register(ResourceLocation, DimensionSpecialEffects)` 签名已 javap 核实；注册在 MOD 总线 + `Dist.CLIENT`，注解正确带 `bus = Bus.MOD`） |
+| 非冷星是否可能退化 | 静态代码路径上**否**：`BlizzardClient.isColdWorld()` 在非冷星/非主世界一律返回 `false`，`getIntensity` 恒 0，两处分流恒走 VANILLA，其余 11 个方法本就恒 VANILLA |
+
+### 14.6 D 阶段修掉的问题（3 处，全部已重跑 build 通过）
+
+| # | 文件 | 原因 | 验证 |
+|---|---|---|---|
+| 1 | `src/main/java/alku/csrp/registry/SoundEventCatalog.java` | `sounds.json` 有 485 条而 catalog 只有 484 → **既有验证脚本 `scripts/verify-original-sounds.cjs` 实红**（`sound event is absent from Java catalog: blizzard_reverse`）。`ModSounds` 虽已显式注册该事件，但 catalog 与 sounds.json 失同步 | `verify-original-sounds.cjs` exit **0**（`Verified 431 original events and 485 total registered events`）；catalog 485 条、去重后 485、0 重复 |
+| 2 | `src/main/resources/assets/csrp/blockstates/snow_covered_grass.json` | 两个变体都指向 `minecraft:block/grass_block`（**非雪**草模型）→ 冷星雪覆盖草会渲染成普通草。1.20.1 原版 `snowy=true` 用的是 `minecraft:block/grass_block_snow`（读 vanilla `client.jar` 的 `blockstates/grass_block.json` 实证，且在两个独立 client jar 中一致） | 已改用 `grass_block_snow`；该模型在 vanilla jar 中存在 |
+| 3 | `assets/csrp/models/item/{snow_short_grass,snow_tall_grass}.json` | `"parent": "csrp:item/block/<name>"` 解析到不存在的 `models/item/block/`（1.16 起无目录回退）→ 两个方块**物品形态 fallback 为 missing model**（客户端会报 `Unable to load model`） | 改为 `csrp:block/<name>`；审计 **FAIL 2 → 0**，两个 parent 均 `exists=True` |
+
+> 未采纳的「缺陷」1 条（**误报，证据反驳**）：审计初轮报 `options.csrp.{fractured_terrain,mushroom_trees}.description` 缺失。
+> 实读 `SrpDifficultyScreenEvents.java:159-162` 后确认真实键形为 `base + ".enabled.description"` /
+> `".disabled.description"`，两条键在 `en_us.json:1408-1411` **存在**，无缺陷。
+>
+> 另：一次 `:reobfJar` 失败（`FileSystemException … 正被另一进程使用`）经查为 D 阶段自身的 python 审计脚本
+> 从 `build/d-audit/` 打开了 `build/libs/csrp-1.10.9.jar`（python 不以 `FILE_SHARE_DELETE` 打开）所致，
+> **不是源码缺陷**；释放句柄后 `:reobfJar` 立即成功。后续审计一律改用 `build/d-audit/snapshot*.jar` 快照。
+
+### 14.7 必须人工 `runClient` 目视确认（按风险排序）
+
+1. **【最高】非冷星世界的天空/云/地形雾/雨雪 = 与改动前逐像素一致（S9）**。看：NORMAL 星世界正午云层、
+   日落霞光、雨天雨丝、水下雾。期望：与未装本片前**完全一致**（`minecraft:overworld` 的
+   `DimensionSpecialEffects` 已被本 mod 完全接管，是全片唯一的全局性改动）。
+2. **【高】冷星暴风雪整体观感**。看：`/weather rain` 后是否有斜向雪丝 + 8 层雾壳 + HUD 雪雾；
+   雾近远是否符合 `far = 72 - intensity*56`、`near = far*0.08`。期望：雪丝斜向、随强度变密。
+3. **【高】日出霞光在冷星被隐藏、非冷星正常**。看：冷星 `/time set 23000` 期望**无**橙红渐变；
+   切回 NORMAL 星期望霞光**恢复**。
+4. **【中】5 个新方块的模型/纹理**。看：`/setblock` 各放一次（双高草需两格），期望贴图正确、无
+   missing model、雪草为「雪覆盖」外观而非普通草。**新增**：两个雪草方块的**物品栏图标**（验证 §14.6-3）。
+5. **【中】雪覆盖草的视觉**。看：放雪短草/雪高草后下方草方块是否变雪草；挖掉草后是否还原为普通草。
+6. **【中】死头树在冷星世界的生成**。看：冷星世界新区块的树干/树冠/树下雪草与雪层；日志无
+   `Missing deadhead structure structures/deadhead_tree_large_*`。
+7. **【中】碎裂地形**。看：冷星世界是否出现板块/裂缝；边界 `−64..320` 处无异常。
+8. **【低】切换音效与状态机**。看：靠近 `csrp:draconite` / `csrp:kirin` 时播一次
+   `blizzard_reverse`，并呈「卡→黑→保持 8 tick→反→回白」。
+9. **【低】片 6 未做**：世界创建界面的两个开关按钮**预期不存在**（§13.5 U14），`SrpStarWorldSelection`
+   与 `SrpWorldData.initialize()` 入口已就绪但未接线。
+
+### 14.8 D 阶段结论
+
+**编译与静态验证层面：达到可发布状态。** 强制真编译 0 error；jar 内容、资源交叉引用（FAIL 0）、
+NBT 可加载性、S9 代码级回归、既有验证套件 **98/98 全绿** 均已独立复现。
+
+**遗留阻塞项：无编译/静态级阻塞。** 但下列两项在发布前应处理：
+
+1. **S5/S6/S9 目视项未验证**（本阶段无 GUI 能力）→ 必须按 §14.7 人工过一遍，其中第 1 条为全局回归风险。
+2. **工作区有未提交改动**（`git status`：`SoundEventCatalog.java` + 3 个资源文件，以及未跟踪的
+   `shaders/post|program/blizzard_reverse.*`、`textures/environment/snow.png`）→ 需 commit + push，
+   否则 shader 与雪纹理不在版本库内。另：仓库根有 5 个游离产物
+   （`compile.err`/`compile.out`/`compile_en.err`/`compile_en.out`/`thinking-effort-loaded.json`），
+   建议加入 `.gitignore` 而非提交。
+3. 片 6（世界创建 UI 开关）未做——已由 §13.5 U14 声明为可选项，非阻塞。
+
+

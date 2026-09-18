@@ -1,5 +1,5 @@
 {
-  "parent": "csrp:item/block/snow_short_grass",
+  "parent": "csrp:block/snow_short_grass",
   "display": {
     "thirdperson_righthand": {
       "rotation": [

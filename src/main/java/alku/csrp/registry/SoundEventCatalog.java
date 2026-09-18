@@ -76,6 +76,7 @@ final class SoundEventCatalog {
             "azetmo.growl",
             "azetmo.hurt",
             "biome.heart",
+            "blizzard_reverse",
             "block.beckon.dig",
             "block.beckon.fall",
             "block.beckon.hit",

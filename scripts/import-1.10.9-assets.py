@@ -167,8 +167,19 @@ def convert_item_model(name):
     if "parent" in data:
         p = data["parent"]
         if p.startswith("srparasites:"):
+            # 原文件的 parent 形如 `srparasites:block/snow_short_grass`；`block/` 前缀是
+            # 1.12.2 的写法，1.16+ 的模型 id 不带目录前缀以外的语义，但**必须**落到
+            # 正确的目录：`csrp:block/x` -> models/block/x.json，`csrp:item/x` -> models/item/x.json。
+            # 早期版本漏掉了 "block/" 前缀，产出 `csrp:item/block/x`（解析到 models/item/block/）
+            # 这种悬空引用，已由 D 阶段修复；这里改成按前缀正确分流并保持幂等。
             rest = p.split(":", 1)[1]
-            p = "csrp:block/" + rest if rest.startswith("snow_") else "csrp:item/" + rest
+            if rest.startswith("block/"):
+                p = "csrp:block/" + rest[len("block/"):]
+            elif rest.startswith("item/"):
+                p = "csrp:item/" + rest[len("item/"):]
+            else:
+                # 无目录前缀：1.12.2 的 item 模型默认落在 item/ 下
+                p = "csrp:item/" + rest
         elif not p.startswith("minecraft:") and not p.startswith("csrp:"):
             p = "minecraft:" + p
         data["parent"] = p
@@ -186,11 +197,41 @@ def copy_texture(name):
 
 
 def copy_structure(name):
+    """拷贝结构 nbt，但**不覆盖已转换过的目标文件**。
+
+    本脚本是「原始 1.12.2 资源 → 工程」的导入器，对 json 是「按目标格式重新生成」，
+    对 nbt 却是原样拷贝；而 nbt 还需要 `convert-deadhead-tree-nbt.py` 做一次
+    1.12.2 → 1.20.1 的调色板转换。若无条件覆盖，本脚本重跑一次就会把转换结果打回原形
+    （removal of `variant=deadhead` 等），而 build 不会报错——属于静默回退，必须防住。
+
+    判据：目标文件里出现 `csrp:` 即视为已转换，跳过。
+    """
     src = os.path.join(ASSETS_SRC, "structures", name)
     dst = os.path.join(DATA_DST, "structures", name)
+    if os.path.exists(dst) and _is_converted_structure(dst):
+        log.append("keep  data/structures/%s (already converted)" % name)
+        return
     os.makedirs(os.path.dirname(dst), exist_ok=True)
     shutil.copyfile(src, dst)
     log.append("copy  data/structures/" + name)
+
+
+def _is_converted_structure(path):
+    """已转换的结构 nbt 里含 `csrp:` 方块 id；原始 1.10.9 文件里是 `srparasites:`。
+
+    两个坑，都踩过：
+    1. 这些文件是 gzip 压缩的，必须**先解压再搜**（压缩流里没有明文 `csrp:`）；
+    2. 必须读**整个**解压结果——`palette` 排在 `blocks` 数组之后，小结构也要 12 KB 才到，
+       只读前几千字节会把已转换的文件误判为未转换并覆盖掉。
+    """
+    import gzip
+
+    try:
+        with gzip.open(path, "rb") as fh:
+            data = fh.read()
+    except OSError:
+        return False
+    return b"csrp:" in data
 
 
 def add_sound():
@@ -220,15 +261,24 @@ def add_lang_keys():
         "block.csrp.deadhead_grass_short": "Short Deadhead Vines",
         "block.csrp.deadhead_grass_tall": "Long Deadhead Vines",
     }
+    # 开关文案的键形必须与 SrpDifficultyScreenEvents 里的用法一致：
+    # 标签键 + `.enabled` / `.disabled` 取值键 + `.enabled.description` / `.disabled.description`
+    # 提示键（界面代码按 baseKey + (enabled ? ".enabled.description" : ".disabled.description") 拼）。
+    # 这里**不要**写 `...description` 单键——那不是代码会查的键，只在 lang 里留垃圾。
     options_en = {
         "options.csrp.fractured_terrain": "Fractured Terrain",
-        "options.csrp.fractured_terrain.enabled": "Enabled",
-        "options.csrp.fractured_terrain.disabled": "Disabled",
-        "options.csrp.fractured_terrain.description": "Splits the cold star surface into drifting plates and ravines.",
+        "options.csrp.fractured_terrain.enabled": "On",
+        "options.csrp.fractured_terrain.disabled": "Off",
+        "options.csrp.fractured_terrain.enabled.description":
+            "Violently fractures the terrain into separated plates, deep cuts, and unstable cliffs. Impossible to play on.",
+        "options.csrp.fractured_terrain.disabled.description": "Terrain fracture generation is disabled.",
         "options.csrp.mushroom_trees": "Enable Mushroom Trees",
-        "options.csrp.mushroom_trees.enabled": "Enabled",
-        "options.csrp.mushroom_trees.disabled": "Disabled",
-        "options.csrp.mushroom_trees.description": "Allows the cold star to grow its mushroom-shaped deadhead trees.",
+        "options.csrp.mushroom_trees.enabled": "On",
+        "options.csrp.mushroom_trees.disabled": "Off",
+        "options.csrp.mushroom_trees.enabled.description":
+            "Allows Deadhead trees to grow on top of existing Deadhead canopies. Stacked trees connect their trunks through intervening leaves, creating towering mushroom-like forests. Warning: this option can significantly increase chunk generation time.",
+        "options.csrp.mushroom_trees.disabled.description":
+            "Uses normal tree placement and avoids spawning trees on leaves, ice, or other invalid surfaces.",
     }
     blocks_zh = {
         "block.csrp.snow_short_grass": "雪覆高草",
@@ -238,13 +288,18 @@ def add_lang_keys():
     }
     options_zh = {
         "options.csrp.fractured_terrain": "碎裂地形",
-        "options.csrp.fractured_terrain.enabled": "启用",
-        "options.csrp.fractured_terrain.disabled": "禁用",
-        "options.csrp.fractured_terrain.description": "把冷星的表面撕成漂移的板块与沟壑。",
+        "options.csrp.fractured_terrain.enabled": "开",
+        "options.csrp.fractured_terrain.disabled": "关",
+        "options.csrp.fractured_terrain.enabled.description":
+            "把地形剧烈撕成彼此分离的板块、深沟与不稳定的悬崖。几乎无法正常游玩。",
+        "options.csrp.fractured_terrain.disabled.description": "关闭地形碎裂生成。",
         "options.csrp.mushroom_trees": "启用菌形树",
-        "options.csrp.mushroom_trees.enabled": "启用",
-        "options.csrp.mushroom_trees.disabled": "禁用",
-        "options.csrp.mushroom_trees.description": "允许冷星生长菌形的枯骸树。",
+        "options.csrp.mushroom_trees.enabled": "开",
+        "options.csrp.mushroom_trees.disabled": "关",
+        "options.csrp.mushroom_trees.enabled.description":
+            "允许枯骸树在已有枯骸树冠之上生长；叠生的树会穿过夹层叶片连接树干，形成高耸的菌形森林。警告：该选项会显著增加区块生成耗时。",
+        "options.csrp.mushroom_trees.disabled.description":
+            "使用普通树木放置规则，不会在叶片、冰面等无效表面生成树木。",
     }
     for locale, extra in (("en_us", dict(blocks, **options_en)), ("zh_cn", dict(blocks_zh, **options_zh))):
         path = os.path.join(ASSETS_DST, "lang", locale + ".json")
