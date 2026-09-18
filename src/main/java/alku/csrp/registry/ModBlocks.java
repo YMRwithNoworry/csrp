@@ -739,31 +739,38 @@ public final class ModBlocks {
     public static final java.util.Map<String, RegistryObject<Block>> LEGACY_BLOCKS = registerLegacyBlocks();
 
     /**
-     * 本类中所有**显式声明**的方块注册名，按声明顺序回填。
+     * 本类中所有**显式声明**的方块注册名。
      *
      * <p>为什么需要它：`DeferredRegister.register` 只对同一个 {@link RegistryObject} 实例判重，
      * 两个不同实例用同一个名字都会写进注册表，直到注册事件触发时才抛
-     * `IllegalArgumentException: Duplicate registration <id>` —— 也就是说重复注册**编译期查不出来**，
-     * 只在真实游戏启动时炸（本项目就因此在客户端启动阶段崩过一次）。
+     * `IllegalArgumentException: Duplicate registration <id>` —— 重复注册**编译期查不出来**，
+     * 只在真实游戏启动时炸（本项目就因此在客户端与服务端启动阶段各崩过一次）。
      * 而 `BLOCKS.getEntries()` 返回的条目在注册事件之前是未绑定状态，
      * 调 `getId()` 会抛异常，所以不能拿它来判重，只能自己记账。
      *
-     * <p>维护方式：新增显式方块注册后，把它的名字加进 {@link #DECLARED_BLOCK_NAMES}。
-     * 漏加不会导致错误行为，只会让重复注册重新变成运行期崩溃 —— 所以加名字比漏加安全。
+     * <p>**故意写成方法而不是静态字段**：它被 {@link #registerLegacyBlocks()} 使用，而后者由
+     * 更早声明的 {@link #LEGACY_BLOCKS} 的静态初始化触发。若这里写成静态字段，且声明位置在
+     * {@code LEGACY_BLOCKS} 之后，按 Java 静态初始化顺序它会**还是 null** 就被读取，
+     * 抛 `NullPointerException`（本项目实际踩过）。写成方法就没有初始化顺序问题。
+     *
+     * <p>维护方式：新增显式方块注册后，把它的名字加进本方法。漏加不会导致错误行为，
+     * 只会让重复注册重新变成运行期崩溃 —— 所以加名字比漏加安全。
      */
-    private static final java.util.Set<String> DECLARED_BLOCK_NAMES = java.util.Set.of(
-            "infestremain",
-            "parasitetrunk", "parasitetrunk_ball", "parasitetrunk_plant", "parasitetrunk_deadhead",
-            "parasitethin", "goth_stem", "infested_workbench",
-            "parasitestain", "parasitestain_red", "parasitestain_spore", "parasitestain_dirt",
-            "deadhead_leaves", "deadhead_grass_short", "deadhead_grass_tall",
-            "snow_short_grass", "snow_tall_grass", "snow_covered_grass",
-            "infested_stone_stairs", "infested_stone_slab", "infested_sandstone_stairs",
-            "infested_sandstone_slab", "residue_stairs", "residue_brick_slab",
-            "infested_stone_bricks_stairs", "infested_cobblestone_slab", "infested_dirt_slab",
-            "infested_stone_brick_slab", "infested_terracotta_slab",
-            "infested_polished_stone_bricks_stairs", "polished_infested_stone_slab",
-            "infested_plank_slab");
+    private static java.util.Set<String> declaredBlockNames() {
+        return java.util.Set.of(
+                "infestremain",
+                "parasitetrunk", "parasitetrunk_ball", "parasitetrunk_plant", "parasitetrunk_deadhead",
+                "parasitethin", "goth_stem", "infested_workbench",
+                "parasitestain", "parasitestain_red", "parasitestain_spore", "parasitestain_dirt",
+                "deadhead_leaves", "deadhead_grass_short", "deadhead_grass_tall",
+                "snow_short_grass", "snow_tall_grass", "snow_covered_grass",
+                "infested_stone_stairs", "infested_stone_slab", "infested_sandstone_stairs",
+                "infested_sandstone_slab", "residue_stairs", "residue_brick_slab",
+                "infested_stone_bricks_stairs", "infested_cobblestone_slab", "infested_dirt_slab",
+                "infested_stone_brick_slab", "infested_terracotta_slab",
+                "infested_polished_stone_bricks_stairs", "polished_infested_stone_slab",
+                "infested_plank_slab");
+    }
 
     private static java.util.Map<String, RegistryObject<Block>> registerLegacyBlocks() {
         String[] ids = {
@@ -815,9 +822,9 @@ public final class ModBlocks {
     }
 
     private static boolean isAlreadyRegistered(String id) {
-        // 见 DECLARED_BLOCK_NAMES 的说明：按真实注册名判重，避免运行期
+        // 见 declaredBlockNames() 的说明：按真实注册名判重，避免运行期
         // `Duplicate registration <id>` 崩溃（编译期无法发现）。
-        return DECLARED_BLOCK_NAMES.contains(id);
+        return declaredBlockNames().contains(id);
     }
 
     private static Block legacyBlock(String id) {
