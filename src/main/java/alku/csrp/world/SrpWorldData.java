@@ -20,12 +20,17 @@ import net.minecraft.world.level.saveddata.SavedDataType;
 
 public final class SrpWorldData extends SavedData {
     private static final String DATA_NAME = "csrp_world_data";
-    private static final int DATA_VERSION = 4;
+    private static final int DATA_VERSION = 5;
     private static final Codec<SrpWorldData> CODEC =
             CompoundTag.CODEC.xmap(SrpWorldData::load, SrpWorldData::save);
     private static final SavedDataType<SrpWorldData> TYPE = new SavedDataType<>(
             Identifier.fromNamespaceAndPath("csrp", DATA_NAME), SrpWorldData::new, CODEC);
     private static final int[] DISLODGMENT_PHASE_COOLDOWN_MULTIPLIER = {1, 4, 3, 3, 4, 5, 6, 7, 8, 9, 10};
+    /** The parasite decoration records one bit per chunk over {@code 32x32}-chunk regions. */
+    private static final int DECORATION_REGION_SHIFT = 5;
+    private static final int DECORATION_REGION_MASK = (1 << DECORATION_REGION_SHIFT) - 1;
+    /** {@code 32x32} chunks per region, one bit each. */
+    private static final long[] EMPTY_DECORATION_REGION = new long[16];
 
     private boolean initialized;
     private int dataVersion = DATA_VERSION;
@@ -63,6 +68,12 @@ public final class SrpWorldData extends SavedData {
     private final List<DislodgmentCode> dislodgmentCodes = new ArrayList<>();
     private final long[] dislodgmentCooldownEnds = new long[30];
     private final Map<String, Integer> globalAdaptations = new LinkedHashMap<>();
+    /**
+     * Persisted "this chunk was already decorated" markers, one bit per chunk inside a
+     * {@code 32x32}-chunk region.  Chunk decoration must run exactly once per chunk across server
+     * restarts, and a per-chunk set of every visited chunk would grow without bound.
+     */
+    private final Map<Long, long[]> decoratedChunks = new LinkedHashMap<>();
 
     public static SrpWorldData get(ServerLevel level) {
         SrpWorldData data = level.getDataStorage().computeIfAbsent(TYPE);
@@ -122,6 +133,7 @@ public final class SrpWorldData extends SavedData {
         readVectors(tag, data.vectors);
         readDislodgmentCodes(tag, data.dislodgmentCodes);
         readGlobalAdaptations(tag, data.globalAdaptations);
+        readDecoratedChunks(tag, data.decoratedChunks);
         return data;
     }
 
@@ -162,6 +174,7 @@ public final class SrpWorldData extends SavedData {
         writeVectors(tag, data.vectors);
         writeDislodgmentCodes(tag, data.dislodgmentCodes);
         writeGlobalAdaptations(tag, data.globalAdaptations);
+        writeDecoratedChunks(tag, data.decoratedChunks);
         return tag;
     }
 
@@ -713,6 +726,7 @@ public final class SrpWorldData extends SavedData {
         dislodgmentCodes.clear();
         Arrays.fill(dislodgmentCooldownEnds, 0L);
         globalAdaptations.clear();
+        decoratedChunks.clear();
         setDirty();
     }
 
@@ -817,8 +831,7 @@ public final class SrpWorldData extends SavedData {
         }
     }
 
-    private static void writeGlobalAdaptations(CompoundTag tag, Map<String, Integer> entries) {
-        ListTag list = new ListTag();
+    private static void writeGlobalAdaptations(CompoundTag tag, Map<String, Integer> entries) {        ListTag list = new ListTag();
         entries.forEach((damage, points) -> {
             CompoundTag entry = new CompoundTag();
             entry.putString("damage", damage);
@@ -837,6 +850,63 @@ public final class SrpWorldData extends SavedData {
                 output.put(damage, points);
             }
         }
+    }
+
+    private static void writeDecoratedChunks(CompoundTag tag, Map<Long, long[]> regions) {
+        ListTag list = new ListTag();
+        regions.forEach((region, bits) -> {
+            CompoundTag entry = new CompoundTag();
+            entry.putLong("region", region);
+            entry.putLongArray("bits", bits);
+            list.add(entry);
+        });
+        tag.put("decorated_chunk_regions", list);
+    }
+
+    private static void readDecoratedChunks(CompoundTag tag, Map<Long, long[]> output) {
+        for (Tag raw : tag.getListOrEmpty("decorated_chunk_regions")) {
+            CompoundTag entry = (CompoundTag) raw;
+            long[] bits = entry.getLongArray("bits").orElse(new long[0]);
+            if (bits.length != EMPTY_DECORATION_REGION.length) {
+                continue;
+            }
+            output.put(entry.getLongOr("region", 0L), bits);
+        }
+    }
+
+    /**
+     * @return {@code true} when the parasite decoration for {@code chunkX}/{@code chunkZ} had not run
+     *         yet; the marker is stored immediately so a second call in the same session is a no-op.
+     */
+    public boolean markChunkDecorated(int chunkX, int chunkZ) {
+        long regionKey = regionKey(chunkX, chunkZ);
+        long[] bits = decoratedChunks.computeIfAbsent(regionKey,
+                key -> EMPTY_DECORATION_REGION.clone());
+        int index = ((chunkX & DECORATION_REGION_MASK) << DECORATION_REGION_SHIFT)
+                | (chunkZ & DECORATION_REGION_MASK);
+        long mask = 1L << (index & 63);
+        int slot = index >> 6;
+        if ((bits[slot] & mask) != 0L) {
+            return false;
+        }
+        bits[slot] |= mask;
+        setDirty();
+        return true;
+    }
+
+    public boolean isChunkDecorated(int chunkX, int chunkZ) {
+        long[] bits = decoratedChunks.get(regionKey(chunkX, chunkZ));
+        if (bits == null) {
+            return false;
+        }
+        int index = ((chunkX & DECORATION_REGION_MASK) << DECORATION_REGION_SHIFT)
+                | (chunkZ & DECORATION_REGION_MASK);
+        return (bits[index >> 6] & (1L << (index & 63))) != 0L;
+    }
+
+    private static long regionKey(int chunkX, int chunkZ) {
+        return (((long) (chunkX >> DECORATION_REGION_SHIFT)) << 32)
+                | ((chunkZ >> DECORATION_REGION_SHIFT) & 0xFFFFFFFFL);
     }
 
     public record NodeEntry(BlockPos pos, int age, int type) {

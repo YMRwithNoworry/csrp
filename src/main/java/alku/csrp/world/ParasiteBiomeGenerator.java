@@ -92,6 +92,11 @@ public final class ParasiteBiomeGenerator {
                         }
                     }
                 }
+                chunk.markUnsaved();
+                // These chunks are converted long after their terrain was generated, so they never
+                // passed the "new chunk" hook; queue them for the ported parasite decoration (which
+                // is skipped when the chunk already carries a decoration marker).
+                ChunkDecorationQueue.enqueue(level, chunkX, chunkZ);
             }
         }
     }
