@@ -34,7 +34,9 @@ expect(dredge, /canPull\s*=\s*true[\s\S]*?pulling\+\+[\s\S]*?MAX_PULL_TICKS[\s\S
   "Dredge pull state cooldown is incomplete");
 expect(dredge, /applyPrimitiveMinimumDamage\(target, 0\.02F\)/,
   "Dredge pull state does not apply the original minimum damage");
-expect(dredge, /MobEffects\.WEAKNESS, 60, 3[\s\S]*?MOVEMENT_SLOWDOWN, 20, 1[\s\S]*?DIG_SLOWDOWN, 20, 1/,
+// 26.3 renamed the legacy movement/dig potions: MOVEMENT_SLOWDOWN -> SLOWNESS,
+// DIG_SLOWDOWN -> MINING_FATIGUE.
+expect(dredge, /MobEffects\.WEAKNESS, 60, 3[\s\S]*?MobEffects\.SLOWNESS, 20, 1[\s\S]*?MobEffects\.MINING_FATIGUE, 20, 1/,
   "Dredge pull effects are incomplete");
 expect(dredge,
   /MAX_LIQUID_LEAPS\s*=\s*8[\s\S]*?LIQUID_LEAP_INTERVAL_TICKS\s*=\s*21[\s\S]*?LIQUID_LEAP_HORIZONTAL_SPEED\s*=\s*1\.2D[\s\S]*?LIQUID_LEAP_VERTICAL_SPEED\s*=\s*0\.3D/,

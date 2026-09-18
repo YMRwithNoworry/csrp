@@ -42,7 +42,7 @@ requireSource(hud, "private static final int BAR_TEXTURE_Y = 32;", "HUD 移动�
 requireSource(hud, '"textures/gui/overlast/evolutionbar" + texturePhase + ".png"', "HUD 未按阶段选择原版纹理");
 requireSource(hud, "drawPhaseBadge(graphics, minecraft.font, state.phase()", "HUD 未动态绘制当前演化阶段徽章");
 requireSource(hud, "font.width(text)", "HUD 点数缩放未使用字体实际像素宽度");
-requireSource(hud, "graphics.pose().scale(scale, scale, 1.0F)", "HUD 点数未按可用宽度缩放");
+requireSource(hud, "graphics.pose().scale(scale, scale)", "HUD 点数未按可用宽度缩放");
 requireSource(hud, "screenWidth - SCREEN_MARGIN - pointsCenterX", "HUD 点数缩放未考虑屏幕安全边距");
 requireSource(hud, "if (state.phase() >= 10)", "最终阶段没有固定显示满进度");
 requireSource(hud, "state.nextThreshold() - state.currentThreshold()", "HUD 未按当前阶段阈值计算进度");

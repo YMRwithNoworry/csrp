@@ -23,11 +23,11 @@ const sounds = read("src/main/java/alku/csrp/registry/ModSounds.java");
 
 const checks = {
   airscrew: ["AirscrewEntity.java", /MAX_PULL_TARGETS\s*=\s*3/, /PULL_DURATION_TICKS\s*=\s*600/,
-    /PullingBallEntity/, /FlyingPathNavigation/, /MOVEMENT_SLOWDOWN[\s\S]*DIG_SLOWDOWN/],
+    /PullingBallEntity/, /FlyingPathNavigation/, /MobEffects\.SLOWNESS, 20, 3[\s\S]*?MobEffects\.MINING_FATIGUE, 20, 3/],
   heed: ["HeedEntity.java", /SCENT_COOLDOWN_TICKS\s*=\s*1_000/, /RAGE_DURATION_TICKS\s*=\s*1_200/,
     /RageSkillGoal/, /WaterLeapGoal/, /HeedHeadPart/],
   dredge: ["DredgeEntity.java", /MAX_PULL_TICKS\s*=\s*200/, /PULL_STRENGTH\s*=\s*0\.13/,
-    /MOVEMENT_SLOWDOWN[\s\S]*DIG_SLOWDOWN/, /MobEffects\.WEAKNESS/, /pullTarget/],
+    /MobEffects\.SLOWNESS, 20, 1[\s\S]*?MobEffects\.MINING_FATIGUE, 20, 1/, /MobEffects\.WEAKNESS, 60, 3/, /pullTarget/],
   thrall: ["ThrallEntity.java", /MAX_HEALTH,\s*40\.0/, /ATTACK_DAMAGE,\s*13\.0/,
     /entity instanceof Player/, /hasCustomName\(\)/, /0\.5F/]
 };

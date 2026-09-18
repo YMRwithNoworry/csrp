@@ -358,6 +358,7 @@ entity.csrp.anc_dreadnaut_ten.name=太古・無畏魔の巻鬚
 entity.csrp.remain.name=残骸
 
 entity.csrp.meteor.name=巣域衛星
+entity.csrp.meteor_satellite.name=巣域衛星
 entity.csrp.cloudtoxic.name=毒ガス
 entity.csrp.orbscary.name=恐怖場
 entity.csrp.orbboom.name=爆燃場

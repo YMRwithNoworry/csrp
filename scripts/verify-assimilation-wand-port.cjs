@@ -38,7 +38,9 @@ const clientEvents = read("src/main/java/alku/csrp/client/ClientModEvents.java")
 
 expect(items, /ITEM_ASSIMILATE[\s\S]*"itemassimilate"[\s\S]*stacksTo\(1\)/,
   "Assimilation Wand registration is missing or stackable");
-expect(wand, /boolean hurtEnemy\(/, "left-click assimilation hook is missing");
+// 26.3 Item.hurtEnemy returns void (1.20.1 returned boolean).
+expect(wand, /public void hurtEnemy\(ItemStack stack, LivingEntity target, LivingEntity attacker\)/,
+  "left-click assimilation hook is missing");
 expect(wand, /InfectionMechanics\.forceAssimilate\(target\)/,
   "left-click does not force host assimilation");
 if (/attacker instanceof Player/.test(wand)) {
@@ -59,18 +61,21 @@ expect(infection, /replaceForcedHost\(host, converted, serverLevel\)/,
   "forced assimilation still uses normal COTH replacement side effects");
 expect(infection, /evolutionPhase\(\) >= ASSIMILATION_FERAL_PHASE[\s\S]*createMappedHost\(host, level, true\)[\s\S]*activeCodeValue\(level, 1\)/,
   "late-phase feral conversion does not take precedence over dislodgment replacement");
-expect(infection, /finalizeSpawn\([\s\S]*MobSpawnType\.CONVERSION[\s\S]*setHealth\(converted\.getMaxHealth\(\)\)/,
+// 26.3 renamed MobSpawnType to EntitySpawnReason.
+expect(infection, /finalizeSpawn\([\s\S]*EntitySpawnReason\.CONVERSION[\s\S]*setHealth\(converted\.getMaxHealth\(\)\)/,
   "forced conversion does not fully initialize a full-health replacement");
 expect(infection, /csrp_assimilation_host/, "original host id tag is missing");
 expect(infection, /getPersistentData\(\)\.putString[\s\S]*ENTITY_TYPE\.getKey\(host\.getType\(\)\)/,
   "converted assimilated mobs do not remember their original host id");
-expect(infection, /ResourceLocation\.tryParse[\s\S]*ASSIMILATION_HOST_TAG/,
+// 26.3 renamed ResourceLocation to Identifier.
+expect(infection, /Identifier\.tryParse[\s\S]*ASSIMILATION_HOST_TAG/,
   "disguise does not resolve the saved host id");
 expect(infection, /new MobEffectInstance\(ModMobEffects\.COTH, COTH_BASE_DURATION_TICKS,[\s\S]*COTH_MAX_AMPLIFIER/,
   "restored disguise does not receive the original COTH strength and duration");
 expect(infection, /addFreshEntity\(disguise\)[\s\S]*assimilated\.discard\(\)/,
   "disguise replacement does not safely replace the assimilated body");
-expect(infection, /MobEffects\.CONFUSION[\s\S]*ASSIMILATION_NAUSEA_AMPLIFIER/,
+// 26.3 renamed MobEffects.CONFUSION to MobEffects.NAUSEA; the nausea amplitude is unchanged.
+expect(infection, /MobEffects\.NAUSEA[\s\S]*ASSIMILATION_NAUSEA_AMPLIFIER/,
   "original conversion nausea is missing");
 expect(infection, /ModParticles\.ASSIMILATION_SPLASH/,
   "original assimilation splash feedback is missing");

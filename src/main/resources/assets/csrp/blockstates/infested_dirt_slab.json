@@ -7,7 +7,7 @@
       "model": "csrp:block/infested_dirt_slab_top"
     },
     "type=double": {
-      "model": "csrp:block/infested_dirt_slab_double"
+      "model": "csrp:block/infestedstain"
     }
   }
 }

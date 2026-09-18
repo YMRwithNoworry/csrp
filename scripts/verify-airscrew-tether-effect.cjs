@@ -40,16 +40,27 @@ for (const hook of [
 
 for (const hook of [
   "TETHER_TEXTURE",
-  "RenderType.entityTranslucentEmissive(TETHER_TEXTURE)",
+  // 26.3 moved the render-type factory onto the RenderTypes holder class.
+  "RenderTypes.entityTranslucentEmissive(TETHER_TEXTURE)",
   "shouldRender(AirscrewEntity airscrew, Frustum frustum",
-  "renderTether(airscrew, target, partialTick, poseStack, bufferSource)",
-  "setUv(u, v)",
-  "LightTexture.FULL_BRIGHT",
+  // 26.3 render-state/submit path hands the geometry to a SubmitNodeCollector, not a MultiBufferSource.
+  "renderTether(airscrew, target, partialTick, poseStack, collector)",
+  ".setUv(u, v)",
+  // 26.3 renamed LightTexture to LightCoordsUtil.
+  "LightCoordsUtil.FULL_BRIGHT",
   "airscrew.getTetherMouthHeight()",
   "airscrew.getTetherMouthPosition(partialTick)",
   "getPullTargetsForRendering"
 ]) {
   if (!renderer.includes(hook)) failures.push(`Airscrew tether renderer missing: ${hook}`);
+}
+
+if (!/private static void renderTether\(AirscrewEntity airscrew, LivingEntity target, float partialTick,\s*\r?\n\s*PoseStack poseStack, SubmitNodeCollector collector\)/.test(renderer)) {
+  failures.push("Airscrew tether strip geometry is not submitted through a SubmitNodeCollector");
+}
+
+if (!/collector\.submitCustomGeometry\(poseStack, TETHER_RENDER_TYPE/.test(renderer)) {
+  failures.push("Airscrew tether geometry is not submitted with the emissive tether render type");
 }
 
 if (renderer.includes("RenderType.lightning()")) {

@@ -374,6 +374,7 @@ entity.csrp.anc_dreadnaut_ten.name=고대 드레드노트 촉수
 entity.csrp.remain.name=잔해물
 
 entity.csrp.meteor.name=군락 운석
+entity.csrp.meteor_satellite.name=군락 운석
 entity.csrp.cloudtoxic.name=독성 가스
 entity.csrp.orbscary.name=공포의 구체
 entity.csrp.orbboom.name=충격파 구체

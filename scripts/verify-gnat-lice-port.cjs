@@ -62,7 +62,7 @@ expectPattern(gnat,
   /addGoal\(0, new SkillLeapGoal\(\)\)[\s\S]*?addGoal\(0, new SwimmingDivingGoal\(\)\)[\s\S]*?addGoal\(3, new FastMeleeAttackGoal\(\)\)[\s\S]*?addGoal\(3, new LeapAtTargetGoal\(this, 0\.4F\)\)[\s\S]*?addGoal\(8, new RandomLookAroundGoal\(this\)\)/,
   "EntityAta original goal priorities are missing");
 expectPattern(gnat,
-  /targetSelector\.addGoal\(1, new HurtByTargetGoal\(this\)\)[\s\S]*?targetSelector\.addGoal\(4, new NearestAttackableTargetGoal<>\(this, Player\.class, 0[\s\S]*?targetSelector\.addGoal\(4, new NearestAttackableTargetGoal<>\(this, Mob\.class, 0/,
+  /targetSelector\.addGoal\(1, new HurtByTargetGoal\(this\)\)[\s\S]*?targetSelector\.addGoal\(4, new NearestAttackableTargetGoal<Player>\(this, Player\.class, 0[\s\S]*?targetSelector\.addGoal\(4, new NearestAttackableTargetGoal<Mob>\(this, Mob\.class, 0/,
   "EntityAta original target priorities or zero search interval are missing");
 expectPattern(gnat, /super\(GnatEntity\.this, 1\.3D, false\)[\s\S]*?return 6;/,
   "EntityAta melee speed or six-tick cadence is wrong");
@@ -75,8 +75,9 @@ expectPattern(gnat,
 expectPattern(gnat,
   /if \(!onGround\(\)\)[\s\S]*?sawAirborne = true[\s\S]*?else if \(sawAirborne\)[\s\S]*?SKILL_LEAPING, false/,
   "EntityAta skill animation does not remain active until landing");
+// The 1.12.2 EntityAISwimmingDiving gate is func_70090_H()/func_180799_ab(), i.e. isInWater()/isInLava().
 expectPattern(gnat,
-  /setFlags\(EnumSet\.of\(Flag\.JUMP\)\)[\s\S]*?isInWaterOrBubble\(\)[\s\S]*?isInLava\(\)[\s\S]*?-0\.12D[\s\S]*?random\.nextFloat\(\) < 0\.8F/,
+  /setFlags\(EnumSet\.of\(Flag\.JUMP\)\)[\s\S]*?isInWater\(\)[\s\S]*?isInLava\(\)[\s\S]*?-0\.12D[\s\S]*?random\.nextFloat\(\) < 0\.8F/,
   "EntityAta original diving goal is incomplete");
 expectPattern(gnat, /ModSounds\.get\("small\.step"\)/,
   "EntityAta original small.step sound is missing");

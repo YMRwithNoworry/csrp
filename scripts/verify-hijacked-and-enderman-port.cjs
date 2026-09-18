@@ -42,19 +42,21 @@ for (const [source, checks] of [
   [feralEnderman, ["teleportAllyToTarget", "teleportAwayFromTarget", "canTeleportAlly",
     "ally instanceof RupterEntity", "ally instanceof PrimitiveParasiteEntity"]],
   [hiBlaze, ["SpineBurstGoal", "illuminateNearbyParasites", "Mode.SPINE"]],
-  [hiGolem, ["GolemChargeGoal", "MOVEMENT_SLOWDOWN", "WEAKNESS"]],
+  [hiGolem, ["GolemChargeGoal", "MobEffects.SLOWNESS, 80, 2", "MobEffects.WEAKNESS, 80, 1"]],
   [hiSkeleton, ["SkeletonRangedGoal", "Mode.SPINE"]],
   [airscrew, ["PULL_TARGET_IDS", "syncPullTargets", "sendPullTetherParticles", "ParticleTypes.CRIT",
     "getPullTargetsForRendering"]],
-  [airscrewRenderer, ["renderTether", "RenderType.entityTranslucentEmissive(TETHER_TEXTURE)",
-    "getPullTargetsForRendering"]]
+  [airscrewRenderer, [/renderTether\(AirscrewEntity airscrew, LivingEntity target, float partialTick,\s*PoseStack poseStack, SubmitNodeCollector collector\)/,
+    /RenderTypes\.entityTranslucentEmissive\(TETHER_TEXTURE\)/, "getPullTargetsForRendering",
+    /LightCoordsUtil\.FULL_BRIGHT/]]
 ]) {
   for (const check of checks) {
-    if (!source.includes(check)) failures.push(`behavior hook missing: ${check}`);
+    const found = typeof check === "string" ? source.includes(check) : check.test(source);
+    if (!found) failures.push(`behavior hook missing: ${check}`);
   }
 }
 
-if (airscrewRenderer.includes("RenderType.lightning()")) {
+if (/Render(?:s)?Type\.lightning\(\)/.test(airscrewRenderer)) {
   failures.push("airscrew: tether renderer still uses the invisible lightning path");
 }
 

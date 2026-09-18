@@ -46,11 +46,12 @@ expect(block, /CARCASS_OFFSET\s*=\s*3/, "Carcass diagonal offset is not three bl
 expect(block, /addCooldown\(level, tier\.cooldownSeconds\(\)\)/, "single lure does not add cooldown");
 expect(block, /addEvolutionPoints\(level, -tier\.carcassReduction\(\), true\)/,
   "Carcass does not bypass cooldown while subtracting evolution points");
-expect(block, /ModEntities\.SCENT\.get\(\)\.create\(level\)/, "Carcass does not create a Scent");
+expect(block, /ModEntities\.SCENT\.get\(\)\.create\(level, EntitySpawnReason\.MOB_SUMMONED\)/,
+  "Carcass does not create a Scent");
 expect(block, /setDieAfterKilling\(true\)/, "Carcass Scent is not configured to die after killing");
 expect(block, /setCanFollow\(true\)/, "Carcass Scent is not configured to follow its target");
 expect(block, /setVisualOnly\(true\)/, "Carcass lightning is not visual-only");
-expect(block, /getCloneItemStack\(LevelReader level, BlockPos pos, BlockState state\)/,
+expect(block, /getCloneItemStack\(LevelReader level, BlockPos pos, BlockState state, boolean includeData\)/,
   "pick-block does not preserve the lure tier");
 expect(item, /setValue\(EvolutionLureBlock\.TIER, tier\)/, "lure items do not retain their tier on placement");
 expect(scent, /void setScentLevel\(int level\)/, "Scent level setter is missing");

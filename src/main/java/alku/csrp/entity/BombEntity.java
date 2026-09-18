@@ -115,7 +115,8 @@ public final class BombEntity extends Entity {
         PrimitiveParasiteEntity owner = owner();
         if (strength > 0.0F) {
             boolean grief = canGrief
-                    && ((ServerLevel) level()).getGameRules().get(GameRules.MOB_GRIEFING);
+                    && level() instanceof ServerLevel serverLevel
+                    && serverLevel.getGameRules().get(GameRules.MOB_GRIEFING);
             level().explode(owner == null ? this : owner, getX(), getY(), getZ(), strength,
                     grief ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE);
         }

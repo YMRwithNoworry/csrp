@@ -93,7 +93,7 @@ expect(flying, /CarrierFlyingMoveControl/, "flying carrier movement control is m
 expect(flying, /causeFallDamage/, "flying carrier fall-damage immunity is missing");
 expect(flying, /random\.nextInt\(7\)/, "flying carrier random charge is missing");
 expect(flying, /class FlyingRandomMoveGoal/, "flying carrier random flight is missing");
-expect(flying, /return false;\s*\}\s*@Override\s*protected RawAnimation ageAnimation/s,
+expect(flying, /protected boolean usesDefaultMovementGoals\(\) \{\s*return false;\s*\}[\s\S]*?@Override\s*protected CitadelRawAnimation ageAnimation\(\)/s,
   "flying carrier must remove inherited ground movement goals");
 expect(flying, /return 1;\s*\}\s*@Override\s*protected boolean startsFuseAtLowHealth/s,
   "flying carrier one-tick fuse increment or low-health exception is missing");

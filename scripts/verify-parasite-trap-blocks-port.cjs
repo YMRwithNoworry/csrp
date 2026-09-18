@@ -78,7 +78,10 @@ for (const file of jsonFiles) parseJson(file);
 
 const recipe = parseJson("src/main/resources/data/csrp/recipe/biomass_block.json");
 if (recipe?.result?.count !== 4) failures.push("Biomass recipe does not produce four blocks");
-if (recipe?.key?.L?.tag !== "csrp:lure_components") {
+// 26.3 recipe ingredients are plain strings: "#csrp:lure_components" is a tag and
+// a bare "csrp:..." id is an item. The removed {"tag": ...} object form is rejected.
+const lureKey = recipe?.key?.L;
+if (lureKey !== "#csrp:lure_components") {
   failures.push("Biomass recipe does not accept the lure component tag");
 }
 const smelting = parseJson("src/main/resources/data/csrp/recipe/hive_scrap_from_hivestone_debris.json");

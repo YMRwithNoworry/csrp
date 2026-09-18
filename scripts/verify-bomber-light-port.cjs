@@ -90,7 +90,8 @@ expect(pure, /random\.nextInt\(7\) == 0[\s\S]{0,100}?distanceToSqr\(target\) > 3
   "Light Bomber charge trigger does not match EntityOmboo");
 expect(pure, /eye\.y \+ 10\.0D[\s\S]{0,100}?setOmbooCharging\(true\)/,
   "Light Bomber charge destination is missing");
-expect(pure, /getBoundingBox\(\)\.intersects\(target\.getBoundingBox\(\)\)[\s\S]{0,100}?doHurtTarget\(target\)[\s\S]{0,100}?setOmbooCharging\(false\)/,
+// 26.3 inverts the callback: the charge goal damages the target inside its own tick.
+expect(pure, /getBoundingBox\(\)\.intersects\(target\.getBoundingBox\(\)\)[\s\S]{0,100}?doHurtTarget\(getServerLevel\(PureParasiteEntity\.this\), target\)[\s\S]{0,60}?setOmbooCharging\(false\)/,
   "Light Bomber charge does not damage on contact");
 expect(pure, /class OmbooRandomFlightGoal[\s\S]*distance > 100\.0D[\s\S]*distance < 36\.0D[\s\S]*random\.nextInt\(4\) \+ 3[\s\S]*random\.nextInt\(15\) - 7/,
   "Light Bomber random flight modes are missing");
@@ -113,7 +114,9 @@ if (/triggerAttackAnimation\(\)/.test(bombGoal)) {
 }
 expect(omboo, /new EntityBomb\(this\.parent\.field_70170_p, this\.parent,[\s\S]{0,160}?out\.func_82149_j\(this\.parent\)/,
   "original Omboo bomb placement changed");
-expect(pure, /fireBomb[\s\S]{0,500}?bomb\.configure[\s\S]{0,180}?bomb\.moveTo\(getX\(\), getY\(\), getZ\(\), getYRot\(\), getXRot\(\)\)/,
+// 26.3 removed Entity.moveTo(x, y, z, yRot, xRot); its replacement is Entity.snapTo with the
+// identical five-argument feet-level placement.
+expect(pure, /fireBomb[\s\S]{0,500}?bomb\.configure[\s\S]{0,180}?bomb\.snapTo\(getX\(\), getY\(\), getZ\(\), getYRot\(\), getXRot\(\)\)/,
   "Light Bomber bomb does not preserve the original final feet-level placement");
 expect(bomb, /movement\.add\(0\.0D, -0\.04D, 0\.0D\)[\s\S]*movement\.scale\(0\.98D\)[\s\S]*movement\.x \* 0\.7D, movement\.y \* -0\.5D/,
   "Omboo bomb gravity, drag, or ground bounce is missing");
@@ -129,7 +132,8 @@ expect(originalBomb, /field_70181_x -= 0\.04F[\s\S]*\*= 0\.98F[\s\S]*field_70122
 expect(pure, /OMBOO_SKIN[\s\S]*EntityDataSerializers\.BYTE/, "Light Bomber skin is not synchronized");
 expect(pure, /activeKind\(\) == Kind\.BOMBER_LIGHT[\s\S]{0,180}?variantSpawnChance[\s\S]{0,180}?setOmbooSkin\(7\)/,
   "Light Bomber heavy variant selection is missing");
-expect(pure, /tag\.putByte\("OmbooSkin"[\s\S]*setOmbooSkin\(tag\.contains\("OmbooSkin"\)/,
+// 26.3 persists entity data through ValueOutput/ValueInput instead of a raw CompoundTag.
+expect(pure, /output\.putByte\("OmbooSkin"[\s\S]*setOmbooSkin\(input\.keySet\(\)\.contains\("OmbooSkin"\)/,
   "Light Bomber skin NBT persistence is missing");
 expect(model, /textures\/entity\/monster\/omboo\.png[\s\S]*textures\/entity\/monster\/ombooh\.png[\s\S]*getOmbooSkin\(\) == 7/,
   "Light Bomber normal/heavy texture mapping is missing");

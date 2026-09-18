@@ -158,7 +158,7 @@ for (const check of [
 
 for (const [source, name] of [[variants, "AssimilatedVariantEntity"], [human, "SimHumanEntity"]]) {
   for (const check of [
-    /implements GeoEntity, Parasite, MeltableAssimilated/,
+    /implements CitadelAnimatedEntity, Parasite, MeltableAssimilated/,
     /EntityDataAccessor<Boolean> MELTING/,
     /AssimilatedMeltSystem\.tryStartGroup/,
     /AssimilatedMeltSystem\.spawnMovingFlesh/,

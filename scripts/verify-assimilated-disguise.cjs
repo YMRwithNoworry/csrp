@@ -18,9 +18,11 @@ function expect(content, pattern, description) {
 }
 
 function method(content, start, end) {
-    const startIndex = content.indexOf(start);
-    const endIndex = content.indexOf(end, startIndex + start.length);
-    return startIndex >= 0 && endIndex > startIndex ? content.slice(startIndex, endIndex) : "";
+    // The sources use CRLF; normalise so the LF-based section markers below can match.
+    const normalised = content.replace(/\r\n/g, "\n");
+    const startIndex = normalised.indexOf(start);
+    const endIndex = normalised.indexOf(end, startIndex + start.length);
+    return startIndex >= 0 && endIndex > startIndex ? normalised.slice(startIndex, endIndex) : "";
 }
 
 const infection = read("src/main/java/alku/csrp/infection/InfectionMechanics.java");
@@ -64,7 +66,7 @@ expect(disguise, /putString\(HIDDEN_ASSIMILATED_TAG,[\s\S]*getKey\(assimilated\.
         "the exact Assimilated entity id is not persisted on the disguise");
 expect(disguise, /healthFraction[\s\S]*disguise\.setHealth/,
         "disguise restoration does not preserve relative health");
-expect(reveal, /getOptional\(assimilatedId\)[\s\S]*type\.create\(level\)/,
+expect(reveal, /getOptional\(assimilatedId\)[\s\S]*?type\.create\(level/,
         "reveal does not recreate the exact saved Assimilated entity type");
 expect(reveal, /healthFraction[\s\S]*converted\.setHealth/,
         "reveal does not preserve relative health");

@@ -393,6 +393,7 @@ entity.csrp.anc_dreadnaut_ten.name=Ancient Dreadnaut Tendril
 entity.csrp.remain.name=Remain
 
 entity.csrp.meteor.name=Hive Satellite
+entity.csrp.meteor_satellite.name=Hive Satellite
 entity.csrp.cloudtoxic.name=Toxic gas
 entity.csrp.orbscary.name=Scorb
 entity.csrp.orbboom.name=Shockwave

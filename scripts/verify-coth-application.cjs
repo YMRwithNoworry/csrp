@@ -18,9 +18,11 @@ function expect(content, pattern, description) {
 }
 
 function method(content, start, end) {
-    const startIndex = content.indexOf(start);
-    const endIndex = content.indexOf(end, startIndex + start.length);
-    return startIndex >= 0 && endIndex > startIndex ? content.slice(startIndex, endIndex) : "";
+    // The sources use CRLF; normalise so the LF-based section markers below can match.
+    const normalised = content.replace(/\r\n/g, "\n");
+    const startIndex = normalised.indexOf(start);
+    const endIndex = normalised.indexOf(end, startIndex + start.length);
+    return startIndex >= 0 && endIndex > startIndex ? normalised.slice(startIndex, endIndex) : "";
 }
 
 const events = read("src/main/java/alku/csrp/infection/InfectionEvents.java");
@@ -33,7 +35,8 @@ const spreadChance = method(infection, "public static double cothSpreadChance", 
 
 expect(events, /infectFromParasiteHit\(LivingDamageEvent\.Post event\)/,
         "parasite-hit infection is not applied after final damage");
-expect(hit, /event\.getNewDamage\(\) <= 0\.0F[\s\S]*!target\.isAlive\(\)/,
+// 26.3 exposes the post-mitigation float as getHealthDamage() (the 1.20.1 getNewDamage() name is gone).
+expect(hit, /event\.getHealthDamage\(\) <= 0\.0F[\s\S]*!target\.isAlive\(\)/,
         "zero-damage or fatal hits can still apply a fresh COTH effect");
 expect(hit, /attacker instanceof Parasite\s*&&\s*!target\.hasEffect\(ModMobEffects\.COTH\)/,
         "parasite hits can overwrite an existing COTH effect");
@@ -45,7 +48,7 @@ if (/generationProfile/.test(hit)) {
     failures.push("parasite-hit infection still mistakes generation stat scaling for COTH spread chance");
 }
 
-expect(ordinaryCoth, /MobEffectInstance existing = target\.getEffect\(ModMobEffects\.COTH\);[\s\S]*if \(existing != null\)\s*\{\s*return;/,
+expect(ordinaryCoth, /MobEffectInstance existing = target\.getEffect\(ModMobEffects\.COTH\);[\s\S]*?if \(existing != null\) \{\r?\n\s*return;\r?\n\s*\}/,
         "ordinary COTH application can still replace an existing potion or command effect");
 expect(exactCoth, /Math\.max\(durationTicks, existing\.getDuration\(\)\)/,
         "skill COTH can shorten an existing effect");

@@ -22,6 +22,12 @@ const parseJson = (relative) => {
   }
 };
 
+// 26.3 recipes serialize ingredient entries as plain strings: "csrp:item" for an
+// item and "#csrp:tag" for a tag. The removed {"item": ...}/{"tag": ...} object
+// form must not be accepted here.
+const ingredientId = (entry) => (typeof entry === "string" ? entry : entry?.item);
+const keyId = (recipe, symbol) => ingredientId(recipe?.key?.[symbol]);
+
 const blocks = read("src/main/java/alku/csrp/registry/ModBlocks.java");
 const items = read("src/main/java/alku/csrp/registry/ModItems.java");
 const ids = [
@@ -94,24 +100,24 @@ for (const [file, [id, count]] of Object.entries(recipes)) {
   }
 }
 const cutRecipe = parseJson("src/main/resources/data/csrp/recipe/inf_ss_cut.json");
-if (cutRecipe?.key?.["#"]?.item !== "csrp:infestedsand") {
+if (keyId(cutRecipe, "#") !== "csrp:infestedsand") {
   failures.push("inf_ss_cut.json: input must be Infested Sand");
 }
 const chiseledRecipe = parseJson("src/main/resources/data/csrp/recipe/inf_ss_chiseled.json");
-if (chiseledRecipe?.key?.["#"]?.item !== "csrp:inf_ss_cut") {
+if (keyId(chiseledRecipe, "#") !== "csrp:inf_ss_cut") {
   failures.push("inf_ss_chiseled.json: input must be Chiseled Cut Sandstone");
 }
 const columnRecipe = parseJson("src/main/resources/data/csrp/recipe/infested_column_from_polished.json");
-if (columnRecipe?.key?.["#"]?.item !== "csrp:infested_stone_polished") {
+if (keyId(columnRecipe, "#") !== "csrp:infested_stone_polished") {
   failures.push("infested_column_from_polished.json: input must be Polished Infested Stone");
 }
 const terracottaRecipe = parseJson("src/main/resources/data/csrp/recipe/infested_terracotta_from_clay.json");
-const terracottaIngredients = terracottaRecipe?.ingredients?.map((ingredient) => ingredient.item) ?? [];
+const terracottaIngredients = terracottaRecipe?.ingredients?.map(ingredientId) ?? [];
 for (const id of ["minecraft:terracotta", "csrp:infestedstain"]) {
   if (!terracottaIngredients.includes(id)) failures.push(`infested_terracotta_from_clay.json: missing ${id}`);
 }
 const residueRecipe = parseJson("src/main/resources/data/csrp/recipe/residue_bricks_from_residue_block.json");
-if (residueRecipe?.key?.["#"]?.item !== "csrp:residue_block") {
+if (keyId(residueRecipe, "#") !== "csrp:residue_block") {
   failures.push("residue_bricks_from_residue_block.json: input must be Residue Block");
 }
 

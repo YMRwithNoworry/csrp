@@ -21,6 +21,9 @@ const parseJson = (relative) => {
     return null;
   }
 };
+// 26.3 recipes serialize ingredients as plain item-id strings ("csrp:alveoli") or
+// plain tag strings ("#csrp:tag") instead of the removed {"item": ...} objects.
+const ingredientId = (entry) => (typeof entry === "string" ? entry : entry?.item);
 
 const blocks = read("src/main/java/alku/csrp/registry/ModBlocks.java");
 const items = read("src/main/java/alku/csrp/registry/ModItems.java");
@@ -64,15 +67,15 @@ for (const expected of [
 }
 for (const expected of [
   "MobEffects.NIGHT_VISION, EFFECT_DURATION_TICKS, 0",
-  "MobEffects.MOVEMENT_SPEED, EFFECT_DURATION_TICKS, 0",
+  "MobEffects.SPEED, EFFECT_DURATION_TICKS, 0",
   "ModMobEffects.VIRAL, EFFECT_DURATION_TICKS, 2",
   "Items.GLASS_BOTTLE",
   "return 32",
-  "UseAnim.DRINK"
+  "ItemUseAnimation.DRINK"
 ]) {
   if (!fluid.includes(expected)) failures.push(`Alveolar Fluid behavior missing: ${expected}`);
 }
-for (const expected of ["return 32", "UseAnim.EAT", "stack.shrink(1)", "tooltip.csrp.alveoligrowth"]) {
+for (const expected of ["return 32", "ItemUseAnimation.EAT", "stack.shrink(1)", "tooltip.csrp.alveoligrowth"]) {
   if (!alveoliItem.includes(expected)) failures.push(`Alveoli item behavior missing: ${expected}`);
 }
 
@@ -89,12 +92,12 @@ for (const model of ["alveoli_active", "alveoli_inactive", "alveoli_growth", "si
 }
 
 const unpack = parseJson("src/main/resources/data/csrp/recipe/alveoli_from_solid_alveoli_block.json");
-if (unpack?.ingredients?.[0]?.item !== "csrp:solid_alveoli_block"
+if (unpack?.ingredients?.length !== 1 || ingredientId(unpack.ingredients[0]) !== "csrp:solid_alveoli_block"
     || unpack?.result?.id !== "csrp:alveoli" || unpack?.result?.count !== 2) {
   failures.push("solid alveoli unpacking recipe is incorrect");
 }
 const pack = parseJson("src/main/resources/data/csrp/recipe/solid_alveoli_block.json");
-if (pack?.ingredients?.length !== 2 || pack.ingredients.some((entry) => entry.item !== "csrp:alveoli")
+if (pack?.ingredients?.length !== 2 || pack.ingredients.some((entry) => ingredientId(entry) !== "csrp:alveoli")
     || pack?.result?.id !== "csrp:solid_alveoli_block") {
   failures.push("solid alveoli packing recipe is incorrect");
 }

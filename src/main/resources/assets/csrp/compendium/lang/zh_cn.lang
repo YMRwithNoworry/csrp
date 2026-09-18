@@ -369,6 +369,7 @@ entity.csrp.anc_dreadnaut_ten.name=远古惧魔触须
 entity.csrp.remain.name=残骸
 
 entity.csrp.meteor.name=寄巢卫星
+entity.csrp.meteor_satellite.name=寄巢卫星
 entity.csrp.cloudtoxic.name=毒性药水云
 entity.csrp.orbscary.name=寄染泡
 entity.csrp.orbboom.name=爆裂球

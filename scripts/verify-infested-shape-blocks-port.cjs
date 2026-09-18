@@ -22,6 +22,12 @@ const json = (relative) => {
   }
 };
 
+// 26.3 recipes serialize ingredient entries as plain strings: "csrp:item" for an
+// item and "#csrp:tag" for a tag. The removed {{"item": ...}}/{{"tag": ...}} object
+// form must not be accepted here.
+const ingredientId = (entry) => (typeof entry === "string" ? entry : entry?.item);
+const keyId = (recipe, symbol) => ingredientId(recipe?.key?.[symbol]);
+
 const slabs = [
   ["infested_cobblestone_slab", "infested_cobblestone"],
   ["infested_stone_slab", "infestedrubble"],
@@ -112,7 +118,7 @@ const recipes = [
 ];
 for (const [name, input, output, count] of recipes) {
   const recipe = json(`src/main/resources/data/csrp/recipe/${name}.json`);
-  if (recipe?.key?.["#"]?.item !== `csrp:${input}`) failures.push(`${name}: incorrect input`);
+  if (keyId(recipe, "#") !== `csrp:${input}`) failures.push(`${name}: incorrect input`);
   if (recipe?.result?.id !== `csrp:${output}` || recipe?.result?.count !== count) {
     failures.push(`${name}: incorrect output`);
   }
@@ -133,8 +139,14 @@ for (const expected of ["scheduleCheck(level, pos, 10)", "touchesInfestation(lev
   if (!wallClass.includes(expected)) failures.push(`InfestedWallBlock missing behavior: ${expected}`);
 }
 const stairClass = read("src/main/java/alku/csrp/block/InfestedStairBlock.java");
-if (!stairClass.includes("BlockInfestation.spread(level, pos, 0, random)")) {
-  failures.push("InfestedStairBlock missing legacy stage-zero spread");
+// Ground truth (_scratch/vf/out108 + out109 BlockStairBase.java): the legacy stair
+// variants extend BlockStairs with no spread override at all, so stairs must stay
+// inert while the wall/slab/fence variants spread. Pin that difference explicitly.
+for (const expected of ["extends StairBlock", "baseState"]) {
+  if (!stairClass.includes(expected)) failures.push(`InfestedStairBlock missing stair contract: ${expected}`);
+}
+if (stairClass.includes("BlockInfestation") || stairClass.includes("randomTick(")) {
+  failures.push("InfestedStairBlock must not spread infestation (legacy BlockStairBase has no spread override)");
 }
 
 const en = json("src/main/resources/assets/csrp/lang/en_us.json");

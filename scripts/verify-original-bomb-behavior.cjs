@@ -43,7 +43,8 @@ expect(bomb, /movement\.add\(0\.0D, -0\.04D, 0\.0D\)/, "bomb gravity is not 0.04
 expect(bomb, /movement\.scale\(0\.98D\)/, "bomb movement damping is not 0.98");
 expect(bomb, /movement\.x \* 0\.7D, movement\.y \* -0\.5D, movement\.z \* 0\.7D/,
   "bomb ground bounce is missing");
-expect(bomb, /canGrief && level\(\)\.getGameRules\(\)\.getBoolean\(GameRules\.RULE_MOBGRIEFING\)/,
+// 26.3's GameRules exposes `<T> T get(GameRule<T>)`; `getBoolean` no longer exists.
+expect(bomb, /canGrief\s*&&\s*level\(\) instanceof ServerLevel \w+[\s\S]*?\w+\.getGameRules\(\)\.get\(GameRules\.MOB_GRIEFING\)/,
   "bomb block damage does not honor both griefing controls");
 expect(bomb, /ModMobEffects\.VIRAL, 300, 0/, "bomb direct Viral duration is not original");
 expect(bomb, /setWaitTime\(5\)/, "bomb toxic-cloud wait time is not 5 ticks");

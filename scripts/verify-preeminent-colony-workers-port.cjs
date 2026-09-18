@@ -24,8 +24,9 @@ for (const [name, source] of [["Architect", architect], ["Heavy Bomber", preemin
   expect(source,
     /nearestColonyInConstructionRange\(blockPosition\(\)\)[\s\S]{0,220}?ModEntities\.WORKER\.get\(\)\.create\(/,
     `${name} worker deployment is not restricted to a colony construction range`);
+  // 26.3 renamed Entity#moveTo to snapTo; both set position + yaw/pitch together.
   expect(source,
-    /worker\.moveTo\(getX\(\), getY\(\), getZ\(\), getYRot\(\), getXRot\(\)\)[\s\S]{0,180}?worker\.setColonyTask\(colony\.pos\(\), WorkerEntity\.colonyRadius\(colony\)\)[\s\S]{0,140}?addFreshEntity\(worker\)/,
+    /worker\.snapTo\(getX\(\), getY\(\), getZ\(\), getYRot\(\), getXRot\(\)\)[\s\S]{0,180}?worker\.setColonyTask\(colony\.pos\(\), WorkerEntity\.colonyRadius\(colony\)\)[\s\S]{0,140}?addFreshEntity\(worker\)/,
     `${name} workers do not inherit position, rotation and colony task before spawning`);
   if (source.includes("worker.finalizeSpawn(")) {
     failures.push(`${name} incorrectly applies natural-spawn initialization to summoned Workers`);

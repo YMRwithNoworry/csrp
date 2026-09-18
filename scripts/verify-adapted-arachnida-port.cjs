@@ -70,7 +70,7 @@ expect(entity, /isMultipartEntity\(\)[\s\S]*?(?:arachnidaParts|bodyParts) != nul
 
 expect(entity, /isArachnidaType\(getType\(\)\)[\s\S]*?new WallClimberNavigation/,
   "Adapted Arachnida wall-climber navigation is missing");
-expect(entity, /onClimbable\(\)[\s\S]*?Kind\.ARACHNIDA[\s\S]*?!hasLineOfSight\(target\)[\s\S]*?distanceToSqr\(target\) < 100\.0D[\s\S]*?target\.getY\(\) \+ 1\.0D < getY\(\)[\s\S]*?horizontalCollision/,
+expect(entity, /onClimbable\(\)[\s\S]*?activeKind\(\) == Kind\.ARACHNIDA[\s\S]*?!hasLineOfSight\(target\)[\s\S]*?distanceToSqr\(target\) < 100\.0D[\s\S]*?target\.getY\(\) \+ 1\.0D < getY\(\)[\s\S]*?horizontalCollision/,
   "Adapted Arachnida climb restrictions differ from the original");
 
 for (const [constant, value] of [
@@ -104,15 +104,15 @@ expect(projectile, /random\.nextInt\(3\) \+ 1[\s\S]*?SrpWebBlock\.Kind\.THIN/,
 
 expect(entity, /captureTarget\(LivingEntity target\)[\s\S]*?target != getTarget\(\)[\s\S]*?MobEffects\.GLOWING, 100, 5[\s\S]*?setArachnidaTarget\(target\.getId\(\)\)/,
   "Adapted Arachnida projectile can capture the wrong target or misses Glowing");
-expect(entity, /tickArachnidaTether\(\)[\s\S]*?MOVEMENT_SLOWDOWN, 20, 5[\s\S]*?WEAKNESS, 20, 5[\s\S]*?pull\.normalize\(\)\.scale\(0\.2D\)[\s\S]*?ARACHNIDA_MAX_PULL_TICKS/,
+expect(entity, /tickArachnidaTether\(\)[\s\S]*?MobEffects\.SLOWNESS, 20, 5[\s\S]*?MobEffects\.WEAKNESS, 20, 5[\s\S]*?pull\.normalize\(\)\.scale\(0\.2D\)[\s\S]*?ARACHNIDA_MAX_PULL_TICKS/,
   "Adapted Arachnida sustained tether debuffs, pull strength, or duration are wrong");
 expect(entity, /ARACHNIDA_TARGET\) == 0[\s\S]*?!arachnidaCanPull[\s\S]*?arachnidaCanPull = true[\s\S]*?arachnidaPullingTicks = 0/,
   "Adapted Arachnida post-timeout pull lock lasts longer than the original AI tick");
-expect(entity, /ArachnidaWaterLeapGoal[\s\S]*?return leaping \|\| isInWaterOrBubble\(\)[\s\S]*?chargeTicks >= 20[\s\S]*?airborneTicks = 1[\s\S]*?airborneTicks == 2 && onGround\(\)[\s\S]*?motion\.x \+ deltaX \/ horizontal \* 1\.35D \+ motion\.x \* 0\.3D[\s\S]*?0\.7D \+ targetYOffset/,
+expect(entity, /ArachnidaWaterLeapGoal[\s\S]*?return leaping \|\| isInWater\(\)[\s\S]*?chargeTicks\+\+[\s\S]*?chargeTicks >= 20[\s\S]*?airborneTicks = 1[\s\S]*?airborneTicks == 2 && onGround\(\)[\s\S]*?motion\.x \+ deltaX \/ horizontal \* 1\.35D \+ motion\.x \* 0\.3D[\s\S]*?0\.7D \+ targetYOffset/,
   "Adapted Arachnida water leap does not charge and launch at original velocity");
 expect(entity, /ArachnidaMeleeGoal[\s\S]*?distance > 64\.0D \|\| arachnidaAttackAnimationCooldown == 0[\s\S]*?fast \? 2 : 1[\s\S]*?fast \? 1\.3D : 1\.0D/,
   "Adapted Arachnida fast and slow melee states are wrong");
-expect(entity, /kind == Kind\.ARACHNIDA[\s\S]*?status == 10 \|\| status == 11[\s\S]*?status == 2[\s\S]*?moving \? state\.setAndContinue\(ARACHNIDA_FAST_MOVE\) : PlayState\.STOP/,
+expect(entity, /activeKind\(\) == Kind\.ARACHNIDA[\s\S]*?status == 10 \|\| status == 11[\s\S]*?status == 2[\s\S]*?moving \? state\.setAndContinue\(ARACHNIDA_FAST_MOVE\) : CitadelPlayState\.STOP/,
   "Adapted Arachnida static status poses differ from ModelRanracAdapted");
 expect(entity, /activeKind\(\) == Kind\.ARACHNIDA[\s\S]*?arachnidaAttackAnimationCooldown = 100[\s\S]*?getArachnidaSkin\(\) == 5[\s\S]*?ModMobEffects\.VIRAL[\s\S]*?getArachnidaSkin\(\) == 6[\s\S]*?ModMobEffects\.BLEED/,
   "Adapted Arachnida melee variants or attack animation cooldown are missing");

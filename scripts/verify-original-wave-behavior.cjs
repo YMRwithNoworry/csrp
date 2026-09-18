@@ -37,7 +37,7 @@ expect(wave, /target\.getAbsorptionAmount\(\), amount \* 0\.5F/,
   "wave minimum damage does not preserve absorption splitting");
 expect(wave, /for \(int index = 0; index < 15; index\+\+\)[\s\S]*?BlockParticleOption/,
   "wave does not emit the original 15 ground debris particles per tick");
-expect(wave, /boolean hurt\(DamageSource source, float amount\)[\s\S]*?return false;/,
+expect(wave, /boolean hurtServer\(ServerLevel \w+, DamageSource source, float amount\)[\s\S]*?return false;/,
   "wave is not invulnerable");
 expect(wave, /boolean canBeAffected\(MobEffectInstance effect\)[\s\S]*?return false;/,
   "wave can still receive potion effects");

@@ -51,11 +51,11 @@ for (const [source, hooks] of [
   [tethered, ["pullDurationTicks", "tetherDamage", "initialWeaknessAmplifier", "getPullTargetForRendering"]],
   [bear, ["PullVolleyGoal", "PullingBallEntity", "startAttackAnimation"]],
   [cow, ["VOMIT_EVENT", "spawnVomitCloud(this, 4.5D, 3.0F, 100, 300, 20)", "startAttackAnimation"]],
-  [combat, ["ModMobEffects.VOMIT", "ModMobEffects.VIRAL", "MobEffects.MOVEMENT_SLOWDOWN",
+  [combat, ["ModMobEffects.VOMIT", "ModMobEffects.VIRAL", "MobEffects.SLOWNESS",
     "MobEffects.WEAKNESS", "ModMobEffects.CORROSION"]],
   [enderman, ["ParticleTypes.PORTAL", "DamageTypeTags.IS_PROJECTILE", "teleportAwayFromTarget", "pullStrength", "tetherDamage"]],
   [human, ["PounceMountGoal", "startRiding", "MobEffects.BLINDNESS", "MobEffects.HUNGER"]],
-  [tetherRenderer, ["RenderType.lightning()", "getPullTargetForRendering", "renderRibbonSegment"]]
+  [tetherRenderer, ["RenderTypes.lightning()", "getPullTargetForRendering", "renderRibbonSegment"]]
 ]) {
   for (const hook of hooks) {
     if (!source.includes(hook)) failures.push(`behavior hook missing: ${hook}`);

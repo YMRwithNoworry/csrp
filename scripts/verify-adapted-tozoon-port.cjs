@@ -45,11 +45,11 @@ expect(entity, /case TOZOON -> \{[\s\S]*?goalSelector\.addGoal\(1, createBurrowM
   "Adapted Tozoon does not use its original AOE attack goal");
 expect(entity, /TozoonAoeAttackGoal[\s\S]*?ATTACK_INTERVAL_TICKS = 10[\s\S]*?ATTACK_DISTANCE_SQR = 16\.0D[\s\S]*?getNavigation\(\)\.moveTo\(target, 1\.3D\)/,
   "Adapted Tozoon AOE timing, range, or speed is wrong");
-expect(entity, /performTozoonAoeAttack\(Entity target\)[\s\S]*?startBodyAttackAnimation\(\)[\s\S]*?ModSounds\.MOB_SWIPE\.get\(\)[\s\S]*?new AABB\(target\.getX\(\), target\.getY\(\), target\.getZ\(\)[\s\S]*?inflate\(1\.5D\)[\s\S]*?super\.doHurtTarget\(nearby\)/,
+expect(entity, /performTozoonAoeAttack\(Entity target\)[\s\S]*?startBodyAttackAnimation\(\)[\s\S]*?ModSounds\.MOB_SWIPE\.get\(\)[\s\S]*?new AABB\(target\.getX\(\), target\.getY\(\), target\.getZ\(\)[\s\S]*?inflate\(1\.5D\)[\s\S]*?super\.doHurtTarget\(\(ServerLevel\) level\(\), nearby\)/,
   "Adapted Tozoon AOE damage implementation is incomplete");
 expect(entity, /triggerableAnim\("get_attack_timer", TOZOON_ATTACK\)/,
   "Adapted Tozoon attack controller is missing");
-expect(entity, /public boolean doHurtTarget\(Entity entity\)[\s\S]*?activeKind == Kind\.TOZOON[\s\S]*?performTozoonAoeAttack\(entity\)/,
+expect(entity, /public boolean doHurtTarget\(ServerLevel level, Entity entity\)[\s\S]*?activeKind == Kind\.TOZOON[\s\S]*?performTozoonAoeAttack\(entity\)/,
   "Adapted Tozoon direct attacks bypass the AOE implementation");
 
 expect(entity, /bodySegmentCount\(\)[\s\S]*?kind == Kind\.BURROWER \|\| kind == Kind\.TOZOON \? 4 : 0/,
@@ -62,7 +62,7 @@ expect(entity, /bodyPartEffect\(\)[\s\S]*?new AABB\(blockPosition\(\)\)\.inflate
   "Adapted Tozoon body-segment AOE is missing");
 expect(burrowing, /shouldTriggerBodyPartEffect\(\) && tickCount % 21 == 10/,
   "body-segment effect cadence is not the original 21-tick cycle");
-expect(burrowing, /previous\.hurt\(source, amount \* 0\.5F\)/,
+expect(burrowing, /previous\.hurtServer\(serverLevel, source, amount \* 0\.5F\)/,
   "Adapted Tozoon body damage does not propagate 50 percent to its predecessor");
 expect(burrowing, /bodyBurrowCycles - 1 >= getBodyNumber\(\)[\s\S]*?return false/,
   "burrowed body immunity is not staged by the original body counter");

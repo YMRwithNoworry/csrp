@@ -9,6 +9,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
+import net.minecraft.network.chat.Component;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -20,12 +21,12 @@ import net.neoforged.neoforge.client.event.ScreenEvent;
  * <p>The original implementation was built with LDLib2's flexbox widgets (which have no Minecraft
  * 26.3 build). The overlay is now laid out with plain integer maths and drawn straight through the
  * vanilla {@link GuiGraphicsExtractor}; the credit text, the panel geometry and the
- * "collapse once the mouse moves, click to expand" behaviour are unchanged.</p>
+ * "collapse once the mouse moves, click to expand" behaviour are unchanged. The two panels keep the
+ * original widget contract: each one owns its own display flag, toggled whenever the panel collapses
+ * or expands, so exactly one of them is visible at any time.</p>
  */
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class CreditsTitleScreenEvents {
-    private static final String EXPANDED_HEADING = "感谢名单";
-    private static final String COLLAPSED_HEADING = "鸣谢";
     private static final String[] CREDIT_LINES = {
             "程序：Paojiao134",
             "动画移植：无聊的保护者",
@@ -39,8 +40,6 @@ public final class CreditsTitleScreenEvents {
     // Geometry copied from the LDLib2 layout() tree: the panel is absolutely positioned against
     // the bottom-left corner and swaps its bounds/padding when it collapses.
     private static final int PANEL_BOTTOM_MARGIN = 26;
-    private static final int COLLAPSED_LEFT = 0;
-    private static final int EXPANDED_LEFT = 10;
     private static final int COLLAPSED_WIDTH = 42;
     private static final int COLLAPSED_HEIGHT = 22;
     private static final int EXPANDED_WIDTH = 176;
@@ -90,14 +89,22 @@ public final class CreditsTitleScreenEvents {
         ACTIVE_CREDITS.remove(event.getScreen());
     }
 
+    private static Label label(String text) {
+        return new Label(Component.literal(text));
+    }
+
     /** Per-title-screen overlay state; owns the collapse flag and the last mouse position. */
     private static final class CreditsState {
+        private final Label collapsedHeading = label("鸣谢");
+        private final Label details = label("感谢名单");
+        private final PanelGeometry geometry = new PanelGeometry();
         private boolean collapsed;
         private double lastMouseX = Double.NaN;
         private double lastMouseY = Double.NaN;
 
         private int panelLeft() {
-            return collapsed ? COLLAPSED_LEFT : EXPANDED_LEFT;
+            geometry.left(collapsed ? 0 : 10);
+            return geometry.left();
         }
 
         private int panelWidth() {
@@ -144,6 +151,8 @@ public final class CreditsTitleScreenEvents {
 
         private void render(GuiGraphicsExtractor graphics, Screen screen) {
             Font font = Minecraft.getInstance().font;
+            collapsedHeading.setDisplay(collapsed);
+            details.setDisplay(!collapsed);
             int x = panelLeft();
             int y = panelTop(screen);
             int width = panelWidth();
@@ -155,17 +164,57 @@ public final class CreditsTitleScreenEvents {
             int textX = x + (collapsed ? COLLAPSED_PADDING_HORIZONTAL : EXPANDED_PADDING_HORIZONTAL);
             int textY = y + (collapsed ? COLLAPSED_PADDING_VERTICAL : EXPANDED_PADDING_VERTICAL);
 
-            if (collapsed) {
-                graphics.text(font, COLLAPSED_HEADING, textX, textY, HEADING_COLOR);
+            if (collapsedHeading.isDisplayed()) {
+                graphics.text(font, collapsedHeading.text(), textX, textY, HEADING_COLOR);
                 return;
             }
 
-            textY += drawScaledText(graphics, font, EXPANDED_HEADING, textX, textY, HEADING_COLOR, HEADING_FONT_SIZE)
-                    + EXPANDED_GAP;
+            if (!details.isDisplayed()) {
+                return;
+            }
+
+            textY += drawScaledText(graphics, font, details.text(), textX, textY, HEADING_COLOR,
+                    HEADING_FONT_SIZE) + EXPANDED_GAP;
             for (String line : CREDIT_LINES) {
                 graphics.text(font, line, textX, textY, TEXT_COLOR);
                 textY += font.lineHeight + EXPANDED_GAP;
             }
+        }
+    }
+
+    /** Absolute-positioning helper mirroring the LDLib2 layout node the panel used to be docked in. */
+    private static final class PanelGeometry {
+        private int left;
+
+        private PanelGeometry left(int left) {
+            this.left = left;
+            return this;
+        }
+
+        private int left() {
+            return left;
+        }
+    }
+
+    /** A single original credits label; only its display flag is still modelled. */
+    private static final class Label {
+        private final Component component;
+        private boolean displayed;
+
+        private Label(Component component) {
+            this.component = component;
+        }
+
+        private void setDisplay(boolean displayed) {
+            this.displayed = displayed;
+        }
+
+        private boolean isDisplayed() {
+            return displayed;
+        }
+
+        private String text() {
+            return component.getString();
         }
     }
 

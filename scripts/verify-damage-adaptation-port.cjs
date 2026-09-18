@@ -52,9 +52,10 @@ expect(primitive, /source\.getMsgId\(\)/,
   "non-living DamageType classification is missing");
 expect(primitive, /isOnFire\(\)[\s\S]{0,80}source\.is\(DamageTypeTags\.IS_FIRE\)[\s\S]{0,160}fireAdaptationBlockTicks\s*=\s*FIRE_ADAPTATION_BLOCK_TICKS/,
   "fire adaptation suppression window is missing");
-expect(primitive, /tag\.put\(ADAPTATIONS_TAG, adaptations\)/,
+// 26.3 persists entity data through ValueOutput/ValueInput instead of a raw CompoundTag.
+expect(primitive, /ValueOutput\.ValueOutputList adaptations = output\.childrenList\(ADAPTATIONS_TAG\)/,
   "adaptation NBT persistence is missing");
-expect(primitive, /tag\.getList\(ADAPTATIONS_TAG, Tag\.TAG_COMPOUND\)/,
+expect(primitive, /input\.childrenListOrEmpty\(ADAPTATIONS_TAG\)/,
   "adaptation NBT loading is missing");
 expect(primitive, /EvolutionSystem\.generationProfile\(serverLevel\)\.adaptation\(\)/,
   "entity adaptation is not connected to the generation profile");
@@ -66,10 +67,18 @@ expect(sounds, /ADAPTATION_PARTIAL\s*=\s*register\("adaptation\.parcial"\)/,
   "partial adaptation sound event is not exposed");
 expect(sounds, /ADAPTATION_FULL\s*=\s*register\("adaptation\.full"\)/,
   "full adaptation sound event is not exposed");
-expect(renderer, /Color\.ofRGBA\(64, 255, 64, 255\)/,
+// 26.3 delivers the model tint through LivingEntityRenderer.getModelTint instead of GeckoLib's
+// getRenderColor; the packed ARGB values keep the legacy 64/255/64 and 255/64/255 channels.
+expect(renderer, /case 1 -> ADAPTATION_PARTIAL_TINT/,
   "green partial-adaptation feedback is missing");
-expect(renderer, /Color\.ofRGBA\(255, 64, 255, 255\)/,
+expect(renderer, /ADAPTATION_PARTIAL_TINT = 0xFF40FF40/,
+  "green partial-adaptation feedback colour is wrong");
+expect(renderer, /case 2 -> ADAPTATION_FULL_TINT/,
   "purple full-adaptation feedback is missing");
+expect(renderer, /ADAPTATION_FULL_TINT = 0xFFFF40FF/,
+  "purple full-adaptation feedback colour is wrong");
+expect(renderer, /parasite\.hurtTime <= 0\) \{\s*return super\.getModelTint\(state\);/,
+  "adaptation feedback is no longer limited to the hurt flash");
 
 const tierChecks = [
   ["AdaptedVariantEntity.java", /damageAdaptationLearningChance\(\)[\s\S]{0,80}0\.80F/,
@@ -98,10 +107,11 @@ for (const file of ["CrudeParasiteEntity.java", "HijackedParasiteEntity.java",
   expect(source, /supportsDamageAdaptation\(\)[\s\S]{0,100}return false/,
     `${file} must not adapt according to the Wiki tier exclusions`);
 }
+// 26.3 replaced GeckoLib's GeoEntity with the port's own CitadelAnimatedEntity marker interface.
 for (const file of ["AssimilatedParasiteEntity.java", "AssimilatedVariantEntity.java",
   "FeralParasiteEntity.java"]) {
   const source = read(`src/main/java/alku/csrp/entity/${file}`);
-  expect(source, /extends Monster implements GeoEntity, Parasite/,
+  expect(source, /class \w+ extends Monster[\s\S]{0,200}?implements [^{]*CitadelAnimatedEntity/,
     `${file} must remain outside the malleable adaptation base class`);
 }
 

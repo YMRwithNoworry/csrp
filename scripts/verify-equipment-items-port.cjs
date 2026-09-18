@@ -16,9 +16,8 @@ const requiredIds = [
     "ada_reeker_drop", "ada_manducater_drop", "ada_bolster_drop",
     "ada_arachnida_drop", "ada_devourer_drop", "ada_vermin_drop",
     "ada_viscera_drop", "hijacked_drop", "hive_scrap", "bloody_iron_ingot",
-    "bloody_rod", "bloody_bone", "lurecomponent1", "lurecomponent2",
-    "lurecomponent3", "lurecomponent4", "lurecomponent5", "lurecomponent6",
-    "dried_tendons", "hardened_bone_handle", "infectious_blade_fragment",
+    "bloody_rod", "bloody_bone", "dried_tendons", "hardened_bone_handle",
+    "infectious_blade_fragment",
     "living_core", "vile_shell", "semiorganic_ingot", "false_apple",
     "fishlin", "shrimp", "alveoligrowth", "infested_bonemeal",
     "evclock", "levelclock", "nodecompass", "colonycompass", "origincompass",
@@ -38,6 +37,15 @@ const requiredIds = [
 ];
 
 for (const id of requiredIds) requireText(modItems, `"${id}"`, "item registry");
+
+// The six legacy lure components are registered through a loop that appends the
+// version number, so the resource ids only exist as `"lurecomponent" + version`.
+// Pin both the id builder and each constant that feeds it.
+requireText(modItems, '"lurecomponent" + version', "lure component id builder");
+for (let version = 1; version <= 6; version++) {
+    requireText(modItems, `LURECOMPONENT${version} = lureComponent(${version})`,
+        `lure component ${version} registration`);
+}
 
 for (const file of [
     "LivingWeaponItem.java", "LivingBowItem.java", "LivingArmorItem.java",
@@ -69,7 +77,7 @@ for (const marker of ["BLEED_TICKS = 100", "RAGE_TICKS = 60", "PARASITE_BONUS_DA
 const livingArmor = read("src/main/java/alku/csrp/item/LivingArmorItem.java");
 requireText(livingArmor, "90_000", "living armor evolution");
 const falseApple = read("src/main/java/alku/csrp/item/FalseAppleItem.java");
-for (const marker of ["nutrition(4)", "saturationModifier(0.3F)", "i < 5", "CONFUSION, 200",
+for (const marker of ["nutrition(4)", "saturationModifier(0.3F)", "i < 5", "NAUSEA, 200",
     "BLINDNESS, 600"]) requireText(falseApple, marker, "false apple behavior");
 const fishlin = read("src/main/java/alku/csrp/item/FishlinItem.java");
 for (const marker of ["nutrition(3)", "saturationModifier(0.2F)", "4800, 1", "magic(), 8.0F"])
@@ -100,9 +108,9 @@ for (const lang of ["en_us", "zh_cn"]) {
 }
 
 const resourceText = [
-    ...requiredIds.map((id) => `csrp:${id}`),
-    ...requiredIds.map((id) => `item.csrp.${id}`)
-];
+    ...requiredIds,
+    ...[1, 2, 3, 4, 5, 6].map((version) => `lurecomponent${version}`)
+].flatMap((id) => [`csrp:${id}`, `item.csrp.${id}`]);
 for (const relative of [
     "src/main/resources/data/csrp/recipe",
     "src/main/resources/assets/csrp/models/item"

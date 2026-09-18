@@ -2179,7 +2179,10 @@
     "category": "hostile",
     "subtitle": "subtitles.kirin.projectile_impact",
     "sounds": [
-      "csrp:mob/derived/kirin/kirin_projectile_impact"
+      {
+        "name": "csrp:mob/derived/kirin/kirin_projectile_impact",
+        "volume": 1
+      }
     ]
   },
   "kirin.growl": {
@@ -2965,7 +2968,7 @@
       "csrp:blockinfest_hit"
     ]
   },
-  "csrp.phaseone": {
+  "srparasites.phaseone": {
     "sounds": [
       {
         "name": "csrp:music/the_call",
@@ -2985,7 +2988,7 @@
       }
     ]
   },
-  "csrp.phasetwo": {
+  "srparasites.phasetwo": {
     "sounds": [
       {
         "name": "csrp:music/the_call",
@@ -3005,7 +3008,7 @@
       }
     ]
   },
-  "csrp.phasethree": {
+  "srparasites.phasethree": {
     "sounds": [
       {
         "name": "csrp:music/the_call",
@@ -3041,7 +3044,7 @@
       }
     ]
   },
-  "csrp.phasefour": {
+  "srparasites.phasefour": {
     "sounds": [
       {
         "name": "csrp:music/the_call",
@@ -3085,7 +3088,7 @@
       }
     ]
   },
-  "csrp.phasefive": {
+  "srparasites.phasefive": {
     "sounds": [
       {
         "name": "csrp:music/the_call",
@@ -3133,7 +3136,7 @@
       }
     ]
   },
-  "csrp.phasesix": {
+  "srparasites.phasesix": {
     "sounds": [
       {
         "name": "csrp:music/the_call",
@@ -3177,7 +3180,7 @@
       }
     ]
   },
-  "csrp.phaseseven": {
+  "srparasites.phaseseven": {
     "sounds": [
       {
         "name": "csrp:music/the_call",
@@ -3221,7 +3224,7 @@
       }
     ]
   },
-  "csrp.phaseeight": {
+  "srparasites.phaseeight": {
     "sounds": [
       {
         "name": "csrp:music/the_call",
@@ -3265,7 +3268,7 @@
       }
     ]
   },
-  "csrp.phasenine": {
+  "srparasites.phasenine": {
     "sounds": [
       {
         "name": "csrp:music/the_call",
@@ -3309,7 +3312,7 @@
       }
     ]
   },
-  "csrp.phaseten": {
+  "srparasites.phaseten": {
     "sounds": [
       {
         "name": "csrp:music/the_call",
@@ -3353,7 +3356,7 @@
       }
     ]
   },
-  "csrp.biome": {
+  "srparasites.biome": {
     "sounds": [
       {
         "name": "csrp:music/tying_veins",
@@ -3389,7 +3392,7 @@
       }
     ]
   },
-  "csrp.scent": {
+  "srparasites.scent": {
     "sounds": [
       {
         "name": "csrp:music/grounded",
@@ -3397,7 +3400,7 @@
       }
     ]
   },
-  "csrp.discone": {
+  "srparasites.discone": {
     "sounds": [
       {
         "name": "csrp:music/well_meet_again",
@@ -3405,7 +3408,7 @@
       }
     ]
   },
-  "csrp.disctwo": {
+  "srparasites.disctwo": {
     "sounds": [
       {
         "name": "csrp:music/well_meet_again",
@@ -3413,7 +3416,7 @@
       }
     ]
   },
-  "csrp.discthree": {
+  "srparasites.discthree": {
     "sounds": [
       {
         "name": "csrp:music/serenity",
@@ -6496,6 +6499,15 @@
     "category": "ambient",
     "sounds": [
       "csrp:misc/meteor"
+    ]
+  },
+  "blizzard_reverse": {
+    "category": "ambient",
+    "sounds": [
+      {
+        "name": "csrp:misc/snow_reversal",
+        "stream": true
+      }
     ]
   }
 }

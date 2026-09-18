@@ -376,6 +376,7 @@ entity.csrp.anc_dreadnaut_ten.name=Щупальце Древнего Дредн�
 entity.csrp.remain.name=Останки
 
 entity.csrp.meteor.name=Спутник Улья
+entity.csrp.meteor_satellite.name=Спутник Улья
 entity.csrp.cloudtoxic.name=Токсичный газ
 entity.csrp.orbscary.name=Сфера
 entity.csrp.orbboom.name=Ударная волна

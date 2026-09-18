@@ -80,13 +80,13 @@ expect(adapted, /burrowSkillCooldownTicks\(\)[\s\S]*?Kind\.BURROWER \? 80 : 140/
 expect(adapted, /bodyPartEffect\(\)[\s\S]*?activeKind\(\) != Kind\.TOZOON/,
   "Adapted Burrower incorrectly gained a body-segment effect");
 
-expect(burrowing, /previous\.hurt\(source, amount \* 0\.5F\)/,
+expect(burrowing, /previous\.hurtServer\(serverLevel, source, amount \* 0\.5F\)/,
   "Burrower body damage does not propagate 50 percent to its predecessor");
 expect(burrowing, /protected boolean canBreakBlocks\(\)[\s\S]*?getBodyNumber\(\) == 0/,
   "Burrower body segments can break blocks");
 expect(burrowing, /public void setTarget\(LivingEntity target\)[\s\S]*?getBodyNumber\(\) == 0/,
   "Burrower body segments can acquire targets");
-expect(burrowing, /killedEntity\(ServerLevel level, LivingEntity victim\)[\s\S]*?head\.killedEntity\(level, victim\)/,
+expect(burrowing, /killedEntity\(ServerLevel level, LivingEntity victim, DamageSource source\)[\s\S]*?head\.killedEntity\(level, victim, source\)/,
   "Burrower body kills are not credited to the head");
 
 const dropSpecs = [

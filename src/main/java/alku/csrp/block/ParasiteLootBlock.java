@@ -72,8 +72,8 @@ public final class ParasiteLootBlock extends Block implements EntityBlock {
 
     public enum Tier {
         COMMON(0.5F),
-        UNCOMMON(0.5F),
-        RARE(0.5F);
+        UNCOMMON(0.1F),
+        RARE(0.2F);
 
         private final float slotChance;
 

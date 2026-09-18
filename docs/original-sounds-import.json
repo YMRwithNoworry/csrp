@@ -1,6 +1,6 @@
 {
-  "source_assets": "D:/code/MC模组/csrp/.firecrawl/srp-jar/assets/srparasites",
-  "source_events": 428,
+  "source_assets": "D:/code/MC模组/csrp-26.3/.firecrawl/srp-jar/assets/srparasites",
+  "source_events": 432,
   "preserved_modern_events": [
     "celestial.dark_days_ending",
     "celestial.dark_days_rumble",
@@ -51,7 +51,7 @@
     "sim_adventurer_head.hurt",
     "sim_adventurer_head.living"
   ],
-  "merged_events": 476,
+  "merged_events": 484,
   "copied_ogg_files": [
     {
       "relative": "adaptedarachnidadeath.ogg",

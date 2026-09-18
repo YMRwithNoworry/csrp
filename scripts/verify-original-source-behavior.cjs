@@ -22,7 +22,7 @@ expect(registry, /EntityType<SourceEntity>> SOURCE[\s\S]*?sized\(0\.5F, 0\.5F\)/
   "source is not registered as its original dedicated entity type");
 expect(client, /ModEntities\.SOURCE\.get\(\), NoopRenderer::new/,
   "source does not preserve its original empty renderer");
-expect(source, /new ServerBossEvent\(getName\(\),[\s\S]*?BossBarColor\.RED[\s\S]*?BossBarOverlay\.PROGRESS/,
+expect(source, /new ServerBossEvent\([^;]*?BossBarColor\.RED[\s\S]*?BossBarOverlay\.PROGRESS/,
   "source red progress BossBar is missing");
 expect(source, /Component\.literal\("The Source"\)/, "source BossBar name is not original");
 expect(source, /float total = 100\.0F/, "source total charge is not 100");

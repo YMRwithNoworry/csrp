@@ -69,7 +69,10 @@ expect(payloads, "RelayReportOpenPayload.STREAM_CODEC", "report open payload reg
 for (const marker of [
     "SCAN_TICKS = 110", "COOLDOWN_TICKS = 400", "nextScanTick = serverLevel.getGameTime() + COOLDOWN_TICKS",
     "RelayScanReportFactory.createReports", "relay.scan.activate", "relay.paper.output",
-    "tag.putUUID(\"ScanPlayer\"", "tag.putString(\"ScanKind\""
+    // 26.3 dropped ValueOutput#putUUID; UUIDs are stored through a codec instead.
+    "output.store(\"ScanPlayer\", UUIDUtil.CODEC, scanPlayer)",
+    "input.read(\"ScanPlayer\", UUIDUtil.CODEC).orElse(null)",
+    "output.putString(\"ScanKind\", scanKind.name())"
 ]) expect(terminal, marker, "relay scan lifecycle");
 for (const marker of ["RelayModuleItem", "!isScanning()", "SCAN_BUTTON", "relay.startScan(serverPlayer)"]) {
     expect(menu, marker, "relay inventory contract");
@@ -114,7 +117,7 @@ for (const texture of ["phase_report", "vector_map", "dislodgement_report"]) {
 }
 const deadBlood = read("src/main/java/alku/csrp/item/DeadBloodFluidItem.java");
 for (const marker of ["DURATION_TICKS = 600", "ModMobEffects.VIRAL, DURATION_TICKS, 1",
-    "Items.GLASS_BOTTLE", "UseAnim.DRINK"]) expect(deadBlood, marker, "Dead Blood Fluid behavior");
+    "Items.GLASS_BOTTLE", "ItemUseAnimation.DRINK"]) expect(deadBlood, marker, "Dead Blood Fluid behavior");
 expect(items, "\"deadblood_fluid\"", "Dead Blood Fluid item registry");
 json("src/main/resources/assets/csrp/models/item/deadblood_fluid.json");
 png("src/main/resources/assets/csrp/textures/item/deadblood_fluid.png");

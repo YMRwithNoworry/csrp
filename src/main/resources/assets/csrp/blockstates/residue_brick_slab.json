@@ -7,7 +7,7 @@
       "model": "csrp:block/residue_brick_slab_top"
     },
     "type=double": {
-      "model": "csrp:block/residue_brick_slab_double"
+      "model": "csrp:block/residue_bricks"
     }
   }
 }

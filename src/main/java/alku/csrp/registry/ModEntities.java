@@ -540,14 +540,14 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> HEBLU_LIGHT =
             projectile("heblu_light", ParasiteProjectileEntity.Mode.LIGHT, 0.65F, 0.65F, 4, 3);
     public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> METEOR =
-            projectile("meteor_projectile", ParasiteProjectileEntity.Mode.METEOR, 4.5F, 4.5F, 16, 1);
+            projectile("meteor", ParasiteProjectileEntity.Mode.METEOR, 4.5F, 4.5F, 16, 1);
     /** 1.10.8 {@code EntityMeteor}: the Hive Satellite used by the meteor infection world event. */
     public static final DeferredHolder<EntityType<?>, EntityType<MeteorEntity>> HIVE_SATELLITE =
-            ENTITIES.register("meteor", () -> EntityType.Builder
+            ENTITIES.register("meteor_satellite", () -> EntityType.Builder
                     .<MeteorEntity>of(MeteorEntity::new, MobCategory.MISC)
                     .sized(4.5F, 4.5F).clientTrackingRange(16).updateInterval(1)
                     .fireImmune()
-                    .build(net.minecraft.resources.ResourceKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(Csrp.MODID, "meteor"))));
+                    .build(net.minecraft.resources.ResourceKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(Csrp.MODID, "meteor_satellite"))));
     public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> SALIVA_BALL =
             projectile("salivaball", ParasiteProjectileEntity.Mode.ALAFHA_BALL, 0.3F, 0.3F, 4, 3);
     public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> BALL_BALL =

@@ -21,7 +21,7 @@ const adapted = read("src/main/java/alku/csrp/entity/AdaptedVariantEntity.java")
 const pure = read("src/main/java/alku/csrp/entity/PureParasiteEntity.java");
 const dragon = read("src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java");
 
-expect(entity, /class TendrilEntity extends Monster implements GeoEntity, Parasite/,
+expect(entity, /class TendrilEntity extends Monster implements CitadelAnimatedEntity, Parasite/,
   "Tendril is not a dedicated living parasite entity");
 expect(entity, /registerGoals\(\)[\s\S]*?original removes its wander and parasite-follow goals/,
   "Tendril does not preserve the original no-wander/no-follow behavior");

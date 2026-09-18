@@ -367,6 +367,7 @@ entity.csrp.anc_dreadnaut_ten.name=Ud Drevnog Dreadnauta
 entity.csrp.remain.name=Ostatak
 
 entity.csrp.meteor.name=Satelit Košnice
+entity.csrp.meteor_satellite.name=Satelit Košnice
 entity.csrp.cloudtoxic.name=Otrovni plin
 entity.csrp.orbscary.name=Scorb
 entity.csrp.orbboom.name=Udarni Val
