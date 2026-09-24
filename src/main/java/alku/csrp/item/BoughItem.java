@@ -103,7 +103,7 @@ public final class BoughItem extends Item {
     private static void spawnAssimilatedAdventurers(ServerLevel level, ServerPlayer player) {
         int count = 1 + level.getRandom().nextInt(2);
         for (int index = 0; index < count; index++) {
-            SimAdventurerEntity adventurer = ModEntities.SIM_ADVENTURER.get().create(level);
+            SimAdventurerEntity adventurer = ModEntities.SIM_ADVENTURER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
             if (adventurer == null) {
                 continue;
             }

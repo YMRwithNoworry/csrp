@@ -363,7 +363,7 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
             }
             int count = minimum == maximum ? minimum : minimum + random.nextInt(maximum - minimum + 1);
             for (int index = 0; index < count; index++) {
-                Entity created = type.create(serverLevel);
+                Entity created = type.create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
                 if (!(created instanceof Mob mob)) {
                     continue;
                 }

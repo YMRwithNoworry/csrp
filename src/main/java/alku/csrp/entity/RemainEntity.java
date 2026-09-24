@@ -83,7 +83,7 @@ public final class RemainEntity extends Entity {
             id = Identifier.fromNamespaceAndPath("csrp", id.getPath());
         }
         EntityType<?> entityType = BuiltInRegistries.ENTITY_TYPE.getOptional(id).orElse(null);
-        Entity created = entityType == null ? null : entityType.create(serverLevel);
+        Entity created = entityType == null ? null : entityType.create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (!(created instanceof Mob rebuilt)) {
             return;
         }

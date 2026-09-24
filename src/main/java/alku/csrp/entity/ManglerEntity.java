@@ -296,7 +296,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
         if (!level().isClientSide() && !deathConversionHandled && level() instanceof ServerLevel serverLevel
                 && !SrpWorldData.get(serverLevel).colonies().isEmpty()) {
             deathConversionHandled = true;
-            Mob rupter = ModEntities.RUPTER.get().create(serverLevel);
+            Mob rupter = ModEntities.RUPTER.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             if (rupter != null) {
                 rupter.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
                 rupter.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),

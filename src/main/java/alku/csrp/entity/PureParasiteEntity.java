@@ -928,7 +928,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        TendrilEntity tendril = ModEntities.TENDRIL.get().create(serverLevel);
+        TendrilEntity tendril = ModEntities.TENDRIL.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (tendril == null) {
             return;
         }
@@ -1168,7 +1168,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                         entity -> entity.getKind() == DeterrentParasiteEntity.Kind.SEIZER)
                 .size();
         if (seizers < 3 && random.nextBoolean()) {
-            DeterrentParasiteEntity seizer = ModEntities.SEIZER.get().create(serverLevel);
+            DeterrentParasiteEntity seizer = ModEntities.SEIZER.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             if (seizer == null) {
                 return;
             }
@@ -1182,7 +1182,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             return;
         }
         if (!hasLineOfSight(target) && distanceToSqr(target) > 64.0D) {
-            DeterrentParasiteEntity dispatcher = ModEntities.DISPATCHERTEN.get().create(serverLevel);
+            DeterrentParasiteEntity dispatcher = ModEntities.DISPATCHERTEN.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             if (dispatcher == null) {
                 return;
             }
@@ -1236,7 +1236,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             if (nearbySeizers > 10) {
                 return;
             }
-            DeterrentParasiteEntity seizer = ModEntities.SEIZER.get().create(serverLevel);
+            DeterrentParasiteEntity seizer = ModEntities.SEIZER.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             if (seizer == null) {
                 return;
             }
@@ -1248,7 +1248,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             return;
         }
 
-        DeterrentParasiteEntity dispatcher = ModEntities.DISPATCHERTEN.get().create(serverLevel);
+        DeterrentParasiteEntity dispatcher = ModEntities.DISPATCHERTEN.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (dispatcher != null) {
             dispatcher.snapTo(spawnX, target.getY(), spawnZ, getYRot(), 0.0F);
             dispatcher.setDispatchTarget(this);
@@ -1274,7 +1274,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         if (target == null || !target.isAlive()) {
             return;
         }
-        ParasiticScentEntity scent = ModEntities.SCENT.get().create(serverLevel);
+        ParasiticScentEntity scent = ModEntities.SCENT.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (scent == null) {
             return;
         }
@@ -1419,7 +1419,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     }
 
     private void fireBomb(LivingEntity target) {
-        BombEntity bomb = ModEntities.BOMB.get().create(level());
+        BombEntity bomb = ModEntities.BOMB.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (bomb == null) {
             return;
         }
@@ -1472,7 +1472,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             return;
         }
         for (int index = 0; index < count; index++) {
-            BuglinEntity buglin = ModEntities.BUGLIN.get().create(serverLevel);
+            BuglinEntity buglin = ModEntities.BUGLIN.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             if (buglin == null) {
                 continue;
             }
@@ -2256,7 +2256,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        BuglinEntity buglin = ModEntities.BUGLIN.get().create(serverLevel);
+        BuglinEntity buglin = ModEntities.BUGLIN.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (buglin != null) {
             buglin.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
             serverLevel.addFreshEntity(buglin);
@@ -3404,7 +3404,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        WardenShockwaveEntity shockwave = ModEntities.WARDEN_SHOCKWAVE.get().create(serverLevel);
+        WardenShockwaveEntity shockwave = ModEntities.WARDEN_SHOCKWAVE.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (shockwave == null) {
             return;
         }

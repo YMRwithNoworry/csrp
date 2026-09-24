@@ -505,7 +505,7 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
 
     private void tryEvolve(ServerLevel level) {
         ManglerEvolutionTarget.manglerType().ifPresent(type -> {
-            Mob mangler = type.create(level);
+            Mob mangler = type.create(level, EntitySpawnReason.MOB_SUMMONED);
             if (mangler == null) {
                 return;
             }

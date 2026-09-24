@@ -29,6 +29,7 @@ import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 import alku.csrp.world.SrpGameRules;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 /**
  * Legacy Cruxa: a heavy crude parasite that sweeps groups, hurls nearby blocks, and grows stronger from kills.
@@ -232,7 +233,7 @@ public final class CruxEntity extends CrudeParasiteEntity {
         block.setDeltaMovement(throwVelocity(launchPosition, target));
 
         float damage = THROW_BASE_DAMAGE + Math.max(0.0F, hardness);
-        CruxThrownBlockDamageEntity damageProxy = ModEntities.CRUX_BLOCK_DAMAGE.get().create(level());
+        CruxThrownBlockDamageEntity damageProxy = ModEntities.CRUX_BLOCK_DAMAGE.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (damageProxy != null) {
             damageProxy.configure(this, block, damage);
             level().addFreshEntity(damageProxy);

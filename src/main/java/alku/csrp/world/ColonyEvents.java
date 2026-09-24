@@ -118,7 +118,7 @@ public final class ColonyEvents {
                 || SrpWorldData.get(level).colonies().isEmpty()) {
             return;
         }
-        SimAdventurerEntity adventurer = ModEntities.SIM_ADVENTURER.get().create(level);
+        SimAdventurerEntity adventurer = ModEntities.SIM_ADVENTURER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (adventurer == null) {
             return;
         }

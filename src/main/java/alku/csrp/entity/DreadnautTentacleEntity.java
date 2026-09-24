@@ -101,7 +101,7 @@ public final class DreadnautTentacleEntity extends PrimitiveParasiteEntity {
     }
 
     private void spawnBuglin(ServerLevel level) {
-        BuglinEntity buglin = ModEntities.BUGLIN.get().create(level);
+        BuglinEntity buglin = ModEntities.BUGLIN.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (buglin == null) {
             return;
         }

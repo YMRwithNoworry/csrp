@@ -45,6 +45,7 @@ import alku.csrp.animation.CitadelAnimationUtil;
 
 import java.util.EnumSet;
 import alku.csrp.world.SrpGameRules;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 /** Assimilated Ender Dragon with removable head and wing durability driving flight and ranged combat. */
 public final class AssimilatedDragonEntity extends Monster implements CitadelAnimatedEntity, Parasite {
@@ -434,7 +435,7 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        AssimilatedDragonHeadEntity head = ModEntities.SIM_DRAGON_HEAD.get().create(serverLevel);
+        AssimilatedDragonHeadEntity head = ModEntities.SIM_DRAGON_HEAD.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (head == null) {
             return;
         }
@@ -448,7 +449,7 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        TendrilEntity tendril = ModEntities.TENDRIL.get().create(serverLevel);
+        TendrilEntity tendril = ModEntities.TENDRIL.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (tendril == null) {
             return;
         }

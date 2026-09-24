@@ -430,7 +430,7 @@ public class AdaWatcherEntity extends BurrowingVariantEntity implements PullingB
      */
     private void firePullingProjectile(LivingEntity target) {
         // 尝试创建拉拽弹丸实体
-        PullingBallEntity projectile = ModEntities.PULLING_BALL.get().create(level());
+        PullingBallEntity projectile = ModEntities.PULLING_BALL.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (projectile == null) {
             return;
         }

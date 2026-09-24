@@ -206,7 +206,7 @@ public final class SrpCoreSystems {
         if (!level.getEntitiesOfClass(ArchitectEntity.class, colonyCoreArea).isEmpty()) {
             return;
         }
-        ArchitectEntity architect = ModEntities.ARCHITECT.get().create(level);
+        ArchitectEntity architect = ModEntities.ARCHITECT.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (architect == null) {
             return;
         }

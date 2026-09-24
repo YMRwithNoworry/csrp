@@ -134,7 +134,7 @@ public final class SpottedMobEffect extends MobEffect {
             return;
         }
 
-        DeterrentParasiteEntity worm = ModEntities.WORM.get().create(level);
+        DeterrentParasiteEntity worm = ModEntities.WORM.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (worm == null) {
             return;
         }

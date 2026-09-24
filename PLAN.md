@@ -159,6 +159,14 @@ com.github.alexthe666.citadel.client.model.TabulaModel                 (1)
     `getListOrEmpty(key)`、`getIntArray/getLongArray` → `.orElse(new int[0]/new long[0])`（41）
   - ⚠️ 该类统一改名会误伤同名非 NBT 方法（`Component.getString()`、`Boolean.getBoolean(String)`），
     已用 `fix_empty_or_args.mjs` 修复 11 处并给 wave 4 脚本加了「空参数列表即跳过」的保护
+- **wave 5** `scripts/port263/wave5_entity_create.mjs`（214 处；2496 → 2275）
+  - `EntityType.create(Level)` / `create(ServerLevel)` 在 26.3 需要新的
+    `EntitySpawnReason` 参数（`EntityType.create(Level, EntitySpawnReason)`）：
+    180 个模组侧生成点统一补 `EntitySpawnReason.MOB_SUMMONED`（程序化召唤语义，
+    与已有的 `AssimilatedMeltSystem`/`MovingFleshEntity` 一致）。**脚本由 census 驱动**：
+    只改 javac 实际报错的那一行、且参数表没有顶层逗号（即仍是单参形式），可重复执行
+  - `EntityType.Builder.build(String)` → `build(ResourceKey<EntityType<?>>)`：
+    `ModEntities` 新增 `entityKey(String)` 私有 helper，34 个 `.build(...)` 调用点改写
 
 ### 剩余错误聚类（wave 3+ 的输入）
 
@@ -204,7 +212,7 @@ com.github.alexthe666.citadel.client.model.TabulaModel                 (1)
 |---|---|---|---|
 | 3 ✅ | 简单缺失符号：`isInWaterOrBubble` 新名、`getMinBuildHeight`、`getDayTime`、`hurtMarked`、`hasImpulse`、`displayClientMessage` 等 | 已做 | 完成，3235 → **3062** |
 | 4 ✅ | `Optional` 包装类 API（`Optional<Integer>`/`Optional<Boolean>`） | 已做 | 完成，3062 → **2496**（NBT getter 全部 Optional 化） |
-| 5 | 实体注册/生成：`create(...)`、`ResourceKey<EntityType<?>>`、`registerEntityRenderer` | ~250 | 注册器与 key 化 |
+| 5 ✅ | 实体注册/生成：`create(...)`、`ResourceKey<EntityType<?>>`、`registerEntityRenderer` | 已做（渲染注册待做） | `create`/`build` 完成，2496 → **2275**；`registerEntityRenderer` 归入 wave 9 |
 | 6 | NBT / `ValueOutput` 序列化 | ~150 | `putUUID`/`hasUUID`/`getUUID`、`CompoundTag`↔`ValueOutput/ValueInput` |
 | 7 | 装备/物品组件化（`ModItems` 181 错、`ModArmorMaterials`、`ModTiers`） | ~300 | 设计问题 |
 | 8 | **Citadel 替换**：自研 `AdvancedModelBox` / `AdvancedEntityModel` / `BasicModelPart` / Tabula 容器 | ~80 + 28 文件返工 | 见 5.4 |

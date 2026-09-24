@@ -15,6 +15,7 @@ import alku.csrp.animation.CitadelAnimationManager;
 import alku.csrp.animation.CitadelAnimationController;
 import alku.csrp.animation.CitadelPlayState;
 import alku.csrp.animation.CitadelRawAnimation;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 public final class HostEntity extends AbstractHostEntity {
     @Override
@@ -134,7 +135,7 @@ public final class HostEntity extends AbstractHostEntity {
         if (kills <= HOST_TO_HOSTII_KILLS) {
             return;
         }
-        HostIIEntity hostII = ModEntities.HOSTII.get().create(level);
+        HostIIEntity hostII = ModEntities.HOSTII.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (hostII == null) {
             return;
         }

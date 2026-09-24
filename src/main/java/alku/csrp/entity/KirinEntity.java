@@ -521,7 +521,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
     }
 
     private void summonVoidOrb() {
-        VoidOrbEntity orb = ModEntities.VOID_ORB.get().create(level());
+        VoidOrbEntity orb = ModEntities.VOID_ORB.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (orb == null) {
             return;
         }

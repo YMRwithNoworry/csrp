@@ -18,6 +18,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 /**
  * Port of the meteor infection section of SRParasites 1.10.8 {@code SRPEventHandlerBus#worldTick}.
@@ -123,7 +124,7 @@ public final class MeteorInfectionSystem {
         if (direction.lengthSqr() < 1.0E-6D) {
             return false;
         }
-        MeteorEntity meteor = ModEntities.HIVE_SATELLITE.get().create(level);
+        MeteorEntity meteor = ModEntities.HIVE_SATELLITE.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (meteor == null) {
             return false;
         }

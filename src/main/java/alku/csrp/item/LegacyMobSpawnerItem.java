@@ -28,6 +28,7 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 /**
  * Compatibility implementation of SRP 1.10's {@code ItemMobSpawner}.
@@ -110,7 +111,7 @@ public final class LegacyMobSpawnerItem extends Item {
         String currentId = currentEntityId(legacyName);
         Identifier id = Identifier.fromNamespaceAndPath(Csrp.MODID, currentId);
         Optional<EntityType<?>> type = BuiltInRegistries.ENTITY_TYPE.getOptional(id);
-        Entity entity = type.orElse(ModEntities.CRUX.get()).create(level);
+        Entity entity = type.orElse(ModEntities.CRUX.get()).create(level, EntitySpawnReason.MOB_SUMMONED);
         if (entity == null) {
             return null;
         }

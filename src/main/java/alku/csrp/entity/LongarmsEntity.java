@@ -33,6 +33,7 @@ import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 import alku.csrp.world.SrpGameRules;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 public final class LongarmsEntity extends PrimitiveParasiteEntity {
     private static final int STATUS_IDLE = 0;
@@ -238,7 +239,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     }
 
     private void spawnShockwave(LivingEntity target) {
-        ShockwaveEntity shockwave = ModEntities.SHOCKWAVE.get().create(level());
+        ShockwaveEntity shockwave = ModEntities.SHOCKWAVE.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (shockwave == null) {
             return;
         }

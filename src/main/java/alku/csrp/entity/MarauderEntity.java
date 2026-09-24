@@ -35,6 +35,7 @@ import alku.csrp.animation.CitadelRawAnimation;
 import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.UUID;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 /**
  * Legacy EntityEsor port with damageable tendrils, wall climbing, support
@@ -242,7 +243,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
     }
 
     private MarauderTendrilEntity createAttachedTendril(ServerLevel level, TendrilSide side) {
-        MarauderTendrilEntity tendril = ModEntities.MARAUDER_TENDRIL.get().create(level);
+        MarauderTendrilEntity tendril = ModEntities.MARAUDER_TENDRIL.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (tendril == null) {
             throw new IllegalStateException("Marauder tendril entity could not be created");
         }
@@ -344,7 +345,7 @@ public final class MarauderEntity extends PrimitiveParasiteEntity {
         if (position == null || !(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        MarauderTendrilEntity tendril = ModEntities.MARAUDER_TENDRIL.get().create(serverLevel);
+        MarauderTendrilEntity tendril = ModEntities.MARAUDER_TENDRIL.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (tendril == null) {
             return;
         }

@@ -35,6 +35,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 /**
  * Shared derived-tier behavior from the legacy cosmical parasite layer.
@@ -377,7 +378,7 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
             return false;
         }
 
-        Entity entity = getType().create(serverLevel);
+        Entity entity = getType().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (!(entity instanceof DerivedParasiteEntity clone)) {
             return false;
         }

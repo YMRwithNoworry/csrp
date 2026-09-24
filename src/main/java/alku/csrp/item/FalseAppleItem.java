@@ -8,6 +8,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 public final class FalseAppleItem extends Item {
     public FalseAppleItem(Item.Properties properties) {
@@ -21,7 +22,7 @@ public final class FalseAppleItem extends Item {
         ItemStack result = super.finishUsingItem(stack, level, user);
         if (!level.isClientSide()) {
             for (int i = 0; i < 5; i++) {
-                var buglin = ModEntities.BUGLIN.get().create(level);
+                var buglin = ModEntities.BUGLIN.get().create(level, EntitySpawnReason.MOB_SUMMONED);
                 if (buglin != null) {
                     buglin.snapTo(user.getX() + (level.getRandom().nextDouble() - 0.5D) * 0.8D,
                             user.getY(), user.getZ() + (level.getRandom().nextDouble() - 0.5D) * 0.8D,

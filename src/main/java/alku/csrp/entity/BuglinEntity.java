@@ -136,7 +136,7 @@ public class BuglinEntity extends Monster implements CitadelAnimatedEntity, Para
         }
 
         BuglinEvolutionTarget.rupterType().ifPresent(type -> {
-            Mob rupter = type.create(serverLevel);
+            Mob rupter = type.create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             if (rupter == null) {
                 return;
             }

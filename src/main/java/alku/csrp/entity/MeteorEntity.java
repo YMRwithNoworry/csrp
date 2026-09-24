@@ -25,6 +25,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 /**
  * Port of SRParasites 1.10.8 {@code EntityMeteor} (in-game name "Hive Satellite").
@@ -134,7 +135,7 @@ public final class MeteorEntity extends Entity {
     }
 
     private void spawnFragment(ServerLevel serverLevel) {
-        MeteorEntity fragment = ModEntities.HIVE_SATELLITE.get().create(serverLevel);
+        MeteorEntity fragment = ModEntities.HIVE_SATELLITE.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (fragment == null) {
             return;
         }
@@ -179,7 +180,7 @@ public final class MeteorEntity extends Entity {
         }
 
         int orbRadius = isRoot() ? 40 : 8;
-        OrbBoomEntity orb = ModEntities.ORB_BOOM.get().create(serverLevel);
+        OrbBoomEntity orb = ModEntities.ORB_BOOM.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (orb != null) {
             orb.setPos(getX(), getY(), getZ());
             orb.configure(null, orbRadius, 1);

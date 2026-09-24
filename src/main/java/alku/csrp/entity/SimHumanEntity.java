@@ -378,7 +378,7 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
     }
 
     private void transformToFeral(ServerLevel level) {
-        FeralParasiteEntity feral = ModEntities.FER_HUMAN.get().create(level);
+        FeralParasiteEntity feral = ModEntities.FER_HUMAN.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (feral == null) {
             return;
         }
@@ -395,7 +395,7 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
     }
 
     private void transformToHost(ServerLevel level) {
-        HostEntity host = ModEntities.HOST.get().create(level);
+        HostEntity host = ModEntities.HOST.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (host == null) {
             return;
         }

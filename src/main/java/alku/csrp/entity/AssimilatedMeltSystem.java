@@ -81,7 +81,7 @@ final class AssimilatedMeltSystem {
         if (!(source.level() instanceof ServerLevel serverLevel)) {
             return false;
         }
-        MovingFleshEntity flesh = ModEntities.MOVINGFLESH.get().create(serverLevel);
+        MovingFleshEntity flesh = ModEntities.MOVINGFLESH.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (flesh == null) {
             return false;
         }

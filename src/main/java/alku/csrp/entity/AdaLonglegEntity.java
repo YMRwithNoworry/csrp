@@ -316,7 +316,7 @@ public class AdaLonglegEntity extends BurrowingVariantEntity implements PullingB
     }
 
     private void fireWebProjectile(LivingEntity target) {
-        PullingBallEntity projectile = ModEntities.PULLING_BALL.get().create(level());
+        PullingBallEntity projectile = ModEntities.PULLING_BALL.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (projectile == null) {
             return;
         }

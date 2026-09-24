@@ -192,14 +192,14 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
     public boolean doHurtTarget(Entity target) {
         if (target instanceof IncompleteFormMediumEntity && level() instanceof ServerLevel serverLevel) {
             Mob body = switch (kind) {
-                case COW -> ModEntities.SIM_COW.get().create(serverLevel);
-                case ENDERMAN -> ModEntities.SIM_ENDERMAN.get().create(serverLevel);
-                case HORSE -> ModEntities.SIM_HORSE.get().create(serverLevel);
-                case HUMAN -> ModEntities.SIM_HUMAN.get().create(serverLevel);
-                case PIG -> ModEntities.SIM_PIG.get().create(serverLevel);
-                case SHEEP -> ModEntities.SIM_SHEEP.get().create(serverLevel);
-                case VILLAGER -> ModEntities.SIM_VILLAGER.get().create(serverLevel);
-                case WOLF -> ModEntities.SIM_WOLF.get().create(serverLevel);
+                case COW -> ModEntities.SIM_COW.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+                case ENDERMAN -> ModEntities.SIM_ENDERMAN.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+                case HORSE -> ModEntities.SIM_HORSE.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+                case HUMAN -> ModEntities.SIM_HUMAN.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+                case PIG -> ModEntities.SIM_PIG.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+                case SHEEP -> ModEntities.SIM_SHEEP.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+                case VILLAGER -> ModEntities.SIM_VILLAGER.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+                case WOLF -> ModEntities.SIM_WOLF.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             };
             if (body != null) {
                 body.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());

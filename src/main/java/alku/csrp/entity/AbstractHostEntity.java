@@ -141,7 +141,7 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
 
     protected void performShockwave() {
         LivingEntity target = getTarget();
-        WaveEntity wave = ModEntities.WAVE.get().create(level());
+        WaveEntity wave = ModEntities.WAVE.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (target == null || wave == null) {
             return;
         }
@@ -171,7 +171,7 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
     }
 
     protected void spawnBomb(LivingEntity target, int fuse, float damage, int rangeRadius) {
-        BombEntity bomb = ModEntities.BOMB.get().create(level());
+        BombEntity bomb = ModEntities.BOMB.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (bomb == null) {
             return;
         }
@@ -195,7 +195,7 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
         if (serverLevel.getEntitiesOfClass(entityClass, getBoundingBox().inflate(16.0)).size() >= cap) {
             return;
         }
-        T minion = type.get().create(serverLevel);
+        T minion = type.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (minion == null) {
             return;
         }

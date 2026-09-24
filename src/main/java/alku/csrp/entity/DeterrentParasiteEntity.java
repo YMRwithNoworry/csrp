@@ -495,7 +495,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
             return false;
         }
         EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(entityId).orElse(null);
-        if (type == null || !(type.create(serverLevel) instanceof Mob mob)) {
+        if (type == null || !(type.create(serverLevel, EntitySpawnReason.MOB_SUMMONED) instanceof Mob mob)) {
             return false;
         }
         mob.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
@@ -792,9 +792,9 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     private Mob createWormMinion(ServerLevel level) {
         if (wormPayloadTypes.isEmpty()) {
             return switch (random.nextInt(3)) {
-                case 0 -> ModEntities.PRI_ARACHNIDA.get().create(level);
-                case 1 -> ModEntities.PRI_REEKER.get().create(level);
-                default -> ModEntities.PRI_LONGARMS.get().create(level);
+                case 0 -> ModEntities.PRI_ARACHNIDA.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+                case 1 -> ModEntities.PRI_REEKER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+                default -> ModEntities.PRI_LONGARMS.get().create(level, EntitySpawnReason.MOB_SUMMONED);
             };
         }
         Identifier id = Identifier.tryParse(wormPayloadTypes.get(random.nextInt(wormPayloadTypes.size())));
@@ -802,7 +802,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
             return null;
         }
         EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(id).orElse(null);
-        return type != null && type.create(level) instanceof Mob mob ? mob : null;
+        return type != null && type.create(level, EntitySpawnReason.MOB_SUMMONED) instanceof Mob mob ? mob : null;
     }
 
     private Vec3 wormLaunchVelocity() {
@@ -908,7 +908,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void spawnKyphosisWave(LivingEntity target) {
-        WaveEntity wave = ModEntities.WAVE.get().create(level());
+        WaveEntity wave = ModEntities.WAVE.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (wave == null) {
             return;
         }

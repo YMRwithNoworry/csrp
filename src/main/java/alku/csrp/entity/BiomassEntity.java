@@ -136,7 +136,7 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
     private static boolean spawnBiomass(ServerLevel level, Mob summoner, SummonCapacityOwner owner,
                                         UUID reservationId, SummonOption option, int skin,
                                         LivingEntity target, Vec3 position, float yaw, float pitch) {
-        BiomassEntity biomass = ModEntities.BIOMASS.get().create(level);
+        BiomassEntity biomass = ModEntities.BIOMASS.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (biomass == null) {
             if (reservationId != null) {
                 owner.releaseTrackedSummon(reservationId);
@@ -245,7 +245,7 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
         Mob parent = resolveMob(level, entityData.get(PARENT));
         Identifier spawnTypeId = Identifier.tryParse(entityData.get(SPAWN_TYPE));
         Entity created = spawnTypeId == null ? null
-                : BuiltInRegistries.ENTITY_TYPE.getOptional(spawnTypeId).map(type -> type.create(level)).orElse(null);
+                : BuiltInRegistries.ENTITY_TYPE.getOptional(spawnTypeId).map(type -> type.create(level, EntitySpawnReason.MOB_SUMMONED)).orElse(null);
         if (!(created instanceof Mob spawned)) {
             releaseReservation(parent);
             discard();

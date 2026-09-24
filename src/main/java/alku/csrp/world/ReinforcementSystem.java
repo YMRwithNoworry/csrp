@@ -61,7 +61,7 @@ public final class ReinforcementSystem {
         }
         BlockPos spawnPos = resolveSpawnPos(level, origin);
         EntityType<NexusParasiteEntity> type = reinforcementType(data.totalColonyPoints());
-        NexusParasiteEntity beckon = type.create(level);
+        NexusParasiteEntity beckon = type.create(level, EntitySpawnReason.MOB_SUMMONED);
         if (beckon == null) {
             return false;
         }

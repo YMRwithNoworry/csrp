@@ -9,6 +9,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 /** Legacy Marauderized bear: fires a pullball volley, then reels its captured victim in. */
 public final class MarauderizedBearEntity extends TetheredMarauderizedEntity {
@@ -47,7 +48,7 @@ public final class MarauderizedBearEntity extends TetheredMarauderizedEntity {
     }
 
     private void shootPullingBall(LivingEntity target) {
-        PullingBallEntity ball = ModEntities.PULLING_BALL.get().create(level());
+        PullingBallEntity ball = ModEntities.PULLING_BALL.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (ball == null) {
             return;
         }

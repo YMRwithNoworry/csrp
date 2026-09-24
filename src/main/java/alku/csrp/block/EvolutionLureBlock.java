@@ -24,6 +24,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 public final class EvolutionLureBlock extends Block {
     public static final EnumProperty<Tier> TIER = EnumProperty.create("tier", Tier.class);
@@ -142,7 +143,7 @@ public final class EvolutionLureBlock extends Block {
     }
 
     private static void spawnScent(ServerLevel level, Player player, Tier tier) {
-        ParasiticScentEntity scent = ModEntities.SCENT.get().create(level);
+        ParasiticScentEntity scent = ModEntities.SCENT.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (scent == null) {
             return;
         }

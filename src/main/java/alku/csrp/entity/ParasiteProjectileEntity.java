@@ -44,6 +44,7 @@ import net.neoforged.neoforge.event.EventHooks;
 
 import java.util.UUID;
 import alku.csrp.world.SrpGameRules;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 public final class ParasiteProjectileEntity extends Entity {
     private static final int ELVIA_NADE_START_DELAY_TICKS = 3;
@@ -515,7 +516,7 @@ public final class ParasiteProjectileEntity extends Entity {
     }
 
     private void spawnOrbBoom(PrimitiveParasiteEntity owner, int fuse, int waitStart) {
-        OrbBoomEntity orb = ModEntities.ORB_BOOM.get().create(level());
+        OrbBoomEntity orb = ModEntities.ORB_BOOM.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (orb == null) {
             return;
         }
@@ -617,7 +618,7 @@ public final class ParasiteProjectileEntity extends Entity {
     }
 
     private void spawnNade(PrimitiveParasiteEntity owner, NadeEntity.Kind kind) {
-        NadeEntity nade = ModEntities.NADE.get().create(level());
+        NadeEntity nade = ModEntities.NADE.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (nade != null) {
             nade.configure(owner, kind);
             nade.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());

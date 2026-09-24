@@ -469,7 +469,7 @@ public final class DislodgmentSystem {
                 ? pureTypes()
                 : value >= Config.disloDeathHighVersionsAdapted() ? adaptedTypes() : primitiveTypes();
         EntityType<? extends Mob> type = pool.get(level.getRandom().nextInt(pool.size()));
-        Mob spawned = type.create(level);
+        Mob spawned = type.create(level, EntitySpawnReason.MOB_SUMMONED);
         if (spawned == null) {
             return;
         }
@@ -678,7 +678,7 @@ public final class DislodgmentSystem {
 
     private static boolean spawnPayloadWorm(ServerLevel level, LivingEntity target, BlockPos position,
             Identifier payload) {
-        DeterrentParasiteEntity worm = ModEntities.WORM.get().create(level);
+        DeterrentParasiteEntity worm = ModEntities.WORM.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (worm == null) {
             return false;
         }

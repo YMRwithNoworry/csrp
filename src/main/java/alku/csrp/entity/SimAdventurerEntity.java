@@ -307,7 +307,7 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
             return;
         }
         if (parasiteKills >= THRALL_KILL_THRESHOLD) {
-            ThrallEntity thrall = ModEntities.THRALL.get().create(serverLevel);
+            ThrallEntity thrall = ModEntities.THRALL.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             if (thrall == null) {
                 return;
             }
@@ -357,7 +357,7 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        SimAdventurerHeadEntity head = ModEntities.SIM_ADVENTURER_HEAD.get().create(serverLevel);
+        SimAdventurerHeadEntity head = ModEntities.SIM_ADVENTURER_HEAD.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (head == null) {
             return;
         }
@@ -385,7 +385,7 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
 
         int count = 3 + random.nextInt(2);
         for (int index = 0; index < count; index++) {
-            BuglinEntity buglin = ModEntities.BUGLIN.get().create(serverLevel);
+            BuglinEntity buglin = ModEntities.BUGLIN.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             if (buglin == null) {
                 continue;
             }

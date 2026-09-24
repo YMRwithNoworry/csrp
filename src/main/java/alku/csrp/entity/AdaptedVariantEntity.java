@@ -862,7 +862,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             }
             if (activeKind() == Kind.ARACHNIDA
                     && !SrpWorldData.get(serverLevel).colonies().isEmpty()) {
-                spawnPrimitiveDeathForm(serverLevel, ModEntities.PRI_ARACHNIDA.get().create(serverLevel));
+                spawnPrimitiveDeathForm(serverLevel, ModEntities.PRI_ARACHNIDA.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED));
             } else if (!SrpWorldData.get(serverLevel).colonies().isEmpty()) {
                 spawnPrimitiveDeathForm(serverLevel);
             }
@@ -873,17 +873,17 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     private void spawnPrimitiveDeathForm(ServerLevel level) {
         Mob primitive = switch (activeKind()) {
             case ARACHNIDA -> null;
-            case BOLSTER -> ModEntities.PRI_BOLSTER.get().create(level);
-            case BURROWER -> ModEntities.PRI_BURROWER.get().create(level);
-            case DEVOURER -> ModEntities.PRI_DEVOURER.get().create(level);
-            case LONGARMS -> ModEntities.PRI_LONGARMS.get().create(level);
-            case MANDUCATER -> ModEntities.PRI_MANDUCATER.get().create(level);
-            case REEKER -> ModEntities.PRI_REEKER.get().create(level);
-            case SUMMONER -> ModEntities.PRI_SUMMONER.get().create(level);
-            case TOZOON -> ModEntities.PRI_TOZOON.get().create(level);
-            case VERMIN -> ModEntities.MOVINGFLESH.get().create(level);
-            case VISCERA -> ModEntities.PRI_VISCERA.get().create(level);
-            case YELLOWEYE -> ModEntities.PRI_YELLOWEYE.get().create(level);
+            case BOLSTER -> ModEntities.PRI_BOLSTER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case BURROWER -> ModEntities.PRI_BURROWER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case DEVOURER -> ModEntities.PRI_DEVOURER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case LONGARMS -> ModEntities.PRI_LONGARMS.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case MANDUCATER -> ModEntities.PRI_MANDUCATER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case REEKER -> ModEntities.PRI_REEKER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case SUMMONER -> ModEntities.PRI_SUMMONER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case TOZOON -> ModEntities.PRI_TOZOON.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case VERMIN -> ModEntities.MOVINGFLESH.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case VISCERA -> ModEntities.PRI_VISCERA.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case YELLOWEYE -> ModEntities.PRI_YELLOWEYE.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         };
         spawnPrimitiveDeathForm(level, primitive);
     }
@@ -1490,7 +1490,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        TendrilEntity tendril = ModEntities.TENDRIL.get().create(serverLevel);
+        TendrilEntity tendril = ModEntities.TENDRIL.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (tendril == null) {
             return;
         }
@@ -1724,7 +1724,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     private void fireArachnidaPullProjectile(LivingEntity target) {
-        PullingBallEntity projectile = ModEntities.PULLING_BALL.get().create(level());
+        PullingBallEntity projectile = ModEntities.PULLING_BALL.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (projectile == null) {
             return;
         }
@@ -1962,7 +1962,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        LiceEntity lice = ModEntities.LICE.get().create(serverLevel);
+        LiceEntity lice = ModEntities.LICE.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (lice == null) {
             return;
         }
@@ -2819,7 +2819,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     private void firePullProjectile(LivingEntity target) {
-        PullingBallEntity projectile = ModEntities.PULLING_BALL.get().create(level());
+        PullingBallEntity projectile = ModEntities.PULLING_BALL.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (projectile == null) {
             return;
         }
@@ -3002,7 +3002,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             if (target == null || target.getY() > getY()) {
                 return;
             }
-            BombEntity bomb = ModEntities.BOMB.get().create(serverLevel);
+            BombEntity bomb = ModEntities.BOMB.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             if (bomb != null) {
                 bomb.configure(AdaptedVariantEntity.this, 60, 0.0F,
                         (float) getAttributeValue(Attributes.ATTACK_DAMAGE), 2, 1, false);

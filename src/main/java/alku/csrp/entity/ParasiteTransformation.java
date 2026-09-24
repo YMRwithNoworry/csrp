@@ -168,7 +168,7 @@ public final class ParasiteTransformation {
     }
 
     private static boolean replace(ServerLevel level, LivingEntity source, EntityType<?> targetType) {
-        Entity created = targetType.create(level);
+        Entity created = targetType.create(level, EntitySpawnReason.MOB_SUMMONED);
         if (!(created instanceof Mob replacement)) {
             return false;
         }

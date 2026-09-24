@@ -222,7 +222,7 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
             if (location.getNamespace().equals("srparasites")) {
                 location = Identifier.fromNamespaceAndPath("csrp", location.getPath());
             }
-            Entity entity = BuiltInRegistries.ENTITY_TYPE.getOptional(location).map(type -> type.create(level)).orElse(null);
+            Entity entity = BuiltInRegistries.ENTITY_TYPE.getOptional(location).map(type -> type.create(level, EntitySpawnReason.MOB_SUMMONED)).orElse(null);
             return entity instanceof Mob mob ? mob : null;
         }
         return null;

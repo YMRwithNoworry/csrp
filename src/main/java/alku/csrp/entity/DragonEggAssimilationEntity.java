@@ -46,7 +46,7 @@ public final class DragonEggAssimilationEntity extends Entity {
             if (!serverLevel.hasChunkAt(pos) || !serverLevel.getBlockState(pos).is(Blocks.DRAGON_EGG)) {
                 continue;
             }
-            DragonEggAssimilationEntity animation = ModEntities.DRAGON_EGG_ASSIMILATION.get().create(serverLevel);
+            DragonEggAssimilationEntity animation = ModEntities.DRAGON_EGG_ASSIMILATION.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             if (animation == null) {
                 continue;
             }
@@ -94,7 +94,7 @@ public final class DragonEggAssimilationEntity extends Entity {
     }
 
     private void finishAssimilation(ServerLevel level) {
-        AssimilatedDragonEntity dragon = ModEntities.SIM_DRAGONE.get().create(level);
+        AssimilatedDragonEntity dragon = ModEntities.SIM_DRAGONE.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (dragon != null) {
             dragon.setPos(getX(), getY() + 0.5D, getZ());
             dragon.setYRot(getYRot());

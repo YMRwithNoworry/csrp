@@ -15,6 +15,7 @@ import alku.csrp.animation.CitadelAnimationManager;
 import alku.csrp.animation.CitadelAnimationController;
 import alku.csrp.animation.CitadelPlayState;
 import alku.csrp.animation.CitadelRawAnimation;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 /** Legacy CruxB growth form that matures into a full Crux after a random 20-60 second interval. */
 public final class IncompleteCruxEntity extends CrudeParasiteEntity {
@@ -115,7 +116,7 @@ public final class IncompleteCruxEntity extends CrudeParasiteEntity {
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        CruxEntity adult = ModEntities.CRUX.get().create(serverLevel);
+        CruxEntity adult = ModEntities.CRUX.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (adult != null) {
             adult.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
             LivingEntity target = getTarget();

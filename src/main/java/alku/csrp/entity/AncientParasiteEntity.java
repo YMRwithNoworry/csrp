@@ -481,7 +481,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        DreadnautTentacleEntity tendril = ModEntities.ANC_DREADNAUT_TEN.get().create(serverLevel);
+        DreadnautTentacleEntity tendril = ModEntities.ANC_DREADNAUT_TEN.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (tendril == null) {
             return;
         }
@@ -507,7 +507,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
         if (!(level() instanceof ServerLevel serverLevel)) {
             return false;
         }
-        AncientPodEntity pod = ModEntities.ANC_POD.get().create(serverLevel);
+        AncientPodEntity pod = ModEntities.ANC_POD.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (pod == null) {
             return false;
         }

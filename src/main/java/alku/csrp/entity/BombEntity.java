@@ -173,7 +173,7 @@ public final class BombEntity extends Entity {
             parsed = Identifier.fromNamespaceAndPath("csrp", parsed.getPath());
         }
         EntityType<?> payloadType = BuiltInRegistries.ENTITY_TYPE.getOptional(parsed).orElse(null);
-        Entity created = payloadType == null ? null : payloadType.create(serverLevel);
+        Entity created = payloadType == null ? null : payloadType.create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (!(created instanceof Mob payload)) {
             return;
         }

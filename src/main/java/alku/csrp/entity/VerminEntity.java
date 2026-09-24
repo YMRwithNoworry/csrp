@@ -35,6 +35,7 @@ import alku.csrp.animation.CitadelAnimationController;
 import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 public final class VerminEntity extends PrimitiveParasiteEntity {
     private static final EntityDataAccessor<Byte> FLIGHT_FLAGS = SynchedEntityData.defineId(
@@ -137,7 +138,7 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
             }
         }
         if (gnatCount < Config.worldGnatCap()) {
-            GnatEntity gnat = ModEntities.GNAT.get().create(serverLevel);
+            GnatEntity gnat = ModEntities.GNAT.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             if (gnat != null) {
                 gnat.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
                 serverLevel.addFreshEntity(gnat);
@@ -148,7 +149,7 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
         if (getTarget() == null || getTarget().getY() > getY()) {
             return;
         }
-        BombEntity bomb = ModEntities.BOMB.get().create(serverLevel);
+        BombEntity bomb = ModEntities.BOMB.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (bomb != null) {
             bomb.configure(this, 60, 0.0F, (float) getAttributeValue(Attributes.ATTACK_DAMAGE),
                     2, 1, false);

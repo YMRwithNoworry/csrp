@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 /** A Rupter-made burrow that periodically releases Buglins. */
 public final class TunnelBlock extends Block {
@@ -90,7 +91,7 @@ public final class TunnelBlock extends Block {
     }
 
     private static void spawnBuglin(ServerLevel level, BlockPos pos, boolean buried) {
-        BuglinEntity buglin = ModEntities.BUGLIN.get().create(level);
+        BuglinEntity buglin = ModEntities.BUGLIN.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (buglin == null) {
             return;
         }

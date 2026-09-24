@@ -8,6 +8,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 /** Periodically deploys a target-following Scent, matching the original Prey effect. */
 public final class PreyMobEffect extends MobEffect {
@@ -33,7 +34,7 @@ public final class PreyMobEffect extends MobEffect {
             }
         }
 
-        ParasiticScentEntity scent = ModEntities.SCENT.get().create(level);
+        ParasiticScentEntity scent = ModEntities.SCENT.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (scent == null) {
             return true;
         }

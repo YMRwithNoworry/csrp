@@ -330,7 +330,7 @@ public final class InfectionMechanics {
             return false;
         }
         Entity created = BuiltInRegistries.ENTITY_TYPE.getOptional(hostId)
-                .map(type -> type.create(serverLevel)).orElse(null);
+                .map(type -> type.create(serverLevel, EntitySpawnReason.MOB_SUMMONED)).orElse(null);
         if (!(created instanceof Mob disguise) || (automatic && disguise instanceof Monster)) {
             return false;
         }
@@ -370,7 +370,7 @@ public final class InfectionMechanics {
             return false;
         }
         Entity created = BuiltInRegistries.ENTITY_TYPE.getOptional(assimilatedId)
-                .map(type -> type.create(level)).orElse(null);
+                .map(type -> type.create(level, EntitySpawnReason.MOB_SUMMONED)).orElse(null);
         if (!(created instanceof Mob converted)) {
             return false;
         }
@@ -436,7 +436,7 @@ public final class InfectionMechanics {
                 || !(host.level() instanceof ServerLevel serverLevel)) {
             return false;
         }
-        FeralEndermanEntity converted = ModEntities.FER_ENDERMAN.get().create(serverLevel);
+        FeralEndermanEntity converted = ModEntities.FER_ENDERMAN.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (converted == null) {
             return false;
         }
@@ -500,8 +500,8 @@ public final class InfectionMechanics {
     private static Mob createIncompleteForm(LivingEntity host, ServerLevel level) {
         double bodyVolume = host.getBbWidth() * host.getBbWidth() * host.getBbHeight();
         return bodyVolume > 0.517D
-                ? ModEntities.INCOMPLETEFORM_MEDIUM.get().create(level)
-                : ModEntities.INCOMPLETEFORM_SMALL.get().create(level);
+                ? ModEntities.INCOMPLETEFORM_MEDIUM.get().create(level, EntitySpawnReason.MOB_SUMMONED)
+                : ModEntities.INCOMPLETEFORM_SMALL.get().create(level, EntitySpawnReason.MOB_SUMMONED);
     }
 
     /** A COTH-infected player killed by a parasite leaves an Assimilated Adventurer behind. */
@@ -516,7 +516,7 @@ public final class InfectionMechanics {
         if (!guaranteed && !passesCothKillConversion(player)) {
             return false;
         }
-        SimAdventurerEntity converted = ModEntities.SIM_ADVENTURER.get().create(serverLevel);
+        SimAdventurerEntity converted = ModEntities.SIM_ADVENTURER.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (converted == null) {
             return false;
         }
@@ -647,7 +647,7 @@ public final class InfectionMechanics {
                 }
             }
             Entity entity = BuiltInRegistries.ENTITY_TYPE.getOptional(targetId)
-                    .map(type -> type.create(level)).orElse(null);
+                    .map(type -> type.create(level, EntitySpawnReason.MOB_SUMMONED)).orElse(null);
             if (entity instanceof Mob mob) {
                 return mob;
             }
@@ -684,7 +684,7 @@ public final class InfectionMechanics {
         }
         Identifier targetId = Identifier.fromNamespaceAndPath(Csrp.MODID, targetPath);
         Entity entity = BuiltInRegistries.ENTITY_TYPE.getOptional(targetId)
-                .map(type -> type.create(level)).orElse(null);
+                .map(type -> type.create(level, EntitySpawnReason.MOB_SUMMONED)).orElse(null);
         return entity instanceof Mob mob ? mob : null;
     }
 
@@ -702,7 +702,7 @@ public final class InfectionMechanics {
         Identifier id = Identifier.fromNamespaceAndPath(Csrp.MODID,
                 pool[level.getRandom().nextInt(pool.length)]);
         Entity entity = BuiltInRegistries.ENTITY_TYPE.getOptional(id)
-                .map(type -> type.create(level)).orElse(null);
+                .map(type -> type.create(level, EntitySpawnReason.MOB_SUMMONED)).orElse(null);
         return entity instanceof Mob mob ? mob : null;
     }
 

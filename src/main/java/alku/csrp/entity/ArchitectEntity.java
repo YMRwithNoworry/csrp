@@ -36,6 +36,7 @@ import alku.csrp.animation.CitadelAnimationManager;
 import net.minecraft.util.Mth;
 
 import java.util.EnumSet;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 /** Legacy flying colony architect (EntityTenn). */
 public final class ArchitectEntity extends PrimitiveParasiteEntity {
@@ -197,7 +198,7 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
         if (colony == null) {
             return;
         }
-        WorkerEntity worker = ModEntities.WORKER.get().create(level);
+        WorkerEntity worker = ModEntities.WORKER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (worker == null) {
             return;
         }
@@ -216,7 +217,7 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
         if (existing >= MobsConfig.overseerTotalActiveMobs()) {
             return;
         }
-        FlamEntity succor = ModEntities.SUCCOR.get().create(level);
+        FlamEntity succor = ModEntities.SUCCOR.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (succor == null) {
             return;
         }

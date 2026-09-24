@@ -403,9 +403,9 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
             return;
         }
         AssimilatedHeadEntity head = switch (kind) {
-            case HORSE -> ModEntities.SIM_HORSE_HEAD.get().create(serverLevel);
-            case HUMAN -> ModEntities.SIM_HUMAN_HEAD.get().create(serverLevel);
-            case VILLAGER -> ModEntities.SIM_VILLAGER_HEAD.get().create(serverLevel);
+            case HORSE -> ModEntities.SIM_HORSE_HEAD.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+            case HUMAN -> ModEntities.SIM_HUMAN_HEAD.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+            case VILLAGER -> ModEntities.SIM_VILLAGER_HEAD.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             case BIGSPIDER -> null;
         };
         if (head == null) {
@@ -424,9 +424,9 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
 
     private void transformToFeral(ServerLevel level) {
         FeralParasiteEntity feral = switch (kind) {
-            case HORSE -> ModEntities.FER_HORSE.get().create(level);
-            case HUMAN -> ModEntities.FER_HUMAN.get().create(level);
-            case VILLAGER -> ModEntities.FER_VILLAGER.get().create(level);
+            case HORSE -> ModEntities.FER_HORSE.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case HUMAN -> ModEntities.FER_HUMAN.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case VILLAGER -> ModEntities.FER_VILLAGER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
             case BIGSPIDER -> null;
         };
         if (feral == null) {
@@ -444,7 +444,7 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
     }
 
     private void transformToHost(ServerLevel level) {
-        HostEntity host = ModEntities.HOST.get().create(level);
+        HostEntity host = ModEntities.HOST.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (host == null) {
             return;
         }

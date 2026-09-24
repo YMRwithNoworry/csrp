@@ -47,7 +47,7 @@ public final class DispatcherNidusBlockEntity extends BlockEntity {
             setChanged();
             return;
         }
-        var dispatcher = ModEntities.DISPATCHER_SI.get().create(level);
+        var dispatcher = ModEntities.DISPATCHER_SI.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (dispatcher == null) {
             return;
         }

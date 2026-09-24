@@ -656,7 +656,7 @@ public final class SrpCommands {
             case 4 -> ModEntities.BECKON_SIV.get();
             default -> ModEntities.BECKON_SI.get();
         };
-        NexusParasiteEntity entity = type.create(source.getLevel());
+        NexusParasiteEntity entity = type.create(source.getLevel(), EntitySpawnReason.MOB_SUMMONED);
         if (entity == null) {
             return failure(source, "Unable to create Nidus/Nexus entity");
         }

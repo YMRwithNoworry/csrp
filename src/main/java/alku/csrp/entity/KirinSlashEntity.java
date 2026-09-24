@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 /**
  * 麒麟空间斩（原版 EntityProjectileKirinSlash）：从起点沿固定方向展开的线状斩击，
@@ -73,7 +74,7 @@ public class KirinSlashEntity extends Entity {
 
     public static KirinSlashEntity create(ServerLevel level, LivingEntity owner, Vec3 start,
             float yaw, float pitch, float length, float damage, int delayTicks, int growTicks, int life) {
-        KirinSlashEntity slash = alku.csrp.registry.ModEntities.KIRIN_SLASH.get().create(level);
+        KirinSlashEntity slash = alku.csrp.registry.ModEntities.KIRIN_SLASH.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (slash == null) {
             return null;
         }

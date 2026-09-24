@@ -39,6 +39,7 @@ import alku.csrp.animation.CitadelAnimationController;
 import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 /** Original crude Heed behavior, including its support skill, scent, and vulnerable head. */
 public final class HeedEntity extends CrudeParasiteEntity {
@@ -158,7 +159,7 @@ public final class HeedEntity extends CrudeParasiteEntity {
         if (target == null || !target.isAlive()) {
             return;
         }
-        ParasiticScentEntity scent = ModEntities.SCENT.get().create(level);
+        ParasiticScentEntity scent = ModEntities.SCENT.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (scent == null) {
             return;
         }

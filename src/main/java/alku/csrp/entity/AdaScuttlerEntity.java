@@ -190,7 +190,7 @@ public class AdaScuttlerEntity extends BurrowingVariantEntity implements Pulling
     private void executePullingSkill() {
         if (pullingTarget != null && pullingTarget.isAlive()) {
             // 发射拉拽弹丸
-            PullingBallEntity pullingBall = ModEntities.PULLING_BALL.get().create(level());
+            PullingBallEntity pullingBall = ModEntities.PULLING_BALL.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
             if (pullingBall != null) {
                 Vec3 eyePos = getEyePosition();
                 Vec3 targetPos = pullingTarget.getEyePosition();

@@ -654,7 +654,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
 
         LivingEntity source = candidates.get(random.nextInt(candidates.size()));
         EntityType<?> targetType = forcedEvolutionType(source);
-        Entity created = targetType == null ? null : targetType.create(serverLevel);
+        Entity created = targetType == null ? null : targetType.create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (!(created instanceof Mob replacement)) {
             return false;
         }
@@ -764,7 +764,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
                 storedParasiteIds.remove(index);
                 continue;
             }
-            DeterrentParasiteEntity tentacle = ModEntities.DISPATCHERTEN.get().create(serverLevel);
+            DeterrentParasiteEntity tentacle = ModEntities.DISPATCHERTEN.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             if (tentacle == null) {
                 return false;
             }
@@ -814,7 +814,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
 
     private void fireProjectile(ParasiteProjectileEntity.Mode mode, Vec3 start, Vec3 target,
                                 double speed, float damage, double radius, int lifetime) {
-        ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get().create(level());
+        ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (projectile == null) {
             return;
         }
@@ -835,7 +835,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         }
         int count = 1 + random.nextInt(Math.max(1, maximum));
         for (int index = 0; index < count; index++) {
-            NexusParasiteEntity rooterBall = ModEntities.ROOTERBALL.get().create(serverLevel);
+            NexusParasiteEntity rooterBall = ModEntities.ROOTERBALL.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             if (rooterBall == null) {
                 continue;
             }
@@ -957,7 +957,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         if (!(level() instanceof ServerLevel serverLevel)) {
             return false;
         }
-        Mob spawned = type.create(serverLevel);
+        Mob spawned = type.create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (spawned == null) {
             return false;
         }
@@ -984,24 +984,24 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     private NexusParasiteEntity createNexus(ServerLevel level, Family family, int stage) {
         return switch (family) {
             case BECKON -> switch (stage) {
-                case 1 -> ModEntities.BECKON_SI.get().create(level);
-                case 2 -> ModEntities.BECKON_SII.get().create(level);
-                case 3 -> ModEntities.BECKON_SIII.get().create(level);
-                case 4 -> ModEntities.BECKON_SIV.get().create(level);
+                case 1 -> ModEntities.BECKON_SI.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+                case 2 -> ModEntities.BECKON_SII.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+                case 3 -> ModEntities.BECKON_SIII.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+                case 4 -> ModEntities.BECKON_SIV.get().create(level, EntitySpawnReason.MOB_SUMMONED);
                 default -> null;
             };
             case DISPATCHER -> switch (stage) {
-                case 1 -> ModEntities.DISPATCHER_SI.get().create(level);
-                case 2 -> ModEntities.DISPATCHER_SII.get().create(level);
-                case 3 -> ModEntities.DISPATCHER_SIII.get().create(level);
-                case 4 -> ModEntities.DISPATCHER_SIV.get().create(level);
+                case 1 -> ModEntities.DISPATCHER_SI.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+                case 2 -> ModEntities.DISPATCHER_SII.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+                case 3 -> ModEntities.DISPATCHER_SIII.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+                case 4 -> ModEntities.DISPATCHER_SIV.get().create(level, EntitySpawnReason.MOB_SUMMONED);
                 default -> null;
             };
             case ROOTER -> switch (stage) {
-                case 1 -> ModEntities.ROOTER_SI.get().create(level);
-                case 2 -> ModEntities.ROOTER_SII.get().create(level);
-                case 3 -> ModEntities.ROOTER_SIII.get().create(level);
-                case 4 -> ModEntities.ROOTER_SIV.get().create(level);
+                case 1 -> ModEntities.ROOTER_SI.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+                case 2 -> ModEntities.ROOTER_SII.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+                case 3 -> ModEntities.ROOTER_SIII.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+                case 4 -> ModEntities.ROOTER_SIV.get().create(level, EntitySpawnReason.MOB_SUMMONED);
                 default -> null;
             };
             case ROOTERBALL -> null;

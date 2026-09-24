@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 /**
  * Stored block inventory of block-breaking parasites. Collected drops are kept
@@ -64,7 +65,7 @@ public final class ParasiteBlockInventory {
         if (items.isEmpty()) {
             return;
         }
-        GoreEntity gore = ModEntities.GORE.get().create(level);
+        GoreEntity gore = ModEntities.GORE.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (gore == null) {
             return;
         }

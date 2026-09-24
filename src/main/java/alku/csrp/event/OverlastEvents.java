@@ -40,6 +40,7 @@ import net.neoforged.neoforge.event.level.BlockDropsEvent;
 import net.neoforged.neoforge.event.tick.EntityTickEvent;
 import net.neoforged.neoforge.event.tick.LevelTickEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class OverlastEvents {
@@ -124,7 +125,7 @@ public final class OverlastEvents {
         if (restoredType == null) {
             return;
         }
-        Entity restored = restoredType.create(level);
+        Entity restored = restoredType.create(level, EntitySpawnReason.MOB_SUMMONED);
         if (restored != null) {
             restored.snapTo(parasite.getX(), parasite.getY(), parasite.getZ(), parasite.getYRot(), parasite.getXRot());
             level.addFreshEntity(restored);

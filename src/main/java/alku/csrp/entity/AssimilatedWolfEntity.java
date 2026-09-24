@@ -241,7 +241,7 @@ public final class AssimilatedWolfEntity extends Monster implements CitadelAnima
 
     private void transformToLesh(ServerLevel serverLevel) {
         // 转换为MovingFlesh实体
-        Entity flesh = ModEntities.MOVINGFLESH.get().create(serverLevel);
+        Entity flesh = ModEntities.MOVINGFLESH.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (flesh instanceof LivingEntity living) {
             living.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
             serverLevel.addFreshEntity(living);

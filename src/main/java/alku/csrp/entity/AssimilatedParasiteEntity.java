@@ -246,10 +246,10 @@ public final class AssimilatedParasiteEntity extends Monster
             return;
         }
         AssimilatedHeadEntity head = switch (kind) {
-            case COW -> ModEntities.SIM_COW_HEAD.get().create(serverLevel);
-            case PIG -> ModEntities.SIM_PIG_HEAD.get().create(serverLevel);
-            case SHEEP -> ModEntities.SIM_SHEEP_HEAD.get().create(serverLevel);
-            case WOLF -> ModEntities.SIM_WOLF_HEAD.get().create(serverLevel);
+            case COW -> ModEntities.SIM_COW_HEAD.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+            case PIG -> ModEntities.SIM_PIG_HEAD.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+            case SHEEP -> ModEntities.SIM_SHEEP_HEAD.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+            case WOLF -> ModEntities.SIM_WOLF_HEAD.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             case BEAR, SQUID -> null;
         };
         if (head == null) {
@@ -268,11 +268,11 @@ public final class AssimilatedParasiteEntity extends Monster
 
     private void transformToFeral(ServerLevel level) {
         FeralParasiteEntity feral = switch (kind) {
-            case BEAR -> ModEntities.FER_BEAR.get().create(level);
-            case COW -> ModEntities.FER_COW.get().create(level);
-            case PIG -> ModEntities.FER_PIG.get().create(level);
-            case SHEEP -> ModEntities.FER_SHEEP.get().create(level);
-            case WOLF -> ModEntities.FER_WOLF.get().create(level);
+            case BEAR -> ModEntities.FER_BEAR.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case COW -> ModEntities.FER_COW.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case PIG -> ModEntities.FER_PIG.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case SHEEP -> ModEntities.FER_SHEEP.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+            case WOLF -> ModEntities.FER_WOLF.get().create(level, EntitySpawnReason.MOB_SUMMONED);
             case SQUID -> null;
         };
         if (feral == null) {

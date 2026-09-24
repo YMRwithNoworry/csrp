@@ -627,7 +627,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
         if (colony == null) {
             return;
         }
-        WorkerEntity worker = ModEntities.WORKER.get().create(serverLevel);
+        WorkerEntity worker = ModEntities.WORKER.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (worker == null) {
             return;
         }
@@ -681,7 +681,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     private void applyFlyingAura() {
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(3.0D),
                 target -> target != this && target.isAlive() && !(target instanceof Parasite))) {
-            HaunterDamageEntity damage = ModEntities.HAUNTER_DAMAGE.get().create(level());
+            HaunterDamageEntity damage = ModEntities.HAUNTER_DAMAGE.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
             if (damage != null) {
                 damage.configure(this, target.position(), 2.5F);
                 level().addFreshEntity(damage);
@@ -766,7 +766,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
         if (existingFlams >= MAX_SUMMONED_FLAMS) {
             return false;
         }
-        FlamEntity flam = ModEntities.SUCCOR.get().create(serverLevel);
+        FlamEntity flam = ModEntities.SUCCOR.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (flam == null) {
             return false;
         }
@@ -827,7 +827,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     }
 
     private void dropHeavyBomb(LivingEntity target) {
-        BombEntity bomb = ModEntities.BOMB.get().create(level());
+        BombEntity bomb = ModEntities.BOMB.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (bomb == null) {
             return;
         }
@@ -1414,7 +1414,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
                     getZ() + 1.0D).inflate(5.0D, 3.0D, 5.0D);
             for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, damageArea,
                     this::isHaunterHostile)) {
-                HaunterDamageEntity damage = ModEntities.HAUNTER_DAMAGE.get().create(level());
+                HaunterDamageEntity damage = ModEntities.HAUNTER_DAMAGE.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
                 if (damage != null) {
                     damage.configure(this, target.position(), 3.0F);
                     level().addFreshEntity(damage);
@@ -1436,7 +1436,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     }
 
     private void fireHaunterHomingProjectile(LivingEntity target) {
-        HaunterHomingProjectileEntity projectile = ModEntities.HAUNTER_HOMING.get().create(level());
+        HaunterHomingProjectileEntity projectile = ModEntities.HAUNTER_HOMING.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (projectile == null) {
             return;
         }

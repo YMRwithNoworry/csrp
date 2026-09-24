@@ -740,18 +740,18 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
 
     private Mob createAdaptedForm(ServerLevel level) {
         EntityType<?> type = getType();
-        if (type == ModEntities.PRI_LONGARMS.get()) return ModEntities.ADA_LONGARMS.get().create(level);
-        if (type == ModEntities.PRI_SUMMONER.get()) return ModEntities.ADA_SUMMONER.get().create(level);
-        if (type == ModEntities.PRI_VERMIN.get()) return ModEntities.ADA_VERMIN.get().create(level);
-        if (type == ModEntities.PRI_VISCERA.get()) return ModEntities.ADA_VISCERA.get().create(level);
-        if (type == ModEntities.PRI_ARACHNIDA.get()) return ModEntities.ADA_ARACHNIDA.get().create(level);
-        if (type == ModEntities.PRI_BOLSTER.get()) return ModEntities.ADA_BOLSTER.get().create(level);
-        if (type == ModEntities.PRI_BURROWER.get()) return ModEntities.ADA_BURROWER.get().create(level);
-        if (type == ModEntities.PRI_DEVOURER.get()) return ModEntities.ADA_DEVOURER.get().create(level);
-        if (type == ModEntities.PRI_MANDUCATER.get()) return ModEntities.ADA_MANDUCATER.get().create(level);
-        if (type == ModEntities.PRI_REEKER.get()) return ModEntities.ADA_REEKER.get().create(level);
-        if (type == ModEntities.PRI_TOZOON.get()) return ModEntities.ADA_TOZOON.get().create(level);
-        if (type == ModEntities.PRI_YELLOWEYE.get()) return ModEntities.ADA_YELLOWEYE.get().create(level);
+        if (type == ModEntities.PRI_LONGARMS.get()) return ModEntities.ADA_LONGARMS.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+        if (type == ModEntities.PRI_SUMMONER.get()) return ModEntities.ADA_SUMMONER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+        if (type == ModEntities.PRI_VERMIN.get()) return ModEntities.ADA_VERMIN.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+        if (type == ModEntities.PRI_VISCERA.get()) return ModEntities.ADA_VISCERA.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+        if (type == ModEntities.PRI_ARACHNIDA.get()) return ModEntities.ADA_ARACHNIDA.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+        if (type == ModEntities.PRI_BOLSTER.get()) return ModEntities.ADA_BOLSTER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+        if (type == ModEntities.PRI_BURROWER.get()) return ModEntities.ADA_BURROWER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+        if (type == ModEntities.PRI_DEVOURER.get()) return ModEntities.ADA_DEVOURER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+        if (type == ModEntities.PRI_MANDUCATER.get()) return ModEntities.ADA_MANDUCATER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+        if (type == ModEntities.PRI_REEKER.get()) return ModEntities.ADA_REEKER.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+        if (type == ModEntities.PRI_TOZOON.get()) return ModEntities.ADA_TOZOON.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+        if (type == ModEntities.PRI_YELLOWEYE.get()) return ModEntities.ADA_YELLOWEYE.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         return null;
     }
 

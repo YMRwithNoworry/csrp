@@ -9,6 +9,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 /** Legacy Marauderized sheep: launches a lingering explosive nade at distant targets. */
 public final class MarauderizedSheepEntity extends MarauderizedParasiteEntity {
@@ -29,7 +30,7 @@ public final class MarauderizedSheepEntity extends MarauderizedParasiteEntity {
     }
 
     private void fireNade(LivingEntity target) {
-        ParasiteProjectileEntity projectile = ModEntities.NADE_BALL.get().create(level());
+        ParasiteProjectileEntity projectile = ModEntities.NADE_BALL.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (projectile == null) {
             return;
         }

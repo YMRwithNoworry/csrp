@@ -346,7 +346,7 @@ public final class SimAdventurerHeadEntity extends Monster implements CitadelAni
         if (!isAlive() || !medium.isAlive() || !(level() instanceof ServerLevel serverLevel)) {
             return false;
         }
-        SimAdventurerEntity adventurer = ModEntities.SIM_ADVENTURER.get().create(serverLevel);
+        SimAdventurerEntity adventurer = ModEntities.SIM_ADVENTURER.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (adventurer == null) {
             return false;
         }

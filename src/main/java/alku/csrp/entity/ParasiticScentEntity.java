@@ -394,7 +394,7 @@ public final class ParasiticScentEntity extends Entity {
 
     private boolean spawnWorm(ServerLevel level, LivingEntity target, BlockPos floor,
                               List<Identifier> payloadTypes) {
-        DeterrentParasiteEntity worm = ModEntities.WORM.get().create(level);
+        DeterrentParasiteEntity worm = ModEntities.WORM.get().create(level, EntitySpawnReason.MOB_SUMMONED);
         if (worm == null) {
             return false;
         }

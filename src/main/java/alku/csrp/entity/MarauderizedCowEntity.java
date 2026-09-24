@@ -149,7 +149,7 @@ public final class MarauderizedCowEntity extends MarauderizedParasiteEntity impl
         if (!level().isClientSide() && level() instanceof ServerLevel serverLevel) {
             int count = 3 + random.nextInt(2);
             for (int index = 0; index < count; index++) {
-                BuglinEntity buglin = ModEntities.BUGLIN.get().create(serverLevel);
+                BuglinEntity buglin = ModEntities.BUGLIN.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
                 if (buglin == null) {
                     continue;
                 }

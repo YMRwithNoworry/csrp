@@ -312,7 +312,7 @@ public final class AssimilatedEndermanEntity extends Monster
     public boolean killedEntity(ServerLevel level, LivingEntity victim) {
         parasiteKills++;
         if (parasiteKills >= AssimilatedParasiteEntity.FERAL_KILL_THRESHOLD) {
-            FeralEndermanEntity feral = ModEntities.FER_ENDERMAN.get().create(level);
+            FeralEndermanEntity feral = ModEntities.FER_ENDERMAN.get().create(level, EntitySpawnReason.MOB_SUMMONED);
             if (feral != null) {
                 feral.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
                 feral.setTarget(getTarget());
@@ -381,7 +381,7 @@ public final class AssimilatedEndermanEntity extends Monster
         if (level().isClientSide() || random.nextFloat() >= 0.5F || !(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        AssimilatedHeadEntity head = ModEntities.SIM_ENDERMAN_HEAD.get().create(serverLevel);
+        AssimilatedHeadEntity head = ModEntities.SIM_ENDERMAN_HEAD.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (head == null) {
             return;
         }

@@ -37,6 +37,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 public final class AirscrewEntity extends CrudeParasiteEntity implements PullingBallOwner {
     private static final float LEGACY_MOUTH_HEIGHT = 0.5F;
@@ -184,8 +185,8 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
         float consumedHealth = target.getHealth();
         target.discard();
         Mob incomplete = random.nextBoolean()
-                ? ModEntities.INCOMPLETEFORM_SMALL.get().create(serverLevel)
-                : ModEntities.INCOMPLETEFORM_MEDIUM.get().create(serverLevel);
+                ? ModEntities.INCOMPLETEFORM_SMALL.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED)
+                : ModEntities.INCOMPLETEFORM_MEDIUM.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
         if (incomplete == null) {
             return;
         }
@@ -293,7 +294,7 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
     }
 
     private void shootPullingBall(LivingEntity target) {
-        PullingBallEntity ball = ModEntities.PULLING_BALL.get().create(level());
+        PullingBallEntity ball = ModEntities.PULLING_BALL.get().create(level(), EntitySpawnReason.MOB_SUMMONED);
         if (ball == null) return;
         Vec3 start = getTetherMouthPosition(1.0F).add(getViewVector(1.0F).scale(0.5));
         Vec3 direction = target.getEyePosition().subtract(start).normalize();

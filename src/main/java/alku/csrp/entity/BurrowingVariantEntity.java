@@ -22,6 +22,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.EnumSet;
 import java.util.UUID;
+import net.minecraft.world.entity.EntitySpawnReason;
 
 /** Shared staged digging movement used by Quac and the original and adapted Zaa and Wymo forms. */
 public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
@@ -180,7 +181,7 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
         int count = bodySegmentCount();
         BurrowingVariantEntity previous = this;
         for (int index = 1; index <= count; index++) {
-            Entity created = getType().create(serverLevel);
+            Entity created = getType().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             if (!(created instanceof BurrowingVariantEntity segment)) {
                 return;
             }
