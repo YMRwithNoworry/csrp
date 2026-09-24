@@ -170,8 +170,13 @@ node scripts/run-all-verifications.cjs           → {"total":109,"passed":109,"
 ## 5. 遗留项 / 已知限制
 
 1. **未做运行期客户端验证**：本批没有执行 `runClient`（无图形环境），雪条/雾壳/雾色的最终观感、以及 `SubmitCustomGeometryEvent` 提交量对帧率的影响需要在真实客户端确认；`MAX_STREAKS`/`MAX_RADIUS` 是当前的上限护栏，必要时可调。
-2. **原版雨雪未关闭**：见 §1.4②，要用 `CustomWeatherEffectRenderer` 才能真正替换原版天气渲染，需要 `registry/**`（维度环境属性注册）写权限，留给后续批次。
-3. **Heblu 缺席**：见 D9，`SRPBlizzardDerivedHandler` 的 Heblu 分支目前恒为 `false`。
+2. **原版雨雪未关闭**：见 §1.4②。Lead 已核实 26.3 的确切 API 路径与为何本轮不实施，结论如下（供后续批次直接接手）：
+   - 正确入口是 `net.neoforged.neoforge.client.event.RegisterCustomEnvironmentEffectRendererEvent#registerWeatherEffectRenderer(Identifier, CustomWeatherEffectRenderer)`（mod 事件总线、仅客户端），配合 `net.neoforged.neoforge.common.world.NeoForgeEnvironmentAttributes.CUSTOM_WEATHER_EFFECTS`；`CustomWeatherEffectRenderer#renderSnowAndRain(...)` 返回 `true` 即阻止原版雨雪渲染，返回 `false` 则原版照常 —— 所以**动态开关本身没问题**（暴风雪激活时返回 true，否则 false）。
+   - 阻塞点在于**该属性是 biome/datapack 静态值**：26.3 的 `EnvironmentAttributeMap` 挂在 `ModifiableBiomeInfo` 上，而 NeoForge 的 `BiomeModifiers` 只提供 AddFeatures/RemoveFeatures/AddSpawns/RemoveSpawns/AddCarvers/RemoveCarvers/AddSpawnCosts/RemoveSpawnCosts 八种修饰器，**没有环境属性修饰器**，也没有 `ModifyBiomeEvent`。因此只能改 biome JSON 的 `attributes` 段。
+   - 若只给 4 个 `csrp:srp_*` 寄生群系加属性，冷星世界里的原版群系仍会下雨；要做到原版级替换就必须覆盖 vanilla 的 `data/minecraft/worldgen/biome/*.json` 或维度定义，与其它模组冲突风险高。
+   - 当前缓解：`SRPBlizzardFogRenderer` 已用 `ViewportEvent.ComputeFogColor` 洗白/洗黑地平线（见 §1.4②），观感上压住了大部分差异。
+   - **结论**：保留为已知差异，不做侵入式覆盖；若后续要做，建议先确认 26.3 是否允许维度级环境属性（`data/<ns>/dimension*` 的 attributes 段）。
+3. **Heblu 缺席**：**已解决**（Lead，commit `94327ecd`）。1.10.9 的 `init/SRPEntities.java:385` 把 mob id `draconite` 注册到类 `EntityHeblu`，lang `itemmobspawner_heblu` = "Spawn Draconite" —— 即 `EntityHeblu` 就是本工程既有的 `DraconiteEntity`，`csrp:heblu` 这个 id 根本不存在。`SRPBlizzardDerivedHandler` 的实体查找已从 `csrp:heblu` 改为 `csrp:draconite`（同批修正 `LegacyMobSpawnerItem` 的 `heblu → wraith` 误映射）。
 4. **碎裂地形光照**：见 D7，`checkBlock` 只对改动过的列顶端触发，理论上极端地形（深谷底部）仍可能有局部光照延迟到邻近方块更新时修正。
 5. **`field_150432_aD`/`field_150403_cj`/`field_150433_aE` 身份**：见 D6，若后续能取到 1.12.2 MCP 映射表，应回头核对 `getProfile` 的冰/雪分支。
 6. **未 push**：两个 commit（`bfd9ef75`、`300578d3`）只在本地 `port/neoforge-26.3`，按约定由 Lead 统一推送。
