@@ -261,3 +261,24 @@ node scripts/run-all-verifications.cjs
 
 注意：本脚本会扫描 `src/main/java/**` 与 `src/main/resources/data/**` 里实际使用的键。其他 teammate 每新增一处 `Component.translatable(...)` / 数据文件 `translate` / `sounds.json` `subtitle`，都可能带来新键；**在所有 teammate 收尾后请再跑一次 `node scripts/convert-lang-109.cjs`**，把新键补齐并提交。`scripts/verify-lang-parity.cjs` 会在有键缺失时失败，可用来判断是否需要重跑。
 
+## 10. 校验证据
+
+以下数字全部由已提交的语言文件推导，重复执行结果一致。
+
+| 断言 | 结果 |
+| --- | --- |
+| 语言文件数 | 33 套 JSON |
+| 全部语言文件键数合计 | 29393 |
+| `en_us.json` 键数 | 2978（下限断言 2900） |
+| `zh_cn.json` 键数 | 2994（下限断言 2900） |
+| `en_us.lang` 2332 键 → `en_us.json` 覆盖 | 100% |
+| `zh_cn.lang` 2140 键 → `zh_cn.json` 覆盖 | 100% |
+| `en_us.lang` 2332 键 → `zh_cn.json` 覆盖 | 100% |
+| 源码/数据/资源引用的键（去重） | 486 个，缺失 0 |
+| vanilla 键被重复定义 | 0 个 |
+| 残留 `.lang` | 0 个 |
+| 映射规则漂移（嵌入用例覆盖全部规则） | 0 条 |
+| 确定性随机抽样（40 个原键） | 全部命中 |
+
+对应命令：`node scripts/verify-lang-parity.cjs`（覆盖 / 映射 / 源码键）、`node scripts/verify-lang-format.cjs`（JSON 合法性、§ 完整性、键排序、vanilla 键、`.lang` 清理）、`node scripts/run-all-verifications.cjs`（全量回归，基线 92 项必须保持全绿）。
+

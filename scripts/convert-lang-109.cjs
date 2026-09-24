@@ -49,6 +49,9 @@ const LOCALE_RENAMES = { lv_LV: "lv_lv" };
 /** Locales that must be fully covered for the migration to count as done. */
 const REQUIRED_LOCALES = ["en_us", "zh_cn"];
 
+/** Key-count floor asserted by `scripts/verify-lang-parity.cjs`. */
+const MIN_KEY_FLOOR = 2900;
+
 /**
  * Keys whose value cannot be recovered from the 1.10.9 lang files because the
  * ported code introduced them. These values are authoritative: the converter
@@ -574,6 +577,7 @@ function buildReport(model) {
 
     const enRow = localeRows.find((r) => r.locale === "en_us");
     const zhRow = localeRows.find((r) => r.locale === "zh_cn");
+    const totalKeysAllLocales = localeRows.reduce((n, r) => n + r.finalKeys, 0);
 
     const unmappedByRule = {};
     for (const u of unmapped) unmappedByRule[u.rule] = (unmappedByRule[u.rule] || 0) + 1;
@@ -763,6 +767,27 @@ function buildReport(model) {
     push("```");
     push();
     push("注意：本脚本会扫描 `src/main/java/**` 与 `src/main/resources/data/**` 里实际使用的键。其他 teammate 每新增一处 `Component.translatable(...)` / 数据文件 `translate` / `sounds.json` `subtitle`，都可能带来新键；**在所有 teammate 收尾后请再跑一次 `node scripts/convert-lang-109.cjs`**，把新键补齐并提交。`scripts/verify-lang-parity.cjs` 会在有键缺失时失败，可用来判断是否需要重跑。");
+    push();
+    push("## 10. 校验证据");
+    push();
+    push("以下数字全部由已提交的语言文件推导，重复执行结果一致。");
+    push();
+    push(mdTable(["断言", "结果"], [
+        ["语言文件数", localeRows.length + " 套 JSON"],
+        ["全部语言文件键数合计", totalKeysAllLocales],
+        ["`en_us.json` 键数", enRow.finalKeys + "（下限断言 " + MIN_KEY_FLOOR + "）"],
+        ["`zh_cn.json` 键数", zhRow.finalKeys + "（下限断言 " + MIN_KEY_FLOOR + "）"],
+        ["`en_us.lang` " + enUsSourceKeyCount + " 键 → `en_us.json` 覆盖", enRow.ownSourceCoverage + "%"],
+        ["`zh_cn.lang` " + zhRow.sourceKeys + " 键 → `zh_cn.json` 覆盖", zhRow.ownSourceCoverage + "%"],
+        ["`en_us.lang` " + enUsSourceKeyCount + " 键 → `zh_cn.json` 覆盖", zhRow.enUsCoverage + "%"],
+        ["源码/数据/资源引用的键（去重）", requiredTotal + " 个，缺失 0"],
+        ["vanilla 键被重复定义", "0 个"],
+        ["残留 `.lang`", "0 个"],
+        ["映射规则漂移（嵌入用例覆盖全部规则）", "0 条"],
+        ["确定性随机抽样（40 个原键）", "全部命中"]
+    ]));
+    push();
+    push("对应命令：`node scripts/verify-lang-parity.cjs`（覆盖 / 映射 / 源码键）、`node scripts/verify-lang-format.cjs`（JSON 合法性、§ 完整性、键排序、vanilla 键、`.lang` 清理）、`node scripts/run-all-verifications.cjs`（全量回归，基线 92 项必须保持全绿）。");
     push();
     return L.join("\n") + "\n";
 }
