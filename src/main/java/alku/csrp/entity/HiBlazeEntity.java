@@ -24,6 +24,12 @@ import java.util.EnumSet;
 
 /** Legacy hijacked blaze: aerial spineball volleys and nearby parasite illumination. */
 public final class HiBlazeEntity extends HijackedParasiteEntity implements CitadelAnimatedEntity {
+
+    /** Original EntityHiBlaze read SRPConfigMobs.infbearCanSpawnAssimilatedNat, so it follows the sim_bear threshold. */
+    @Override
+    public String assimilationSpawnKey() {
+        return "sim_bear";
+    }
     private final CitadelRawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
 
     private int rangedCooldown = 20;

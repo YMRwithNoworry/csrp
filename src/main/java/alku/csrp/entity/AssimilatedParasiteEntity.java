@@ -69,7 +69,8 @@ import java.util.EnumSet;
  * primitive-parasite damage-adaptation state.
  */
 public final class AssimilatedParasiteEntity extends Monster
-        implements CitadelAnimatedEntity, Parasite, MeltableAssimilated, ManualVariantProvider {
+        implements CitadelAnimatedEntity, Parasite, MeltableAssimilated, ManualVariantProvider,
+        AssimilationSpawnGate {
     public static final int FERAL_KILL_THRESHOLD = 60;
     private static final int COTH_DURATION_TICKS = 4_800;
     private static final int COTH_AURA_RADIUS = 8;
@@ -491,6 +492,12 @@ public final class AssimilatedParasiteEntity extends Monster
         return animationCache;
     }
 
+    /** Original EntityInfBear/InfCow/InfPig/InfSheep/InfWolf/InfSquid {@code getIDSpawn()}. */
+    @Override
+    public String assimilationSpawnKey() {
+        return getKind().id();
+    }
+
     public Kind getKind() {
         return kind;
     }
@@ -626,6 +633,11 @@ public final class AssimilatedParasiteEntity extends Monster
         SHEEP("sim_sheep", 13.0D, 6.0D, 1.3D, 0.3D, 0.28D, 24.0D, 4, 1.3D, 1.3F, 63, 1),
         WOLF("sim_wolf", 10.0D, 10.5D, 0.5D, 0.2D, 0.34D, 32.0D, 5, 0.85D, 0.85F, 19, 1),
         SQUID("sim_squid", 15.0D, 11.0D, 5.0D, 0.1D, 0.26D, 24.0D, 5, 0.9D, 0.0F, 0, 0);
+
+        /** Original 1.12.2 entity id of this variant, e.g. {@code sim_bear}. */
+        public String id() {
+            return id;
+        }
 
         private final String id;
         private final double maxHealth;

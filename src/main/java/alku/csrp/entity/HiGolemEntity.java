@@ -27,6 +27,12 @@ import java.util.UUID;
 
 /** Legacy hijacked golem's wind-up charge and close-range control. */
 public final class HiGolemEntity extends HijackedParasiteEntity {
+
+    /** Original EntityHiGolem getIDSpawn()/canSpawnByIDData() -> SRPConfigMobs.higolemCanSpawnAssimilatedNat. */
+    @Override
+    public String assimilationSpawnKey() {
+        return "hi_golem";
+    }
     private static final EntityDataAccessor<Boolean> CHARGING = SynchedEntityData.defineId(
             HiGolemEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(

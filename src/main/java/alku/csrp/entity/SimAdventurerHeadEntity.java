@@ -53,7 +53,13 @@ import java.util.Comparator;
 import java.util.EnumSet;
 
 /** Walking head companion that reforms an Assimilated Adventurer with a Medium Incomplete Form. */
-public final class SimAdventurerHeadEntity extends Monster implements CitadelAnimatedEntity, Parasite {
+public final class SimAdventurerHeadEntity extends Monster implements CitadelAnimatedEntity, Parasite, AssimilationSpawnGate {
+    /** Original EntityInfPlayerHead read SRPConfigMobs.infhumanCanSpawnAssimilatedNat. */
+    @Override
+    public String assimilationSpawnKey() {
+        return "sim_human";
+    }
+
     private static final EntityDataAccessor<Integer> LEAP_TICKS = SynchedEntityData.defineId(
             SimAdventurerHeadEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(

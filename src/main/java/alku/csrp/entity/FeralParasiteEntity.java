@@ -33,7 +33,8 @@ import alku.csrp.animation.CitadelRawAnimation;
 import alku.csrp.animation.CitadelAnimationUtil;
 
 /** Shared legacy Feral behaviour: fire weakness and kill-fuelled recovery. */
-public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntity, Parasite {
+public class FeralParasiteEntity extends Monster
+        implements CitadelAnimatedEntity, Parasite, AssimilationSpawnGate {
     private static final float REGEN_AMOUNT = 3.0F;
     private static final int REGEN_KILL_INTERVAL = 10;
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
@@ -249,6 +250,25 @@ public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntit
     @Override
     public CitadelAnimationCache getCitadelAnimationCache() {
         return animationCache;
+    }
+
+    /**
+     * Original EntityFer* returned the matching infected register id from {@code getIDSpawn()}
+     * (e.g. EntityFerBear:49 = sim_bear) and read the same {@code *CanSpawnAssimilatedNat} value.
+     */
+    @Override
+    public String assimilationSpawnKey() {
+        return switch (getKind()) {
+            case BEAR -> "sim_bear";
+            case COW -> "sim_cow";
+            case ENDERMAN -> "sim_enderman";
+            case HORSE -> "sim_horse";
+            case HUMAN -> "sim_human";
+            case PIG -> "sim_pig";
+            case SHEEP -> "sim_sheep";
+            case VILLAGER -> "sim_villager";
+            case WOLF -> "sim_wolf";
+        };
     }
 
     public Kind getKind() {

@@ -53,7 +53,7 @@ import alku.csrp.animation.CitadelAnimationUtil;
  * forms retain the legacy fire weakness, COTH contact damage, head-on-death
  * transition, and explosive remains burst.
  */
-public final class AssimilatedVariantEntity extends Monster implements CitadelAnimatedEntity, Parasite, MeltableAssimilated {
+public final class AssimilatedVariantEntity extends Monster implements CitadelAnimatedEntity, Parasite, MeltableAssimilated, AssimilationSpawnGate {
     private static final EntityDataAccessor<Integer> ANIMATION_STATUS = SynchedEntityData.defineId(
             AssimilatedVariantEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> MELTING = SynchedEntityData.defineId(
@@ -367,6 +367,12 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
         return animationCache;
     }
 
+    /** Original EntityDorpa/EntitySpeHorse/EntitySpeHuman/EntitySpeVillager {@code getIDSpawn()}. */
+    @Override
+    public String assimilationSpawnKey() {
+        return getKind().id();
+    }
+
     public Kind getKind() {
         return kind;
     }
@@ -514,6 +520,11 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
                 1.95F, 1.95F, 127, 1),
         VILLAGER("sim_villager", 16.0D, 5.0D, 10.0D, 0.2D, 0.23D, 32.0D, 10,
                 1.95F, 1.95F, 127, 1);
+
+        /** Original 1.12.2 entity id of this variant, e.g. {@code sim_bear}. */
+        public String id() {
+            return id;
+        }
 
         private final String id;
         private final double maxHealth;

@@ -51,7 +51,13 @@ import alku.csrp.animation.CitadelAnimationUtil;
 import java.util.EnumSet;
 
 /** Assimilated Ender Dragon with removable head and wing durability driving flight and ranged combat. */
-public final class AssimilatedDragonEntity extends Monster implements CitadelAnimatedEntity, Parasite {
+public final class AssimilatedDragonEntity extends Monster implements CitadelAnimatedEntity, Parasite, AssimilationSpawnGate {
+    /** Original EntityInfDragonE {@code getIDSpawn()}. */
+    @Override
+    public String assimilationSpawnKey() {
+        return "sim_dragone";
+    }
+
     private static final float PART_HEALTH = 52.0F;
     private static final int RANGED_COOLDOWN = 40;
     private static final int BLOCK_BREAK_COOLDOWN = 60;

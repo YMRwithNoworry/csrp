@@ -51,7 +51,7 @@ import java.util.Comparator;
 import java.util.EnumSet;
 
 /** Shared walking-head behavior: infect targets and rebuild a body with a medium incomplete form. */
-public final class AssimilatedHeadEntity extends Monster implements CitadelAnimatedEntity, Parasite {
+public final class AssimilatedHeadEntity extends Monster implements CitadelAnimatedEntity, Parasite, AssimilationSpawnGate {
     private static final EntityDataAccessor<Integer> LEAP_TICKS = SynchedEntityData.defineId(
             AssimilatedHeadEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
@@ -281,6 +281,17 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
         return animationCache;
     }
 
+    /**
+     * Original EntityInf*Head used their own register id as the counter key, but read the parent
+     * animal’s {@code canSpawnByIDData()} (e.g. EntityInfCowHead:28 / infcowCanSpawnAssimilatedNat).
+     * The port keeps the parent animal key so the threshold direction is preserved.
+     */
+    @Override
+    public String assimilationSpawnKey() {
+        String id = getKind().id();
+        return id.endsWith("head") ? id.substring(0, id.length() - 4) : id;
+    }
+
     public Kind getKind() {
         return kind;
     }
@@ -455,6 +466,11 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
         SHEEP("sim_sheephead", 3.9D, 1.8D, 0.30D, 16.0D),
         VILLAGER("sim_villagerhead", 4.8D, 3.0D, 0.30D, 16.0D),
         WOLF("sim_wolfhead", 3.0D, 3.15D, 0.34D, 16.0D);
+
+        /** Original 1.12.2 entity id of this variant, e.g. {@code sim_bear}. */
+        public String id() {
+            return id;
+        }
 
         private final String id;
         private final double maxHealth;

@@ -7,7 +7,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 
 /** Shared hostile state for legacy hijacked mobs. */
-public abstract class HijackedParasiteEntity extends PrimitiveParasiteEntity {
+public abstract class HijackedParasiteEntity extends PrimitiveParasiteEntity implements AssimilationSpawnGate {
     protected HijackedParasiteEntity(EntityType<? extends HijackedParasiteEntity> type, Level level, int experience) {
         super(type, level);
         xpReward = experience;

@@ -61,8 +61,18 @@ import java.util.List;
  * Legacy Assimilated Adventurer. Its transition path is intentionally separate from the
  * generic assimilated-animal class because the original creature melts into Moving Flesh.
  */
-public final class SimAdventurerEntity extends Monster implements CitadelAnimatedEntity, Parasite, MeltableAssimilated {
+public final class SimAdventurerEntity extends Monster implements CitadelAnimatedEntity, Parasite, MeltableAssimilated, AssimilationSpawnGate {
     public static final int MELT_KILL_THRESHOLD = 10;
+    /**
+     * Original EntityInfPlayer {@code getIDSpawn()} returned 40 but {@code canSpawnByIDData()}
+     * returned {@code SRPConfigMobs.infhumanCanSpawnAssimilatedNat}, so the adventurer follows the
+     * sim_human threshold.
+     */
+    @Override
+    public String assimilationSpawnKey() {
+        return "sim_human";
+    }
+
     public static final int THRALL_KILL_THRESHOLD = 15;
     public static final int MELT_DURATION_TICKS = 127;
     private static final float BASE_HEIGHT = 1.95F;

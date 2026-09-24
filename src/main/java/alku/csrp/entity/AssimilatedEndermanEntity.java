@@ -60,7 +60,13 @@ import net.minecraft.tags.BlockTags;
 
 /** Legacy assimilated Enderman teleports itself and idle parasite allies around its prey. */
 public final class AssimilatedEndermanEntity extends Monster
-        implements CitadelAnimatedEntity, Parasite, ManualVariantProvider {
+        implements CitadelAnimatedEntity, Parasite, ManualVariantProvider, AssimilationSpawnGate {
+    /** Original EntityInfEnderman {@code getIDSpawn()}. */
+    @Override
+    public String assimilationSpawnKey() {
+        return "sim_enderman";
+    }
+
     private static final EntityDataAccessor<Boolean> SHRIMP_FED = SynchedEntityData.defineId(
             AssimilatedEndermanEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> TEXTURE_VARIANT = SynchedEntityData.defineId(

@@ -30,7 +30,13 @@ import alku.csrp.animation.CitadelRawAnimation;
 import alku.csrp.animation.CitadelAnimationUtil;
 
 /** Detached dragon head retains its fireball attack after the body has been decapitated. */
-public final class AssimilatedDragonHeadEntity extends Monster implements CitadelAnimatedEntity, Parasite {
+public final class AssimilatedDragonHeadEntity extends Monster implements CitadelAnimatedEntity, Parasite, AssimilationSpawnGate {
+    /** Original EntityInfDragonEHead read SRPConfigMobs.infdragoneCanSpawnAssimilatedNat. */
+    @Override
+    public String assimilationSpawnKey() {
+        return "sim_dragone";
+    }
+
     private final CitadelRawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
     private final CitadelRawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
     private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);

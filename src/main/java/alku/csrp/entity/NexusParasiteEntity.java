@@ -12,6 +12,9 @@ import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModItems;
 import alku.csrp.world.SrpCoreSystems;
 import alku.csrp.world.SrpWorldData;
+import alku.csrp.world.gen.WorldGenParasiteNexusProtection1;
+import alku.csrp.world.gen.WorldGenParasiteNexusProtection2;
+import alku.csrp.world.gen.WorldGenParasiteNexusProtection3;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -30,6 +33,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -220,8 +225,11 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
                 && forcedEvolutionCooldown <= 0 && forceEvolveNearbyParasite()) {
             forcedEvolutionCooldown = 100;
         }
-        if (activeKind.family == Family.BECKON && activeKind.stage == 4 && level().isThundering()
-                && tickCount % 20 == 0) {
+        // Original EntityVenkrolSIV.tick ran VenkrolTornadoLogic every tick while the Venkrol stood
+        // under open sky during a thunderstorm (SRPConfigWorld.venkrolTornadoEnabled, default true).
+        if (activeKind.family == Family.BECKON && activeKind.stage == 4
+                && level().isThundering() && level().isRaining()
+                && level().canSeeSky(blockPosition().above())) {
             createStormVortex();
         }
         if (activeKind.family == Family.BECKON && tickCount % Math.max(20, 100 - activeKind.stage * 15) == 0
@@ -845,19 +853,120 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         }
     }
 
+    /**
+     * Port of {@code entity/logic/VenkrolTornadoLogic.tickTornadoEffects} (out109
+     * {@code entity/logic/VenkrolTornadoLogic.java:15-171}), driven from a stage-4 Beckon.
+     *
+     * <p>Every non-parasite living entity inside a 120-block radius / 50-block tall box that is not
+     * below the Venkrol is pulled in, swirled and, in the inner lift zone, thrown upwards. Constants,
+     * tier boundaries and clamps are copied from the original.
+     */
     private void createStormVortex() {
-        for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
-                getBoundingBox().inflate(10.0D), this::isValidParasiteTarget)) {
-            if (target.getItemBySlot(EquipmentSlot.FEET).is(ModItems.VENKROL_BOOTS)) {
+        final double maxRadius = 120.0D;
+        AABB area = new AABB(getX() - maxRadius, getY(), getZ() - maxRadius,
+                getX() + maxRadius, getY() + 50.0D, getZ() + maxRadius);
+        for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area)) {
+            if (target == this || !target.isAlive() || isSrpParasite(target)
+                    || target.getY() < getY()) {
                 continue;
             }
-            Vec3 pull = position().subtract(target.position());
-            if (pull.lengthSqr() < 0.001D) {
-                continue;
-            }
-            pull = pull.normalize().scale(0.32D);
-            target.push(pull.x, 0.18D, pull.z);
+            applyTornadoForces(target, maxRadius);
         }
+    }
+
+    /** Original {@code isSRPParasite}: anything registered under the mod namespace is immune. */
+    private static boolean isSrpParasite(LivingEntity entity) {
+        Identifier id = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType());
+        return Csrp.MODID.equals(id.getNamespace());
+    }
+
+    private void applyTornadoForces(LivingEntity target, double maxRadius) {
+        if (target instanceof Player player) {
+            if (player.getItemBySlot(EquipmentSlot.FEET).is(ModItems.VENKROL_BOOTS)
+                    || player.isSpectator()
+                    || player.isCreative() && player.getAbilities().flying) {
+                return;
+            }
+        }
+        if (target.isPassenger() || target.isRemoved()) {
+            return;
+        }
+        double dx = getX() - target.getX();
+        double dz = getZ() - target.getZ();
+        double distSq = dx * dx + dz * dz;
+        if (distSq < 1.0E-4D) {
+            distSq = 1.0E-4D;
+        }
+        double horizDist = Math.sqrt(distSq);
+        if (horizDist > maxRadius) {
+            return;
+        }
+        double normX = dx / horizDist;
+        double normZ = dz / horizDist;
+
+        double pullTierFactor;
+        if (horizDist >= 50.0D) {
+            pullTierFactor = 0.05D;
+        } else if (horizDist >= 25.0D) {
+            pullTierFactor = 0.1D;
+        } else if (horizDist >= 15.0D) {
+            pullTierFactor = 0.2D;
+        } else if (horizDist >= 10.0D) {
+            pullTierFactor = 0.35D;
+        } else if (horizDist >= 5.0D) {
+            pullTierFactor = 0.55D;
+        } else {
+            pullTierFactor = 1.0D;
+        }
+
+        double pullStrength = 0.08D * pullTierFactor;
+        double swirlStrength = 0.07D * pullTierFactor;
+        double swirlX = -normZ;
+        double swirlZ = normX;
+
+        double innerLiftRadius = 15.0D;
+        double liftAccel = 0.0D;
+        if (horizDist <= innerLiftRadius) {
+            double liftFactor = Mth.clamp(1.0D - horizDist / innerLiftRadius, 0.0D, 1.0D);
+            liftAccel = 0.25D * liftFactor;
+        }
+
+        double heightAboveVenkrol = target.getY() - getY();
+        boolean inFlingZone = heightAboveVenkrol > 16.0D && horizDist < 12.0D;
+        if (heightAboveVenkrol > 18.0D && horizDist > 18.0D) {
+            return;
+        }
+
+        double radialDirX = normX;
+        double radialDirZ = normZ;
+        double motionX = target.getDeltaMovement().x;
+        double motionY = target.getDeltaMovement().y;
+        double motionZ = target.getDeltaMovement().z;
+
+        if (inFlingZone) {
+            radialDirX = -normX;
+            radialDirZ = -normZ;
+            double flingFactor = 1.0D - Math.min(horizDist / 12.0D, 1.0D);
+            pullStrength *= 1.4D + (6.0D - 1.4D) * flingFactor;
+            swirlStrength *= 1.0D + (2.3D - 1.0D) * flingFactor;
+            double outwardBurst = 1.1D * flingFactor;
+            motionX += radialDirX * outwardBurst;
+            motionZ += radialDirZ * outwardBurst;
+            motionY = Math.max(-1.6D, motionY - 0.16D * flingFactor);
+        } else if (liftAccel > 0.0D && heightAboveVenkrol < 25.0D) {
+            motionY = Math.min(1.2D, motionY + liftAccel);
+            target.resetFallDistance();
+        }
+
+        double awayX = -normX;
+        double awayZ = -normZ;
+        double dotAway = motionX * awayX + motionZ * awayZ;
+        pullStrength *= dotAway > 0.0D ? 1.0D : 0.25D;
+
+        target.setDeltaMovement(motionX + radialDirX * pullStrength + swirlX * swirlStrength,
+                motionY,
+                motionZ + radialDirZ * pullStrength + swirlZ * swirlStrength);
+        target.syncVelocity = true;
     }
 
     private void breakBlocksTowardsTarget(Kind activeKind) {
@@ -908,8 +1017,40 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
             next.setPersistenceRequired();
         }
         serverLevel.addFreshEntity(next);
+        // Original EntityAINexusGrow.upgradeV/upgradeD/upgradeL rolled for a nexus protection
+        // structure right after each stage upgrade (SRPConfig.nexusStructures, default true):
+        // Beckon 0.5, Dispatcher 0.3, Rooter 0.3. The original only reached this from inside its
+        // `if (SRPConfigSystems.rsSounds)` block; the port keeps the structure roll unconditional
+        // because sound configuration no longer gates world generation.
+        generateProtectionStructure(serverLevel, activeKind);
         discard();
         return true;
+    }
+
+    /**
+     * Port of {@code EntityPDispatcher.generateStructure()} (NexusProtection1 at the block below),
+     * {@code EntityPBeckon.generateStructure()} (NexusProtection2 at the block) and
+     * {@code EntityPRooter.generateStructure()} (NexusProtection3 at the block), all built with
+     * {@code stage = 1}.
+     */
+    private void generateProtectionStructure(ServerLevel serverLevel, Kind activeKind) {
+        double chance = switch (activeKind.family) {
+            case BECKON -> 0.5D;
+            case DISPATCHER -> 0.3D;
+            case ROOTER -> 0.3D;
+            case ROOTERBALL -> 0.0D;
+        };
+        if (chance <= 0.0D || random.nextDouble() >= chance) {
+            return;
+        }
+        BlockPos origin = activeKind.family == Family.DISPATCHER ? blockPosition().below() : blockPosition();
+        switch (activeKind.family) {
+            case DISPATCHER -> new WorldGenParasiteNexusProtection1(1).generate(serverLevel, random, origin);
+            case BECKON -> new WorldGenParasiteNexusProtection2(1).generate(serverLevel, random, origin);
+            case ROOTER -> new WorldGenParasiteNexusProtection3(1).generate(serverLevel, random, origin);
+            default -> {
+            }
+        }
     }
 
     private boolean spawnNexus(NexusParasiteEntity spawned, LivingEntity target, double distance) {

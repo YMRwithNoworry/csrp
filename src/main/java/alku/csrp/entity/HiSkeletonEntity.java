@@ -19,6 +19,12 @@ import java.util.EnumSet;
 
 /** Legacy hijacked skeleton ranged spineball attacker. */
 public final class HiSkeletonEntity extends HijackedParasiteEntity {
+
+    /** Original EntityHiSkeleton read SRPConfigMobs.higolemCanSpawnAssimilatedNat (same value as hi_golem). */
+    @Override
+    public String assimilationSpawnKey() {
+        return "hi_golem";
+    }
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
             HiSkeletonEntity.class, EntityDataSerializers.INT);
     private final CitadelRawAnimation ageInTicksAnimation = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");

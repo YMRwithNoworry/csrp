@@ -6,6 +6,12 @@ import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -44,7 +50,7 @@ import alku.csrp.animation.CitadelAnimationUtil;
 /**
  * Assimilated Human animation states mirror ModelInfHuman.
  */
-public final class SimHumanEntity extends Monster implements CitadelAnimatedEntity, Parasite, MeltableAssimilated {
+public final class SimHumanEntity extends Monster implements CitadelAnimatedEntity, Parasite, MeltableAssimilated, AssimilationSpawnGate {
 
     // 动画状态常量
     public static final int STATE_NORMAL = 0;
@@ -59,6 +65,12 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
     private static final float BLEED_CHANCE = 0.2F;
     private static final int HOST_SKELETON_KILLS = 5;
 
+    /** Original EntityInfHuman {@code getIDSpawn()} (register id 6 = sim_human). */
+    @Override
+    public String assimilationSpawnKey() {
+        return "sim_human";
+    }
+
     // 同步数据访问器
     private static final EntityDataAccessor<Integer> ANIMATION_STATE = SynchedEntityData.defineId(
             SimHumanEntity.class, EntityDataSerializers.INT);
@@ -66,6 +78,26 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
             SimHumanEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> MELT_TICKS = SynchedEntityData.defineId(
             SimHumanEntity.class, EntityDataSerializers.INT);
+    /** Original EntityInfHuman skin id 111 — the "Sound Eater" variant. */
+    private static final EntityDataAccessor<Boolean> SOUND_EATER = SynchedEntityData.defineId(
+            SimHumanEntity.class, EntityDataSerializers.BOOLEAN);
+
+    /** out109 EntityInfHuman:627 — 1% of natural variants become the Sound Eater. */
+    private static final float SOUND_EATER_CHANCE = 0.01F;
+    private static final int SOUND_EATER_SKIN = 111;
+    private static final double SOUND_EATER_FOLLOW_RANGE = 12.0D;
+    private static final double SOUND_EATER_MOVEMENT_SPEED = 0.32D;
+    /** out109 EntityInfHuman:148 — the hearing box is inflated 16 x 4 x 16. */
+    private static final double HEARING_RANGE_HORIZONTAL = 16.0D;
+    private static final double HEARING_RANGE_VERTICAL = 4.0D;
+    /** Sprinting players are three times as loud (out109 EntityInfHuman:164-166). */
+    private static final double SPRINT_LOUDNESS_MULTIPLIER = 3.0D;
+    private static final int MOVEMENT_SOUND_MEMORY_TICKS = 60;
+    /** out109 SoundEaterBlockSoundHandler: block break radius 16 / life 100, place radius 12 / life 80. */
+    static final double BLOCK_BREAK_SOUND_RADIUS = 16.0D;
+    static final int BLOCK_BREAK_SOUND_LIFE_TICKS = 100;
+    static final double BLOCK_PLACE_SOUND_RADIUS = 12.0D;
+    static final int BLOCK_PLACE_SOUND_LIFE_TICKS = 80;
 
     private static final int STILL_ANIMATION_DELAY_TICKS = 25;
     private final CitadelRawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
@@ -87,6 +119,8 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
     private int stillAnimationTicks;
     private int parasiteKills;
     private int skeletonKills;
+    private BlockPos lastHeardSoundPos;
+    private int soundMemoryTicks;
 
     public SimHumanEntity(EntityType<? extends SimHumanEntity> type, Level level) {
         super(type, level);
@@ -109,6 +143,7 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
         builder.define(ANIMATION_STATE, STATE_NORMAL);
         builder.define(MELTING, false);
         builder.define(MELT_TICKS, 0);
+        builder.define(SOUND_EATER, false);
     }
 
     @Override
@@ -165,11 +200,125 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
         // 更新动画状态
         updateCitadelAnimationState();
 
+        // Sound Eater (skin 111) hunts by noise instead of sight.
+        if (isSoundEater()) {
+            tickSoundEater();
+        }
+
         // 定期感染附近生物
         if (tickCount % COTH_AURA_INTERVAL_TICKS == 0) {
             infectNearby();
             if (AssimilatedMeltSystem.tryStartGroup(this, parasiteKills)) {
                 parasiteKills = 0;
+            }
+        }
+    }
+
+    /** Original {@code EntityInfHuman.getSkin() == 111}. */
+    public boolean isSoundEater() {
+        return entityData.get(SOUND_EATER);
+    }
+
+    public void setSoundEater(boolean soundEater) {
+        entityData.set(SOUND_EATER, soundEater);
+        if (soundEater) {
+            var followRange = getAttribute(Attributes.FOLLOW_RANGE);
+            if (followRange != null) {
+                followRange.setBaseValue(SOUND_EATER_FOLLOW_RANGE);
+            }
+            var movementSpeed = getAttribute(Attributes.MOVEMENT_SPEED);
+            if (movementSpeed != null) {
+                movementSpeed.setBaseValue(SOUND_EATER_MOVEMENT_SPEED);
+            }
+        }
+    }
+
+    /** Original {@code EntityInfHuman.func_180482_a} rolled skin 111 with a 1% chance. */
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
+                                        EntitySpawnReason reason, SpawnGroupData spawnGroupData) {
+        SpawnGroupData data = super.finalizeSpawn(level, difficulty, reason, spawnGroupData);
+        if (random.nextFloat() < SOUND_EATER_CHANCE) {
+            setSoundEater(true);
+        }
+        return data;
+    }
+
+    /**
+     * Original {@code EntityInfHuman:151-188}: tick the sound memory, otherwise listen for the
+     * loudest nearby player (walk distance this tick, tripled while sprinting) and chase that noise.
+     */
+    private void tickSoundEater() {
+        tickSoundMemory();
+        if (getHeardSoundPos() == null) {
+            Player loudest = null;
+            double loudestLoudness = 0.0D;
+            for (Player player : level().getEntitiesOfClass(Player.class,
+                    getBoundingBox().inflate(HEARING_RANGE_HORIZONTAL, HEARING_RANGE_VERTICAL,
+                            HEARING_RANGE_HORIZONTAL),
+                    candidate -> !candidate.isSpectator() && !candidate.isCreative() && candidate.isAlive())) {
+                // 26.3 no longer exposes the old walkDist/walkDistO pair server side; the horizontal
+                // movement of this tick is the same quantity the original compared against 0.01.
+                double walkedThisTick = player.getDeltaMovement().horizontalDistance();
+                boolean moving = walkedThisTick > 0.01D || player.isSprinting();
+                if (!moving) {
+                    continue;
+                }
+                double loudness = walkedThisTick;
+                if (player.isSprinting()) {
+                    loudness *= SPRINT_LOUDNESS_MULTIPLIER;
+                }
+                if (loudness > loudestLoudness) {
+                    loudestLoudness = loudness;
+                    loudest = player;
+                }
+            }
+            if (loudest != null) {
+                notifyHeardSound(loudest.blockPosition(), MOVEMENT_SOUND_MEMORY_TICKS);
+                setTarget(loudest);
+            }
+        }
+        if (getHeardSoundPos() == null && getLastHurtByMob() == null && getTarget() != null) {
+            setTarget(null);
+        }
+    }
+
+    /** Original {@code EntityInfHuman.notifyHeardSound}. */
+    public void notifyHeardSound(BlockPos pos, int lifeTicks) {
+        if (!isSoundEater()) {
+            return;
+        }
+        lastHeardSoundPos = pos;
+        soundMemoryTicks = lifeTicks;
+    }
+
+    /** Original {@code EntityInfHuman.getHeardSoundPos}. */
+    public BlockPos getHeardSoundPos() {
+        return lastHeardSoundPos;
+    }
+
+    /** Original {@code EntityInfHuman.tickSoundMemory}. */
+    public void tickSoundMemory() {
+        if (soundMemoryTicks > 0 && --soundMemoryTicks <= 0) {
+            lastHeardSoundPos = null;
+        }
+    }
+
+    /** Original {@code EntityInfHuman.clearHeardSound}. */
+    public void clearHeardSound() {
+        lastHeardSoundPos = null;
+        soundMemoryTicks = 0;
+    }
+
+    /**
+     * Original {@code SoundEaterSoundHelper.broadcastSound}: every Sound Eater inside {@code radius}
+     * of {@code pos} remembers the noise for {@code lifeTicks}.
+     */
+    public static void broadcastSound(ServerLevel level, BlockPos pos, double radius, int lifeTicks) {
+        for (SimHumanEntity human : level.getEntitiesOfClass(SimHumanEntity.class,
+                new AABB(pos).inflate(radius))) {
+            if (human.isSoundEater()) {
+                human.notifyHeardSound(pos, lifeTicks);
             }
         }
     }
@@ -272,6 +421,11 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
         output.putInt("skeleton_kills", skeletonKills);
         output.putBoolean("melting", isMelting());
         output.putInt("melt_ticks", entityData.get(MELT_TICKS));
+        output.putBoolean("sound_eater", isSoundEater());
+        output.putInt("sound_memory_ticks", soundMemoryTicks);
+        if (lastHeardSoundPos != null) {
+            output.putLong("heard_sound_pos", lastHeardSoundPos.asLong());
+        }
     }
 
     @Override
@@ -282,6 +436,10 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
         skeletonKills = input.getIntOr("skeleton_kills", 0);
         entityData.set(MELTING, input.getBooleanOr("melting", false));
         entityData.set(MELT_TICKS, input.getIntOr("melt_ticks", 0));
+        setSoundEater(input.getBooleanOr("sound_eater", false));
+        soundMemoryTicks = input.getIntOr("sound_memory_ticks", 0);
+        lastHeardSoundPos = input.getLong("heard_sound_pos").isPresent()
+                ? BlockPos.of(input.getLongOr("heard_sound_pos", 0L)) : null;
     }
 
     @Override

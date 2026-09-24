@@ -39,6 +39,12 @@ import java.util.List;
 
 /** Feral Enderman teleport combat and parasite relocation from the legacy implementation. */
 public final class FeralEndermanEntity extends FeralParasiteEntity {
+    /** Original EntityFerEnderman {@code getIDSpawn()} returned 59 = sim_enderman. */
+    @Override
+    public String assimilationSpawnKey() {
+        return "sim_enderman";
+    }
+
     private static final double TELEPORT_RADIUS = 32.0D;
     private static final double MIN_TARGET_DISTANCE_SQR = 49.0D;
     private static final int TARGET_GRACE_TICKS = 30;

@@ -3,6 +3,7 @@ package alku.csrp.infection;
 import alku.csrp.Config;
 import alku.csrp.Csrp;
 import alku.csrp.entity.AdaptedVariantEntity;
+import alku.csrp.entity.AssimilationSpawnGate;
 import alku.csrp.entity.CrudeParasiteEntity;
 import alku.csrp.entity.FeralEndermanEntity;
 import alku.csrp.entity.FeralParasiteEntity;
@@ -608,6 +609,9 @@ public final class InfectionMechanics {
         if (assimilatedEnderman) {
             SrpWorldData.get(level).recordAssimilatedEnderman();
         }
+        // out109 ParasiteEventEntity:645/889/992 — a successful assimilation increments the per-type
+        // counter that EntityCanSpawn.canSpawnByIDData() later compares against.
+        AssimilationSpawnGate.recordAssimilation(level, converted);
         playAssimilationCompletion(level, converted);
         host.discard();
         return true;
