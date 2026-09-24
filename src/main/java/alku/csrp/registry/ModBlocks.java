@@ -70,6 +70,7 @@ import alku.csrp.block.ParasiteRubbleBlock;
 import alku.csrp.block.ParasiteSaplingBlock;
 import alku.csrp.block.ParasiteStainBlock;
 import alku.csrp.block.ParasiteTendrilBlock;
+import alku.csrp.block.ParasiteTrunkBlock;
 import alku.csrp.block.PottedSrpBlock;
 import alku.csrp.block.TressesHairBlock;
 import alku.csrp.block.BiomePurifierBlock;
@@ -188,7 +189,7 @@ public final class ModBlocks {
     public static final DeferredBlock<Block> PARASITESTAIN_SACKFLESH = BLOCKS.register("parasitestain_sackflesh", key -> new Block(BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key)).mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
     // RotatedPillarBlock so the `axis` property exists; the blockstates rotate the
     // trunk models the same way vanilla logs do.
-    public static final DeferredBlock<RotatedPillarBlock> PARASITETRUNK = BLOCKS.register("parasitetrunk", key -> new RotatedPillarBlock(BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key)).mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
+    public static final DeferredBlock<ParasiteTrunkBlock> PARASITETRUNK = BLOCKS.register("parasitetrunk", key -> new ParasiteTrunkBlock(BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key)).mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
     public static final DeferredBlock<RotatedPillarBlock> PARASITETRUNK_BALL = BLOCKS.register("parasitetrunk_ball", key -> new RotatedPillarBlock(BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key)).mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
     public static final DeferredBlock<RotatedPillarBlock> PARASITETRUNK_PLANT = BLOCKS.register("parasitetrunk_plant", key -> new RotatedPillarBlock(BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key)).mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
     public static final DeferredBlock<InfestedStairBlock> PARASITERUBBLE_BONESTAIRS = infestedStairs("parasiterubble_bonestairs", PARASITERUBBLE_BONE);
