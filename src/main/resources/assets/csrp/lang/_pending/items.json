@@ -16,6 +16,9 @@
   "item.csrp.scythe_head": "§6Living Scythe Head",
   "item.csrp.itemtab": "§dNULL",
   "item.csrp.self_destruct_icon": "Self Destruct",
+  "item.csrp.flam_spawn_egg": "Spawn Succor",
+  "item.csrp.soo_spawn_egg": "Spawn Seeker",
+  "item.csrp.tenn_spawn_egg": "Spawn Architect",
   "jukebox_song.csrp.discone": "Duality",
   "jukebox_song.csrp.disctwo": "We'll Meet Again"
 }
