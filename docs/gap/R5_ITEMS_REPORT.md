@@ -59,6 +59,9 @@
 
 > **资产决策通则**：`out109/assets/srparasites/textures/items/` 中不存在 `bow_*` / `scythe_*` / `relay_report` / `scan_report` / `vector_report` 的任何 PNG（已用脚本全量核对），因此沿用任务书允许的"取最接近的既有纹理"策略，并在上表逐条写明依据；`scripts/verify-item-parity.cjs` 会验证每个新模型的 `layer0` 都能解析到真实 PNG。
 
+> **`relay_report` 的 `%s` 占位符（已核实，Lead 决策保留原样）**：`RelayReportItem` **没有**覆写 `getName` / `getDescriptionId`，也**没有**自行拼装标题 Component（`item/RelayReportItem.java` 只有 `type()/use()/appendHoverText()` 与报告行拼接），因此物品标题走默认的 translatable 名字键 —— **`item.csrp.relay_report` 有消费者**（物品名），不是死键。它自身拼装的是**提示与报告正文**：`tooltip.csrp.relay_report.read` / `.printed`、`report.csrp.<type>.title`、`report.csrp.scan.*`、`report.csrp.field.*`（全部是项目自有键，与原 lang 的 `relay_report.lore.*` 无关）。
+> ⇒ **已知差异**：1.12.2 由代码把扫描范围/摘要填进 `%s`；26.3 没有任何调用点提供该参数，故物品名会带上未填充的 `(%s)` 字面量。按 Lead 原则"不改原模组行为、差异必须记录"，**保留原值不动**。
+
 ### 2.2 刷怪蛋（旧版 `ItemMobSpawner` 名字）
 
 | 原 lang 键 | 原 lang 值 / 证据 | 原模组实体类 | 26.3 实现 | 证据 |
@@ -142,7 +145,7 @@
 - `src/main/resources/assets/csrp/models/item/`：`relay_report.json`、`scan_report.json`、`vector_report.json`、`bow_core.json`、`bow_grip.json`、`bow_lowerlimb.json`、`bow_string.json`、`bow_upperlimb.json`、`scythe_back.json`、`scythe_blade.json`、`scythe_core.json`、`scythe_handle.json`、`scythe_head.json`、`flam_spawn_egg.json`、`soo_spawn_egg.json`、`tenn_spawn_egg.json`（16）
 - `src/main/resources/assets/csrp/items/`：同上 16 个 26.3 item model definition
 - `src/main/resources/assets/csrp/textures/item/`：`flam_spawn_egg.png`、`soo_spawn_egg.png`、`tenn_spawn_egg.png`（3，复制自同实体既有蛋纹理）
-- `src/main/resources/assets/csrp/lang/_pending/items.json`（新增，22 键，待 Lead/lang teammate 合并）
+- `src/main/resources/assets/csrp/lang/_pending/items.json`（新增，22 键；**已由 lang-parity 合并进 `en_us.json` / `zh_cn.json`，22/22 键在两份文件中均可命中，本文件保留作为交接记录**）
 
 > ⚠️ `items/**` 与 `textures/item/**`（各 3 个 PNG）不在 task-2 声明的写入范围内，但 26.3 的物品模型定义与 `verify-spawn-egg-textures.cjs` 的 16×16 PNG 断言使它们成为必需；**仅新增文件，未改动既有文件**。
 
@@ -156,25 +159,55 @@
 
 | 项 | 命令 | 结果 |
 | --- | --- | --- |
-| 构建 | `JAVA_HOME=D:/MC/jdk/graalvm-community-25.3.4.1+1.1 ./gradlew.bat build -x test --console=plain` | **BUILD SUCCESSFUL** |
-| 全量校验 | `node scripts/run-all-verifications.cjs` | `{"total":101,"passed":101,"failed":0}` |
+| 构建（隔离 worktree 上的干净 HEAD `d61fe0b6`，无其他 teammate 的 WIP 干扰） | `JAVA_HOME=D:/MC/jdk/graalvm-community-25.3.4.1+1.1 ./gradlew.bat build -x test --console=plain` | **BUILD SUCCESSFUL** |
+| 全量校验 | `node scripts/run-all-verifications.cjs` | `{"total":113,"passed":113,"failed":0}` |
 | 本批次校验 | `node scripts/verify-item-parity.cjs` | `Item parity verification passed (115 upstream ids + 15 language-only ids + 3 spawn eggs).` |
 | 本批次校验 | `node scripts/verify-item-legacy-spawner-mapping.cjs` | `Legacy spawner mapping verification passed (118 names resolve to registered entities).` |
+| 资产审计 | 全量扫描 `models/**` 的 csrp `layer0` 目标 | 缺失纹理 **0** |
+| 语言键 | 22 键在 `en_us.json` / `zh_cn.json` 中的命中 | **22/22 命中** |
+
+> 主工作树在 07:0x—07:1x 期间两次因并发因素失败，均与本批次无关：① `blocks-fidelity` 未跟踪的 WIP `block/ParasiteFogBlock.java:93`（`player.drop(fogBottle, false)` 在 26.3 需要 `Prediction` 参数）；② 与其他 teammate 的 Gradle 进程争抢 `build/classes/java/main` 目录锁。为取得不受干扰的证据，在 `git worktree` 中 checkout 干净 HEAD（含本批次全部提交）后构建通过；该 worktree 已按 Lead 要求删除（`_scratch/_w` 亦已清空）。
 
 提交：
 
 | 提交 | 内容 |
 | --- | --- |
 | `11342795` | R5 批次 A：17 个物品 id（唱片 / 报告 / 弓镰部件 / itemtab / self_destruct_icon） |
-| `27c489e9` | R5 批次 B 的源码与资产（因并发提交被并行写入，实际内容为 flam/soo/tenn 刷怪蛋 + 32 处映射 + 两个校验脚本） |
+| `27c489e9` | R5 批次 B 的源码与资产（因并发提交被 blocks-fidelity 的提交一并写入；实际内容为 flam/soo/tenn 刷怪蛋 + 32 处映射 + 两个校验脚本） |
 | `79e33320` | R5 语言键：`flam/soo/tenn_spawn_egg` 的原 lang 显示名 |
+| `d3d80789` | R5 报告初版 |
+| 本次提交 | R5 报告收尾：`%s` 占位符与 `stacksTo(1)` 的裁定与已知差异登记（§2.1 / §7） |
 
 ---
 
-## 7. 遗留 / 待 Lead 决策
+## 7. 差异记录与 Lead 裁定（本批次收尾）
 
-1. **`lang/_pending/items.json` 尚未合并**进 `en_us.json` / `zh_cn.json`（那是 lang teammate 的独占范围）。未合并时这 22 个键会回退为原始键名显示。
-2. **`relay_report` 的名字含格式占位符**：原 lang 值为 `§fRelay Scan Report §7(%s)§r`（1.12.2 里由代码填充 `%s`）。已按任务要求"保留原文"写入，若希望直接显示为 `Relay Scan Report` 需 lang teammate 或 Lead 定夺。
-3. **`self_destruct_icon` 堆叠数为 1（对齐原 `ItemAdvancementIcon`）**，而既有的 15 个 `*_icon` 为默认 64。这是原类对齐 vs 工程内部一致性的取舍，本批次选了前者；若要统一为 64 需修改既有图标（超出本批次范围）。
-4. **三个新刷怪蛋未加入原版 SPAWN_EGGS 创造标签页**：该列表是 `Csrp.java:213 addCreativeItems(BuildCreativeModeTabContentsEvent)` 的显式枚举，不在 task-2 写入范围；它们目前会出现在 CSRP 主标签页（该页用排除表过滤刷怪蛋，新蛋不在排除表中）。
-5. **`itemmobspawner_worker` 未注册**（Lead 裁定 `worker_spawn_egg` 已覆盖），原 lang 键 `item.csrp.itemmobspawner_worker` 已存在但无对应物品。
+### 7.1 已裁定：保留原样，作为"已知差异"登记
+
+1. **`relay_report` 的 `%s` 占位符 —— 保留原值**
+   决策（Lead）：保留 `§fRelay Scan Report §7(%s)§r` 不动。改文案属于"改变原模组行为"，而该 `%s` 在 1.12.2 是真实有消费者的显示格式。
+   代码侧核实结论：`RelayReportItem` 未覆写 `getName`/`getDescriptionId`、未自建标题 Component ⇒ **该 lang 值有消费者（物品名）**，`%s` 在 26.3 不会被填充，物品名会带上 `(%s)` 字面量。
+   ⇒ **已知差异：1.12.2 的 `%s` 占位符在 26.3 不填充**（报告 §2.1 末尾有完整说明）。
+
+2. **`self_destruct_icon` 的 `stacksTo(1)` —— 保留 1**
+   决策（Lead）：以原类 `ItemAdvancementIcon` 为准，不为统一而改原类语义。
+   现状核对（`out109/item/ItemAdvancementIcon.java`：`this.field_77777_bU = 1;`，即**全部 16 个图标**原版都是堆叠 1）：
+
+   | 图标 | 原类堆叠 | 本工程现状 |
+   | --- | --- | --- |
+   | `self_destruct_icon`（本批次新增） | 1 | **1（对齐原类）** |
+   | 既有 15 个：`adapted_icon`、`cosmic_structural_failure_icon`、`crude_icon`、`dark_days_icon`、`ecstasy_icon`、`enemy_of_enemy_icon`、`fog_nullifier_icon`、`guerilla_icon`、`hellfire_chemical_warfare_icon`、`hunt_season_icon`、`potion_columbus_icon`、`potion_stolas_icon`、`primitive_icon`、`pure_icon`、`roots_icon` | 1 | 默认 **64（既有偏差，非本批次引入）** |
+
+   ⇒ **已知差异**：既有 15 个图标与 `ItemAdvancementIcon` 的堆叠 1 不一致（`ModItems.java:1107-1121`，均为 `simple("<id>")`，无 `stacksTo(1)`）；本批次新增项按原类对齐，两者并存。
+
+### 7.2 已由 Lead / 其他 teammate 处理，无需本批次改动
+
+3. **3 个新刷怪蛋的 SPAWN_EGGS 创造标签页**：已由 Lead 在 `Csrp.java` 的 `BuildCreativeModeTabContentsEvent` 分支末尾补 `FLAM/SOO/TENN` 三个 `accept`（本批次未触碰 `Csrp.java`）。
+4. **`lang/_pending/items.json` 的 22 键**：已由 lang-parity 合并进 `en_us.json` / `zh_cn.json`（本报告已复核：22/22 键在 en_us 与 zh_cn 中全部命中，且 `item.csrp.relay_report`、`item.csrp.flam_spawn_egg`、`jukebox_song.csrp.discone` 取值与 §2 一致）。
+5. **上游无纹理时的最近既有纹理复用**：Lead 已接受（§2.1 资产决策通则 + 逐条依据 + §5 文件清单）。
+
+### 7.3 仍登记的残留差异
+
+6. **`itemmobspawner_worker` 未注册**（Lead 裁定 `worker_spawn_egg` 已覆盖）：原 lang 键 `item.csrp.itemmobspawner_worker` 存在但无对应物品；同理 `itemmobspawner_flam/soo/tenn` 三键在本工程对应 `flam/soo/tenn_spawn_egg`（命名约定差异，原 lang 键本身仍留在 `en_us.json` 中作为历史键）。
+7. **`ada_burrower_drop` 不注册**（§3.1，证据链完整）：原模组自身的悬空引用，注册它会改变行为。
+8. **`relay_report` / `scan_report` / `vector_report` 与既有 `relay_scan_report` / `vector_map` 行为重叠**：上游在 lang 面同时保留了两套命名（1.10.8 与 1.10.9），本工程按"两套 id 都注册、行为一致"处理，属**命名面**而非行为面的差异。
