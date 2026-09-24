@@ -41,8 +41,13 @@ public final class SRPBlizzardDerivedHandler {
     private static final double RANGE = 100.0D;
     private static final double RANGE_SQ = RANGE * RANGE;
     private static final int CHECK_INTERVAL = 10;
+    /**
+     * 1.10.9 registers the mob id {@code draconite} against the class {@code EntityHeblu}
+     * ({@code init/SRPEntities.java:385}), so the derived handler must resolve {@code csrp:draconite}.
+     * Looking up {@code csrp:heblu} always failed and left this handler's Kirin/Heblu pass inert.
+     */
     private static final ResourceKey<EntityType<?>> HEBLU_KEY = ResourceKey.create(
-            Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(Csrp.MODID, "heblu"));
+            Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath(Csrp.MODID, "draconite"));
     private static final Map<UUID, Boolean> LAST_STATE = new HashMap<>();
 
     private static boolean hebluResolved;

@@ -973,6 +973,14 @@ public final class ModItems {
             Item.Properties::new);
 
     private static DeferredItem<Item> simple(String id) { return simple(id, new Item.Properties()); }
+
+    /**
+     * Original {@code ItemAdvancementIcon} sets {@code field_77777_bU = 1} for every icon
+     * ({@code out109/item/ItemAdvancementIcon.java:10}), so all advancement icons stack to one.
+     */
+    private static DeferredItem<Item> advancementIcon(String id) {
+        return simple(id, new Item.Properties().stacksTo(1));
+    }
     private static DeferredItem<ParasiteLootBlockItem> parasiteLootBlockItem(String id,
             net.neoforged.neoforge.registries.DeferredBlock<? extends net.minecraft.world.level.block.Block> block) {
         return ITEMS.registerItem(id, properties -> new ParasiteLootBlockItem(block.get(), properties), Item.Properties::new);
@@ -1104,21 +1112,21 @@ public static final DeferredItem<BlockItem> PARASITERUBBLE_BONE = ITEMS.register
     public static final DeferredItem<BlockItem> DEADHEAD_FENCE = ITEMS.registerSimpleBlockItem("deadhead_fence", ModBlocks.DEADHEAD_FENCE);
 
     // ==================== 批次4：成就图标物品（advancement icon 引用） ====================
-    public static final DeferredItem<Item> ADAPTED_ICON = simple("adapted_icon");
-    public static final DeferredItem<Item> COSMIC_STRUCTURAL_FAILURE_ICON = simple("cosmic_structural_failure_icon");
-    public static final DeferredItem<Item> CRUDE_ICON = simple("crude_icon");
-    public static final DeferredItem<Item> DARK_DAYS_ICON = simple("dark_days_icon");
-    public static final DeferredItem<Item> ECSTASY_ICON = simple("ecstasy_icon");
-    public static final DeferredItem<Item> ENEMY_OF_ENEMY_ICON = simple("enemy_of_enemy_icon");
-    public static final DeferredItem<Item> FOG_NULLIFIER_ICON = simple("fog_nullifier_icon");
-    public static final DeferredItem<Item> GUERILLA_ICON = simple("guerilla_icon");
-    public static final DeferredItem<Item> HELLFIRE_CHEMICAL_WARFARE_ICON = simple("hellfire_chemical_warfare_icon");
-    public static final DeferredItem<Item> HUNT_SEASON_ICON = simple("hunt_season_icon");
-    public static final DeferredItem<Item> POTION_COLUMBUS_ICON = simple("potion_columbus_icon");
-    public static final DeferredItem<Item> POTION_STOLAS_ICON = simple("potion_stolas_icon");
-    public static final DeferredItem<Item> PRIMITIVE_ICON = simple("primitive_icon");
-    public static final DeferredItem<Item> PURE_ICON = simple("pure_icon");
-    public static final DeferredItem<Item> ROOTS_ICON = simple("roots_icon");
+    public static final DeferredItem<Item> ADAPTED_ICON = advancementIcon("adapted_icon");
+    public static final DeferredItem<Item> COSMIC_STRUCTURAL_FAILURE_ICON = advancementIcon("cosmic_structural_failure_icon");
+    public static final DeferredItem<Item> CRUDE_ICON = advancementIcon("crude_icon");
+    public static final DeferredItem<Item> DARK_DAYS_ICON = advancementIcon("dark_days_icon");
+    public static final DeferredItem<Item> ECSTASY_ICON = advancementIcon("ecstasy_icon");
+    public static final DeferredItem<Item> ENEMY_OF_ENEMY_ICON = advancementIcon("enemy_of_enemy_icon");
+    public static final DeferredItem<Item> FOG_NULLIFIER_ICON = advancementIcon("fog_nullifier_icon");
+    public static final DeferredItem<Item> GUERILLA_ICON = advancementIcon("guerilla_icon");
+    public static final DeferredItem<Item> HELLFIRE_CHEMICAL_WARFARE_ICON = advancementIcon("hellfire_chemical_warfare_icon");
+    public static final DeferredItem<Item> HUNT_SEASON_ICON = advancementIcon("hunt_season_icon");
+    public static final DeferredItem<Item> POTION_COLUMBUS_ICON = advancementIcon("potion_columbus_icon");
+    public static final DeferredItem<Item> POTION_STOLAS_ICON = advancementIcon("potion_stolas_icon");
+    public static final DeferredItem<Item> PRIMITIVE_ICON = advancementIcon("primitive_icon");
+    public static final DeferredItem<Item> PURE_ICON = advancementIcon("pure_icon");
+    public static final DeferredItem<Item> ROOTS_ICON = advancementIcon("roots_icon");
 
     // ==================== 批次4：配方/成就引用的兼容方块物品 ====================
     public static final DeferredItem<BlockItem> ASSIMILATED_BLOSSOM = legacyBlockItem("assimilated_blossom");
@@ -1244,9 +1252,8 @@ public static final DeferredItem<BlockItem> PARASITERUBBLE_BONE = ITEMS.register
     // 原 ItemBase("itemtab", 1, (byte)7)：堆叠 1 的占位/调试物品（lang 值 "§dNULL"）。
     public static final DeferredItem<Item> ITEMTAB = simple("itemtab", new Item.Properties().stacksTo(1));
     // 原 ItemAdvancementIcon("self_destruct_icon")：堆叠 1、无创造标签的进度图标物品。
-    // 注意：本工程既有的 15 个 *_icon 用默认堆叠（64），此处按原类对齐为 1。
-    public static final DeferredItem<Item> SELF_DESTRUCT_ICON =
-            simple("self_destruct_icon", new Item.Properties().stacksTo(1));
+    // 原 ItemAdvancementIcon 对全部图标设 stacksTo(1)；既有 15 个 *_icon 现已统一为 advancementIcon(...)。
+    public static final DeferredItem<Item> SELF_DESTRUCT_ICON = advancementIcon("self_destruct_icon");
 
     // 原 SRPConfigMobs 只把 ada_burrower_drop 当作掉落表里的字符串键，
     // SRPItems.java 从未注册成物品；scripts/verify-burrower-entities-port.cjs:154

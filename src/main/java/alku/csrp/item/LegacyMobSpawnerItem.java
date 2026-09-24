@@ -222,7 +222,10 @@ public final class LegacyMobSpawnerItem extends Item {
             case "jinjo" -> "marauder";
             case "vesta" -> "wraith";
             case "pheon", "lencia", "elvia" -> "haunter";
-            case "heblu" -> "wraith";
+            // 1.10.9 registers the mob id `draconite` against the class `EntityHeblu`
+            // (init/SRPEntities.java:385) and its egg is displayed as "Spawn Draconite"
+            // (assets/srparasites/lang/en_us.lang:509), so `heblu` is the Draconite, not the Wraith.
+            case "heblu" -> "draconite";
             case "oronco" -> "anc_overlord";
             case "terla" -> "anc_dreadnaut";
             // 26.3 里被改名的实体：原 lang 的显示名给出了权威对应

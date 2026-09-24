@@ -91,9 +91,11 @@ for (const id of INTENTIONALLY_ABSENT) {
 
 // ---------------------------------------------------------------- 2. per-item behaviour
 const expectations = [
-  // 1.10.9 ItemBase("itemtab", 1, (byte)7) / ItemAdvancementIcon("self_destruct_icon")
+  // 1.10.9 ItemBase("itemtab", 1, (byte)7) / ItemAdvancementIcon("self_destruct_icon").
+  // Icons now share the advancementIcon() helper, which applies the original field_77777_bU = 1
+  // to every icon instead of only to the newly added one.
   [`simple("itemtab", new Item.Properties().stacksTo(1))`, "itemtab must be a single-stack item"],
-  [`simple("self_destruct_icon", new Item.Properties().stacksTo(1))`, "self_destruct_icon must stack to 1"],
+  [`SELF_DESTRUCT_ICON = advancementIcon("self_destruct_icon")`, "self_destruct_icon must stack to 1"],
   // ItemDiscRecord + JukeboxSong (1.12.2 ItemRecord equivalent)
   ['"discone", Item::new', "discone must be registered as a record item"],
   ['"disctwo", Item::new', "disctwo must be registered as a record item"],

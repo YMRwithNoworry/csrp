@@ -17,6 +17,10 @@ function expect(content, pattern, description) {
     if (!pattern.test(content)) failures.push(description);
 }
 
+function refute(content, pattern, description) {
+    if (pattern.test(content)) failures.push(description);
+}
+
 const blockEntities = read("src/main/java/alku/csrp/registry/ModBlockEntities.java");
 const furnace = read("src/main/java/alku/csrp/block/InfestedFurnaceBlock.java");
 const commands = read("src/main/java/alku/csrp/command/SrpCommands.java");
@@ -65,6 +69,32 @@ expect(properties, /^mod_version=1\.10\.9$/m,
         "mod_version does not track the upstream 1.10.9 release");
 expect(properties, /^mod_authors=.+$/m, "mod_authors is empty");
 expect(properties, /^mod_description=.+$/m, "mod_description is empty");
+
+// Original ItemAdvancementIcon sets stack size 1 for every icon (field_77777_bU = 1).
+const items = read("src/main/java/alku/csrp/registry/ModItems.java");
+expect(items, /private static DeferredItem<Item> advancementIcon\(String id\)/,
+        "ModItems has no advancementIcon() helper for stack-size-1 icons");
+expect(items, /new Item\.Properties\(\)\.stacksTo\(1\)/,
+        "advancementIcon() does not cap the stack size at one");
+const looseIcons = items.match(/simple\("[a-z_]+_icon"\)/g) || [];
+if (looseIcons.length > 0) {
+    failures.push("advancement icons still registered with the default stack size: " + looseIcons.join(", "));
+}
+expect(items, /SELF_DESTRUCT_ICON = advancementIcon\("self_destruct_icon"\)/,
+        "self_destruct_icon is not registered through advancementIcon()");
+
+// 1.10.9 registers the mob id draconite against the class EntityHeblu, so the legacy spawner
+// name heblu must resolve to draconite and not to the unrelated wraith.
+const spawner = read("src/main/java/alku/csrp/item/LegacyMobSpawnerItem.java");
+expect(spawner, /case "heblu" -> "draconite";/,
+        "the heblu legacy spawner does not resolve to draconite");
+refute(spawner, /case "heblu" -> "wraith";/,
+        "the heblu legacy spawner still resolves to wraith");
+const blizzard = read("src/main/java/alku/csrp/world/star/SRPBlizzardDerivedHandler.java");
+expect(blizzard, /Csrp\.MODID, "draconite"\)\)/,
+        "SRPBlizzardDerivedHandler does not resolve csrp:draconite");
+refute(blizzard, /Csrp\.MODID, "heblu"\)\)/,
+        "SRPBlizzardDerivedHandler still looks up the non-existent csrp:heblu id");
 
 if (failures.length) {
     for (const failure of failures) console.error(failure);
