@@ -33,9 +33,8 @@ public final class CompendiumClient {
         soundsEnabled = !soundsEnabled;
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.player != null) {
-            minecraft.player.displayClientMessage(Component.translatable(
-                    soundsEnabled ? "message.csrp.compendium.sounds_on" : "message.csrp.compendium.sounds_off"),
-                    true);
+            minecraft.player.sendOverlayMessage(Component.translatable(
+                    soundsEnabled ? "message.csrp.compendium.sounds_on" : "message.csrp.compendium.sounds_off"));
         }
     }
 

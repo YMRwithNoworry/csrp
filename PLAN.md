@@ -1,7 +1,13 @@
 # PLAN — SRParasites (csrp) 移植到 Minecraft 26.3 / NeoForge 26.3
 
 > 本文件是 26.3 移植工作的共享工件（subagent 链 A→B→C→D 共用）。
-> 最后更新：2026-09-17，wave 2 完成时。
+> 最后更新：wave 3 完成时（错误 3235 → 3062）。
+>
+> **工具链变更**：本机没有 python 解释器，`scripts/port263/census.py` 已用 Node 重写为
+> `census.mjs`（同样参数、同样输出：`.ref263/censusN.txt` + `.json`，并修掉了 javac 诊断输出
+> 用控制台字符集导致路径乱码的问题）。另外新增两个 Node 查证工具：
+> `errors.mjs`（按符号/消息/路径查询 census JSON，带源码行）与
+> `refgrep.mjs`（在 `.ref263/mc-src` 真实 26.3 源码树里检索 API）。
 
 ---
 
@@ -107,6 +113,7 @@ com.github.alexthe666.citadel.client.model.TabulaModel                 (1)
 | 移植 build 配置后 | **4815** | 370 / 462 |
 | wave 1（类型改名/包迁移） | **3860** | 339 |
 | wave 2（访问器/常量改名） | **3235** | 322 |
+| wave 3（简单缺失符号） | **3062** | 319 |
 
 ### 已完成的 wave
 
@@ -129,6 +136,20 @@ com.github.alexthe666.citadel.client.model.TabulaModel                 (1)
     MOVEMENT_SPEED→SPEED、CONFUSION→NAUSEA、DAMAGE_BOOST→STRENGTH、DAMAGE_RESISTANCE→RESISTANCE
   - `GameRules.RULE_MOBGRIEFING` → `MOB_GRIEFING`（29）
   - `InteractionResult.sidedSuccess(bool)` → `InteractionResult.SUCCESS`（28）
+- **wave 3** `scripts/port263/wave3_symbols.mjs`（60 文件，157 处 + 21 处手改；3235 → 3062）
+  - `Entity.isInWaterOrBubble()` 消失 → `isInWater()`（53；26.3 的流体交互改由
+    `FluidInteraction`/`isInFloatableFluid()` 承担）
+  - `Entity.hurtMarked` / `Entity.hasImpulse` 统一成公开字段 `Entity.syncVelocity`
+    （26.3 `Entity.java:284`；vanilla `Ravager` 就是 `defender.syncVelocity = true`）（28）
+  - `BlockBehaviour.Properties.noCollission()` → `noCollision()`（19）
+  - `Level.getMinBuildHeight()` → `getMinY()`（14）
+  - `Level.getDayTime()` → `getOverworldClockTime()`（13）
+  - **GameRules 重做**：`Level.getGameRules().getBoolean(rule)` 在 26.3 不存在，只有
+    `ServerLevel.getGameRules().get(GameRule<T>)`；新增 `alku.csrp.world.SrpGameRules`
+    收口（30）
+  - `Player.displayClientMessage(msg, true)` → `ServerPlayer/LocalPlayer.sendOverlayMessage(msg)`（8）
+  - `ServerPlayer.getServer()` → `player.level().getServer()`（8；26.3 的
+    `ServerPlayer.level()` 返回 `ServerLevel`）
 
 ### 剩余错误聚类（wave 3+ 的输入）
 
@@ -172,7 +193,7 @@ com.github.alexthe666.citadel.client.model.TabulaModel                 (1)
 
 | wave | 内容 | 预估错误 | 说明 |
 |---|---|---|---|
-| 3 | 简单缺失符号：`isInWaterOrBubble` 新名、`getMinBuildHeight`、`getDayTime`、`hurtMarked`、`hasImpulse`、`displayClientMessage` 等 | ~250 | 仍属机械改名，先查 26.3 源码再改 |
+| 3 ✅ | 简单缺失符号：`isInWaterOrBubble` 新名、`getMinBuildHeight`、`getDayTime`、`hurtMarked`、`hasImpulse`、`displayClientMessage` 等 | 已做 | 完成，3235 → **3062** |
 | 4 | `Optional` 包装类 API（`Optional<Integer>`/`Optional<Boolean>`） | ~300 | 逐方法核对调用点 |
 | 5 | 实体注册/生成：`create(...)`、`ResourceKey<EntityType<?>>`、`registerEntityRenderer` | ~250 | 注册器与 key 化 |
 | 6 | NBT / `ValueOutput` 序列化 | ~150 | `putUUID`/`hasUUID`/`getUUID` 等 |
@@ -189,14 +210,19 @@ com.github.alexthe666.citadel.client.model.TabulaModel                 (1)
 ## 7. 每次改动的固定流程
 
 ```bash
-# 1) 改代码（机械改名优先写成 scripts/port263/waveN_*.py，不要手改 300 个文件）
+# 1) 改代码（机械改名优先写成 scripts/port263/waveN_*.mjs，不要手改 300 个文件）
 # 2) 用 Gradle 跑真实构建（铁律：mc_gradle，不要直接调 gradlew）
 #    mc_gradle(projectDir="D:/code/MC模组/csrp", task="compileJava")
 # 3) 需要完整错误清单时用 census（Gradle 输出会被 harness 截断，本身也不够用）
-python scripts/port263/census.py --out .ref263/censusN.txt
+node scripts/port263/census.mjs --out .ref263/censusN.txt
+node scripts/port263/errors.mjs --symbol isInWaterOrBubble --source   # 查某类错误
+node scripts/port263/refgrep.mjs "syncVelocity" -p net/minecraft/world/entity/Entity.java
 # 4) 提交
 git commit -m "-（移植）..."
 ```
+
+> census 与 `mc_gradle compileJava` 的错误数必须一致（wave 3 实测两边都是 3062），
+> 不一致说明 classpath 过期：先删掉 `build/compile-cp.txt` 再跑 `dumpCompileClasspath`。
 
 **工作方法要求**：任何 API 签名/新类名都必须先在
 `.ref263/mc-src`（真实 26.3 + NeoForge 26.3 源码树，28795 个文件）
@@ -207,9 +233,9 @@ git commit -m "-（移植）..."
 ## 8. 当前状态与下一步
 
 - ✅ 26.3 工具链打通（build 配置已移植、jst 坑已解）
-- ✅ 错误从 4815 降到 3235（-33%），195 + 193 个文件已过 wave 1/2
-- ⬜ 剩余 3235 个错误，按第 6 节 wave 3~10 推进
+- ✅ 错误从 4815 降到 **3062**（-36%），195 + 193 + 60 个文件已过 wave 1/2/3
+- ⬜ 剩余 3062 个错误，按第 6 节 wave 4~10 推进
 - ⬜ 内容补全到 100%（原版 174 实体 vs 当前 96；73 类 AI vs 5）——**版本移植完成后**再做
 
-**下一步（下一个 round）**：执行 wave 3（简单缺失符号），并开始 wave 9（渲染管线）
-的可行性调研——它是整个移植的风险中心。
+**下一步（下一个 round）**：执行 wave 4（`Optional` 包装类 API，约 300 错），随后 wave 5
+（实体注册/生成与 key 化）；wave 9（渲染管线 renderpearl）仍是风险中心，可在 wave 7/8 之间插空调研。

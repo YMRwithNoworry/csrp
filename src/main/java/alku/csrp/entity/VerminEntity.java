@@ -433,7 +433,7 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
         private boolean hasExceededGroundDistance() {
             BlockPos pos = blockPosition().below();
             for (int count = 1; count <= limit; count++, pos = pos.below()) {
-                if (pos.getY() < level().getMinBuildHeight() || !level().getBlockState(pos).isAir()) {
+                if (pos.getY() < level().getMinY() || !level().getBlockState(pos).isAir()) {
                     return false;
                 }
             }

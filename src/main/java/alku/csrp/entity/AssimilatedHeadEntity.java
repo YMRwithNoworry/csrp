@@ -378,7 +378,7 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
                 continue;
             }
             net.minecraft.core.BlockPos blockPos = net.minecraft.core.BlockPos.containing(destination);
-            while (blockPos.getY() > level().getMinBuildHeight() && !level().getBlockState(blockPos).blocksMotion()) {
+            while (blockPos.getY() > level().getMinY() && !level().getBlockState(blockPos).blocksMotion()) {
                 blockPos = blockPos.below();
             }
             if (!level().getBlockState(blockPos).blocksMotion()) {

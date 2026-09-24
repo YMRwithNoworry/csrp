@@ -135,7 +135,7 @@ public final class SimAdventurerHeadEntity extends Monster implements CitadelAni
             }
         }
 
-        if (isInWaterOrBubble() && getTarget() != null) {
+        if (isInWater() && getTarget() != null) {
             Vec3 direction = getTarget().position().subtract(position());
             if (direction.lengthSqr() > 0.001D) {
                 direction = direction.normalize();

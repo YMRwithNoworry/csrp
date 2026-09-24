@@ -433,7 +433,7 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
 
         @Override
         public boolean canUse() {
-            return isInWaterOrBubble() && getTarget() != null && random.nextInt(12) == 0;
+            return isInWater() && getTarget() != null && random.nextInt(12) == 0;
         }
 
         @Override

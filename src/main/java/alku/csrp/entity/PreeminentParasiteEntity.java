@@ -53,6 +53,7 @@ import alku.csrp.animation.CitadelRawAnimation;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
+import alku.csrp.world.SrpGameRules;
 
 /**
  * Shared implementation for the legacy preeminent parasites. This tier
@@ -715,7 +716,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
 
     private boolean hasGroundWithin(int distance) {
         BlockPos cursor = blockPosition().below();
-        for (int offset = 1; offset <= distance && cursor.getY() >= level().getMinBuildHeight(); offset++) {
+        for (int offset = 1; offset <= distance && cursor.getY() >= level().getMinY(); offset++) {
             if (!level().getBlockState(cursor).isAir()) {
                 return true;
             }
@@ -725,7 +726,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     }
 
     private void breakBlocksTowardsTarget(LivingEntity target, Kind activeKind) {
-        if (blockBreakCooldown > 0 || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
+        if (blockBreakCooldown > 0 || !SrpGameRules.mobGriefing(level())) {
             return;
         }
         Vec3 direction = target.position().subtract(position());
@@ -1125,11 +1126,11 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
 
         @Override
         public boolean canUse() {
-            if (!isInWaterOrBubble() && !isInLava()) {
+            if (!isInWater() && !isInLava()) {
                 return false;
             }
             LivingEntity target = getTarget();
-            if (target != null && (target.isInWaterOrBubble() || target.isInLava())
+            if (target != null && (target.isInWater() || target.isInLava())
                     && target.distanceToSqr(getX(), target.getY(), getZ()) < 25.0D
                     && target.getY() - getY() < -1.0D) {
                 setDeltaMovement(getDeltaMovement().add(0.0D, -0.15D, 0.0D));
@@ -1160,7 +1161,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
 
         @Override
         public boolean canUse() {
-            return isInWaterOrBubble() || isInLava() || attacking >= 1;
+            return isInWater() || isInLava() || attacking >= 1;
         }
 
         @Override
@@ -1448,7 +1449,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     }
 
     private void breakHaunterBlocks(LivingEntity target) {
-        if (!level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)
+        if (!SrpGameRules.mobGriefing(level())
                 || !EventHooks.canEntityGrief(level(), this)) {
             return;
         }
@@ -1502,11 +1503,11 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
 
         @Override
         public boolean canUse() {
-            if (!isInWaterOrBubble() && !isInLava()) {
+            if (!isInWater() && !isInLava()) {
                 return false;
             }
             LivingEntity target = getTarget();
-            if (target != null && (target.isInWaterOrBubble() || target.isInLava())
+            if (target != null && (target.isInWater() || target.isInLava())
                     && target.distanceToSqr(getX(), target.getY(), getZ()) < 25.0D
                     && target.getY() - getY() < -1.0D) {
                 setDeltaMovement(getDeltaMovement().add(0.0D, -0.15D, 0.0D));
@@ -1771,7 +1772,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
                 double bonusZ = bonusX == 0.0D ? 5.0D : 0.0D;
                 setDeltaMovement(movement.x + x / horizontalLength * 4.0D + movement.x * 0.2D + bonusX,
                         movement.y, movement.z + z / horizontalLength * 4.0D + movement.z * 0.2D + bonusZ);
-                hurtMarked = true;
+                syncVelocity = true;
             }
             getNavigation().stop();
             cooldown = 0;

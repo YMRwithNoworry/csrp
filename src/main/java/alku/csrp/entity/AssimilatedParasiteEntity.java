@@ -180,7 +180,7 @@ public final class AssimilatedParasiteEntity extends Monster
                 parasiteKills = 0;
             }
         }
-        if (kind == Kind.SQUID && !isInWaterOrBubble()) {
+        if (kind == Kind.SQUID && !isInWater()) {
             setDeltaMovement(getDeltaMovement().add(0.0D, -0.02D, 0.0D));
         }
 
@@ -658,7 +658,7 @@ public final class AssimilatedParasiteEntity extends Monster
         public boolean canUse() {
             LivingEntity target = getTarget();
             return chargeCooldown == 0 && target != null && target.isAlive() && onGround()
-                    && !isInWaterOrBubble() && distanceToSqr(target) >= 16.0D;
+                    && !isInWater() && distanceToSqr(target) >= 16.0D;
         }
 
         @Override

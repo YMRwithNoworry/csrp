@@ -13,6 +13,7 @@ import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import alku.csrp.world.SrpGameRules;
 
 /** Material-aware conversion used by spreading blocks and Beckon nexuses. */
 public final class BlockInfestation {
@@ -20,7 +21,7 @@ public final class BlockInfestation {
     }
 
     public static int spread(ServerLevel level, BlockPos origin, int stage, RandomSource random) {
-        if (!level.getGameRules().getBoolean(GameRules.MOB_GRIEFING)
+        if (!SrpGameRules.mobGriefing(level)
                 || !InfestationSpreadLimiter.canSpread(level, InfestationSpreadLimiter.Type.BIOME)) {
             return 0;
         }
@@ -43,7 +44,7 @@ public final class BlockInfestation {
 
     public static int infestAround(ServerLevel level, BlockPos origin, int stage,
             InfestationSpreadLimiter.Type type) {
-        if (!level.getGameRules().getBoolean(GameRules.MOB_GRIEFING)
+        if (!SrpGameRules.mobGriefing(level)
                 || !InfestationSpreadLimiter.canSpread(level, type)) {
             return 0;
         }

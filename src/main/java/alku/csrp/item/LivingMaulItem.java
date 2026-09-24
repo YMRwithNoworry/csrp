@@ -56,7 +56,7 @@ public final class LivingMaulItem extends LivingWeaponItem {
         ItemStack stack = player.getItemInHand(hand);
         if (isSentient() && player.isShiftKeyDown() && pending(player) && !player.onGround()) {
             player.setDeltaMovement(0.0D, -3.5D, 0.0D);
-            player.hurtMarked = true;
+            player.syncVelocity = true;
             player.fallDistance = 0.0F;
             return InteractionResult.SUCCESS;
         }
@@ -132,7 +132,7 @@ public final class LivingMaulItem extends LivingWeaponItem {
             return;
         }
         player.setDeltaMovement(movement);
-        player.hurtMarked = true;
+        player.syncVelocity = true;
         player.fallDistance = 0.0F;
         tag.putInt(DASH_TICKS, ticks - 1);
     }

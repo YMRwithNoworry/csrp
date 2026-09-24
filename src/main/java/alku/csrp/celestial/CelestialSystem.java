@@ -98,7 +98,7 @@ public final class CelestialSystem {
     }
 
     private static void rollNight(ServerLevel level, CelestialWorldData data) {
-        long day = level.getDayTime() / 24000L;
+        long day = level.getOverworldClockTime() / 24000L;
         if (data.nightIndex() == day) return;
         data.nightIndex(day);
         data.mutableActive().clear();
@@ -114,8 +114,8 @@ public final class CelestialSystem {
     }
 
     private static void rollDarkDays(ServerLevel level, CelestialWorldData data) {
-        long time = Math.floorMod(level.getDayTime(), 24000L);
-        long day = level.getDayTime() / 24000L;
+        long time = Math.floorMod(level.getOverworldClockTime(), 24000L);
+        long day = level.getOverworldClockTime() / 24000L;
         if (time < 800 || time > 999 || data.darkDaysLastRollDay() == day
                 || isDarkDaysPendingOrActive(data)) return;
         data.darkDaysLastRollDay(day);
@@ -125,8 +125,8 @@ public final class CelestialSystem {
         if (RANDOM.nextFloat() <= definition.chance()) {
             data.mutableActive().clear();
             data.mutableForced().clear();
-            long dayBase = level.getDayTime() - time;
-            long delay = dayBase + 1000L - level.getDayTime();
+            long dayBase = level.getOverworldClockTime() - time;
+            long delay = dayBase + 1000L - level.getOverworldClockTime();
             data.darkDaysStartTime(level.getGameTime() + Math.max(0L, delay));
             data.darkDaysEndTime(-1);
             data.darkDaysEndingSoundPlayed(false);
@@ -158,8 +158,8 @@ public final class CelestialSystem {
     }
 
     private static void applyNightStartEffects(ServerLevel level, CelestialWorldData data) {
-        long time = Math.floorMod(level.getDayTime(), 24000L);
-        long day = level.getDayTime() / 24000L;
+        long time = Math.floorMod(level.getOverworldClockTime(), 24000L);
+        long day = level.getOverworldClockTime() / 24000L;
         if (time < 13000L || time > 23000L || data.lastEffectNightIndex() == day) return;
         data.lastEffectNightIndex(day);
         if (!isActive(level, "twenty_seven")) return;

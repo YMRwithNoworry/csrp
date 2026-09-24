@@ -32,6 +32,7 @@ import alku.csrp.animation.CitadelPlayState;
 import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
+import alku.csrp.world.SrpGameRules;
 
 public final class LongarmsEntity extends PrimitiveParasiteEntity {
     private static final int STATUS_IDLE = 0;
@@ -112,7 +113,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
             stillAnimationTicks = 0;
         }
         super.tick();
-        if (!level().isClientSide() && isInWaterOrBubble() && getTarget() != null && tickCount % 20 == 0) {
+        if (!level().isClientSide() && isInWater() && getTarget() != null && tickCount % 20 == 0) {
             setDeltaMovement(getDeltaMovement().add(0.0, 0.095, 0.0));
         }
         if (!level().isClientSide()) {
@@ -155,7 +156,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     }
 
     private void breakSoftBlockTowards(LivingEntity target) {
-        if (blockBreakCooldown > 0 || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
+        if (blockBreakCooldown > 0 || !SrpGameRules.mobGriefing(level())) {
             return;
         }
         Vec3 horizontal = target.position().subtract(position()).multiply(1.0D, 0.0D, 1.0D);
@@ -231,7 +232,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         }
         if (shockwave) {
             target.setDeltaMovement(target.getDeltaMovement().add(0.0D, 0.64645D, 0.0D));
-            target.hurtMarked = true;
+            target.syncVelocity = true;
         }
         return true;
     }

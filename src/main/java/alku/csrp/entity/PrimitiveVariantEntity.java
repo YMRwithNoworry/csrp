@@ -69,6 +69,7 @@ import alku.csrp.animation.CitadelPlayState;
 import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
+import alku.csrp.world.SrpGameRules;
 
 /**
  * Shared implementation for the remaining legacy primitive parasites.
@@ -471,7 +472,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         super.tick();
         Kind activeKind = activeKind();
         if (activeKind == Kind.DEVOURER) {
-            boolean inWater = isInWaterOrBubble();
+            boolean inWater = isInWater();
             setNoGravity(inWater);
             if (!level().isClientSide()) {
                 if (inWater) {
@@ -574,7 +575,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         if (activeKind == Kind.TOZOON) {
             return performTozoonAoeAttack(entity);
         }
-        if (activeKind == Kind.DEVOURER && !isInWaterOrBubble()) {
+        if (activeKind == Kind.DEVOURER && !isInWater()) {
             return false;
         }
         boolean stealthAttack = activeKind == Kind.MANDUCATER && isManducaterCamouflaged();
@@ -900,7 +901,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             length = Math.max(1.0E-4D, Math.sqrt(deltaX * deltaX + deltaZ * deltaZ));
         }
         target.push(deltaX / length * 4.75D, 1.2D, deltaZ / length * 4.75D);
-        target.hurtMarked = true;
+        target.syncVelocity = true;
     }
 
     private void spawnRicardoParticles() {
@@ -1245,7 +1246,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     }
 
     private void breakSoftBlockTowards(LivingEntity target) {
-        if (abilityCooldown > 0 || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
+        if (abilityCooldown > 0 || !SrpGameRules.mobGriefing(level())) {
             return;
         }
         Vec3 direction = target.position().subtract(position());
@@ -1511,7 +1512,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
                 setTarget(null);
                 return;
             }
-            if (!isInWaterOrBubble()) {
+            if (!isInWater()) {
                 return;
             }
             if (attackCooldown > 0) {
@@ -1703,11 +1704,11 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
 
         @Override
         public boolean canUse() {
-            if (!isInWaterOrBubble() && !isInLava()) {
+            if (!isInWater() && !isInLava()) {
                 return false;
             }
             LivingEntity target = getTarget();
-            if (target != null && (target.isInWaterOrBubble() || target.isInLava())
+            if (target != null && (target.isInWater() || target.isInLava())
                     && distanceToSqr(getX(), target.getY(), getZ()) < 25.0D
                     && target.getY() - getY() < -1.0D) {
                 setDeltaMovement(getDeltaMovement().add(0.0D, -DIVE_MOTION, 0.0D));
@@ -1774,7 +1775,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
 
         @Override
         public boolean canUse() {
-            return isInWaterOrBubble() || attacking >= 1;
+            return isInWater() || attacking >= 1;
         }
 
         @Override
@@ -1942,7 +1943,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
 
         @Override
         public boolean canUse() {
-            return isInWaterOrBubble() || attacking >= 1;
+            return isInWater() || attacking >= 1;
         }
 
         @Override
@@ -2103,7 +2104,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         @Override
         public boolean canUse() {
             LivingEntity target = getTarget();
-            if (target == null || !target.isAlive() || !onGround() || isInWaterOrBubble()
+            if (target == null || !target.isAlive() || !onGround() || isInWater()
                     || !hasLineOfSight(target)) {
                 return false;
             }
@@ -2147,7 +2148,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             }
             getLookControl().setLookAt(target, 30.0F, 30.0F);
             if (chargeTicks < REEKER_WINDUP_TICKS) {
-                if (!onGround() || isInWaterOrBubble()
+                if (!onGround() || isInWater()
                         || target.getY() > getY() && target.onGround()) {
                     finished = true;
                     return;
@@ -2328,14 +2329,14 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             hoverTicks = 0;
             hoverY = getY();
             setDeltaMovement(Vec3.ZERO);
-            hasImpulse = true;
+            syncVelocity = true;
         }
 
         private void applyDiveVector(Vec3 target, double speed) {
             Vec3 direction = target.subtract(position());
             if (direction.lengthSqr() > 1.0E-4D) {
                 setDeltaMovement(direction.normalize().scale(speed));
-                hasImpulse = true;
+                syncVelocity = true;
                 getLookControl().setLookAt(target.x, target.y, target.z, 30.0F, 30.0F);
             }
         }
@@ -2349,7 +2350,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         private void finish(boolean setCooldown) {
             setNoGravity(false);
             setDeltaMovement(Vec3.ZERO);
-            hasImpulse = true;
+            syncVelocity = true;
             fallDistance = 0.0F;
             phase = DivePhase.IDLE;
             if (setCooldown) {

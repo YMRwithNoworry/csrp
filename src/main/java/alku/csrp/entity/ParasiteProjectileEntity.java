@@ -43,6 +43,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.event.EventHooks;
 
 import java.util.UUID;
+import alku.csrp.world.SrpGameRules;
 
 public final class ParasiteProjectileEntity extends Entity {
     private static final int ELVIA_NADE_START_DELAY_TICKS = 3;
@@ -404,7 +405,7 @@ public final class ParasiteProjectileEntity extends Entity {
         if (mode == Mode.BOMB || mode == Mode.METEOR) {
             DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(radius));
             spawnLingeringCothCloud(owner);
-            if (mode == Mode.BOMB && level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
+            if (mode == Mode.BOMB && SrpGameRules.mobGriefing(level())) {
                 level().explode(owner, getX(), getY(), getZ(), (float) Math.max(1.5D, radius),
                         Level.ExplosionInteraction.MOB);
             }
@@ -555,7 +556,7 @@ public final class ParasiteProjectileEntity extends Entity {
         if (level().isClientSide()) {
             return;
         }
-        boolean griefing = level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)
+        boolean griefing = SrpGameRules.mobGriefing(level())
                 && EventHooks.canEntityGrief(level(), this);
         if (directHit != null) {
             if (directHit instanceof Player player

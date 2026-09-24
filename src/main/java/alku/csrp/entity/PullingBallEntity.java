@@ -17,6 +17,7 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.UUID;
+import alku.csrp.world.SrpGameRules;
 
 public final class PullingBallEntity extends Entity {
     private UUID ownerId;
@@ -77,7 +78,7 @@ public final class PullingBallEntity extends Entity {
     }
 
     private void placeWebs(BlockPos center) {
-        if (!level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) return;
+        if (!SrpGameRules.mobGriefing(level())) return;
         int total = random.nextInt(3) + 1;
         for (int i = 0; i < total; i++) {
             BlockPos pos = center.offset(random.nextInt(3) - 1, random.nextInt(3) - 1, random.nextInt(3) - 1);

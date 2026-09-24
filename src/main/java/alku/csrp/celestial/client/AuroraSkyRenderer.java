@@ -75,7 +75,7 @@ public final class AuroraSkyRenderer {
     }
 
     private static boolean isNight(Minecraft minecraft) {
-        long timeOfDay = Math.floorMod(minecraft.level.getDayTime(), 24000L);
+        long timeOfDay = Math.floorMod(minecraft.level.getOverworldClockTime(), 24000L);
         return timeOfDay >= 13000L && timeOfDay <= 23000L;
     }
 

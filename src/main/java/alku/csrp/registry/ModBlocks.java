@@ -107,7 +107,7 @@ public final class ModBlocks {
     public static final DeferredBlock<TunnelBlock> TUNNEL = BLOCKS.register("tunnel", () -> new TunnelBlock(
             BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED)
-                    .noCollission()
+                    .noCollision()
                     .noOcclusion()
                     .strength(0.1F, 0.1F)
                     .sound(TUNNEL_SOUND_TYPE)));
@@ -117,7 +117,7 @@ public final class ModBlocks {
             BLOCKS.register("canisteractive", () -> new alku.csrp.block.ParasiteCanisterActiveBlock(
                     BlockBehaviour.Properties.of()
                             .mapColor(MapColor.COLOR_RED)
-                            .noCollission()
+                            .noCollision()
                             .noOcclusion()
                             .strength(1.5F)
                             .sound(SoundType.GRASS)));
@@ -190,9 +190,9 @@ public final class ModBlocks {
                     .sound(SoundType.WOOD)));
     public static final DeferredBlock<Block> PARASITETHIN_TREEBASE = BLOCKS.register("parasitethin_treebase", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
     public static final DeferredBlock<Block> PARASITETHIN_TREENESW = BLOCKS.register("parasitethin_treenesw", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
-    public static final DeferredBlock<Block> PARASITESAPLING_TREE = BLOCKS.register("parasitesapling_tree", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).noCollission().noOcclusion().instabreak().sound(SoundType.GRASS)));
-    public static final DeferredBlock<Block> PARASITESAPLING_TREETHIN = BLOCKS.register("parasitesapling_treethin", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).noCollission().noOcclusion().instabreak().sound(SoundType.GRASS)));
-    public static final DeferredBlock<Block> PARASITESAPLING_FLOWERTALL = BLOCKS.register("parasitesapling_flowertall", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).noCollission().noOcclusion().instabreak().sound(SoundType.GRASS)));
+    public static final DeferredBlock<Block> PARASITESAPLING_TREE = BLOCKS.register("parasitesapling_tree", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).noCollision().noOcclusion().instabreak().sound(SoundType.GRASS)));
+    public static final DeferredBlock<Block> PARASITESAPLING_TREETHIN = BLOCKS.register("parasitesapling_treethin", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).noCollision().noOcclusion().instabreak().sound(SoundType.GRASS)));
+    public static final DeferredBlock<Block> PARASITESAPLING_FLOWERTALL = BLOCKS.register("parasitesapling_flowertall", () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).noCollision().noOcclusion().instabreak().sound(SoundType.GRASS)));
     public static final DeferredBlock<RotatedPillarBlock> GOTH_STEM = BLOCKS.register("goth_stem", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
     public static final DeferredBlock<CraftingTableBlock> INFESTED_WORKBENCH = BLOCKS.register("infested_workbench", () -> new CraftingTableBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(2.5F).sound(SoundType.WOOD)));
     public static final DeferredBlock<CraftingTableBlock> CONSUMED_WORKBENCH = BLOCKS.register("consumed_workbench", () -> new CraftingTableBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(2.5F).sound(SoundType.WOOD)));
@@ -219,7 +219,7 @@ public final class ModBlocks {
     public static final DeferredBlock<ResidueBloomingBlock> RESIDUE_PLANTS = BLOCKS.register("residue_plants", () -> new ResidueBloomingBlock(
             BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED)
-                    .noCollission()
+                    .noCollision()
                     .noOcclusion()
                     .randomTicks()
                     .instabreak()
@@ -227,7 +227,7 @@ public final class ModBlocks {
     public static final DeferredBlock<ThornshadeBlock> THORNSHADE = BLOCKS.register("thornshade", () ->
             new ThornshadeBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED)
-                    .noCollission()
+                    .noCollision()
                     .noOcclusion()
                     .instabreak()
                     .sound(SoundType.SWEET_BERRY_BUSH)));
@@ -236,7 +236,7 @@ public final class ModBlocks {
                     .sound(SoundType.ROOTED_DIRT)));
     public static final DeferredBlock<InfestedResidueBlock> INFESTED_REMAINS = BLOCKS.register("infestremain", () ->
             new InfestedResidueBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                    .noCollission().noOcclusion().randomTicks().instabreak().sound(SoundType.ROOTED_DIRT)));
+                    .noCollision().noOcclusion().randomTicks().instabreak().sound(SoundType.ROOTED_DIRT)));
     public static final DeferredBlock<ParasiteTrapBlock> BIOMASS_BLOCK = BLOCKS.register("biomass_block", () ->
             new ParasiteTrapBlock(ParasiteTrapBlock.Kind.BIOMASS, BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_GREEN).strength(0.6F).friction(0.8F)
@@ -370,7 +370,7 @@ public final class ModBlocks {
                     .strength(1.0F).noOcclusion().sound(FLESH_SOUND_TYPE)));
     public static final DeferredBlock<AlveoliGrowthBlock> ALVEOLI_GROWTH = BLOCKS.register("alveoli_growth", () ->
             new AlveoliGrowthBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                    .instabreak().noCollission().noOcclusion().sound(FLESH_SOUND_TYPE)));
+                    .instabreak().noCollision().noOcclusion().sound(FLESH_SOUND_TYPE)));
     public static final DeferredBlock<Block> SOLID_ALVEOLI_BLOCK = BLOCKS.register("solid_alveoli_block", () ->
             new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
                     .strength(1.0F).noOcclusion().sound(FLESH_SOUND_TYPE)));
@@ -380,7 +380,7 @@ public final class ModBlocks {
     public static final DeferredBlock<SrpWebBlock> SRP_WEB = BLOCKS.register("srpweb", () ->
             new SrpWebBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.SNOW)
-                    .noCollission()
+                    .noCollision()
                     .instabreak()
                     .noOcclusion()
                     .randomTicks()
@@ -436,7 +436,7 @@ public final class ModBlocks {
             "assimilated_reed", () -> new AssimilatedReedBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED)
                     .instabreak()
-                    .noCollission()
+                    .noCollision()
                     .noOcclusion()
                     .sound(SoundType.GRASS)));
     public static final DeferredBlock<BladderSacBlock> BLADDER_SAC = BLOCKS.register(
@@ -465,7 +465,7 @@ public final class ModBlocks {
     public static final DeferredBlock<FogBlock> FOG = BLOCKS.register("fog", () ->
             new FogBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.NONE)
-                    .noCollission()
+                    .noCollision()
                     .noOcclusion()
                     .replaceable()
                     .forceSolidOff()
@@ -482,7 +482,7 @@ public final class ModBlocks {
     public static final DeferredBlock<DeadBloodBlock> DEAD_BLOOD = BLOCKS.register(
             "deadblood", () -> new DeadBloodBlock(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED)
-                    .noCollission()
+                    .noCollision()
                     .strength(100.0F)
                     .noLootTable()));
     public static final DeferredBlock<Block> VISCERAL_MUD = BLOCKS.register("visceral_mud", () ->
@@ -554,7 +554,7 @@ public final class ModBlocks {
             new Block(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_BLACK)
                     .instabreak()
-                    .noCollission()
+                    .noCollision()
                     .noOcclusion()
                     .sound(SoundType.FUNGUS)));
     public static final DeferredBlock<InfestedBlock> COOKED_FLESH = BLOCKS.register("cooked_flesh", () ->
@@ -1019,11 +1019,11 @@ public final class ModBlocks {
                         .sound(SoundType.WOOL)));
             } else if (id.equals("parasitetendril")) {
                 holder = BLOCKS.register(id, () -> new VineBlock(BlockBehaviour.Properties.of()
-                        .mapColor(MapColor.COLOR_RED).noCollission().randomTicks()
+                        .mapColor(MapColor.COLOR_RED).noCollision().randomTicks()
                         .strength(0.2F).sound(SoundType.VINE)));
             } else if (id.equals("tresses_hair")) {
                 holder = BLOCKS.register(id, () -> new DoublePlantBlock(BlockBehaviour.Properties.of()
-                        .mapColor(MapColor.COLOR_RED).noCollission().instabreak().sound(SoundType.GRASS)));
+                        .mapColor(MapColor.COLOR_RED).noCollision().instabreak().sound(SoundType.GRASS)));
             } else if (id.equals("parasitefog")) {
                 holder = BLOCKS.register(id, () -> new FogBlock(BlockBehaviour.Properties.of()
                         .mapColor(MapColor.COLOR_RED).strength(0.2F).randomTicks()
@@ -1083,18 +1083,18 @@ public final class ModBlocks {
     private static DeferredBlock<ButtonBlock> woodButton(String id) {
         return BLOCKS.register(id, () -> new ButtonBlock(
                 BlockSetType.OAK, 30, BlockBehaviour.Properties.of()
-                        .mapColor(MapColor.COLOR_RED).noCollission().strength(0.5F).sound(SoundType.WOOD)));
+                        .mapColor(MapColor.COLOR_RED).noCollision().strength(0.5F).sound(SoundType.WOOD)));
     }
 
     private static DeferredBlock<PressurePlateBlock> woodPressurePlate(String id) {
         return BLOCKS.register(id, () -> new PressurePlateBlock(
                 BlockSetType.OAK, BlockBehaviour.Properties.of()
-                        .mapColor(MapColor.COLOR_RED).noCollission().strength(0.5F).sound(SoundType.WOOD)));
+                        .mapColor(MapColor.COLOR_RED).noCollision().strength(0.5F).sound(SoundType.WOOD)));
     }
 
     private static DeferredBlock<LadderBlock> woodLadder(String id) {
         return BLOCKS.register(id, () -> new LadderBlock(BlockBehaviour.Properties.of()
-                .mapColor(MapColor.COLOR_RED).noCollission().strength(0.4F).sound(SoundType.LADDER)));
+                .mapColor(MapColor.COLOR_RED).noCollision().strength(0.4F).sound(SoundType.LADDER)));
     }
 
     private static DeferredBlock<Block> woodBookshelf(String id) {

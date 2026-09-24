@@ -179,7 +179,7 @@ public final class BookOfVengeanceEvents {
         Vec3 direction = destination.subtract(player.getEyePosition());
         if (direction.lengthSqr() > 1.0E-4D) {
             player.setDeltaMovement(direction.normalize().scale(speed));
-            player.hurtMarked = true;
+            player.syncVelocity = true;
         }
     }
 
@@ -200,7 +200,7 @@ public final class BookOfVengeanceEvents {
         }
         away = away.normalize();
         player.setDeltaMovement(away.x * 1.05D, 0.78D, away.z * 1.05D);
-        player.hurtMarked = true;
+        player.syncVelocity = true;
     }
 
     private static void slam(ServerLevel level, ServerPlayer player, LivingEntity target,

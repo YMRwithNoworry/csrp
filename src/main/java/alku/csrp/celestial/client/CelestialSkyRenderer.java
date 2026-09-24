@@ -41,7 +41,7 @@ public final class CelestialSkyRenderer {
             renderDarkSky(poseStack);
             return;
         }
-        long dayTime = Minecraft.getInstance().level.getDayTime();
+        long dayTime = Minecraft.getInstance().level.getOverworldClockTime();
         long timeOfDay = Math.floorMod(dayTime, 24000L);
         if (timeOfDay < 13000L || timeOfDay > 23000L) return;
         if (timeOfDay < lastDayTime) ORBIT_STARTS.clear();

@@ -145,7 +145,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         if (getHealth() > 0.0F && getHealth() < getMaxHealth()) {
             heal(REGEN_PER_TICK);
         }
-        if (isInWaterOrBubble() && tickCount % 10 == 0) {
+        if (isInWater() && tickCount % 10 == 0) {
             Vec3 movement = getDeltaMovement();
             setDeltaMovement(movement.x * 1.1D, Math.max(movement.y, 0.15D), movement.z * 1.1D);
         }

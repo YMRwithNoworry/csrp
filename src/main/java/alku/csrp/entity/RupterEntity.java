@@ -407,7 +407,7 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
     }
 
     private void performLiquidLeap() {
-        if (!isInWaterOrBubble() || navigation.isDone() || tickCount % 10 != 0) {
+        if (!isInWater() || navigation.isDone() || tickCount % 10 != 0) {
             return;
         }
 

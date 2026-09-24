@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import alku.csrp.animation.CitadelAnimationManager;
 
 import java.util.EnumSet;
+import alku.csrp.world.SrpGameRules;
 
 /** Legacy colony worker (EntityKol), including its 13/26-block construction grid. */
 public final class WorkerEntity extends PrimitiveParasiteEntity {
@@ -117,7 +118,7 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
 
     private boolean placeNextStructure() {
         if (colonyOrigin == null || !(level() instanceof ServerLevel serverLevel)
-                || !serverLevel.getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
+                || !SrpGameRules.mobGriefing(serverLevel)) {
             return false;
         }
         BlockPos current = blockPosition();

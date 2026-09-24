@@ -201,7 +201,7 @@ public final class DredgeEntity extends CrudeParasiteEntity {
 
     private void tickLiquidLeap() {
         LivingEntity target = getTarget();
-        boolean inLiquid = isInWaterOrBubble() || isInLava();
+        boolean inLiquid = isInWater() || isInLava();
         if (tickCount % LIQUID_LEAP_INTERVAL_TICKS == 0 && inLiquid && target != null && target.isAlive()) {
             liquidLeap = Math.min(MAX_LIQUID_LEAPS, liquidLeap + 1);
         }
@@ -374,11 +374,11 @@ public final class DredgeEntity extends CrudeParasiteEntity {
 
         @Override
         public boolean canUse() {
-            if (!isInWaterOrBubble() && !isInLava()) {
+            if (!isInWater() && !isInLava()) {
                 return false;
             }
             LivingEntity target = getTarget();
-            if (target != null && (target.isInWaterOrBubble() || target.isInLava())
+            if (target != null && (target.isInWater() || target.isInLava())
                     && distanceToSqr(getX(), target.getY(), getZ()) < 25.0D
                     && target.getY() - getY() < -1.0D) {
                 setDeltaMovement(getDeltaMovement().add(0.0D, -0.095D, 0.0D));

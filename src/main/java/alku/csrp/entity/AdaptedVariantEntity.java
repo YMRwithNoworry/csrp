@@ -79,6 +79,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
+import alku.csrp.world.SrpGameRules;
 
 /** Shared implementation for the legacy adapted parasite tier. */
 public final class AdaptedVariantEntity extends BurrowingVariantEntity
@@ -652,7 +653,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             breakSoftBlockTowards(target);
         }
         if (activeKind == Kind.DEVOURER) {
-            if (!isInWaterOrBubble() && tickCount % 40 == 0) {
+            if (!isInWater() && tickCount % 40 == 0) {
                 hurt(damageSources().drown(), 3.0F);
             }
         }
@@ -731,7 +732,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     @Override
     public boolean doHurtTarget(Entity entity) {
         Kind activeKind = activeKind();
-        if (activeKind == Kind.DEVOURER && !isInWaterOrBubble()) {
+        if (activeKind == Kind.DEVOURER && !isInWater()) {
             return false;
         }
         if (activeKind == Kind.TOZOON) {
@@ -1399,9 +1400,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (getHealth() < getMaxHealth() && tickCount - lastBolsterCombatTick >= 80 && consumeParasiteKill()) {
             heal(getMaxHealth() * 0.001F);
         }
-        if (isInWaterOrBubble()) {
+        if (isInWater()) {
             LivingEntity target = getTarget();
-            if (target != null && target.isInWaterOrBubble()) {
+            if (target != null && target.isInWater()) {
                 Vec3 direction = target.getEyePosition().subtract(getEyePosition());
                 if (direction.lengthSqr() > 0.01D) {
                     direction = direction.normalize().scale(0.08D);
@@ -1712,7 +1713,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         Vec3 pull = position().subtract(target.position());
         if (pull.lengthSqr() > 0.0D) {
             target.setDeltaMovement(target.getDeltaMovement().add(pull.normalize().scale(0.2D)));
-            target.hurtMarked = true;
+            target.syncVelocity = true;
         }
         arachnidaPullingTicks++;
         if (arachnidaPullingTicks > ARACHNIDA_MAX_PULL_TICKS) {
@@ -1831,7 +1832,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     private void breakSoftBlockTowards(LivingEntity target) {
-        if (blockBreakCooldown > 0 || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
+        if (blockBreakCooldown > 0 || !SrpGameRules.mobGriefing(level())) {
             return;
         }
         Vec3 direction = target.position().subtract(position());
@@ -2181,12 +2182,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
         @Override
         public boolean canUse() {
-            return isInWaterOrBubble() && super.canUse();
+            return isInWater() && super.canUse();
         }
 
         @Override
         public boolean canContinueToUse() {
-            return isInWaterOrBubble() && super.canContinueToUse();
+            return isInWater() && super.canContinueToUse();
         }
     }
 
@@ -2298,7 +2299,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
         @Override
         public boolean canUse() {
-            return leaping || isInWaterOrBubble();
+            return leaping || isInWater();
         }
 
         @Override
@@ -2339,7 +2340,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                     setDeltaMovement(motion.x + deltaX / horizontal * 1.35D + motion.x * 0.3D,
                             0.7D + targetYOffset,
                             motion.z + deltaZ / horizontal * 1.35D + motion.z * 0.3D);
-                    hasImpulse = true;
+                    syncVelocity = true;
                 }
             }
             if (airborneTicks >= 3 && onGround()) {
@@ -2854,12 +2855,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         @Override
         public boolean canUse() {
             return abilityCooldown <= 0 && getTarget() != null && distanceToSqr(getTarget()) <= 400.0D
-                    && !isInWaterOrBubble();
+                    && !isInWater();
         }
 
         @Override
         public boolean canContinueToUse() {
-            return getTarget() != null && getTarget().isAlive() && !isInWaterOrBubble()
+            return getTarget() != null && getTarget().isAlive() && !isInWater()
                     && successfulSummons < SUMMONER_LIMIT && failedSummons <= 4;
         }
 
@@ -3149,7 +3150,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         private boolean hasExceededGroundDistance() {
             BlockPos pos = blockPosition().below();
             for (int count = 1; count <= limit; count++, pos = pos.below()) {
-                if (pos.getY() < level().getMinBuildHeight() || !level().getBlockState(pos).isAir()) {
+                if (pos.getY() < level().getMinY() || !level().getBlockState(pos).isAir()) {
                     return false;
                 }
             }

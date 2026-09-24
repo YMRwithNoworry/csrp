@@ -23,6 +23,7 @@ import alku.csrp.animation.CitadelAnimationController;
 import alku.csrp.animation.CitadelAnimationState;
 import alku.csrp.animation.CitadelPlayState;
 import alku.csrp.animation.CitadelRawAnimation;
+import alku.csrp.world.SrpGameRules;
 
 /** Legacy Ancient Drop Pod (EntityDropPod). */
 public final class AncientPodEntity extends PrimitiveParasiteEntity {
@@ -123,7 +124,7 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
     private void explodePod(ServerLevel level) {
         exploded = true;
         DragonEggAssimilationEntity.assimilateDragonEggs(level, getBoundingBox().inflate(4.0D));
-        Level.ExplosionInteraction interaction = level.getGameRules().getBoolean(GameRules.MOB_GRIEFING)
+        Level.ExplosionInteraction interaction = SrpGameRules.mobGriefing(level)
                 && MobsConfig.ancientPodGriefing()
                 ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
         level.explode(this, getX(), getY(), getZ(), 4.0F, interaction);

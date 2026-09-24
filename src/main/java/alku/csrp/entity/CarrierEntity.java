@@ -35,6 +35,7 @@ import alku.csrp.animation.CitadelPlayState;
 
 import java.util.EnumSet;
 import java.util.List;
+import alku.csrp.world.SrpGameRules;
 
 /** Shared detonation and toxic-cloud behavior of the original carrier parasites. */
 public abstract class CarrierEntity extends PrimitiveParasiteEntity implements ManualVariantProvider {
@@ -313,7 +314,7 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
 
         detonated = true;
         DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(4.0D));
-        Level.ExplosionInteraction interaction = level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)
+        Level.ExplosionInteraction interaction = SrpGameRules.mobGriefing(level())
                         && griefingEnabled() && EventHooks.canEntityGrief(level(), this)
                 ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
         level().explode(this, getX(), getY(), getZ(), 4.0F, interaction);

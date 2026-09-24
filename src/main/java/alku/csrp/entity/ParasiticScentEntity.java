@@ -522,7 +522,7 @@ public final class ParasiticScentEntity extends Entity {
             return;
         }
         for (ServerPlayer player : level.getEntitiesOfClass(ServerPlayer.class, getBoundingBox().inflate(80.0D))) {
-            player.displayClientMessage(Component.translatable(translationKey), true);
+            player.sendOverlayMessage(Component.translatable(translationKey));
         }
     }
 

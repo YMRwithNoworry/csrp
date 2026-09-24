@@ -28,6 +28,7 @@ import alku.csrp.animation.CitadelPlayState;
 import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
+import alku.csrp.world.SrpGameRules;
 
 /**
  * Legacy Cruxa: a heavy crude parasite that sweeps groups, hurls nearby blocks, and grows stronger from kills.
@@ -214,7 +215,7 @@ public final class CruxEntity extends CrudeParasiteEntity {
     }
 
     private boolean throwBlockAt(LivingEntity target, BlockPos source) {
-        if (level().isClientSide() || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
+        if (level().isClientSide() || !SrpGameRules.mobGriefing(level())) {
             return false;
         }
 
@@ -346,7 +347,7 @@ public final class CruxEntity extends CrudeParasiteEntity {
             throwSource = null;
             LivingEntity target = getTarget();
             if (target == null || throwCooldown > 0
-                    || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
+                    || !SrpGameRules.mobGriefing(level())) {
                 return false;
             }
             double verticalOffset = target.getY() - getY();

@@ -34,6 +34,7 @@ import alku.csrp.animation.CitadelPlayState;
 import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.List;
+import alku.csrp.world.SrpGameRules;
 
 /** Feral Enderman teleport combat and parasite relocation from the legacy implementation. */
 public final class FeralEndermanEntity extends FeralParasiteEntity {
@@ -336,7 +337,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
 
     private boolean teleportEntity(Entity entity, Vec3 requestedPosition) {
         BlockPos position = BlockPos.containing(requestedPosition);
-        while (position.getY() > level().getMinBuildHeight() && !level().getBlockState(position).blocksMotion()) {
+        while (position.getY() > level().getMinY() && !level().getBlockState(position).blocksMotion()) {
             position = position.below();
         }
         if (!level().getBlockState(position).blocksMotion()) {
@@ -394,11 +395,11 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
     }
 
     private void pursueInLiquid(LivingEntity target) {
-        if (!isInWaterOrBubble()) {
+        if (!isInWater()) {
             return;
         }
         Vec3 movement = getDeltaMovement();
-        if (target.isInWaterOrBubble()) {
+        if (target.isInWater()) {
             Vec3 direction = target.getEyePosition().subtract(getEyePosition());
             if (direction.lengthSqr() > 0.001D) {
                 Vec3 pursuit = direction.normalize().scale(0.14D);
@@ -455,7 +456,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
     }
 
     private void placeFeralRemains(BlockPos origin) {
-        if (!level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
+        if (!SrpGameRules.mobGriefing(level())) {
             return;
         }
         for (int offset = 0; offset <= 4; offset++) {

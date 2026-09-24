@@ -67,7 +67,7 @@ public final class CelestialEvents {
     }
 
     private static boolean isNight(ServerLevel level) {
-        long time = Math.floorMod(level.getDayTime(), 24000L);
+        long time = Math.floorMod(level.getOverworldClockTime(), 24000L);
         return time >= 13000L && time <= 23000L;
     }
 }

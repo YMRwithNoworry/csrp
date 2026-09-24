@@ -139,7 +139,7 @@ public final class MarauderizedEndermanEntity extends TetheredMarauderizedEntity
 
     private boolean tryTeleport(Vec3 requested) {
         BlockPos landing = BlockPos.containing(requested);
-        while (landing.getY() > level().getMinBuildHeight() && !level().getBlockState(landing).blocksMotion()) {
+        while (landing.getY() > level().getMinY() && !level().getBlockState(landing).blocksMotion()) {
             landing = landing.below();
         }
         if (!level().getBlockState(landing).blocksMotion()) {

@@ -45,6 +45,7 @@ import java.util.EnumSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import alku.csrp.world.SrpGameRules;
 
 /**
  * Legacy deterrent parasites are stationary control units. They share fire
@@ -740,7 +741,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void breakBlocksTowardsTarget(float maximumHardness, double range) {
-        if (abilityCooldown > 0 || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
+        if (abilityCooldown > 0 || !SrpGameRules.mobGriefing(level())) {
             return;
         }
         LivingEntity target = getTarget();

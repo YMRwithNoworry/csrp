@@ -472,7 +472,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
                 setDeltaMovement(movement.x + direction.x * 2.0D * 0.9D + movement.x * 0.3D,
                         0.8D,
                         movement.z + direction.z * 2.0D * 0.9D + movement.z * 0.3D);
-                hasImpulse = true;
+                syncVelocity = true;
                 navigation.stop();
                 setCombatStatus(STATUS_LEAP);
                 setSprinting(false);
@@ -505,11 +505,11 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
 
         @Override
         public boolean canUse() {
-            if (!isInWaterOrBubble()) {
+            if (!isInWater()) {
                 return false;
             }
             LivingEntity target = getTarget();
-            if (target != null && target.isInWaterOrBubble()
+            if (target != null && target.isInWater()
                     && distanceToSqr(getX(), target.getY(), getZ()) < 25.0D
                     && target.getY() - getY() < -1.0D) {
                 setDeltaMovement(getDeltaMovement().add(0.0D, -0.12D, 0.0D));

@@ -27,6 +27,7 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.List;
 import java.util.UUID;
+import alku.csrp.world.SrpGameRules;
 
 /** Original SRP timed bomb used by Hosts, Iki, Omboo, Jinjo and stationary architects. */
 public final class BombEntity extends Entity {
@@ -110,7 +111,7 @@ public final class BombEntity extends Entity {
     private void explode() {
         PrimitiveParasiteEntity owner = owner();
         if (strength > 0.0F) {
-            boolean grief = canGrief && level().getGameRules().getBoolean(GameRules.MOB_GRIEFING);
+            boolean grief = canGrief && SrpGameRules.mobGriefing(level());
             level().explode(owner == null ? this : owner, getX(), getY(), getZ(), strength,
                     grief ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE);
         }

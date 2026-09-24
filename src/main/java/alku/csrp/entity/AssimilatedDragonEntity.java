@@ -44,6 +44,7 @@ import alku.csrp.animation.CitadelRawAnimation;
 import alku.csrp.animation.CitadelAnimationUtil;
 
 import java.util.EnumSet;
+import alku.csrp.world.SrpGameRules;
 
 /** Assimilated Ender Dragon with removable head and wing durability driving flight and ranged combat. */
 public final class AssimilatedDragonEntity extends Monster implements CitadelAnimatedEntity, Parasite {
@@ -180,7 +181,7 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
         }
         LivingEntity target = getTarget();
         if (blockBreakCooldown > 0 || target == null || !target.isAlive() || distanceToSqr(target) > 4096.0D
-                || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)
+                || !SrpGameRules.mobGriefing(level())
                 || !EventHooks.canEntityGrief(level(), this)) {
             return;
         }

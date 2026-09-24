@@ -522,7 +522,7 @@ public final class AssimilatedEndermanEntity extends Monster
 
     private boolean teleportEntity(Entity entity, Vec3 requestedPosition) {
         BlockPos blockPos = BlockPos.containing(requestedPosition);
-        while (blockPos.getY() > level().getMinBuildHeight() && !level().getBlockState(blockPos).blocksMotion()) {
+        while (blockPos.getY() > level().getMinY() && !level().getBlockState(blockPos).blocksMotion()) {
             blockPos = blockPos.below();
         }
         if (!level().getBlockState(blockPos).blocksMotion()) {

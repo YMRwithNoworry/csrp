@@ -52,6 +52,7 @@ import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.ArrayList;
 import java.util.List;
+import alku.csrp.world.SrpGameRules;
 
 /** Legacy Nexus families: stationary stage growth, reinforcement, and battlefield support. */
 public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
@@ -539,7 +540,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
                             + DISPATCHER_FOG_MIN_Y_OFFSET,
                     random.nextInt(radius * 2 + 1) - radius);
             if (serverLevel.getBlockState(candidate).canBeReplaced()
-                    && candidate.getY() > serverLevel.getMinBuildHeight()) {
+                    && candidate.getY() > serverLevel.getMinY()) {
                 serverLevel.setBlockAndUpdate(candidate,
                         ModBlocks.FOG.get().defaultBlockState());
                 count--;
@@ -884,7 +885,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     private void breakBlocksTowardsTarget(Kind activeKind) {
         LivingEntity target = getTarget();
         if (target == null || blockBreakCooldown > 0
-                || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
+                || !SrpGameRules.mobGriefing(level())) {
             return;
         }
         Vec3 direction = target.position().subtract(position());

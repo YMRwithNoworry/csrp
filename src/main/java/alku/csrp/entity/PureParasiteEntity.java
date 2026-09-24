@@ -66,6 +66,7 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.UUID;
+import alku.csrp.world.SrpGameRules;
 
 /**
  * Shared port of the original Pure-tier combatants. They retain the legacy
@@ -1101,7 +1102,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             }
             case MONARCH -> {
                 target.setDeltaMovement(target.getDeltaMovement().add(0.0D, 0.5D, 0.0D));
-                target.hurtMarked = true;
+                target.syncVelocity = true;
             }
             case VIGILANTE -> target.knockback(1.0D, getX() - target.getX(), getZ() - target.getZ());
             case WARDEN -> maybeLaunchWardenTarget(target);
@@ -1127,13 +1128,13 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         direction = direction.normalize();
         double vertical = target instanceof Player ? 0.525D : 1.05D;
         target.push(direction.x * 0.4D, vertical, direction.z * 0.4D);
-        target.hurtMarked = true;
+        target.syncVelocity = true;
     }
 
     private void breakBlocksTowardsTarget(LivingEntity target, Kind activeKind) {
         if (activeKind == Kind.GRUNT || activeKind == Kind.BOMBER_LIGHT
                 || activeKind.blockHardness <= 0.0F || blockBreakCooldown > 0
-                || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
+                || !SrpGameRules.mobGriefing(level())) {
             return;
         }
         Vec3 direction = target.position().subtract(position());
@@ -1352,7 +1353,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
 
     private void triggerPureDeathBurst() {
         DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(2.0D));
-        Level.ExplosionInteraction interaction = level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)
+        Level.ExplosionInteraction interaction = SrpGameRules.mobGriefing(level())
                 ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;
         level().explode(this, getX(), getY() + getBbHeight() * 0.5D, getZ(), 2.0F, interaction);
         ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), getX(), getY(), getZ());
@@ -1457,7 +1458,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
 
     private boolean hasBlockBelow(int distance) {
         BlockPos.MutableBlockPos cursor = blockPosition().below().mutable();
-        for (int offset = 1; offset <= distance && cursor.getY() >= level().getMinBuildHeight(); offset++) {
+        for (int offset = 1; offset <= distance && cursor.getY() >= level().getMinY(); offset++) {
             if (!level().getBlockState(cursor).isAir()) {
                 return true;
             }
@@ -1592,7 +1593,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         setDeltaMovement(movement.x + offset.x / horizontalLength * 3.5D * 0.9D + movement.x * 0.3D,
                 1.1D,
                 movement.z + offset.z / horizontalLength * 3.5D * 0.9D + movement.z * 0.3D);
-        hurtMarked = true;
+        syncVelocity = true;
         gruntSkillLeapActive = true;
         gruntSkillLeapWasAirborne = false;
         gruntSkillLeapTicks = 0;
@@ -1719,7 +1720,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                     movement.y,
                     movement.z + towardTarget.z / horizontalLength * dashStrength * 0.8D
                             + movement.z * 0.2D + bonusZ);
-            hurtMarked = true;
+            syncVelocity = true;
             getNavigation().stop();
             if (level() instanceof ServerLevel serverLevel) {
                 serverLevel.sendParticles(ParticleTypes.ENCHANTED_HIT,
@@ -1737,11 +1738,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
 
         @Override
         public boolean canUse() {
-            if (!isInWaterOrBubble() && !isInLava()) {
+            if (!isInWater() && !isInLava()) {
                 return false;
             }
             LivingEntity target = getTarget();
-            if (target != null && (target.isInWaterOrBubble() || target.isInLava())
+            if (target != null && (target.isInWater() || target.isInLava())
                     && target.distanceToSqr(getX(), target.getY(), getZ()) < 25.0D
                     && target.getY() - getY() < -1.0D) {
                 setDeltaMovement(getDeltaMovement().add(0.0D, -0.12D, 0.0D));
@@ -1772,7 +1773,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         @Override
         public boolean canUse() {
             LivingEntity target = getTarget();
-            if (target == null || !target.isAlive() || (!isInWaterOrBubble() && !isInLava())) {
+            if (target == null || !target.isAlive() || (!isInWater() && !isInLava())) {
                 return false;
             }
             if (cooldown < 20) {
@@ -1801,7 +1802,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                 setDeltaMovement(movement.x + offset.x / horizontalLength * 1.5D * 0.9D + movement.x * 0.3D,
                         0.7D + heightBonus,
                         movement.z + offset.z / horizontalLength * 1.5D * 0.9D + movement.z * 0.3D);
-                hurtMarked = true;
+                syncVelocity = true;
                 startSpecialLeapAnimation(24);
             }
             cooldown = 0;
@@ -1937,11 +1938,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
 
         @Override
         public boolean canUse() {
-            if (monarchLeapBusy() || !isInWaterOrBubble() && !isInLava()) {
+            if (monarchLeapBusy() || !isInWater() && !isInLava()) {
                 return false;
             }
             LivingEntity target = getTarget();
-            if (target != null && (target.isInWaterOrBubble() || target.isInLava())
+            if (target != null && (target.isInWater() || target.isInLava())
                     && target.distanceToSqr(getX(), target.getY(), getZ()) < 25.0D
                     && target.getY() - getY() < -1.0D) {
                 setDeltaMovement(getDeltaMovement().add(0.0D, -0.12D, 0.0D));
@@ -2021,7 +2022,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
 
         @Override
         public boolean canUse() {
-            return attacking >= 1 || !monarchSkillLeapActive && (isInWaterOrBubble() || isInLava());
+            return attacking >= 1 || !monarchSkillLeapActive && (isInWater() || isInLava());
         }
 
         @Override
@@ -2058,7 +2059,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                     setDeltaMovement(movement.x + x / horizontalLength * 1.5D * 0.9D + movement.x * 0.3D,
                             0.7D + targetY,
                             movement.z + z / horizontalLength * 1.5D * 0.9D + movement.z * 0.3D);
-                    hurtMarked = true;
+                    syncVelocity = true;
                     monarchWaterLeapActive = true;
                     startSpecialLeapAnimation(24);
                 }
@@ -2185,7 +2186,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                     movement.y,
                     movement.z + towardTarget.z / horizontalLength * dashStrength * 0.8D
                             + movement.z * 0.2D + bonusZ);
-            hurtMarked = true;
+            syncVelocity = true;
             getNavigation().stop();
             if (level() instanceof ServerLevel serverLevel) {
                 serverLevel.sendParticles(ParticleTypes.ENCHANTED_HIT,
@@ -2207,7 +2208,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         setDeltaMovement(movement.x + offset.x / horizontalLength * 3.5D * 0.9D + movement.x * 0.3D,
                 0.5D,
                 movement.z + offset.z / horizontalLength * 3.5D * 0.9D + movement.z * 0.3D);
-        hurtMarked = true;
+        syncVelocity = true;
         monarchSkillLeapActive = true;
         monarchSkillLeapWasAirborne = false;
         monarchSkillLeapTicks = 2;
@@ -2264,7 +2265,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
 
     private void breakBlocksForMonarchSkill() {
         if (!(level() instanceof ServerLevel serverLevel)
-                || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)
+                || !SrpGameRules.mobGriefing(level())
                 || !EventHooks.canEntityGrief(level(), this)) {
             return;
         }
@@ -3173,7 +3174,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             setDeltaMovement(movement.x + dx / horizontal * 2.5D * 0.9D + movement.x * 0.3D,
                     1.2D,
                     movement.z + dz / horizontal * 2.5D * 0.9D + movement.z * 0.3D);
-            hurtMarked = true;
+            syncVelocity = true;
             airborne = false;
             wardenLeapTicks = 1;
             startSpecialLeapAnimation(100);

@@ -210,12 +210,12 @@ public final class SummonerEntity extends PrimitiveParasiteEntity implements Sum
         @Override
         public boolean canUse() {
             return summonCooldown <= 0 && getTarget() != null && distanceToSqr(getTarget()) <= 256.0D
-                    && !isInWaterOrBubble();
+                    && !isInWater();
         }
 
         @Override
         public boolean canContinueToUse() {
-            return getTarget() != null && getTarget().isAlive() && !isInWaterOrBubble()
+            return getTarget() != null && getTarget().isAlive() && !isInWater()
                     && successfulSummons < SUMMON_LIMIT && failedSummons <= 4;
         }
 

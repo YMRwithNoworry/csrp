@@ -45,6 +45,7 @@ import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.EnumSet;
 import java.util.List;
+import alku.csrp.world.SrpGameRules;
 
 /** Legacy Ancient Dreadnaut and Ancient Overlord boss implementations. */
 public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
@@ -376,7 +377,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void breakBlocksTowardsTarget(LivingEntity target) {
-        if (blockBreakCooldown > 0 || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
+        if (blockBreakCooldown > 0 || !SrpGameRules.mobGriefing(level())) {
             return;
         }
         Vec3 direction = target.position().subtract(position());

@@ -17,6 +17,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import alku.csrp.world.SrpGameRules;
 
 /** Ground wave emitted by the Warden's original Ganro shockwave skill. */
 public final class WardenShockwaveEntity extends Entity {
@@ -100,7 +101,7 @@ public final class WardenShockwaveEntity extends Entity {
             return;
         }
         setDeltaMovement(direction.normalize().scale(MOVEMENT_SPEED));
-        hasImpulse = true;
+        syncVelocity = true;
     }
 
     private void damageTargets(PureParasiteEntity owner) {
@@ -111,14 +112,14 @@ public final class WardenShockwaveEntity extends Entity {
             if (owner.hurtWardenSkillTarget(target)) {
                 Vec3 movement = target.getDeltaMovement();
                 target.setDeltaMovement(movement.x, movement.y + 0.64645D, movement.z);
-                target.hurtMarked = true;
+                target.syncVelocity = true;
             }
         }
     }
 
     private void breakContactBlocks(PureParasiteEntity owner) {
         if (!(level() instanceof ServerLevel serverLevel)
-                || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
+                || !SrpGameRules.mobGriefing(level())) {
             return;
         }
         BlockPos center = blockPosition();

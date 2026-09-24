@@ -19,6 +19,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import alku.csrp.world.SrpGameRules;
 
 /** Moving ground wave created by the Primitive Longarms special attack. */
 public final class ShockwaveEntity extends Entity {
@@ -42,7 +43,7 @@ public final class ShockwaveEntity extends Entity {
         remainingDistance = horizontal.length();
         if (remainingDistance > 0.001D) {
             setDeltaMovement(horizontal.normalize().scale(MOVEMENT_SPEED));
-            hasImpulse = true;
+            syncVelocity = true;
         }
     }
 
@@ -100,7 +101,7 @@ public final class ShockwaveEntity extends Entity {
     }
 
     private void breakContactBlocks(LongarmsEntity owner, Vec3 movement) {
-        if (!level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
+        if (!SrpGameRules.mobGriefing(level())) {
             return;
         }
         Vec3 next = position().add(movement);

@@ -18,7 +18,8 @@ public record CompendiumRequestPayload() implements CustomPacketPayload {
     public static void handle(CompendiumRequestPayload payload, IPayloadContext context) {
         context.enqueueWork(() -> {
             if (context.player() instanceof ServerPlayer player) {
-                var progress = CompendiumSavedData.get(player.getServer()).progress(player.getUUID());
+                var progress = CompendiumSavedData.get(player.level().getServer())
+                        .progress(player.getUUID());
                 context.reply(new CompendiumOpenPayload(progress.save()));
             }
         });

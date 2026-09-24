@@ -70,7 +70,7 @@ public final class HaunterDamageEntity extends Entity {
         }
         target.setDeltaMovement(motion.x * 0.5D - xRatio / horizontalLength * knockbackStrength,
                 vertical, motion.z * 0.5D - zRatio / horizontalLength * knockbackStrength);
-        target.hurtMarked = true;
+        target.syncVelocity = true;
     }
 
     private PreeminentParasiteEntity owner() {

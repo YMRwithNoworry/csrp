@@ -155,7 +155,7 @@ public final class MarauderizedHumanEntity extends MarauderizedParasiteEntity {
             direction = direction.normalize();
             setDeltaMovement(getDeltaMovement().multiply(0.25D, 0.0D, 0.25D)
                     .add(direction.x * 0.62D, 0.42D, direction.z * 0.62D));
-            hasImpulse = true;
+            syncVelocity = true;
             startAttackAnimation();
             pounceCooldown = 20;
         }

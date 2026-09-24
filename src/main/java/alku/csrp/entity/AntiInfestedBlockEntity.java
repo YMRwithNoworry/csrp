@@ -28,7 +28,7 @@ public final class AntiInfestedBlockEntity extends Entity {
     public void launch(Vec3 start, Vec3 velocity) {
         setPos(start);
         setDeltaMovement(velocity);
-        hasImpulse = true;
+        syncVelocity = true;
     }
 
     @Override

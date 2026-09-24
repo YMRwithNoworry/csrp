@@ -260,7 +260,7 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
 
     private boolean hasGroundWithin(int distance) {
         BlockPos cursor = blockPosition().below();
-        for (int offset = 1; offset <= distance && cursor.getY() >= level().getMinBuildHeight(); offset++) {
+        for (int offset = 1; offset <= distance && cursor.getY() >= level().getMinY(); offset++) {
             if (!level().getBlockState(cursor).isAir()) {
                 return true;
             }

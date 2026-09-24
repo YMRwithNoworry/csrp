@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.joml.Vector3f;
+import alku.csrp.world.SrpGameRules;
 
 public final class KirinEntity extends DerivedParasiteEntity {
     public static final int BLINK_CHARGE_TICKS = 60;
@@ -817,7 +818,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
     private void tryBreakBlocks() {
         LivingEntity target = getTarget();
         if (blockBreakCooldown > 0 || target == null || !target.isAlive()
-                || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)) {
+                || !SrpGameRules.mobGriefing(level())) {
             return;
         }
         int verticalOffset = 0;

@@ -13,7 +13,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.player.Player;
@@ -35,6 +34,16 @@ public final class EvolutionLureBlock extends Block {
         registerDefaultState(stateDefinition.any().setValue(TIER, Tier.ONE));
     }
 
+    /**
+     * Shows the message on the action bar. MC 26.3 moved that entry point from {@code Player} to
+     * {@code ServerPlayer}; every caller here runs on the server (the block was activated there).
+     */
+    private static void overlayMessage(Player player, Component message) {
+        if (player instanceof ServerPlayer serverPlayer) {
+            serverPlayer.sendOverlayMessage(message);
+        }
+    }
+
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player,
             BlockHitResult hitResult) {
@@ -54,7 +63,7 @@ public final class EvolutionLureBlock extends Block {
             return InteractionResult.SUCCESS;
         }
         if (!level.isClientSide()) {
-            player.displayClientMessage(Component.translatable("message.csrp.lure_empty_hand"), true);
+            overlayMessage(player, Component.translatable("message.csrp.lure_empty_hand"));
         }
         return InteractionResult.SUCCESS;
     }
@@ -66,7 +75,7 @@ public final class EvolutionLureBlock extends Block {
             return;
         }
         if (data.evolutionPhase() <= -1) {
-            player.displayClientMessage(Component.translatable("message.csrp.lure_dormant"), true);
+            overlayMessage(player, Component.translatable("message.csrp.lure_dormant"));
             return;
         }
 
@@ -76,19 +85,18 @@ public final class EvolutionLureBlock extends Block {
                 center.getZ() + 0.5D, 24, 0.35D, 0.35D, 0.35D, 0.02D);
         level.playSound(null, center, ModSounds.LURE_USE.get(), net.minecraft.sounds.SoundSource.BLOCKS,
                 1.0F, 0.9F + level.getRandom().nextFloat() * 0.2F);
-        player.displayClientMessage(Component.translatable("message.csrp.lure_cooldown_added",
-                tier.cooldownSeconds()), true);
+        overlayMessage(player, Component.translatable("message.csrp.lure_cooldown_added",
+                tier.cooldownSeconds()));
     }
 
     private static void activateCarcass(ServerLevel level, BlockPos center, Tier tier, Player player,
             SrpWorldData data) {
         if (data.cooldown(level) > 0) {
-            player.displayClientMessage(Component.translatable("message.csrp.lure_inactive", data.cooldown(level)),
-                    true);
+            overlayMessage(player, Component.translatable("message.csrp.lure_inactive", data.cooldown(level)));
             return;
         }
         if (!data.addEvolutionPoints(level, -tier.carcassReduction(), true)) {
-            player.displayClientMessage(Component.translatable("message.csrp.lure_dormant"), true);
+            overlayMessage(player, Component.translatable("message.csrp.lure_dormant"));
             return;
         }
 
@@ -101,8 +109,8 @@ public final class EvolutionLureBlock extends Block {
                 center.getZ() + 0.5D, 60, 1.5D, 0.8D, 1.5D, 0.03D);
         level.playSound(null, center, ModSounds.CARCASS_USE.get(), net.minecraft.sounds.SoundSource.BLOCKS,
                 2.0F, 1.0F);
-        player.displayClientMessage(Component.translatable("message.csrp.lure_points_reduced",
-                tier.carcassReduction()), true);
+        overlayMessage(player, Component.translatable("message.csrp.lure_points_reduced",
+                tier.carcassReduction()));
     }
 
     private static boolean isCarcass(ServerLevel level, BlockPos center) {

@@ -42,6 +42,7 @@ import alku.csrp.animation.CitadelRawAnimation;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.UUID;
+import alku.csrp.world.SrpGameRules;
 
 /** Modern equivalent of SRP 1.10.7's independently registered EntityFlam. */
 public final class FlamEntity extends PrimitiveParasiteEntity {
@@ -295,7 +296,7 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
     }
 
     private void breakNearbyBlocks() {
-        if (!level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)
+        if (!SrpGameRules.mobGriefing(level())
                 || !EventHooks.canEntityGrief(level(), this)) {
             return;
         }

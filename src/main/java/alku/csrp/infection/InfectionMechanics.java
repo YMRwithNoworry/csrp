@@ -37,6 +37,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.sounds.SoundSource;
+import alku.csrp.world.SrpGameRules;
 
 /** Server-side COTH and Viral infection progression, spread, and host conversion. */
 public final class InfectionMechanics {
@@ -525,7 +526,7 @@ public final class InfectionMechanics {
         converted.setCustomName(player.getName().copy());
         converted.setCustomNameVisible(true);
         converted.setPersistenceRequired();
-        boolean keepInventory = serverLevel.getGameRules().getBoolean(GameRules.RULE_KEEPINVENTORY);
+        boolean keepInventory = SrpGameRules.flag(serverLevel, GameRules.RULE_KEEPINVENTORY);
         EquipmentSlot[] inheritedSlots = {
                 EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND,
                 EquipmentSlot.HEAD, EquipmentSlot.LEGS, EquipmentSlot.FEET

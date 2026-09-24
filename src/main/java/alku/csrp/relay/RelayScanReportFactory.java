@@ -184,8 +184,8 @@ public final class RelayScanReportFactory {
 
     private static CompoundTag metadata(ServerLevel level) {
         CompoundTag tag = new CompoundTag();
-        tag.putInt("PrintDay", (int) (level.getDayTime() / 24_000L));
-        tag.putInt("PrintTime", (int) (level.getDayTime() % 24_000L));
+        tag.putInt("PrintDay", (int) (level.getOverworldClockTime() / 24_000L));
+        tag.putInt("PrintTime", (int) (level.getOverworldClockTime() % 24_000L));
         return tag;
     }
 

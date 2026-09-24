@@ -63,6 +63,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import alku.csrp.world.SrpGameRules;
 
 /** Shared 1.12 primitive-parasite state: hostile targeting, kills, and repeated-damage adaptation. */
 public abstract class PrimitiveParasiteEntity extends Monster implements CitadelAnimatedEntity, Parasite {
@@ -173,7 +174,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
         LivingEntity target = getTarget();
         if (profile == null || blockBreakCooldown > 0 || target == null || !target.isAlive()
                 || distanceToSqr(target) > 4096.0D
-                || !level().getGameRules().getBoolean(GameRules.MOB_GRIEFING)
+                || !SrpGameRules.mobGriefing(level())
                 || !EventHooks.canEntityGrief(level(), this)) {
             return;
         }

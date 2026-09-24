@@ -41,14 +41,14 @@ public final class MeteorImpactUtil {
         int z = pos.getZ();
         int top = Math.min(level.getMaxBuildHeight() - 1,
                 level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z) + 16);
-        for (int y = top; y >= level.getMinBuildHeight(); y--) {
+        for (int y = top; y >= level.getMinY(); y--) {
             BlockState state = level.getBlockState(new BlockPos(x, y, z));
             if ((state.blocksMotion() && !state.is(BlockTags.LEAVES))
                     || state.getFluidState().is(Fluids.WATER)) {
                 return new BlockPos(x, y + 1, z);
             }
         }
-        return new BlockPos(x, level.getMinBuildHeight(), z);
+        return new BlockPos(x, level.getMinY(), z);
     }
 
     public static void tickPendingStructures(ServerLevel level) {

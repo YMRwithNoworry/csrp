@@ -64,7 +64,7 @@ public final class ColdStarVillageGenerator {
     }
 
     private static boolean validSite(ServerLevel level, BlockPos center) {
-        if (center.getY() <= level.getMinBuildHeight() + 4) return false;
+        if (center.getY() <= level.getMinY() + 4) return false;
         int min = Integer.MAX_VALUE;
         int max = Integer.MIN_VALUE;
         for (int x = -8; x <= 8; x += 4) {
@@ -82,7 +82,7 @@ public final class ColdStarVillageGenerator {
     }
 
     private static boolean validHouseSite(ServerLevel level, BlockPos center) {
-        return center.getY() > level.getMinBuildHeight() + 4
+        return center.getY() > level.getMinY() + 4
                 && level.getFluidState(center.below()).isEmpty();
     }
 
