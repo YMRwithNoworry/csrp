@@ -69,6 +69,12 @@ public final class SrpWorldData extends SavedData {
     private final long[] dislodgmentCooldownEnds = new long[30];
     private final Map<String, Integer> globalAdaptations = new LinkedHashMap<>();
     /**
+     * Original {@code SRPSaveData.assimCounts}: how many times each simulated mob type has been assimilated
+     * in this world.  {@code EntityCanSpawn.canSpawnByIDData()} compares this against the per-type
+     * {@code *NeededAssimilation} setting before allowing that type to spawn naturally.
+     */
+    private final Map<String, Integer> assimilationCounts = new LinkedHashMap<>();
+    /**
      * Persisted "this chunk was already decorated" markers, one bit per chunk inside a
      * {@code 32x32}-chunk region.  Chunk decoration must run exactly once per chunk across server
      * restarts, and a per-chunk set of every visited chunk would grow without bound.
@@ -133,6 +139,7 @@ public final class SrpWorldData extends SavedData {
         readVectors(tag, data.vectors);
         readDislodgmentCodes(tag, data.dislodgmentCodes);
         readGlobalAdaptations(tag, data.globalAdaptations);
+        readAssimilationCounts(tag, data.assimilationCounts);
         readDecoratedChunks(tag, data.decoratedChunks);
         return data;
     }
@@ -174,6 +181,7 @@ public final class SrpWorldData extends SavedData {
         writeVectors(tag, data.vectors);
         writeDislodgmentCodes(tag, data.dislodgmentCodes);
         writeGlobalAdaptations(tag, data.globalAdaptations);
+        writeAssimilationCounts(tag, data.assimilationCounts);
         writeDecoratedChunks(tag, data.decoratedChunks);
         return tag;
     }
@@ -549,6 +557,23 @@ public final class SrpWorldData extends SavedData {
         return Collections.unmodifiableMap(globalAdaptations);
     }
 
+    /**
+     * Original {@code SRPSaveData.getNumberIDDataSpawn(int)}: how many times the given simulated mob type has
+     * been assimilated in this world.
+     */
+    public int assimilationCount(String spawnKey) {
+        return spawnKey == null ? 0 : assimilationCounts.getOrDefault(spawnKey, 0);
+    }
+
+    /** Original {@code SRPSaveData.addNumberIDDataSpawn(int)}. */
+    public void addAssimilationCount(String spawnKey) {
+        if (spawnKey == null || spawnKey.isBlank()) {
+            return;
+        }
+        assimilationCounts.merge(spawnKey, 1, Integer::sum);
+        setDirty();
+    }
+
     public void addGlobalResistance(String damage) {
         if (damage == null || damage.isBlank()) {
             return;
@@ -831,8 +856,7 @@ public final class SrpWorldData extends SavedData {
         }
     }
 
-    private static void writeGlobalAdaptations(CompoundTag tag, Map<String, Integer> entries) {        ListTag list = new ListTag();
-        entries.forEach((damage, points) -> {
+    private static void writeGlobalAdaptations(CompoundTag tag, Map<String, Integer> entries) {        ListTag list = new ListTag();        entries.forEach((damage, points) -> {
             CompoundTag entry = new CompoundTag();
             entry.putString("damage", damage);
             entry.putInt("points", points);
@@ -848,6 +872,28 @@ public final class SrpWorldData extends SavedData {
             int points = entry.getIntOr("points", 0);
             if (!damage.isBlank() && points > 0) {
                 output.put(damage, points);
+            }
+        }
+    }
+
+    private static void writeAssimilationCounts(CompoundTag tag, Map<String, Integer> entries) {
+        ListTag list = new ListTag();
+        entries.forEach((key, count) -> {
+            CompoundTag entry = new CompoundTag();
+            entry.putString("key", key);
+            entry.putInt("count", count);
+            list.add(entry);
+        });
+        tag.put("assimilation_counts", list);
+    }
+
+    private static void readAssimilationCounts(CompoundTag tag, Map<String, Integer> output) {
+        for (Tag raw : tag.getListOrEmpty("assimilation_counts")) {
+            CompoundTag entry = (CompoundTag) raw;
+            String key = entry.getStringOr("key", "");
+            int count = entry.getIntOr("count", 0);
+            if (!key.isBlank() && count > 0) {
+                output.put(key, count);
             }
         }
     }

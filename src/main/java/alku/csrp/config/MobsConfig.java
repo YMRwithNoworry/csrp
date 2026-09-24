@@ -463,6 +463,50 @@ public final class MobsConfig {
             value -> value instanceof String id
                     && net.minecraft.resources.Identifier.tryParse(id) != null);
 
+    /**
+     * Original {@code SRPConfigMobs.*CanSpawnAssimilatedNat}: how many of a simulated mob type must have been
+     * assimilated in the world before that type is allowed to spawn naturally again. {@code -1} means the
+     * type is never gated. Consumed by {@code EntityCanSpawn.canSpawnByIDData()} together with the per-type
+     * counters stored in {@link alku.csrp.world.SrpWorldData}.
+     */
+    private static final ModConfigSpec.IntValue SIM_BEAR_NEEDED_ASSIMILATION = intValue(
+            "srparasites:sim_bear", "simBearNeededAssimilation", 2, -1, 100000,
+            "Assimilated Bear Needed Assimilation Value: how many bears must be assimilated before the "
+                    + "assimilated bear may spawn naturally (-1 disables the gate).");
+    private static final ModConfigSpec.IntValue SIM_ENDERMAN_NEEDED_ASSIMILATION = intValue(
+            "srparasites:sim_enderman", "simEndermanNeededAssimilation", 9, -1, 100000,
+            "Assimilated Enderman Needed Assimilation Value (-1 disables the gate).");
+    private static final ModConfigSpec.IntValue SIM_HUMAN_NEEDED_ASSIMILATION = intValue(
+            "srparasites:sim_human", "simHumanNeededAssimilation", 5, -1, 100000,
+            "Assimilated Human Needed Assimilation Value (-1 disables the gate).");
+    private static final ModConfigSpec.IntValue SIM_SQUID_NEEDED_ASSIMILATION = intValue(
+            "srparasites:sim_squid", "simSquidNeededAssimilation", -1, -1, 100000,
+            "Assimilated Squid Needed Assimilation Value (-1 disables the gate).");
+    private static final ModConfigSpec.IntValue SIM_COW_NEEDED_ASSIMILATION = intValue(
+            "srparasites:sim_cow", "simCowNeededAssimilation", 4, -1, 100000,
+            "Assimilated Cow Needed Assimilation Value (-1 disables the gate).");
+    private static final ModConfigSpec.IntValue SIM_SHEEP_NEEDED_ASSIMILATION = intValue(
+            "srparasites:sim_sheep", "simSheepNeededAssimilation", 3, -1, 100000,
+            "Assimilated Sheep Needed Assimilation Value (-1 disables the gate).");
+    private static final ModConfigSpec.IntValue SIM_WOLF_NEEDED_ASSIMILATION = intValue(
+            "srparasites:sim_wolf", "simWolfNeededAssimilation", 2, -1, 100000,
+            "Assimilated Wolf Needed Assimilation Value (-1 disables the gate).");
+    private static final ModConfigSpec.IntValue SIM_PIG_NEEDED_ASSIMILATION = intValue(
+            "srparasites:sim_pig", "simPigNeededAssimilation", 4, -1, 100000,
+            "Assimilated Pig Needed Assimilation Value (-1 disables the gate).");
+    private static final ModConfigSpec.IntValue SIM_VILLAGER_NEEDED_ASSIMILATION = intValue(
+            "srparasites:sim_villager", "simVillagerNeededAssimilation", 6, -1, 100000,
+            "Assimilated Villager Needed Assimilation Value (-1 disables the gate).");
+    private static final ModConfigSpec.IntValue SIM_HORSE_NEEDED_ASSIMILATION = intValue(
+            "srparasites:sim_horse", "simHorseNeededAssimilation", 3, -1, 100000,
+            "Assimilated Horse Needed Assimilation Value (-1 disables the gate).");
+    private static final ModConfigSpec.IntValue SIM_DRAGONE_NEEDED_ASSIMILATION = intValue(
+            "srparasites:sim_dragone", "simDragonENeededAssimilation", -1, -1, 100000,
+            "Assimilated Ender Dragon Needed Assimilation Value (-1 disables the gate).");
+    private static final ModConfigSpec.IntValue HI_GOLEM_NEEDED_ASSIMILATION = intValue(
+            "srparasites:hi_golem", "hiGolemNeededAssimilation", 6, -1, 100000,
+            "Hijacked Golem Needed Assimilation Value (-1 disables the gate).");
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 
     private MobsConfig() {
@@ -1025,6 +1069,33 @@ public final class MobsConfig {
 
     public static List<? extends String> jinjoMobs() {
         return JINJO_MOBS.get();
+    }
+
+    /**
+     * Original {@code EntityCanSpawn.canSpawnByIDData()}: the number of times a simulated mob type must have
+     * been assimilated in the world before natural spawning of that type is allowed again. {@code -1} means
+     * the gate is disabled.
+     *
+     * @param spawnKey one of {@code sim_bear}, {@code sim_enderman}, {@code sim_human}, {@code sim_squid},
+     *                 {@code sim_cow}, {@code sim_sheep}, {@code sim_wolf}, {@code sim_pig},
+     *                 {@code sim_villager}, {@code sim_horse}, {@code sim_dragone}, {@code hi_golem}
+     */
+    public static int neededAssimilation(String spawnKey) {
+        return switch (spawnKey) {
+            case "sim_bear" -> SIM_BEAR_NEEDED_ASSIMILATION.get();
+            case "sim_enderman" -> SIM_ENDERMAN_NEEDED_ASSIMILATION.get();
+            case "sim_human" -> SIM_HUMAN_NEEDED_ASSIMILATION.get();
+            case "sim_squid" -> SIM_SQUID_NEEDED_ASSIMILATION.get();
+            case "sim_cow" -> SIM_COW_NEEDED_ASSIMILATION.get();
+            case "sim_sheep" -> SIM_SHEEP_NEEDED_ASSIMILATION.get();
+            case "sim_wolf" -> SIM_WOLF_NEEDED_ASSIMILATION.get();
+            case "sim_pig" -> SIM_PIG_NEEDED_ASSIMILATION.get();
+            case "sim_villager" -> SIM_VILLAGER_NEEDED_ASSIMILATION.get();
+            case "sim_horse" -> SIM_HORSE_NEEDED_ASSIMILATION.get();
+            case "sim_dragone" -> SIM_DRAGONE_NEEDED_ASSIMILATION.get();
+            case "hi_golem" -> HI_GOLEM_NEEDED_ASSIMILATION.get();
+            default -> -1;
+        };
     }
 
     private static boolean validOrbEffect(Object value) {

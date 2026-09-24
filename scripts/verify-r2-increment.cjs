@@ -21,6 +21,8 @@ const evolutionEvents = read("src/main/java/alku/csrp/world/EvolutionEvents.java
 const generalConfig = read("src/main/java/alku/csrp/config/GeneralConfig.java");
 const runtimeToggles = read("src/main/java/alku/csrp/config/RuntimeToggles.java");
 const commands = read("src/main/java/alku/csrp/command/SrpCommands.java");
+const mobsConfig = read("src/main/java/alku/csrp/config/MobsConfig.java");
+const worldData = read("src/main/java/alku/csrp/world/SrpWorldData.java");
 
 // SRP 1.10.9 raised the cull trigger from 4x to 6x the cap and the stop line from 2x to 3x.
 expect(evolutionEvents, /MOB_CLEANER_TRIGGER_MULTIPLIER\s*=\s*6;/,
@@ -65,6 +67,48 @@ expect(commands, /RuntimeToggles\.toggleParasiteBlockDrops\(\)/,
         "toggle_dotiledrops does not flip the runtime toggle");
 expect(commands, /RuntimeToggles\.toggleMobEvolution\(\)/,
         "toggle_domobevolution does not flip the runtime toggle");
+
+// SRPConfigMobs.*CanSpawnAssimilatedNat: the "needed assimilation value" gate for simulated mobs.
+expect(mobsConfig, /"simBearNeededAssimilation",\s*2,\s*-1,/,
+        "simBearNeededAssimilation default 2 is missing");
+expect(mobsConfig, /"simEndermanNeededAssimilation",\s*9,\s*-1,/,
+        "simEndermanNeededAssimilation default 9 is missing");
+expect(mobsConfig, /"simHumanNeededAssimilation",\s*5,\s*-1,/,
+        "simHumanNeededAssimilation default 5 is missing");
+expect(mobsConfig, /"simSquidNeededAssimilation",\s*-1,\s*-1,/,
+        "simSquidNeededAssimilation default -1 is missing");
+expect(mobsConfig, /"simCowNeededAssimilation",\s*4,\s*-1,/,
+        "simCowNeededAssimilation default 4 is missing");
+expect(mobsConfig, /"simSheepNeededAssimilation",\s*3,\s*-1,/,
+        "simSheepNeededAssimilation default 3 is missing");
+expect(mobsConfig, /"simWolfNeededAssimilation",\s*2,\s*-1,/,
+        "simWolfNeededAssimilation default 2 is missing");
+expect(mobsConfig, /"simPigNeededAssimilation",\s*4,\s*-1,/,
+        "simPigNeededAssimilation default 4 is missing");
+expect(mobsConfig, /"simVillagerNeededAssimilation",\s*6,\s*-1,/,
+        "simVillagerNeededAssimilation default 6 is missing");
+expect(mobsConfig, /"simHorseNeededAssimilation",\s*3,\s*-1,/,
+        "simHorseNeededAssimilation default 3 is missing");
+expect(mobsConfig, /"simDragonENeededAssimilation",\s*-1,\s*-1,/,
+        "simDragonENeededAssimilation default -1 is missing");
+expect(mobsConfig, /"hiGolemNeededAssimilation",\s*6,\s*-1,/,
+        "hiGolemNeededAssimilation default 6 is missing");
+expect(mobsConfig, /public static int neededAssimilation\(String spawnKey\)/,
+        "MobsConfig.neededAssimilation(String) is missing");
+
+// SRPSaveData.assimCounts: per-type assimilation counters live in the world save data.
+expect(worldData, /private final Map<String, Integer> assimilationCounts/,
+        "SrpWorldData no longer tracks per-type assimilation counters");
+expect(worldData, /public int assimilationCount\(String spawnKey\)/,
+        "SrpWorldData.assimilationCount(String) is missing");
+expect(worldData, /public void addAssimilationCount\(String spawnKey\)/,
+        "SrpWorldData.addAssimilationCount(String) is missing");
+expect(worldData, /writeAssimilationCounts\(tag, data\.assimilationCounts\)/,
+        "assimilation counters are not written to the save data");
+expect(worldData, /readAssimilationCounts\(tag, data\.assimilationCounts\)/,
+        "assimilation counters are not read back from the save data");
+expect(worldData, /tag\.put\("assimilation_counts", list\)/,
+        "the assimilation_counts save key is missing");
 
 if (failures.length) {
     for (const failure of failures) console.error(failure);
