@@ -37,7 +37,7 @@ public final class ColonyEvents {
         if (!(event.getLevel() instanceof ServerLevel level)
                 || !(event.getEntity() instanceof LivingEntity entity)
                 || !(entity instanceof Parasite)
-                || entity.getPersistentData().getBoolean(BONUSES_APPLIED)) {
+                || entity.getPersistentData().getBooleanOr(BONUSES_APPLIED, false)) {
             return;
         }
 
@@ -88,7 +88,7 @@ public final class ColonyEvents {
         if (!(event.getEntity() instanceof Parasite) || event.getAmount() <= 0.0F) {
             return;
         }
-        int cap = event.getEntity().getPersistentData().getInt(DAMAGE_CAP);
+        int cap = event.getEntity().getPersistentData().getIntOr(DAMAGE_CAP, 0);
         if (cap <= 1) {
             return;
         }

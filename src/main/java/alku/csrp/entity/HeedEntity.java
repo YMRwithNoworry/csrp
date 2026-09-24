@@ -230,7 +230,7 @@ public final class HeedEntity extends CrudeParasiteEntity {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         creationDevelopment = tag.contains("heed_creation_development")
-                ? tag.getInt("heed_creation_development") : -1;
+                ? tag.getIntOr("heed_creation_development", 0) : -1;
     }
 
     @Override

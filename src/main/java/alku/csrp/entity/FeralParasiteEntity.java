@@ -198,9 +198,9 @@ public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntit
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        parasiteKills = tag.getInt("parasite_kills");
-        regenUse = tag.contains("regen_use") ? tag.getInt("regen_use") : REGEN_KILL_INTERVAL;
-        stillTicks = tag.getInt("still_ticks");
+        parasiteKills = tag.getIntOr("parasite_kills", 0);
+        regenUse = tag.contains("regen_use") ? tag.getIntOr("regen_use", 0) : REGEN_KILL_INTERVAL;
+        stillTicks = tag.getIntOr("still_ticks", 0);
     }
 
     @Override

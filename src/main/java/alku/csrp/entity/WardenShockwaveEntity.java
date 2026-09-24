@@ -161,9 +161,9 @@ public final class WardenShockwaveEntity extends Entity {
         if (tag.hasUUID(OWNER_TAG)) {
             ownerUuid = tag.getUUID(OWNER_TAG);
         }
-        targetX = tag.getDouble(TARGET_X_TAG);
-        targetY = tag.getDouble(TARGET_Y_TAG);
-        targetZ = tag.getDouble(TARGET_Z_TAG);
+        targetX = tag.getDoubleOr(TARGET_X_TAG, 0.0D);
+        targetY = tag.getDoubleOr(TARGET_Y_TAG, 0.0D);
+        targetZ = tag.getDoubleOr(TARGET_Z_TAG, 0.0D);
         updateMovement();
     }
 

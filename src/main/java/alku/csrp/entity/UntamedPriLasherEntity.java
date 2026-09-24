@@ -294,22 +294,22 @@ public class UntamedPriLasherEntity extends PrimitiveParasiteEntity {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (tag.contains(PARASITE_STATUS_NBT_KEY)) {
-            setParasiteStatus(tag.getInt(PARASITE_STATUS_NBT_KEY));
+            setParasiteStatus(tag.getIntOr(PARASITE_STATUS_NBT_KEY, 0));
         }
         if (tag.contains(DASH_COOLDOWN_NBT_KEY)) {
-            dashCooldown = tag.getInt(DASH_COOLDOWN_NBT_KEY);
+            dashCooldown = tag.getIntOr(DASH_COOLDOWN_NBT_KEY, 0);
         }
         if (tag.contains(DASH_CHARGE_NBT_KEY)) {
-            dashChargeTicks = tag.getInt(DASH_CHARGE_NBT_KEY);
+            dashChargeTicks = tag.getIntOr(DASH_CHARGE_NBT_KEY, 0);
         }
         if (tag.contains(DASH_DURATION_NBT_KEY)) {
-            dashDurationTicks = tag.getInt(DASH_DURATION_NBT_KEY);
+            dashDurationTicks = tag.getIntOr(DASH_DURATION_NBT_KEY, 0);
         }
         if (tag.contains(DASH_TARGET_X_NBT_KEY)) {
             dashTarget = new Vec3(
-                    tag.getDouble(DASH_TARGET_X_NBT_KEY),
-                    tag.getDouble(DASH_TARGET_Y_NBT_KEY),
-                    tag.getDouble(DASH_TARGET_Z_NBT_KEY)
+                    tag.getDoubleOr(DASH_TARGET_X_NBT_KEY, 0.0D),
+                    tag.getDoubleOr(DASH_TARGET_Y_NBT_KEY, 0.0D),
+                    tag.getDoubleOr(DASH_TARGET_Z_NBT_KEY, 0.0D)
             );
         }
     }

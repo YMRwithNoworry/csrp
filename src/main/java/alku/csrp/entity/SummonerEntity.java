@@ -177,7 +177,7 @@ public final class SummonerEntity extends PrimitiveParasiteEntity implements Sum
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         summonCooldown = tag.contains("summoner_summon_cooldown")
-                ? tag.getInt("summoner_summon_cooldown") : SUMMON_COOLDOWN_TICKS;
+                ? tag.getIntOr("summoner_summon_cooldown", 0) : SUMMON_COOLDOWN_TICKS;
         summonTracker.load(tag, "summoner_tracked_summons");
         entityData.set(SUMMONING, false);
         entityData.set(SUMMON_TICKS, 0);

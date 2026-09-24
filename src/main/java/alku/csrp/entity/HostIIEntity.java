@@ -223,10 +223,10 @@ public final class HostIIEntity extends AbstractHostEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        entityData.set(BURIED_TIMER, tag.getFloat("buried_timer"));
-        entityData.set(MOUTH_OPEN, tag.getBoolean("mouth_open"));
-        entityData.set(ATTACK_TIMER, tag.getFloat("attack_timer"));
-        entityData.set(ATTACK_UP, tag.getBoolean("attack_up"));
+        entityData.set(BURIED_TIMER, tag.getFloatOr("buried_timer", 0.0F));
+        entityData.set(MOUTH_OPEN, tag.getBooleanOr("mouth_open", false));
+        entityData.set(ATTACK_TIMER, tag.getFloatOr("attack_timer", 0.0F));
+        entityData.set(ATTACK_UP, tag.getBooleanOr("attack_up", false));
     }
 
     private void summonManglers() {

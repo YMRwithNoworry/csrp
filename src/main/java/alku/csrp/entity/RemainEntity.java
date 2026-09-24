@@ -173,13 +173,13 @@ public final class RemainEntity extends Entity {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        parasite = tag.contains("parasiteparasite") ? tag.getString("parasiteparasite") : null;
-        active = tag.getBoolean("parasiteactive");
-        count = tag.getInt("parasitepoint");
-        plus = tag.getInt("parasiteplus");
-        goal = tag.getInt("parasitegoal");
-        skin = tag.getByte("parasiteskin");
-        health = tag.getFloat("parasitehealth");
+        parasite = tag.contains("parasiteparasite") ? tag.getStringOr("parasiteparasite", "") : null;
+        active = tag.getBooleanOr("parasiteactive", false);
+        count = tag.getIntOr("parasitepoint", 0);
+        plus = tag.getIntOr("parasiteplus", 0);
+        goal = tag.getIntOr("parasitegoal", 0);
+        skin = tag.getByteOr("parasiteskin", (byte) 0);
+        health = tag.getFloatOr("parasitehealth", 0.0F);
     }
 
     @Override

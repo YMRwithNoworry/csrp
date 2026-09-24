@@ -109,11 +109,11 @@ public final class WorkerEntity extends PrimitiveParasiteEntity {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (tag.contains("parasite_origin")) {
-            colonyOrigin = BlockPos.of(tag.getLong("parasite_origin"));
-            colonyRadius = Math.max(1, tag.getInt("parasite_build_radius"));
+            colonyOrigin = BlockPos.of(tag.getLongOr("parasite_origin", 0L));
+            colonyRadius = Math.max(1, tag.getIntOr("parasite_build_radius", 0));
         }
         buildCooldown = tag.contains("parasite_build_cooldown")
-                ? Math.max(0, tag.getInt("parasite_build_cooldown")) : BUILD_INTERVAL;
+                ? Math.max(0, tag.getIntOr("parasite_build_cooldown", 0)) : BUILD_INTERVAL;
     }
 
     private boolean placeNextStructure() {

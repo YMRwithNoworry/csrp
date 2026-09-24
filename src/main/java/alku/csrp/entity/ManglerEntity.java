@@ -252,7 +252,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        int storedVariant = tag.getInt("variant");
+        int storedVariant = tag.getIntOr("variant", 0);
         if (storedVariant == 1) {
             storedVariant = VIRAL_VARIANT;
         } else if (storedVariant == 2) {
@@ -261,7 +261,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
         setVariant(storedVariant == BLEEDING_VARIANT ? BLEEDING_VARIANT
                 : storedVariant == VIRAL_VARIANT ? VIRAL_VARIANT : NORMAL_VARIANT);
         regenerationUses = Math.max(1, tag.contains(REGENERATION_USES_TAG)
-                ? tag.getInt(REGENERATION_USES_TAG) : REGENERATION_TAG_DEFAULT);
+                ? tag.getIntOr(REGENERATION_USES_TAG, 0) : REGENERATION_TAG_DEFAULT);
     }
 
     @Override

@@ -90,7 +90,7 @@ public final class ParasiteLootBlockEntity extends BaseContainerBlockEntity {
         super.loadAdditional(tag, registries);
         items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(tag, items, registries);
-        lootGenerated = tag.getBoolean("LootGenerated") || !isEmpty();
+        lootGenerated = tag.getBooleanOr("LootGenerated", false) || !isEmpty();
     }
 
     public float fullness() {

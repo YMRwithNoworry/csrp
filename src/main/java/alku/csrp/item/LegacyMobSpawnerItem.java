@@ -128,7 +128,7 @@ public final class LegacyMobSpawnerItem extends Item {
         if (!itemTag.contains("EntityTag", CompoundTag.TAG_COMPOUND)) {
             return;
         }
-        CompoundTag entityTag = itemTag.getCompound("EntityTag");
+        CompoundTag entityTag = itemTag.getCompoundOrEmpty("EntityTag");
         CompoundTag saved = entity.saveWithoutId(new CompoundTag());
         saved.merge(entityTag);
         java.util.UUID uuid = entity.getUUID();

@@ -300,10 +300,10 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (tag.contains(FUSE_TICKS_TAG, Tag.TAG_INT)) {
-            setFuseTicks(tag.getInt(FUSE_TICKS_TAG));
+            setFuseTicks(tag.getIntOr(FUSE_TICKS_TAG, 0));
         }
         if (tag.contains("carrier_skin", Tag.TAG_BYTE)) {
-            setSkin(tag.getByte("carrier_skin"));
+            setSkin(tag.getByteOr("carrier_skin", (byte) 0));
         }
     }
 

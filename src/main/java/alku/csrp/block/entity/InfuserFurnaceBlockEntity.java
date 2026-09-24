@@ -206,8 +206,8 @@ public final class InfuserFurnaceBlockEntity extends BaseContainerBlockEntity {
         super.loadAdditional(tag, registries);
         items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(tag, items, registries);
-        burnTime = tag.getInt("BurnTime");
-        burnDuration = tag.getInt("BurnDuration");
-        progress = tag.getInt("Progress");
+        burnTime = tag.getIntOr("BurnTime", 0);
+        burnDuration = tag.getIntOr("BurnDuration", 0);
+        progress = tag.getIntOr("Progress", 0);
     }
 }

@@ -246,19 +246,19 @@ public final class VoidOrbEntity extends Entity {
         if (tag.hasUUID("owner")) {
             ownerId = tag.getUUID("owner");
         }
-        followOwner = tag.getBoolean("follow_owner");
-        ownerOffset = tag.getDouble("owner_offset");
-        anchorX = tag.getDouble("anchor_x");
-        anchorY = tag.getDouble("anchor_y");
-        anchorZ = tag.getDouble("anchor_z");
-        fuseProgress = tag.getInt("fuse_progress");
-        collapseTicks = tag.getInt("collapse_ticks");
+        followOwner = tag.getBooleanOr("follow_owner", false);
+        ownerOffset = tag.getDoubleOr("owner_offset", 0.0D);
+        anchorX = tag.getDoubleOr("anchor_x", 0.0D);
+        anchorY = tag.getDoubleOr("anchor_y", 0.0D);
+        anchorZ = tag.getDoubleOr("anchor_z", 0.0D);
+        fuseProgress = tag.getIntOr("fuse_progress", 0);
+        collapseTicks = tag.getIntOr("collapse_ticks", 0);
         entityData.set(START_TICKS, tag.contains("start_ticks")
-                ? tag.getInt("start_ticks") : DEFAULT_START_TICKS);
+                ? tag.getIntOr("start_ticks", 0) : DEFAULT_START_TICKS);
         entityData.set(FUSE_TICKS, tag.contains("fuse_ticks")
-                ? tag.getInt("fuse_ticks") : DEFAULT_FUSE_TICKS);
+                ? tag.getIntOr("fuse_ticks", 0) : DEFAULT_FUSE_TICKS);
         entityData.set(LIFETIME_TICKS, tag.contains("lifetime_ticks")
-                ? tag.getInt("lifetime_ticks")
+                ? tag.getIntOr("lifetime_ticks", 0)
                 : getStartTicks() + fuseProgress + Math.max(0, collapseTicks - 1));
     }
 

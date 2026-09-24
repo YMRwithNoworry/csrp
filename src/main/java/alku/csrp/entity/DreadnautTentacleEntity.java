@@ -84,8 +84,8 @@ public final class DreadnautTentacleEntity extends PrimitiveParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        groundTicks = tag.getInt("tendril_ground_ticks");
-        spawnedMobs = tag.getInt("tendril_spawned_mobs");
+        groundTicks = tag.getIntOr("tendril_ground_ticks", 0);
+        spawnedMobs = tag.getIntOr("tendril_spawned_mobs", 0);
     }
 
     private boolean nearbyNonParasitesHaveAdvantage() {

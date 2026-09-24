@@ -420,11 +420,11 @@ public final class ClientModEvents {
             ItemProperties.register(ModItems.EVCLOCK.get(), Identifier.withDefaultNamespace("phase"),
                     (stack, level, entity, seed) -> stack
                             .getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                            .copyTag().getInt(alku.csrp.item.EvolutionClockItem.PHASE_TAG));
+                            .copyTag().getIntOr(alku.csrp.item.EvolutionClockItem.PHASE_TAG, 0));
             ItemProperties.register(ModItems.LEVELCLOCK.get(), Identifier.withDefaultNamespace("level"),
                     (stack, level, entity, seed) -> stack
                             .getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                            .copyTag().getInt(alku.csrp.item.LevelClockItem.DEVELOPMENT_TAG));
+                            .copyTag().getIntOr(alku.csrp.item.LevelClockItem.DEVELOPMENT_TAG, 0));
             registerCompassProperty(ModItems.NODECOMPASS.get());
             registerCompassProperty(ModItems.COLONYCOMPASS.get());
             registerCompassProperty(ModItems.ORIGINCOMPASS.get());
@@ -441,12 +441,12 @@ public final class ClientModEvents {
             return 0.0F;
         }
         CompoundTag tag = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
-        if (!tag.getBoolean(alku.csrp.item.SrpCompassItem.HAS_TARGET_TAG)
+        if (!tag.getBooleanOr(alku.csrp.item.SrpCompassItem.HAS_TARGET_TAG, false)
                 || !level.dimension().location().toString()
-                        .equals(tag.getString(alku.csrp.item.SrpCompassItem.TARGET_DIMENSION_TAG))) {
+                        .equals(tag.getStringOr(alku.csrp.item.SrpCompassItem.TARGET_DIMENSION_TAG, ""))) {
             return Mth.positiveModulo((level.getGameTime() + seed * 13L) / 100.0F, 1.0F);
         }
-        BlockPos target = BlockPos.of(tag.getLong(alku.csrp.item.SrpCompassItem.TARGET_POS_TAG));
+        BlockPos target = BlockPos.of(tag.getLongOr(alku.csrp.item.SrpCompassItem.TARGET_POS_TAG, 0L));
         double targetAngle = Math.atan2(target.getZ() + 0.5D - entity.getZ(),
                 target.getX() + 0.5D - entity.getX()) / (Math.PI * 2.0D);
         double entityAngle = Mth.positiveModulo(entity.getYRot() / 360.0F, 1.0F);

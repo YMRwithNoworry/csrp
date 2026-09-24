@@ -71,7 +71,7 @@ public final class CelestialSystem {
 
     private static Set<String> loadWitnessed(ServerPlayer player) {
         Set<String> result = new HashSet<>();
-        ListTag list = player.getPersistentData().getList(WITNESSED_KEY, Tag.TAG_STRING);
+        ListTag list = player.getPersistentData().getListOrEmpty(WITNESSED_KEY);
         for (Tag tag : list) {
             result.add(tag.getAsString());
         }

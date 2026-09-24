@@ -432,19 +432,19 @@ public final class DraconiteEntity extends DerivedParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        setFlying(tag.getBoolean("flying"));
+        setFlying(tag.getBooleanOr("flying", false));
         setParasiteStatus(tag.contains("parasite_status")
-                ? tag.getInt("parasite_status") : STATUS_IDLE);
-        salivaCooldown = tag.contains("saliva_cooldown") ? tag.getInt("saliva_cooldown")
-                : tag.getInt("toxic_cloud_cooldown");
-        meteorCooldown = tag.getInt("meteor_cooldown");
-        lightCooldown = tag.getInt("light_cooldown");
-        fireBreathCooldown = tag.getInt("fire_breath_cooldown");
-        fireBreathTicks = tag.getInt("fire_breath_ticks");
-        meteorRainTicks = tag.getInt("meteor_rain_ticks");
+                ? tag.getIntOr("parasite_status", 0) : STATUS_IDLE);
+        salivaCooldown = tag.contains("saliva_cooldown") ? tag.getIntOr("saliva_cooldown", 0)
+                : tag.getIntOr("toxic_cloud_cooldown", 0);
+        meteorCooldown = tag.getIntOr("meteor_cooldown", 0);
+        lightCooldown = tag.getIntOr("light_cooldown", 0);
+        fireBreathCooldown = tag.getIntOr("fire_breath_cooldown", 0);
+        fireBreathTicks = tag.getIntOr("fire_breath_ticks", 0);
+        meteorRainTicks = tag.getIntOr("meteor_rain_ticks", 0);
         fireBreathTarget = tag.contains("fire_breath_target")
-                ? BlockPos.of(tag.getLong("fire_breath_target")) : BlockPos.ZERO;
-        meteorTarget = tag.contains("meteor_target") ? BlockPos.of(tag.getLong("meteor_target")) : BlockPos.ZERO;
+                ? BlockPos.of(tag.getLongOr("fire_breath_target", 0L)) : BlockPos.ZERO;
+        meteorTarget = tag.contains("meteor_target") ? BlockPos.of(tag.getLongOr("meteor_target", 0L)) : BlockPos.ZERO;
         entityData.set(FIRE_BREATH_TICKS, fireBreathTicks);
         entityData.set(FIRE_BREATH_TARGET, fireBreathTarget);
         entityData.set(METEOR_TICKS, meteorRainTicks);

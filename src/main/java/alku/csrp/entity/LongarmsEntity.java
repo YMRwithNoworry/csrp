@@ -299,8 +299,8 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        setParasiteStatus(tag.getInt("ParasiteStatus"));
-        attackAnimationCooldown = Math.max(0, tag.getInt("AttackAnimationCooldown"));
+        setParasiteStatus(tag.getIntOr("ParasiteStatus", 0));
+        attackAnimationCooldown = Math.max(0, tag.getIntOr("AttackAnimationCooldown", 0));
     }
 
     @Override

@@ -150,8 +150,8 @@ public final class VisceraEntity extends PrimitiveParasiteEntity implements Manu
     @Override
     public void readAdditionalSaveData(net.minecraft.nbt.CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        setParasiteStatus(tag.getInt("parasite_status"));
-        setSkin(tag.getInt("viscera_skin"));
+        setParasiteStatus(tag.getIntOr("parasite_status", 0));
+        setSkin(tag.getIntOr("viscera_skin", 0));
     }
 
     @Override

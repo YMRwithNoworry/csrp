@@ -95,14 +95,14 @@ public final class LivingBowItem extends BowItem {
     public void addDamage(ItemStack stack, float damage, LivingEntity holder) {
         if (holder.level().isClientSide()) return;
         CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putInt(DAMAGE,
-                tag.getInt(DAMAGE) + Math.round(damage)));
+                tag.getIntOr(DAMAGE, 0) + Math.round(damage)));
         CompoundData.evolve(stack, holder, sentient, next, DAMAGE, EVOLUTION_DAMAGE);
     }
 
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltip, flag);
-        int damage = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getInt(DAMAGE);
+        int damage = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getIntOr(DAMAGE, 0);
         tooltip.add(Component.translatable("tooltip.csrp.living_progress", damage, EVOLUTION_DAMAGE));
     }
 
@@ -110,7 +110,7 @@ public final class LivingBowItem extends BowItem {
         private static void evolve(ItemStack stack, LivingEntity holder, boolean sentient,
                 Supplier<? extends Item> next, String key, int threshold) {
             if (sentient || next == null || stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                    .copyTag().getInt(key) < threshold) return;
+                    .copyTag().getIntOr(key, 0) < threshold) return;
             ItemStack evolved = new ItemStack(next.get());
             stack.shrink(1);
             holder.spawnAtLocation(evolved);

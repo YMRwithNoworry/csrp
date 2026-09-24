@@ -134,10 +134,10 @@ public final class OrbBoomEntity extends Entity {
         if (tag.hasUUID("owner")) {
             ownerId = tag.getUUID("owner");
         }
-        entityData.set(FUSE, Math.max(1, tag.getInt("fuse")));
-        entityData.set(WAIT_START, Math.max(0, tag.getInt("wait_start")));
-        entityData.set(PROGRESS, Math.max(0, tag.getInt("progress")));
-        burstTicks = Math.max(0, tag.getInt("burst_ticks"));
+        entityData.set(FUSE, Math.max(1, tag.getIntOr("fuse", 0)));
+        entityData.set(WAIT_START, Math.max(0, tag.getIntOr("wait_start", 0)));
+        entityData.set(PROGRESS, Math.max(0, tag.getIntOr("progress", 0)));
+        burstTicks = Math.max(0, tag.getIntOr("burst_ticks", 0));
         refreshDimensions();
     }
 

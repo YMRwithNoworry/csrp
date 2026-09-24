@@ -96,31 +96,31 @@ public final class LivingMaulItem extends LivingWeaponItem {
         super.inventoryTick(stack, level, entity, slot, selected);
         if (!isSentient() || level.isClientSide() || !(entity instanceof Player player)) return;
         CompoundTag tag = player.getPersistentData();
-        if (tag.getBoolean(SLAM_PENDING)) {
+        if (tag.getBooleanOr(SLAM_PENDING, false)) {
             player.fallDistance = 0.0F;
             if (player.onGround() || player.isInWater() || player.isInLava()) {
                 slam((ServerLevel) level, player, stack);
                 clearPending(tag);
-            } else if (tag.getInt(SLAM_TICKS) <= 0) {
+            } else if (tag.getIntOr(SLAM_TICKS, 0) <= 0) {
                 clearPending(tag);
             } else {
-                tag.putInt(SLAM_TICKS, tag.getInt(SLAM_TICKS) - 1);
+                tag.putInt(SLAM_TICKS, tag.getIntOr(SLAM_TICKS, 0) - 1);
             }
         }
-        if (!tag.getBoolean(DASH)) return;
+        if (!tag.getBooleanOr(DASH, false)) return;
         if (!selected || player.getMainHandItem().getItem() != this) {
             armSlam(tag);
             return;
         }
-        int ticks = tag.getInt(DASH_TICKS);
+        int ticks = tag.getIntOr(DASH_TICKS, 0);
         if (ticks <= 0 || player.horizontalCollision || player.verticalCollision) {
             armSlam(tag);
             return;
         }
-        double step = tag.getDouble(DASH_STEP);
-        Vec3 movement = new Vec3(tag.getDouble(DASH_X) * step,
-                Math.max(-1.25D, Math.min(1.25D, tag.getDouble(DASH_Y) * step)),
-                tag.getDouble(DASH_Z) * step);
+        double step = tag.getDoubleOr(DASH_STEP, 0.0D);
+        Vec3 movement = new Vec3(tag.getDoubleOr(DASH_X, 0.0D) * step,
+                Math.max(-1.25D, Math.min(1.25D, tag.getDoubleOr(DASH_Y, 0.0D) * step)),
+                tag.getDoubleOr(DASH_Z, 0.0D) * step);
         List<LivingEntity> collisions = level.getEntitiesOfClass(LivingEntity.class,
                 player.getBoundingBox().expandTowards(movement).inflate(1.0D), target -> validTarget(player, target));
         if (!collisions.isEmpty()) {
@@ -138,7 +138,7 @@ public final class LivingMaulItem extends LivingWeaponItem {
     }
 
     private static boolean pending(Player player) {
-        return player.getPersistentData().getBoolean(SLAM_PENDING);
+        return player.getPersistentData().getBooleanOr(SLAM_PENDING, false);
     }
 
     private static void armSlam(CompoundTag tag) {

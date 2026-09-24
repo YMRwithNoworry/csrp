@@ -676,19 +676,19 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        killCount = tag.getInt(KILL_COUNT_NBT_KEY);
+        killCount = tag.getIntOr(KILL_COUNT_NBT_KEY, 0);
         createdPhase = tag.contains(CREATED_PHASE_NBT_KEY)
-                ? tag.getInt(CREATED_PHASE_NBT_KEY) : Config.evolutionPhase(level());
-        int variant = tag.getByte(VARIANT_NBT_KEY);
+                ? tag.getIntOr(CREATED_PHASE_NBT_KEY, 0) : Config.evolutionPhase(level());
+        int variant = tag.getByteOr(VARIANT_NBT_KEY, (byte) 0);
         if (variant >= 0 && variant < TextureVariant.values().length) {
             setTextureVariant(TextureVariant.values()[variant]);
         }
-        int behaviorVariant = tag.getByte(BEHAVIOR_VARIANT_NBT_KEY);
+        int behaviorVariant = tag.getByteOr(BEHAVIOR_VARIANT_NBT_KEY, (byte) 0);
         if (behaviorVariant >= 0 && behaviorVariant < BehaviorVariant.values().length) {
             setBehaviorVariant(BehaviorVariant.values()[behaviorVariant]);
         }
-        boolean overheated = tag.getBoolean(OVERHEATED_NBT_KEY);
-        int warmupTicks = overheated ? Math.max(0, tag.getInt(OVERHEAT_WARMUP_NBT_KEY)) : 0;
+        boolean overheated = tag.getBooleanOr(OVERHEATED_NBT_KEY, false);
+        int warmupTicks = overheated ? Math.max(0, tag.getIntOr(OVERHEAT_WARMUP_NBT_KEY, 0)) : 0;
         entityData.set(OVERHEATED, overheated);
         entityData.set(OVERHEAT_WARMUP_TICKS, warmupTicks);
         failedBatTarget = tag.hasUUID(FAILED_BAT_TARGET_NBT_KEY)
@@ -696,7 +696,7 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
                 : null;
         failedBatLeaps = failedBatTarget == null
                 ? 0
-                : Math.min(1, Math.max(0, tag.getInt(FAILED_BAT_LEAPS_NBT_KEY)));
+                : Math.min(1, Math.max(0, tag.getIntOr(FAILED_BAT_LEAPS_NBT_KEY, 0)));
         clearPendingBatLeap();
         if (overheated && warmupTicks == 0) {
             applyOverheatModifiers();

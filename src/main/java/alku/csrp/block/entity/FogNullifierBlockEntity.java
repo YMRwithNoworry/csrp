@@ -43,6 +43,6 @@ public final class FogNullifierBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        usesRemaining = tag.contains(USES_TAG) ? Math.max(0, tag.getInt(USES_TAG)) : FogNullifierBlock.MAX_USES;
+        usesRemaining = tag.contains(USES_TAG) ? Math.max(0, tag.getIntOr(USES_TAG, 0)) : FogNullifierBlock.MAX_USES;
     }
 }

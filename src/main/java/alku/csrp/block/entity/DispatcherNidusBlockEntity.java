@@ -84,6 +84,6 @@ public final class DispatcherNidusBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        killCount = tag.getInt("KillCount");
+        killCount = tag.getIntOr("KillCount", 0);
     }
 }

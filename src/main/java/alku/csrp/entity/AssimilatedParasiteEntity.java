@@ -392,12 +392,12 @@ public final class AssimilatedParasiteEntity extends Monster
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        parasiteKills = tag.getInt("parasite_kills");
-        setSheepTextureVariant(tag.getInt("sheep_texture_variant"));
-        setTamedWolfTexture(tag.getBoolean("tamed_wolf_texture"));
-        entityData.set(MELTING, tag.getBoolean("melting"));
-        entityData.set(MELT_HEIGHT, tag.getFloat("melt_height"));
-        meltTicks = tag.getInt("melt_ticks");
+        parasiteKills = tag.getIntOr("parasite_kills", 0);
+        setSheepTextureVariant(tag.getIntOr("sheep_texture_variant", 0));
+        setTamedWolfTexture(tag.getBooleanOr("tamed_wolf_texture", false));
+        entityData.set(MELTING, tag.getBooleanOr("melting", false));
+        entityData.set(MELT_HEIGHT, tag.getFloatOr("melt_height", 0.0F));
+        meltTicks = tag.getIntOr("melt_ticks", 0);
     }
 
     @Override

@@ -283,11 +283,11 @@ public final class GoreEntity extends Entity {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        setSkin(tag.getInt("parasitetype"));
-        goreType = tag.getByte("bloodtype");
-        entityName = tag.contains("entityName") ? tag.getString("entityName") : null;
+        setSkin(tag.getIntOr("parasitetype", 0));
+        goreType = tag.getByteOr("bloodtype", (byte) 0);
+        entityName = tag.contains("entityName") ? tag.getStringOr("entityName", "") : null;
         storedItems.clear();
-        for (Tag item : tag.getList("Items", Tag.TAG_COMPOUND)) {
+        for (Tag item : tag.getListOrEmpty("Items")) {
             if (item instanceof CompoundTag compound) {
                 ItemStack stack = ItemStack.parseOptional(registryAccess(), compound);
                 if (!stack.isEmpty()) {
@@ -298,12 +298,12 @@ public final class GoreEntity extends Entity {
 
         legacyBlockNames.clear();
         legacyBlockCounts.clear();
-        ListTag names = tag.getList("srpinvblocksname", Tag.TAG_COMPOUND);
-        ListTag counts = tag.getList("srpinvblocksnumber", Tag.TAG_COMPOUND);
+        ListTag names = tag.getListOrEmpty("srpinvblocksname");
+        ListTag counts = tag.getListOrEmpty("srpinvblocksnumber");
         if (names.size() == counts.size()) {
             for (int index = 0; index < names.size(); index++) {
-                legacyBlockNames.add(names.getCompound(index).getString("block" + index));
-                legacyBlockCounts.add(counts.getCompound(index).getInt("block" + index));
+                legacyBlockNames.add(names.getCompoundOrEmpty(index).getStringOr("block" + index, ""));
+                legacyBlockCounts.add(counts.getCompoundOrEmpty(index).getIntOr("block" + index, 0));
             }
         }
     }

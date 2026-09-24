@@ -250,11 +250,11 @@ public class AdaWatcherEntity extends BurrowingVariantEntity implements PullingB
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        setParasiteStatus(tag.getInt("parasite_status"));
-        setAttackCooldownAni(tag.getInt("attack_cooldown_ani"));
-        setStillAni(tag.getBoolean("still_ani"));
-        pullingTicks = tag.getInt("pulling_ticks");
-        abilityCooldown = tag.getInt("ability_cooldown");
+        setParasiteStatus(tag.getIntOr("parasite_status", 0));
+        setAttackCooldownAni(tag.getIntOr("attack_cooldown_ani", 0));
+        setStillAni(tag.getBooleanOr("still_ani", false));
+        pullingTicks = tag.getIntOr("pulling_ticks", 0);
+        abilityCooldown = tag.getIntOr("ability_cooldown", 0);
     }
 
     @Override

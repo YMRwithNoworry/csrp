@@ -82,7 +82,7 @@ public final class TendrilEntity extends Monster implements CitadelAnimatedEntit
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (tag.contains("parasitetype")) {
-            setSkin(tag.getInt("parasitetype"));
+            setSkin(tag.getIntOr("parasitetype", 0));
         }
     }
 

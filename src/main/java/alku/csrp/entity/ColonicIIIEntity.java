@@ -198,9 +198,9 @@ public final class ColonicIIIEntity extends PrimitiveParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        setRTTS(tag.getBoolean("colonic_rtts"));
-        setGrowthTime(tag.getInt("colonic_growth_time"));
-        supportCooldown = tag.getInt("colonic_support_cooldown");
-        attackFlashTicks = tag.getInt("colonic_attack_flash");
+        setRTTS(tag.getBooleanOr("colonic_rtts", false));
+        setGrowthTime(tag.getIntOr("colonic_growth_time", 0));
+        supportCooldown = tag.getIntOr("colonic_support_cooldown", 0);
+        attackFlashTicks = tag.getIntOr("colonic_attack_flash", 0);
     }
 }

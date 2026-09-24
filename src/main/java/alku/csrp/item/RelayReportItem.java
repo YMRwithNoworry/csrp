@@ -52,7 +52,7 @@ public final class RelayReportItem extends Item {
                 .withStyle(ChatFormatting.GRAY));
         if (data.contains("PrintDay")) {
             tooltip.add(Component.translatable("tooltip.csrp.relay_report.printed",
-                    data.getInt("PrintDay"), formatTime(data.getInt("PrintTime")))
+                    data.getIntOr("PrintDay", 0), formatTime(data.getIntOr("PrintTime", 0)))
                     .withStyle(ChatFormatting.DARK_GRAY));
         }
         if (type == Type.SCAN && data.contains("TotalMobs")) {
@@ -65,8 +65,8 @@ public final class RelayReportItem extends Item {
         List<Component> lines = new ArrayList<>();
         lines.add(Component.translatable("report.csrp." + type.id + ".title")
                 .withStyle(ChatFormatting.DARK_PURPLE, ChatFormatting.BOLD));
-        lines.add(Component.translatable("report.csrp.printed", data.getInt("PrintDay"),
-                formatTime(data.getInt("PrintTime"))).withStyle(ChatFormatting.DARK_GRAY));
+        lines.add(Component.translatable("report.csrp.printed", data.getIntOr("PrintDay", 0),
+                formatTime(data.getIntOr("PrintTime", 0))).withStyle(ChatFormatting.DARK_GRAY));
         lines.add(Component.empty());
         switch (type) {
             case SCAN -> addScanLines(lines, data);
@@ -78,74 +78,74 @@ public final class RelayReportItem extends Item {
     }
 
     private static void addScanLines(List<Component> lines, CompoundTag data) {
-        add(lines, "dimension", data.getString("Dimension"));
-        add(lines, "total_mobs", data.getInt("TotalMobs"));
-        add(lines, "total_parasites", data.getInt("TotalParasites"));
-        add(lines, "share", String.format(Locale.ROOT, "%.1f%%", data.getInt("ShareTenths") / 10.0D));
-        add(lines, "ratio", data.getString("Ratio"));
+        add(lines, "dimension", data.getStringOr("Dimension", ""));
+        add(lines, "total_mobs", data.getIntOr("TotalMobs", 0));
+        add(lines, "total_parasites", data.getIntOr("TotalParasites", 0));
+        add(lines, "share", String.format(Locale.ROOT, "%.1f%%", data.getIntOr("ShareTenths", 0) / 10.0D));
+        add(lines, "ratio", data.getStringOr("Ratio", ""));
         lines.add(Component.empty());
         lines.add(Component.translatable("report.csrp.scan.tiers").withStyle(ChatFormatting.DARK_GRAY));
-        ListTag tiers = data.getList("Tiers", Tag.TAG_STRING);
+        ListTag tiers = data.getListOrEmpty("Tiers");
         for (int index = 0; index < tiers.size(); index++) {
-            String tier = tiers.getString(index);
+            String tier = tiers.getStringOr(index, "");
             lines.add(Component.translatable("report.csrp.scan.tier",
-                    Component.translatable("report.csrp.tier." + tier), data.getInt("Tier_" + tier))
+                    Component.translatable("report.csrp.tier." + tier), data.getIntOr("Tier_" + tier, 0))
                     .withStyle(tierColor(tier)));
         }
     }
 
     private static void addPhaseLines(List<Component> lines, CompoundTag data) {
-        add(lines, "dimension", data.getString("Dimension"));
-        add(lines, "phase", data.getInt("Phase"));
-        add(lines, "points", data.getInt("Points"));
-        add(lines, "next_points", data.getInt("NextPoints"));
-        add(lines, "progress", String.format(Locale.ROOT, "%.1f%%", data.getInt("ProgressTenths") / 10.0D));
-        add(lines, "cooldown", data.getInt("Cooldown"));
-        add(lines, "mob_cap", data.getInt("MobCap"));
-        add(lines, "generation", data.getInt("Generation"));
-        add(lines, "generation_ticks", data.getInt("GenerationTicks"));
-        add(lines, "parasites", data.getInt("ParasiteCount"));
-        add(lines, "coth", data.getInt("CothCount"));
-        add(lines, "total_mobs", data.getInt("TotalMobs"));
-        add(lines, "can_gain", yesNo(data.getBoolean("CanGain")));
-        add(lines, "can_lose", yesNo(data.getBoolean("CanLose")));
+        add(lines, "dimension", data.getStringOr("Dimension", ""));
+        add(lines, "phase", data.getIntOr("Phase", 0));
+        add(lines, "points", data.getIntOr("Points", 0));
+        add(lines, "next_points", data.getIntOr("NextPoints", 0));
+        add(lines, "progress", String.format(Locale.ROOT, "%.1f%%", data.getIntOr("ProgressTenths", 0) / 10.0D));
+        add(lines, "cooldown", data.getIntOr("Cooldown", 0));
+        add(lines, "mob_cap", data.getIntOr("MobCap", 0));
+        add(lines, "generation", data.getIntOr("Generation", 0));
+        add(lines, "generation_ticks", data.getIntOr("GenerationTicks", 0));
+        add(lines, "parasites", data.getIntOr("ParasiteCount", 0));
+        add(lines, "coth", data.getIntOr("CothCount", 0));
+        add(lines, "total_mobs", data.getIntOr("TotalMobs", 0));
+        add(lines, "can_gain", yesNo(data.getBooleanOr("CanGain", false)));
+        add(lines, "can_lose", yesNo(data.getBooleanOr("CanLose", false)));
     }
 
     private static void addVectorLines(List<Component> lines, CompoundTag data) {
-        add(lines, "dimension", data.getString("Dimension"));
-        add(lines, "scan_origin", data.getInt("CenterX") + ", " + data.getInt("CenterZ"));
-        add(lines, "index", data.getInt("Index") + " / " + data.getInt("Total"));
-        if (!data.getBoolean("Found")) {
+        add(lines, "dimension", data.getStringOr("Dimension", ""));
+        add(lines, "scan_origin", data.getIntOr("CenterX", 0) + ", " + data.getIntOr("CenterZ", 0));
+        add(lines, "index", data.getIntOr("Index", 0) + " / " + data.getIntOr("Total", 0));
+        if (!data.getBooleanOr("Found", false)) {
             lines.add(Component.translatable("report.csrp.vector.none").withStyle(ChatFormatting.GRAY));
             return;
         }
-        add(lines, "position", data.getInt("VectorX") + ", " + data.getInt("VectorY")
-                + ", " + data.getInt("VectorZ"));
-        add(lines, "radius", data.getInt("Radius"));
-        add(lines, "health", data.getInt("Health"));
-        add(lines, "distance", data.getInt("Distance"));
+        add(lines, "position", data.getIntOr("VectorX", 0) + ", " + data.getIntOr("VectorY", 0)
+                + ", " + data.getIntOr("VectorZ", 0));
+        add(lines, "radius", data.getIntOr("Radius", 0));
+        add(lines, "health", data.getIntOr("Health", 0));
+        add(lines, "distance", data.getIntOr("Distance", 0));
     }
 
     private static void addDislodgementLines(List<Component> lines, CompoundTag data) {
-        add(lines, "dimension", data.getString("Dimension"));
-        ListTag events = data.getList("Events", Tag.TAG_COMPOUND);
+        add(lines, "dimension", data.getStringOr("Dimension", ""));
+        ListTag events = data.getListOrEmpty("Events");
         if (events.isEmpty()) {
             lines.add(Component.translatable("report.csrp.dislodgement.none")
                     .withStyle(ChatFormatting.GRAY));
             return;
         }
         for (int index = 0; index < events.size(); index++) {
-            CompoundTag event = events.getCompound(index);
-            int code = event.getInt("Code");
-            String warning = "!".repeat(Math.max(1, event.getInt("Threat")));
+            CompoundTag event = events.getCompoundOrEmpty(index);
+            int code = event.getIntOr("Code", 0);
+            String warning = "!".repeat(Math.max(1, event.getIntOr("Threat", 0)));
             lines.add(Component.translatable("report.csrp.dislodgement.event", code, warning)
                     .withStyle(ChatFormatting.DARK_RED, ChatFormatting.BOLD));
             lines.add(Component.translatable("report.csrp.dislodgement.effect",
                     Component.translatable("report.csrp.dislodgement.effect." + code))
                     .withStyle(ChatFormatting.GRAY));
-            lines.add(Component.translatable("report.csrp.dislodgement.value", event.getInt("Value"))
+            lines.add(Component.translatable("report.csrp.dislodgement.value", event.getIntOr("Value", 0))
                     .withStyle(ChatFormatting.GRAY));
-            lines.add(Component.translatable("report.csrp.dislodgement.duration", event.getInt("Seconds"))
+            lines.add(Component.translatable("report.csrp.dislodgement.duration", event.getIntOr("Seconds", 0))
                     .withStyle(ChatFormatting.GRAY));
             if (index + 1 < events.size()) {
                 lines.add(Component.empty());

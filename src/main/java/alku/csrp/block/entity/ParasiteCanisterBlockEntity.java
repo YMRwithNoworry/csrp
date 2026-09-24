@@ -160,6 +160,6 @@ public final class ParasiteCanisterBlockEntity extends BlockEntity implements Co
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         ContainerHelper.loadAllItems(tag, items, registries);
-        age = tag.getInt("Age");
+        age = tag.getIntOr("Age", 0);
     }
 }

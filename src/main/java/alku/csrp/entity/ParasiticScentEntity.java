@@ -182,7 +182,7 @@ public final class ParasiticScentEntity extends Entity {
 
     private void selectAndBuffHost(ServerLevel level) {
         List<Mob> parasites = level.getEntitiesOfClass(Mob.class, getBoundingBox().inflate(80.0D),
-                mob -> mob instanceof Parasite && !mob.getPersistentData().getBoolean(SCENT_HOST_TAG));
+                mob -> mob instanceof Parasite && !mob.getPersistentData().getBooleanOr(SCENT_HOST_TAG, false));
         if (parasites.isEmpty()) {
             return;
         }
@@ -689,20 +689,20 @@ public final class ParasiticScentEntity extends Entity {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        phaseOne = !tag.contains("scent_phase_one") || tag.getBoolean("scent_phase_one");
-        scentState = tag.getByte("scent_state");
-        lifeTicks = tag.contains("scent_life") ? tag.getInt("scent_life") : 600;
-        currentLife = tag.getInt("scent_current_life");
-        danger = tag.contains("scent_danger") ? tag.getInt("scent_danger") : 100;
-        activity = tag.getInt("scent_activity");
-        delay = tag.getInt("scent_delay");
-        scentReaction = tag.getByte("scent_reaction");
-        loopLife = tag.contains("scent_loops") ? tag.getInt("scent_loops") : 103;
-        followTarget = tag.getBoolean("scent_following");
-        dieAfterKilling = tag.getBoolean("scent_die_after_killing");
-        hostBuffApplied = tag.getBoolean("scent_host_buff_applied");
+        phaseOne = !tag.contains("scent_phase_one") || tag.getBooleanOr("scent_phase_one", false);
+        scentState = tag.getByteOr("scent_state", (byte) 0);
+        lifeTicks = tag.contains("scent_life") ? tag.getIntOr("scent_life", 0) : 600;
+        currentLife = tag.getIntOr("scent_current_life", 0);
+        danger = tag.contains("scent_danger") ? tag.getIntOr("scent_danger", 0) : 100;
+        activity = tag.getIntOr("scent_activity", 0);
+        delay = tag.getIntOr("scent_delay", 0);
+        scentReaction = tag.getByteOr("scent_reaction", (byte) 0);
+        loopLife = tag.contains("scent_loops") ? tag.getIntOr("scent_loops", 0) : 103;
+        followTarget = tag.getBooleanOr("scent_following", false);
+        dieAfterKilling = tag.getBooleanOr("scent_die_after_killing", false);
+        hostBuffApplied = tag.getBooleanOr("scent_host_buff_applied", false);
         originalHostMaxHealth = tag.contains("scent_host_original_max")
-                ? tag.getDouble("scent_host_original_max") : -1.0D;
+                ? tag.getDoubleOr("scent_host_original_max", 0.0D) : -1.0D;
         targetId = tag.hasUUID("scent_target") ? tag.getUUID("scent_target") : null;
         hostId = tag.hasUUID("scent_host") ? tag.getUUID("scent_host") : null;
         updateScentLevel();

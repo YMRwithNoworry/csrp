@@ -50,7 +50,7 @@ public final class ThornshadeDecanterItem extends Item {
             stack.shrink(1);
         }
         if (!level.isClientSide() && user instanceof Player drinker) {
-            int uses = drinker.getPersistentData().getInt(USES_KEY) + 1;
+            int uses = drinker.getPersistentData().getIntOr(USES_KEY, 0) + 1;
             drinker.getPersistentData().putInt(USES_KEY, uses);
             if (uses >= EXPLOSION_USE) {
                 drinker.getPersistentData().putInt(USES_KEY, 0);

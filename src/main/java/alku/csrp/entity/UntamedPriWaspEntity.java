@@ -308,16 +308,16 @@ public class UntamedPriWaspEntity extends Monster implements CitadelAnimatedEnti
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (tag.contains(PARASITE_STATUS_NBT_KEY)) {
-            setParasiteStatus(tag.getInt(PARASITE_STATUS_NBT_KEY));
+            setParasiteStatus(tag.getIntOr(PARASITE_STATUS_NBT_KEY, 0));
         }
         if (tag.contains(PULL_COOLDOWN_NBT_KEY)) {
-            pullCooldown = tag.getInt(PULL_COOLDOWN_NBT_KEY);
+            pullCooldown = tag.getIntOr(PULL_COOLDOWN_NBT_KEY, 0);
         }
         if (tag.contains(PULL_COUNT_NBT_KEY)) {
-            pullCount = tag.getInt(PULL_COUNT_NBT_KEY);
+            pullCount = tag.getIntOr(PULL_COUNT_NBT_KEY, 0);
         }
         if (tag.contains(SKILL_BORDER_NBT_KEY)) {
-            skillBorder = tag.getInt(SKILL_BORDER_NBT_KEY);
+            skillBorder = tag.getIntOr(SKILL_BORDER_NBT_KEY, 0);
         }
     }
 

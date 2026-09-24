@@ -344,14 +344,14 @@ public final class AssimilatedEndermanEntity extends Monster
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        parasiteKills = tag.getInt("parasite_kills");
-        targetTicks = tag.getInt("target_ticks");
-        selfTeleportCooldown = tag.getInt("self_teleport_cooldown");
-        allyTeleportCooldown = tag.getInt("ally_teleport_cooldown");
-        setShrimpFed(tag.getBoolean("shrimp_fed"));
-        entityData.set(TEXTURE_VARIANT, Math.clamp(tag.getInt("texture_variant"), 0, 1));
-        setCrawling(tag.getBoolean("crawling"));
-        spotCooldown = tag.getInt("spot_cooldown");
+        parasiteKills = tag.getIntOr("parasite_kills", 0);
+        targetTicks = tag.getIntOr("target_ticks", 0);
+        selfTeleportCooldown = tag.getIntOr("self_teleport_cooldown", 0);
+        allyTeleportCooldown = tag.getIntOr("ally_teleport_cooldown", 0);
+        setShrimpFed(tag.getBooleanOr("shrimp_fed", false));
+        entityData.set(TEXTURE_VARIANT, Math.clamp(tag.getIntOr("texture_variant", 0), 0, 1));
+        setCrawling(tag.getBooleanOr("crawling", false));
+        spotCooldown = tag.getIntOr("spot_cooldown", 0);
         setParasiteStatus(0);
     }
 

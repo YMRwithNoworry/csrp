@@ -271,9 +271,9 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        parasiteKills = tag.getInt("parasite_kills");
-        entityData.set(MELTING, tag.getBoolean("melting"));
-        entityData.set(MELT_TICKS, tag.getInt("melt_ticks"));
+        parasiteKills = tag.getIntOr("parasite_kills", 0);
+        entityData.set(MELTING, tag.getBooleanOr("melting", false));
+        entityData.set(MELT_TICKS, tag.getIntOr("melt_ticks", 0));
     }
 
     @Override

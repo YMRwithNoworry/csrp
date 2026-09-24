@@ -210,9 +210,9 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        targetTicks = tag.getInt("target_ticks");
-        teleportCooldown = tag.getInt("teleport_cooldown");
-        allyTeleportCooldown = tag.getInt("ally_teleport_cooldown");
+        targetTicks = tag.getIntOr("target_ticks", 0);
+        teleportCooldown = tag.getIntOr("teleport_cooldown", 0);
+        allyTeleportCooldown = tag.getIntOr("ally_teleport_cooldown", 0);
     }
 
     public static float cothChance() {

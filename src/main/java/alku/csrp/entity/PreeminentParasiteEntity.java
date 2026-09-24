@@ -521,11 +521,11 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (activeKind() == Kind.CARRIER_COLONY) {
-            setCarrierVariant(tag.getBoolean("preeminent_carrier_variant"));
+            setCarrierVariant(tag.getBooleanOr("preeminent_carrier_variant", false));
         } else if (activeKind() == Kind.HAUNTER) {
-            setHaunterVariant(tag.getBoolean("preeminent_haunter_variant"));
+            setHaunterVariant(tag.getBooleanOr("preeminent_haunter_variant", false));
         }
-        supportCooldown = Mth.clamp(tag.getInt("preeminent_support_cooldown"),
+        supportCooldown = Mth.clamp(tag.getIntOr("preeminent_support_cooldown", 0),
                 FLAM_SUMMON_PHASE - FLAM_SUMMON_SUCCESS_REWIND, FLAM_SUMMON_TIMER_MAX);
     }
 

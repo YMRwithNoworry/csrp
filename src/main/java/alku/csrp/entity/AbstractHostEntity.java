@@ -255,9 +255,9 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        setBurrowed(tag.getBoolean("burrowed"));
-        burrowCooldown = tag.getInt("burrow_cooldown");
-        rangedCooldown = tag.getInt("ranged_cooldown");
+        setBurrowed(tag.getBooleanOr("burrowed", false));
+        burrowCooldown = tag.getIntOr("burrow_cooldown", 0);
+        rangedCooldown = tag.getIntOr("ranged_cooldown", 0);
     }
 
     protected abstract void performRangedAttack(LivingEntity target);

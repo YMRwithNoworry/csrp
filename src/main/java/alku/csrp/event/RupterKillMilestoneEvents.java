@@ -30,7 +30,7 @@ public final class RupterKillMilestoneEvents {
         }
 
         CompoundTag data = player.getPersistentData();
-        int kills = data.getInt(RUPTER_KILL_COUNT_KEY) + 1;
+        int kills = data.getIntOr(RUPTER_KILL_COUNT_KEY, 0) + 1;
         data.putInt(RUPTER_KILL_COUNT_KEY, kills);
         if (kills < RUPTER_KILL_TARGET) {
             return;
@@ -48,7 +48,7 @@ public final class RupterKillMilestoneEvents {
             return;
         }
 
-        int kills = event.getOriginal().getPersistentData().getInt(RUPTER_KILL_COUNT_KEY);
+        int kills = event.getOriginal().getPersistentData().getIntOr(RUPTER_KILL_COUNT_KEY, 0);
         event.getEntity().getPersistentData().putInt(RUPTER_KILL_COUNT_KEY, kills);
     }
 }

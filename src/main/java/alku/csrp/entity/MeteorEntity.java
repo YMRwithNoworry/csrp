@@ -253,16 +253,16 @@ public final class MeteorEntity extends Entity {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        setRoot(!tag.contains("bigmet") || tag.getBoolean("bigmet"));
+        setRoot(!tag.contains("bigmet") || tag.getBooleanOr("bigmet", false));
         if (tag.contains("direction")) {
-            setDeltaMovement(tag.getDouble("direction_x"), tag.getDouble("direction_y"),
-                    tag.getDouble("direction_z"));
+            setDeltaMovement(tag.getDoubleOr("direction_x", 0.0D), tag.getDoubleOr("direction_y", 0.0D),
+                    tag.getDoubleOr("direction_z", 0.0D));
         }
         if (tag.contains("power")) {
-            acceleration = new Vec3(tag.getDouble("power_x"), tag.getDouble("power_y"),
-                    tag.getDouble("power_z"));
+            acceleration = new Vec3(tag.getDoubleOr("power_x", 0.0D), tag.getDoubleOr("power_y", 0.0D),
+                    tag.getDoubleOr("power_z", 0.0D));
         }
-        ticksInAir = tag.getInt("life");
+        ticksInAir = tag.getIntOr("life", 0);
     }
 
     @Override

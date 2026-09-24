@@ -489,26 +489,26 @@ public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         byte phase = tag.contains("burrow_phase")
-                ? tag.getByte("burrow_phase") : tag.getByte("tozoon_burrow_phase");
+                ? tag.getByteOr("burrow_phase", (byte) 0) : tag.getByteOr("tozoon_burrow_phase", (byte) 0);
         if (phase < BURROW_NONE || phase > BURROW_EMERGING) {
             phase = BURROW_NONE;
         }
         float depth = tag.contains("burrow_depth")
-                ? tag.getFloat("burrow_depth") : tag.getFloat("tozoon_burrow_depth");
+                ? tag.getFloatOr("burrow_depth", 0.0F) : tag.getFloatOr("tozoon_burrow_depth", 0.0F);
         entityData.set(BURROW_PHASE, phase);
         entityData.set(BURROW_DEPTH, Math.max(0.0F, Math.min(1.0F, depth)));
         burrowTicks = Math.max(0, tag.contains("burrow_ticks")
-                ? tag.getInt("burrow_ticks") : tag.getInt("tozoon_burrow_ticks"));
-        burrowSkillTicks = Math.max(0, tag.getInt("burrow_skill_ticks"));
-        movedUnderground = tag.getBoolean("burrow_moved");
+                ? tag.getIntOr("burrow_ticks", 0) : tag.getIntOr("tozoon_burrow_ticks", 0));
+        burrowSkillTicks = Math.max(0, tag.getIntOr("burrow_skill_ticks", 0));
+        movedUnderground = tag.getBooleanOr("burrow_moved", false);
         previousBurrowDepth = entityData.get(BURROW_DEPTH);
-        entityData.set(BODY_NUMBER, tag.getByte("body_number"));
-        entityData.set(BODY_TAIL, tag.getBoolean("body_tail"));
+        entityData.set(BODY_NUMBER, tag.getByteOr("body_number", (byte) 0));
+        entityData.set(BODY_TAIL, tag.getBooleanOr("body_tail", false));
         bodyPredecessor = tag.hasUUID("body_predecessor") ? tag.getUUID("body_predecessor") : null;
-        bodyChainInitialized = tag.getBoolean("body_chain_initialized") || getBodyNumber() > 0;
-        entityData.set(BODY_ATTACK_TICKS, Math.max(0, tag.getInt("body_attack_ticks")));
+        bodyChainInitialized = tag.getBooleanOr("body_chain_initialized", false) || getBodyNumber() > 0;
+        entityData.set(BODY_ATTACK_TICKS, Math.max(0, tag.getIntOr("body_attack_ticks", 0)));
         bodyBurrowCycles = tag.contains("body_burrow_cycles")
-                ? Math.max(0, tag.getInt("body_burrow_cycles"))
+                ? Math.max(0, tag.getIntOr("body_burrow_cycles", 0))
                 : phase == BURROW_UNDERGROUND && getBodyNumber() > 0 ? getBodyNumber() + 1 : 0;
     }
 

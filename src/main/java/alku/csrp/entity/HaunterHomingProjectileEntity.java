@@ -167,7 +167,7 @@ public final class HaunterHomingProjectileEntity extends Entity {
         if (tag.hasUUID("target")) {
             targetId = tag.getUUID("target");
         }
-        entityData.set(TARGET_ID, tag.getInt("target_id"));
+        entityData.set(TARGET_ID, tag.getIntOr("target_id", 0));
     }
 
     @Override

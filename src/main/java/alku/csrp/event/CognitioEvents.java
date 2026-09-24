@@ -74,11 +74,11 @@ public final class CognitioEvents {
     private static void trackHuntSeason(ServerPlayer player) {
         var data = player.getPersistentData();
         long day = player.level().getOverworldClockTime() / 24000L;
-        if (data.getLong(HUNT_DAY_KEY) != day) {
+        if (data.getLongOr(HUNT_DAY_KEY, 0L) != day) {
             data.putLong(HUNT_DAY_KEY, day);
             data.putInt(HUNT_COUNT_KEY, 0);
         }
-        int count = data.getInt(HUNT_COUNT_KEY) + 1;
+        int count = data.getIntOr(HUNT_COUNT_KEY, 0) + 1;
         data.putInt(HUNT_COUNT_KEY, count);
         if (count >= HUNT_TARGET) {
             data.putInt(HUNT_COUNT_KEY, 0);

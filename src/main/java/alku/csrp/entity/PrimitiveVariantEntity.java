@@ -1116,32 +1116,32 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (activeKind() == Kind.MANDUCATER) {
-            setManducaterCamouflaged(tag.getBoolean("manducater_camouflaged"));
-            manducaterCamouflageTimer = tag.getInt("manducater_camouflage_timer");
-            manducaterPullTicks = tag.getInt("manducater_pull_ticks");
-            entityData.set(MANDUCATER_STATUS, tag.getInt("manducater_status"));
+            setManducaterCamouflaged(tag.getBooleanOr("manducater_camouflaged", false));
+            manducaterCamouflageTimer = tag.getIntOr("manducater_camouflage_timer", 0);
+            manducaterPullTicks = tag.getIntOr("manducater_pull_ticks", 0);
+            entityData.set(MANDUCATER_STATUS, tag.getIntOr("manducater_status", 0));
             entityData.set(MANDUCATER_TARGET_ENTITY, 0);
             manducaterTarget = null;
-            setManducaterSkin(tag.getInt("manducater_skin"));
+            setManducaterSkin(tag.getIntOr("manducater_skin", 0));
         }
         if (activeKind() == Kind.BOLSTER) {
-            setBolsterSkin(tag.getInt("bolster_skin"));
+            setBolsterSkin(tag.getIntOr("bolster_skin", 0));
         }
         if (activeKind() == Kind.REEKER) {
-            setReekerSkin(tag.getInt("reeker_skin"));
-            setRicardoBald(tag.getBoolean("RicardoBald"));
-            reekerChargePreparationTicks = Math.max(0, tag.getInt("reeker_charge_preparation"));
+            setReekerSkin(tag.getIntOr("reeker_skin", 0));
+            setRicardoBald(tag.getBooleanOr("RicardoBald", false));
+            reekerChargePreparationTicks = Math.max(0, tag.getIntOr("reeker_charge_preparation", 0));
             entityData.set(REEKER_CHARGE_STATE, REEKER_CHARGE_NONE);
             if (!level().isClientSide()) {
                 applyReekerAttributes(true);
             }
         }
         if (activeKind() == Kind.DEVOURER) {
-            setDevourerSkin(tag.getInt("devourer_skin"));
+            setDevourerSkin(tag.getIntOr("devourer_skin", 0));
         }
         if (activeKind() == Kind.YELLOWEYE) {
-            setYelloweyeSkin(tag.getInt("yelloweye_skin"));
-            rangedShots = Mth.clamp(tag.getInt("yelloweye_shots"), 0, 3);
+            setYelloweyeSkin(tag.getIntOr("yelloweye_skin", 0));
+            rangedShots = Mth.clamp(tag.getIntOr("yelloweye_shots", 0), 0, 3);
             resetYelloweyeAttack();
         }
     }

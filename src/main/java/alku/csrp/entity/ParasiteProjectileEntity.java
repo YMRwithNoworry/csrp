@@ -860,31 +860,31 @@ public final class ParasiteProjectileEntity extends Entity {
         if (tag.hasUUID("owner")) {
             ownerId = tag.getUUID("owner");
         }
-        entityData.set(MODE, sanitizeMode(tag.getInt("mode")));
-        entityData.set(HOMING_TARGET, tag.getInt("homing_target"));
-        entityData.set(NADE_ARMED, tag.getBoolean("nade_armed"));
-        entityData.set(NADE_FUSE_PROGRESS, tag.getInt("nade_fuse_progress"));
-        entityData.set(ACID_NADE_ARMED, tag.getBoolean("acid_nade_armed"));
-        entityData.set(ACID_NADE_FUSE_PROGRESS, tag.getInt("acid_nade_fuse_progress"));
-        damage = tag.getFloat("damage");
-        radius = tag.getDouble("radius");
-        maximumLifetime = tag.getInt("maximum_lifetime");
-        acceleration = new Vec3(tag.getDouble("acceleration_x"), tag.getDouble("acceleration_y"),
-                tag.getDouble("acceleration_z"));
-        accelerating = tag.getBoolean("accelerating");
-        nadeIgnitionTicks = tag.getInt("nade_ignition_ticks");
-        nadeFuseTicks = tag.getInt("nade_fuse_ticks");
-        nadeDamageTicks = tag.getInt("nade_damage_ticks");
-        acidNadeTicks = tag.getInt("acid_nade_ticks");
-        acidNadeFuseTicks = tag.getInt("acid_nade_fuse_ticks");
-        acidDamageTicks = tag.getInt("acid_damage_ticks");
-        webKind = tag.getInt("web_kind");
-        biomassSpawnType = tag.getString("biomass_spawn_type");
-        biomassCapacityCost = Math.max(0, tag.getInt("biomass_capacity_cost"));
-        biomassSkin = Mth.clamp(tag.contains("biomass_skin") ? tag.getInt("biomass_skin") : 4, 1, 6);
+        entityData.set(MODE, sanitizeMode(tag.getIntOr("mode", 0)));
+        entityData.set(HOMING_TARGET, tag.getIntOr("homing_target", 0));
+        entityData.set(NADE_ARMED, tag.getBooleanOr("nade_armed", false));
+        entityData.set(NADE_FUSE_PROGRESS, tag.getIntOr("nade_fuse_progress", 0));
+        entityData.set(ACID_NADE_ARMED, tag.getBooleanOr("acid_nade_armed", false));
+        entityData.set(ACID_NADE_FUSE_PROGRESS, tag.getIntOr("acid_nade_fuse_progress", 0));
+        damage = tag.getFloatOr("damage", 0.0F);
+        radius = tag.getDoubleOr("radius", 0.0D);
+        maximumLifetime = tag.getIntOr("maximum_lifetime", 0);
+        acceleration = new Vec3(tag.getDoubleOr("acceleration_x", 0.0D), tag.getDoubleOr("acceleration_y", 0.0D),
+                tag.getDoubleOr("acceleration_z", 0.0D));
+        accelerating = tag.getBooleanOr("accelerating", false);
+        nadeIgnitionTicks = tag.getIntOr("nade_ignition_ticks", 0);
+        nadeFuseTicks = tag.getIntOr("nade_fuse_ticks", 0);
+        nadeDamageTicks = tag.getIntOr("nade_damage_ticks", 0);
+        acidNadeTicks = tag.getIntOr("acid_nade_ticks", 0);
+        acidNadeFuseTicks = tag.getIntOr("acid_nade_fuse_ticks", 0);
+        acidDamageTicks = tag.getIntOr("acid_damage_ticks", 0);
+        webKind = tag.getIntOr("web_kind", 0);
+        biomassSpawnType = tag.getStringOr("biomass_spawn_type", "");
+        biomassCapacityCost = Math.max(0, tag.getIntOr("biomass_capacity_cost", 0));
+        biomassSkin = Mth.clamp(tag.contains("biomass_skin") ? tag.getIntOr("biomass_skin", 0) : 4, 1, 6);
         biomassTargetId = tag.hasUUID("biomass_target") ? tag.getUUID("biomass_target") : null;
-        biomassReservationHandled = tag.getBoolean("biomass_reservation_handled");
-        rootMeteor = tag.getBoolean("root_meteor");
+        biomassReservationHandled = tag.getBooleanOr("biomass_reservation_handled", false);
+        rootMeteor = tag.getBooleanOr("root_meteor", false);
     }
 
     @Override

@@ -150,6 +150,15 @@ com.github.alexthe666.citadel.client.model.TabulaModel                 (1)
   - `Player.displayClientMessage(msg, true)` → `ServerPlayer/LocalPlayer.sendOverlayMessage(msg)`（8）
   - `ServerPlayer.getServer()` → `player.level().getServer()`（8；26.3 的
     `ServerPlayer.level()` 返回 `ServerLevel`）
+- **wave 4** `scripts/port263/wave4_optional_nbt.mjs` + `wave4b_nbt_containers.mjs`（598 + 41 处；
+  3062 → 2496）
+  - 26.3 的 `CompoundTag` getter 全部改为返回 `Optional<T>`：`getInt/getBoolean/getFloat/getDouble/
+    getLong/getString/getByte/getShort` → 对应的 `...Or(key, 默认值)`，默认值就是 1.21.1 缺键时
+    返回的值，因此语义等价（598）
+  - 容器 getter 没有 `...Or`：`getCompound` → `getCompoundOrEmpty`、`getList(key, Tag.TAG_X)` →
+    `getListOrEmpty(key)`、`getIntArray/getLongArray` → `.orElse(new int[0]/new long[0])`（41）
+  - ⚠️ 该类统一改名会误伤同名非 NBT 方法（`Component.getString()`、`Boolean.getBoolean(String)`），
+    已用 `fix_empty_or_args.mjs` 修复 11 处并给 wave 4 脚本加了「空参数列表即跳过」的保护
 
 ### 剩余错误聚类（wave 3+ 的输入）
 
@@ -194,9 +203,9 @@ com.github.alexthe666.citadel.client.model.TabulaModel                 (1)
 | wave | 内容 | 预估错误 | 说明 |
 |---|---|---|---|
 | 3 ✅ | 简单缺失符号：`isInWaterOrBubble` 新名、`getMinBuildHeight`、`getDayTime`、`hurtMarked`、`hasImpulse`、`displayClientMessage` 等 | 已做 | 完成，3235 → **3062** |
-| 4 | `Optional` 包装类 API（`Optional<Integer>`/`Optional<Boolean>`） | ~300 | 逐方法核对调用点 |
+| 4 ✅ | `Optional` 包装类 API（`Optional<Integer>`/`Optional<Boolean>`） | 已做 | 完成，3062 → **2496**（NBT getter 全部 Optional 化） |
 | 5 | 实体注册/生成：`create(...)`、`ResourceKey<EntityType<?>>`、`registerEntityRenderer` | ~250 | 注册器与 key 化 |
-| 6 | NBT / `ValueOutput` 序列化 | ~150 | `putUUID`/`hasUUID`/`getUUID` 等 |
+| 6 | NBT / `ValueOutput` 序列化 | ~150 | `putUUID`/`hasUUID`/`getUUID`、`CompoundTag`↔`ValueOutput/ValueInput` |
 | 7 | 装备/物品组件化（`ModItems` 181 错、`ModArmorMaterials`、`ModTiers`） | ~300 | 设计问题 |
 | 8 | **Citadel 替换**：自研 `AdvancedModelBox` / `AdvancedEntityModel` / `BasicModelPart` / Tabula 容器 | ~80 + 28 文件返工 | 见 5.4 |
 | 9 | 渲染管线 renderpearl（`client/` 73 文件） | ~400 | **最大且最难** |
@@ -223,6 +232,11 @@ git commit -m "-（移植）..."
 
 > census 与 `mc_gradle compileJava` 的错误数必须一致（wave 3 实测两边都是 3062），
 > 不一致说明 classpath 过期：先删掉 `build/compile-cp.txt` 再跑 `dumpCompileClasspath`。
+>
+> ⚠️ **语法错误会吞掉全部类型错误**：只要有一个文件解析失败，javac 就不进入 attr/flow 阶段，
+> census 会给出一个虚低的数字（实测 wave 4 中途出现过「只剩 11 个错误」，修掉 11 处
+> `getStringOr(, "")` 语法错误后真实数字是 2537）。因此 census 后先看有没有
+> `illegal start of expression` / `';' expected` 这类 parse error，有就先修语法再读数。
 
 **工作方法要求**：任何 API 签名/新类名都必须先在
 `.ref263/mc-src`（真实 26.3 + NeoForge 26.3 源码树，28795 个文件）
@@ -233,9 +247,10 @@ git commit -m "-（移植）..."
 ## 8. 当前状态与下一步
 
 - ✅ 26.3 工具链打通（build 配置已移植、jst 坑已解）
-- ✅ 错误从 4815 降到 **3062**（-36%），195 + 193 + 60 个文件已过 wave 1/2/3
-- ⬜ 剩余 3062 个错误，按第 6 节 wave 4~10 推进
+- ✅ 错误从 4815 降到 **2496**（-48%），195 + 193 + 60 + 约 120 个文件已过 wave 1/2/3/4
+- ⬜ 剩余 2496 个错误，按第 6 节 wave 5~10 推进
 - ⬜ 内容补全到 100%（原版 174 实体 vs 当前 96；73 类 AI vs 5）——**版本移植完成后**再做
 
-**下一步（下一个 round）**：执行 wave 4（`Optional` 包装类 API，约 300 错），随后 wave 5
-（实体注册/生成与 key 化）；wave 9（渲染管线 renderpearl）仍是风险中心，可在 wave 7/8 之间插空调研。
+**下一步（下一个 round）**：wave 5（`EntityType.create(Level, EntitySpawnReason)` 与
+`ResourceKey<EntityType<?>>`、`RegisterRenderers.registerEntityRenderer` 签名），
+随后 wave 6（NBT ↔ `ValueOutput/ValueInput`、`putUUID/hasUUID/getUUID`）。

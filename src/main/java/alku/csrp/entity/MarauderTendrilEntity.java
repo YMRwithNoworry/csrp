@@ -316,11 +316,11 @@ public final class MarauderTendrilEntity extends Monster implements CitadelAnima
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        int mode = tag.getByte("marauder_tendril_mode");
+        int mode = tag.getByteOr("marauder_tendril_mode", (byte) 0);
         setMode(mode >= 0 && mode < Mode.values().length ? Mode.values()[mode] : Mode.DETACHED);
-        entityData.set(ATTACHED_SIDE, tag.getByte("marauder_tendril_side"));
+        entityData.set(ATTACHED_SIDE, tag.getByteOr("marauder_tendril_side", (byte) 0));
         entityData.set(REMAINING_TICKS, tag.contains("marauder_tendril_remaining")
-                ? tag.getInt("marauder_tendril_remaining") : DETACHED_LIFETIME_TICKS);
+                ? tag.getIntOr("marauder_tendril_remaining", 0) : DETACHED_LIFETIME_TICKS);
         ownerUuid = tag.hasUUID("marauder_tendril_owner") ? tag.getUUID("marauder_tendril_owner") : null;
         targetUuid = tag.hasUUID("marauder_tendril_target") ? tag.getUUID("marauder_tendril_target") : null;
         setNoAi(getMode() != Mode.DETACHED);

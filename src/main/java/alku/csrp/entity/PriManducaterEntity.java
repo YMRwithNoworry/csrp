@@ -310,16 +310,16 @@ public class PriManducaterEntity extends PrimitiveParasiteEntity implements Cita
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (tag.contains(PARASITE_STATUS_NBT_KEY)) {
-            setParasiteStatus(tag.getInt(PARASITE_STATUS_NBT_KEY));
+            setParasiteStatus(tag.getIntOr(PARASITE_STATUS_NBT_KEY, 0));
         }
         if (tag.contains(ATTACK_COOLDOWN_NBT_KEY)) {
-            entityData.set(ATTACK_COOLDOWN, tag.getInt(ATTACK_COOLDOWN_NBT_KEY));
+            entityData.set(ATTACK_COOLDOWN, tag.getIntOr(ATTACK_COOLDOWN_NBT_KEY, 0));
         }
         if (tag.contains(PULLING_NBT_KEY)) {
-            entityData.set(PULLING_COUNTER, tag.getInt(PULLING_NBT_KEY));
+            entityData.set(PULLING_COUNTER, tag.getIntOr(PULLING_NBT_KEY, 0));
         }
         if (tag.contains(STEALTH_TIMER_NBT_KEY)) {
-            stealthTimer = tag.getInt(STEALTH_TIMER_NBT_KEY);
+            stealthTimer = tag.getIntOr(STEALTH_TIMER_NBT_KEY, 0);
         }
     }
 

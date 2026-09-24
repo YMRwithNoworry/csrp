@@ -273,11 +273,11 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        setAnimationState(tag.getInt("animation_state"));
-        parasiteKills = tag.getInt("parasite_kills");
-        skeletonKills = tag.getInt("skeleton_kills");
-        entityData.set(MELTING, tag.getBoolean("melting"));
-        entityData.set(MELT_TICKS, tag.getInt("melt_ticks"));
+        setAnimationState(tag.getIntOr("animation_state", 0));
+        parasiteKills = tag.getIntOr("parasite_kills", 0);
+        skeletonKills = tag.getIntOr("skeleton_kills", 0);
+        entityData.set(MELTING, tag.getBooleanOr("melting", false));
+        entityData.set(MELT_TICKS, tag.getIntOr("melt_ticks", 0));
     }
 
     @Override

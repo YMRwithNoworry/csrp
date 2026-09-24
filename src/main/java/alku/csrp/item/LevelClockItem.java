@@ -45,7 +45,7 @@ public final class LevelClockItem extends Item {
     public void appendHoverText(ItemStack stack, TooltipContext context,
             List<Component> tooltip, TooltipFlag flag) {
         int development = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                .copyTag().getInt(DEVELOPMENT_TAG);
+                .copyTag().getIntOr(DEVELOPMENT_TAG, 0);
         tooltip.add(Component.translatable("tooltip.csrp.level_clock", development)
                 .withStyle(ChatFormatting.AQUA));
     }
@@ -53,7 +53,7 @@ public final class LevelClockItem extends Item {
     private static int updateLevel(ItemStack stack, ServerLevel level) {
         int development = EvolutionSystem.ubiquitousDevelopment(level.getServer());
         int current = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                .copyTag().getInt(DEVELOPMENT_TAG);
+                .copyTag().getIntOr(DEVELOPMENT_TAG, 0);
         if (current != development) {
             CustomData.update(DataComponents.CUSTOM_DATA, stack,
                     tag -> tag.putInt(DEVELOPMENT_TAG, development));

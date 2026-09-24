@@ -278,17 +278,17 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        entityData.set(MERGE_COUNT, Math.max(1, tag.getInt("merge_count")));
+        entityData.set(MERGE_COUNT, Math.max(1, tag.getIntOr("merge_count", 0)));
         if (tag.contains("merge_value")) {
-            setMergeValue(tag.getInt("merge_value"));
+            setMergeValue(tag.getIntOr("merge_value", 0));
         }
-        entityData.set(RENDER_SCALE, Math.max(1.0F, tag.getFloat("render_scale")));
-        targetScale = Math.max(entityData.get(RENDER_SCALE), tag.getFloat("target_scale"));
-        mergeCooldown = tag.getInt("merge_cooldown");
-        entityData.set(EVOLUTION_FUSE, Math.max(0, tag.getInt("evolution_delay")));
-        mergeContacts = tag.getInt("merge_contacts");
-        mergeContactCooldown = Math.max(0, tag.getInt("merge_contact_cooldown"));
-        evolutionFlashIntensity = tag.getFloat("evolution_flash_intensity");
+        entityData.set(RENDER_SCALE, Math.max(1.0F, tag.getFloatOr("render_scale", 0.0F)));
+        targetScale = Math.max(entityData.get(RENDER_SCALE), tag.getFloatOr("target_scale", 0.0F));
+        mergeCooldown = tag.getIntOr("merge_cooldown", 0);
+        entityData.set(EVOLUTION_FUSE, Math.max(0, tag.getIntOr("evolution_delay", 0)));
+        mergeContacts = tag.getIntOr("merge_contacts", 0);
+        mergeContactCooldown = Math.max(0, tag.getIntOr("merge_contact_cooldown", 0));
+        evolutionFlashIntensity = tag.getFloatOr("evolution_flash_intensity", 0.0F);
     }
 
     @Override

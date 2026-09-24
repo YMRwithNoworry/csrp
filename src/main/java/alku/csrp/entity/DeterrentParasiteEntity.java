@@ -304,32 +304,32 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        abilityCooldown = tag.getInt("deterrent_ability_cooldown");
-        lifetimeTicks = tag.getInt("deterrent_lifetime");
-        attackFlashTicks = tag.getInt("deterrent_attack_flash");
-        wormMinimumPayload = tag.contains("deterrent_worm_minimum") ? tag.getInt("deterrent_worm_minimum") : 3;
-        wormMaximumPayload = tag.contains("deterrent_worm_maximum") ? tag.getInt("deterrent_worm_maximum") : 3;
+        abilityCooldown = tag.getIntOr("deterrent_ability_cooldown", 0);
+        lifetimeTicks = tag.getIntOr("deterrent_lifetime", 0);
+        attackFlashTicks = tag.getIntOr("deterrent_attack_flash", 0);
+        wormMinimumPayload = tag.contains("deterrent_worm_minimum") ? tag.getIntOr("deterrent_worm_minimum", 0) : 3;
+        wormMaximumPayload = tag.contains("deterrent_worm_maximum") ? tag.getIntOr("deterrent_worm_maximum", 0) : 3;
         wormPayloadTypes.clear();
-        ListTag payloadTypes = tag.getList("deterrent_worm_types", Tag.TAG_STRING);
+        ListTag payloadTypes = tag.getListOrEmpty("deterrent_worm_types");
         for (int index = 0; index < payloadTypes.size(); index++) {
-            wormPayloadTypes.add(payloadTypes.getString(index));
+            wormPayloadTypes.add(payloadTypes.getStringOr(index, ""));
         }
         dispatchTarget = tag.hasUUID("deterrent_dispatch_target") ? tag.getUUID("deterrent_dispatch_target") : null;
         dispatchEntityId = tag.contains("deterrent_dispatch_entity")
-                ? tag.getString("deterrent_dispatch_entity") : null;
+                ? tag.getStringOr("deterrent_dispatch_entity", "") : null;
         seizerTarget = tag.hasUUID("deterrent_seizer_target") ? tag.getUUID("deterrent_seizer_target") : null;
         if (activeKind() == Kind.SENTRY) {
-            entityData.set(SENTRY_PARASITE_STATUS, tag.getInt("sentry_parasite_status"));
-            entityData.set(SENTRY_STILL_ANI, tag.getBoolean("sentry_still_ani"));
+            entityData.set(SENTRY_PARASITE_STATUS, tag.getIntOr("sentry_parasite_status", 0));
+            entityData.set(SENTRY_STILL_ANI, tag.getBooleanOr("sentry_still_ani", false));
         }
         if (activeKind() == Kind.KYPHOSIS) {
-            entityData.set(KYPHOSIS_ATTACK_TIMER, tag.getFloat("kyphosis_attack_timer"));
-            entityData.set(KYPHOSIS_BURIED, tag.getFloat("kyphosis_buried"));
-            entityData.set(KYPHOSIS_PARASITE_STATUS, tag.getInt("kyphosis_parasite_status"));
-            entityData.set(KYPHOSIS_SKILL_BORDER, tag.getInt("kyphosis_skill_border"));
-            kyphosisAttackUp = tag.getBoolean("kyphosis_attack_up");
+            entityData.set(KYPHOSIS_ATTACK_TIMER, tag.getFloatOr("kyphosis_attack_timer", 0.0F));
+            entityData.set(KYPHOSIS_BURIED, tag.getFloatOr("kyphosis_buried", 0.0F));
+            entityData.set(KYPHOSIS_PARASITE_STATUS, tag.getIntOr("kyphosis_parasite_status", 0));
+            entityData.set(KYPHOSIS_SKILL_BORDER, tag.getIntOr("kyphosis_skill_border", 0));
+            kyphosisAttackUp = tag.getBooleanOr("kyphosis_attack_up", false);
             kyphosisBuriedTarget = tag.contains("kyphosis_buried_target")
-                    ? tag.getDouble("kyphosis_buried_target") : 7.5D;
+                    ? tag.getDoubleOr("kyphosis_buried_target", 0.0D) : 7.5D;
         }
     }
 

@@ -326,12 +326,12 @@ public final class AirscrewEntity extends CrudeParasiteEntity implements Pulling
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         pullTargets.clear();
-        for (Tag raw : tag.getList("pull_targets", Tag.TAG_COMPOUND)) {
+        for (Tag raw : tag.getListOrEmpty("pull_targets")) {
             CompoundTag entry = (CompoundTag) raw;
             if (entry.hasUUID("id") && pullTargets.size() < MAX_PULL_TARGETS) pullTargets.add(entry.getUUID("id"));
         }
-        pullTicks = tag.getInt("pull_ticks");
-        volleyCooldown = tag.getInt("volley_cooldown");
+        pullTicks = tag.getIntOr("pull_ticks", 0);
+        volleyCooldown = tag.getIntOr("volley_cooldown", 0);
         syncPullTargets();
     }
 

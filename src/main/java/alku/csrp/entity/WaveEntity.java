@@ -164,9 +164,9 @@ public final class WaveEntity extends PathfinderMob implements Parasite {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        minimumDamage = Math.max(0.0F, tag.getFloat("minimum_damage"));
-        range = tag.getInt("range");
-        durationSeconds = Math.max(1, tag.getInt("duration_seconds"));
+        minimumDamage = Math.max(0.0F, tag.getFloatOr("minimum_damage", 0.0F));
+        range = tag.getIntOr("range", 0);
+        durationSeconds = Math.max(1, tag.getIntOr("duration_seconds", 0));
     }
 
     @Override

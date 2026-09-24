@@ -229,11 +229,11 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        parasiteKills = tag.getInt("parasite_kills");
-        rangedCooldown = tag.getInt("ranged_cooldown");
-        skeletonKills = tag.getInt("skeleton_kills");
-        entityData.set(MELTING, tag.getBoolean("melting"));
-        entityData.set(MELT_TICKS, tag.getInt("melt_ticks"));
+        parasiteKills = tag.getIntOr("parasite_kills", 0);
+        rangedCooldown = tag.getIntOr("ranged_cooldown", 0);
+        skeletonKills = tag.getIntOr("skeleton_kills", 0);
+        entityData.set(MELTING, tag.getBooleanOr("melting", false));
+        entityData.set(MELT_TICKS, tag.getIntOr("melt_ticks", 0));
     }
 
     @Override

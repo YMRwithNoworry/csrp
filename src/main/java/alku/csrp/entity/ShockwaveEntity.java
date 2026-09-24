@@ -140,7 +140,7 @@ public final class ShockwaveEntity extends Entity {
         if (tag.hasUUID(OWNER_TAG)) {
             ownerUuid = tag.getUUID(OWNER_TAG);
         }
-        remainingDistance = tag.getDouble(REMAINING_DISTANCE_TAG);
+        remainingDistance = tag.getDoubleOr(REMAINING_DISTANCE_TAG, 0.0D);
     }
 
     @Override

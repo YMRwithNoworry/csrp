@@ -238,12 +238,12 @@ public final class BombEntity extends Entity {
         if (tag.hasUUID("owner")) {
             ownerId = tag.getUUID("owner");
         }
-        setFuse(tag.contains("Fuse") ? tag.getShort("Fuse") : 80);
-        setSkin(tag.getInt("parasitetype"));
-        strength = tag.contains("stren") ? tag.getFloat("stren") : 4.0F;
-        damage = tag.getFloat("damage");
-        rangeRadius = Math.max(0, tag.getInt("range_radius"));
-        canGrief = tag.getBoolean("cangrief");
+        setFuse(tag.contains("Fuse") ? tag.getShortOr("Fuse", (short) 0) : 80);
+        setSkin(tag.getIntOr("parasitetype", 0));
+        strength = tag.contains("stren") ? tag.getFloatOr("stren", 0.0F) : 4.0F;
+        damage = tag.getFloatOr("damage", 0.0F);
+        rangeRadius = Math.max(0, tag.getIntOr("range_radius", 0));
+        canGrief = tag.getBooleanOr("cangrief", false);
     }
 
     @Override

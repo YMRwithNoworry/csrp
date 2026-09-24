@@ -74,14 +74,14 @@ public final class EquipmentEvents {
             String key = "adapt_points_" + damageType;
             String legacyKey = "adapt_" + legacyDamageType;
             var data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
-            int points = data.getInt(key);
-            if (points == 0 && data.getBoolean(legacyKey)) {
+            int points = data.getIntOr(key, 0);
+            if (points == 0 && data.getBooleanOr(legacyKey, false)) {
                 points = 1;
                 int migratedPoints = points;
                 CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putInt(key, migratedPoints));
                 data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
             }
-            boolean canLearn = points > 0 || data.getInt(LivingArmorItem.ADAPT_COUNT) < armor.damageTypeLimit();
+            boolean canLearn = points > 0 || data.getIntOr(LivingArmorItem.ADAPT_COUNT, 0) < armor.damageTypeLimit();
             float learningChance = armor.isSentient() ? SENTIENT_LEARNING_CHANCE : LIVING_LEARNING_CHANCE;
             if (canLearn && points < armor.pointLimit() && entity.getRandom().nextFloat() < learningChance) {
                 boolean newType = points == 0;
@@ -89,14 +89,14 @@ public final class EquipmentEvents {
                 CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {
                     tag.putInt(key, learned);
                     if (newType) tag.putInt(LivingArmorItem.ADAPT_COUNT,
-                            tag.getInt(LivingArmorItem.ADAPT_COUNT) + 1);
+                            tag.getIntOr(LivingArmorItem.ADAPT_COUNT, 0) + 1);
                 });
                 points = learned;
             }
             float reductionPerPoint = armor.isSentient() ? SENTIENT_POINT_REDUCTION : LIVING_POINT_REDUCTION;
             totalReduction += Math.min(points, armor.pointLimit()) * reductionPerPoint;
             CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {
-                int accumulatedDamage = tag.getInt(LivingArmorItem.DAMAGE) + Math.round(incomingDamage);
+                int accumulatedDamage = tag.getIntOr(LivingArmorItem.DAMAGE, 0) + Math.round(incomingDamage);
                 tag.putInt(LivingArmorItem.DAMAGE,
                         Math.min(LivingArmorItem.EVOLUTION_DAMAGE, accumulatedDamage));
             });

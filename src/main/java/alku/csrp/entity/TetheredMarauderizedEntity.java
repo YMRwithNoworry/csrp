@@ -161,8 +161,8 @@ public abstract class TetheredMarauderizedEntity extends MarauderizedParasiteEnt
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         pullTargetId = tag.hasUUID("pull_target") ? tag.getUUID("pull_target") : null;
-        pullTicks = tag.getInt("pull_ticks");
-        pullCooldown = tag.getInt("pull_cooldown");
+        pullTicks = tag.getIntOr("pull_ticks", 0);
+        pullCooldown = tag.getIntOr("pull_cooldown", 0);
         syncPullTarget();
     }
 }

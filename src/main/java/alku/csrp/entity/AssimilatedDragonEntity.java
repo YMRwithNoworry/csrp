@@ -300,13 +300,13 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        setParasiteStatus(tag.getInt("parasite_status"));
-        headHealth = tag.getFloat("head_health");
-        leftWingHealth = tag.getFloat("left_wing_health");
-        rightWingHealth = tag.getFloat("right_wing_health");
-        rangedCooldown = tag.getInt("ranged_cooldown");
-        attackStateTimer = tag.getInt("attack_state_timer");
-        breathStateTimer = tag.getInt("breath_state_timer");
+        setParasiteStatus(tag.getIntOr("parasite_status", 0));
+        headHealth = tag.getFloatOr("head_health", 0.0F);
+        leftWingHealth = tag.getFloatOr("left_wing_health", 0.0F);
+        rightWingHealth = tag.getFloatOr("right_wing_health", 0.0F);
+        rangedCooldown = tag.getIntOr("ranged_cooldown", 0);
+        attackStateTimer = tag.getIntOr("attack_state_timer", 0);
+        breathStateTimer = tag.getIntOr("breath_state_timer", 0);
         entityData.set(HEAD_ATTACHED, headHealth > 0.0F);
         entityData.set(LEFT_WING_ATTACHED, leftWingHealth > 0.0F);
         entityData.set(RIGHT_WING_ATTACHED, rightWingHealth > 0.0F);

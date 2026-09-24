@@ -91,7 +91,7 @@ public final class HaunterDamageEntity extends Entity {
             ownerId = tag.getUUID("owner");
         }
         if (tag.contains("knockback_strength")) {
-            knockbackStrength = tag.getFloat("knockback_strength");
+            knockbackStrength = tag.getFloatOr("knockback_strength", 0.0F);
         }
     }
 

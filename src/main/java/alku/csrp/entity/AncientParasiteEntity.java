@@ -302,14 +302,14 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        if (tag.contains("urten")) entityData.set(DREAD_URTEN, tag.getBoolean("urten"));
-        if (tag.contains("ulten")) entityData.set(DREAD_ULTEN, tag.getBoolean("ulten"));
-        if (tag.contains("raten")) entityData.set(DREAD_RATEN, tag.getBoolean("raten"));
-        if (tag.contains("laten")) entityData.set(DREAD_LATEN, tag.getBoolean("laten"));
-        health80 = !tag.contains("healtheight") || tag.getBoolean("healtheight");
-        health60 = !tag.contains("healthsix") || tag.getBoolean("healthsix");
-        health40 = !tag.contains("healthfour") || tag.getBoolean("healthfour");
-        health20 = !tag.contains("healthtwo") || tag.getBoolean("healthtwo");
+        if (tag.contains("urten")) entityData.set(DREAD_URTEN, tag.getBooleanOr("urten", false));
+        if (tag.contains("ulten")) entityData.set(DREAD_ULTEN, tag.getBooleanOr("ulten", false));
+        if (tag.contains("raten")) entityData.set(DREAD_RATEN, tag.getBooleanOr("raten", false));
+        if (tag.contains("laten")) entityData.set(DREAD_LATEN, tag.getBooleanOr("laten", false));
+        health80 = !tag.contains("healtheight") || tag.getBooleanOr("healtheight", false);
+        health60 = !tag.contains("healthsix") || tag.getBooleanOr("healthsix", false);
+        health40 = !tag.contains("healthfour") || tag.getBooleanOr("healthfour", false);
+        health20 = !tag.contains("healthtwo") || tag.getBooleanOr("healthtwo", false);
     }
 
     @Override

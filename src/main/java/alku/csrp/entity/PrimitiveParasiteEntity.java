@@ -806,13 +806,13 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        parasiteKills = tag.getInt(KILLS_TAG);
-        legacyKillCount = tag.contains(LEGACY_KILLCOUNT_TAG) ? tag.getDouble(LEGACY_KILLCOUNT_TAG) : parasiteKills;
-        colonySpawned = tag.getBoolean(COLONY_SPAWNED_TAG);
+        parasiteKills = tag.getIntOr(KILLS_TAG, 0);
+        legacyKillCount = tag.contains(LEGACY_KILLCOUNT_TAG) ? tag.getDoubleOr(LEGACY_KILLCOUNT_TAG, 0.0D) : parasiteKills;
+        colonySpawned = tag.getBooleanOr(COLONY_SPAWNED_TAG, false);
         damageAdaptations.clear();
-        for (Tag raw : tag.getList(ADAPTATIONS_TAG, Tag.TAG_COMPOUND)) {
+        for (Tag raw : tag.getListOrEmpty(ADAPTATIONS_TAG)) {
             CompoundTag entry = (CompoundTag) raw;
-            damageAdaptations.put(entry.getString("id"), entry.getInt("hits"));
+            damageAdaptations.put(entry.getStringOr("id", ""), entry.getIntOr("hits", 0));
         }
     }
 

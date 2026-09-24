@@ -85,9 +85,9 @@ public final class StructureTemplateDiagnostics {
                 return unknown;
             }
             CompoundTag tag = NbtIo.readCompressed(stream, NbtAccounter.unlimitedHeap());
-            ListTag palette = tag.getList("palette", Tag.TAG_COMPOUND);
+            ListTag palette = tag.getListOrEmpty("palette");
             for (int i = 0; i < palette.size(); i++) {
-                String blockName = palette.getCompound(i).getString("Name");
+                String blockName = palette.getCompoundOrEmpty(i).getStringOr("Name", "");
                 Identifier blockId = Identifier.tryParse(blockName);
                 if (blockId == null || !BuiltInRegistries.BLOCK.containsKey(blockId)) {
                     unknown.add(id.getPath() + " -> " + blockName);

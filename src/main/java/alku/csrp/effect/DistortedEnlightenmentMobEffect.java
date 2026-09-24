@@ -25,7 +25,7 @@ public final class DistortedEnlightenmentMobEffect extends MarkerMobEffect {
     }
 
     public static void clearOwnedGlow(LivingEntity entity) {
-        if (entity.getPersistentData().getBoolean(OWNED_GLOW_TAG)) {
+        if (entity.getPersistentData().getBooleanOr(OWNED_GLOW_TAG, false)) {
             entity.setGlowingTag(false);
             entity.getPersistentData().remove(OWNED_GLOW_TAG);
         }

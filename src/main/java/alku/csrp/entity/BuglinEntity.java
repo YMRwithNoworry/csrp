@@ -192,10 +192,10 @@ public class BuglinEntity extends Monster implements CitadelAnimatedEntity, Para
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (tag.contains(GROWTH_NBT_KEY)) {
-            growthSeconds = tag.getInt(GROWTH_NBT_KEY);
+            growthSeconds = tag.getIntOr(GROWTH_NBT_KEY, 0);
         }
         if (tag.contains(GROWTH_TARGET_NBT_KEY)) {
-            growthTargetSeconds = tag.getInt(GROWTH_TARGET_NBT_KEY);
+            growthTargetSeconds = tag.getIntOr(GROWTH_TARGET_NBT_KEY, 0);
         }
     }
 

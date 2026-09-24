@@ -307,9 +307,9 @@ public class UntamedPriReekerEntity extends Monster implements CitadelAnimatedEn
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        setParasiteStatus(tag.getInt("ParasiteStatus"));
-        entityData.set(CHARGE_TICKS, tag.getInt("ChargeTicks"));
-        skillCharge = tag.getBoolean("SkillCharge");
+        setParasiteStatus(tag.getIntOr("ParasiteStatus", 0));
+        entityData.set(CHARGE_TICKS, tag.getIntOr("ChargeTicks", 0));
+        skillCharge = tag.getBooleanOr("SkillCharge", false);
     }
 
     @Override

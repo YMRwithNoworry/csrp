@@ -229,9 +229,9 @@ public class AdaScuttlerEntity extends BurrowingVariantEntity implements Pulling
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        setArachnidaStatus(tag.getInt("arachnida_status"));
-        pullingTicks = tag.getInt("arachnida_pulling_ticks");
-        abilityCooldown = tag.getInt("arachnida_ability_cooldown");
+        setArachnidaStatus(tag.getIntOr("arachnida_status", 0));
+        pullingTicks = tag.getIntOr("arachnida_pulling_ticks", 0);
+        abilityCooldown = tag.getIntOr("arachnida_ability_cooldown", 0);
     }
 
     @Override

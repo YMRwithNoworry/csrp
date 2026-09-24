@@ -137,14 +137,14 @@ public final class CruxEntity extends CrudeParasiteEntity {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (tag.contains(DAMAGE_STACKS_TAG, Tag.TAG_INT)) {
-            damageStacks = Math.min(DAMAGE_STACK_CAP, Math.max(0, tag.getInt(DAMAGE_STACKS_TAG)));
+            damageStacks = Math.min(DAMAGE_STACK_CAP, Math.max(0, tag.getIntOr(DAMAGE_STACKS_TAG, 0)));
             AttributeInstance attackDamage = getAttribute(Attributes.ATTACK_DAMAGE);
             if (attackDamage != null) {
                 attackDamage.setBaseValue(BASE_ATTACK_DAMAGE * (1.0 + DAMAGE_GAIN_PER_KILL * damageStacks));
             }
         }
         if (tag.contains("crux_throw_cooldown", Tag.TAG_INT)) {
-            throwCooldown = Math.max(0, tag.getInt("crux_throw_cooldown"));
+            throwCooldown = Math.max(0, tag.getIntOr("crux_throw_cooldown", 0));
         }
     }
 

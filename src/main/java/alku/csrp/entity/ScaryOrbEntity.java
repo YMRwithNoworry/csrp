@@ -163,16 +163,16 @@ public final class ScaryOrbEntity extends Entity {
     @Override protected void readAdditionalSaveData(CompoundTag tag) {
         if (tag.hasUUID("owner")) ownerId = tag.getUUID("owner");
         if (tag.hasUUID("target")) targetId = tag.getUUID("target");
-        activeTicks = tag.getInt("active_ticks");
-        travelTicks = tag.getInt("travel_ticks");
-        startTicks = tag.contains("start_ticks") ? tag.getInt("start_ticks") : DEFAULT_START_TICKS;
-        fuseTicks = tag.contains("fuse_ticks") ? tag.getInt("fuse_ticks") : DEFAULT_FUSE_TICKS;
-        launched = tag.getBoolean("launched");
-        anchored = tag.getBoolean("anchored");
-        anchorX = tag.getDouble("anchor_x");
-        anchorY = tag.getDouble("anchor_y");
-        anchorZ = tag.getDouble("anchor_z");
-        entityData.set(BOLSTER_ORB, tag.getBoolean("bolster_orb"));
+        activeTicks = tag.getIntOr("active_ticks", 0);
+        travelTicks = tag.getIntOr("travel_ticks", 0);
+        startTicks = tag.contains("start_ticks") ? tag.getIntOr("start_ticks", 0) : DEFAULT_START_TICKS;
+        fuseTicks = tag.contains("fuse_ticks") ? tag.getIntOr("fuse_ticks", 0) : DEFAULT_FUSE_TICKS;
+        launched = tag.getBooleanOr("launched", false);
+        anchored = tag.getBooleanOr("anchored", false);
+        anchorX = tag.getDoubleOr("anchor_x", 0.0D);
+        anchorY = tag.getDoubleOr("anchor_y", 0.0D);
+        anchorZ = tag.getDoubleOr("anchor_z", 0.0D);
+        entityData.set(BOLSTER_ORB, tag.getBooleanOr("bolster_orb", false));
     }
 
     @Override protected void addAdditionalSaveData(CompoundTag tag) {

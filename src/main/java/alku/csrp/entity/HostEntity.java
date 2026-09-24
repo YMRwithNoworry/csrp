@@ -154,8 +154,8 @@ public final class HostEntity extends AbstractHostEntity {
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         entityData.set(BURIED_TIMER, tag.contains("buried_timer")
-                ? tag.getFloat("buried_timer") : MAX_BURIED_TIMER);
-        entityData.set(MOUTH_OPEN, tag.getBoolean("mouth_open"));
+                ? tag.getFloatOr("buried_timer", 0.0F) : MAX_BURIED_TIMER);
+        entityData.set(MOUTH_OPEN, tag.getBooleanOr("mouth_open", false));
     }
 
     @Override

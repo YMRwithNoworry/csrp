@@ -110,10 +110,10 @@ public final class AncientPodEntity extends PrimitiveParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        owner = tag.contains("pod_owner") ? tag.getByte("pod_owner") : 62;
-        fuseTicks = tag.contains("pod_fuse") ? tag.getInt("pod_fuse") : DEFAULT_FUSE;
-        fuseStarted = tag.getBoolean("pod_fuse_started");
-        exploded = tag.getBoolean("pod_exploded");
+        owner = tag.contains("pod_owner") ? tag.getByteOr("pod_owner", (byte) 0) : 62;
+        fuseTicks = tag.contains("pod_fuse") ? tag.getIntOr("pod_fuse", 0) : DEFAULT_FUSE;
+        fuseStarted = tag.getBooleanOr("pod_fuse_started", false);
+        exploded = tag.getBooleanOr("pod_exploded", false);
     }
 
     private CitadelPlayState movementAnimation(CitadelAnimationState<AncientPodEntity> state) {

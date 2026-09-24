@@ -287,7 +287,7 @@ public final class InfectionMechanics {
 
     public static boolean isHiddenAssimilated(LivingEntity entity) {
         return entity.getPersistentData().contains(HIDDEN_ASSIMILATED_TAG)
-                && !entity.getPersistentData().getString(HIDDEN_ASSIMILATED_TAG).isBlank();
+                && !entity.getPersistentData().getStringOr(HIDDEN_ASSIMILATED_TAG, "").isBlank();
     }
 
     public static void tickHiddenAssimilated(LivingEntity disguise) {
@@ -325,7 +325,7 @@ public final class InfectionMechanics {
             return false;
         }
         Identifier hostId = Identifier.tryParse(
-                assimilated.getPersistentData().getString(ASSIMILATION_HOST_TAG));
+                assimilated.getPersistentData().getStringOr(ASSIMILATION_HOST_TAG, ""));
         if (hostId == null) {
             return false;
         }
@@ -364,7 +364,7 @@ public final class InfectionMechanics {
             return false;
         }
         Identifier assimilatedId = Identifier.tryParse(
-                disguise.getPersistentData().getString(HIDDEN_ASSIMILATED_TAG));
+                disguise.getPersistentData().getStringOr(HIDDEN_ASSIMILATED_TAG, ""));
         if (assimilatedId == null || !assimilatedId.getNamespace().equals(Csrp.MODID)
                 || !assimilatedId.getPath().startsWith("sim_") || assimilatedId.getPath().endsWith("head")) {
             return false;

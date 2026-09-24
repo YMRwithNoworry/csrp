@@ -305,7 +305,7 @@ public final class EvolutionEvents {
                         AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
             }
             entity.getPersistentData().putBoolean("csrp_phase_ten_attributes", true);
-        } else if (entity.getPersistentData().getBoolean("csrp_phase_ten_attributes")) {
+        } else if (entity.getPersistentData().getBooleanOr("csrp_phase_ten_attributes", false)) {
             if (health != null) health.removeModifier(PHASE_TEN_HEALTH);
             if (damage != null) damage.removeModifier(PHASE_TEN_DAMAGE);
             entity.setHealth(Math.min(entity.getHealth(), entity.getMaxHealth()));

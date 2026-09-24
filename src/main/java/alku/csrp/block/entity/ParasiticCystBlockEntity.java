@@ -128,6 +128,6 @@ public final class ParasiticCystBlockEntity extends BaseContainerBlockEntity {
         super.loadAdditional(tag, registries);
         items = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(tag, items, registries);
-        consumeCooldown = tag.getInt("ConsumeCooldown");
+        consumeCooldown = tag.getIntOr("ConsumeCooldown", 0);
     }
 }

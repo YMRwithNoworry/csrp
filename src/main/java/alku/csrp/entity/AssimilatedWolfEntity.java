@@ -301,13 +301,13 @@ public final class AssimilatedWolfEntity extends Monster implements CitadelAnima
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        setParasiteStatus(tag.getInt("parasite_status"));
-        setStillAni(tag.getBoolean("still_ani"));
-        setTHeight(tag.getFloat("t_height"));
-        setShrimpFed(tag.getBoolean("shrimp_fed"));
-        entityData.set(TAMED_TEXTURE, tag.getBoolean("tamed_texture"));
-        meltTicks = tag.getInt("melt_ticks");
-        currentSize = tag.getFloat("current_size");
+        setParasiteStatus(tag.getIntOr("parasite_status", 0));
+        setStillAni(tag.getBooleanOr("still_ani", false));
+        setTHeight(tag.getFloatOr("t_height", 0.0F));
+        setShrimpFed(tag.getBooleanOr("shrimp_fed", false));
+        entityData.set(TAMED_TEXTURE, tag.getBooleanOr("tamed_texture", false));
+        meltTicks = tag.getIntOr("melt_ticks", 0);
+        currentSize = tag.getFloatOr("current_size", 0.0F);
     }
 
     @Override

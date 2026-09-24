@@ -971,7 +971,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (activeKind() == Kind.ARACHNIDA) {
-            setArachnidaSkin(tag.getInt("arachnida_skin"));
+            setArachnidaSkin(tag.getIntOr("arachnida_skin", 0));
             setArachnidaStatus(0);
             entityData.set(ARACHNIDA_TARGET, 0);
             arachnidaPullingTicks = 0;
@@ -979,47 +979,47 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         }
         if (usesDetachableTendrils()) {
             entityData.set(BOLSTER_LEFT_TENDRIL, tag.contains("left_tendril")
-                    ? tag.getFloat("left_tendril")
-                    : tag.contains("bolster_left_tendril") ? tag.getFloat("bolster_left_tendril") : -1.0F);
+                    ? tag.getFloatOr("left_tendril", 0.0F)
+                    : tag.contains("bolster_left_tendril") ? tag.getFloatOr("bolster_left_tendril", 0.0F) : -1.0F);
             entityData.set(BOLSTER_RIGHT_TENDRIL, tag.contains("right_tendril")
-                    ? tag.getFloat("right_tendril")
-                    : tag.contains("bolster_right_tendril") ? tag.getFloat("bolster_right_tendril") : -1.0F);
+                    ? tag.getFloatOr("right_tendril", 0.0F)
+                    : tag.contains("bolster_right_tendril") ? tag.getFloatOr("bolster_right_tendril", 0.0F) : -1.0F);
         }
         if (activeKind() == Kind.BOLSTER) {
-            entityData.set(BOLSTER_VARIANT, tag.getInt("bolster_variant"));
-            abilityCooldown = tag.getInt("bolster_ability_cooldown");
-            supportCooldown = tag.getInt("bolster_support_cooldown");
-            secondaryCooldown = tag.getInt("bolster_orb_cooldown");
+            entityData.set(BOLSTER_VARIANT, tag.getIntOr("bolster_variant", 0));
+            abilityCooldown = tag.getIntOr("bolster_ability_cooldown", 0);
+            supportCooldown = tag.getIntOr("bolster_support_cooldown", 0);
+            secondaryCooldown = tag.getIntOr("bolster_orb_cooldown", 0);
             residueCooldown = tag.contains("bolster_residue_cooldown")
-                    ? tag.getInt("bolster_residue_cooldown") : 600 + random.nextInt(601);
-            lastBolsterCombatTick = tag.getInt("bolster_last_combat_tick");
+                    ? tag.getIntOr("bolster_residue_cooldown", 0) : 600 + random.nextInt(601);
+            lastBolsterCombatTick = tag.getIntOr("bolster_last_combat_tick", 0);
             setBolsterAction(BolsterAction.NONE, 0);
         }
         if (activeKind() == Kind.MANDUCATER) {
-            entityData.set(MANDUCATER_STATUS, tag.getInt("manducater_status"));
-            entityData.set(MANDUCATER_STILL_ANI, tag.getBoolean("manducater_still_ani"));
-            manducaterVomitTicks = tag.getInt("manducater_vomit_ticks");
-            manducaterEvadeCooldown = tag.getInt("manducater_evade_cooldown");
-            cloaked = tag.getBoolean("manducater_cloaked");
-            cloakTicks = tag.getInt("manducater_cloak_ticks");
-            abilityCooldown = tag.getInt("manducater_ability_cooldown");
-            secondaryCooldown = tag.getInt("manducater_secondary_cooldown");
+            entityData.set(MANDUCATER_STATUS, tag.getIntOr("manducater_status", 0));
+            entityData.set(MANDUCATER_STILL_ANI, tag.getBooleanOr("manducater_still_ani", false));
+            manducaterVomitTicks = tag.getIntOr("manducater_vomit_ticks", 0);
+            manducaterEvadeCooldown = tag.getIntOr("manducater_evade_cooldown", 0);
+            cloaked = tag.getBooleanOr("manducater_cloaked", false);
+            cloakTicks = tag.getIntOr("manducater_cloak_ticks", 0);
+            abilityCooldown = tag.getIntOr("manducater_ability_cooldown", 0);
+            secondaryCooldown = tag.getIntOr("manducater_secondary_cooldown", 0);
             if (cloaked) {
                 setInvisible(true);
             }
         }
         if (activeKind() == Kind.REEKER) {
-            entityData.set(REEKER_CHARGING, tag.getBoolean("reeker_charging"));
-            entityData.set(REEKER_PULLING, tag.getInt("reeker_pulling"));
-            entityData.set(REEKER_STILL_ANI, tag.getBoolean("reeker_still_ani"));
-            reekerPullingCooldown = tag.getInt("reeker_pulling_cooldown");
-            abilityCooldown = tag.getInt("reeker_ability_cooldown");
+            entityData.set(REEKER_CHARGING, tag.getBooleanOr("reeker_charging", false));
+            entityData.set(REEKER_PULLING, tag.getIntOr("reeker_pulling", 0));
+            entityData.set(REEKER_STILL_ANI, tag.getBooleanOr("reeker_still_ani", false));
+            reekerPullingCooldown = tag.getIntOr("reeker_pulling_cooldown", 0);
+            abilityCooldown = tag.getIntOr("reeker_ability_cooldown", 0);
         }
         if (activeKind() == Kind.SUMMONER) {
-            entityData.set(SUMMONER_CASTING, tag.getBoolean("summoner_casting"));
-            entityData.set(SUMMONER_STATUS, tag.getInt("summoner_status"));
-            abilityCooldown = tag.getInt("summoner_ability_cooldown");
-            secondaryCooldown = tag.getInt("summoner_secondary_cooldown");
+            entityData.set(SUMMONER_CASTING, tag.getBooleanOr("summoner_casting", false));
+            entityData.set(SUMMONER_STATUS, tag.getIntOr("summoner_status", 0));
+            abilityCooldown = tag.getIntOr("summoner_ability_cooldown", 0);
+            secondaryCooldown = tag.getIntOr("summoner_secondary_cooldown", 0);
             summonTracker.load(tag, "summoner_tracked_summons");
             entityData.set(SUMMONER_CASTING, false);
             setSummonerStatus(0);

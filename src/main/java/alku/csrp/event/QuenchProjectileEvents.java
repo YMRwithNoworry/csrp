@@ -37,7 +37,7 @@ public final class QuenchProjectileEvents {
         if (!(event.getProjectile() instanceof Snowball snowball)
                 || !(snowball.level() instanceof ServerLevel level)
                 || !snowball.getItem().is(ModItems.ITEMTHROW)
-                || snowball.getPersistentData().getBoolean(IMPACTED_TAG)) {
+                || snowball.getPersistentData().getBooleanOr(IMPACTED_TAG, false)) {
             return;
         }
         snowball.getPersistentData().putBoolean(IMPACTED_TAG, true);

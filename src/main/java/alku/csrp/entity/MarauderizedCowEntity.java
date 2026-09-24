@@ -140,7 +140,7 @@ public final class MarauderizedCowEntity extends MarauderizedParasiteEntity impl
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        setRageVariant(tag.getBoolean("rage_variant"));
+        setRageVariant(tag.getBooleanOr("rage_variant", false));
         applyVariantAttributes();
     }
 

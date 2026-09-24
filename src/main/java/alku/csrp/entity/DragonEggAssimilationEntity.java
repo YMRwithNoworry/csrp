@@ -126,7 +126,7 @@ public final class DragonEggAssimilationEntity extends Entity {
 
     @Override
     protected void readAdditionalSaveData(CompoundTag tag) {
-        entityData.set(ANIMATION_TICKS, tag.getInt("animation_ticks"));
+        entityData.set(ANIMATION_TICKS, tag.getIntOr("animation_ticks", 0));
     }
 
     @Override

@@ -128,14 +128,14 @@ public final class OverlastCanteenItem extends Item {
             return 0;
         }
         CustomData data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
-        int sips = data.contains(SIPS_TAG) ? data.copyTag().getInt(SIPS_TAG)
+        int sips = data.contains(SIPS_TAG) ? data.copyTag().getIntOr(SIPS_TAG, 0)
                 : canteen.dose == Dose.EMPTY ? 0 : MAX_SIPS - stack.getDamageValue();
         return Mth.clamp(sips, 0, MAX_SIPS);
     }
 
     public static int getCanteenDurability(ItemStack stack) {
         CustomData data = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
-        int durability = data.contains(DURABILITY_TAG) ? data.copyTag().getInt(DURABILITY_TAG)
+        int durability = data.contains(DURABILITY_TAG) ? data.copyTag().getIntOr(DURABILITY_TAG, 0)
                 : MAX_CANTEEN_DURABILITY - stack.getDamageValue();
         return Mth.clamp(durability, 0, MAX_CANTEEN_DURABILITY);
     }

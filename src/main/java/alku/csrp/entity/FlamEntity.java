@@ -423,13 +423,13 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
         fatherId = tag.hasUUID("flam_father") ? tag.getUUID("flam_father") : null;
         targetId = tag.hasUUID("flam_target") ? tag.getUUID("flam_target") : null;
         targetPosition = tag.contains("flam_target_pos")
-                ? BlockPos.of(tag.getLong("flam_target_pos")) : null;
-        actionType = Mth.clamp(tag.getInt("flam_action"), 0, ACTION_TELEPORT);
-        stationaryTicks = Math.max(0, tag.getInt("flam_stationary"));
-        actionConsumed = tag.getBoolean("flam_consumed");
-        setCharging(tag.getBoolean("flam_charging"));
-        entityData.set(FINISHING, tag.getBoolean("flam_finishing"));
-        setActivationProgress(Math.max(0, tag.getInt("flam_activation")));
+                ? BlockPos.of(tag.getLongOr("flam_target_pos", 0L)) : null;
+        actionType = Mth.clamp(tag.getIntOr("flam_action", 0), 0, ACTION_TELEPORT);
+        stationaryTicks = Math.max(0, tag.getIntOr("flam_stationary", 0));
+        actionConsumed = tag.getBooleanOr("flam_consumed", false);
+        setCharging(tag.getBooleanOr("flam_charging", false));
+        entityData.set(FINISHING, tag.getBooleanOr("flam_finishing", false));
+        setActivationProgress(Math.max(0, tag.getIntOr("flam_activation", 0)));
     }
 
     @Override

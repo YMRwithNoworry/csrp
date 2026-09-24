@@ -669,34 +669,34 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
         if (activeKind() == Kind.VIGILANTE && tag.contains("VigilanteStatus")) {
-            entityData.set(VIGILANTE_STATUS, tag.getInt("VigilanteStatus"));
-            setVigilanteSkin(tag.contains("VigilanteSkin") ? tag.getByte("VigilanteSkin") : 0);
+            entityData.set(VIGILANTE_STATUS, tag.getIntOr("VigilanteStatus", 0));
+            setVigilanteSkin(tag.contains("VigilanteSkin") ? tag.getByteOr("VigilanteSkin", (byte) 0) : 0);
             entityData.set(VIGILANTE_LEFT_TENDRIL, tag.contains("VigilanteLeftTendril")
-                    ? tag.getFloat("VigilanteLeftTendril") : -1.0F);
+                    ? tag.getFloatOr("VigilanteLeftTendril", 0.0F) : -1.0F);
             entityData.set(VIGILANTE_RIGHT_TENDRIL, tag.contains("VigilanteRightTendril")
-                    ? tag.getFloat("VigilanteRightTendril") : -1.0F);
+                    ? tag.getFloatOr("VigilanteRightTendril", 0.0F) : -1.0F);
         }
         if (activeKind() == Kind.SEEKER) {
             seekerCreationPhase = tag.contains("SeekerCreationPhase")
-                    ? tag.getInt("SeekerCreationPhase") : -1;
+                    ? tag.getIntOr("SeekerCreationPhase", 0) : -1;
         }
         if (activeKind() == Kind.GRUNT) {
-            setGruntSkin(tag.contains("GruntSkin") ? tag.getByte("GruntSkin") : 0);
+            setGruntSkin(tag.contains("GruntSkin") ? tag.getByteOr("GruntSkin", (byte) 0) : 0);
         }
         if (activeKind() == Kind.MONARCH) {
-            setMonarchSkin(tag.contains("MonarchSkin") ? tag.getByte("MonarchSkin") : 0);
+            setMonarchSkin(tag.contains("MonarchSkin") ? tag.getByteOr("MonarchSkin", (byte) 0) : 0);
             applyMonarchVariantAttributes();
         }
         if (activeKind() == Kind.BOMBER_LIGHT) {
-            setOmbooSkin(tag.contains("OmbooSkin") ? tag.getByte("OmbooSkin") : 0);
+            setOmbooSkin(tag.contains("OmbooSkin") ? tag.getByteOr("OmbooSkin", (byte) 0) : 0);
         }
         if (activeKind() == Kind.OVERSEER) {
-            setOverseerSkin(tag.contains("OverseerSkin") ? tag.getByte("OverseerSkin") : 0);
+            setOverseerSkin(tag.contains("OverseerSkin") ? tag.getByteOr("OverseerSkin", (byte) 0) : 0);
             summonTracker.load(tag, "OverseerTrackedSummons");
             entityData.set(OVERSEER_SUMMONING, false);
         }
         if (activeKind() == Kind.WARDEN) {
-            setWardenSkin(tag.contains("WardenSkin") ? tag.getByte("WardenSkin") : 0);
+            setWardenSkin(tag.contains("WardenSkin") ? tag.getByteOr("WardenSkin", (byte) 0) : 0);
             entityData.set(WARDEN_STATUS, 0);
             entityData.set(WARDEN_CHARGING, false);
         }

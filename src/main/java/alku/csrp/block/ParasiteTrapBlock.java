@@ -80,7 +80,7 @@ public final class ParasiteTrapBlock extends Block {
         }
         long gameTime = level.getGameTime();
         String cooldownKey = kind.cooldownKey;
-        if (gameTime < living.getPersistentData().getLong(cooldownKey)) {
+        if (gameTime < living.getPersistentData().getLongOr(cooldownKey, 0L)) {
             return;
         }
         living.getPersistentData().putLong(cooldownKey, gameTime + kind.cooldownTicks);

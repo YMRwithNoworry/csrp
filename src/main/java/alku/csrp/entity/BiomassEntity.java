@@ -376,12 +376,12 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        entityData.set(SKIN, Mth.clamp(tag.getInt("biomass_skin"), 1, 6));
-        entityData.set(STAGE, tag.contains("biomass_stage") ? tag.getFloat("biomass_stage") : 1.0F);
-        entityData.set(FUSE, tag.contains("biomass_fuse") ? tag.getInt("biomass_fuse") : DEFAULT_FUSE_TICKS);
-        entityData.set(GROWTH_TICKS, Math.max(0, tag.getInt("biomass_growth_ticks")));
-        entityData.set(CAPACITY_COST, Math.max(0, tag.getInt("biomass_capacity_cost")));
-        entityData.set(SPAWN_TYPE, tag.getString("biomass_spawn_type"));
+        entityData.set(SKIN, Mth.clamp(tag.getIntOr("biomass_skin", 0), 1, 6));
+        entityData.set(STAGE, tag.contains("biomass_stage") ? tag.getFloatOr("biomass_stage", 0.0F) : 1.0F);
+        entityData.set(FUSE, tag.contains("biomass_fuse") ? tag.getIntOr("biomass_fuse", 0) : DEFAULT_FUSE_TICKS);
+        entityData.set(GROWTH_TICKS, Math.max(0, tag.getIntOr("biomass_growth_ticks", 0)));
+        entityData.set(CAPACITY_COST, Math.max(0, tag.getIntOr("biomass_capacity_cost", 0)));
+        entityData.set(SPAWN_TYPE, tag.getStringOr("biomass_spawn_type", ""));
         entityData.set(PARENT, tag.hasUUID("biomass_parent")
                 ? Optional.of(tag.getUUID("biomass_parent")) : Optional.empty());
         entityData.set(TARGET, tag.hasUUID("biomass_target")

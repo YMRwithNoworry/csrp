@@ -152,8 +152,8 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        chargeCooldown = tag.getInt("charge_cooldown");
-        setParasiteStatus(tag.getInt("parasite_status"));
+        chargeCooldown = tag.getIntOr("charge_cooldown", 0);
+        setParasiteStatus(tag.getIntOr("parasite_status", 0));
     }
 
     private final class GolemChargeGoal extends Goal {

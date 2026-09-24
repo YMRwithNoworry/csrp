@@ -421,30 +421,30 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag tag) {
         super.readAdditionalSaveData(tag);
-        growthTicks = tag.getInt("nexus_growth");
-        growthDelayTicks = tag.contains("nexus_growth_delay") ? tag.getInt("nexus_growth_delay")
+        growthTicks = tag.getIntOr("nexus_growth", 0);
+        growthDelayTicks = tag.contains("nexus_growth_delay") ? tag.getIntOr("nexus_growth_delay", 0)
                 : defaultGrowthDelay();
-        summonCooldown = tag.getInt("nexus_summon_cooldown");
-        bombCooldown = tag.getInt("nexus_bomb_cooldown");
-        supportCooldown = tag.getInt("nexus_support_cooldown");
-        blockBreakCooldown = tag.getInt("nexus_block_break_cooldown");
-        forcedEvolutionCooldown = tag.getInt("nexus_forced_evolution_cooldown");
+        summonCooldown = tag.getIntOr("nexus_summon_cooldown", 0);
+        bombCooldown = tag.getIntOr("nexus_bomb_cooldown", 0);
+        supportCooldown = tag.getIntOr("nexus_support_cooldown", 0);
+        blockBreakCooldown = tag.getIntOr("nexus_block_break_cooldown", 0);
+        forcedEvolutionCooldown = tag.getIntOr("nexus_forced_evolution_cooldown", 0);
         temporaryLifetimeTicks = tag.contains("nexus_temporary_lifetime")
-                ? tag.getInt("nexus_temporary_lifetime") : -1;
-        canGrow = !tag.contains("nexus_can_grow") || tag.getBoolean("nexus_can_grow");
+                ? tag.getIntOr("nexus_temporary_lifetime", 0) : -1;
+        canGrow = !tag.contains("nexus_can_grow") || tag.getBooleanOr("nexus_can_grow", false);
         if (tag.contains("nexus_body")) {
-            entityData.set(BODY, tag.getFloat("nexus_body"));
+            entityData.set(BODY, tag.getFloatOr("nexus_body", 0.0F));
         }
         if (tag.contains("nexus_parasite_status")) {
-            setParasiteStatus(tag.getInt("nexus_parasite_status"));
+            setParasiteStatus(tag.getIntOr("nexus_parasite_status", 0));
         }
         if (tag.contains("nexus_floor_timer")) {
-            setFloorTimer(tag.getFloat("nexus_floor_timer"));
+            setFloorTimer(tag.getFloatOr("nexus_floor_timer", 0.0F));
         }
         storedParasiteIds.clear();
-        ListTag storedParasites = tag.getList("nexus_dispatcher_stored", Tag.TAG_STRING);
+        ListTag storedParasites = tag.getListOrEmpty("nexus_dispatcher_stored");
         for (int index = 0; index < storedParasites.size(); index++) {
-            String id = storedParasites.getString(index);
+            String id = storedParasites.getStringOr(index, "");
             if (Identifier.tryParse(id) != null) {
                 storedParasiteIds.add(id);
             }

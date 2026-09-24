@@ -141,7 +141,7 @@ public final class DislodgmentSystem {
         if (!(event.getLevel() instanceof ServerLevel level)
                 || !(event.getEntity() instanceof LivingEntity entity)
                 || !(entity instanceof Parasite)
-                || entity.getPersistentData().getBoolean(SPAWN_CODES_APPLIED)) {
+                || entity.getPersistentData().getBooleanOr(SPAWN_CODES_APPLIED, false)) {
             return;
         }
         entity.getPersistentData().putBoolean(SPAWN_CODES_APPLIED, true);

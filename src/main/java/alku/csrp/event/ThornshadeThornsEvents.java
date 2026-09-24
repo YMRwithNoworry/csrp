@@ -54,7 +54,7 @@ public final class ThornshadeThornsEvents {
         }
 
         CompoundTag data = thornData(living);
-        int uses = data.getInt(USES_TAG);
+        int uses = data.getIntOr(USES_TAG, 0);
         if (uses >= 2) {
             event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
             if (!data.contains(EXPLODE_DELAY_TAG)) {
@@ -65,7 +65,7 @@ public final class ThornshadeThornsEvents {
         }
 
         long now = living.level().getGameTime();
-        if (data.getLong(COOLDOWN_TAG) > now) {
+        if (data.getLongOr(COOLDOWN_TAG, 0L) > now) {
             event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
             return;
         }
@@ -83,7 +83,7 @@ public final class ThornshadeThornsEvents {
                 || event.getSource().getDirectEntity() != attacker || event.getAmount() <= 0.0F) {
             return;
         }
-        int uses = thornData(target).getInt(USES_TAG);
+        int uses = thornData(target).getIntOr(USES_TAG, 0);
         float reflected = event.getAmount() * (uses <= 1 ? 0.25F : 0.5F);
         attacker.hurt(target.damageSources().thorns(target), reflected);
     }
@@ -98,7 +98,7 @@ public final class ThornshadeThornsEvents {
         if (!data.contains(EXPLODE_DELAY_TAG)) {
             return;
         }
-        int delay = data.getInt(EXPLODE_DELAY_TAG);
+        int delay = data.getIntOr(EXPLODE_DELAY_TAG, 0);
         if (delay > 0) {
             data.putInt(EXPLODE_DELAY_TAG, delay - 1);
             saveThornData(living, data);
@@ -111,7 +111,7 @@ public final class ThornshadeThornsEvents {
     }
 
     private static void scheduleExplosion(LivingEntity living, CompoundTag data) {
-        if (data.getBoolean(EXPLODED_TAG)) {
+        if (data.getBooleanOr(EXPLODED_TAG, false)) {
             return;
         }
         data.putInt(EXPLODE_DELAY_TAG, 20);
@@ -143,8 +143,8 @@ public final class ThornshadeThornsEvents {
                 continue;
             }
             CompoundTag data = thornData(other);
-            if (!data.getBoolean(EXPLODED_TAG) && !data.contains(EXPLODE_DELAY_TAG)) {
-                data.putInt(USES_TAG, Math.max(2, data.getInt(USES_TAG)));
+            if (!data.getBooleanOr(EXPLODED_TAG, false) && !data.contains(EXPLODE_DELAY_TAG)) {
+                data.putInt(USES_TAG, Math.max(2, data.getIntOr(USES_TAG, 0)));
                 scheduleExplosion(other, data);
                 saveThornData(other, data);
             }
@@ -196,7 +196,7 @@ public final class ThornshadeThornsEvents {
     }
 
     private static CompoundTag thornData(LivingEntity entity) {
-        return entity.getPersistentData().getCompound(ROOT_TAG);
+        return entity.getPersistentData().getCompoundOrEmpty(ROOT_TAG);
     }
 
     private static void saveThornData(LivingEntity entity, CompoundTag data) {

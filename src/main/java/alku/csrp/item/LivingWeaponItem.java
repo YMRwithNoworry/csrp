@@ -56,7 +56,7 @@ public class LivingWeaponItem extends SwordItem {
         if (result && !target.level().isClientSide()) applyWeaponEffect(stack, target, attacker);
         if (result && !target.level().isClientSide() && target.isDeadOrDying()) {
             CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> {
-                tag.putInt(KILLS, tag.getInt(KILLS) + Math.round(target.getMaxHealth()));
+                tag.putInt(KILLS, tag.getIntOr(KILLS, 0) + Math.round(target.getMaxHealth()));
             });
         }
         return result;
@@ -124,13 +124,13 @@ public class LivingWeaponItem extends SwordItem {
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltip, flag);
-        int kills = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getInt(KILLS);
+        int kills = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag().getIntOr(KILLS, 0);
         tooltip.add(Component.translatable("tooltip.csrp.living_progress", kills, EVOLUTION_HEALTH));
     }
 
     protected void evolveIfReady(ItemStack stack, LivingEntity holder) {
         if (sentient || next == null || stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY)
-                .copyTag().getInt(KILLS) <= EVOLUTION_HEALTH) return;
+                .copyTag().getIntOr(KILLS, 0) <= EVOLUTION_HEALTH) return;
         ItemStack evolved = new ItemStack(next.get());
         CustomData.update(DataComponents.CUSTOM_DATA, stack, tag -> tag.putInt(KILLS, 0));
         stack.shrink(1);
