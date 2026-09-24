@@ -257,15 +257,20 @@
 
 ---
 
-## 6. 待接线（outside task-3 write scope）
+## 6. 接线状态
 
-| 项 | 应由谁接 | 契约（已稳定，勿改签名） |
+| 项 | 状态 | 契约 / 位置 |
 |---|---|---|
-| `WorldGenParasiteNexusProtection1` | `entity-ai`：`EntityPDispatcher`（原版 1.10.9 第 278 行） | `new WorldGenParasiteNexusProtection1(1).generate(ServerLevel level, RandomSource random, BlockPos pos)` |
-| `WorldGenParasiteNexusProtection2` | `entity-ai`：`EntityPBeckon`（原版第 40 行） | `new WorldGenParasiteNexusProtection2(1).generate(level, random, pos)`（内部投放 `csrp:beckon_2x2_1` … `beckon_5x5_1`） |
-| `WorldGenParasiteNexusProtection3` | `entity-ai`：`EntityPRooter`（原版第 142 行） | `new WorldGenParasiteNexusProtection3(1).generate(level, random, pos)` |
-| 节点保护（同上三者） | 命令侧：`/srp summon_nidus`（原版 `SRPCommandSummonNidus` 第 50 行） | 同上；原版返回 `boolean generated` |
-| `BlockColonyOutpost#makePillar` 门槛 | 由 Lead 指派（`block/**`） | `boolean makePillar(ServerLevel level, BlockPos pos, int totalCheck, int blocks)`，见 §4.2 |
+| `WorldGenParasiteNexusProtection1` | ✅ **已接线**（entity-ai，commit `b5332510`） | `NexusParasiteEntity` 第 1048 行：`case DISPATCHER -> new WorldGenParasiteNexusProtection1(1).generate(serverLevel, random, origin);` |
+| `WorldGenParasiteNexusProtection2` | ✅ **已接线**（entity-ai） | 同文件第 1049 行：`case BECKON -> new WorldGenParasiteNexusProtection2(1).generate(serverLevel, random, origin);` |
+| `WorldGenParasiteNexusProtection3` | ✅ **已接线**（entity-ai） | 同文件第 1050 行：`case ROOTER -> new WorldGenParasiteNexusProtection3(1).generate(serverLevel, random, origin);` |
+| 节点保护（`/srp summon_nidus` 命令侧） | ⏳ 待接线（`command/SrpCommands.java`，非 task-3 范围） | `new WorldGenParasiteNexusProtection1(1).generate(level, random, pos)`，原版 `SRPCommandSummonNidus` 第 50 行返回 `boolean generated`。 |
+| `BlockColonyOutpost` 的 `makePillar` 门槛 | ⏳ 待接线（`block/**`，非 task-3 范围） | `boolean makePillar(ServerLevel level, BlockPos pos, int totalCheck, int blocks)`，语义见 §4.2。 |
+| 殖民地建筑派发 | ✅ **已接线**（既有 `ColonyStructureBlock#tick` → `ColonyStructureGenerator.generateBuilding`） | 见 §4 / `verify-worldgen-colony-buildings.cjs`。 |
+| 殖民地核心 | ✅ **已接线**（`SrpCoreSystems#placeColony` → `ColonyStructureGenerator.generateCore`） | 见 §1 / `verify-worldgen-nexus-protection.cjs`。 |
+| 陨石撞击 | ✅ **已接线**（`MeteorEntity` / `ParasiteProjectileEntity` → `MeteorCrashFeature.generate`） | 见 §5 / `verify-worldgen-meteor-crash.cjs`。 |
+
+签名一旦被 entity/block 侧引用即视为冻结；后续如需扩展（例如给 `generate` 增加 `stage` 参数）必须同步调用点。
 
 ---
 
