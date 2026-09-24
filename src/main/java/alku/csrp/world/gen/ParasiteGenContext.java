@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
@@ -401,8 +402,16 @@ public final class ParasiteGenContext {
     // ---------------------------------------------------------------------------------------------
 
     /**
-     * {@code WorldGenParasiteGenAbstract#canGrowInto}: air, leaves, grass, dirt, the four old log
-     * kinds, podzol and the parasite bush.
+     * {@code WorldGenParasiteGenAbstract#canGrowInto}, which is vanilla
+     * {@code WorldGenAbstractTree#func_150523_a} plus the parasite bush: air, leaves, grass, dirt,
+     * both old log ids (oak/spruce/birch/jungle and acacia/dark oak), saplings, vines and the
+     * parasite bush.
+     *
+     * <p>Corrected in R3: the earlier port mapped the {@code Blocks.field_150345_g} case to podzol
+     * and dropped the {@code Blocks.field_150395_bd} case entirely.  Both are vanilla
+     * {@code canGrowInto} members — {@code field_150345_g} is the sapling and {@code field_150395_bd}
+     * is the vine (the list matches vanilla member for member), and {@code LOG}/{@code LOG2} cover
+     * all eight log kinds, not four.</p>
      */
     public static boolean canGrowInto(BlockState state) {
         Block block = state.getBlock();
@@ -410,7 +419,8 @@ public final class ParasiteGenContext {
                 || block == Blocks.GRASS_BLOCK || block == Blocks.DIRT
                 || block == Blocks.OAK_LOG || block == Blocks.SPRUCE_LOG
                 || block == Blocks.BIRCH_LOG || block == Blocks.JUNGLE_LOG
-                || block == Blocks.PODZOL
+                || block == Blocks.ACACIA_LOG || block == Blocks.DARK_OAK_LOG
+                || state.is(BlockTags.SAPLINGS) || block == Blocks.VINE
                 || block == ModBlocks.legacyBlock("parasitebush").get();
     }
 

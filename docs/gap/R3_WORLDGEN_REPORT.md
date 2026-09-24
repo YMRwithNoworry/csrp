@@ -88,6 +88,26 @@
    `run-all-verifications` 无回归。
 3. **新增 `isModBlock` / `isFullCube` / `placeLoot`**：分别是 `instanceof BlockBase`、
    `IBlockState#func_185913_b()`（`Block#isFullCube`）、基类 `placeLoot` 的等价物。
+4. **修复 `canGrowInto` 的两处既有映射错误（保真缺陷）**：原
+   `WorldGenParasiteGenAbstract#canGrowInto` 与 vanilla `WorldGenAbstractTree#func_150523_a`
+   **逐项相同**（再追加 `ParasiteBush`），而 vanilla 该项为：
+
+   ```java
+   return material == AIR || material == LEAVES
+       || b == Blocks.GRASS || b == Blocks.DIRT
+       || b == Blocks.LOG || b == Blocks.LOG2
+       || b == Blocks.SAPLING || b == Blocks.VINE;
+   ```
+
+   即 `Blocks.field_150345_g` = **SAPLING**、`Blocks.field_150395_bd` = **VINE**、
+   `LOG`/`LOG2` 覆盖**全部 8 种原木**。既有移植版把它写成了
+   `field_150345_g → PODZOL` 且**整条丢掉了 `field_150395_bd`(VINE)**，并把 `LOG2` 只当成 4 种原木。
+   证据：该列表与 vanilla `canGrowInto` 成员一一对应（含 `SAPLING`+`VINE` 这一对），
+   且在 `WorldGenParasiteTreeAbstract#func_150523_a` 中再次出现同一列表。
+   已改为 `BlockTags.SAPLINGS` + `Blocks.VINE` + 8 种原木，并移除 `PODZOL`。
+   **影响**：`canGrowInto`/`isReplaceable` 决定 `WorldGenParasiteBall`/`BigBall` 与树木系列能否落位；
+   修复前「树苗挡位会让生成失败」「藤蔓被当作不可替换」两个偏差，修复后与 1.12.2 一致。
+   `scripts/verify-worldgen-gen-abstract.cjs` 对此逐项断言（含"不得再出现 PODZOL"）。
 
 ### `Blocks.field_189880_di` 的判定依据
 
@@ -249,10 +269,25 @@
 
 ---
 
-## 7. 批次记录
+## 7. 校验脚本一览
+
+| 脚本 | 覆盖 |
+|---|---|
+| `scripts/verify-worldgen-colony-base.cjs` | `WorldGenParasiteColonyBase` 全部原语（generateCircle 门控/rim 1/60/战利品三档、generateSphere 五处调用与生长掷数、placeColumn 方向、addVines、addFloor/genFloorFloor/addFloorSpace、DNA 螺旋双链、addEntrance）、调色板常量映射、`sideCurse` 8 个对角线、`isModBlock`/`placeLoot`。 |
+| `scripts/verify-worldgen-nexus-protection.cjs` | `WorldGenParasiteColonyCore` 的塔/螺旋/四个吊舱/`placeCore`、三个 NexusProtection 的全部参数、`beckon_*` 9 张模板文件存在性、`ColonyStructureGenerator.generateCore` 与 `SrpCoreSystems` 的接线。 |
+| `scripts/verify-worldgen-colony-buildings.cjs` | B1–B4、BS1–BS4 各自的标志性参数、12/12/12 与 12/8/8 地面盘、`updateTick` 派发表（含不可达的 `case 3 → B4`）、`ColonyBuilding` 枚举、BS1 死方法不得回归、`ColonyStructureBlock` 仍调用派发表。 |
+| `scripts/verify-worldgen-meteor-crash.cjs` | fragment 9 模板 + 火焰规则、主陨石全参数（空气球 3 态、隧道 10/30、baseR/baseDepth/1.6/adjustedDepth、清植被盒、死血池、`meteor` 模板 -24 偏移、战利品 10/4·7/3·4/2 与玻璃分支）、`markMainMeteor` 不得回归、门面委托、`MeteorImpactUtil` 11 个方法齐全、实体侧调用点仍存在。 |
+| `scripts/verify-worldgen-gen-abstract.cjs` | `canGrowInto`/`isReplaceable`/`setDirtAt`/`isWoodLike` 的 GenAbstract+TreeAbstract 语义、`StructurePlacer` 的 Mirror/Rotation/flag 2/模板管理器/缺失诊断、`IWorldGenerator` 与 `calculateHeight` 不得回归、R3 用到的 `csrp:` 模板文件存在性、殖民地配置门槛。 |
+
+---
+
+## 8. 批次记录
 
 | 批次 | 内容 | 构建 | 校验 | commit |
 |---|---|---|---|---|
 | 1 | 基类 `WorldGenParasiteColonyBase`、`WorldGenParasiteColonyCore`、`WorldGenParasiteNexusProtection1/2/3`、`ParasiteGenContext` 调色板 + `sideCurse` 修复、`ColonyStructureGenerator.generateCore` 接入 | BUILD SUCCESSFUL | 95/95 | `9c60c449` |
-| 2 | `WorldGenParasiteColonyB1/B2/B3/B4`、`BS1/BS2/BS3/BS4`、`ColonyStructureGenerator` 派发表 + `ColonyBuilding` 枚举 | BUILD SUCCESSFUL | 见提交说明 | 见 git log |
+| 2 | `WorldGenParasiteColonyB1/B2/B3/B4`、`BS1/BS2/BS3/BS4`、`ColonyStructureGenerator` 派发表 + `ColonyBuilding` 枚举 | BUILD SUCCESSFUL | 107/108（唯一失败属 `blizzard-r2` 在建的 `verify-blizzard-star-terrain.cjs`） | `6002be09` |
+| 3 | `WorldGenParasiteMeteorCrash` 逐行移植、`MeteorCrashFeature` 退化为门面、本报告 | BUILD SUCCESSFUL | 107/108（同上） | `9685b170` |
+| 4 | `ParasiteGenContext#canGrowInto` 保真修复（SAPLING/VINE/LOG2）+ `verify-worldgen-gen-abstract.cjs` + 报告 §2.4/§5/§7 | BUILD SUCCESSFUL | **110/110 全过** | 见 git log |
+
 
