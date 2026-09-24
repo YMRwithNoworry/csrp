@@ -522,6 +522,11 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     @Override
+    protected boolean supportsLightSourceBreaking() {
+        return true;
+    }
+
+
     protected boolean usesDefaultMovementGoals() {
         return activeKind() != Kind.VERMIN;
     }

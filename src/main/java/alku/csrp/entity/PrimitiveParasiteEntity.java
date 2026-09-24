@@ -1,9 +1,12 @@
 package alku.csrp.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.config.RuntimeToggles;
 import alku.csrp.infection.InfectionMechanics;
+import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
@@ -284,6 +287,9 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
 
     @Override
     protected void registerGoals() {
+        if (supportsLightSourceBreaking()) {
+            goalSelector.addGoal(7, new LightSourceBreakingGoal());
+        }
         if (usesDefaultMovementGoals()) {
             if (!(this instanceof PreeminentParasiteEntity preeminent
                     && (preeminent.getKind() == PreeminentParasiteEntity.Kind.CARRIER_COLONY
@@ -301,6 +307,173 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
             targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
             targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
                     true, false, (target, level) -> isValidParasiteTarget(target)));
+        }
+    }
+
+    /**
+     * Original {@code EntityPMalleable.getGeneMod(7)} ({@code geneBlocksearch}, default {@code true})
+     * gated {@code EntityAIBlockLight}. 26.3 has no gene layer, so the behaviour is expressed as a
+     * per-family switch instead; the malleable families (adapted / primitive / pure / preeminent)
+     * enable it.
+     */
+    protected boolean supportsLightSourceBreaking() {
+        return false;
+    }
+
+    /**
+     * Port of {@code entity/ai/EntityAIBlockLight} (out109, 211 lines).
+     *
+     * <p>A malleable parasite with no attack target looks for a light source within 20 blocks
+     * (5 blocks of vertical reach below, up to its own height above) whose block light is at least 5,
+     * walks into reach, and grinds it down over {@code hardness * 10} ticks before breaking it.
+     * Blocks it cannot reach are blacklisted for the rest of its life. Original mount point:
+     * {@code EntityPMalleable:92} — {@code new EntityAIBlockLight(this, 20, 5)} at priority 7.
+     */
+    protected final class LightSourceBreakingGoal extends Goal {
+        /** Original constructor arguments {@code (this, 20, 5)}. */
+        private static final int SCAN_RANGE = 20;
+        private static final int LIGHT_TRIGGER = 5;
+        /** Original {@code ticks < 40} rescan gate. */
+        private static final int RESCAN_TICKS = 40;
+        /** Original {@code double r = 5.0} reach. */
+        private static final double REACH = 5.0D;
+        /** Original {@code idle == 120} -> skillBreakBlocks. */
+        private static final int UNREACHABLE_TICKS = 120;
+        /** Original {@code idle >= 240} -> give up and blacklist. */
+        private static final int GIVE_UP_TICKS = 240;
+        private static final float HARDNESS_MULTIPLIER = 10.0F;
+
+        private int rescanTicks;
+        private int progress;
+        private int idle;
+        private int lastDistance = -1;
+        private int neededTime;
+        private BlockPos target;
+        private net.minecraft.world.level.block.Block watchedBlock;
+        private final List<BlockPos> unreachable = new ArrayList<>();
+
+        @Override
+        public boolean canUse() {
+            if (++rescanTicks < RESCAN_TICKS) {
+                return false;
+            }
+            rescanTicks = 0;
+            if (getTarget() != null || !(level() instanceof ServerLevel serverLevel)
+                    || !serverLevel.getGameRules().get(GameRules.MOB_GRIEFING)) {
+                return false;
+            }
+            BlockPos source = findLightSource();
+            if (source == null) {
+                return false;
+            }
+            target = source;
+            return true;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            // Original EntityAIBlockLight.canContinueExecuting: same block still there, no target.
+            return target != null && getTarget() == null
+                    && level().getBlockState(target).getBlock() == watchedBlock;
+        }
+
+        @Override
+        public void start() {
+            progress = 0;
+            idle = 0;
+            lastDistance = -1;
+            BlockState state = level().getBlockState(target);
+            watchedBlock = state.getBlock();
+            neededTime = Math.max(1, (int) (state.getDestroySpeed(level(), target) * HARDNESS_MULTIPLIER));
+        }
+
+        @Override
+        public void stop() {
+            getNavigation().stop();
+            target = null;
+        }
+
+        @Override
+        public void tick() {
+            if (target == null) {
+                return;
+            }
+            double distance = Math.sqrt(target.distToCenterSqr(getX(), getY(), getZ()));
+            if (distance > REACH) {
+                getNavigation().moveTo(target.getX(), target.getY(), target.getZ(), 1.1D);
+            }
+            if (isPassenger()) {
+                stop();
+                return;
+            }
+            idle++;
+            int rounded = (int) Math.round(distance);
+            if (rounded == lastDistance) {
+                idle++;
+            } else {
+                idle = 0;
+            }
+            if (idle >= GIVE_UP_TICKS) {
+                if (!unreachable.contains(target)) {
+                    unreachable.add(target.immutable());
+                }
+                stop();
+                rescanTicks -= 30;
+                return;
+            }
+            lastDistance = rounded;
+            if (distance > REACH) {
+                return;
+            }
+            getNavigation().moveTo(target.getX(), target.getY(), target.getZ(), 0.0D);
+            progress++;
+            idle = 0;
+            if (level() instanceof ServerLevel serverLevel) {
+                serverLevel.destroyBlockProgress(getId(), target, (int) ((float) progress / neededTime * 10.0F));
+            }
+            if (progress >= neededTime) {
+                if (level() instanceof ServerLevel serverLevel) {
+                    serverLevel.destroyBlockProgress(getId(), target, -1);
+                    serverLevel.destroyBlock(target, RuntimeToggles.parasiteBlockDrops(), PrimitiveParasiteEntity.this);
+                }
+                progress = 0;
+                rescanTicks -= 30;
+                stop();
+            }
+        }
+
+        /** Nearest light source matching the original filter, or {@code null}. */
+        private BlockPos findLightSource() {
+            BlockPos origin = blockPosition();
+            if (level().getMaxLocalRawBrightness(origin) < LIGHT_TRIGGER && random.nextInt(3) != 0) {
+                return null;
+            }
+            BlockPos best = null;
+            double bestDistance = Double.MAX_VALUE;
+            int maxY = (int) Math.ceil(getBbHeight());
+            for (int x = -SCAN_RANGE; x <= SCAN_RANGE; x++) {
+                for (int z = -SCAN_RANGE; z <= SCAN_RANGE; z++) {
+                    for (int y = -4; y <= maxY; y++) {
+                        BlockPos candidate = origin.offset(x, y, z);
+                        BlockState state = level().getBlockState(candidate);
+                        if (state.isAir() || state.liquid() || state.hasBlockEntity()
+                                || state.getLightEmission() < LIGHT_TRIGGER
+                                || !state.getFluidState().isEmpty()
+                                || unreachable.contains(candidate)) {
+                            continue;
+                        }
+                        if (state.is(ModBlocks.INFESTED_REMAINS.get()) || state.is(ModBlocks.INFESTED_STAIN.get())) {
+                            continue;
+                        }
+                        double distance = candidate.distToCenterSqr(getX(), getY(), getZ());
+                        if (distance < bestDistance) {
+                            bestDistance = distance;
+                            best = candidate.immutable();
+                        }
+                    }
+                }
+            }
+            return best;
         }
     }
 

@@ -227,6 +227,11 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     }
 
     @Override
+    protected boolean supportsLightSourceBreaking() {
+        return true;
+    }
+
+
     protected boolean usesDefaultMovementGoals() {
         return activeKind() != Kind.DEVOURER;
     }

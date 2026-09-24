@@ -62,6 +62,11 @@ import java.util.Set;
  * uses stronger adaptation and delegates its battlefield support to Flams.
  */
 public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity implements ManualVariantProvider {
+    @Override
+    protected boolean supportsLightSourceBreaking() {
+        return true;
+    }
+
     private static final EntityDataAccessor<Boolean> CARRIER_VARIANT =
             SynchedEntityData.defineId(PreeminentParasiteEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> HAUNTER_VARIANT =

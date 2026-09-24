@@ -323,6 +323,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     }
 
     @Override
+    protected boolean supportsLightSourceBreaking() {
+        return true;
+    }
+
+
     protected boolean usesDefaultMovementGoals() {
         return !activeKind().flying;
     }
