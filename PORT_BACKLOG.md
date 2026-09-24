@@ -13,25 +13,30 @@
 
 ## 当前基线
 
-- `gradlew build`：**成功**（GraalVM 25.3.4.1 / Gradle 9.2.1）。
-- 校验套件：**111 / 111 通过**。
-- 规模：560 个 Java 文件、88 个方块类、128 个实体文件、33 套语言（en_us 2978 键 / zh_cn 2994 键）。
+- `gradlew clean build`：**成功**（GraalVM 25.3.4.1 / Gradle 9.2.1），产物 `build/libs/csrp-1.10.9.jar`。
+- 静态校验套件：**115 / 115 通过**。
+- 运行期验证：`runGameTestServer` → **171 / 171 GameTests 通过**（170 个实体生成冒烟 + 1 个 NBT 往返），服务器完整启动到测试结束。
+- 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2978 键 / zh_cn 2994 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
+- 本轮由 `runGameTestServer` 抓出并修复的运行期加载失败：方块状态定义读取 `super()` 前未赋值的实例字段（`LegacyVariantSlabBlock` / `LegacyRelayBlock`，改为工厂预发布）、`JukeboxSong` 是数据包注册表故 `discone` / `disctwo` 需要 `data/csrp/jukebox_song/*.json`（见 commit `d7f7ca5c`）。
 
 ## 已完成（本轮 R2–R6）
 
 - **R2 1.10.9 增量**：刷怪清理阈值 4→6 / 2→3 + 50 tick 冷却、`doTileDrops` / `doMobEvolution` 运行时开关、`/srparasites` 三个缺失子命令（`toggle_dotiledrops` / `toggle_domobevolution` / `readconfigurationfile`）、12 项 `*NeededAssimilation` 门槛与世界级同化计数持久化、暴风雪客户端渲染与星型同步差集（含 6 项 26.3 不适用项的替代方案）、碎裂地形（默认关闭）。报告：`docs/gap/R2_REPORT.md`、`docs/gap/R2_BLIZZARD_REPORT.md`。
 - **R3 世界生成**：殖民地基类（原 614 行逐方法转写）+ Core + B1-B4 / BS1-BS4、NexusProtection 1/2/3、陨石撞击逐行移植。报告：`docs/gap/R3_WORLDGEN_REPORT.md`。
 - **R4 方块保真化**：108 个占位方块 → **0 个通用 `new Block(...)` 回退**，36 个专用方块类 + 形状家族。报告：`docs/gap/R4_BLOCKS_REPORT.md`。
-- **R5 物品补齐**：机器化 diff 后补齐 20 个 id（唱片、报告、弓镰部件、图标、3 个刷怪蛋）；另修 `LegacyMobSpawnerItem` 32 处实体映射缺失。报告：`docs/gap/R5_ITEMS_REPORT.md`。
-- **R6 实体/AI**：158→157 id 级 diff、73 个 AI 类逐条判定、同化门槛接线、SoundEater 潜行、Venkrol 龙卷、NexusProtection 触发。报告：`docs/gap/R6_ENTITY_MATRIX.md`。
+- **R5 物品补齐**：机器化 diff 后补齐 20 个 id（唱片、报告、弓镰部件、图标、3 个刷怪蛋）；另修 `LegacyMobSpawnerItem` 32 处实体映射缺失、17 个成就图标统一 `stacksTo(1)`。报告：`docs/gap/R5_ITEMS_REPORT.md`。
+- **R6 实体/AI**：73 个 AI 类逐条判定（已实现 65 / 不一致 3 / 缺失 0 / N/A 5）；**实体 id 级 100% 覆盖**（原件 158 全部命中）；同化门槛接线、SoundEater 潜行、Venkrol 龙卷、NexusProtection 触发、BlockLight / BlockResidue / CircleGroup。报告：`docs/gap/R6_ENTITY_MATRIX.md`。
 - **语言**：33 套 `.lang` → 26.3 JSON，`en_us` 2332/2332、`zh_cn` 2140/2140 全覆盖；剔除 6 个会覆盖原版字幕的 vanilla 键。报告：`docs/gap/LANG_REPORT.md`。
 - **资源**：结构 NBT 55/55、音效 1008/1008、纹理对齐。
 
 ## 待办
 
-### R6 剩余 AI 组（entity-ai 批次 3，进行中）
-G7 `EntityAINexusGrow` 的 spawnLeem、G6 `EntityAIBlockResidue` 覆盖其余 gene 8 的 adapted Kind、G2 `EntityAIFollowBodies`、G3 `EntityAICircleGroup`、G1 `EntityAIBlockLight`。
+### R6 剩余（低影响，已在矩阵登记）
+
+### R6 剩余（低影响，已在矩阵登记）
+
+全部 73 个 AI 类已逐条判定，无"缺失"项；剩余登记项为：`EntityAIDodAttack` 的黑/白名单过滤、`EntityAIVenkrolSummon` 的 mob 表逐条复刻、`EntityAIFollowBodies` 的架构差异（本工程用 `bodyPredecessor` 实体链，语义等价）、gene 系统（本工程用 Kind 分支替代 `EntityPMalleable` 的 10 个开关）。详见 `docs/gap/R6_ENTITY_MATRIX.md` §5.2。
 
 ### 已核实的"backlog 误报"（不再作为待办）
 - `BlockParasiteBush.THORN`：out109 的 `BlockParasiteBush.EnumType` 无 THORN、无荆棘伤害；thorn 行为属 `BlockThornshade` + `ThornshadeThornsEvents`（已实现）。证据见 `docs/gap/R4_BLOCKS_REPORT.md` §3.1。
