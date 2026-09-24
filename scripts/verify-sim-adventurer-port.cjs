@@ -132,7 +132,8 @@ for (const [source, checks] of [
     /isPersistenceRequired\(\)/
   ]],
   [flesh, [
-    /REQUIRED_MERGES = 4/, /EVOLUTION_DELAY_TICKS = 70/, /AUTO_EVOLUTION_AGE_TICKS = 800/,
+    // Deliberate deviation from EntityLesh: two Living Flesh masses fuse (SRParasites used four).
+    /REQUIRED_MERGES = 2/, /EVOLUTION_DELAY_TICKS = 70/, /AUTO_EVOLUTION_AGE_TICKS = 800/,
     /BASE_WIDTH = 0\.7F/, /BASE_HEIGHT = 0\.5F/, /getDefaultDimensions\(Pose pose\)/,
     /REGEN_PER_TICK = 0\.007F/, /EVOLUTION_FUSE_INCREMENT = 2/, /MergeMovingFleshGoal/,
     /DamageTypeTags\.IS_FIRE\) \? amount \* 4\.0F/, /mergeContacts/,

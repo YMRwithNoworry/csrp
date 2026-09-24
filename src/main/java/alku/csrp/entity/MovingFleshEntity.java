@@ -1,9 +1,11 @@
 package alku.csrp.entity;
 
 import alku.csrp.config.MobsConfig;
+import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -43,13 +45,14 @@ import java.util.EnumSet;
 import java.util.List;
 
 /**
- * The utility-stage Moving Flesh: it avoids non-parasites, merges up to four bodies, and
- * becomes a random available primitive parasite after maturing.
+ * The utility-stage Moving Flesh: it hunts down other Moving Flesh, fuses with them, and melts
+ * into a random parasite drawn from the configured merge pool once two bodies have met.
  */
 public final class MovingFleshEntity extends CrudeParasiteEntity {
     private static final float BASE_WIDTH = 0.7F;
     private static final float BASE_HEIGHT = 0.5F;
-    private static final int REQUIRED_MERGES = 4;
+    /** Two Living Flesh masses fusing is enough to produce a new parasite. */
+    private static final int REQUIRED_MERGES = 2;
     private static final int EVOLUTION_DELAY_TICKS = 70;
     private static final int EVOLUTION_FUSE_INCREMENT = 2;
     private static final int AUTO_EVOLUTION_AGE_TICKS = 800;
@@ -83,6 +86,27 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
                 .add(Attributes.ATTACK_DAMAGE, 0.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.23D)
                 .add(Attributes.FOLLOW_RANGE, 16.0D);
+    }
+
+    /**
+     * Leaves a Living Flesh mass where a parasite killed its victim. The victim still dies
+     * normally, so drops, experience and death effects are untouched: the flesh is an extra entity
+     * that spawns on the corpse and starts hunting other flesh to fuse with.
+     */
+    public static MovingFleshEntity spawnFromCorpse(ServerLevel serverLevel, LivingEntity corpse) {
+        MovingFleshEntity flesh = ModEntities.MOVINGFLESH.get().create(serverLevel);
+        if (flesh == null) {
+            return null;
+        }
+        flesh.moveTo(corpse.getX(), corpse.getY(), corpse.getZ(), corpse.getYRot(), corpse.getXRot());
+        flesh.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(corpse.blockPosition()),
+                MobSpawnType.CONVERSION, null);
+        flesh.setCustomName(corpse.getCustomName());
+        flesh.setCustomNameVisible(corpse.isCustomNameVisible());
+        if (corpse instanceof Mob corpseMob && corpseMob.isPersistenceRequired()) {
+            flesh.setPersistenceRequired();
+        }
+        return serverLevel.addFreshEntity(flesh) ? flesh : null;
     }
 
     @Override
@@ -134,7 +158,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
             int remaining = Math.max(0, getEvolutionFuse() - EVOLUTION_FUSE_INCREMENT);
             entityData.set(EVOLUTION_FUSE, remaining);
             if (remaining == 0) {
-                evolveToPrimitive();
+                meltIntoMergedParasite();
             }
             return;
         }
@@ -305,34 +329,39 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         }
     }
 
-    private void evolveToPrimitive() {
+    /** Melts the fused body down and lets a random parasite of the merge pool crawl out of it. */
+    private void meltIntoMergedParasite() {
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        Mob primitive = createConfiguredPrimitive(serverLevel);
-        if (primitive == null) {
+        Mob merged = createMergedParasite(serverLevel);
+        if (merged == null) {
             return;
         }
-        primitive.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
-        primitive.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
+        merged.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        merged.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
                 MobSpawnType.MOB_SUMMONED, null);
-        primitive.setHealth(primitive.getMaxHealth() * (float) MobsConfig.mergeSystemMobHealth());
-        primitive.setCustomName(getCustomName());
-        primitive.setCustomNameVisible(isCustomNameVisible());
+        merged.setHealth(merged.getMaxHealth() * (float) MobsConfig.mergeSystemMobHealth());
+        merged.setCustomName(getCustomName());
+        merged.setCustomNameVisible(isCustomNameVisible());
         if (isPersistenceRequired()) {
-            primitive.setPersistenceRequired();
+            merged.setPersistenceRequired();
         }
         playSound(ModSounds.MOVING_FLESH_PRIMITIVE.get(), 1.0F, 1.0F);
-        if (serverLevel.addFreshEntity(primitive)) {
+        if (serverLevel.addFreshEntity(merged)) {
+            serverLevel.sendParticles(ParticleTypes.EXPLOSION,
+                    getX(), getY() + getBbHeight() * 0.5D, getZ(), 5,
+                    getBbWidth() * 0.5D, getBbHeight() * 0.35D, getBbWidth() * 0.5D, 0.0D);
             EvolutionSystem.addPoints(serverLevel, EvolutionSystem.VALUE_MERGE,
                     EvolutionSystem.PointSource.MERGE);
             discard();
         } else {
-            primitive.discard();
+            merged.discard();
         }
     }
 
-    private Mob createConfiguredPrimitive(ServerLevel serverLevel) {
+    /** Picks the melt result from the configured merge table, which covers every parasite tier. */
+    private Mob createMergedParasite(ServerLevel serverLevel) {
         List<? extends String> table = MobsConfig.mergeSystemMobList();
         if (table.isEmpty()) {
             return null;
@@ -364,14 +393,15 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
             location = ResourceLocation.fromNamespaceAndPath("csrp", location.getPath());
         }
         EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(location).orElse(null);
-        if (type == null || !(type.create(serverLevel) instanceof Mob primitive)) {
+        if (type == null || !(type.create(serverLevel) instanceof Mob merged)) {
             return null;
         }
-        return primitive;
+        return merged;
     }
 
+    /** Flesh actively seeks a partner over this range so a stranded mass can still find a mate. */
     private final class MergeMovingFleshGoal extends Goal {
-        private static final double SEARCH_RADIUS = 16.0D;
+        private static final double SEARCH_RADIUS = 32.0D;
         private static final double ABSORB_DISTANCE_SQR = 2.25D;
         private MovingFleshEntity target;
 

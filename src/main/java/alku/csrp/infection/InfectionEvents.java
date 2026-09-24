@@ -1,14 +1,17 @@
 package alku.csrp.infection;
 
 import alku.csrp.Csrp;
+import alku.csrp.entity.MovingFleshEntity;
 import alku.csrp.entity.Parasite;
 import alku.csrp.entity.GnatEntity;
 import alku.csrp.entity.LiceEntity;
 import alku.csrp.registry.ModMobEffects;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
@@ -102,5 +105,25 @@ public final class InfectionEvents {
                 && InfectionMechanics.convertInfectedHost(host)) {
             event.setCanceled(true);
         }
+    }
+
+    /**
+     * Every creature killed by a parasite leaves a Living Flesh mass on its corpse. The death is
+     * deliberately left alone: the victim still drops its loot and experience, and the flesh is an
+     * extra entity that hunts other flesh until two bodies fuse into a new parasite.
+     *
+     * <p>Runs at {@link EventPriority#LOWEST} so it only sees corpses that no conversion claimed:
+     * {@link #convertTerminalCothHost(LivingDeathEvent)} cancels the death of every host it turns
+     * into an Assimilated or Incomplete Form, and cancelled deaths never reach this handler.
+     */
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void leaveMovingFleshOnParasiteKill(LivingDeathEvent event) {
+        LivingEntity corpse = event.getEntity();
+        if (event.isCanceled() || corpse.level().isClientSide() || !(event.getSource().getEntity() instanceof Parasite)
+                || corpse instanceof Parasite || corpse instanceof Player
+                || !(corpse.level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        MovingFleshEntity.spawnFromCorpse(serverLevel, corpse);
     }
 }
