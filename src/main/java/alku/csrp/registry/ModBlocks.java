@@ -1172,7 +1172,7 @@ public final class ModBlocks {
                         .lightLevel(state -> state.getValue(InfestedFurnaceBlock.LIT)
                                 ? InfestedFurnaceBlock.LIT_LIGHT_LEVEL : 0)
                         .sound(SoundType.STONE)));
-        dedicated.put("relaycontroller", (name, key) -> new LegacyRelayBlock(
+        dedicated.put("relaycontroller", (name, key) -> LegacyRelayBlock.create(
                 BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
                         .mapColor(MapColor.COLOR_LIGHT_GRAY).strength(3.0F, 6.0F)
                         .sound(SoundType.METAL), true));
@@ -1202,7 +1202,7 @@ public final class ModBlocks {
                 Object defaultValue = variant == RUBBLE_SLAB_VARIANT
                         ? legacySlabVariant(name, "bone", variant)
                         : legacySlabVariant(name, "dirt", variant);
-                return new LegacyVariantSlabBlock(props, variant, defaultValue);
+                return LegacyVariantSlabBlock.create(props, variant, defaultValue);
             });
         }
         // All 12 legacy stair ids ship the vanilla facing/half/shape blockstate.

@@ -12,6 +12,9 @@ src/generated/
 .codex/
 codex/
 杂物/
+# Local scratch copy of the upstream jar; the directory name itself says not to upload it.
+杂物（别上传）/
+*（别上传）/
 
 *.log
 hs_err_pid*

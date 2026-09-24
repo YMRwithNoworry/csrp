@@ -34,20 +34,42 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 public class LegacyRelayBlock extends HorizontalDirectionalBlock {
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
+    /**
+     * {@link #createBlockStateDefinition} runs from the superclass constructor, i.e. before instance
+     * fields are assigned, so {@code hasLitState} cannot be a plain field here — reading it there left
+     * the {@code lit} property out of the state definition and made the constructor's
+     * {@code setValue(LIT, ...)} throw
+     * {@code IllegalArgumentException: Cannot set property BooleanProperty{name=lit ...}}.
+     * The factory publishes the flag before constructing the block instead.
+     */
+    private static final ThreadLocal<Boolean> PENDING_LIT_STATE = new ThreadLocal<>();
+
     private final boolean hasLitState;
 
-    public LegacyRelayBlock(Properties properties, boolean hasLitState) {
+    private LegacyRelayBlock(Properties properties, boolean hasLitState) {
         super(properties);
         this.hasLitState = hasLitState;
-        registerDefaultState(hasLitState
-                ? stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(LIT, false)
-                : stateDefinition.any().setValue(FACING, Direction.NORTH));
+    }
+
+    /** Creates a relay block; {@code hasLitState} mirrors the shipped {@code relaycontroller} asset. */
+    public static LegacyRelayBlock create(Properties properties, boolean hasLitState) {
+        PENDING_LIT_STATE.set(hasLitState);
+        LegacyRelayBlock block;
+        try {
+            block = new LegacyRelayBlock(properties, hasLitState);
+        } finally {
+            PENDING_LIT_STATE.remove();
+        }
+        block.registerDefaultState(hasLitState
+                ? block.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(LIT, false)
+                : block.stateDefinition.any().setValue(FACING, Direction.NORTH));
+        return block;
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
-        if (hasLitState) {
+        if (Boolean.TRUE.equals(PENDING_LIT_STATE.get())) {
             builder.add(LIT);
         }
     }

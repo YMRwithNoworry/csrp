@@ -22,13 +22,35 @@ import net.minecraft.world.level.block.state.properties.SlabType;
  * {@code variant} + {@code type} that {@code blockstates/parasiterubbleslab*.json} already lists.</p>
  */
 public class LegacyVariantSlabBlock extends LegacySlabBlock {
+    /**
+     * {@link #createBlockStateDefinition} is invoked from the superclass constructor, i.e. before any
+     * instance field of this class is assigned, so the variant cannot be read from a field there
+     * (doing so threw {@code NullPointerException: Property.getName()} and aborted block
+     * registration).  The factory therefore publishes the variant here before constructing the block.
+     * Block registration is single-threaded; the ThreadLocal only guards against that changing.
+     */
+    private static final ThreadLocal<EnumProperty<?>> PENDING_VARIANT = new ThreadLocal<>();
+
     private final EnumProperty<?> variant;
 
-    public LegacyVariantSlabBlock(Properties properties, EnumProperty<?> variant, Object defaultValue) {
+    private LegacyVariantSlabBlock(Properties properties, EnumProperty<?> variant) {
         super(properties);
         this.variant = variant;
-        registerDefaultState(withVariant(
-                stateDefinition.any().setValue(SlabBlock.TYPE, SlabType.BOTTOM), variant, defaultValue));
+    }
+
+    /** Creates the block and applies the original {@code BONE} / {@code DIRT} default variant. */
+    public static LegacyVariantSlabBlock create(Properties properties, EnumProperty<?> variant,
+            Object defaultValue) {
+        PENDING_VARIANT.set(variant);
+        LegacyVariantSlabBlock block;
+        try {
+            block = new LegacyVariantSlabBlock(properties, variant);
+        } finally {
+            PENDING_VARIANT.remove();
+        }
+        block.registerDefaultState(withVariant(
+                block.stateDefinition.any().setValue(SlabBlock.TYPE, SlabType.BOTTOM), variant, defaultValue));
+        return block;
     }
 
     /** Raw-typed bridge so the shared variant enum of {@link ModBlocks} can be attached here. */
@@ -40,6 +62,9 @@ public class LegacyVariantSlabBlock extends LegacySlabBlock {
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(variant);
+        EnumProperty<?> variant = PENDING_VARIANT.get();
+        if (variant != null) {
+            builder.add(variant);
+        }
     }
 }

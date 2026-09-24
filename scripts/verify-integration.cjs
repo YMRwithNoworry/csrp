@@ -96,6 +96,44 @@ expect(blizzard, /Csrp\.MODID, "draconite"\)\)/,
 refute(blizzard, /Csrp\.MODID, "heblu"\)\)/,
         "SRPBlizzardDerivedHandler still looks up the non-existent csrp:heblu id");
 
+// Runtime regressions caught by runGameTestServer: a block whose createBlockStateDefinition reads a
+// constructor-assigned instance field leaves its properties out of the state definition, which aborts
+// block registration at load time. Both classes must publish the value before super() runs.
+const variantSlab = read("src/main/java/alku/csrp/block/LegacyVariantSlabBlock.java");
+expect(variantSlab, /PENDING_VARIANT\.set\(variant\)/,
+        "LegacyVariantSlabBlock does not publish the variant before the superclass constructor runs");
+expect(variantSlab, /EnumProperty<\?> variant = PENDING_VARIANT\.get\(\);/,
+        "LegacyVariantSlabBlock reads the variant from an instance field inside createBlockStateDefinition");
+expect(variantSlab, /builder\.add\(variant\)/,
+        "LegacyVariantSlabBlock no longer adds the variant property");
+const relay = read("src/main/java/alku/csrp/block/LegacyRelayBlock.java");
+expect(relay, /PENDING_LIT_STATE\.set\(hasLitState\)/,
+        "LegacyRelayBlock does not publish hasLitState before the superclass constructor runs");
+expect(relay, /Boolean\.TRUE\.equals\(PENDING_LIT_STATE\.get\(\)\)/,
+        "LegacyRelayBlock reads hasLitState from an instance field inside createBlockStateDefinition");
+refute(read("src/main/java/alku/csrp/registry/ModBlocks.java"), /new LegacyRelayBlock\(/,
+        "ModBlocks still constructs LegacyRelayBlock directly instead of through its factory");
+refute(read("src/main/java/alku/csrp/registry/ModBlocks.java"), /new LegacyVariantSlabBlock\(/,
+        "ModBlocks still constructs LegacyVariantSlabBlock directly instead of through its factory");
+
+// JukeboxSong is a datapack registry in 26.3: a code-side DeferredRegister entry alone leaves
+// "Missing element ResourceKey[minecraft:jukebox_song / csrp:<id>]" during item initialisation.
+for (const disc of ["discone", "disctwo", "discthree"]) {
+    const relative = "src/main/resources/data/csrp/jukebox_song/" + disc + ".json";
+    const absolute = path.join(root, relative);
+    if (!fs.existsSync(absolute)) {
+        failures.push("missing jukebox song datapack entry " + relative);
+        continue;
+    }
+    const entry = JSON.parse(fs.readFileSync(absolute, "utf8"));
+    if (entry.sound_event !== "csrp:srparasites." + disc) {
+        failures.push(relative + " points at the wrong sound event: " + entry.sound_event);
+    }
+    if (entry.description === undefined || entry.description.translate !== "jukebox_song.csrp." + disc) {
+        failures.push(relative + " has the wrong description key");
+    }
+}
+
 if (failures.length) {
     for (const failure of failures) console.error(failure);
     process.exit(1);
