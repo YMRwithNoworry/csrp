@@ -207,9 +207,140 @@ for (const [needle, label] of [
   if (!harlequinn.includes(needle)) failures.push(`HarlequinnGrassBlock: missing ${label}`);
 }
 
+// ---------------------------------------------------------------------------------------------
+// Full coverage: every one of the 108 legacy ids must resolve to a dedicated factory, so none of
+// them can fall through to the generic `new Block(legacyProperties(key))` placeholder.
+// ---------------------------------------------------------------------------------------------
+const idsSection = (modBlocks.split("String[] ids = {")[1] || "").split("};")[0];
+const legacyIds = [...idsSection.matchAll(/"([a-z_0-9]+)"/g)].map((m) => m[1]);
+const dedicatedSection2 = modBlocks.split("legacyDedicatedBlocks()")[1] || "";
+const covered = new Set([...dedicatedSection2.matchAll(/dedicated\.put\("([a-z_0-9]+)"/g)].map((m) => m[1]));
+// The gore family is registered from a loop over a literal array inside the factory method.
+for (const id of ["goreada", "gorefer", "goremar", "gorepri", "gorepur", "goresim"]) {
+  if (dedicatedSection2.includes(`"${id}"`)) {
+    covered.add(id);
+  }
+}
+for (const arrayName of ["LEGACY_SLAB_IDS", "LEGACY_STAIR_IDS", "LEGACY_WALL_IDS", "LEGACY_FENCE_IDS", "LEGACY_POT_IDS"]) {
+  const body = (modBlocks.split(`String[] ${arrayName} = {`)[1] || "").split("};")[0];
+  for (const match of body.matchAll(/"([a-z_0-9]+)"/g)) {
+    covered.add(match[1]);
+  }
+}
+if (legacyIds.length !== 108) {
+  failures.push(`ModBlocks: expected 108 legacy ids, found ${legacyIds.length}`);
+}
+for (const id of legacyIds) {
+  if (!covered.has(id)) {
+    failures.push(`ModBlocks: legacy id ${id} still falls back to the generic placeholder block`);
+  }
+}
+
+// The shape families must reproduce the original slab/stair/wall/fence/pot state contracts.
+const slab = read(`${blockDir}LegacySlabBlock.java`);
+for (const [needle, label] of [
+  ["extends SlabBlock", "slabs are vanilla SlabBlock shaped (BlockSlabBase.java:1)"],
+  ["BlockInfestation.infestAround", "slab/wall beckon tick (BlockWallBase.java:44-51)"]
+]) {
+  if (!slab.includes(needle)) failures.push(`LegacySlabBlock: missing ${label}`);
+}
+const variantSlab = read(`${blockDir}LegacyVariantSlabBlock.java`);
+if (!variantSlab.includes("builder.add(variant)")) {
+  failures.push("LegacyVariantSlabBlock: variant property must be part of the state definition");
+}
+const wall = read(`${blockDir}LegacyWallBlock.java`);
+if (!wall.includes("extends WallBlock")) failures.push("LegacyWallBlock: must extend WallBlock");
+const fence = read(`${blockDir}LegacyFenceBlock.java`);
+if (!fence.includes("extends FenceBlock")) failures.push("LegacyFenceBlock: must extend FenceBlock");
+const stair = read(`${blockDir}LegacyStairBlock.java`);
+if (!stair.includes("extends StairBlock")) failures.push("LegacyStairBlock: must extend StairBlock");
+const pot = read(`${blockDir}PottedSrpBlock.java`);
+if (!pot.includes("Block.box(5.0D, 0.0D, 5.0D, 11.0D, 6.0D, 11.0D)")) {
+  failures.push("PottedSrpBlock: pot AABB missing (BlockPottedSRPFlower.java:14)");
+}
+
+// Machines and remaining flora.
+const fog = read(`${blockDir}ParasiteFogBlock.java`);
+for (const [needle, label] of [
+  ['IntegerProperty.create("air", 0, 2)', "air 0..2 metadata (BlockParasiteFog.java:9)"],
+  ["EXPAND_RADIUS = 2", "BGrange = 2 expansion (BlockParasiteFog.java:87)"],
+  ["Items.GLASS_BOTTLE", "glass bottle interaction (BlockParasiteFog.java:127)"]
+]) {
+  if (!fog.includes(needle)) failures.push(`ParasiteFogBlock: missing ${label}`);
+}
+
+const furnace = read(`${blockDir}InfestedFurnaceBlock.java`);
+for (const [needle, label] of [
+  ["LIT_LIGHT_LEVEL = 14", "lit light level 14 (BlockInfestedFurnace.java:53)"],
+  ["setLitState", "setLitState helper (BlockInfestedFurnace.java:35)"]
+]) {
+  if (!furnace.includes(needle)) failures.push(`InfestedFurnaceBlock: missing ${label}`);
+}
+if (!modBlocks.includes("InfestedFurnaceBlock.LIT_LIGHT_LEVEL")) {
+  failures.push("ModBlocks: infested furnace ids must emit light 14 while lit");
+}
+
+const barrier = read(`${blockDir}ParasiteBarrierBlock.java`);
+for (const [needle, label] of [
+  ["Shapes.empty()", "no collision box (BlockParasiteBarrier.java:76)"],
+  ["6_000_000.0F", "resistance 6000000 (BlockParasiteBarrier.java:20)"]
+]) {
+  if (!barrier.includes(needle)) failures.push(`ParasiteBarrierBlock: missing ${label}`);
+}
+
+const diffuser = read(`${blockDir}EpitomeDiffuserBlock.java`);
+for (const [needle, label] of [
+  ["MAX_BLOCKS_PER_TICK = 8192", "8192 blocks/tick (BlockEpitomeInfestationWarpDiffuser.java:8)"],
+  ["MAX_BLOCKS_TOTAL = 2_000_000", "2000000 block cap (BlockEpitomeInfestationWarpDiffuser.java:9)"],
+  ["RADIUS = 256", "256 block radius (BlockEpitomeInfestationWarpDiffuser.java:7)"]
+]) {
+  if (!diffuser.includes(needle)) failures.push(`EpitomeDiffuserBlock: missing ${label}`);
+}
+
+const dod = read(`${blockDir}DispatcherNBlock.java`);
+for (const [needle, label] of [
+  ["HIT_DAMAGE = 4.0F", "4.0F dispatch damage (BlockDod.java:66)"],
+  ["HIT_COOLDOWN_TICKS = 20L", "20 tick hit cooldown (BlockDod.java:60)"],
+  ['"srp_dod_last_hit"', "hit cooldown NBT key (BlockDod.java:9)"]
+]) {
+  if (!dod.includes(needle)) failures.push(`DispatcherNBlock: missing ${label}`);
+}
+
+const sapling = read(`${blockDir}ParasiteSaplingBlock.java`);
+for (const [needle, label] of [
+  ['IntegerProperty.create("stage", 0, 1)', "stage 0..1 (BlockParasiteSapling.java:10)"],
+  ["GROWTH_DIVISOR = 7", "1/7 growth chance (BlockParasiteSapling.java:27)"],
+  ["MIN_GROWTH_LIGHT = 9", "light >= 9 gate (BlockParasiteSapling.java:26)"]
+]) {
+  if (!sapling.includes(needle)) failures.push(`ParasiteSaplingBlock: missing ${label}`);
+}
+
+const remain = read(`${blockDir}InfestedRemainBlock.java`);
+for (const [needle, label] of [
+  ['IntegerProperty.create("source", 0, 1)', "source 0..1 (BlockInfestedRemain.java:5)"],
+  ['BooleanProperty.create("infested_base")', "infested_base flag (BlockInfestedRemain.java:6)"],
+  ["WALK_DAMPING = 0.84D", "0.84 walk damping (BlockInfestedRemain.java:45)"],
+  ["Items.IRON_SHOVEL", "shovel-only harvest (BlockInfestedRemain.java:56)"]
+]) {
+  if (!remain.includes(needle)) failures.push(`InfestedRemainBlock: missing ${label}`);
+}
+
+for (const [file, needle, label] of [
+  ["HirsuteHairBlock.java", "extends BushBlock", "hirsute hair is a bush"],
+  ["TressesHairBlock.java", "extends DoublePlantBlock", "tresses hair is a double plant"],
+  ["LipomaMassBlock.java", "Direction.DOWN", "lipoma mass hangs from an SRP ceiling (BlockLipomaMass.java:37)"],
+  ["ParasiteTendrilBlock.java", "extends VineBlock", "tendril is a vine (BlockVineBase.java:1)"],
+  ["ColonyOutpostBlock.java", "ACTIVE", "colony outpost keeps the active stage"],
+  ["ColonyOutpostBlock.java", "ColonyStructureGenerator.generateBuilding", "colony outpost builds through the ported generator"],
+  ["DermoidCystBlock.java", "extends HorizontalDirectionalBlock", "dermoid cyst is horizontally facing"],
+  ["LegacyRelayBlock.java", "LIT", "relay controller keeps its lit flag"]
+]) {
+  if (!read(blockDir + file).includes(needle)) failures.push(`${file}: missing ${label}`);
+}
+
 if (failures.length) {
   console.error("verify-block-dedicated-classes: FAILED");
   for (const failure of failures) console.error(` - ${failure}`);
   process.exit(1);
 }
-console.log("verify-block-dedicated-classes: ok (19 legacy ids now use dedicated SRP block classes)");
+console.log(`verify-block-dedicated-classes: ok (all ${legacyIds.length} legacy ids use dedicated SRP block classes)`);

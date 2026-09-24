@@ -41,17 +41,37 @@ import alku.csrp.block.AssimilatedJackOLanternBlock;
 import alku.csrp.block.AssimilatedPumpkinBlock;
 import alku.csrp.block.AssimilatedReedBlock;
 import alku.csrp.block.BloodyIceBlock;
+import alku.csrp.block.ColonyOutpostBlock;
+import alku.csrp.block.DermoidCystBlock;
+import alku.csrp.block.DispatcherNBlock;
+import alku.csrp.block.EpitomeDiffuserBlock;
 import alku.csrp.block.GoreBlock;
 import alku.csrp.block.HarlequinnGrassBlock;
+import alku.csrp.block.HirsuteHairBlock;
 import alku.csrp.block.InfestedBushBlock;
 import alku.csrp.block.InfestedCactusBlock;
+import alku.csrp.block.InfestedFurnaceBlock;
 import alku.csrp.block.InfestedLeavesBlock;
 import alku.csrp.block.InfestedOreBlock;
+import alku.csrp.block.InfestedRemainBlock;
+import alku.csrp.block.LegacyFenceBlock;
+import alku.csrp.block.LegacyRelayBlock;
+import alku.csrp.block.LegacySlabBlock;
+import alku.csrp.block.LegacyStairBlock;
+import alku.csrp.block.LegacyWallBlock;
+import alku.csrp.block.LegacyVariantSlabBlock;
+import alku.csrp.block.LipomaMassBlock;
+import alku.csrp.block.ParasiteBarrierBlock;
 import alku.csrp.block.ParasiteBushBlock;
 import alku.csrp.block.ParasiteCanisterBlock;
+import alku.csrp.block.ParasiteFogBlock;
 import alku.csrp.block.ParasitePlankBlock;
 import alku.csrp.block.ParasiteRubbleBlock;
+import alku.csrp.block.ParasiteSaplingBlock;
 import alku.csrp.block.ParasiteStainBlock;
+import alku.csrp.block.ParasiteTendrilBlock;
+import alku.csrp.block.PottedSrpBlock;
+import alku.csrp.block.TressesHairBlock;
 import alku.csrp.block.BiomePurifierBlock;
 import alku.csrp.block.BladderSacBlock;
 import alku.csrp.block.GrotesqueLumpBlock;
@@ -1102,7 +1122,186 @@ public final class ModBlocks {
         dedicated.put("infested_cactus", (name, key) -> new InfestedCactusBlock(
                 BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
                         .mapColor(MapColor.COLOR_RED).strength(0.4F, 0.4F).sound(SoundType.WOOL)));
+        dedicated.put("hirsute_hair", (name, key) -> new HirsuteHairBlock(legacyPlantProperties(key, 0.0F)));
+        dedicated.put("tresses_hair", (name, key) -> new TressesHairBlock(legacyPlantProperties(key, 0.0F)));
+        dedicated.put("lipoma_mass", (name, key) -> new LipomaMassBlock(legacyPlantProperties(key, 0.0F)));
+        dedicated.put("parasitetendril", (name, key) -> new ParasiteTendrilBlock(
+                BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                        .mapColor(MapColor.COLOR_RED).strength(0.5F).sound(SoundType.VINE)
+                        .noCollision().noOcclusion()));
+        dedicated.put("parasitesapling", (name, key) -> new ParasiteSaplingBlock(legacyPlantProperties(key, 0.0F)));
+        dedicated.put("infestedremain", (name, key) -> new InfestedRemainBlock(
+                BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                        .mapColor(MapColor.COLOR_RED).strength(0.4F).friction(0.52F)
+                        .sound(SoundType.HONEY_BLOCK).noCollision().noOcclusion()));
+
+        // --- machines / structures ---------------------------------------------------------------
+        dedicated.put("parasitefog", (name, key) -> new ParasiteFogBlock(
+                BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                        .mapColor(MapColor.NONE).strength(0.2F).sound(SoundType.GRASS)
+                        .noCollision().noOcclusion().replaceable()));
+        dedicated.put("parasite_barrier", (name, key) -> new ParasiteBarrierBlock(
+                BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                        .mapColor(MapColor.NONE).strength(-1.0F, 6_000_000.0F)
+                        .sound(SoundType.STONE).noLootTable()));
+        dedicated.put("dermoid_cyst", (name, key) -> new DermoidCystBlock(
+                BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                        .mapColor(MapColor.COLOR_RED).strength(2.5F).sound(FLESH_SOUND_TYPE)));
+        dedicated.put("dispatchern", (name, key) -> new DispatcherNBlock(
+                BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                        .mapColor(MapColor.COLOR_RED).strength(0.1F, 0.1F).sound(FLESH_SOUND_TYPE)));
+        dedicated.put("epitome_infestation_warp_diffuser", (name, key) -> new EpitomeDiffuserBlock(
+                BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                        .mapColor(MapColor.COLOR_RED).strength(15.0F, 120.0F)
+                        .lightLevel(state -> EpitomeDiffuserBlock.LIGHT_LEVEL)
+                        .sound(FLESH_SOUND_TYPE)));
+        dedicated.put("colonyoutpost", (name, key) -> new ColonyOutpostBlock(
+                BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                        .mapColor(MapColor.COLOR_RED).strength(30.0F, 1_200.0F)
+                        .sound(FLESH_SOUND_TYPE)));
+        dedicated.put("infested_furnace", (name, key) -> new InfestedFurnaceBlock(
+                BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                        .mapColor(MapColor.COLOR_RED).strength(3.5F)
+                        .lightLevel(state -> state.getValue(InfestedFurnaceBlock.LIT)
+                                ? InfestedFurnaceBlock.LIT_LIGHT_LEVEL : 0)
+                        .sound(SoundType.STONE)));
+        dedicated.put("infested_furnace_lit", (name, key) -> new InfestedFurnaceBlock(
+                BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                        .mapColor(MapColor.COLOR_RED).strength(3.5F)
+                        .lightLevel(state -> state.getValue(InfestedFurnaceBlock.LIT)
+                                ? InfestedFurnaceBlock.LIT_LIGHT_LEVEL : 0)
+                        .sound(SoundType.STONE)));
+        dedicated.put("relaycontroller", (name, key) -> new LegacyRelayBlock(
+                BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                        .mapColor(MapColor.COLOR_LIGHT_GRAY).strength(3.0F, 6.0F)
+                        .sound(SoundType.METAL), true));
+        dedicated.put("relay_controller_dummy", (name, key) -> new LegacyRelayBlock.Dummy(
+                BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                        .mapColor(MapColor.COLOR_LIGHT_GRAY).strength(3.0F, 6.0F)
+                        .sound(SoundType.METAL)));
+        dedicated.put("noderelay", (name, key) -> new LegacyRelayBlock.Node(
+                BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                        .mapColor(MapColor.COLOR_LIGHT_GRAY).strength(3.0F, 6.0F)
+                        .sound(SoundType.METAL)));
+
+        // --- shape families ---------------------------------------------------------------------
+        // All 40 legacy slab ids (half and double) ship a vanilla `type` blockstate, so one
+        // SlabBlock-derived class covers them (BlockSlabBase/BlockSlabRubble/BlockSlabStain/
+        // BlockHarleskinnSlab -> LegacySlabBlock).
+        for (String id : LEGACY_SLAB_IDS) {
+            final EnumProperty<?> variant = LEGACY_SLAB_VARIANTS.get(id);
+            dedicated.put(id, (name, key) -> {
+                BlockBehaviour.Properties props = BlockBehaviour.Properties.of()
+                        .setId(ResourceKey.create(Registries.BLOCK, key))
+                        .mapColor(MapColor.COLOR_RED).strength(slabHardness(name), 6.0F)
+                        .sound(SoundType.ROOTED_DIRT);
+                if (variant == null) {
+                    return new LegacySlabBlock(props);
+                }
+                Object defaultValue = variant == RUBBLE_SLAB_VARIANT
+                        ? legacySlabVariant(name, "bone", variant)
+                        : legacySlabVariant(name, "dirt", variant);
+                return new LegacyVariantSlabBlock(props, variant, defaultValue);
+            });
+        }
+        // All 12 legacy stair ids ship the vanilla facing/half/shape blockstate.
+        for (String id : LEGACY_STAIR_IDS) {
+            dedicated.put(id, (name, key) -> new LegacyStairBlock(Blocks.STONE.defaultBlockState(),
+                    BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                            .mapColor(MapColor.COLOR_RED).strength(1.5F, 10.0F)
+                            .sound(SoundType.ROOTED_DIRT)));
+        }
+        // The six legacy wall ids ship a vanilla multipart wall blockstate.
+        for (String id : LEGACY_WALL_IDS) {
+            dedicated.put(id, (name, key) -> new LegacyWallBlock(
+                    BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                            .mapColor(MapColor.COLOR_RED).strength(1.5F, 6.0F)
+                            .sound(SoundType.ROOTED_DIRT)));
+        }
+        // The two legacy fence ids ship a vanilla multipart fence blockstate.
+        for (String id : LEGACY_FENCE_IDS) {
+            dedicated.put(id, (name, key) -> new LegacyFenceBlock(
+                    BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                            .mapColor(MapColor.COLOR_RED).strength(2.0F, 3.0F)
+                            .sound(FLESH_SOUND_TYPE)));
+        }
+        // The four pot ids (BlockPottedSRPFlower).
+        for (String id : LEGACY_POT_IDS) {
+            dedicated.put(id, (name, key) -> new PottedSrpBlock(
+                    BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                            .mapColor(MapColor.COLOR_RED).instabreak().sound(SoundType.STONE)
+                            .noOcclusion()));
+        }
         return java.util.Map.copyOf(dedicated);
+    }
+
+    /** The 40 legacy ids whose blockstate is a vanilla slab ({@code type=bottom/top/double}). */
+    private static final String[] LEGACY_SLAB_IDS = {
+            "bruisewood_plank_slab", "bruisewood_plank_slab_double", "consumed_plank_slab",
+            "consumed_plank_slab_double", "cooked_flesh_slab_double", "dead_head_plank_slab",
+            "dead_head_plank_slab_double", "flesh_slab", "flesh_slab_double",
+            "frost_weathered_stone_slab", "frost_weathered_stone_slab_double", "goth_plank_slab",
+            "goth_plank_slab_double", "harleskinn_slab", "harleskinn_slab_double",
+            "infested_cobblestone_slab_double", "infested_dirt_slab_double",
+            "infested_plank_slab_double", "infested_sandstone_slab_double",
+            "infested_stone_brick_slab_double", "infested_stone_slab_double",
+            "infested_terracotta_slab_double", "locs_block_slab", "locs_block_slab_double",
+            "parasiterubbleslabdouble", "parasiterubbleslabhalf", "parasitestainslabdouble",
+            "parasitestainslabhalf", "parasitic_colony_core_slab", "parasitic_colony_core_slab_double",
+            "parasitic_compressed_colony_stone_slab", "parasitic_compressed_colony_stone_slab_double",
+            "poland_skin_slab", "poland_skin_slab_double", "polished_infested_stone_slab_double",
+            "reinforced_hivestone_slab", "reinforced_hivestone_slab_double",
+            "residue_brick_slab_double", "sac_of_flesh_slab", "sac_of_flesh_slab_double",
+            "weathered_bricks_slab", "weathered_bricks_slab_double", "weathered_cobblestone_slab",
+            "weathered_cobblestone_slab_double"
+    };
+
+    /** The 12 legacy ids whose blockstate is a vanilla stair ({@code facing/half/shape}). */
+    private static final String[] LEGACY_STAIR_IDS = {
+            "bruisewood_plank_stairs", "consumed_planks_stairs", "deadhead_plank_stairs",
+            "flesh_stairs", "frost_weathered_stone_stairs", "goth_planks_stairs", "harleskinn_stairs",
+            "infestedrubblestairs", "infestedstainstairs", "infestedtrunkstairs",
+            "parasitestain_dirtstairs", "parasitestain_feelerstairs", "parasitestain_fleshstairs",
+            "parasitestain_mudstairs", "wheathered_bricks_stairs", "wheathered_cobblestone_stairs"
+    };
+
+    /** The six legacy ids whose blockstate is a vanilla multipart wall. */
+    private static final String[] LEGACY_WALL_IDS = {
+            "bruisewood_plank_wall", "consumed_plank_wall", "goth_plank_wall",
+            "parasitecanister_bag_wall", "parasiteplank_deadhead_wall", "parasitestain_flesh_wall"
+    };
+
+    /** The two legacy ids whose blockstate is a vanilla multipart fence. */
+    private static final String[] LEGACY_FENCE_IDS = {
+            "bruisewood_fence", "harleskinn_fence"
+    };
+
+    /** The four legacy flower-pot ids (BlockPottedSRPFlower). */
+    private static final String[] LEGACY_POT_IDS = {
+            "consumed_pot", "infested_pot", "potted_assimilated_blossom",
+            "potted_consumed_assimilated_blossom"
+    };
+
+    /** Per-id hardness of the original slab constructors (2.3F rubble, 0.8F stain, 2.0F wood). */
+    private static float slabHardness(String id) {
+        if (id.startsWith("parasiterubble")) {
+            return 2.3F;
+        }
+        if (id.startsWith("parasitestain")) {
+            return 0.8F;
+        }
+        return 2.0F;
+    }
+
+    /** Resolves one constant of a legacy slab variant enum by its serialized name. */
+    private static Object legacySlabVariant(String id, String serializedName, EnumProperty<?> property) {
+        for (Object value : property.getPossibleValues()) {
+            if (value instanceof net.minecraft.util.StringRepresentable named
+                    && named.getSerializedName().equals(serializedName)) {
+                return value;
+            }
+        }
+        throw new IllegalStateException("No " + serializedName + " variant for legacy slab " + id);
     }
 
     /** Shared properties for the two SRP bush ids. */
