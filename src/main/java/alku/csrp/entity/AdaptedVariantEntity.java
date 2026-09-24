@@ -11,6 +11,7 @@ import alku.csrp.registry.ModParticles;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
 import alku.csrp.world.SrpWorldData;
+import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -594,6 +595,108 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             case YELLOWEYE -> {
                 goalSelector.addGoal(1, new YelloweyeRangedGoal());
                 goalSelector.addGoal(2, new YelloweyeFlightGoal());
+            }
+        }
+        // Original EntityBanoAdapted/CanraAdapted/GimAdapted/HullAdapted/NoglaAdapted/RanracAdapted/
+        // ShycoAdapted all mounted EntityAIBlockResidue at priority 9.
+        if (blockResidueRange(activeKind()) > 0) {
+            goalSelector.addGoal(9, new BlockResidueGoal());
+        }
+    }
+
+    /** Original {@code new EntityAIBlockResidue(this, range)} radius per adapted type. */
+    private static int blockResidueRange(Kind kind) {
+        return switch (kind) {
+            case BOLSTER -> 3;
+            case ARACHNIDA, LONGARMS, MANDUCATER, REEKER, SUMMONER, VISCERA -> 2;
+            default -> 0;
+        };
+    }
+
+    /**
+     * Port of {@code entity/ai/EntityAIBlockResidue} (out109, 84 lines).
+     *
+     * <p>With no target and while not in water, the parasite winds up for roughly 800 ticks
+     * (160 counter decrements at a 1-in-5 chance per tick), then spreads infested remains over a
+     * {@code (2*range+1)^2} patch at its feet, one block per column with a 1-in-2 chance.
+     */
+    private final class BlockResidueGoal extends Goal {
+        private static final int START_COUNTER = 160;
+        private static final int RESET_COUNTER = 200;
+        private static final int STATUS_TICKS = 25;
+        private int counter = START_COUNTER;
+
+        private BlockResidueGoal() {
+            setFlags(EnumSet.of(Flag.MOVE));
+        }
+
+        @Override
+        public boolean canUse() {
+            return blockResidueRange(activeKind()) > 0 && getTarget() == null && !isInWater();
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            return canUse();
+        }
+
+        @Override
+        public void stop() {
+            counter = START_COUNTER;
+        }
+
+        @Override
+        public void tick() {
+            if (counter > 0) {
+                // Original: the counter only advances on 1 of every 5 ticks.
+                if (random.nextInt(5) == 0) {
+                    counter--;
+                }
+                return;
+            }
+            counter--;
+            if (counter == -1) {
+                getNavigation().stop();
+                playSound(ModSounds.get("adapted.v"), 2.0F, 1.0F);
+            } else if (counter == -40) {
+                playSound(ModSounds.get("adapted.v"), 2.0F, 1.0F);
+            }
+            sendResidueParticles();
+            if (counter == -60) {
+                spreadResiduePatch(blockResidueRange(activeKind()));
+            }
+            if (counter == -100) {
+                counter = RESET_COUNTER;
+            }
+        }
+    }
+
+    /** Original {@code parent.particleStatus((byte)13)} — a green spore puff around the body. */
+    private void sendResidueParticles() {
+        if (tickCount % 2 != 0 || !(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        serverLevel.sendParticles(new DustParticleOptions(
+                        net.minecraft.util.ARGB.colorFromVector3f(new org.joml.Vector3f(
+                                0.29F, 0.55F, 0.18F)), 1.0F),
+                getX(), getY() + getBbHeight() * 0.5D, getZ(), 2,
+                getBbWidth() * 0.4D, getBbHeight() * 0.3D, getBbWidth() * 0.4D, 0.0D);
+    }
+
+    /** Original EntityAIBlockResidue:56-76. */
+    private void spreadResiduePatch(int range) {
+        BlockPos origin = blockPosition();
+        for (int x = -range; x <= range; x++) {
+            for (int z = -range; z <= range; z++) {
+                BlockPos candidate = origin.offset(x, 0, z);
+                BlockPos below = candidate.below();
+                BlockState above = level().getBlockState(candidate);
+                BlockState floor = level().getBlockState(below);
+                if (!above.isAir() || floor.isAir() || !floor.isSolidRender()
+                        || floor.is(ModBlocks.INFESTED_STAIN.get()) || random.nextInt(2) != 0) {
+                    continue;
+                }
+                level().setBlock(candidate, ModBlocks.INFESTED_REMAINS.get().defaultBlockState(), 3);
             }
         }
     }

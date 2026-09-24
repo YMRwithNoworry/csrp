@@ -10,6 +10,7 @@ import alku.csrp.infection.BlockInfestation;
 import alku.csrp.infection.InfestationSpreadLimiter;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModItems;
+import alku.csrp.registry.ModSounds;
 import alku.csrp.world.SrpCoreSystems;
 import alku.csrp.world.SrpWorldData;
 import alku.csrp.world.gen.WorldGenParasiteNexusProtection1;
@@ -80,6 +81,15 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     private static final int STAGE_ONE_MIN_GROWTH = 4_800;
     private static final int STAGE_ONE_GROWTH_VARIANCE = 1_201;
     private static final int TEMPORARY_BECKON_LIFETIME = 300;
+
+    /** Original SRPConfig.nexusLeemCap. */
+    private static final int NEXUS_ROOTER_CAP = 5;
+    /** Original SRPConfig.nexusLeemDis. */
+    private static final double NEXUS_ROOTER_DISTANCE = 32.0D;
+    /** Original EntityAINexusGrow.spawnLeem 2% roll. */
+    private static final double NEXUS_ROOTER_CHANCE = 0.02D;
+    /** Original EntityAINexusGrow.tickss reset of 20. */
+    private static final int NEXUS_ROOTER_INTERVAL = 20;
     private static final int DISPATCHER_FOG_MIN_Y_OFFSET = -2;
     private static final int DISPATCHER_FOG_MAX_Y_OFFSET = 4;
 
@@ -94,6 +104,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     private int forcedEvolutionCooldown;
     private int colonyPlacementProgress;
     private int temporaryLifetimeTicks = -1;
+    private int rooterSummonCooldown = NEXUS_ROOTER_INTERVAL;
     private boolean canGrow = true;
     private boolean dispatcherFogDissipationStarted;
 
@@ -199,6 +210,13 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
                     && ++growthTicks >= growthDelayTicks && evolve()) {
                 return;
             }
+        }
+        // Original EntityAINexusGrow.spawnLeem ran from shouldExecute every 20 ticks.
+        if ((activeKind.family == Family.BECKON || activeKind.family == Family.DISPATCHER)
+                && (activeKind.stage == 2 || activeKind.stage == 3)
+                && level() instanceof ServerLevel rooterLevel && --rooterSummonCooldown <= 0) {
+            rooterSummonCooldown = NEXUS_ROOTER_INTERVAL;
+            trySpawnRooterSi(rooterLevel);
         }
 
         if (activeKind.family == Family.ROOTER && supportCooldown <= 0) {
@@ -967,6 +985,44 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
                 motionY,
                 motionZ + radialDirZ * pullStrength + swirlZ * swirlStrength);
         target.syncVelocity = true;
+    }
+
+    /**
+     * Port of {@code EntityAINexusGrow.spawnLeem()} (out109 {@code entity/ai/EntityAINexusGrow.java:69-98}).
+     *
+     * <p>While a Dispatcher or Beckon sits at stage 2 or 3 it has a 2% chance every 20 ticks to call a
+     * {@code rooter_si}. The original refuses when more than {@code SRPConfig.nexusLeemCap} Rooters
+     * already exist or when the nearest one is closer than {@code SRPConfig.nexusLeemDis}. Those two
+     * options live in the config package in 1.10.9, so the port keeps their defaults (5 / 32) here.
+     */
+    private void trySpawnRooterSi(ServerLevel serverLevel) {
+        if (random.nextDouble() >= NEXUS_ROOTER_CHANCE) {
+            return;
+        }
+        int rooterCount = 0;
+        double nearestDistanceSqr = Double.MAX_VALUE;
+        for (Entity entity : serverLevel.getAllEntities()) {
+            if (entity instanceof NexusParasiteEntity other && other != this
+                    && other.activeKind().family == Family.ROOTER) {
+                rooterCount++;
+                nearestDistanceSqr = Math.min(nearestDistanceSqr, distanceToSqr(other));
+            }
+        }
+        if (rooterCount > NEXUS_ROOTER_CAP || nearestDistanceSqr < NEXUS_ROOTER_DISTANCE * NEXUS_ROOTER_DISTANCE) {
+            return;
+        }
+        NexusParasiteEntity rooter = createNexus(serverLevel, Family.ROOTER, 1);
+        if (rooter == null) {
+            return;
+        }
+        rooter.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        rooter.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
+                EntitySpawnReason.MOB_SUMMONED, null);
+        rooter.setCustomName(getCustomName());
+        rooter.setCustomNameVisible(isCustomNameVisible());
+        if (serverLevel.addFreshEntity(rooter)) {
+            playSound(ModSounds.get("leem.si"), 4.0F, 1.0F);
+        }
     }
 
     private void breakBlocksTowardsTarget(Kind activeKind) {
