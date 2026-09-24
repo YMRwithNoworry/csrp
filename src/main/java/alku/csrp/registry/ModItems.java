@@ -289,6 +289,15 @@ public final class ModItems {
             "anc_overlord_spawn_egg", ModEntities.ANC_OVERLORD, 0x3A2E2E, 0xB37457);
     public static final DeferredItem<SpawnEggItem> WORKER_SPAWN_EGG = spawnEgg(
             "worker_spawn_egg", ModEntities.WORKER, 0x34251F, 0x9B6748);
+    // R5：原 en_us.lang:505-507 的 itemmobspawner_flam / _soo / _tenn（Spawn Succor / Seeker /
+    // Architect）在 SRPItems.java 中未注册；按本工程 <name>_spawn_egg 约定补齐，
+    // 分别对应 csrp:succor（EntityFlam）、csrp:seeker（EntitySoo）、csrp:architect（EntityTenn）。
+    public static final DeferredItem<SpawnEggItem> FLAM_SPAWN_EGG = spawnEgg(
+            "flam_spawn_egg", ModEntities.SUCCOR, 0x313442, 0xA0B4D8);
+    public static final DeferredItem<SpawnEggItem> SOO_SPAWN_EGG = spawnEgg(
+            "soo_spawn_egg", ModEntities.SEEKER, 0x313517, 0x313517);
+    public static final DeferredItem<SpawnEggItem> TENN_SPAWN_EGG = spawnEgg(
+            "tenn_spawn_egg", ModEntities.ARCHITECT, 0x332B2B, 0xAD7960);
     public static final DeferredItem<SpawnEggItem> ARCHITECT_SPAWN_EGG = spawnEgg(
             "architect_spawn_egg", ModEntities.ARCHITECT, 0x332B2B, 0xAD7960);
     public static final DeferredItem<SpawnEggItem> ANC_POD_SPAWN_EGG = spawnEgg(

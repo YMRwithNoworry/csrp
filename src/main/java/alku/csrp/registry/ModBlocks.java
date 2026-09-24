@@ -36,9 +36,22 @@ import alku.csrp.block.PestilentialOreBlock;
 import alku.csrp.block.ParasiteLootBlock;
 import alku.csrp.block.AlveoliBlock;
 import alku.csrp.block.AlveoliGrowthBlock;
+import alku.csrp.block.AssimilatedBlossomBlock;
 import alku.csrp.block.AssimilatedJackOLanternBlock;
 import alku.csrp.block.AssimilatedPumpkinBlock;
 import alku.csrp.block.AssimilatedReedBlock;
+import alku.csrp.block.BloodyIceBlock;
+import alku.csrp.block.GoreBlock;
+import alku.csrp.block.HarlequinnGrassBlock;
+import alku.csrp.block.InfestedBushBlock;
+import alku.csrp.block.InfestedCactusBlock;
+import alku.csrp.block.InfestedLeavesBlock;
+import alku.csrp.block.InfestedOreBlock;
+import alku.csrp.block.ParasiteBushBlock;
+import alku.csrp.block.ParasiteCanisterBlock;
+import alku.csrp.block.ParasitePlankBlock;
+import alku.csrp.block.ParasiteRubbleBlock;
+import alku.csrp.block.ParasiteStainBlock;
 import alku.csrp.block.BiomePurifierBlock;
 import alku.csrp.block.BladderSacBlock;
 import alku.csrp.block.GrotesqueLumpBlock;
@@ -1005,6 +1018,115 @@ public final class ModBlocks {
         return java.util.Map.copyOf(variants);
     }
 
+    /**
+     * Builds one legacy compatibility id from the {@code scapeandrunparasites} class the 1.10.9 jar
+     * used for it.  Ids without an entry fall back to the shared variant families below.
+     */
+    @FunctionalInterface
+    private interface LegacyFactory {
+        Block create(String id, Identifier key);
+    }
+
+    /** Properties shared by the gore ids — 1.12.2 {@code BlockGore}, hardness 0.4F, FLESH sound. */
+    private static BlockBehaviour.Properties goreProperties(Identifier key) {
+        return BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                .mapColor(MapColor.COLOR_RED)
+                .strength(0.4F)
+                .sound(FLESH_SOUND_TYPE)
+                .noCollision()
+                .noOcclusion();
+    }
+
+    /** {@code BlockBloodyIce}: ice material, 0.7F hardness, 0.98 friction, GLASS sound. */
+    private static BlockBehaviour.Properties bloodyIceProperties(Identifier key) {
+        return BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                .mapColor(MapColor.COLOR_RED)
+                .strength(0.7F)
+                .friction(0.98F)
+                .sound(SoundType.GLASS)
+                .noOcclusion();
+    }
+
+    /** {@code BlockSRPFlower}: {@code BlockBush} defaults, FLESH sound, no collision. */
+    private static BlockBehaviour.Properties srpFlowerProperties(Identifier key) {
+        return BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                .mapColor(MapColor.COLOR_RED)
+                .instabreak()
+                .sound(FLESH_SOUND_TYPE)
+                .noCollision()
+                .noOcclusion();
+    }
+
+    private static java.util.Map<String, LegacyFactory> legacyDedicatedBlocks() {
+        java.util.Map<String, LegacyFactory> dedicated = new java.util.LinkedHashMap<>();
+        for (String id : new String[] {"goreada", "gorefer", "goremar", "gorepri", "gorepur", "goresim"}) {
+            dedicated.put(id, (name, key) -> new GoreBlock(goreProperties(key)));
+        }
+        dedicated.put("assimilated_blossom",
+                (name, key) -> new AssimilatedBlossomBlock(srpFlowerProperties(key)));
+        dedicated.put("bloodyice", (name, key) -> new BloodyIceBlock(bloodyIceProperties(key)));
+
+        // --- SRP bush family (BlockInfestedBush / BlockParasiteBush) -----------------------------
+        // Hardness and sound come straight from the 1.12.2 constructors:
+        //   infestedbush : BlockInfestedBush("infestedbush", 0.4F)  + SoundType.GRASS
+        //   parasitebush : BlockParasiteBush("parasitebush", 0.5F)  + SoundType.GRASS
+        dedicated.put("infestedbush", (name, key) -> new InfestedBushBlock(legacyPlantProperties(key, 0.4F)));
+        dedicated.put("parasitebush", (name, key) -> new ParasiteBushBlock(legacyPlantProperties(key, 0.5F)));
+
+        // --- SRP ground / material family --------------------------------------------------------
+        dedicated.put("parasitestain", (name, key) -> new ParasiteStainBlock(
+                BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                        .mapColor(MapColor.COLOR_RED).strength(0.8F).sound(FLESH_SOUND_TYPE)));
+        dedicated.put("parasiterubble", (name, key) -> new ParasiteRubbleBlock(
+                BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                        .mapColor(MapColor.COLOR_RED).strength(2.3F, 10.0F)
+                        .requiresCorrectToolForDrops().sound(SoundType.STONE)));
+        dedicated.put("parasiteplank", (name, key) -> new ParasitePlankBlock(
+                BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                        .mapColor(MapColor.COLOR_RED).strength(2.2F, 5.0F)
+                        .requiresCorrectToolForDrops().sound(SoundType.WOOD)));
+        dedicated.put("parasitecanister", (name, key) -> new ParasiteCanisterBlock(
+                BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                        .mapColor(MapColor.COLOR_RED).strength(0.7F).sound(FLESH_SOUND_TYPE)));
+        dedicated.put("infestedore", (name, key) -> new InfestedOreBlock(
+                BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                        .mapColor(MapColor.COLOR_RED).strength(3.5F)
+                        .requiresCorrectToolForDrops().sound(INFESTED_ORE_SOUND_TYPE)));
+        dedicated.put("harlequinn_grass", (name, key) -> new HarlequinnGrassBlock(
+                BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                        .mapColor(MapColor.COLOR_RED).strength(0.6F).sound(SoundType.STONE)));
+
+        // --- flora ------------------------------------------------------------------------------
+        dedicated.put("infested_leaves", (name, key) -> new InfestedLeavesBlock(leavesProperties(key), false));
+        dedicated.put("infested_leaves_fast", (name, key) -> new InfestedLeavesBlock(leavesProperties(key), true));
+        dedicated.put("infested_cactus", (name, key) -> new InfestedCactusBlock(
+                BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                        .mapColor(MapColor.COLOR_RED).strength(0.4F, 0.4F).sound(SoundType.WOOL)));
+        return java.util.Map.copyOf(dedicated);
+    }
+
+    /** Shared properties for the two SRP bush ids. */
+    private static BlockBehaviour.Properties legacyPlantProperties(Identifier key, float hardness) {
+        return BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                .mapColor(MapColor.COLOR_RED)
+                .strength(hardness)
+                .sound(SoundType.GRASS)
+                .noCollision()
+                .noOcclusion();
+    }
+
+    /** {@code BlockLeafLike}: hardness 0.2F, {@code SoundType.GRASS}, no light, cutout render. */
+    private static BlockBehaviour.Properties leavesProperties(Identifier key) {
+        return BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key))
+                .mapColor(MapColor.COLOR_RED)
+                .strength(0.2F)
+                .sound(SoundType.GRASS)
+                .noOcclusion();
+    }
+
+    private static final java.util.Map<String, LegacyFactory> LEGACY_DEDICATED_BLOCKS =
+            legacyDedicatedBlocks();
+
     private static final java.util.Map<String, DeferredBlock<? extends Block>> LEGACY_BLOCKS =
             registerLegacyBlocks();
 
@@ -1049,7 +1171,10 @@ public final class ModBlocks {
         java.util.Map<String, DeferredBlock<? extends Block>> result = new java.util.LinkedHashMap<>();
         for (String id : ids) {
             DeferredBlock<? extends Block> holder;
-            if (id.endsWith("_stairs") || id.endsWith("stairs")) {
+            LegacyFactory dedicated = LEGACY_DEDICATED_BLOCKS.get(id);
+            if (dedicated != null) {
+                holder = BLOCKS.register(id, key -> dedicated.create(id, key));
+            } else if (id.endsWith("_stairs") || id.endsWith("stairs")) {
                 holder = BLOCKS.register(id, key -> new InfestedStairBlock(Blocks.STONE.defaultBlockState(),
                         BlockBehaviour.Properties.of().setId(ResourceKey.create(Registries.BLOCK, key)).mapColor(MapColor.COLOR_RED)
                                 .strength(1.5F, 10.0F).sound(SoundType.ROOTED_DIRT)));

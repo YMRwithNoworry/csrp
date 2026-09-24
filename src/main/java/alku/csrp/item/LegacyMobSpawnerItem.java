@@ -160,8 +160,10 @@ public final class LegacyMobSpawnerItem extends Item {
     private static String currentEntityId(String name) {
         return switch (name) {
             case "pod" -> "anc_pod";
-            case "mes", "infplayer" -> "sim_human";
-            case "infplayerhead" -> "sim_humanhead";
+            // EntityMes 在 26.3 是 thrall，EntityInfPlayer 拆成 sim_adventurer / sim_adventurerhead。
+            case "mes" -> "thrall";
+            case "infplayer" -> "sim_adventurer";
+            case "infplayerhead" -> "sim_adventurerhead";
             case "infsquid" -> "sim_squid";
             case "infbear" -> "sim_bear";
             case "infcow" -> "sim_cow";
@@ -186,8 +188,18 @@ public final class LegacyMobSpawnerItem extends Item {
             case "inhoom" -> "hostii";
             case "quac", "cruxa" -> "crux";
             case "cruxb" -> "crux_incomplete";
-            case "done" -> "heed";
-            case "lodo", "mudo", "nuuh", "ata", "rathol", "gothol", "buthol" -> "pri_longarms";
+            case "done" -> "dredge";
+            case "heed" -> "heed";
+            // inborn 系：EntityLodo/Mudo/Nuuh/Ata/Rathol/Gothol/Buthol 在 26.3 分别对应
+            // buglin / rupter / mangler / gnat / carrier_heavy / carrier_light / carrier_flying。
+            // （此前这 7 个 id 全部塌缩到 pri_longarms，与原 lang 的 Spawn Buglin/Rupter/... 不符。）
+            case "lodo" -> "buglin";
+            case "mudo" -> "rupter";
+            case "nuuh" -> "mangler";
+            case "ata" -> "gnat";
+            case "rathol" -> "carrier_heavy";
+            case "gothol" -> "carrier_light";
+            case "buthol" -> "carrier_flying";
             case "venkrol" -> "beckon_si";
             case "venkrolsii" -> "beckon_sii";
             case "venkrolsiii" -> "beckon_siii";
@@ -213,6 +225,44 @@ public final class LegacyMobSpawnerItem extends Item {
             case "heblu" -> "wraith";
             case "oronco" -> "anc_overlord";
             case "terla" -> "anc_dreadnaut";
+            // 26.3 里被改名的实体：原 lang 的显示名给出了权威对应
+            // （Spawn Moving Flesh / Airscrew / Assimilated Big Spider / Kyphosis / Sentry /
+            // Hijacked Golem|Blaze|Skeleton）。
+            case "lesh" -> "movingflesh";
+            case "leer" -> "airscrew";
+            case "dorpa" -> "sim_bigspider";
+            case "tonro" -> "kyphosis";
+            case "unvo" -> "sentry";
+            case "higolem" -> "hi_golem";
+            case "hiblaze" -> "hi_blaze";
+            case "hiskeleton" -> "hi_skeleton";
+            // primitive 系：EntityShyco/Hull/Nogla/Emana/Canra/Bano/Wymo/Ranrac/Lum/Iki/Gim/Zaa
+            // 在 26.3 注册为 pri_*（lang: Spawn Primitive ...）。
+            case "shyco" -> "pri_longarms";
+            case "hull" -> "pri_manducater";
+            case "nogla" -> "pri_reeker";
+            case "emana" -> "pri_yelloweye";
+            case "canra" -> "pri_summoner";
+            case "bano" -> "pri_bolster";
+            case "wymo" -> "pri_tozoon";
+            case "ranrac" -> "pri_arachnida";
+            case "lum" -> "pri_devourer";
+            case "iki" -> "pri_vermin";
+            case "gim" -> "pri_viscera";
+            case "zaa" -> "pri_burrower";
+            // adapted 系：对应的 *Adapted 原类在 26.3 注册为 ada_*（lang: Spawn Adapted ...）。
+            case "shycoadapted" -> "ada_longarms";
+            case "hulladapted" -> "ada_manducater";
+            case "noglaadapted" -> "ada_reeker";
+            case "emanaadapted" -> "ada_yelloweye";
+            case "canraadapted" -> "ada_summoner";
+            case "banoadapted" -> "ada_bolster";
+            case "wymoadapted" -> "ada_tozoon";
+            case "ranracadapted" -> "ada_arachnida";
+            case "lumadapted" -> "ada_devourer";
+            case "ikiadapted" -> "ada_vermin";
+            case "gimadapted" -> "ada_viscera";
+            case "zaaadapted" -> "ada_burrower";
             case "abobodies" -> "abo_bodies";
             case "abohead" -> "abo_head";
             case "marcow", "marenderman", "marvillager", "marhuman", "marsheep", "marbear" ->
