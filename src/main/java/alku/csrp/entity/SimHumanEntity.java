@@ -6,6 +6,14 @@ import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.nbt.CompoundTag;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.EnumSet;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.DifficultyInstance;
@@ -151,12 +159,259 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
         goalSelector.addGoal(0, new FloatGoal(this));
         goalSelector.addGoal(1, new LeapAtTargetGoal(this, 0.4F));
         goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
+        // Original EntityInfHuman:121 — new EntityAICircleGroup(this, 1.15, 8, 4.0, 10.0, 16, e -> e instanceof EntityInfHuman)
+        goalSelector.addGoal(4, new CircleGroupGoal());
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
                 true, false, (target, level) -> this.isValidParasiteTarget(target)));
+    }
+
+    /**
+     * Port of {@code entity/ai/misc/EntityAICircleGroup} (out109, 311 lines).
+     *
+     * <p>When an assimilated human has no target and is not swimming, a group of at least
+     * {@code MIN_GROUP} {@code sim_human} entities encircles its own centre of mass. Each member is
+     * assigned an evenly spaced angle by entity id order, the ring direction comes from the id
+     * parity, the centre and radius are re-estimated every 10 ticks and smoothed, and the waypoint is
+     * refreshed every 8 ticks or whenever the target drifts more than 2 blocks. Constants come from
+     * the original constructor call at {@code EntityInfHuman:121}.
+     */
+    private final class CircleGroupGoal extends Goal {
+        private static final double SPEED = 1.15D;
+        private static final int MIN_GROUP = 8;
+        private static final double MIN_RADIUS = 4.0D;
+        private static final double MAX_RADIUS = 10.0D;
+        private static final int SCAN_RADIUS = 16;
+        private static final int RECALC_CENTER_EVERY = 10;
+        private static final int RECALC_WAYPOINT_EVERY = 8;
+        private static final float LAP_TICKS_BASE = 100.0F;
+        private static final float WOBBLE_AMPLITUDE = 0.8F;
+        private static final float WOBBLE_FREQUENCY = 0.06F;
+        private static final float WANDER_AMPLITUDE = 0.6F;
+        private static final float WANDER_FREQUENCY = 0.09F;
+        private static final float ANGLE_JITTER_AMPLITUDE = (float) Math.toRadians(0.6D);
+        private static final float ANGLE_JITTER_FREQUENCY = 0.07F;
+        private static final double TANGENT_PUSH = 0.03D;
+
+        private final List<SimHumanEntity> group = new ArrayList<>();
+        private int tickAge;
+        private float seed;
+        private float speedMultiplier = 1.0F;
+        private double effectiveSpeed = SPEED;
+        private double centerX;
+        private double centerZ;
+        private double radius;
+        private double smoothCenterX;
+        private double smoothCenterZ;
+        private double smoothRadius;
+        private double targetX;
+        private double targetY;
+        private double targetZ;
+        private float smoothYaw;
+        private float myAngle;
+        private int directionSign = 1;
+        private int recalcCenterTicker;
+        private int recalcWaypointTicker;
+
+        private CircleGroupGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.JUMP));
+        }
+
+        @Override
+        public boolean canUse() {
+            if (isPassenger() || getTarget() != null || isInWater()) {
+                return false;
+            }
+            snapshotGroup();
+            if (group.size() < MIN_GROUP) {
+                return false;
+            }
+            estimateCenterAndRadius();
+            assignInitialAngle();
+            return true;
+        }
+
+        @Override
+        public boolean canContinueToUse() {
+            if (isRemoved() || getTarget() != null) {
+                return false;
+            }
+            snapshotGroup();
+            return group.size() >= Math.max(2, MIN_GROUP - 2);
+        }
+
+        @Override
+        public void start() {
+            tickAge = 0;
+            seed = getId() % 997 * 0.73F;
+            int scrambled = getId() * 1103515245 + 12345;
+            float unit = ((scrambled ^ scrambled >>> 16) & 0x7FFFFFFF) / 2.1474836E9F;
+            speedMultiplier = 0.65F + 0.35F * unit;
+            effectiveSpeed = SPEED * speedMultiplier;
+            smoothCenterX = centerX;
+            smoothCenterZ = centerZ;
+            smoothRadius = radius;
+            targetX = getX();
+            targetY = getY();
+            targetZ = getZ();
+            smoothYaw = getYRot();
+            recalcCenterTicker = 0;
+            recalcWaypointTicker = 0;
+        }
+
+        @Override
+        public void stop() {
+            getNavigation().stop();
+        }
+
+        @Override
+        public void tick() {
+            tickAge++;
+            if (++recalcCenterTicker >= RECALC_CENTER_EVERY) {
+                recalcCenterTicker = 0;
+                snapshotGroup();
+                estimateCenterAndRadius();
+            }
+            smoothCenterX += (centerX - smoothCenterX) * 0.15D;
+            smoothCenterZ += (centerZ - smoothCenterZ) * 0.15D;
+            smoothRadius += (radius - smoothRadius) * 0.2D;
+            directionSign = (getId() & 1) == 0 ? 1 : -1;
+            float maxAngular = (float) (Math.PI * 2.0D / LAP_TICKS_BASE);
+            float jitter = ANGLE_JITTER_AMPLITUDE
+                    * (0.5F * Mth.sin((tickAge + seed) * ANGLE_JITTER_FREQUENCY)
+                    + 0.5F * Mth.cos((tickAge * 0.73F + seed) * ANGLE_JITTER_FREQUENCY * 0.7F));
+            myAngle = normalizeAngle(myAngle + (directionSign * maxAngular * speedMultiplier + jitter));
+
+            double effectiveRadius = smoothRadius
+                    + WOBBLE_AMPLITUDE * Mth.sin((tickAge + seed) * WOBBLE_FREQUENCY);
+            double nx = Mth.cos(myAngle);
+            double nz = Mth.sin(myAngle);
+            double tnx = -Mth.sin(myAngle) * directionSign;
+            double tnz = Mth.cos(myAngle) * directionSign;
+            double side = WANDER_AMPLITUDE * Mth.sin((tickAge + seed * 3.0F) * WANDER_FREQUENCY);
+            double rawX = smoothCenterX + nx * effectiveRadius + tnx * side;
+            double rawZ = smoothCenterZ + nz * effectiveRadius + tnz * side;
+            double rawY = findGroundY(rawX, rawZ, getY());
+            targetX += (rawX - targetX) * 0.35D;
+            targetZ += (rawZ - targetZ) * 0.35D;
+            targetY += Mth.clamp(rawY - targetY, -0.4D, 0.4D);
+
+            double dx = targetX - getX();
+            double dz = targetZ - getZ();
+            if (dx * dx + dz * dz > 4.0D || ++recalcWaypointTicker >= RECALC_WAYPOINT_EVERY) {
+                recalcWaypointTicker = 0;
+                getNavigation().moveTo(targetX, targetY, targetZ, effectiveSpeed);
+            }
+
+            float targetYaw = (float) (Mth.atan2(tnz, tnx) * (180.0D / Math.PI)) - 90.0F;
+            smoothYaw = approachAngle(smoothYaw, targetYaw, 20.0F);
+            setYRot(smoothYaw);
+            yHeadRot = smoothYaw;
+            yBodyRot = smoothYaw;
+            getMoveControl().setWantedPosition(targetX, targetY, targetZ, effectiveSpeed);
+            Vec3 motion = getDeltaMovement();
+            setDeltaMovement(motion.x + tnx * TANGENT_PUSH, motion.y, motion.z + tnz * TANGENT_PUSH);
+            getLookControl().setLookAt(targetX, targetY + getEyeHeight(), targetZ, 30.0F, 30.0F);
+            pushApartSlightly(tnx, tnz);
+        }
+
+        private void snapshotGroup() {
+            group.clear();
+            group.add(SimHumanEntity.this);
+            AABB box = new AABB(getX() - SCAN_RADIUS, getY() - 8.0D, getZ() - SCAN_RADIUS,
+                    getX() + SCAN_RADIUS, getY() + 8.0D, getZ() + SCAN_RADIUS);
+            for (SimHumanEntity other : level().getEntitiesOfClass(SimHumanEntity.class, box,
+                    candidate -> candidate != SimHumanEntity.this)) {
+                group.add(other);
+            }
+            group.sort(Comparator.comparingInt(SimHumanEntity::getId));
+        }
+
+        private void estimateCenterAndRadius() {
+            if (group.isEmpty()) {
+                centerX = getX();
+                centerZ = getZ();
+                radius = Mth.clamp(3.0D, MIN_RADIUS, MAX_RADIUS);
+                return;
+            }
+            double sumX = 0.0D;
+            double sumZ = 0.0D;
+            for (SimHumanEntity member : group) {
+                sumX += member.getX();
+                sumZ += member.getZ();
+            }
+            centerX = sumX / group.size();
+            centerZ = sumZ / group.size();
+            double average = 0.0D;
+            for (SimHumanEntity member : group) {
+                double dx = member.getX() - centerX;
+                double dz = member.getZ() - centerZ;
+                average += Math.sqrt(dx * dx + dz * dz);
+            }
+            average /= group.size();
+            if (average < MIN_RADIUS * 0.6D) {
+                average = Math.max(MIN_RADIUS, Math.min(MAX_RADIUS, 1.2D * Math.sqrt(group.size())));
+            }
+            radius = Mth.clamp(average, MIN_RADIUS, MAX_RADIUS);
+        }
+
+        private void assignInitialAngle() {
+            int index = group.indexOf(SimHumanEntity.this);
+            if (index < 0) {
+                index = 0;
+            }
+            myAngle = normalizeAngle((float) (index * (Math.PI * 2.0D / Math.max(1, group.size()))));
+        }
+
+        private float normalizeAngle(float angle) {
+            float result = angle;
+            while (result < -Math.PI) {
+                result += (float) (Math.PI * 2.0D);
+            }
+            while (result > Math.PI) {
+                result -= (float) (Math.PI * 2.0D);
+            }
+            return result;
+        }
+
+        private float approachAngle(float current, float target, float maxStep) {
+            float delta = target - current;
+            while (delta < -180.0F) {
+                delta += 360.0F;
+            }
+            while (delta > 180.0F) {
+                delta -= 360.0F;
+            }
+            return current + Mth.clamp(delta, -maxStep, maxStep);
+        }
+
+        private double findGroundY(double x, double z, double fallbackY) {
+            BlockPos top = level().getHeightmapPos(Heightmap.Types.MOTION_BLOCKING,
+                    BlockPos.containing(x, 0.0D, z));
+            return Math.abs(top.getY() - fallbackY) > 6.0D ? fallbackY : top.getY() + 0.2D;
+        }
+
+        private void pushApartSlightly(double tnx, double tnz) {
+            AABB box = getBoundingBox().inflate(0.6D, 0.2D, 0.6D);
+            Vec3 motion = getDeltaMovement();
+            double pushX = 0.0D;
+            double pushZ = 0.0D;
+            for (LivingEntity other : level().getEntitiesOfClass(LivingEntity.class, box,
+                    candidate -> candidate != SimHumanEntity.this)) {
+                double dx = getX() - other.getX();
+                double dz = getZ() - other.getZ();
+                double distanceSqr = dx * dx + dz * dz + 0.001D;
+                double strength = Math.min(0.035D, 0.02D / distanceSqr);
+                pushX += (dx * 0.5D + tnx * 0.5D) * strength;
+                pushZ += (dz * 0.5D + tnz * 0.5D) * strength;
+            }
+            if (pushX != 0.0D || pushZ != 0.0D) {
+                setDeltaMovement(motion.x + pushX, motion.y, motion.z + pushZ);
+            }
+        }
     }
 
     @Override

@@ -86,7 +86,14 @@ if (!fs.existsSync(matrixPath)) {
   expect(matrix, /AI 类合计（本矩阵逐条核对） \| 73 \|/, "matrix does not cover all 73 AI classes");
   expect(matrix, /out109 `entity\/monster\/\*\*` java 文件 \| 137 \|/, "matrix does not cover the 137 monster files");
   expect(matrix, /out109 `init\/SRPEntities\.java` 注册的实体 id \| 158 \|/, "matrix misses the original 158 entity ids");
-  expect(matrix, /本工程 `ModEntities\.java` 注册的实体 id \| 157 \|/, "matrix misses the 157 ported entity ids");
+  // The port registers every one of the original 158 ids plus 12 port-only auxiliary ids.
+  const expectedPorted = 158 + 12;
+  expect(matrix, new RegExp(`本工程 \`ModEntities\\.java\` 注册的实体 id \\| ${expectedPorted} \\|`),
+    `matrix misses the ${expectedPorted} ported entity ids`);
+  expect(matrix, /实体 \*\*id 层无缺失\*\*：原模组 158 个 id 在本工程全部已注册/,
+    "matrix does not state that all 158 original ids are registered");
+  expect(matrix, /本工程多出 12 个 id/,
+    "matrix does not explain the 12 port-only auxiliary ids");
 
   // every out109 AI class must have exactly one row
   const aiFiles = [
@@ -133,17 +140,36 @@ if (!fs.existsSync(matrixPath)) {
 }
 
 // ---------------------------------------------------------------------------
-// 4. entity id level diff must stay at 13 missing / 12 extra
+// 4. entity id level diff: every original 158 id is registered, plus 12 port-only ids
+//
+// Reproducible count: parse every non-comment registration call in ModEntities.java
+//   grep -vE '^\s*(//|\*|/\*)' src/main/java/alku/csrp/registry/ModEntities.java \
+//     | grep -oE '(ENTITIES\.register|monster|projectile)\(\s*"[a-z0-9_]+"' | sort -u | wc -l
 // ---------------------------------------------------------------------------
 const modEntities = read("src/main/java/alku/csrp/registry/ModEntities.java");
 const ids = new Set();
-for (const m of modEntities.matchAll(/(?:ENTITIES\.register|monster)\(\s*"([a-z0-9_]+)"/g)) ids.add(m[1]);
-if (ids.size !== 157) failures.push(`ModEntities registers ${ids.size} ids instead of 157`);
-for (const merged of ["webball", "spineball", "nadeball", "salivaball", "ballball", "ancientball",
+for (const line of modEntities.split(/\r?\n/)) {
+  if (/^\s*(\/\/|\*|\/\*)/.test(line)) continue;
+  const m = line.match(/(?:ENTITIES\.register|monster|projectile)\(\s*"([a-z0-9_]+)"/);
+  if (m) ids.add(m[1]);
+}
+const ORIGINAL_IDS = 158;
+const PORT_ONLY_IDS = 12;
+if (ids.size !== ORIGINAL_IDS + PORT_ONLY_IDS) {
+  failures.push(`ModEntities registers ${ids.size} ids instead of ${ORIGINAL_IDS + PORT_ONLY_IDS}`);
+}
+// The 13 projectile ids that used to be folded into parasite_projectile are now registered on
+// their own, and parasite_projectile still exists as the merged carrier.
+for (const original of ["webball", "spineball", "nadeball", "salivaball", "ballball", "ancientball",
   "biomassball", "missile", "balltall", "ballmall", "salivaeff", "heblu_light", "meteor"]) {
-  if (ids.has(merged)) failures.push(`${merged} should stay merged into parasite_projectile`);
+  if (!ids.has(original)) failures.push(`${original} (an original 1.10.9 entity id) is not registered`);
 }
 if (!ids.has("parasite_projectile")) failures.push("parasite_projectile (the merged projectile entity) is missing");
+for (const portOnly of ["crux_block_damage", "dragon_egg_assimilation", "haunter_damage", "haunter_homing",
+  "marauder_tendril", "meteor_satellite", "parasite_projectile", "pulling_ball", "scary_orb",
+  "shockwave", "sim_dragonhead", "warden_waveshock"]) {
+  if (!ids.has(portOnly)) failures.push(`${portOnly} (a port-only auxiliary id) is missing`);
+}
 
 if (failures.length) {
   console.error(`verify-entity-runtime-toggles: ${failures.length} failure(s)`);
