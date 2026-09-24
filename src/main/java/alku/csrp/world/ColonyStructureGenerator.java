@@ -2,6 +2,7 @@ package alku.csrp.world;
 
 import alku.csrp.block.SrpCoreBlock;
 import alku.csrp.registry.ModBlocks;
+import alku.csrp.world.gen.WorldGenParasiteColonyCore;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -15,31 +16,15 @@ public final class ColonyStructureGenerator {
     private ColonyStructureGenerator() {
     }
 
+    /**
+     * Port of {@code ParasiteEventWorld#generateColony}: the original snapped the position to a
+     * 26-block grid, scanned down up to 100 blocks for a floor and then ran
+     * {@code new WorldGenParasiteColonyCore(false, 1)} at that position.  The heart ends up on the
+     * foundation itself, which is exactly what {@code placeCore(enter)} did.
+     */
     public static BlockPos generateCore(ServerLevel level, BlockPos foundation, RandomSource random) {
-        replaceGround(level, foundation.below(), 12);
-
-        int towerHeight = 18 + random.nextInt(5);
-        for (int y = 0; y <= towerHeight; y++) {
-            double wave = Math.sin(y * 0.55D) * 1.4D;
-            int radius = Mth.clamp(4 + Mth.floor(wave), 3, 6);
-            hollowRing(level, foundation.above(y), radius, radius,
-                    y % 5 == 0 ? dense() : rubble(), flesh());
-        }
-        helix(level, foundation.above(2), 6.0D, towerHeight + 5, 2, bone());
-        helix(level, foundation.above(3), 6.0D, towerHeight + 5, 2, flesh(), Math.PI);
-
-        BlockPos heart = foundation.above(towerHeight + 5);
-        hollowSphere(level, heart, 8, 6, 8, dense(), flesh());
-        hollowSphere(level, heart, 5, 4, 5, rubble(), Blocks.CAVE_AIR.defaultBlockState());
-        for (int i = 0; i < 4; i++) {
-            double angle = i * Math.PI / 2.0D + random.nextDouble() * 0.45D;
-            BlockPos end = foundation.offset(Mth.floor(Math.cos(angle) * 11.0D), 0,
-                    Mth.floor(Math.sin(angle) * 11.0D));
-            organicLine(level, heart.below(2), end, 2, bone());
-        }
-        set(level, heart, ModBlocks.COLONYHEART.get().defaultBlockState()
-                .setValue(SrpCoreBlock.ACTIVE, 1), true);
-        return heart;
+        new WorldGenParasiteColonyCore(1).generate(level, random, foundation);
+        return foundation;
     }
 
     public static boolean generateBuilding(ServerLevel level, BlockPos origin, int stage, RandomSource random) {

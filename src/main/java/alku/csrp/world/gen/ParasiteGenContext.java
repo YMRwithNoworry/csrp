@@ -1,9 +1,13 @@
 package alku.csrp.world.gen;
 
+import alku.csrp.Csrp;
+import alku.csrp.block.ParasiteLootBlock;
+import alku.csrp.block.entity.ParasiteLootBlockEntity;
 import alku.csrp.registry.ModBlocks;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.Map;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
@@ -43,6 +47,50 @@ public final class ParasiteGenContext {
     public static final BlockState HARLEQUINN_GRASS = legacyState("harlequinn_grass");
     public static final BlockState PARASITE_BUSH = ModBlocks.legacyBlock("parasitebush").get()
             .defaultBlockState();
+
+    /** {@code BlockParasiteBush.EnumType.BINE} — the vine the colony walls hang. */
+    public static final BlockState BUSH_BINE = variantState(ModBlocks.legacyBlock("parasitebush").get(), "bine");
+
+    // ---------------------------------------------------------------------------------------------
+    // Colony / meteor palette (the WorldGenParasiteColonyBase floor|tacle|wall|floorColony fields)
+    // ---------------------------------------------------------------------------------------------
+
+    /** {@code SRPBlocks.ParasiteRubble} variants. */
+    public static final BlockState RUBBLE_BONE = rubble("bone");
+    public static final BlockState RUBBLE_BRICKS = rubble("bricks");
+    public static final BlockState RUBBLE_FLESH = rubble("flesh");
+    public static final BlockState RUBBLE_FUNGUS = rubble("fungus");
+    public static final BlockState RUBBLE_STONE = rubble("stone");
+
+    /**
+     * {@code SRPBlocks.ParasiteRubbleDense} with {@code VARIANT = WALL}.  In 1.10.9 the dense
+     * rubble was one id with four metadata variants; this project registers the wall variant as the
+     * canonical {@code csrp:parasiterubbledense} block and the other three as {@code _biome},
+     * {@code _colony} and {@code _heart}, so the wall maps to the plain id.
+     */
+    public static final BlockState DENSE_WALL = ModBlocks.PARASITERUBBLEDENSE.get().defaultBlockState();
+
+    /** {@code SRPBlocks.ParasiteFog} — the faint nexus-protection gas. */
+    public static final BlockState FOG = ModBlocks.legacyBlock("parasitefog").get().defaultBlockState();
+
+    public static final BlockState DEAD_BLOOD = ModBlocks.DEAD_BLOOD.get().defaultBlockState();
+    public static final BlockState COOKED_FLESH = ModBlocks.COOKED_FLESH.get().defaultBlockState();
+
+    /**
+     * The 1.12.2 {@code Blocks.field_189880_di} the colony shells and DNA helices used as their
+     * second state.  It is a full bone-coloured block placed inside the parasite shells; the port
+     * maps it to {@link Blocks#BONE_BLOCK}, the 1.10 block that field name belongs to (the five
+     * blocks added in 1.10 are magma, nether wart block, red nether brick, bone block and structure
+     * void, in registration order).
+     */
+    public static final BlockState BONE_BLOCK = Blocks.BONE_BLOCK.defaultBlockState();
+
+    public static final BlockState STONE = Blocks.STONE.defaultBlockState();
+    public static final BlockState AIR = Blocks.AIR.defaultBlockState();
+
+    private static BlockState rubble(String variant) {
+        return variantState(ModBlocks.legacyBlock("parasiterubble").get(), variant);
+    }
 
     private static final Map<String, Boolean> VARIANT_BLOCKS = new ConcurrentHashMap<>();
 
@@ -156,6 +204,32 @@ public final class ParasiteGenContext {
     }
 
     // ---------------------------------------------------------------------------------------------
+    // Parasite loot tumors (WorldGenParasiteColonyBase#placeLoot)
+    // ---------------------------------------------------------------------------------------------
+
+    /**
+     * Port of {@code WorldGenParasiteColonyBase#placeLoot}: writes the tumor and rolls its contents.
+     * The original read one of the three {@code SRPConfigWorld.blockLoot*} id lists and filled every
+     * slot on a 1/2 roll; this project's loot block entity owns the same pools, so the tier selects
+     * both the block and the roll.
+     */
+    public static void placeLoot(ServerLevel level, BlockPos pos, ParasiteLootBlock.Tier tier,
+            RandomSource random) {
+        Block block = switch (tier) {
+            case COMMON -> ModBlocks.PARASITE_LOOT_COMMON.get();
+            case UNCOMMON -> ModBlocks.PARASITE_LOOT_UNCOMMON.get();
+            case RARE -> ModBlocks.PARASITE_LOOT_RARE.get();
+        };
+        if (!inWorld(level, pos) || !level.isLoaded(pos)) {
+            return;
+        }
+        level.setBlock(pos, block.defaultBlockState(), 2);
+        if (level.getBlockEntity(pos) instanceof ParasiteLootBlockEntity loot) {
+            loot.generateLoot(tier, random);
+        }
+    }
+
+    // ---------------------------------------------------------------------------------------------
     // Block categories that the originals tested through 1.12.2 materials / instanceof
     // ---------------------------------------------------------------------------------------------
 
@@ -173,6 +247,22 @@ public final class ParasiteGenContext {
     public static boolean isFullFloor(ServerLevel level, BlockPos pos) {
         BlockState state = get(level, pos);
         return !state.isAir() && state.isCollisionShapeFullBlock(level, pos);
+    }
+
+    /**
+     * {@code IBlockState#func_185913_b()} — the {@code Block#isFullCube} probe the colony wall and
+     * column loops used to decide whether they had to plug a hole below themselves.
+     */
+    public static boolean isFullCube(ServerLevel level, BlockPos pos) {
+        return get(level, pos).isCollisionShapeFullBlock(level, pos);
+    }
+
+    /**
+     * The 1.12.2 {@code instanceof BlockBase} test: every block this mod registers.  Used by the
+     * colony helpers so a structure never overwrites its own material and never floors over it.
+     */
+    public static boolean isModBlock(BlockState state) {
+        return BuiltInRegistries.BLOCK.getKey(state.getBlock()).getNamespace().equals(Csrp.MODID);
     }
 
     public static boolean isLeaves(ServerLevel level, BlockPos pos) {
@@ -356,15 +446,20 @@ public final class ParasiteGenContext {
         };
     }
 
-    /** The two-step "diagonal" walks of {@code directionToGrow(..., sideCurse = true)}. */
+    /**
+     * The two-step "diagonal" walks of {@code directionToGrow(..., sideCurse = true)}.  The original
+     * pairs {@code i * 10} with the right-hand diagonal and {@code i * 10 + 1} with the left-hand
+     * one: 0/1 = north-east/north-west, 10/11 = south-east/north-east, 20/21 = south-west/south-east,
+     * 30/31 = north-west/south-west.
+     */
     public static BlockPos sideCurse(BlockPos pos, int choice) {
         return switch (choice) {
             case 0 -> pos.north().east();
             case 1 -> pos.north().west();
-            case 10 -> pos.east().north();
-            case 11 -> pos.east().south();
-            case 20 -> pos.south().east();
-            case 21 -> pos.south().west();
+            case 10 -> pos.east().south();
+            case 11 -> pos.east().north();
+            case 20 -> pos.south().west();
+            case 21 -> pos.south().east();
             case 30 -> pos.west().north();
             default -> pos.west().south();
         };
