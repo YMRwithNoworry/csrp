@@ -155,13 +155,15 @@
 - 静态扫描到的翻译键字面量总数（去重）：**486**。来源：`src/main/java/alku/csrp/**/*.java` 的 `Component.translatable(...)`、`src/main/resources/data/**/*.json` 的 `"translate"`、`assets/csrp/sounds.json` 的 `subtitle`。vanilla 自带的键（`subtitles.block.generic.*`、`subtitles.entity.generic.*` 等 6 个）已剔除：本模组不应重复定义它们，否则会覆盖原版文案。
 - 三类归属：
   1. **281** 个能由 1.10.9 lang 直译得到（`en_us.lang` 有对应键）。
-  2. **21** 个原模组 lang 覆盖不到、需要「补齐」的键 —— 下表全部列出。
-  3. **184** 个是本工程移植时自建的 26.3 专用键（如 `screen.csrp.*`、`message.csrp.*`、`options.csrp.*`）：它们在任务开始时的 `en_us.json`（1456 键）里就已经存在，不属于本次补齐范围。
+  2. **24** 个原模组 lang 覆盖不到、需要「补齐」的键 —— 下表全部列出。
+  3. **181** 个是本工程移植时自建的 26.3 专用键（如 `screen.csrp.*`、`message.csrp.*`、`options.csrp.*`）：它们在任务开始时的 `en_us.json`（1456 键）里就已经存在，不属于本次补齐范围。
 - 另有 6 个运行时拼接的前缀字面量，静态无法解析，见 5.2。
 
 | 26.3 键 | 取值来源 | 引用它的文件 |
 | --- | --- | --- |
+| `advancement.csrp.cosmic_structural_failure.desc` | `alias` → `advancements.csrp.cosmic_structural_failure.description` | `src/main/resources/data/csrp/advancement/cosmic_structural_failure.json` |
 | `advancement.csrp.cosmic_structural_failure.title` | `alias` → `advancements.csrp.cosmic_structural_failure.title` | `src/main/resources/data/csrp/advancement/cosmic_structural_failure.json` |
+| `advancement.csrp.hellfire_chemical_warfare.desc` | `alias` → `advancements.csrp.hellfire_chemical_warfare.description` | `src/main/resources/data/csrp/advancement/hellfire_chemical_warfare.json` |
 | `advancement.csrp.hellfire_chemical_warfare.title` | `alias` → `advancements.csrp.hellfire_chemical_warfare.title` | `src/main/resources/data/csrp/advancement/hellfire_chemical_warfare.json` |
 | `advancements.csrp.columbus.desc` | `alias` → `advancements.csrp.columbus.description` | `src/main/resources/data/csrp/advancement/csrp/columbus.json` |
 | `advancements.csrp.controversial.desc` | `alias` → `advancements.csrp.controversial.description` | `src/main/resources/data/csrp/advancement/csrp/controversial.json` |
@@ -180,6 +182,7 @@
 | `advancements.csrp.stolas.desc` | `alias` → `advancements.csrp.stolas.description` | `src/main/resources/data/csrp/advancement/csrp/stolas.json` |
 | `item.csrp.itemmobspawner` | `synthesized`（原模组 lang 无此键，按用途合成） | `src/main/java/alku/csrp/item/LegacyMobSpawnerItem.java` |
 | `subtitles.assimsquiddeath` | `synthesized`（原模组 lang 无此键，按用途合成） | `assets/csrp/sounds.json` |
+| `subtitles.assimsquidfliving` | `synthesized`（原模组 lang 无此键，按用途合成） | `assets/csrp/sounds.json` |
 | `subtitles.assimsquidhurt` | `synthesized`（原模组 lang 无此键，按用途合成） | `assets/csrp/sounds.json` |
 | `subtitles.rof.emerge` | `synthesized`（原模组 lang 无此键，按用途合成） | `assets/csrp/sounds.json` |
 

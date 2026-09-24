@@ -1,7 +1,7 @@
 {
-  "advancement.csrp.cosmic_structural_failure.desc": "Cosmic Structural Failure",
+  "advancement.csrp.cosmic_structural_failure.desc": "Put the Kirin out of its perpetual self-destruction.",
   "advancement.csrp.cosmic_structural_failure.title": "Cosmic Structural Failure",
-  "advancement.csrp.hellfire_chemical_warfare.desc": "Hellfire Chemical Warfare",
+  "advancement.csrp.hellfire_chemical_warfare.desc": "Terminate the Draconite and survive its internal furnace.",
   "advancement.csrp.hellfire_chemical_warfare.title": "Hellfire Chemical Warfare",
   "advancements.csrp.adapted.desc": "Kill all twelve Adapted parasites at least once",
   "advancements.csrp.adapted.title": "Adapted",
@@ -2574,7 +2574,7 @@
   "subtitles.assimspiderliving": "Distorted hissing",
   "subtitles.assimspidersteps": "Insect steps",
   "subtitles.assimsquiddeath": "Assimilated squid dying",
-  "subtitles.assimsquidfliving": "Assimsquidfliving",
+  "subtitles.assimsquidfliving": "Distorted gurgling",
   "subtitles.assimsquidhurt": "Assimilated squid squirts",
   "subtitles.assimsquidliving": "Distorted gurgling",
   "subtitles.assimwolfdeath": "Assimilated wolf dying",

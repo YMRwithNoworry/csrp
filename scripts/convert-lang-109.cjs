@@ -63,7 +63,10 @@ const SYNTHESIZED_VALUES = {
     "item.csrp.itemmobspawner": "Spawn %s",
     // assets/csrp/sounds.json subtitles that 1.10.9 never named. Wording follows
     // the neighbouring assimilated-mob subtitles ("Assimilated cow dying", …).
+    // NOTE: sounds.json spells the "living" one `assimsquidfliving` (stray "f");
+    // both spellings are provided so a later fix in sounds.json also resolves.
     "subtitles.assimsquidliving": "Distorted gurgling",
+    "subtitles.assimsquidfliving": "Distorted gurgling",
     "subtitles.assimsquidhurt": "Assimilated squid squirts",
     "subtitles.assimsquiddeath": "Assimilated squid dying",
     // "rof" = Root of Fear (see subtitles.rof.spitout in 1.10.9).
@@ -72,6 +75,9 @@ const SYNTHESIZED_VALUES = {
 
 /** Candidate rewrites tried when a code key is not provided by the 1.10.9 lang. */
 const ALIAS_TRANSFORMS = [
+    // Data files use the singular 1.12.2 spelling with a `.desc` suffix; 26.3
+    // wants `advancements.<ns>.<id>.title|description`.
+    (k) => k.replace(/^advancement\./, "advancements.").replace(/\.desc$/, ".description"),
     (k) => k.replace(/^advancement\./, "advancements."),
     (k) => k.replace(/\.desc$/, ".description"),
     (k) => k.replace(/^tootip\./, "tooltip."),
@@ -515,6 +521,24 @@ function convertLocale(locale, mapped, targetFile) {
             if (merged[key] !== SYNTHESIZED_VALUES[key]) merged[key] = SYNTHESIZED_VALUES[key];
         } else if (!mapped.has(key) && key in merged) {
             delete merged[key];
+        }
+    }
+
+    // Repair values that are visibly the converter's own humanised fallback (the
+    // value equals the key spelled out) when a sibling key can supply the real
+    // text — this is the data-file `advancement.csrp.<id>.desc` case, where the
+    // 26.3 text lives under `advancements.csrp.<id>.description`.
+    if (locale === "en_us") {
+        for (const key of Object.keys(merged)) {
+            if (mapped.has(key)) continue;
+            if (merged[key] !== humanize(key)) continue;
+            for (const transform of ALIAS_TRANSFORMS) {
+                const candidate = transform(key);
+                if (candidate !== key && candidate in merged) {
+                    merged[key] = merged[candidate];
+                    break;
+                }
+            }
         }
     }
 
