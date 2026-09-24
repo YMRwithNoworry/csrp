@@ -59,6 +59,18 @@ public final class ModBlockEntities {
                     TrophyBlockEntity::new,
                     Set.of(ModBlocks.KIRIN_TROPHY.get(), ModBlocks.DRACONITE_TROPHY.get())));
 
+    /**
+     * 1.12.2 compatibility ids {@code srparasites:infested_furnace} / {@code srparasites:infested_furnace_lit}
+     * ({@code init/SRPBlocks.java:506,518}) were a real container furnace driven by
+     * {@code TileEntityInfestedFurnace}.  The port reuses {@link InfuserFurnaceBlockEntity}, so a placed
+     * legacy furnace keeps its inventory and GUI instead of being an inert block.
+     */
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<InfuserFurnaceBlockEntity>> LEGACY_INFESTED_FURNACE =
+            BLOCK_ENTITIES.register("legacy_infested_furnace", () -> new BlockEntityType<>(
+                    InfuserFurnaceBlockEntity::new,
+                    Set.of(ModBlocks.legacyBlock("infested_furnace").get(),
+                            ModBlocks.legacyBlock("infested_furnace_lit").get())));
+
     private ModBlockEntities() {
     }
 }

@@ -340,6 +340,10 @@ public final class Csrp {
             event.accept(ModItems.ROOTERBALL_SPAWN_EGG.get());
             event.accept(ModItems.ABO_BODIES_SPAWN_EGG.get());
             event.accept(ModItems.ABO_HEAD_SPAWN_EGG.get());
+            // 1.10.9 spawn eggs recovered by the R5 item-parity pass (itemmobspawner_flam/soo/tenn).
+            event.accept(ModItems.FLAM_SPAWN_EGG.get());
+            event.accept(ModItems.SOO_SPAWN_EGG.get());
+            event.accept(ModItems.TENN_SPAWN_EGG.get());
         }
     }
 }

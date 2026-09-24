@@ -10,6 +10,7 @@ import alku.csrp.world.EvolutionSystem;
 import alku.csrp.world.DislodgmentSystem;
 import alku.csrp.world.MeteorInfectionSystem;
 import alku.csrp.world.SrpWorldData;
+import alku.csrp.world.gen.WorldGenParasiteNexusProtection1;
 import alku.csrp.world.SrpCoreSystems;
 import alku.csrp.world.SrpDifficulty;
 import alku.csrp.world.SrpDifficultyEvents;
@@ -426,7 +427,19 @@ public final class SrpCommands {
                         .then(Commands.argument("stage", IntegerArgumentType.integer(1, 4))
                                 .executes(context -> summonNidus(context.getSource(),
                                         BlockPosArgument.getBlockPos(context, "pos"),
-                                        IntegerArgumentType.getInteger(context, "stage")))));
+                                        IntegerArgumentType.getInteger(context, "stage")))))
+                // Port convenience: the original only generated the structure, so summoning the
+                // Nexus creature itself stays behind an explicit subcommand.
+                .then(Commands.literal("entity")
+                        .executes(context -> summonNidusEntity(context.getSource(),
+                                BlockPos.containing(context.getSource().getPosition()), 1))
+                        .then(Commands.argument("pos", BlockPosArgument.blockPos())
+                                .executes(context -> summonNidusEntity(context.getSource(),
+                                        BlockPosArgument.getBlockPos(context, "pos"), 1))
+                                .then(Commands.argument("stage", IntegerArgumentType.integer(1, 4))
+                                        .executes(context -> summonNidusEntity(context.getSource(),
+                                                BlockPosArgument.getBlockPos(context, "pos"),
+                                                IntegerArgumentType.getInteger(context, "stage"))))));
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> helpTopic(String name, String description) {
@@ -678,7 +691,22 @@ public final class SrpCommands {
         return success(source, "Dislodgment Code: " + code + " Value: " + value + " Duration: " + duration);
     }
 
+    /**
+     * Original {@code SRPCommandSummonNidus} ({@code util/SRPCommandSummonNidus.java:50}): generate the
+     * Nidus/Nexus protection structure one block below the target position and report whether it generated.
+     */
     private static int summonNidus(CommandSourceStack source, BlockPos pos, int stage) {
+        ServerLevel level = source.getLevel();
+        boolean generated = new WorldGenParasiteNexusProtection1(stage)
+                .generate(level, level.getRandom(), pos.below());
+        return generated
+                ? success(source, "Generated Nidus/Nexus protection structure at " + format(pos)
+                        + " with stage " + stage)
+                : failure(source, "Nidus/Nexus protection structure generation returned false.");
+    }
+
+    /** Port convenience subcommand: summon the Nexus creature itself at the position. */
+    private static int summonNidusEntity(CommandSourceStack source, BlockPos pos, int stage) {
         EntityType<NexusParasiteEntity> type = switch (stage) {
             case 2 -> ModEntities.BECKON_SII.get();
             case 3 -> ModEntities.BECKON_SIII.get();

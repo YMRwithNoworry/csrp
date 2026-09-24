@@ -1,13 +1,22 @@
 package alku.csrp.block;
 
+import alku.csrp.block.entity.InfuserFurnaceBlockEntity;
+import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.BlockHitResult;
 
 /**
  * Port of the 1.12.2 {@code com.dhanantry.scapeandrunparasites.block.BlockInfestedFurnace}
@@ -30,12 +39,13 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
  * </ul>
  *
  * <p>The smelting tile entity ({@code TileEntityInfestedFurnace}, a 3-slot furnace with a
- * {@code ContainerFurnace} GUI and sided inventory) needs a {@code BlockEntityType} that is not
- * registered in this port; adding one means editing {@code registry/ModBlockEntities.java}, which is
- * outside this task's write scope.  The ported {@code InfuserFurnaceBlockEntity} is the closest
- * existing implementation and is the intended reuse target once that entry is authorised.</p>
+ * {@code ContainerFurnace} GUI and sided inventory) is wired to the ported
+ * {@link InfuserFurnaceBlockEntity}, which is the closest existing implementation: the legacy ids
+ * {@code csrp:infested_furnace} / {@code csrp:infested_furnace_lit} are registered against the
+ * dedicated {@code csrp:legacy_infested_furnace} block-entity type in
+ * {@code registry/ModBlockEntities.java}, so a placed legacy furnace is a working container.</p>
  */
-public class InfestedFurnaceBlock extends HorizontalDirectionalBlock {
+public class InfestedFurnaceBlock extends HorizontalDirectionalBlock implements EntityBlock {
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     /** {@code BlockInfestedFurnace.getLightValue} — 14 when lit. */
     public static final int LIT_LIGHT_LEVEL = 14;
@@ -52,11 +62,39 @@ public class InfestedFurnaceBlock extends HorizontalDirectionalBlock {
         builder.add(FACING, LIT);
     }
 
+    @Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new InfuserFurnaceBlockEntity(pos, state);
+    }
+
+    @Nullable
+    @Override
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state,
+            BlockEntityType<T> type) {
+        return level.isClientSide() ? null
+                : (level1, pos, state1, blockEntity) ->
+                        InfuserFurnaceBlockEntity.serverTick(level1, pos, state1, blockEntity);
+    }
+
+    @Override
+    protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos,
+            Player player, BlockHitResult hitResult) {
+        if (!(level.getBlockEntity(pos) instanceof InfuserFurnaceBlockEntity furnace)) {
+            return InteractionResult.PASS;
+        }
+        if (!level.isClientSide()) {
+            player.openMenu(furnace);
+        }
+        return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.CONSUME;
+    }
+
     /** {@code BlockInfestedFurnace.setLitState} — swap the {@code lit} flag without losing the entity. */
     public static void setLitState(boolean active, Level level, BlockPos pos) {
         BlockState state = level.getBlockState(pos);
         if (state.getBlock() instanceof InfestedFurnaceBlock && state.getValue(LIT) != active) {
-            level.setBlock(pos, state.setValue(LIT, active), Block.UPDATE_ALL);
+            // UPDATE_ALL would recreate the block entity; the original kept its inventory on relight.
+            level.setBlock(pos, state.setValue(LIT, active), Block.UPDATE_CLIENTS | Block.UPDATE_NEIGHBORS);
         }
     }
 

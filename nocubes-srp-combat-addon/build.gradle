@@ -32,7 +32,7 @@ neoForge {
 }
 
 dependencies {
-    compileOnly files('../build/libs/csrp-1.10.8.jar')
+    compileOnly files('../build/libs/csrp-1.10.9.jar')
     implementation("com.lowdragmc.ldlib2:ldlib2-neoforge-${minecraft_version}:2.2.31:all")
     implementation("maven.modrinth:citadel:2.7.1")
 }
