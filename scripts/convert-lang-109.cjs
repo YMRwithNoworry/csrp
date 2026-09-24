@@ -777,6 +777,7 @@ function buildReport(model) {
         ["`src/main/resources/data/csrp/advancement/*.json`", "4 处使用单数 `advancement.csrp.<id>.title/.desc`（26.3 应为 `advancements.` / `.description`）", "已补出对应别名键；建议数据文件改为 `advancements.csrp.<id>.title|description`"],
         ["`src/main/java/alku/csrp/item/LegacyMobSpawnerItem.java:229`", "`Component.translatable(\"item.csrp.itemmobspawner\", legacyName)` 的键在原模组 lang 中不存在", "已合成 `item.csrp.itemmobspawner` = `Spawn %s`"],
         ["`assets/csrp/sounds.json`", "引用了 6 个 vanilla 字幕键（`subtitles.block.generic.*`、`subtitles.entity.generic.explode`）", "由原版客户端语言包提供，本模组不重复定义（重复定义反而会覆盖原版）"],
+        ["`assets/csrp/sounds.json`", "字幕键拼写错误：`subtitles.assimsquidfliving`（多了一个 `f`，应为 `assimsquidliving`）", "两种拼写都已补键，因此当前可用；建议 sounds.json 改为 `subtitles.assimsquidliving`"],
         ["`src/main/resources/assets/csrp/lang/_pending/items.json`", "`_pending/` 是构建期交接目录，但位于 resources 下，因此会被打进 jar", "对运行时无影响（MC 只按语言代码精确查找 `lang/<code>.json`）。建议 items teammate 收尾时把它移出 resources，或在 `build.gradle` 里排除"]
     ]));
     push();
