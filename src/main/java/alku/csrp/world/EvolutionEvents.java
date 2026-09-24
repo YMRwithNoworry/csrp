@@ -55,6 +55,12 @@ public final class EvolutionEvents {
             + "it means an unusual amount of parasites have spawned in the world. This is likely due to a bug "
             + "or an issue with the mod or an addon you have installed. Excess parasites will be removed as a "
             + "result, THIS IS INTENDED.";
+    /** 1.10.9 raises the cull trigger from {@code * 4} to {@code * 6} of the cap and the stop line to {@code * 3}. */
+    private static final int MOB_CLEANER_TRIGGER_MULTIPLIER = 6;
+    private static final int MOB_CLEANER_STOP_MULTIPLIER = 3;
+    /** {@code SRPSpawning.mobClearCooldown} — the original blocks a second cull for 50 ticks. */
+    private static final int MOB_CLEANER_COOLDOWN_TICKS = 50;
+    private static int mobCleanerCooldown;
     private static final double SPRINT_MIN_HORIZONTAL_DISTANCE_SQR = 1.0E-4D;
     private static final Identifier PHASE_TEN_HEALTH =
             Identifier.fromNamespaceAndPath(Csrp.MODID, "phase_ten_health");
@@ -77,6 +83,13 @@ public final class EvolutionEvents {
     }
 
     private static void removeExcessParasites(ServerLevel level) {
+        if (mobCleanerCooldown > 0) {
+            mobCleanerCooldown -= 20;
+            if (mobCleanerCooldown > 0) {
+                return;
+            }
+            mobCleanerCooldown = 0;
+        }
         int mobCap = WorldConfig.naturalMobCap(level);
         if (!WorldConfig.mobCleanerEnabled() || mobCap <= 0) {
             return;
@@ -87,17 +100,26 @@ public final class EvolutionEvents {
                 parasites.add(living);
             }
         }
-        int removalThreshold = mobCap * 2;
+        int removalThreshold = mobCap * MOB_CLEANER_TRIGGER_MULTIPLIER;
         int excess = parasites.size() - removalThreshold;
         if (excess <= 0) {
             return;
         }
         LOGGER.warn(MOB_CLEANER_WARNING);
+        mobCleanerCooldown = MOB_CLEANER_COOLDOWN_TICKS;
+        // The original culls the smallest parasites first and stops once the population drops below
+        // three times the cap, so a single pass can leave more than the trigger count behind.
+        int stopAt = mobCap * MOB_CLEANER_STOP_MULTIPLIER;
+        int remaining = parasites.size();
         parasites.sort(Comparator
                 .comparingDouble((LivingEntity entity) -> entity.getBbWidth() * entity.getBbHeight())
                 .thenComparing(Comparator.comparingInt((LivingEntity entity) -> entity.tickCount).reversed()));
-        for (int index = 0; index < excess; index++) {
-            parasites.get(index).discard();
+        for (LivingEntity parasite : parasites) {
+            if (remaining < stopAt) {
+                break;
+            }
+            parasite.discard();
+            remaining--;
         }
     }
 

@@ -2,6 +2,7 @@ package alku.csrp.command;
 
 import alku.csrp.Config;
 import alku.csrp.Csrp;
+import alku.csrp.config.RuntimeToggles;
 import alku.csrp.entity.NexusParasiteEntity;
 import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModEntities;
@@ -38,10 +39,15 @@ import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.config.ConfigTracker;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class SrpCommands {
+    private static final org.slf4j.Logger LOGGER = org.slf4j.LoggerFactory.getLogger(SrpCommands.class);
+
     private SrpCommands() {
     }
 
@@ -129,7 +135,30 @@ public final class SrpCommands {
                 .then(Commands.literal("resetdatafile").executes(context -> {
                     data(context.getSource()).reset(context.getSource().getLevel());
                     return success(context.getSource(), "Data file of this dimension has been reset");
-                }));
+                }))
+                .then(Commands.literal("toggle_dotiledrops").executes(context -> success(context.getSource(),
+                        "Current doTileDrop value is " + RuntimeToggles.toggleParasiteBlockDrops())))
+                .then(Commands.literal("toggle_domobevolution").executes(context -> success(context.getSource(),
+                        "Current doMobEvolution value is " + RuntimeToggles.toggleMobEvolution())))
+                .then(Commands.literal("readconfigurationfile")
+                        .executes(context -> readConfigurationFile(context.getSource())));
+    }
+
+    /**
+     * Original {@code /srparasites readconfigurationfile}: re-reads the configuration files from disk and
+     * reports whether it worked. NeoForge reloads a whole config type at once, so every CSRP config file
+     * (general, mobs, systems, world, block conversions) is refreshed together.
+     */
+    private static int readConfigurationFile(CommandSourceStack source) {
+        try {
+            ConfigTracker.INSTANCE.loadConfigs(ModConfig.Type.COMMON, FMLPaths.CONFIGDIR.get());
+            RuntimeToggles.resetParasiteBlockDrops();
+            return success(source, "Configutarion files were read successfully "
+                    + "\n NOTE: Does not work for all options, such as registry or client-side options");
+        } catch (RuntimeException exception) {
+            LOGGER.error("Problem while reading configuration file", exception);            return failure(source, "There was a problem while reading configuration file, check inputs "
+                    + "\n NOTE: Does not work for all options, such as registry or client-side options");
+        }
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> srEvolution() {

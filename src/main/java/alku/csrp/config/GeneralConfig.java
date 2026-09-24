@@ -8,6 +8,9 @@ public final class GeneralConfig {
     private static final ModConfigSpec.BooleanValue ALLOW_MOBS = BUILDER
             .comment("Allow CSRP parasites to spawn naturally.")
             .define("allowMobs", true);
+    private static final ModConfigSpec.BooleanValue PARASITE_BLOCK_DROPS = BUILDER
+            .comment("Set to true if the blocks broken by parasites should have drops.")
+            .define("parasiteBlockDrops", true);
     private static final ModConfigSpec.DoubleValue GLOBAL_HEALTH_MULTIPLIER = BUILDER
             .comment("Global maximum-health multiplier for every parasite.")
             .defineInRange("globalHealthMultiplier", 1.0D, 0.01D, 100.0D);
@@ -28,6 +31,11 @@ public final class GeneralConfig {
 
     public static boolean allowMobs() {
         return ALLOW_MOBS.get();
+    }
+
+    /** {@code SRPConfig.doTileDrops} — whether parasite block breaking produces drops. */
+    public static boolean parasiteBlockDrops() {
+        return PARASITE_BLOCK_DROPS.get();
     }
 
     public static double globalHealthMultiplier() {
