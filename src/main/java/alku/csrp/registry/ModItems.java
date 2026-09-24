@@ -45,6 +45,14 @@ import alku.csrp.item.AlveolarFluidItem;
 import alku.csrp.item.AlveoliItem;
 import alku.csrp.item.VenkrolBootsItem;
 import alku.csrp.item.VariantWandItem;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.item.JukeboxSong;
 import net.minecraft.world.item.equipment.ArmorType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BoneMealItem;
@@ -53,6 +61,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SpawnEggItem;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import java.util.List;
@@ -1179,6 +1188,75 @@ public static final DeferredItem<BlockItem> PARASITERUBBLE_BONE = ITEMS.register
     public static final DeferredItem<BlockItem> WEATHERED_COBBLESTONE_SLAB = legacyBlockItem("weathered_cobblestone_slab");
     public static final DeferredItem<BlockItem> WHEATHERED_BRICKS_STAIRS = legacyBlockItem("wheathered_bricks_stairs");
     public static final DeferredItem<BlockItem> WHEATHERED_COBBLESTONE_STAIRS = legacyBlockItem("wheathered_cobblestone_stairs");
+
+    // ==================== 批次 R5：补齐原模组 1.10.9 有、本工程缺失的物品 id ====================
+    // 事实来源：out109/init/SRPItems.java、out109/item/**、assets/srparasites/lang/en_us.lang。
+    // discone / disctwo / itemtab / self_destruct_icon / bow_* / scythe_* / *_report /
+    // ada_burrower_drop 在 1.12.2 的 SRPItems.java 中并未注册，但原始 en_us.lang（及 sounds.json）
+    // 保留了它们的键；按 R5 要求补齐，行为对齐对应的原类。
+
+    /** 原 sounds.json 中 discone / disctwo 均指向 {@code csrp:music/well_meet_again}。 */
+    private static Holder<SoundEvent> discSound(String eventId) {
+        return BuiltInRegistries.SOUND_EVENT.getOrThrow(ResourceKey.create(
+                BuiltInRegistries.SOUND_EVENT.key(),
+                Identifier.fromNamespaceAndPath(Csrp.MODID, eventId)));
+    }
+
+    // 唱片：对应原 ItemDiscRecord("discone"/"disctwo", 1, (byte)1/2, SRPSounds.DISC1/DISC2)。
+    // 26.3 用 JukeboxSong 注册表 + jukeboxPlayable 组件替代 1.12.2 的 ItemRecord。
+    public static final ResourceKey<JukeboxSong> DISC_ONE_KEY = ResourceKey.create(
+            Registries.JUKEBOX_SONG, Identifier.fromNamespaceAndPath(Csrp.MODID, "discone"));
+    public static final DeferredHolder<JukeboxSong, JukeboxSong> DISC_ONE_SONG =
+            ModJukeboxSongs.JUKEBOX_SONGS.register("discone", () -> new JukeboxSong(discSound("srparasites.discone"),
+                    Component.translatable("jukebox_song.csrp.discone"), 240.0F, 1));
+    public static final DeferredItem<Item> DISC_ONE = ITEMS.registerItem("discone", Item::new,
+            () -> new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(DISC_ONE_KEY));
+
+    public static final ResourceKey<JukeboxSong> DISC_TWO_KEY = ResourceKey.create(
+            Registries.JUKEBOX_SONG, Identifier.fromNamespaceAndPath(Csrp.MODID, "disctwo"));
+    public static final DeferredHolder<JukeboxSong, JukeboxSong> DISC_TWO_SONG =
+            ModJukeboxSongs.JUKEBOX_SONGS.register("disctwo", () -> new JukeboxSong(discSound("srparasites.disctwo"),
+                    Component.translatable("jukebox_song.csrp.disctwo"), 240.0F, 2));
+    public static final DeferredItem<Item> DISC_TWO = ITEMS.registerItem("disctwo", Item::new,
+            () -> new Item.Properties().stacksTo(1).rarity(Rarity.RARE).jukeboxPlayable(DISC_TWO_KEY));
+
+    // 报告类：原 lang 的 relay_report / scan_report / vector_report。
+    // 原 ItemPhaseReport / ItemVectorMapReport 在 26.3 由 RelayReportItem 的 Type 统一承载。
+    public static final DeferredItem<RelayReportItem> RELAY_REPORT = ITEMS.registerItem("relay_report",
+            properties -> new RelayReportItem(RelayReportItem.Type.SCAN, properties),
+            () -> new Item.Properties().stacksTo(1));
+    public static final DeferredItem<RelayReportItem> SCAN_REPORT = ITEMS.registerItem("scan_report",
+            properties -> new RelayReportItem(RelayReportItem.Type.SCAN, properties),
+            () -> new Item.Properties().stacksTo(1));
+    public static final DeferredItem<RelayReportItem> VECTOR_REPORT = ITEMS.registerItem("vector_report",
+            properties -> new RelayReportItem(RelayReportItem.Type.VECTOR, properties),
+            () -> new Item.Properties().stacksTo(1));
+
+    // 原 ItemBase("itemtab", 1, (byte)7)：堆叠 1 的占位/调试物品（lang 值 "§dNULL"）。
+    public static final DeferredItem<Item> ITEMTAB = simple("itemtab", new Item.Properties().stacksTo(1));
+    // 原 ItemAdvancementIcon("self_destruct_icon")：堆叠 1、无创造标签的进度图标物品。
+    // 注意：本工程既有的 15 个 *_icon 用默认堆叠（64），此处按原类对齐为 1。
+    public static final DeferredItem<Item> SELF_DESTRUCT_ICON =
+            simple("self_destruct_icon", new Item.Properties().stacksTo(1));
+
+    // 原 SRPConfigMobs 只把 ada_burrower_drop 当作掉落表里的字符串键，
+    // SRPItems.java 从未注册成物品；scripts/verify-burrower-entities-port.cjs:154
+    // 明确要求不得把它注册为物品（否则会让现代掉落表失效），故此处不注册。
+    // 该差异记录在 docs/gap/R5_ITEMS_REPORT.md。
+
+    // 活体弓部件：原 lang 有 item.srparasites.bow_*.name，SRPItems 未注册。
+    public static final DeferredItem<Item> BOW_CORE = simple("bow_core");
+    public static final DeferredItem<Item> BOW_GRIP = simple("bow_grip");
+    public static final DeferredItem<Item> BOW_LOWERLIMB = simple("bow_lowerlimb");
+    public static final DeferredItem<Item> BOW_STRING = simple("bow_string");
+    public static final DeferredItem<Item> BOW_UPPERLIMB = simple("bow_upperlimb");
+
+    // 活体镰刀部件：原 lang 有 item.srparasites.scythe_*.name，SRPItems 未注册。
+    public static final DeferredItem<Item> SCYTHE_BACK = simple("scythe_back");
+    public static final DeferredItem<Item> SCYTHE_BLADE = simple("scythe_blade");
+    public static final DeferredItem<Item> SCYTHE_CORE = simple("scythe_core");
+    public static final DeferredItem<Item> SCYTHE_HANDLE = simple("scythe_handle");
+    public static final DeferredItem<Item> SCYTHE_HEAD = simple("scythe_head");
 
     /** Compatibility ids are batch-registered ({@link ModBlocks#legacyBlock(String)}); fetch one for its item. */
     private static DeferredItem<BlockItem> legacyBlockItem(String id) {

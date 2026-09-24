@@ -1,0 +1,21 @@
+{
+  "item.csrp.discone": "Duality",
+  "item.csrp.disctwo": "We'll Meet Again",
+  "item.csrp.relay_report": "§fRelay Scan Report §7(%s)§r",
+  "item.csrp.scan_report": "Relay Scan Report",
+  "item.csrp.vector_report": "Vector Report",
+  "item.csrp.bow_core": "§6Living Greatbow core",
+  "item.csrp.bow_grip": "§6Living Greatbow Grip",
+  "item.csrp.bow_lowerlimb": "§6Living Greatbow Lower Limb",
+  "item.csrp.bow_string": "§6Living Greatbow String",
+  "item.csrp.bow_upperlimb": "§6Living Greatbow Upper Limb",
+  "item.csrp.scythe_back": "§6Living Scythe Back",
+  "item.csrp.scythe_blade": "§6Living Scythe Blade",
+  "item.csrp.scythe_core": "§6Living Scythe Core",
+  "item.csrp.scythe_handle": "§6Living Scythe Handle",
+  "item.csrp.scythe_head": "§6Living Scythe Head",
+  "item.csrp.itemtab": "§dNULL",
+  "item.csrp.self_destruct_icon": "Self Destruct",
+  "jukebox_song.csrp.discone": "Duality",
+  "jukebox_song.csrp.disctwo": "We'll Meet Again"
+}
