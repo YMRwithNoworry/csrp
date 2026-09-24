@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.config.RuntimeToggles;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModItems;
@@ -308,7 +309,8 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
             parasiteKills = 0;
             return;
         }
-        if (parasiteKills >= THRALL_KILL_THRESHOLD) {
+        // Original EntityInfPlayer gated the adventurer -> thrall upgrade behind ParasiteEventEntity.canSpawnNext.
+        if (parasiteKills >= THRALL_KILL_THRESHOLD && RuntimeToggles.mobEvolution()) {
             ThrallEntity thrall = ModEntities.THRALL.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
             if (thrall == null) {
                 return;

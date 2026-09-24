@@ -3,6 +3,7 @@ package alku.csrp.entity;
 import alku.csrp.Csrp;
 import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
+import alku.csrp.config.RuntimeToggles;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModMobEffects;
@@ -508,6 +509,10 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
     }
 
     private void tryEvolve(ServerLevel level) {
+        // Original EntityMudo required ParasiteEventEntity.canSpawnNext for the mangler upgrade.
+        if (!RuntimeToggles.mobEvolution()) {
+            return;
+        }
         ManglerEvolutionTarget.manglerType().ifPresent(type -> {
             Mob mangler = type.create(level, EntitySpawnReason.MOB_SUMMONED);
             if (mangler == null) {

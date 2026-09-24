@@ -3,6 +3,7 @@ package alku.csrp.entity;
 import alku.csrp.Csrp;
 import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
+import alku.csrp.config.RuntimeToggles;
 import alku.csrp.effect.EffectStacking;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
@@ -2312,7 +2313,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                             || !EventHooks.onEntityDestroyBlock(this, pos, state)) {
                         continue;
                     }
-                    serverLevel.destroyBlock(pos, true, this);
+                    // Original EntityOrch/EntityFlam/EntityPheon read SRPConfig.doTileDrops here.
+                    serverLevel.destroyBlock(pos, RuntimeToggles.parasiteBlockDrops(), this);
                 }
             }
         }

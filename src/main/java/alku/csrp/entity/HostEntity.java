@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import alku.csrp.registry.ModEntities;
 import alku.csrp.config.MobsConfig;
+import alku.csrp.config.RuntimeToggles;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -134,7 +135,8 @@ public final class HostEntity extends AbstractHostEntity {
 
     @Override
     protected void onParasiteKill(ServerLevel level, LivingEntity victim, int kills) {
-        if (kills <= HOST_TO_HOSTII_KILLS) {
+        // Original EntityHost required ParasiteEventEntity.canSpawnNext for the herd upgrade.
+        if (kills <= HOST_TO_HOSTII_KILLS || !RuntimeToggles.mobEvolution()) {
             return;
         }
         HostIIEntity hostII = ModEntities.HOSTII.get().create(level, EntitySpawnReason.MOB_SUMMONED);

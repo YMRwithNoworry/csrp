@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.config.RuntimeToggles;
 import alku.csrp.Csrp;
 import alku.csrp.block.FogBlock;
 import alku.csrp.event.StatusEffectEvents;
@@ -889,7 +890,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
 
     private boolean evolve() {
         Kind activeKind = activeKind();
-        if (!(level() instanceof ServerLevel serverLevel) || activeKind.stage <= 0 || activeKind.stage >= 4) {
+        // Original EntityAINexusGrow required ParasiteEventEntity.canSpawnNext before every stage upgrade.
+        if (!RuntimeToggles.mobEvolution()
+                || !(level() instanceof ServerLevel serverLevel) || activeKind.stage <= 0 || activeKind.stage >= 4) {
             return false;
         }
         NexusParasiteEntity next = createNexus(serverLevel, activeKind.family, activeKind.stage + 1);

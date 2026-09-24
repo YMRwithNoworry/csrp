@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.config.RuntimeToggles;
 import alku.csrp.Config;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
@@ -313,7 +314,8 @@ public final class AssimilatedEndermanEntity extends Monster
     @Override
     public boolean killedEntity(ServerLevel level, LivingEntity victim, DamageSource source) {
         parasiteKills++;
-        if (parasiteKills >= AssimilatedParasiteEntity.FERAL_KILL_THRESHOLD) {
+        // Original EntityInfEnderman gated the sim -> feral upgrade behind ParasiteEventEntity.canSpawnNext.
+        if (parasiteKills >= AssimilatedParasiteEntity.FERAL_KILL_THRESHOLD && RuntimeToggles.mobEvolution()) {
             FeralEndermanEntity feral = ModEntities.FER_ENDERMAN.get().create(level, EntitySpawnReason.MOB_SUMMONED);
             if (feral != null) {
                 feral.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());

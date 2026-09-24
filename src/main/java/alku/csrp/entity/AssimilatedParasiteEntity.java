@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.config.RuntimeToggles;
 import alku.csrp.Csrp;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
@@ -220,7 +221,8 @@ public final class AssimilatedParasiteEntity extends Monster
         parasiteKills++;
         if (AssimilatedMeltSystem.tryStartGroup(this, parasiteKills)) {
             parasiteKills = 0;
-        } else if (parasiteKills > FERAL_KILL_THRESHOLD) {
+        // Original EntityPInfected gated the sim -> feral upgrade behind ParasiteEventEntity.canSpawnNext.
+        } else if (parasiteKills > FERAL_KILL_THRESHOLD && RuntimeToggles.mobEvolution()) {
             transformToFeral(level);
         }
         return super.killedEntity(level, victim, source);

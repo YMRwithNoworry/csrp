@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import com.mojang.serialization.Codec;
 import alku.csrp.Config;
+import alku.csrp.config.RuntimeToggles;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -251,7 +252,7 @@ public class UntamedPriLasherEntity extends PrimitiveParasiteEntity {
             BlockState state = level().getBlockState(blockPos);
             if (state.getDestroySpeed(level(), blockPos) >= 0
                     && state.getDestroySpeed(level(), blockPos) <= 0.6F) {
-                level().destroyBlock(blockPos, true, this);
+                level().destroyBlock(blockPos, RuntimeToggles.parasiteBlockDrops(), this);
             }
         }
     }

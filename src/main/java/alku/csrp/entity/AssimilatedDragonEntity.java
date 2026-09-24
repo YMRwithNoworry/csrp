@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.config.RuntimeToggles;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
@@ -201,7 +202,8 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
                     if (!state.isAir() && hardness >= 0.0F && hardness <= BLOCK_BREAK_HARDNESS
                             && state.canEntityDestroy(level(), pos, this)
                             && EventHooks.onEntityDestroyBlock(this, pos, state)) {
-                        level().destroyBlock(pos, true, this);
+                        // Original EntityParasiteBase/EntityWaveShock read SRPConfig.doTileDrops here.
+                        level().destroyBlock(pos, RuntimeToggles.parasiteBlockDrops(), this);
                     }
                 }
             }

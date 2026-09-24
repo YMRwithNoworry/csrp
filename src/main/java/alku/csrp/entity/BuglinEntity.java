@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.config.RuntimeToggles;
 import alku.csrp.Config;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModSounds;
@@ -132,7 +133,9 @@ public class BuglinEntity extends Monster implements CitadelAnimatedEntity, Para
     }
 
     private void tryEvolve() {
-        if (growthSeconds <= growthTargetSeconds || !(level() instanceof ServerLevel serverLevel)) {
+        // Original EntityLodo required ParasiteEventEntity.canSpawnNext for the growth upgrade.
+        if (growthSeconds <= growthTargetSeconds || !RuntimeToggles.mobEvolution()
+                || !(level() instanceof ServerLevel serverLevel)) {
             return;
         }
 

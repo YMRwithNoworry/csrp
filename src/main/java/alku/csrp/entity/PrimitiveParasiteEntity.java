@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
+import alku.csrp.config.RuntimeToggles;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
@@ -199,7 +200,8 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
                             || !EventHooks.onEntityDestroyBlock(this, pos, state)) {
                         continue;
                     }
-                    if (level().destroyBlock(pos, true, this)) {
+                    // Original EntityParasiteBase/EntityPStationary read SRPConfig.doTileDrops here.
+                    if (level().destroyBlock(pos, RuntimeToggles.parasiteBlockDrops(), this)) {
                         broke = true;
                         if (MobsConfig.devourerWaterPlacement()
                                 && ("pri_devourer".equals(entityId) || "ada_devourer".equals(entityId))) {
@@ -714,7 +716,9 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
 
     protected void onParasiteKill(ServerLevel level, LivingEntity victim, int kills) {
         int requiredKills = requiredAdaptationKills();
-        if (kills < requiredKills || adaptedFormSpawned || isRemoved()) {
+        // Original EntityBano/Canra/Emana/Gim/Hull/Nogla/Ranrac/Shyco all required
+        // ParasiteEventEntity.canSpawnNext before upgrading to the adapted form.
+        if (kills < requiredKills || adaptedFormSpawned || isRemoved() || !RuntimeToggles.mobEvolution()) {
             return;
         }
         Mob adapted = createAdaptedForm(level);
