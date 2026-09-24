@@ -107,15 +107,50 @@ public final class MobsConfig {
             "Whether Moving Flesh always selects a random entry from its mob table.");
     private static final ModConfigSpec.DoubleValue MERGE_HEALTH = value(
             "merge_System", "mergeSystemMobHealth", 0.5D, 0.0D, 1.0D,
-            "Health fraction of a primitive spawned by Moving Flesh.");
+            "Health fraction of the parasite spawned by Moving Flesh.");
     private static final ModConfigSpec.ConfigValue<List<? extends String>> MERGE_MOB_TABLE = stringList(
             "merge_System", "mergeSystemMobList", List.of(
+                    // Crude
+                    "srparasites:airscrew;0", "srparasites:crux;0",
+                    "srparasites:crux_incomplete;0", "srparasites:dredge;0",
+                    "srparasites:heed;0", "srparasites:host;0",
+                    "srparasites:hostii;0", "srparasites:incompleteform_medium;0",
+                    "srparasites:incompleteform_small;0", "srparasites:thrall;0",
+                    // Feral
+                    "srparasites:fer_bear;0", "srparasites:fer_cow;0",
+                    "srparasites:fer_enderman;0", "srparasites:fer_horse;0",
+                    "srparasites:fer_human;0", "srparasites:fer_pig;0",
+                    "srparasites:fer_sheep;0", "srparasites:fer_villager;0",
+                    "srparasites:fer_wolf;0",
+                    // Assimara
+                    "srparasites:mar_bear;0", "srparasites:mar_cow;0",
+                    "srparasites:mar_enderman;0", "srparasites:mar_human;0",
+                    "srparasites:mar_sheep;0", "srparasites:mar_villager;0",
+                    // Hijacked
+                    "srparasites:hi_blaze;0", "srparasites:hi_golem;0",
+                    "srparasites:hi_skeleton;0",
+                    // Primitive
                     "srparasites:pri_summoner;0", "srparasites:pri_longarms;0",
                     "srparasites:pri_reeker;0", "srparasites:pri_manducater;0",
                     "srparasites:pri_bolster;0", "srparasites:pri_yelloweye;0",
                     "srparasites:pri_arachnida;0", "srparasites:pri_vermin;0",
-                    "srparasites:pri_tozoon;0"),
-            "Moving Flesh merge table: entity_id;merge_value.", MobsConfig::validMergeMobEntry);
+                    "srparasites:pri_tozoon;0", "srparasites:pri_burrower;0",
+                    "srparasites:pri_devourer;0", "srparasites:pri_viscera;0",
+                    // Adapted
+                    "srparasites:ada_arachnida;0", "srparasites:ada_bolster;0",
+                    "srparasites:ada_burrower;0", "srparasites:ada_devourer;0",
+                    "srparasites:ada_longarms;0", "srparasites:ada_manducater;0",
+                    "srparasites:ada_reeker;0", "srparasites:ada_summoner;0",
+                    "srparasites:ada_tozoon;0", "srparasites:ada_vermin;0",
+                    "srparasites:ada_viscera;0", "srparasites:ada_yelloweye;0",
+                    // Pure
+                    "srparasites:bomber_light;0", "srparasites:grunt;0",
+                    "srparasites:marauder;0", "srparasites:monarch;0",
+                    "srparasites:overseer;0", "srparasites:vigilante;0",
+                    "srparasites:warden;0"),
+            "Moving Flesh merge table: entity_id;merge_value. Every tier is listed, so two Living "
+                    + "Flesh masses melt into a random Crude/Feral/Assimara/Hijacked/Primitive/"
+                    + "Adapted/Pure parasite.", MobsConfig::validMergeMobEntry);
 
     private static final ModConfigSpec.DoubleValue ARACHNIDA_HEALTH_MULTIPLIER = value(
             "srparasites:arachnida", "arachnidaHealthMultiplier", 1.0D, 0.01D, 100.0D,
