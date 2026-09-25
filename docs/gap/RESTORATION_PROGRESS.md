@@ -1357,3 +1357,35 @@ isValidLightLevelTwo() {                       // :1654
 
 **未实现的部分**（有意）：`isValidLightLevelOne` 的尾部（`SKY > nextInt(32)` 之后的判定）在批次 90 的摘录中被截断，
 在补全前不写猜测代码；类注释里已注明该限制。断言 2 条（锁定随机形态）。`build` 通过、套件维持既有 20 失败。
+
+## 批次 92：`isValidLightLevelOne` 全文解出（2026-09-25 续，记录未改）
+
+```java
+protected boolean isValidLightLevelOne() {
+    if (world.getBiome(pos) instanceof BiomeParasiteBase) return isValidLightLevelTwo();
+    BlockPos blockpos = new BlockPos(x, boundingBox.minY, z);
+    if (world.getLightFor(SKY, blockpos) > random.nextInt(32)) return false;
+    int i = world.getLightFromNeighbors(blockpos);            // func_175671_l
+    if (world.isThundering()) {                              // func_72911_I
+        int j = world.getSkylightSubtracted();                // func_175657_ab
+        world.setSkylightSubtracted(10);                      // func_175692_b
+        i = world.getLightFromNeighbors(blockpos);
+        world.setSkylightSubtracted(j);
+    }
+    return i <= random.nextInt(8)
+        && getBlockPathWeight(blockpos) >= 0.0F;              // func_180484_a
+}
+```
+
+**1.21.1 映射的三个待定点**（写代码前必须逐一确认，否则会写出"看起来对"实则偏的实现）：
+
+| 原版调用 | 1.21 候选 | 状态 |
+| --- | --- | --- |
+| `getLightFromNeighbors(pos)` | `LevelReader.getMaxLocalRawBrightness(pos)`（或 `getRawBrightness(pos, skyDarken)`） | ⏳ 待确认签名与语义 |
+| `isThundering()` + `setSkylightSubtracted` | `Level.isThundering()` ✔ + 天空减光的设置者（`getSkyDarken()`/`setSkyDarken`？服务端是否有 setter） | ⏳ 待确认 |
+| `BiomeParasiteBase` 判定 | 端口是否有"寄生群系"标记（如 `ModBiomes` 的谓词/标签） | ⏳ 待查 |
+
+另注：`getBlockPathWeight` 在 1.21 为 `PathfinderMob.getWalkTargetValue(BlockPos)` ✔（需 mob 实例，故该判定应挂在实体侧而非纯静态工具）。
+
+**结论**：本方法**暂不实现**——它依赖 3 个未确认的映射点与 1 个实体侧实例方法，在证据补齐前落代码等于猜；
+守卫断言已锁定 `Two` 级的随机形态（批次 91），`One` 级待上述三项确认后再补。
