@@ -38,7 +38,8 @@ public final class AssimilatedDragonHeadEntity extends Monster implements Citade
 
     public AssimilatedDragonHeadEntity(EntityType<? extends AssimilatedDragonHeadEntity> type, Level level) {
         super(type, level);
-        xpReward = 40;
+        // Legacy: EntityInfDragonE/Enderman extend EntityPInfected, whose XP_INFECTED (= 8) applies.
+        xpReward = 8;
     }
 
     public static AttributeSupplier.Builder createAttributes() {

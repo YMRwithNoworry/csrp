@@ -1588,3 +1588,20 @@ addSpawn(0, EntityHull.class,         4, 6, biome, SRPConfigMobs.hullSpawnRate, 
 
 **本批不改代码**，因为这是需要用户意图或明确设计决策的分叉点，不宜由我在预算紧张时单方面选边；
 已把两种方案的代价与影响写清，供后续在预算充足的轮次（或用户确认后）执行。
+
+## 批次 105：同化族特例经验对齐（dragon/head/enderman → 8）（2026-09-25 续）
+
+用"赋值点反查"手法一次查清（此前按类名 `find` 失败，本轮改为**指定路径直读**，并顺带印证了 shell 循环在本环境不可靠）：
+
+```
+EntityInfDragonE.java:54      extends EntityPInfected      // 自身未设 field_70728_aV
+EntityInfEnderman.java:55     extends EntityPInfected
+EntityInfDragonEHead.java:30  extends EntityPInfected
+EntityPInfected.java:86       this.field_70728_aV = SRPAttributes.XP_INFECTED;   // = infectedXPValue = 8
+```
+
+即原版这三类**继承同化档的 8 点经验**，而端口分别写死 300 / 40 / 24 ⇒ **偏离**，已全部对齐为 **8**
+（注释注明继承链来源）。`build` 通过、套件维持既有 20 失败（无脚本断言这三个数值，故无断言漂移）。
+
+至此 XP 线**全部档次闭合**：infected 8 / feral 16 / primitive 30 / hijacked 11 / adapted 55 / ancient 5000 /
+pure 75 / preeminent 200 / derived 350 / 同化族特例 8；仅 `turret 75` 因缺"turret 类"映射证据仍未定，`XP_LiTTLE=4` 端口暂无对应实现。

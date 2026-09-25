@@ -109,7 +109,8 @@ public final class AssimilatedEndermanEntity extends Monster
 
     public AssimilatedEndermanEntity(EntityType<? extends AssimilatedEndermanEntity> type, Level level) {
         super(type, level);
-        xpReward = 24;
+        // Legacy: EntityInfDragonE/Enderman extend EntityPInfected, whose XP_INFECTED (= 8) applies.
+        xpReward = 8;
     }
 
     public static AttributeSupplier.Builder createAttributes() {

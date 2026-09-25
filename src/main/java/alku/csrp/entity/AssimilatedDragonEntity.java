@@ -100,7 +100,8 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
         rightWingPart = new DragonBodyPart(this, BodyPart.RIGHT_WING, "right_wing", 3.1F, 2.8F);
         bodyParts = new PartEntity<?>[]{headPart, leftWingPart, rightWingPart};
         moveControl = new FlyingMoveControl(this, 20, true);
-        xpReward = 300;
+        // Legacy: EntityInfDragonE/Enderman extend EntityPInfected, whose XP_INFECTED (= 8) applies.
+        xpReward = 8;
     }
 
     public static AttributeSupplier.Builder createAttributes() {
