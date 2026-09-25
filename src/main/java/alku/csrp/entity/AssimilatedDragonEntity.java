@@ -116,7 +116,9 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
                 .add(Attributes.KNOCKBACK_RESISTANCE, 1.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.27D)
                 .add(Attributes.FLYING_SPEED, 0.27D)
-                .add(Attributes.FOLLOW_RANGE, 64.0D);
+                .add(Attributes.FOLLOW_RANGE, 64.0D)
+                // Legacy EntityInfDragonE:79 step height (field_70138_W = 1.0F).
+                .add(Attributes.STEP_HEIGHT, 1.0D);
     }
 
     @Override

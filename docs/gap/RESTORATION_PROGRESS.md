@@ -2691,3 +2691,16 @@ monster("sim_dragone", AssimilatedDragonEntity::new, 1.9F, 3.8F, 1.75F)   // 原
 
 **方法论**：本会话第 N 次"**编译器充当事实核查**"——我基于 1.12 形态推断的实现位置（覆写方法）在 1.21 不成立，
 而编译在 1 秒内给出了结论，比任何文档检索都可靠。`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+## 批次 172：`sim_dragone` 步高落地（+ 启动第四批委派）（2026-09-25 续）
+
+**（一）步高**：原版 `EntityInfDragonE:79` 为 `this.field_70138_W = 1.0F`（1.12 的字段），
+1.21 已把它改为**属性** `Attributes.STEP_HEIGHT`（端口既有惯例，见 `AdaptedVariantEntity:424/427`、`CarrierWormEntity:30`）
+⇒ 在 `AssimilatedDragonEntity` 的属性链上追加 `.add(Attributes.STEP_HEIGHT, 1.0D)`。
+
+**编译拦下一次语法错误**：首次插入挂在了语句末尾 `;` **之后**（悬空链式调用）⇒ 已改为在链中续接、保留单个分号 ✔。
+`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+**（二）启动第四批委派**（`c6a709d1…`）：沿用收紧提示词（2 只、逐步落盘、12 次调用止损、证据纪律、写入范围限定），
+并**新增一条已学到的 API 事实**供其直接使用（1.21 的 `getEyeHeight(Pose)` 为 final、`monster()` 3 参 helper 的 tracker 为 4 等），
+避免它重复踩同类坑。
