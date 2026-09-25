@@ -46,7 +46,7 @@ const combat = read("src/main/java/alku/csrp/entity/ParasiteCombatEffects.java")
 const tetherRenderer = read("src/main/java/alku/csrp/client/renderer/TetheredMarauderizedRenderer.java");
 
 for (const [source, hooks] of [
-  [shared, ["MeleeAttackGoal", "meleeSpeed", "PARASITE_STATUS", "STILL_ANI", "startAttackAnimation",
+  [shared, ["GeneMeleeGoal", "meleeSpeed", "PARASITE_STATUS", "STILL_ANI", "startAttackAnimation",
     '"age_controller"', "ParasiteAnimations.isMoving(this, state.isMoving())"]],
   [tethered, ["pullDurationTicks", "tetherDamage", "initialWeaknessAmplifier", "getPullTargetForRendering"]],
   [bear, ["PullVolleyGoal", "PullingBallEntity", "startAttackAnimation"]],

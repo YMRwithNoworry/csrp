@@ -311,3 +311,13 @@ gene 门分别用 `waterLeapEnabled()` 与 `generationProfile(...).waterLeap()`�
 接线：`FeralParasiteEntity`（野化族，含已审计的 `fer_villager`）。
 待接线：`MarauderizedParasiteEntity`、`AssimilatedParasiteEntity`（仍用 `GeneSprintGoal` + 原版近战）。
 校验：`scripts/verify-parasite-combat-rules.cjs` 增 7 条断言（间隔缩放、旗标、攻击门槛、疾跑并入）。
+
+## 批次 15：GeneMeleeGoal 铺开到掠夺化与同化族（2026-09-25 续）
+
+把批次 14 的 `GeneMeleeGoal` 接到剩余两族，三族近战现已统一走 gene 感知循环：
+`FeralParasiteEntity`(2)、`MarauderizedParasiteEntity`(3)、`AssimilatedParasiteEntity`(2) —— 各自的
+`GeneSprintGoal` + 原版 `MeleeAttackGoal` 双注册被单个目标取代（疾跑与攻击间隔同处一门）。
+顺带清掉三处因替换而失效的 `MeleeAttackGoal` import，并订正 `verify-marauderized-port.cjs` 的清单断言
+（"MeleeAttackGoal" → "GeneMeleeGoal"）——这类「改代码不带改断言」正是静态守卫抓出来的。
+`GeneSprintGoal` 保留（仅疾跑的场景仍可复用），当前无调用点。
+校验：`verify-parasite-combat-rules.cjs` 两族断言改为 gene 目标；全套 99 脚本失败集合回到既有 20 个。

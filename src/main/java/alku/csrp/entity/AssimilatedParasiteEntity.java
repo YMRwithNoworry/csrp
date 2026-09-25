@@ -31,7 +31,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.RandomSwimmingGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
@@ -132,9 +131,9 @@ public final class AssimilatedParasiteEntity extends Monster
         if (kind == Kind.COW) {
             goalSelector.addGoal(1, new CowChargeGoal());
         }
+        // Legacy geneAttackSpeed + geneSprinting: see GeneMeleeGoal.
         double meleeSpeed = kind == Kind.WOLF ? 1.35D : 1.15D;
-        goalSelector.addGoal(2, new GeneSprintGoal(this, meleeSpeed));
-        goalSelector.addGoal(2, new MeleeAttackGoal(this, meleeSpeed, false));
+        goalSelector.addGoal(2, new GeneMeleeGoal(this, meleeSpeed, false));
         if (kind == Kind.SQUID) {
             goalSelector.addGoal(5, new RandomSwimmingGoal(this, 1.0D, 30));
         } else {

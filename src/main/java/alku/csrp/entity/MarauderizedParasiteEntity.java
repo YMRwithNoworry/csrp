@@ -11,7 +11,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.level.Level;
 import alku.csrp.animation.CitadelAnimationManager;
 import alku.csrp.animation.CitadelAnimationController;
@@ -75,8 +74,8 @@ public abstract class MarauderizedParasiteEntity extends HijackedParasiteEntity 
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        goalSelector.addGoal(3, new GeneSprintGoal(this, meleeSpeed()));
-        goalSelector.addGoal(3, new MeleeAttackGoal(this, meleeSpeed(), false));
+        // Legacy geneAttackSpeed + geneSprinting: see GeneMeleeGoal.
+        goalSelector.addGoal(3, new GeneMeleeGoal(this, meleeSpeed(), false));
     }
 
     @Override

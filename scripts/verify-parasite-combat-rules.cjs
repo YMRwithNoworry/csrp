@@ -151,14 +151,14 @@ for (const [pattern, message] of [
 // the three families register the sprint goal just before their melee goal, same priority
 for (const [file, pattern, message] of [
   ["MarauderizedParasiteEntity.java",
-    /addGoal\(3, new GeneSprintGoal\(this, meleeSpeed\(\)\)\);\s*\r?\n\s*goalSelector\.addGoal\(3, new MeleeAttackGoal/,
-    "MarauderizedParasiteEntity must register the sprint goal before its melee goal"],
+    /addGoal\(\d, new GeneMeleeGoal\(this, meleeSpeed(\(\))?, false\)\)/,
+    "MarauderizedParasiteEntity must drive melee through the gene-aware goal"],
   ["FeralParasiteEntity.java",
     /addGoal\(2, new GeneMeleeGoal\(this, 1\.5D, false\)\)/,
     "FeralParasiteEntity must drive melee through the gene-aware goal"],
   ["AssimilatedParasiteEntity.java",
-    /addGoal\(2, new GeneSprintGoal\(this, meleeSpeed\)\);\s*\r?\n\s*goalSelector\.addGoal\(2, new MeleeAttackGoal/,
-    "AssimilatedParasiteEntity must register the sprint goal before its melee goal"]
+    /addGoal\(\d, new GeneMeleeGoal\(this, meleeSpeed(\(\))?, false\)\)/,
+    "AssimilatedParasiteEntity must drive melee through the gene-aware goal"],
 ]) expect(read("src/main/java/alku/csrp/entity/" + file), pattern, message);
 
 // legacy geneAttackSpeed: the interval scales with the generation and the sprint gene folds in
