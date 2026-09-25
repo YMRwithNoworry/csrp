@@ -89,6 +89,22 @@ for (const [file, message] of [["FeralParasiteEntity.java", "the feral family"],
   }
 }
 
+// legacy handleWater: liquid hits charge a dash that the geneWaterleap flag releases
+const liquid = read("src/main/java/alku/csrp/entity/LiquidLeap.java");
+for (const [pattern, message] of [
+  [/public final class LiquidLeap/, "the liquid leap component is missing"],
+  [/MAX_CHARGES = 4/, "the legacy four charge cap is missing"],
+  [/vertical = submerged \? 0\.1D : 0\.3D/, "the legacy 0.1/0.3 launch heights are missing"],
+  [/strength = submerged \? 0\.5D : 1\.0D/, "the legacy 0.5/1.0 launch strengths are missing"],
+  [/dx \/ length \* strength \* 0\.8D \+ motion\.x \* 0\.2D/, "the legacy dash formula is missing"]
+]) expect(liquid, pattern, message);
+for (const [file, field, message] of [["PrimitiveParasiteEntity.java", "liquidLeap", "the primitive chain"], ["FeralParasiteEntity.java", "feralLiquidLeap", "the feral family"]]) {
+  const source = read("src/main/java/alku/csrp/entity/" + file);
+  if (!source.includes(field + ".accumulate(this)") || !source.includes(field + ".spend(this")) {
+    failures.push(message + " must drive the liquid leap charges");
+  }
+}
+
 if (failures.length) {
   console.error("Water leap gene verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

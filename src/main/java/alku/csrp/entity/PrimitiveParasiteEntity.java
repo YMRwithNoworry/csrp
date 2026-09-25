@@ -75,6 +75,9 @@ public abstract class PrimitiveParasiteEntity extends Monster
             PrimitiveParasiteEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Integer> SPECIAL_LEAP_TICKS = SynchedEntityData.defineId(
             PrimitiveParasiteEntity.class, EntityDataSerializers.INT);
+    /** Legacy handleWater liquid-leap charges (see {@link LiquidLeap}). */
+    private final LiquidLeap liquidLeap = new LiquidLeap();
+
     /** Legacy SELFE fuse, shared by every parasite family (see {@link ParasiteFuseState}). */
     private final ParasiteFuseState selfeFuse = new ParasiteFuseState();
     private static final String KILLS_TAG = "parasitekills";
@@ -143,6 +146,11 @@ public abstract class PrimitiveParasiteEntity extends Monster
             waitTicks--;
         }
         if (!level().isClientSide) {
+            // Legacy handleWater: charges accumulate once per cycle, then dash while the gene allows.
+            if (tickCount % 20 == 1) {
+                liquidLeap.accumulate(this);
+            }
+            liquidLeap.spend(this, waterLeapEnabled());
             tickBlockBreaking();
             int leapTicks = entityData.get(SPECIAL_LEAP_TICKS);
             if (leapTicks > 0) {

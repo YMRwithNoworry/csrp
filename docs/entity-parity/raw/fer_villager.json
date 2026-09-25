@@ -660,12 +660,12 @@
         },
         {
           "clause": "handleWater：液体命中累积 liquidLeap 后的跳跃突进（geneWaterleap）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:462",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/LiquidLeap.java"
           },
-          "note": "project 无液体跳跃"
+          "note": "液体命中累积 charge（上限 4，每 20 tick 判定一次），每 tick 消耗一枚并按 geneWaterleap 朝目标突进：潜没时高度 0.1/强度 0.5、出水时 0.3/1.0，水平公式 str*0.8 + 现速*0.2；批次：handleWater 液体突进（EntityParasiteBase:462）"
         },
         {
           "clause": "攻击状态机：parasiteStatus 0/1/2 由近战 goal 按距离与冷却切换",

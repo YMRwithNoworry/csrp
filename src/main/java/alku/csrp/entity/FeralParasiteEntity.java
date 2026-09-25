@@ -94,6 +94,9 @@ public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntit
                 true, false, this::isValidParasiteTarget));
     }
 
+    /** Legacy handleWater liquid-leap charges (see {@link LiquidLeap}). */
+    private final LiquidLeap feralLiquidLeap = new LiquidLeap();
+
     /** Legacy SELFE self-destruct fuse, shared with every other parasite family. */
     private final ParasiteFuseState selfeFuse = new ParasiteFuseState();
 
@@ -151,6 +154,14 @@ public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntit
     public void tick() {
         super.tick();
         updateCitadelAnimationState();
+        if (!level().isClientSide) {
+            // Legacy handleWater: charges accumulate once per cycle, then dash while the gene allows.
+            if (tickCount % 20 == 1) {
+                feralLiquidLeap.accumulate(this);
+            }
+            feralLiquidLeap.spend(this, level() instanceof ServerLevel serverLevel
+                    && EvolutionSystem.generationProfile(serverLevel).waterLeap());
+        }
         if (level().isClientSide || tickCount % 10 != 0 || isOnFire() || parasiteKills <= 1
                 || getHealth() >= getMaxHealth()) {
             return;

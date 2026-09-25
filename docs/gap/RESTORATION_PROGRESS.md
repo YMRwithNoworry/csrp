@@ -285,3 +285,16 @@ Sprinting/**WaterLeap**/SpecialM/Adaptation/BlockSearch/**Residue**/Orbbox，端
 `SimHumanEntity` 按原版参数 `(0.7F, 1.5, 3, 20, 0)` 于优先级 2 注册。
 未做：同一只的 `handleWater`/`liquidLeap` 液体命中累积突进（另一套机制），该条款仍记缺失。
 校验：`scripts/verify-water-leap-gene.cjs` 更新为通用构造 + 两族注册断言；审计记账 3 条，满足 644 → **647**。
+
+## 批次 13：handleWater 液体命中突进（2026-09-25 续）
+
+原版 `EntityParasiteBase.handleWater(boolean)`（`:462-491`，`liquidLeap` 字段 `:167`，调用点 `:380/:435`）：
+
+| 原版语义 | 实现 |
+| --- | --- |
+| 在液体中且锁定目标 → `liquidLeap++`（上限 4），按 `srpTicks` 周期判定一次 | `LiquidLeap.accumulate(mob)`，每 20 tick 判定一次 |
+| `liquidLeap >= 1` 时逐枚消耗：`geneWaterleap` 开启则停导航、取目标方向突进（潜没时 h=0.1/str=0.5，出水时 h=0.3/str=1.0，水平 `str*0.8 + 现速*0.2`）并 `lookAt` 目标；未开启则只消耗 | `LiquidLeap.spend(mob, gene)`（组件化，任意 `Mob` 可用） |
+
+接线：`PrimitiveParasiteEntity`（primitive/劫持/掠夺化链）与 `FeralParasiteEntity`（野化族）各持一份并在 `tick` 中驱动；
+gene 门分别用 `waterLeapEnabled()` 与 `generationProfile(...).waterLeap()`。
+校验：`scripts/verify-water-leap-gene.cjs` 增加 8 条断言；审计记账 1 条，满足 647 → **648**。

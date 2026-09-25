@@ -322,6 +322,19 @@ const BATCHES = {
         detail: "野化族按 EntityFer*.java:53 全族在优先级 2 注册 WaterLeapAtTargetGoal(this, 0.7F, 1.5, 20, 0)；sim_human 按 EntityInfHuman:119 同参数注册；两者均以 generationProfile.waterLeap 为门"
       }
     ]
+  },
+  // 批次 13：handleWater 液体命中突进（原版 EntityParasiteBase:462-491）
+  "liquid-leap": {
+    note: "批次：handleWater 液体突进（EntityParasiteBase:462）",
+    projectClasses: ["FeralParasiteEntity", "PrimitiveParasiteEntity", "LongarmsEntity"],
+    clauses: [
+      {
+        match: /handleWater|liquidLeap/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/LiquidLeap.java",
+        detail: "液体命中累积 charge（上限 4，每 20 tick 判定一次），每 tick 消耗一枚并按 geneWaterleap 朝目标突进：潜没时高度 0.1/强度 0.5、出水时 0.3/1.0，水平公式 str*0.8 + 现速*0.2"
+      }
+    ]
   }
 };
 
