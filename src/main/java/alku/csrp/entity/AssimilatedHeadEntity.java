@@ -461,7 +461,8 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
             this.attackDamage = attackDamage;
             this.movementSpeed = movementSpeed;
             this.followRange = followRange;
-            this.experience = 4;
+            // Legacy: heads inherit EntityPInfected, whose XP_INFECTED (= infectedXPValue = 8) applies.
+            this.experience = 8;
         }
     }
 }

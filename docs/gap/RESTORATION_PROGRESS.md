@@ -1993,3 +1993,16 @@ goalSelector.addGoal(2, new WaterLeapAtTargetGoal(this, () -> level() instanceof
 | `sim_adventurer` | `HELM` 同步位、`helmslot` NBT、`SRPLayerBipedArmor` 渲染层缺失 |
 
 **说明**：子代理声明未触碰 Java 源码 / `scripts/` / 构建 / 提交 ✔；`AGENTS.md` 的改动是**用户自己的**（一贯不提交）。
+
+## 批次 133：头部实体经验对齐 4 → 8（子代理审计发现）（2026-09-25 续）
+
+子代理在 `sim_sheephead` 审计中指出"XP 端口 4 vs 原版 8"。双侧核实：
+
+```
+端口 AssimilatedHeadEntity.java:464   this.experience = 4;          ← 八种头部共用一个硬编码值
+原版 EntityPInfected.java:86          field_70728_aV = SRPAttributes.XP_INFECTED;   （= infectedXPValue = 8）
+原版 EntityInfSheepHead 自身未设该字段 ⇒ 继承父类的 8
+```
+
+⇒ 修正为 **8**（一次修正覆盖全部八种头部：cow/enderman/horse/human/pig/sheep/villager/wolf 的头）。
+`build` 通过、套件维持既有 20 失败。
