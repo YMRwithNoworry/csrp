@@ -289,6 +289,15 @@ expect(read("src/main/java/alku/csrp/entity/HiSkeletonEntity.java"),
   /addGoal\(6, new RecruitFollowersGoal\(this, 16\)\)/,
   "HiSkeletonEntity must register the legacy recruit task at priority 6");
 
+// legacy EntityAIAttackProjectile(this, 60, 15, 3): the assimilated spider spits a web ball
+const variant = read("src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java");
+for (const [pattern, message] of [
+  [/kind == Kind\.BIGSPIDER && rangedCooldown <= 0 && getTarget\(\) != null && hasLineOfSight\(getTarget\(\)\)/,
+    "the spider ranged gate is missing"],
+  [/fireWebBall\(getTarget\(\)\);/, "the web ball shot is missing"],
+  [/rangedCooldown = 60;/, "the legacy 60 tick cooldown is missing"]
+]) expect(variant, pattern, message);
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

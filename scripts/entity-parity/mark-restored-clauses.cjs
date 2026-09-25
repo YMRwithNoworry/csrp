@@ -493,6 +493,19 @@ const BATCHES = {
         detail: "RecruitFollowersGoal 复刻 EntityAIGetFollowers version 1/range 16（每 20 tick、自身无 leader 且无目标时招募一个有视线且尚无 leader 的寄生体跟随）；HiSkeletonEntity 按原版优先级 6 注册，其领导模型由 primitive 链继承的 ParasiteFollowGoal 提供"
       }
     ]
+  },
+  // 批次 36：sim_bigspider 的蛛网弹（条款 2 已由既有 fireWebBall + 60 tick 冷却满足；条款 1 的注册形态仍缺）
+  "web-ball-ranged": {
+    note: "批次：EntityAIAttackProjectile 远程蛛网弹（每 60 tick 一发）",
+    mobs: ["sim_bigspider"],
+    clauses: [
+      {
+        match: /^(?!.*addTask)(?=.*蛛网弹).*$/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java",
+        detail: "AssimilatedVariantEntity tick 中 BIGSPIDER 分支：rangedCooldown <= 0 且有目标与视线时 fireWebBall(target) 并置 rangedCooldown = 60，与原版 EntityAIAttackProjectile(this, 60, …) 的冷却一致"
+      }
+    ]
   }
 };
 

@@ -650,12 +650,12 @@
         },
         {
           "clause": "远程攻击 EntityAIAttackProjectile(this, 60, 15, 3)：每 60 tick 发射蛛网弹",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:60",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:171"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java"
           },
-          "note": "project 冷却 60 tick 一致，但用瞬时判定代替投射物实体"
+          "note": "AssimilatedVariantEntity tick 中 BIGSPIDER 分支：rangedCooldown <= 0 且有目标与视线时 fireWebBall(target) 并置 rangedCooldown = 60，与原版 EntityAIAttackProjectile(this, 60, …) 的冷却一致；批次：EntityAIAttackProjectile 远程蛛网弹（每 60 tick 一发）"
         },
         {
           "clause": "getProj 生成 EntityProjectileWebball（重力投射物，命中放置蜘蛛网/致盲 30%/60 tick）",

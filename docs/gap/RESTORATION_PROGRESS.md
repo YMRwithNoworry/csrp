@@ -619,3 +619,20 @@ canUse:  dis < distanceC && dis >= distanceL    // → 8 ≤ d < 32 格
    （用 edit 工具按字节匹配，避免 CRLF 多行锚点失配——见批次 33 的教训）。
 
 本轮不动代码，账面不变（满足 683 / 缺失 265 / 加权 65.8%）。
+
+## 批次 36：sim_bigspider 蛛网弹订正（2026-09-25 续）
+
+批次 35 的侦察结论需要修正一处：端口 `AssimilatedVariantEntity` **已经实现**该远程攻击，只是写在 `tick()` 里而非目标选择器：
+
+```java
+if (kind == Kind.BIGSPIDER && rangedCooldown <= 0 && getTarget() != null && hasLineOfSight(getTarget())) {
+    fireWebBall(getTarget());     // 弹体即既有 ModEntities.WEB_BALL
+    rangedCooldown = 60;          // 与原版 EntityAIAttackProjectile(this, 60, …) 的冷却一致
+}
+```
+
+因此：**条款「远程攻击 EntityAIAttackProjectile(this, 60, 15, 3)：每 60 tick 发射蛛网弹」订正为满足**（有既有 `fireWebBall` + 60 tick 冷却为证）。
+**条款「tasks.addTask(6, EntityAIAttackProjectile(this, 60, 15, 3))」保持缺失**——其「注册进目标选择器」形态与参数中的 `15/3`（原版 `tickInter`/`shootingTimes`，疑似 15 tick 间隔 3 连发）尚未实现，需先读原版 `func_75246_d` 确认语义。
+顺带为该既有行为补上 3 条**此前没有的断言**（BIGSPIDER 门 / `fireWebBall` / 60 tick 冷却），防止它在重构中被悄悄改坏。
+
+校验：`verify-parasite-combat-rules.cjs` 增加 3 条断言；审计记账 1 条，满足 683 → **684**，缺失 265 → **264**。

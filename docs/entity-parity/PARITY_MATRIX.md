@@ -1,10 +1,10 @@
 # 生物还原矩阵（SRParasites 1.10.9 → csrp）
 
-> 生成时间：2026-09-25T03:32:37.428Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
+> 生成时间：2026-09-25T03:34:49.778Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
 > 判定：✅ 全部条款满足；🟠 有部分实现但无缺失；❌ 存在缺失；· 未审计。
 
 - 注册生物总数：**127**；已审计：**13**；未审计：**114**
-- 条款总计：满足 683 / 部分 374 / 缺失 265（不计入 57 条不适用）
+- 条款总计：满足 684 / 部分 373 / 缺失 265（不计入 57 条不适用）
 - **加权完成度：65.8%**（partial 计 0.5）
 
 ## 分面完成度
@@ -14,7 +14,7 @@
 | 注册 `registration` | 61 | 40 | 30 | 61.8% |
 | 属性 `attributes` | 80 | 29 | 16 | 75.6% |
 | AI `ai` | 86 | 75 | 28 | 65.3% |
-| 行为 `behaviors` | 164 | 70 | 66 | 66.3% |
+| 行为 `behaviors` | 165 | 69 | 66 | 66.5% |
 | 伤害/效果 `damage_and_effects` | 102 | 16 | 20 | 79.7% |
 | 同步数据 `sync_data` | 26 | 33 | 30 | 47.8% |
 | 动画 `animation` | 53 | 13 | 7 | 81.5% |
@@ -37,7 +37,7 @@
 | early_lifecycle | 1/10 | 42 | 25 | 18 | 64.1% |
 | marauderized | 1/7 | 54 | 26 | 24 | 64.4% |
 | current | 2/13 | 96 | 44 | 35 | 67.4% |
-| assimilated | 6/23 | 344 | 182 | 93 | 70.3% |
+| assimilated | 6/23 | 345 | 181 | 93 | 70.4% |
 
 ## 逐生物矩阵
 
@@ -166,7 +166,7 @@
 | `sim_human` | EntityInfHuman | SimHumanEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 67.7% |
 | `buglin` | EntityLodo | BuglinEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 67.9% |
 | `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 68.8% |
-| `sim_bigspider` | EntityDorpa | AssimilatedVariantEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 69.4% |
+| `sim_bigspider` | EntityDorpa | AssimilatedVariantEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 69.9% |
 | `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 71% |
 | `sim_cow` | EntityInfCow | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 71.2% |
 | `sim_sheep` | EntityInfSheep | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 73.3% |
@@ -235,7 +235,7 @@
 ### `sim_squid`（EntityInfSquid → AssimilatedParasiteEntity，68.8%）
 - （无缺口摘要，见 raw JSON）
 
-### `sim_bigspider`（EntityDorpa → AssimilatedVariantEntity，69.4%）
+### `sim_bigspider`（EntityDorpa → AssimilatedVariantEntity，69.9%）
 - （无缺口摘要，见 raw JSON）
 
 ### `sim_wolf`（EntityInfWolf → AssimilatedParasiteEntity，71%）
