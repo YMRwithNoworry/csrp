@@ -2179,3 +2179,27 @@ SRPConfigMobs.java:94    dorpamob    = "srparasites:buglin;5;5"
 4. 断言（解析工具的单测式校验 + 挂载点存在性）+ 记账。
 
 **在实施前补齐剩余 3 个键值**（一次 grep 即可），确保 8 个键一次落全、不留半套。
+
+## 批次 142：8 个召唤配置键全部取全（实施前置完成）（2026-09-25 续）
+
+```
+SRPConfigMobs.java:94    dorpamob        = "srparasites:buglin;5;5"     ← 同化蜘蛛（Kind.BIGSPIDER）
+                :396   infcowmob       = "srparasites:buglin;4;3"     ← Kind.COW
+                :410   infsheepmob     = "srparasites:buglin;3;3"     ← Kind.SHEEP
+                :424   infwolfmob      = "srparasites:buglin;2;2"     ← Kind.WOLF
+                :438   infpigmob       = "srparasites:buglin;2;2"     ← Kind.PIG
+                :454   infvillagermob  = "srparasites:buglin;2;2"     ← 变体族 Kind.VILLAGER
+                :469   infhorsemob     = "srparasites:buglin;2;2"     ← 变体族 Kind.HORSE
+                :479   infadventurermob= "srparasites:buglin;4;3"     ← 变体族 sim_adventurer
+```
+
+**关键观察**：8 个键恰好落在**两个族**——`AssimilatedParasiteEntity`（dorpa/cow/sheep/wolf/pig）与
+`AssimilatedVariantEntity`（villager/horse/adventurer），**且没有 squid/human**（即这两种不自爆召唤）。
+这与本会话正在审计的生物高度重合，实施后可直接收敛多份审计里的相关条款。
+
+**实施（下一批，键+解析+挂载一次落全，不留半套）**：
+1. `MobsConfig`：8 个 String 键（默认值照抄上表）+ 8 个访问器；
+2. 新工具（如 `entity/ParasiteSummon.java`）：解析 `<id>;<min>;<max>`（`ResourceLocation` + `BuiltInRegistries.ENTITY_TYPE`），
+   在指定位置按随机组大小生成；解析失败静默返回（与原版一致：配置串非法时不生成）；
+3. 挂载：两族各自的自爆/死亡路径按 `Kind` 取键调用（同化族用 5 个键、变体族用 3 个键）；
+4. 断言（工具解析的确定性校验 + 两族挂载点存在性）+ 记账。
