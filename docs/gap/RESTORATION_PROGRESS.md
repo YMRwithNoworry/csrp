@@ -1850,3 +1850,17 @@ SRPConfigMobs.java:4370  angedEnabled = cfg.getBoolean("Vigilante Enabled", "srp
 `眼高 1.73`(partial)、`tracker(64,3,true)`(partial，批次 87 已修 monster helper，需确认 sim_human 是否走该 helper)、
 `刷怪蛋颜色`(partial)、`SRPConfig.vanillaEggs 开关`(missing)、`infhumanEnabled 开关`(missing)、
 `阶段属性加成`(missing，实际已在批次 28 实现 ✗ 该审计文本可能过时，需复核)、若干 `na`。
+
+## 批次 123：阶段属性加成过时记录收敛（+5）+ 子代理产出验收（2026-09-25 续）
+
+**（一）过时记录收敛**：`sim_human` 审计里那条 `阶段属性加成(missing)` 提示了一类"白捡账面"。全量核查后共 **11 条**相关条款：
+6 条已 satisfied、**5 条仍记 missing**（hi_skeleton / mar_cow / pri_longarms / sim_bigspider / sim_human）——
+而实现是**全局**的（`ParasiteCombatRules.applyPhaseStatBonus` 对任意 `Parasite` 生效，默认阈值 10、系数 0.07）。
+逐条验证继承链后确认五只均继承 `Parasite`（`PrimitiveParasiteEntity:71 implements Parasite`；
+`HijackedParasiteEntity:10 extends PrimitiveParasiteEntity`；`MarauderizedParasiteEntity:21 extends HijackedParasiteEntity`；
+`AssimilatedVariantEntity:55 implements Parasite`）⇒ 原 missing 系**审计文本写于实现之前、之后未回填**，据实收敛为 satisfied。
+
+**（二）子代理产出验收**：第二批委派最终交付了 `raw/sim_villager.json`（11 facet / **93 条**：51 satisfied / 25 partial /
+14 missing / 3 na），结构符合模板。**抽查 4 条 satisfied 的引文**并**实测两条**：
+`ModEntities.java` 确含 `sim_villager` ✔；原版 `SRPEntities.java` 确含 `CreateEntityMob("sim_villager", EntityInfVillager.class, 8…` ✔
+⇒ 证据真实、格式规范（原版/端口双侧 路径:行号）。该文件按产出采纳，但**其余 89 条仍需后续轮次抽查**（本轮只验了 2 条）。

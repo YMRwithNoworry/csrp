@@ -4,9 +4,114 @@
   "projectClass": "AssimilatedParasiteEntity",
   "facets": [
     {
+      "name": "registration",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "刷怪蛋颜色 8611072/16711900",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java",
+            "project": "src/main/java/alku/csrp/registry/ModItems.java:170"
+          },
+          "note": "原版 CreateEntityMob 的主/副色（SRPEntities 表，精确行号待补）；端口已对齐为 0x836500 / 0xFF00DC（批次 85）。"
+        },
+        {
+          "clause": "SRPEntities.CreateEntityMob(\"sim_pig\", <class>, 8611072, 16711900, 26, <enabled>) 注册 id",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:255",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:268"
+          },
+          "note": "API 映射：1.12.2 EntityEntry -> 1.21.1 DeferredRegister + EntityType，注册 id 字面量 sim_pig 一致"
+        },
+        {
+          "clause": "注册用数值 id 26（getParasiteIDRegister）驱动掉落/生成派发",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:50",
+            "project": "src/main/resources/data/csrp/loot_table/entities/sim_pig.json:1"
+          },
+          "note": "project 未保留数值 id 26 常量；数值 id 语义改由 per-entity loot_table + NaturalSpawnTables 表驱动（同 sim_cow 审计结论）"
+        },
+        {
+          "clause": "MobCategory：继承 EntityMob（MONSTER）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:95",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:268"
+          },
+          "note": "project 用 monster(...) helper 注册，内建 MobCategory.MONSTER"
+        },
+        {
+          "clause": "碰撞箱 func_70105_a(0.9F, 0.9F)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:40",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:268"
+          },
+          "note": "project monster(\"sim_pig\", ..., 0.9F, 0.9F) 与 sized(0.9F, 0.9F) 一致"
+        },
+        {
+          "clause": "眼高 func_70047_e() = height * 0.8F",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:180",
+            "project": null
+          },
+          "note": "project 未覆写 getEyeHeight、未在 EntityType.Builder 上调用 eyeHeight()，使用 1.21.1 默认比例（0.85x0.9=0.765，原版 0.8x0.9=0.72）"
+        },
+        {
+          "clause": "tracker(64, 3, true)：追踪距离 64 格 / 更新间隔 3 tick",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:188",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:630"
+          },
+          "note": "project monster() helper 统一 clientTrackingRange(8) = 8 区块 = 128 格，追踪距离被放大；updateInterval 沿用默认 3"
+        },
+        {
+          "clause": "刷怪蛋颜色 8611072 / 16711900（0x836500 / 0xFF00DC）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:255",
+            "project": "src/main/java/alku/csrp/registry/ModItems.java:171"
+          },
+          "note": "数值换算核对：8611072 = 0x836500、16711900 = 0xFF00DC，project spawnEgg(\"sim_pig_spawn_egg\", ModEntities.SIM_PIG, 0x836500, 0xFF00DC) 完全一致（与 sim_cow 的配色偏差结论不同）"
+        },
+        {
+          "clause": "刷怪蛋开关 SRPConfig.vanillaEggs",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:189",
+            "project": null
+          },
+          "note": "project 无该开关，刷怪蛋恒注册"
+        },
+        {
+          "clause": "SRPConfigMobs.infpigEnabled 生物启用开关",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:432",
+            "project": null
+          },
+          "note": "project 无 per-mob 启用开关；src/main/java/alku/csrp/config/MobsConfig.java 仅有 infcow/infsheep/infwolf/infsquid 与各 primitive 倍率，无 infpig* 项"
+        },
+        {
+          "clause": "语言键 srparasites.sim_pig",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:186",
+            "project": "src/main/resources/assets/csrp/lang/en_us.json:80"
+          },
+          "note": "project 键为 entity.csrp.sim_pig = Assimilated Pig"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
       "name": "attributes",
-      "status": "satisfied",
-      "confidence": "high",
+      "status": "partial",
       "clauses": [
         {
           "clause": "生命 INFPIG_HEALTH = 9.0",
@@ -52,13 +157,424 @@
             "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:697"
           },
           "note": "原版同化档统一值；端口 Kind.PIG 第六参已对齐为 16.0D（见 RESTORATION_PROGRESS 批次 73）。"
+        },
+        {
+          "clause": "移动速度 0.25",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:70",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:697"
+          },
+          "note": "project Kind.PIG MOVEMENT_SPEED = 0.30D（原版 func_110148_a(field_111263_d).func_111128_a(0.25)），偏差 +0.05"
+        },
+        {
+          "clause": "跟随范围 SRPConfig.infectedFollow = 16.0",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfig.java:140",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:697"
+          },
+          "note": "project FOLLOW_RANGE 硬编码 16.0D（数值一致）但不读取 infectedFollow 配置项（既有 sim_pig 审计写 SRPConfig.java:146，实为 140 行）"
+        },
+        {
+          "clause": "经验 SRPAttributes.XP_INFECTED = SRPConfig.infectedXPValue = 8",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfig.java:146",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:697"
+          },
+          "note": "project Kind.PIG 经验字段 = 8，与默认 infectedXPValue 8 相同但为硬编码，不读取配置"
+        },
+        {
+          "clause": "全局/单体倍率 SRPAttributes 初始化时全局倍率 x per-mob 倍率",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:1114",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:120"
+          },
+          "note": "project createAttributes 只对 COW/SHEEP/WOLF/SQUID 分支读取 MobsConfig 倍率，PIG 落入 1.0D 兜底分支——原版 INFPIG_* 四项 per-mob 倍率（SRPConfigMobs.infpigHealthMultiplier 等，默认 1.0F）未接线"
+        },
+        {
+          "clause": "阶段属性加成 evolutionParasiteStatIncrease",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1676",
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
+          },
+          "note": "family-level 全科共用实现（applyPhaseStatBonus 于 FinalizeSpawnEvent）"
+        },
+        {
+          "clause": "基因加成 applyGene（最小伤害/伤害上限/穿墙/疾跑/水跃/技能/攻击速度）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:266",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java"
+          },
+          "note": "family-level 实现同 sim_cow（GeneMeleeGoal 疾跑/攻速、ParasiteCombatRules 最小伤害与伤害上限、WaterLeapAtTargetGoal 水跃）；PIG 无 EntityAISkill 技能项（原版 EntityInfPig 未注册），技能子项对该原版类不适用"
         }
-      ]
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "ai",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "targetTasks.addTask(1, EntityAIHurtByTarget(this, true, new Class[0]))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:59",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:141"
+          },
+          "note": "project targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers())"
+        },
+        {
+          "clause": "tasks.addTask(0, EntityAISwimmingDiving(this, 0.08))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:60",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:128"
+          },
+          "note": "project goalSelector.addGoal(0, new SwimmingDivingGoal(this, 0.08D))，优先级与参数一致"
+        },
+        {
+          "clause": "tasks.addTask(3, EntityAIAttackMeleeStatus(this, 1.3, false, 0.0))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:61",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:133"
+          },
+          "note": "project 共享 GeneMeleeGoal 优先级 2、速度 1.15，原版优先级 3、速度 1.3"
+        },
+        {
+          "clause": "tasks.addTask(8, EntityAILookIdle(this))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:62",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:140"
+          },
+          "note": "project 使用 RandomLookAroundGoal（优先级 6，原版优先级 8），语义近似但优先级不同"
+        },
+        {
+          "clause": "tasks.addTask(6, EntityAIGetFollowers(this, 1, 16))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:63",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:139"
+          },
+          "note": "project RecruitFollowersGoal(this, 16) 优先级 6，与原版 (1, 16) 门限一致"
+        },
+        {
+          "clause": "原版 EntityInfPig 未注册 EntityAISkill（无冲锋技能）",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:58"
+          },
+          "note": "原版 func_184651_r 仅注册 5 条任务（HurtByTarget/SwimmingDiving/AttackMeleeStatus/LookIdle/GetFollowers），无 EntityAISkill；project registerGoals 中 CowChargeGoal 由 if (kind == Kind.COW) 限定，PIG 同样不注册，双方一致故记 na"
+        },
+        {
+          "clause": "EntityParasiteBase 构造：tasks.addTask(0, EntityAIWait)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:189",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedMeltSystem.java:64"
+          },
+          "note": "family-level：project 无 wait goal，等待/定格语义由 AssimilatedMeltSystem.freeze 近似"
+        },
+        {
+          "clause": "EntityParasiteBase 构造：tasks.addTask(5, EntityAIWanderStatus(1.0, 120, 0.001F, true))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:190",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:136"
+          },
+          "note": "family-level：project WaterAvoidingRandomStrollGoal(1.0) 优先级 5，无 status/checkPositionWander 门控"
+        },
+        {
+          "clause": "EntityParasiteBase 构造：tasks.addTask(6, EntityAIParasiteFollow(1.3, 16, 6, true))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:191",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:139"
+          },
+          "note": "family-level：project ParasiteFollowGoal(this) 优先级 6"
+        },
+        {
+          "clause": "EntityParasiteBase 构造：tasks.addTask(5, EntityAIJumping)",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:192",
+            "project": null
+          },
+          "note": "family-level：project 无跳跃/越障 goal"
+        },
+        {
+          "clause": "EntityPInfected 构造：target 4 NearestAttackableTargetStatus(EntityPlayer, sneakPen 0.8, inviPen 0.7)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:58",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:142"
+          },
+          "note": "family-level：project NearestAttackableTargetGoal 不实现潜行/隐身察觉惩罚"
+        },
+        {
+          "clause": "EntityPInfected 构造：SRPConfig.mobattacking 时 target 4 EntityLiving（排除水栖/动物/村民+黑名单）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:62",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:142"
+          },
+          "note": "family-level：project isValidParasiteTarget 仅排除 Parasite 自身与死亡目标，未排除动物/水栖/黑名单"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "behaviors",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "isMelting / melt()：融化开始高度 0.9F 与 MELTING=true",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:102",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:697"
+          },
+          "note": "Kind.PIG meltStartHeight = 0.9F（原版 melt() 写 HEIGH = 0.9F 并 setWait(1000)），MELTING 同步位由 AssimilatedMeltSystem 驱动"
+        },
+        {
+          "clause": "融化时长 25（func_70609_aI 中 sound >= 25 结束）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:123",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:697"
+          },
+          "note": "Kind.PIG meltDuration = 25，tickMelting 用 meltTicks < kind.meltDuration 复刻原版 sound 计数器上限；结束条件 getTHeigh() <= 0.7 在 project 侧为高度下限 0.7F 夹取"
+        },
+        {
+          "clause": "融化产物 EntityLesh（setLegs(SRPAttributes.INFPIG_V)）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:124",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:657"
+          },
+          "note": "project 生成 MovingFleshEntity（AssimilatedMeltSystem.spawnMovingFlesh(this, kind.mergeValue)，PIG mergeValue = 1），未生成 EntityLesh，SRPAttributes.INFPIG_V（默认 0）未还原为状态参数"
+        },
+        {
+          "clause": "死亡时按 SRPAttributes.INFPIG_HEADCHANCE（=SRPConfigMobs.infpigheadchance 0.5）生成 srparasites:sim_pighead;1;1",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:96",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:283"
+          },
+          "note": "project die() 内 random.nextFloat() >= 0.5F 早退 + case PIG -> ModEntities.SIM_PIG_HEAD，与原版 0.5F 概率及 mob id 对应"
+        },
+        {
+          "clause": "getFeral 覆写：转化为 EntityFerPig（killcount > feralKills 60）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:196",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:307"
+          },
+          "note": "project transformToFeral case PIG -> ModEntities.FER_PIG，阈值 FERAL_KILL_THRESHOLD = 60 对应原版 SRPConfig.feralKills 默认 60"
+        },
+        {
+          "clause": "selfExplode 额外召唤 SRPConfigMobs.infpigmob = srparasites:buglin;2;2",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:176",
+            "project": null
+          },
+          "note": "project 自爆流程（ParasiteCombatRules.selfExplode）不召唤 Buglin；无 infpigmob 等价配置"
+        },
+        {
+          "clause": "func_180429_a 脚步声（SoundEvents.field_187869_gK, 0.15F, 1.0F）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:200",
+            "project": null
+          },
+          "note": "project 未覆写 playStepSound / getStepSound"
+        },
+        {
+          "clause": "canSpawnByIDData() = SRPConfigMobs.infpigCanSpawnAssimilatedNat（默认 4）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:54",
+            "project": null
+          },
+          "note": "project 无 per-mob 同化生成配额门控（无 infpigCanSpawnAssimilatedNat / getIDSpawn 等价实现）"
+        },
+        {
+          "clause": "family-level：selfExplode / spawnGore / doLast SPOT / 伤害上限 / 药水免疫等 EntityParasiteBase 通用行为",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1525",
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
+          },
+          "note": "与 sim_cow 审计中已核实的全科共用实现共享（selfExplode -> MOB_EXPLOSION/ToxicCloud、受击 gore 铺地、doLast SPOT、最小伤害与伤害上限）"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "sounds",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "环境音 SRPSounds.INFECTEDPIG_GROWL（getParasiteStatus() != 0 时退化为 SRPSounds.MOBSILENCE）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:184",
+            "project": "src/main/java/alku/csrp/entity/ParasiteSoundProfiles.java:22"
+          },
+          "note": "project register(\"infectedpig\", \"sim_pig\", \"fer_pig\") 提供组映射，但无 status != 0 时静音判定"
+        },
+        {
+          "clause": "受伤音 SRPSounds.INFECTEDPIG_HURT",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:188",
+            "project": "src/main/java/alku/csrp/entity/ParasiteSoundProfiles.java:22"
+          },
+          "note": "project getHurtSound -> ParasiteSoundProfiles.hurt(this)，按 infectedpig 组解析"
+        },
+        {
+          "clause": "死亡音 SRPSounds.INFECTEDPIG_DEATH",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:192",
+            "project": "src/main/java/alku/csrp/entity/ParasiteSoundProfiles.java:22"
+          },
+          "note": "project getDeathSound -> ParasiteSoundProfiles.death(this)"
+        },
+        {
+          "clause": "融化音 SRPSounds.INFECTED_MELT（每 20 tick，音量 1.0）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:112",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:646"
+          },
+          "note": "project meltTicks % 20 -> playSound(ModSounds.SIM_ADVENTURER_MELT, 1.0F, 1.0F)：节奏与音量一致，事件名不同（复用 sim_adventurer.melt 素材）"
+        },
+        {
+          "clause": "脚步声 SoundEvents.field_187869_gK（SRP 猪脚步）0.15 音量",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java:201",
+            "project": null
+          },
+          "note": "project 未注册 footsteps/step 音效覆写"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "spawning",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "SRPSpawning.addSpawn(0, EntityInfPig.class, 3, 6, biome, infpigSpawnRate, infpigEnabled)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:158",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:26"
+          },
+          "note": "project spawn(\"sim_pig\", 3, 5, 25) 权重 25 一致，但群组上限 5（原版 6）"
+        },
+        {
+          "clause": "生成群组 min/max 数量 3-6",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:158",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:26"
+          },
+          "note": "原版 3-6，project 3-5（下限一致）"
+        },
+        {
+          "clause": "生成权重 SRPConfigMobs.infpigSpawnRate（默认 25）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:430",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:26"
+          },
+          "note": "原版默认 25 = project 权重 25"
+        },
+        {
+          "clause": "生物群系 modifier（biome modifier 注册）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:158",
+            "project": "src/main/resources/data/csrp/neoforge/biome_modifier/sim_pig_spawns.json:1"
+          },
+          "note": "project 另有 #minecraft:is_overworld 的 biome_modifier（weight 25、minCount 3、maxCount 6），与自然阶段表并存，两处数值不一致（表内 3-5 / modifier 3-6）"
+        },
+        {
+          "clause": "阶段门控 canSpawninPhase（阶段表选择）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:556",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:18"
+          },
+          "note": "family-level：sim_pig 出现在 6 个阶段生成表中（NaturalSpawnTables 行 26/72/100/129/162/199）"
+        },
+        {
+          "clause": "光照/难度/天数规则 func_70601_bi",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1553",
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
+          },
+          "note": "family-level：enforceLegacySpawnValidity (FinalizeSpawnEvent) + world/SpawnLightChecks 两级光照"
+        },
+        {
+          "clause": "getIDSpawn / canSpawnByIDData（同化生成配额，默认 4）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:102",
+            "project": null
+          },
+          "note": "family-level：project 无 per-mob 同化配额"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "loot",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "主掉落 infpigLoot[0] = srparasites:assimilated_flesh;80;2;false（80% 概率，数量 2）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:433",
+            "project": "src/main/resources/data/csrp/loot_table/entities/sim_pig.json:1"
+          },
+          "note": "project 单池 rolls 1、csrp:assimilated_flesh 100% 掉落、uniform(1,2)；原版为 80% 概率判定、固定数量 2"
+        },
+        {
+          "clause": "副掉落 infpigLoot[1] = srparasites:lurecomponent2;10;1;true",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:433",
+            "project": null
+          },
+          "note": "sim_pig.json 战利品表只含 assimilated_flesh 一条，无 lurecomponent2"
+        },
+        {
+          "clause": "infpigheadLoot = new String[0]（头颅无掉落）",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:434"
+          },
+          "note": "原版头颅掉落表为空数组，本身不含掉落行为，故记 na"
+        }
+      ],
+      "confidence": "high"
     },
     {
       "name": "experience",
       "status": "satisfied",
-      "confidence": "high",
       "clauses": [
         {
           "clause": "经验 field_70728_aV = SRPAttributes.XP_INFECTED（infectedXPValue = 8）",
@@ -69,12 +585,12 @@
           },
           "note": "EntityPInfected:86 赋 XP_INFECTED；端口 Kind.PIG 的 experience 参数已对齐为 8（批次 75）。"
         }
-      ]
+      ],
+      "confidence": "high"
     },
     {
       "name": "rendering",
       "status": "satisfied",
-      "confidence": "high",
       "clauses": [
         {
           "clause": "渲染阴影半径 0.5F",
@@ -85,23 +601,8 @@
           },
           "note": "原版 super(manager, new ModelInfPig(), 0.5F)；端口 AssimilatedParasiteRenderer 实参已对齐为 0.50F（批次 107）。"
         }
-      ]
-    },
-    {
-      "name": "registration",
-      "status": "satisfied",
-      "confidence": "medium",
-      "clauses": [
-        {
-          "clause": "刷怪蛋颜色 8611072/16711900",
-          "verdict": "satisfied",
-          "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java",
-            "project": "src/main/java/alku/csrp/registry/ModItems.java:170"
-          },
-          "note": "原版 CreateEntityMob 的主/副色（SRPEntities 表，精确行号待补）；端口已对齐为 0x836500 / 0xFF00DC（批次 85）。"
-        }
-      ]
+      ],
+      "confidence": "high"
     }
   ]
 }

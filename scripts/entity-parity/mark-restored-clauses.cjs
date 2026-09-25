@@ -726,6 +726,19 @@ const BATCHES = {
         detail: "原版 XP_INFECTED = 8（SRPConfig.java:146）；端口 Kind.HUMAN 的 experience 参数已由 10 对齐为 8（批次 120）。"
       }
     ]
+  },
+  // 批次 123：阶段属性加成早已全局实现，五只审计文本过时（missing -> satisfied）
+  "phase-stat-bonus-stale": {
+    note: "批次：阶段属性加成全局实现（FinalizeSpawnEvent），收敛过时的 missing 记录",
+    mobs: ["hi_skeleton", "mar_cow", "pri_longarms", "sim_bigspider", "sim_human"],
+    clauses: [
+      {
+        match: /阶段属性加成|evolutionParasiteStatIncrease/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/event/ParasiteCombatRules.java",
+        detail: "applyPhaseStatBonus(FinalizeSpawnEvent) 对任意 Parasite 生效：Config.useEvolutionPhases() 为真且 SrpWorldData.evolutionPhase() >= Config.evolutionStatIncreasePhase()（默认 10）时，把 MAX_HEALTH / ARMOR / ATTACK_DAMAGE 的基值乘以 (1 + Config.evolutionStatIncreaseValue())（默认 0.07）。五只生物均继承 Parasite（PrimitiveParasiteEntity:71 implements Parasite；HijackedParasiteEntity:10 extends PrimitiveParasiteEntity；MarauderizedParasiteEntity:21 extends HijackedParasiteEntity；AssimilatedVariantEntity:55 implements Parasite），故同受该规则约束——原 missing 记录系审计文本写于实现之前、之后未回填。"
+      }
+    ]
   }
 };
 

@@ -1,27 +1,27 @@
 # 生物还原矩阵（SRParasites 1.10.9 → csrp）
 
-> 生成时间：2026-09-25T05:33:53.489Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
+> 生成时间：2026-09-25T05:34:54.698Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
 > 判定：✅ 全部条款满足；🟠 有部分实现但无缺失；❌ 存在缺失；· 未审计。
 
-- 注册生物总数：**127**；已审计：**14**；未审计：**113**
-- 条款总计：满足 721 / 部分 352 / 缺失 255（不计入 57 条不适用）
-- **加权完成度：67.5%**（partial 计 0.5）
+- 注册生物总数：**127**；已审计：**15**；未审计：**112**
+- 条款总计：满足 798 / 部分 397 / 缺失 273（不计入 62 条不适用）
+- **加权完成度：67.9%**（partial 计 0.5）
 
 ## 分面完成度
 
 | 面 | 满足 | 部分 | 缺失 | 完成度 |
 | --- | ---: | ---: | ---: | ---: |
-| 注册 `registration` | 63 | 40 | 29 | 62.9% |
-| 属性 `attributes` | 99 | 24 | 7 | 85.4% |
-| AI `ai` | 87 | 74 | 28 | 65.6% |
-| 行为 `behaviors` | 165 | 69 | 66 | 66.5% |
-| 伤害/效果 `damage_and_effects` | 102 | 16 | 20 | 79.7% |
-| 同步数据 `sync_data` | 26 | 33 | 30 | 47.8% |
-| 动画 `animation` | 53 | 13 | 7 | 81.5% |
-| 模型/贴图 `model_texture` | 45 | 4 | 19 | 69.1% |
-| 音效 `sounds` | 33 | 21 | 18 | 60.4% |
-| 生成 `spawning` | 39 | 32 | 16 | 63.2% |
-| 掉落 `loot` | 9 | 26 | 15 | 44% |
+| 注册 `registration` | 74 | 45 | 33 | 63.5% |
+| 属性 `attributes` | 111 | 31 | 4 | 86.6% |
+| AI `ai` | 95 | 86 | 32 | 64.8% |
+| 行为 `behaviors` | 179 | 74 | 70 | 66.9% |
+| 伤害/效果 `damage_and_effects` | 110 | 16 | 20 | 80.8% |
+| 同步数据 `sync_data` | 29 | 35 | 33 | 47.9% |
+| 动画 `animation` | 57 | 14 | 7 | 82.1% |
+| 模型/贴图 `model_texture` | 49 | 5 | 19 | 70.5% |
+| 音效 `sounds` | 37 | 25 | 20 | 60.4% |
+| 生成 `spawning` | 48 | 37 | 17 | 65.2% |
+| 掉落 `loot` | 9 | 29 | 18 | 42% |
 
 ## 分组完成度
 
@@ -33,17 +33,16 @@
 | pure_and_preeminent | 0/19 | 0 | 0 | 0 | 0% |
 | ancient | 0/4 | 0 | 0 | 0 | 0% |
 | nexus_and_aberrant | 1/15 | 43 | 38 | 32 | 54.9% |
-| hijacked_and_feral | 2/12 | 110 | 56 | 60 | 61.1% |
+| hijacked_and_feral | 2/12 | 111 | 56 | 59 | 61.5% |
 | early_lifecycle | 1/10 | 42 | 25 | 18 | 64.1% |
-| marauderized | 1/7 | 57 | 24 | 23 | 66.3% |
-| current | 2/13 | 98 | 42 | 35 | 68% |
-| assimilated | 7/23 | 371 | 167 | 87 | 72.7% |
+| marauderized | 1/7 | 58 | 24 | 22 | 67.3% |
+| current | 2/13 | 99 | 42 | 34 | 68.6% |
+| assimilated | 8/23 | 445 | 212 | 108 | 72% |
 
 ## 逐生物矩阵
 
 | id | 原版类 | 工程类 | 注册 | 属性 | AI | 行为 | 伤害/效果 | 同步数据 | 动画 | 模型/贴图 | 音效 | 生成 | 掉落 | 完成度 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | ---: |
-| `sim_villager` | EntityInfVillager | AssimilatedVariantEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `sim_adventurer` | EntityInfPlayer | SimAdventurerEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `sim_horse` | EntityInfHorse | AssimilatedVariantEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `sim_bear` | EntityInfBear | AssimilatedParasiteEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
@@ -157,19 +156,20 @@
 | `kirin` | EntityKirin | KirinEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `draconite` | EntityHeblu | DraconiteEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `beckon_siii` | EntityVenkrolSIII | NexusParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 54.9% |
-| `hi_skeleton` | EntityHiSkeleton | HiSkeletonEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | 60.3% |
+| `hi_skeleton` | EntityHiSkeleton | HiSkeletonEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | 61.4% |
 | `fer_villager` | EntityFerVillager | FeralParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 61.6% |
 | `host` | EntityHost | HostEntity | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | 🟠 | 64.1% |
-| `mar_cow` | EntitySpeCow | MarauderizedCowEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 66.3% |
-| `pri_longarms` | EntityShyco | LongarmsEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 67.6% |
+| `sim_pig` | EntityInfPig | AssimilatedParasiteEntity | ❌ | 🟠 | ❌ | ❌ | · | · | · | · | ❌ | ❌ | ❌ | 66.1% |
+| `mar_cow` | EntitySpeCow | MarauderizedCowEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 67.3% |
 | `buglin` | EntityLodo | BuglinEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 68.6% |
-| `sim_human` | EntityInfHuman | SimHumanEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 70% |
+| `pri_longarms` | EntityShyco | LongarmsEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 68.6% |
+| `sim_villager` | EntityInfVillager | AssimilatedVariantEntity | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | 🟠 | 🟠 | ❌ | ❌ | ❌ | 70.6% |
+| `sim_human` | EntityInfHuman | SimHumanEntity | ❌ | ✅ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 70.9% |
 | `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | ❌ | 🟠 | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 71% |
 | `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | ❌ | 🟠 | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 72.4% |
-| `sim_bigspider` | EntityDorpa | AssimilatedVariantEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 73% |
 | `sim_cow` | EntityInfCow | AssimilatedParasiteEntity | ❌ | 🟠 | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 73.1% |
+| `sim_bigspider` | EntityDorpa | AssimilatedVariantEntity | ❌ | ✅ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 74% |
 | `sim_sheep` | EntityInfSheep | AssimilatedParasiteEntity | ❌ | 🟠 | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 75.2% |
-| `sim_pig` | EntityInfPig | AssimilatedParasiteEntity | ✅ | ✅ | · | · | · | · | · | · | · | · | · | 100% |
 
 ## 缺口清单（按完成度升序）
 
@@ -181,7 +181,7 @@
 - 同步缺失：SKIN/SELFE/COLD_L/DISLO15 与 byte 12/50/51/52 广播；冰冻变体贴图与 LayerGlowing/受击染色层
 - 掉落与经验：80%/0-9 个 → 20%/1 个；经验 110 → 64；缺阶段经验门控、死亡钩子与死亡粒子
 
-### `hi_skeleton`（EntityHiSkeleton → HiSkeletonEntity，60.3%）
+### `hi_skeleton`（EntityHiSkeleton → HiSkeletonEntity，61.4%）
 - 缺少 per-mob 启用开关（hiskeletonEnabled）与 marvillager 专属属性乘数；FOLLOW_RANGE 48 而非 hijackedFollow(24)、XP 30 而非 11
 - AI 缺失 EntityAIGetFollowers、EntityAIAttackMeleeRangeSwitch、EntityAIWait、EntityAIJumping；索敌缺少 sneak/invisible 惩罚与 mobattacking 黑名单
 - 缺 hijacked skin 变体（setSkin(1)）与 SKIN/COLD_L/DISLO15 同步参数、数字寄生虫 id 303、type 11
@@ -205,21 +205,16 @@
 - AI：wait/jumpT/AOE 范围切换 GOAL 缺失，跟随 GOAL 未按原版移除
 - 经验 20 < 原版 30，且缺少阶段加成与 per-mob 开关
 
-### `mar_cow`（EntitySpeCow → MarauderizedCowEntity，66.3%）
+### `sim_pig`（EntityInfPig → AssimilatedParasiteEntity，66.1%）
+- （无缺口摘要，见 raw JSON）
+
+### `mar_cow`（EntitySpeCow → MarauderizedCowEntity，67.3%）
 - 眼高 1.3 未实现（用默认值）
 - EntityAIWait（呕吐后 60 tick 僵直）与 EntityAIJumping、EntityAISwimmingDiving、EntityAIAttackMeleeRangeSwitch 四个 goal 缺失
 - 同化配额门控（getIDSpawn/canSpawnByIDData）与 SRPConfigMobs.marcowEnabled 开关缺失
 - 伤害上限 assimaraCap=5、药水免疫、VIRA 最小伤害联动、击杀回血、PARATE 强化、最小伤害攻击全部缺失
 - 死亡自爆链（50% madeRng → 40 tick 引信 → 毒云 + gore + MOBEXPLOTION 爆炸音）仅保留 Buglin 召唤
 - COTH 命中传播与 3 格 COTH 光环缺失
-
-### `pri_longarms`（EntityShyco → LongarmsEntity，67.6%）
-- 碰撞箱 1.0x3.0 vs 0.6x3.2、眼高默认 2.55 vs 2.7、追踪范围 8 vs 64、刷怪蛋颜色不一致
-- 缺少 per-mob 启用开关（shycoEnabled）与 shyco 专属属性乘数，无数字寄生虫 id
-- AI 缺失：水中跃击技能、EntityAIGetFollowers 招募、恐怖球技能(EntityAISkill id 21)、EntityAIBlockLight、EntityAIWait、EntityAIJumping、潜行/隐身索敌惩罚
-- 冲击波波体伤害为 1.0x（原版 0.3x）、每目标仅命中一次、寿命与破坏硬度不匹配；AOE 缺少“命中寄生虫清除目标”分支
-- 变体皮肤 5/6/7 与冰冻变体 120 全链路缺失（同步数据、finalizeSpawn、贴图、粒子、附加效果）
-- 伤害侧缺失：单次伤害上限(damageCap=6)+RAGE、生命恢复、吞噬食物、击杀治疗、FEAR、毒治愈、效果免疫、PIVOT 转移
 
 ### `buglin`（EntityLodo → BuglinEntity，68.6%）
 - 缺少 per-mob 启用开关（SRPConfigMobs.lodoEnabled）与 lodo 专属属性乘数
@@ -229,7 +224,18 @@
 - 冰冻变体贴图（slodo）与脚步静音音效缺失
 - 经验值 1 而非 XP_LiTTLE(4)；缺少死亡钩子（spawnCyst/spawnBeckon/leaveScent）
 
-### `sim_human`（EntityInfHuman → SimHumanEntity，70%）
+### `pri_longarms`（EntityShyco → LongarmsEntity，68.6%）
+- 碰撞箱 1.0x3.0 vs 0.6x3.2、眼高默认 2.55 vs 2.7、追踪范围 8 vs 64、刷怪蛋颜色不一致
+- 缺少 per-mob 启用开关（shycoEnabled）与 shyco 专属属性乘数，无数字寄生虫 id
+- AI 缺失：水中跃击技能、EntityAIGetFollowers 招募、恐怖球技能(EntityAISkill id 21)、EntityAIBlockLight、EntityAIWait、EntityAIJumping、潜行/隐身索敌惩罚
+- 冲击波波体伤害为 1.0x（原版 0.3x）、每目标仅命中一次、寿命与破坏硬度不匹配；AOE 缺少“命中寄生虫清除目标”分支
+- 变体皮肤 5/6/7 与冰冻变体 120 全链路缺失（同步数据、finalizeSpawn、贴图、粒子、附加效果）
+- 伤害侧缺失：单次伤害上限(damageCap=6)+RAGE、生命恢复、吞噬食物、击杀治疗、FEAR、毒治愈、效果免疫、PIVOT 转移
+
+### `sim_villager`（EntityInfVillager → AssimilatedVariantEntity，70.6%）
+- （无缺口摘要，见 raw JSON）
+
+### `sim_human`（EntityInfHuman → SimHumanEntity，70.9%）
 - （无缺口摘要，见 raw JSON）
 
 ### `sim_squid`（EntityInfSquid → AssimilatedParasiteEntity，71%）
@@ -238,14 +244,11 @@
 ### `sim_wolf`（EntityInfWolf → AssimilatedParasiteEntity，72.4%）
 - （无缺口摘要，见 raw JSON）
 
-### `sim_bigspider`（EntityDorpa → AssimilatedVariantEntity，73%）
-- （无缺口摘要，见 raw JSON）
-
 ### `sim_cow`（EntityInfCow → AssimilatedParasiteEntity，73.1%）
 - （无缺口摘要，见 raw JSON）
 
-### `sim_sheep`（EntityInfSheep → AssimilatedParasiteEntity，75.2%）
+### `sim_bigspider`（EntityDorpa → AssimilatedVariantEntity，74%）
 - （无缺口摘要，见 raw JSON）
 
-### `sim_pig`（EntityInfPig → AssimilatedParasiteEntity，100%）
+### `sim_sheep`（EntityInfSheep → AssimilatedParasiteEntity，75.2%）
 - （无缺口摘要，见 raw JSON）

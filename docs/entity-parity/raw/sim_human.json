@@ -173,12 +173,12 @@
         },
         {
           "clause": "阶段属性加成 evolutionParasiteStatIncrease（phase ≥ 阈值时生命/护甲/攻击 ×(1+v)）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1676",
-            "project": null
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
-          "note": "project 的 sim_* 实体不读取进化阶段加成"
+          "note": "applyPhaseStatBonus(FinalizeSpawnEvent) 对任意 Parasite 生效：Config.useEvolutionPhases() 为真且 SrpWorldData.evolutionPhase() >= Config.evolutionStatIncreasePhase()（默认 10）时，把 MAX_HEALTH / ARMOR / ATTACK_DAMAGE 的基值乘以 (1 + Config.evolutionStatIncreaseValue())（默认 0.07）。五只生物均继承 Parasite（PrimitiveParasiteEntity:71 implements Parasite；HijackedParasiteEntity:10 extends PrimitiveParasiteEntity；MarauderizedParasiteEntity:21 extends HijackedParasiteEntity；AssimilatedVariantEntity:55 implements Parasite），故同受该规则约束——原 missing 记录系审计文本写于实现之前、之后未回填。；批次：阶段属性加成全局实现（FinalizeSpawnEvent），收敛过时的 missing 记录"
         },
         {
           "clause": "基因加成 applyGene（最小伤害/伤害上限/穿墙/疾跑/水跃/技能/攻击速度）",
