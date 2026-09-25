@@ -3266,3 +3266,25 @@ startSeenByPlayer/stopSeenByPlayer → bossEvent.addPlayer/removePlayer       //
 
 **方法论沿用**：本轮**没有**因为"审计说缺 15"就直接塞一个 15——先确认机制在不在、语义对不对，
 再决定是"复用既有 goal"还是"新建机制"（批次 202 的教训）。
+
+## 批次 205：头部节奏方案勘察 + **订正我的记述**（2026-09-25 续，未改代码）
+
+**订正**：批次 204 我记述"`GeneMeleeGoal` 带 interval 参数"——**不准确**。实读该类：
+
+```
+GeneMeleeGoal.java:22-23   /** Legacy attackSpeedT: the port's base interval for these families. */
+                           private static final int BASE_ATTACK_INTERVAL_TICKS = 20;   ← 【硬编码 20，非构造参数】
+GeneMeleeGoal.java:32      public GeneMeleeGoal(Mob mob, double baseSpeed, boolean requireLineOfSight)
+```
+
+即端口把 `attackSpeedT` 建模为**固定的 20**，而**头部原版是 15** ⇒ 需要**参数化**（新增构造重载或每实例字段），
+再让头部以 15 注册。
+
+**下一批实施顺序**：
+1. 先读头部当前近战实现（端口有 `HeadMeleeGoal`，见批次 171 的 goal 列表：`Float(0)/Avoid(1)/LeapAtTarget(2)/HeadCothCloud(3)/HeadMelee(4)`）
+   —— **头部走的是 `HeadMeleeGoal` 而非 `GeneMeleeGoal`** ⇒ 应先确认它的节奏从何而来，再决定改哪一个（**避免改错层级的 goal**，批次 202 教训）；
+2. 若 `HeadMeleeGoal` 内部同样硬编码 20 ⇒ 参数化为 15；若其节奏另有来源 ⇒ 按实际来源调整；
+3. 断言（头部近战节奏 = 15 tick）。
+
+**方法论**：本轮的价值在于**又一次订正自己的记述**（"带 interval 参数"→"硬编码 20"）——本会话已多次出现
+"我的笔记比事实乐观"的情形，因此**动手前重读代码**是必需步骤，而不是可选项。
