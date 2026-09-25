@@ -54,6 +54,12 @@ public final class EvolutionEvents {
             + "it means an unusual amount of parasites have spawned in the world. This is likely due to a bug "
             + "or an issue with the mod or an addon you have installed. Excess parasites will be removed as a "
             + "result, THIS IS INTENDED.";
+    // 原版 SRPSpawning：count > cap*6 时才清理，一次清理到 cap*3，且带 50 tick 冷却。
+    private static final int MOB_CLEANER_TRIGGER_MULTIPLIER = 6;
+    private static final int MOB_CLEANER_TARGET_MULTIPLIER = 3;
+    private static final int MOB_CLEANER_COOLDOWN_TICKS = 50;
+    private static final int TICKS_BETWEEN_CLEANER_CHECKS = 20;
+    private static int mobClearCooldown;
     private static final double SPRINT_MIN_HORIZONTAL_DISTANCE_SQR = 1.0E-4D;
     private static final ResourceLocation PHASE_TEN_HEALTH =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "phase_ten_health");
@@ -80,23 +86,33 @@ public final class EvolutionEvents {
         if (!WorldConfig.mobCleanerEnabled() || mobCap <= 0) {
             return;
         }
+        if (mobClearCooldown > 0) {
+            // 本方法每 20 tick 调用一次；原版 mobClearCooldown 按 tick 递减。
+            mobClearCooldown -= TICKS_BETWEEN_CLEANER_CHECKS;
+            return;
+        }
         List<LivingEntity> parasites = new ArrayList<>();
         for (Entity entity : level.getAllEntities()) {
             if (entity instanceof LivingEntity living && entity instanceof Parasite) {
                 parasites.add(living);
             }
         }
-        int removalThreshold = mobCap * 2;
-        int excess = parasites.size() - removalThreshold;
-        if (excess <= 0) {
+        if (parasites.size() <= mobCap * MOB_CLEANER_TRIGGER_MULTIPLIER) {
             return;
         }
         LOGGER.warn(MOB_CLEANER_WARNING);
+        mobClearCooldown = MOB_CLEANER_COOLDOWN_TICKS;
+        int target = mobCap * MOB_CLEANER_TARGET_MULTIPLIER;
+        int remaining = parasites.size();
         parasites.sort(Comparator
                 .comparingDouble((LivingEntity entity) -> entity.getBbWidth() * entity.getBbHeight())
                 .thenComparing(Comparator.comparingInt((LivingEntity entity) -> entity.tickCount).reversed()));
-        for (int index = 0; index < excess; index++) {
-            parasites.get(index).discard();
+        for (LivingEntity parasite : parasites) {
+            if (remaining < target) {
+                return;
+            }
+            parasite.discard();
+            remaining--;
         }
     }
 

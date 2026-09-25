@@ -18,6 +18,11 @@ public final class WorldConfig {
     private static final ModConfigSpec.BooleanValue MOB_CLEANER_ENABLED = BUILDER
             .comment("Remove excess parasites when their count exceeds twice the current natural mob cap.")
             .define("mobCleanerEnabled", true);
+    private static final ModConfigSpec.BooleanValue NEXUS_DESPAWN = BUILDER
+            .comment("Legacy SRPConfig.rsDespawn (\"Nexus Versions Despawn\"): set to true to let Beckon, "
+                    + "Dispatcher and Rooter versions despawn naturally. Defaults to false, which is the legacy "
+                    + "behaviour: Nexus versions never disappear from natural despawn rules.")
+            .define("nexusDespawn", false);
     private static final ModConfigSpec.IntValue BECKON_INFESTATION_BLOCK_LIMIT = BUILDER
             .comment("Transformed blocks before Beckon infestation enters its cooldown.")
             .defineInRange("beckonInfestationBlockLimit", 1000, 0, 8192);
@@ -59,6 +64,11 @@ public final class WorldConfig {
 
     public static boolean mobCleanerEnabled() {
         return MOB_CLEANER_ENABLED.get();
+    }
+
+    /** Legacy {@code SRPConfig.rsDespawn} ("Nexus Versions Despawn"); default false. */
+    public static boolean nexusDespawn() {
+        return NEXUS_DESPAWN.get();
     }
 
     public static int beckonInfestationBlockLimit() {

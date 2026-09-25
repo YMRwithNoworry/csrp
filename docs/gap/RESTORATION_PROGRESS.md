@@ -4564,3 +4564,44 @@ grep "shycoadaptedmelee|SHYCO_A_MELLE" 原版 → 【0 命中】✗
 **教训（已第 5 次同类）**：**动态拼接正则**（`new RegExp` + 嵌套转义 ✗）是本会话的高频错误源 ✗；
 **应优先写字面量正则** ✔（可读、可查、无转义 ✔）。此外，`node --check` 是**零成本**的语法预检 ✔，
 应作为"改动脚本后"的固定步骤 ✔（本轮已用 ✔）。
+
+## 批次 268：寄生体「凭空消失」修复（2026-09-25 续）
+
+用户反馈：游戏中 CSRP 的生物有时会直接消失。逐条对照原版反编译源码取证后，定位到三条与原版不一致的移除路径：
+
+**1. Nexus 家族失去原版 canD 门控（主因）**
+
+原版 `EntityPStationaryArchitect` 构造函数写入 `this.canD = SRPConfig.rsDespawn`（`SRPConfig.java:136`，`rsDespawn = false`），
+其子类 `EntityPBeckon` / `EntityPDispatcher` / `EntityPRooter` 覆盖了全部 12 个 beckon/dispatcher/rooter，
+`EntityDodSIV` 与 `EntityVenkrolSIV` 另有覆写（`EntityDodSIV.java:188`、`EntityVenkrolSIV.java:352`）⇒ **Nexus 永不自然消失**。
+端口没有该门控，Nexus 与普通 Monster 一样吃原版「>32 格闲置 1/800」与「>128 格超距」判定。
+
+落点：`ParasiteDespawnHandler.canDespawnNaturally`（`rooterball` = 原版 `EntityLeemB extends EntityPStationary`，canD 仍为默认 true，故排除）
++ 新增 `event/ParasiteDespawnEvents.java` 在 `MobDespawnEvent` 上 DENY + `WorldConfig.nexusDespawn`（对应原版 `SRPConfig.rsDespawn`，默认 false）。
+原版「寄生生物群系内回到可回收状态」的差异分支（`EntityPStationaryArchitect.java:238`）以「脚下是寄生方块」近似（与 `ParasiteCombatRules.isParasiteRegion` 同口径）。
+
+**2. 收尾失败仍然移除**
+
+`MobDespawnMixin` 原本只 `@Inject(HEAD)` 且不取消，`placeFromDespawn` 返回 false（落点非空气/不可替换）时生物照样被移除，无囊肿无入库。
+落点：`leaveDespawnTrace` 改为返回 `boolean`，注入改 `cancellable = true`，落不下痕迹即 `setReturnValue(false)`。
+
+**3. PEACEFUL 分支绕过全部收尾流程**
+
+`Mob.checkDespawn` 的 `difficulty == PEACEFUL && shouldDespawnInPeaceful()` 直接 `discard()`，不走 `removeWhenFarAway`。
+落点：`ParasiteDespawnEvents` 先跑 `spawnCyst/storeBefDes` 再 `Result.ALLOW`；落不下痕迹则 DENY。
+
+**4. 顺带发现并修正：mob cleaner 阈值偏离原版**
+
+原版 `SRPSpawning.java:443-465`：`count > (cap + players) * 6` 才清理，带 `mobClearCooldown = 50`，一次清理到 `(cap + players) * 3`；
+端口原为 `cap * 2` 触发、无冷却、只清理到 `cap * 2`，即默认配置下约 50 只就开始每秒静默删除最小/最旧个体。
+落点：`EvolutionEvents` 的 `MOB_CLEANER_TRIGGER_MULTIPLIER / MOB_CLEANER_TARGET_MULTIPLIER / MOB_CLEANER_COOLDOWN_TICKS`（6 / 3 / 50）。
+
+**验证**：`build` 通过；`node scripts/run-all-verifications.cjs` 维持基线 **99 / 79 / 20**（无回归）。
+dev server 启动到 `Done (3.067s)`，`MobDespawnMixin` 注入未报错（`required: true` + `injectors.defaultRequire: 1`，注入失败必崩），
+证明 mixin/事件接线有效；该次启动临时加了 try/catch 绕过下列既有缺陷，验证后已回退（`git diff` 为空）。
+
+**遗留（不在本次范围，属基建级问题，需单独处理）**：`LongarmsEntity.createAttributes` 等 8 个实体类在
+`EntityAttributeCreationEvent`（registry init，早于 COMMON 配置装载）里读取 `MobsConfig.*`，触发
+`IllegalStateException: Cannot get config value before config is loaded`，端口在 HEAD 上启动即崩。
+复现：`./gradlew.bat runServer`（堆栈终点 `MobsConfig.java:391` `shycoHealthMultiplier`）。
+
