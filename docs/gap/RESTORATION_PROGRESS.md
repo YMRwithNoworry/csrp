@@ -2025,3 +2025,24 @@ EntityButhol.java:93          30        EntityGothol/Rathol:125  从 NBT "Fuse" 
 
 **下一批实施顺序**：① 读 `ParasiteFuseState` 与 `AssimilatedVariantEntity` 的引信接线，确认覆写点位置；
 ② 加覆写点 + horse=70（本批靶点，证据 `EntityInfHorse.java:53`）；③ 断言 + 记账；④ 再逐族补其余覆写值。
+
+## 批次 135：引信覆写点的接线现状与重构方案（2026-09-25 续，未改代码）
+
+核查现状（为下一批的重构定界）：
+
+```
+AssimilatedVariantEntity.java:133   private final ParasiteFuseState selfeFuse = new ParasiteFuseState();
+AssimilatedVariantEntity.java:162   if (deathTime < ParasiteFuseState.DEATH_ANIMATION_TICKS) { … }
+AssimilatedVariantEntity.java:180   builder.define(ParasiteFuseState.SELFE, -1);
+ParasiteFuseState.java:22           public static final int FUSE_TICKS = 40;     ← 全局常量，即"端口 40"的来源
+ParasiteFuseState.java:24           public static final int DEATH_ANIMATION_TICKS = 20;
+```
+
+**重构方案（下一批执行）**：把 `FUSE_TICKS` 常量改为**按所有者取时长**——在 `ParasiteFuseState` 内新增
+`public static int fuseTicks(LivingEntity owner)`（默认 40），并允许实体覆写（例如在 `PrimitiveParasiteEntity` 暴露
+`protected int fuseTicks()`，`AssimilatedVariantEntity` 对 `Kind.HORSE` 返回 70）。这样：
+① 覆盖原版 `EntityInfHorse:53 = 70`；② 为后续 `PPreeminent/PPure/CruxB/Lesh/Gothol/Rathol = 70`、`Buthol = 30` 留出同一入口；
+③ 不改动存档/同步字段语义（`SELFE` 仍为进度值）。
+
+**为何不在本轮动**：需先通读 `ParasiteFuseState`（约 70 行）确认 `FUSE_TICKS` 的全部消费点，
+否则可能改漏一处导致引信时长在两处不一致——正是本会话多次吃亏的"半改"情形。
