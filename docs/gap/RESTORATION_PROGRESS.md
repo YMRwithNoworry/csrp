@@ -2918,3 +2918,8 @@ goalSelector.addGoal(0, new ParasiteSkillGoal(this, 14, new LeapSkill(this, 0.7F
 ⇒ 予以采纳。**第四批委派（2 只）全部交付并验收**：`sim_cowhead`(64) + `sim_pighead`(64)，累计验收子代理产出 **7 份**（
 sim_villager 93 / sim_adventurer 95 / sim_horse 94 / sim_bear 92 / sim_enderman 103 / sim_dragone 77 / sim_wolfhead 62 / sim_cowhead 64 / sim_pighead 64
 ——其中前五份来自第一份委派）。
+
+## 批次 184：矩阵刷新（审计面 25/127）（2026-09-25 续）
+
+纳入 `sim_pighead` 后刷新矩阵。审计面 **25/127**（未审计 102），条款满足 **1202** / 部分 578 / 缺失 348，
+加权 **70.1%**。套件维持既有 20 失败（先跑套件后提交 ✔）。
