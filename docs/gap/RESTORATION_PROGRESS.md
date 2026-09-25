@@ -2588,3 +2588,14 @@ if (!level().isClientSide && isAlive() && selfeFuse.isActive(this) && selfeFuse.
 （部分/缺失随审计面扩大而增加属正常：新审计带来的条款多于本轮修复。）
 
 **该功能线收束**：原版马的"半血 → 近距离对可见目标膨胀 → 存活期自爆（含召唤增援）"在端口已完整可用。
+
+## 批次 166：`sim_wolfhead` 移速对齐（0.34 → 0.30）（2026-09-25 续）
+
+第三批委派审计指出"移速 0.34 vs 原版 0.3"。源头核实：
+
+```
+原版 EntityInfWolfHead:79   func_110148_a(SharedMonsterAttributes.field_111263_d).func_111128_a(0.3);
+端口 AssimilatedHeadEntity:449   WOLF("sim_wolfhead", 3.0D, 3.15D, 0.34D, 16.0D)   ✗
+```
+
+已改为 **0.30D**（其余头部 kind 本就是 0.30 ✔，故修正后全族一致）。`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。

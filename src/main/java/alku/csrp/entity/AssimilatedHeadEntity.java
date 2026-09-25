@@ -446,7 +446,7 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
         PIG("sim_pighead", 2.7D, 1.05D, 0.30D, 16.0D),
         SHEEP("sim_sheephead", 3.9D, 1.8D, 0.30D, 16.0D),
         VILLAGER("sim_villagerhead", 4.8D, 3.0D, 0.30D, 16.0D),
-        WOLF("sim_wolfhead", 3.0D, 3.15D, 0.34D, 16.0D);
+        WOLF("sim_wolfhead", 3.0D, 3.15D, 0.30D, 16.0D);
 
         private final String id;
         private final double maxHealth;
