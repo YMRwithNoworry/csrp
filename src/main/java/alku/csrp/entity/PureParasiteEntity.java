@@ -1770,8 +1770,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         }
 
         @Override
-        public boolean canUse() {
-            LivingEntity target = getTarget();
+                public boolean canUse() {
+            // Legacy geneWaterleap: the generation decides whether water leaps exist.
+            if (!waterLeapEnabled()) {
+                return false;
+            }      LivingEntity target = getTarget();
             if (target == null || !target.isAlive() || (!isInWaterOrBubble() && !isInLava())) {
                 return false;
             }
@@ -2020,8 +2023,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         private float targetY;
 
         @Override
-        public boolean canUse() {
-            return attacking >= 1 || !monarchSkillLeapActive && (isInWaterOrBubble() || isInLava());
+                public boolean canUse() {
+            // Legacy geneWaterleap: the generation decides whether water leaps exist.
+            if (!waterLeapEnabled()) {
+                return false;
+            }      return attacking >= 1 || !monarchSkillLeapActive && (isInWaterOrBubble() || isInLava());
         }
 
         @Override

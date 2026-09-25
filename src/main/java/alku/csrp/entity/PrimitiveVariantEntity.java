@@ -1773,8 +1773,11 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         private double targetZ;
 
         @Override
-        public boolean canUse() {
-            return isInWaterOrBubble() || attacking >= 1;
+                public boolean canUse() {
+            // Legacy geneWaterleap: the generation decides whether water leaps exist.
+            if (!waterLeapEnabled()) {
+                return false;
+            }      return isInWaterOrBubble() || attacking >= 1;
         }
 
         @Override
@@ -1941,8 +1944,11 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         private double targetZ;
 
         @Override
-        public boolean canUse() {
-            return isInWaterOrBubble() || attacking >= 1;
+                public boolean canUse() {
+            // Legacy geneWaterleap: the generation decides whether water leaps exist.
+            if (!waterLeapEnabled()) {
+                return false;
+            }      return isInWaterOrBubble() || attacking >= 1;
         }
 
         @Override

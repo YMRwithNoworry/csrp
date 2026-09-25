@@ -101,6 +101,8 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     protected void registerGoals() {
         super.registerGoals();
         goalSelector.addGoal(1, new ShockwaveGoal());
+        // Legacy EntityShyco:89 tasks.addTask(2, EntityAIWaterLeapAtTargetStatus(this, 0.7F, 1.5, 3, 20, 0)).
+        goalSelector.addGoal(2, new WaterLeapAtTargetGoal(this, 0.7F, 1.5D, 20, 0.0D));
         goalSelector.addGoal(2, new LongarmsMeleeGoal());
     }
 

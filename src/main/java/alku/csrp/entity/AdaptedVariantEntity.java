@@ -2297,8 +2297,11 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         }
 
         @Override
-        public boolean canUse() {
-            return leaping || isInWaterOrBubble();
+                public boolean canUse() {
+            // Legacy geneWaterleap: the generation decides whether water leaps exist.
+            if (!waterLeapEnabled()) {
+                return false;
+            }      return leaping || isInWaterOrBubble();
         }
 
         @Override

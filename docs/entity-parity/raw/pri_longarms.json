@@ -211,12 +211,12 @@
         },
         {
           "clause": "tasks.addTask(2, EntityAIWaterLeapAtTargetStatus(this, 0.7F, 1.5, 3, 20, 0))",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:67",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/WaterLeapAtTargetGoal.java"
           },
-          "note": "工程无水中跃击技能与 20 tick 蓄力、跃击后 2.5 击退范围",
+          "note": "参数化复刻：瞄准 cooldown tick → 记录目标位置与 0.07 高度补偿 → 起跳（speed*0.9 + 现速*0.3，垂直 0.7）→ 落地按 damageRange 击退/攻击；由 generationProfile.waterLeap 门控；批次：水跃能力与 geneWaterleap 门控（EntityAIWaterLeapAtTargetStatus / generationWaterLeap0..5）",
           "groundTruth": {
             "verified": true,
             "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java",

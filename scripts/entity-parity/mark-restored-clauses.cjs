@@ -294,6 +294,20 @@ const BATCHES = {
         detail: "mar_cow/mar_human/mar_sheep/mar_villager 走 PrimitiveParasiteRenderer（已接），mar_bear/mar_enderman 走 TetheredMarauderizedRenderer（本批接入 SelfeFuseRender）"
       }
     ]
+  },
+  // 批次 10：水跃能力本体 + geneWaterleap 生成行（原版 EntityAIWaterLeapAtTargetStatus / generationWaterLeap0..5）
+  "water-leap-gene": {
+    note: "批次：水跃能力与 geneWaterleap 门控（EntityAIWaterLeapAtTargetStatus / generationWaterLeap0..5）",
+    projectClasses: ["LongarmsEntity", "AdaptedVariantEntity", "HeedEntity", "PreeminentParasiteEntity",
+      "PrimitiveVariantEntity", "PureParasiteEntity", "VisceraEntity"],
+    clauses: [
+      {
+        match: /EntityAIWaterLeapAtTargetStatus/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/WaterLeapAtTargetGoal.java",
+        detail: "参数化复刻：瞄准 cooldown tick → 记录目标位置与 0.07 高度补偿 → 起跳（speed*0.9 + 现速*0.3，垂直 0.7）→ 落地按 damageRange 击退/攻击；由 generationProfile.waterLeap 门控"
+      }
+    ]
   }
 };
 

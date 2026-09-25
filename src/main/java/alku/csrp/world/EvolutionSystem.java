@@ -57,6 +57,10 @@ public final class EvolutionSystem {
     private static final boolean[] GENERATION_SPRINTING = {false, false, true, true, true, true};
     private static final boolean[] GENERATION_ADAPTATION = {false, false, false, true, true, true};
     private static final boolean[] GENERATION_SPECIAL_MOVES = {false, false, false, false, true, true};
+    /** Legacy generationWaterLeap0..5. */
+    private static final boolean[] GENERATION_WATER_LEAP = {false, false, false, true, true, true};
+    /** Legacy generationResidue0..5. */
+    private static final boolean[] GENERATION_RESIDUE = {false, false, false, false, true, true};
     private static final boolean[] GENERATION_DAMAGE_CAP = {false, false, false, true, true, true};
     private static final boolean[] GENERATION_MINIMUM_DAMAGE = {false, false, true, true, true, true};
     private static final boolean[] GENERATION_BLOCK_SEARCH = {false, false, false, false, false, true};
@@ -134,7 +138,9 @@ public final class EvolutionSystem {
                 GENERATION_ORDINARY_ORB[generation],
                 GENERATION_POISON_HEALING[generation],
                 GENERATION_MOB_HEALING[generation],
-                GENERATION_ATTACK_SPEED[generation]);
+                GENERATION_ATTACK_SPEED[generation],
+                GENERATION_WATER_LEAP[generation],
+                GENERATION_RESIDUE[generation]);
     }
 
     public static boolean addPoints(ServerLevel level, int points, PointSource source) {
@@ -296,6 +302,7 @@ public final class EvolutionSystem {
     public record GenerationProfile(float cothChance, boolean sprinting, boolean adaptation,
             boolean specialMoves, boolean damageCap, boolean minimumDamage,
             boolean blockSearch, boolean ordinaryOrb,
-            float poisonHealing, float mobHealing, float attackSpeedMultiplier) {
+            float poisonHealing, float mobHealing, float attackSpeedMultiplier,
+            boolean waterLeap, boolean residue) {
     }
 }

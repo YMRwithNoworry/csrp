@@ -241,3 +241,20 @@ waterleap/specialmove；`goon[0..2]` = poisonHealing/mobHealing/attackSpeed）�
 `AssimilatedParasiteEntity`、`AssimilatedVariantEntity`、`MarauderizedParasiteEntity` 均无水跃/疾跑/穿墙实现，
 仅 `FeralEndermanEntity`/`LongarmsEntity` 等少数子类有）。按记账诚实原则不翻转，待能力本体补齐后一并核对。
 校验：`scripts/verify-parasite-combat-rules.cjs` 增加 4 条门控断言（并修正 1 条因改写条件而失配的既有断言）。
+
+## 批次 10：水跃能力本体与 geneWaterleap 门控（2026-09-25 续）
+
+侦察发现端口生成表**缺两行**（原版 `getGeneModi` 返回 10 个布尔：MiniDamage/DamageCap/LookWalls/
+Sprinting/**WaterLeap**/SpecialM/Adaptation/BlockSearch/**Residue**/Orbbox，端口只有其中 7 个）：
+
+| 项 | 原版出处 | 实现 |
+| --- | --- | --- |
+| `generationWaterLeap0..5 = {false,false,false,true,true,true}` | `SRPConfigSystems:1452-1532` | `EvolutionSystem.GENERATION_WATER_LEAP` + `GenerationProfile.waterLeap` |
+| `generationResidue0..5 = {false,false,false,false,true,true}` | 同文件 | `GENERATION_RESIDUE` + `GenerationProfile.residue` |
+| `EntityAIWaterLeapAtTargetStatus(leaper, leapMotionY, speed, distance, cooldown, jumpDamageRange)` | `entity/ai/EntityAIWaterLeapAtTargetStatus.java` | 新增参数化目标 `entity/WaterLeapAtTargetGoal`：水中/岩浆中或跳跃中触发 → 瞄准 `cooldown` tick 记录目标位置与 `max(0, dy*0.07)` 高度补偿 → 起跳（`speed*0.9 + 现速*0.3`，垂直 `leapMotionY`）→ 落地按 `damageRange` 击退 2.5 并攻击 → 由 `waterLeapEnabled()` 门控 |
+| 端口既有 8 个水跃目标未受 gene 门控 | — | 逐个补 `waterLeapEnabled()` 前置检查（AdaptedVariant/Heed/Preeminent/PrimitiveVariant×2/Pure×2/Viscera） |
+| pri_longarms 缺失的 `tasks.addTask(2, EntityAIWaterLeapAtTargetStatus(this, 0.7F, 1.5, 3, 20, 0))` | `EntityShyco` 任务表 | `LongarmsEntity.registerGoals` 优先级 2 注册同参数目标 |
+
+说明：原版用 `setParasiteStatus(10/2)` 表示起跳/落地，端口的 `LongarmsEntity` 状态码含义不同（10=冲击波），
+故改用共享的 `startSpecialLeapAnimation(...)`（`SPECIAL_LEAP_TICKS` 同步位），避免串味。
+校验：新增 `scripts/verify-water-leap-gene.cjs`；审计记账 1 条，满足 643 → **644**。

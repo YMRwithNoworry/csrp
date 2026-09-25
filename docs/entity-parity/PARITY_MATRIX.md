@@ -1,11 +1,11 @@
 # 生物还原矩阵（SRParasites 1.10.9 → csrp）
 
-> 生成时间：2026-09-25T02:21:17.224Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
+> 生成时间：2026-09-25T02:35:38.139Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
 > 判定：✅ 全部条款满足；🟠 有部分实现但无缺失；❌ 存在缺失；· 未审计。
 
 - 注册生物总数：**127**；已审计：**13**；未审计：**114**
-- 条款总计：满足 643 / 部分 382 / 缺失 297（不计入 57 条不适用）
-- **加权完成度：63.1%**（partial 计 0.5）
+- 条款总计：满足 644 / 部分 382 / 缺失 296（不计入 57 条不适用）
+- **加权完成度：63.2%**（partial 计 0.5）
 
 ## 分面完成度
 
@@ -13,7 +13,7 @@
 | --- | ---: | ---: | ---: | ---: |
 | 注册 `registration` | 61 | 40 | 30 | 61.8% |
 | 属性 `attributes` | 66 | 29 | 30 | 64.4% |
-| AI `ai` | 74 | 76 | 39 | 59.3% |
+| AI `ai` | 75 | 76 | 38 | 59.8% |
 | 行为 `behaviors` | 150 | 77 | 73 | 62.8% |
 | 伤害/效果 `damage_and_effects` | 102 | 16 | 20 | 79.7% |
 | 同步数据 `sync_data` | 26 | 33 | 30 | 47.8% |
@@ -36,7 +36,7 @@
 | hijacked_and_feral | 2/12 | 95 | 59 | 72 | 55.1% |
 | marauderized | 1/7 | 53 | 26 | 25 | 63.5% |
 | early_lifecycle | 1/10 | 42 | 25 | 18 | 64.1% |
-| current | 2/13 | 93 | 44 | 38 | 65.7% |
+| current | 2/13 | 94 | 44 | 37 | 66.3% |
 | assimilated | 6/23 | 318 | 190 | 111 | 66.7% |
 
 ## 逐生物矩阵
@@ -163,7 +163,7 @@
 | `mar_cow` | EntitySpeCow | MarauderizedCowEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 63.5% |
 | `sim_human` | EntityInfHuman | SimHumanEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 63.6% |
 | `host` | EntityHost | HostEntity | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | 🟠 | 64.1% |
-| `pri_longarms` | EntityShyco | LongarmsEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 64.3% |
+| `pri_longarms` | EntityShyco | LongarmsEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 65.2% |
 | `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 66.1% |
 | `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 66.8% |
 | `sim_cow` | EntityInfCow | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 67% |
@@ -216,7 +216,7 @@
 - AI：wait/jumpT/AOE 范围切换 GOAL 缺失，跟随 GOAL 未按原版移除
 - 经验 20 < 原版 30，且缺少阶段加成与 per-mob 开关
 
-### `pri_longarms`（EntityShyco → LongarmsEntity，64.3%）
+### `pri_longarms`（EntityShyco → LongarmsEntity，65.2%）
 - 碰撞箱 1.0x3.0 vs 0.6x3.2、眼高默认 2.55 vs 2.7、追踪范围 8 vs 64、刷怪蛋颜色不一致
 - 缺少 per-mob 启用开关（shycoEnabled）与 shyco 专属属性乘数，无数字寄生虫 id
 - AI 缺失：水中跃击技能、EntityAIGetFollowers 招募、恐怖球技能(EntityAISkill id 21)、EntityAIBlockLight、EntityAIWait、EntityAIJumping、潜行/隐身索敌惩罚

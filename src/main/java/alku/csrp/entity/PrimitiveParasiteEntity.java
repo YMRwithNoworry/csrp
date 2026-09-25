@@ -294,6 +294,12 @@ public abstract class PrimitiveParasiteEntity extends Monster
         return entityData.get(SPECIAL_LEAP_TICKS) > 0;
     }
 
+    /** Legacy geneWaterleap (applyGene): the generation decides whether water leaps exist. */
+    protected final boolean waterLeapEnabled() {
+        return level() instanceof ServerLevel serverLevel
+                && EvolutionSystem.generationProfile(serverLevel).waterLeap();
+    }
+
     /** Legacy EntityAIWait: suspends AI for the given ticks (see {@link WaitGoal}). */
     public void setWait(int ticks) {
         if (ticks > waitTicks) {
