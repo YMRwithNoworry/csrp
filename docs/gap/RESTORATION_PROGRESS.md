@@ -763,3 +763,13 @@ infsheep/infwolf/infvillager` 系列，默认值全 1.0F）。
 
 同族剩余：`sim_human`（独立类 `SimHumanEntity`，键名 `infhuman*`）与 `sim_bear`（`infbear*`，未审计）；
 野化族 `fer*` 系列（`ferbear` 已确认存在）。
+
+## 批次 47：sim_human 的 per-mob 倍率接线（2026-09-25 续）
+
+同化族 per-mob 倍率的**最后一只已审计生物**（原版键名 `infhuman*`，默认 1.0F）：
+`MobsConfig` 补 4 项 + 4 个访问器；`SimHumanEntity.createAttributes` 把基础值
+生命 40 / 攻击 12 / 护甲 6 / 击退抗性 0.2（按上限夹取 1.0）各自乘以对应倍率。
+校验：`verify-parasite-combat-rules.cjs` 增加 5 条断言；审计记账 1 条，满足 690 → **691**，缺失 260 → **259**。
+
+至此本线覆盖：`dorpa`(sim_bigspider)、`infcow`、`infsheep`、`infwolf`、`infsquid`、`infhuman`。
+剩余：`sim_bear`（`infbear*`，未审计）与野化族 `fer*` 系列（`ferbear` 已确认存在，`fervillager` 待核对）。

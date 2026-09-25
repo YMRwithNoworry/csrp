@@ -360,6 +360,16 @@ expect(assimilatedSpawn, /MobsConfig\.infsquidHealthMultiplier\(\)/, "the squid 
 expect(assimilatedSpawn, /MobsConfig\.infsquidKnockbackMultiplier\(\)/, "the squid knockback multiplier is not read");
 expect(mobsConfig, /public static double infsquidDamageMultiplier\(\)/, "the squid accessors are missing");
 
+// legacy SRPConfigMobs.infhuman* multipliers are read by sim_human
+const simHumanSpawn = read("src/main/java/alku/csrp/entity/SimHumanEntity.java");
+for (const [pattern, message] of [
+  [/40\.0D \* MobsConfig\.infhumanHealthMultiplier\(\)/, "the human health multiplier is not read"],
+  [/12\.0D \* MobsConfig\.infhumanDamageMultiplier\(\)/, "the human damage multiplier is not read"],
+  [/6\.0D \* MobsConfig\.infhumanArmorMultiplier\(\)/, "the human armor multiplier is not read"],
+  [/0\.2D \* MobsConfig\.infhumanKnockbackMultiplier\(\)/, "the human knockback multiplier is not read"]
+]) expect(simHumanSpawn, pattern, message);
+expect(mobsConfig, /public static double infhumanHealthMultiplier\(\)/, "the human accessors are missing");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

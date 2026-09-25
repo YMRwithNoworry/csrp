@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-25T03:48:27.373Z",
+  "generatedAt": "2026-09-25T03:49:58.072Z",
   "protocol": "docs/entity-parity/AUDIT_PROTOCOL.md",
   "input": "docs/entity-parity/audit-input.json",
   "counts": {
@@ -8,9 +8,9 @@
     "missing": 114
   },
   "overall": {
-    "satisfied": 690,
+    "satisfied": 691,
     "partial": 372,
-    "missing": 260,
+    "missing": 259,
     "na": 57,
     "denominator": 1322,
     "completion": 66.3
@@ -29,12 +29,12 @@
     {
       "facet": "attributes",
       "label": "属性",
-      "satisfied": 85,
+      "satisfied": 86,
       "partial": 29,
-      "missing": 11,
+      "missing": 10,
       "na": 0,
       "denominator": 125,
-      "completion": 79.6
+      "completion": 80.4
     },
     {
       "facet": "ai",
@@ -242,12 +242,12 @@
       "group": "assimilated",
       "audited": 6,
       "expected": 23,
-      "satisfied": 351,
+      "satisfied": 352,
       "partial": 180,
-      "missing": 88,
+      "missing": 87,
       "na": 33,
       "denominator": 619,
-      "completion": 71.2
+      "completion": 71.4
     }
   ],
   "creatures": [
@@ -593,13 +593,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 60,
+        "satisfied": 61,
         "partial": 29,
-        "missing": 21,
+        "missing": 20,
         "na": 6
       },
       "denominator": 110,
-      "completion": 67.7,
+      "completion": 68.6,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -609,9 +609,9 @@
           "clauses": 10
         },
         "attributes": {
-          "satisfied": 6,
+          "satisfied": 7,
           "partial": 2,
-          "missing": 2,
+          "missing": 1,
           "na": 0,
           "clauses": 10
         },

@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.config.MobsConfig;
 import alku.csrp.world.EvolutionSystem;
 import alku.csrp.event.ParasiteCombatRules;
 import alku.csrp.infection.InfectionMechanics;
@@ -93,12 +94,14 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
     }
 
     public static AttributeSupplier.Builder createAttributes() {
+        // Legacy SRPConfigMobs.infhuman* per-mob multipliers (default 1.0F in the original).
         return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, 40.0D)
-                .add(Attributes.ARMOR, 6.0D)
-                .add(Attributes.ATTACK_DAMAGE, 12.0D)
+                .add(Attributes.MAX_HEALTH, 40.0D * MobsConfig.infhumanHealthMultiplier())
+                .add(Attributes.ARMOR, 6.0D * MobsConfig.infhumanArmorMultiplier())
+                .add(Attributes.ATTACK_DAMAGE, 12.0D * MobsConfig.infhumanDamageMultiplier())
                 .add(Attributes.MOVEMENT_SPEED, 0.25D)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 0.2D)
+                .add(Attributes.KNOCKBACK_RESISTANCE,
+                        Math.min(1.0D, 0.2D * MobsConfig.infhumanKnockbackMultiplier()))
                 .add(Attributes.FOLLOW_RANGE, 32.0D);
     }
 

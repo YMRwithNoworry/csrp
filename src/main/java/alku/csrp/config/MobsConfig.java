@@ -239,6 +239,25 @@ public final class MobsConfig {
     public static double infsquidArmorMultiplier() { return INFSQUID_ARMOR_MULTIPLIER.get(); }
     public static double infsquidKnockbackMultiplier() { return INFSQUID_KNOCKBACK_MULTIPLIER.get(); }
 
+    // Legacy SRPConfigMobs.infhuman* (the assimilated human).
+    private static final ModConfigSpec.DoubleValue INFHUMAN_HEALTH_MULTIPLIER = value(
+            "srparasites:infhuman", "infhumanHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for the assimilated human.");
+    private static final ModConfigSpec.DoubleValue INFHUMAN_DAMAGE_MULTIPLIER = value(
+            "srparasites:infhuman", "infhumanDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Attack-damage multiplier for the assimilated human.");
+    private static final ModConfigSpec.DoubleValue INFHUMAN_ARMOR_MULTIPLIER = value(
+            "srparasites:infhuman", "infhumanArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for the assimilated human.");
+    private static final ModConfigSpec.DoubleValue INFHUMAN_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:infhuman", "infhumanKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
+            "Knockback-resistance multiplier for the assimilated human.");
+
+    public static double infhumanHealthMultiplier() { return INFHUMAN_HEALTH_MULTIPLIER.get(); }
+    public static double infhumanDamageMultiplier() { return INFHUMAN_DAMAGE_MULTIPLIER.get(); }
+    public static double infhumanArmorMultiplier() { return INFHUMAN_ARMOR_MULTIPLIER.get(); }
+    public static double infhumanKnockbackMultiplier() { return INFHUMAN_KNOCKBACK_MULTIPLIER.get(); }
+
     public static double dorpaHealthMultiplier() { return DORPA_HEALTH_MULTIPLIER.get(); }
     public static double dorpaDamageMultiplier() { return DORPA_DAMAGE_MULTIPLIER.get(); }
     public static double dorpaArmorMultiplier() { return DORPA_ARMOR_MULTIPLIER.get(); }
