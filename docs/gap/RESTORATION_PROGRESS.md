@@ -2235,3 +2235,14 @@ infvillagerMobSummon / infhorseMobSummon / infadventurerMobSummon`。`build` 通
 它列出的"`sim_horse` fuseTime 仍是全局 40"与"毒云 POISON 200/COTH 200"两条**已过时**——
 我已在批次 136（引信 per-owner 覆写、HORSE=70）与批次 139（毒云 300/3600）修掉 ✔。
 其余条目（`EntityAIAttackSwell` 未移植、`INFECTEDHORSE_SA2` 已注册但无人引用、sim_enderman 的 6 处偏差等）**仍然成立**，列为后续靶点。
+
+## 批次 145：SimAdventurerEntity 的 followRange/XP 对齐（子代理纠正的直接落地）（2026-09-25 续）
+
+子代理指出 `sim_adventurer` 的 `FOLLOW_RANGE 32`（应 `infectedFollow = 16`）与 `xpReward 10`（应 `XP_INFECTED = 8`）
+**仍偏离**——批次 120 只修了 `AssimilatedVariantEntity`，而 `SimAdventurerEntity` 是**独立类**、被漏掉（与批次 119/120 同型漏项）。
+
+已修正：`FOLLOW_RANGE, 16.0`、`xpReward = 8`（注释注明继承链来源）。`build` 通过、套件维持既有 20 失败。
+
+**同类排查提示**：既然连续三次出现"修了一族、漏了同型独立类"，下一批应**一次性列出所有同化档独立类**
+（`SimAdventurerEntity`、`AssimilatedEndermanEntity`、`AssimilatedDragonEntity`、`AssimilatedDragonHeadEntity`、
+`AssimilatedHeadEntity`、`HostEntity`…）并逐个核对 followRange/XP 两项，把这类漏项一次扫清。

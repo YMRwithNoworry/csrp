@@ -93,7 +93,8 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
 
     public SimAdventurerEntity(EntityType<? extends SimAdventurerEntity> type, Level level) {
         super(type, level);
-        xpReward = 10;
+        // Legacy: EntityInfPlayer inherits EntityPInfected, whose XP_INFECTED (= infectedXPValue = 8) applies.
+        xpReward = 8;
         setCanPickUpLoot(true);
     }
 
@@ -104,7 +105,7 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
                 .add(Attributes.ATTACK_DAMAGE, 9.0D)
                 .add(Attributes.MOVEMENT_SPEED, 0.23D)
                 .add(Attributes.KNOCKBACK_RESISTANCE, 0.1D)
-                .add(Attributes.FOLLOW_RANGE, 32.0D);
+                .add(Attributes.FOLLOW_RANGE, 16.0D);
     }
 
     @Override
