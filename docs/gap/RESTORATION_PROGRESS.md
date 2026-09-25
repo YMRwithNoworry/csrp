@@ -1104,3 +1104,17 @@ HOST_HEALTH_MULTIPLIER        : 382 声明 / 395 我的直通访问器
 
 **记账从宽不发**：该条款是 partial，除跟随范围外可能还捆绑其它子项，故本轮**不翻转**，只把数值对齐并加断言
 （6 条：每种 kind 的 followRange 必须为 16.0D）。聚类脚本已沉淀（`cluster-gaps.cjs`），后续选靶有据可依。
+
+## 批次 74：阴影半径条款的原版取值勘查（2026-09-25 续，未改代码）
+
+按聚类选靶「渲染阴影半径 0.5F」（6 条 partial）后的勘查结果：
+
+| 侧 | 事实 |
+| --- | --- |
+| 端口 | `ClientModEvents` 注册同化族时逐个传阴影半径：`AssimilatedParasiteRenderer(context, 0.65F / 0.55F / 0.45F / 0.50F / 0.40F / 0.45F)`（按体型自定） |
+| 原版（头部渲染器可查） | `client/renderer/entity/infected/head/RenderInf*Head.java` 为 `super(manager, new Model…(), 0.6F)`，`RenderInfSheepHead` 为 `0.5F` |
+| 原版（**身体**渲染器） | 用 `RenderInfCow/RenderInfSheep/…/RenderDorpa` 与 `RenderInf*` 两种命名探测 `find` 均未命中该 `super(...)` 形态 ⇒ **类名或构造形态待确认**，暂无"族统一 0.5F"的证据 |
+
+**处置**：本轮**不改数值**。理由：现有证据只覆盖头部渲染器（0.6/0.5），不足以推出身体渲染器一律 0.5F；
+若照 0.5F 统一改，可能与原版按体型分档的做法相悖（正如批次 73 的 followRange 是"族统一 16"、而阴影半径未必如此）。
+下一步：先定位原版身体渲染器类名（或改从 `RenderManager`/注册处反查），取得每只的实参后再对齐。
