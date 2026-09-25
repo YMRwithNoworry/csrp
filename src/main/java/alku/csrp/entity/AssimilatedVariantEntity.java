@@ -104,6 +104,10 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
     public AssimilatedVariantEntity(EntityType<? extends AssimilatedVariantEntity> type, Level level, Kind kind) {
         super(type, level);
         this.kind = kind;
+        if (kind == Kind.HORSE) {
+            // Legacy EntityInfHorse:53 override of the base fuseTime (40).
+            selfeFuse.setFuseTicks(70);
+        }
         xpReward = kind.experience;
     }
 

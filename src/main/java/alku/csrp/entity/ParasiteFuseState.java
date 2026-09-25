@@ -27,6 +27,13 @@ public final class ParasiteFuseState {
             SynchedEntityData.defineId(LivingEntity.class, EntityDataSerializers.INT);
 
     private byte explodesOnDeath = -1;
+    /** Per-owner fuse length; the legacy base is 40 but several mobs override it (e.g. the horse: 70). */
+    private int fuseTicks = FUSE_TICKS;
+
+    /** Legacy per-mob {@code fuseTime} override (EntityInfHorse:53 = 70, preeminent/pure = 70, Buthol = 30). */
+    public void setFuseTicks(int ticks) {
+        this.fuseTicks = Math.max(1, ticks);
+    }
 
     /** Legacy madeRng: decided by the first hit and remembered for the rest of the mob's life. */
     public boolean willExplodeOnDeath(LivingEntity owner) {
@@ -65,7 +72,7 @@ public final class ParasiteFuseState {
     public boolean advance(LivingEntity owner) {
         int next = getState(owner) + 1;
         setState(owner, next);
-        return next >= FUSE_TICKS;
+        return next >= fuseTicks;
     }
 
     /** Legacy getSelfeFlashIntensity: 0..1 across the fuse (the original divides by fuseTime - 2). */
@@ -74,6 +81,6 @@ public final class ParasiteFuseState {
         if (fuse < 0) {
             return 0.0F;
         }
-        return Mth.clamp((fuse + partialTick) / (float) (FUSE_TICKS - 2), 0.0F, 1.0F);
+        return Mth.clamp((fuse + partialTick) / (float) (fuseTicks - 2), 0.0F, 1.0F);
     }
 }

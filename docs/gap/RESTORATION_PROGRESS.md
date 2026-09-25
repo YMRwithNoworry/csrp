@@ -2046,3 +2046,23 @@ ParasiteFuseState.java:24           public static final int DEATH_ANIMATION_TICK
 
 **为何不在本轮动**：需先通读 `ParasiteFuseState`（约 70 行）确认 `FUSE_TICKS` 的全部消费点，
 否则可能改漏一处导致引信时长在两处不一致——正是本会话多次吃亏的"半改"情形。
+
+## 批次 136：引信时长覆写点落地（`Kind.HORSE` = 70）（2026-09-25 续）
+
+按批次 135 的方案实施，采用**最小改动**形态（避免改调用点）：
+
+```java
+// ParasiteFuseState：新增实例字段 + setter，两处消费点改读该字段
+private int fuseTicks = FUSE_TICKS;                       // 默认 40（与原版基类一致）
+public void setFuseTicks(int ticks) { this.fuseTicks = Math.max(1, ticks); }
+advance(owner):        return next >= fuseTicks;          // 原 FUSE_TICKS
+flashIntensity(...):   (fuse + partialTick) / (float) (fuseTicks - 2);
+
+// AssimilatedVariantEntity 构造：HORSE 覆写为 70
+if (kind == Kind.HORSE) { selfeFuse.setFuseTicks(70); }   // Legacy EntityInfHorse:53
+```
+
+**为何选实例字段而非静态方法**：`FUSE_TICKS` 的两处消费都在 `ParasiteFuseState` 内部，
+改成实例字段后**无需改动任何调用点**（`advance` / `flashIntensity` 签名不变），
+把改动面压到最小；且后续 `PPreeminent/PPure/CruxB/Lesh/Gothol/Rathol=70`、`Buthol=30` 只需在各自构造处调用同一 setter。
+`build` 通过、套件维持既有 20 失败。
