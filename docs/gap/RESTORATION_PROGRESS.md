@@ -4326,3 +4326,26 @@ grep 断言 mar_* 生成条目的脚本 → 【无】✔（仅 verify-natural-sp
 **方法论（本会话第 4 次"主张未能复现"）**：前三次是贴图随机、SRG 方法名 `func_70110_aj`、`cothSpread` ✗；
 本次是"端口保留 follow"✗。**四次都按同一原则处理：保持现状 + 记录待查**，绝不按未复现的主张改代码 ✔。
 **但每次都会追到"能否复现"的结论**（而非含糊略过）——这才使账面可信 ✔。
+
+## 批次 257：`mar_enderman` follow 条款**定性为"与原版等价"**（2026-09-25 续）
+
+**完整继承链核实**（逐级 grep）：
+
+```
+MarauderizedEndermanEntity  →  TetheredMarauderizedEntity（:19）
+                            →  MarauderizedParasiteEntity（:21）
+                            →  HijackedParasiteEntity（:10）      grep "Follow" → 0 命中 ✗
+                            →  PrimitiveParasiteEntity
+端口 ParasiteFollowGoal 的注册【都是逐类注册】（Assimilated*/Buglin/Dredge 等各自 addGoal(6, …)），【不在基类】✔
+⇒ 该继承链上【没有任何 follow 目标】✔
+```
+
+**定性**：原版 `EntitySpeEnderman:66` 是"**移除**父类已注册的 follow" ✗；端口是"**从未添加**" ✗
+⇒ **两者行为等价** ✔ ⇒ 该条款应记为 **satisfied**（等价实现 ✔），**不是缺失** ✗。
+
+**方法论（本轮价值）**：委派把它记为"反向差异（端口多做了事）"✗，而**实际核实后是"等价"** ✔ ——
+**审计结论也需要被复核**：审计者看到"原版有一行移除代码、端口没有"✗，容易推断"端口保留了"✗；
+但**"端口没有移除代码"与"端口保留了该目标"是两件事** ✗ ⇒ **必须查目标的实际存在性**（本轮的 grep 链 ✔）才能定性 ✔。
+
+**⇒ 这是本会话第 5 次"审计主张需复核"**（前四次：贴图随机、`func_70110_aj`、`cothSpread`、follow 保留 ✗），
+且**本轮首次出现"复核后结论比审计更乐观"**（审计说缺失、实为等价 ✔）——**双向都可能出错**，这正是逐条复核的意义 ✔。
