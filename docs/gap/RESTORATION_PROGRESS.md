@@ -1714,3 +1714,22 @@ RenderInfSheep.java:17  0.5F     RenderInfWolf.java:16  0.5F     RenderInfSquid.
 
 **子代理状态**：`docs/entity-parity/raw/` 仍为 13 个文件、无新增 ⇒ 委派的 5 份审计**尚未落盘**（仍在运行）。
 按纪律不空转轮询，本轮转做上述不重叠的准备工作。
+
+## 批次 114：**订正批次 113 的"疑似截断"判断**（2026-09-25 续）
+
+批次 113 我怀疑 `angedEnabled`/`angedSpawnRate` 是导出截断产物，本轮直查原版即被证伪：
+
+```
+SRPConfigMobs.java:750   public static int angedSpawnRate = 0;
+SRPConfigMobs.java:751   public static boolean angedEnabled = true;
+SRPConfigMobs.java:4370  angedEnabled = cfg.getBoolean("Vigilante Enabled", "srparasites:vigilante", angedEnabled, …);
+```
+
+即这两个**确实是原版字段名**（原版自身命名不规整，实际服务于 Vigilante 的开关与生成率）。
+**结论修正**：`docs/gap/original-spawn-config-keys.txt` 的 122 个键名**可信**，无需逐名"纠错"；
+但实施路线 ① 时仍应**按原版字段名逐一对应**（包括这类不规整命名），不可"顺手规范化"——那会造成与原版配置不兼容。
+
+**教训再记一次**：连续两轮出现"我以为的异常，其实是原版本来的样子"（前有 `CreateEntityMob` 第 5 参、今有 `anged*`）。
+凡遇可疑处，**直查源头**永远比推测便宜。
+
+**子代理状态**：`raw/` 仍 13 个文件（已跨两轮未落盘），下一轮将查询其状态或改派。
