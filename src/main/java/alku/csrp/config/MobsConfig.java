@@ -180,7 +180,26 @@ public final class MobsConfig {
             "srparasites:infcow", "infcowKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
             "Knockback-resistance multiplier for the assimilated cow.");
 
+    // Legacy SRPConfigMobs.infvillager* (the assimilated variant villager; keys verified in the
+    // original at SRPConfigMobs.java:440-443, all defaulting to 1.0F).
+    private static final ModConfigSpec.DoubleValue INFVILLAGER_HEALTH_MULTIPLIER = value(
+            "srparasites:infvillager", "infvillagerHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for the assimilated villager.");
+    private static final ModConfigSpec.DoubleValue INFVILLAGER_DAMAGE_MULTIPLIER = value(
+            "srparasites:infvillager", "infvillagerDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Attack-damage multiplier for the assimilated villager.");
+    private static final ModConfigSpec.DoubleValue INFVILLAGER_ARMOR_MULTIPLIER = value(
+            "srparasites:infvillager", "infvillagerArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for the assimilated villager.");
+    private static final ModConfigSpec.DoubleValue INFVILLAGER_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:infvillager", "infvillagerKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
+            "Knockback-resistance multiplier for the assimilated villager.");
+
     public static double infcowHealthMultiplier() { return INFCOW_HEALTH_MULTIPLIER.get(); }
+    public static double infvillagerHealthMultiplier() { return INFVILLAGER_HEALTH_MULTIPLIER.get(); }
+    public static double infvillagerDamageMultiplier() { return INFVILLAGER_DAMAGE_MULTIPLIER.get(); }
+    public static double infvillagerArmorMultiplier() { return INFVILLAGER_ARMOR_MULTIPLIER.get(); }
+    public static double infvillagerKnockbackMultiplier() { return INFVILLAGER_KNOCKBACK_MULTIPLIER.get(); }
     public static double infcowDamageMultiplier() { return INFCOW_DAMAGE_MULTIPLIER.get(); }
     public static double infcowArmorMultiplier() { return INFCOW_ARMOR_MULTIPLIER.get(); }
     public static double infcowKnockbackMultiplier() { return INFCOW_KNOCKBACK_MULTIPLIER.get(); }

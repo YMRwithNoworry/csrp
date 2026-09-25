@@ -513,6 +513,12 @@ expect(read("src/main/java/alku/csrp/client/renderer/BuglinRenderer.java"), /sha
 
 expect(clientEvents, /"mar_cow", 0\.5F, 1\.1F\)/, "mar_cow must use the legacy 0.5F shadow radius");
 
+// Legacy SRPConfigMobs.infvillager* multipliers are read by the assimilated variant villager.
+expect(mobsConfig, /public static double infvillagerHealthMultiplier\(\)/, "the invvillager accessors are missing");
+expect(read("src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java"),
+  /villager \? MobsConfig\.infvillagerHealthMultiplier\(\)/,
+  "the invvillager health multiplier is not stacked");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

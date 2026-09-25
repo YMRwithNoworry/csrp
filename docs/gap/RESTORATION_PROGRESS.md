@@ -1884,3 +1884,13 @@ SRPConfigMobs.java:4370  angedEnabled = cfg.getBoolean("Vigilante Enabled", "srp
 
 **其余抽查项**（同样可操作，留待后续）：`tasks.addTask(5, EntityAIJumping)`、`EntityAIWaterLeapAtTargetStatus(0.7F,1.5,3,20,0)`、
 `EntityAIGetFollowers(this, 1, 16)`、`variantChance` 行为、`SKIN` 同步。
+
+## 批次 125：实现 `infvillager*` per-mob 倍率（补上第 12 只）（2026-09-25 续）
+
+按批次 124 的计划落地，**键与接线同时完成**（不做只加键的死键）：
+
+- `MobsConfig`：新增 `infvillager{Health,Damage,Armor,KDResistance}Multiplier` 四键（默认 1.0D，范围 0.01–100）+ 四个访问器；
+- `AssimilatedVariantEntity.createAttributes(Kind)`：在既有 `dorpa` 三元链上追加 `villager` 分支，
+  对 `Kind.VILLAGER` 的四维各乘一次倍率（Kind 值为硬编码字面量 ⇒ **单次应用**，未重演批次 71 的双重乘算）。
+
+断言 2 条；`build` 通过、套件维持既有 20 失败。至此 per-mob 倍率线覆盖 **12 只**（含本轮的同化变体村民）。

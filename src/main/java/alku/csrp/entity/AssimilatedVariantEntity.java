@@ -111,10 +111,15 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
         // Legacy SRPConfigMobs per-mob multipliers (default 1.0F in the original); dorpa is the
         // internal name of the assimilated spider.
         boolean dorpa = kind == Kind.BIGSPIDER;
-        double health = dorpa ? MobsConfig.dorpaHealthMultiplier() : 1.0D;
-        double armor = dorpa ? MobsConfig.dorpaArmorMultiplier() : 1.0D;
-        double damage = dorpa ? MobsConfig.dorpaDamageMultiplier() : 1.0D;
-        double knockback = dorpa ? MobsConfig.dorpaKnockbackMultiplier() : 1.0D;
+        boolean villager = kind == Kind.VILLAGER;
+        double health = dorpa ? MobsConfig.dorpaHealthMultiplier()
+                : villager ? MobsConfig.infvillagerHealthMultiplier() : 1.0D;
+        double armor = dorpa ? MobsConfig.dorpaArmorMultiplier()
+                : villager ? MobsConfig.infvillagerArmorMultiplier() : 1.0D;
+        double damage = dorpa ? MobsConfig.dorpaDamageMultiplier()
+                : villager ? MobsConfig.infvillagerDamageMultiplier() : 1.0D;
+        double knockback = dorpa ? MobsConfig.dorpaKnockbackMultiplier()
+                : villager ? MobsConfig.infvillagerKnockbackMultiplier() : 1.0D;
         return Monster.createMonsterAttributes()
                 .add(Attributes.MAX_HEALTH, kind.maxHealth * health)
                 .add(Attributes.ARMOR, kind.armor * armor)
