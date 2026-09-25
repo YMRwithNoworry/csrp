@@ -2246,3 +2246,23 @@ infvillagerMobSummon / infhorseMobSummon / infadventurerMobSummon`。`build` 通
 **同类排查提示**：既然连续三次出现"修了一族、漏了同型独立类"，下一批应**一次性列出所有同化档独立类**
 （`SimAdventurerEntity`、`AssimilatedEndermanEntity`、`AssimilatedDragonEntity`、`AssimilatedDragonHeadEntity`、
 `AssimilatedHeadEntity`、`HostEntity`…）并逐个核对 followRange/XP 两项，把这类漏项一次扫清。
+
+## 批次 146：同化档独立类 followRange 核对——**末影人 64 是正确的，不能统一为 16**（2026-09-25 续）
+
+按"同型漏项一次扫清"的计划核对三个独立类，结果**推翻了"同化档一律 16"的假设**：
+
+```
+端口 AssimilatedEndermanEntity:123   FOLLOW_RANGE 64.0D
+原版 EntityInfEnderman:114           func_110148_a(SharedMonsterAttributes.field_111265_b).func_111128_a(64.0);
+                                     ← 原版【自己写死 64.0】，并非 infectedFollow
+```
+
+⇒ 末影人的 64 与原版一致，**无需改动**（若我按"统一 16"去改，反而会引入偏差）。
+
+**XP 三项已一致**：`AssimilatedEndermanEntity:113`、`AssimilatedDragonEntity:104`、`AssimilatedDragonHeadEntity:42` 均为 8 ✔（前几轮已修）。
+
+**待验**：`AssimilatedDragonEntity:115`（64.0）与 `AssimilatedDragonHeadEntity:51`（32.0）需同样按原版对应类核对
+（`EntityInfDragonE` / `EntityInfDragonEHead` 的 `field_111265_b` 赋值），**取得证据前不改**。
+
+**方法论（第 N 次同类）**：这是本会话又一处"**我以为的通例其实是特例**"（对照批次 139 的"我以为的特例其实是通例"）。
+两次都指向同一纪律：**逐类查原版赋值点，不做族级外推**。
