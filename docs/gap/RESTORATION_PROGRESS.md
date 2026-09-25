@@ -2299,3 +2299,19 @@ ParasiteSummon.spawn(parasite, ParasiteSummon.specFor(parasite));
 
 断言 6 条；记账 **10 条**（跨 7 个生物）；账面 满足 976→**1053**、部分 502、缺失 321，加权 **68.4% → 69.5%**；
 审计面 **20/127**；`build` 通过、套件维持既有 20 失败。
+
+## 批次 149：`sim_enderman` 攻击效果修正（WITHER → BLEED）（2026-09-25 续）
+
+子代理列出 `sim_enderman` 六处偏差，本轮落第一处（最明确、改动最小）：
+
+```
+端口 AssimilatedEndermanEntity:306   addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 0), this)   ✗
+原版 EntityInfEnderman:594           SRPPotions.applyStackPotion(SRPptions.BLEED_E, entityIn, 100, 0)      ✔
+```
+
+已改为 `ModMobEffects.BLEED`（100 tick、amplifier 0，与原版一致），注释标注原版行号。
+`build` 通过、套件维持既有 20 失败。
+
+**该生物其余五处待办**（子代理已给行号）：缺失的 0.15 攻速加成修饰符、`EntityHitbox` 头部命中盒、
+生成时贴图随机（原版恒为 0/1）、传送音应改用已注册的 `ModSounds.INFECTED_ENDERMAN_PORTAL`（现播原版音效）、
+以及**误加的 follow 任务**（原版 `EntityInfEnderman:83` 显式 `func_85156_a(this.folow)` 移除之）。

@@ -303,7 +303,8 @@ public final class AssimilatedEndermanEntity extends Monster
             ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
             InfectionMechanics.applyCoth(livingTarget, this);
             if (random.nextFloat() < 0.2F) {
-                livingTarget.addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 0), this);
+                // Legacy EntityInfEnderman:594 applies BLEED (not wither) on hit.
+                livingTarget.addEffect(new MobEffectInstance(alku.csrp.registry.ModMobEffects.BLEED, 100, 0), this);
             }
         }
         return hit;
