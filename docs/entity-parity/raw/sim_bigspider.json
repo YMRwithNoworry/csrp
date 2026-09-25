@@ -1,0 +1,1089 @@
+{
+  "id": "sim_bigspider",
+  "originalClass": "EntityDorpa",
+  "projectClass": "AssimilatedVariantEntity",
+  "facets": [
+    {
+      "name": "registration",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "SRPEntities.CreateEntityMob(\"sim_bigspider\", <class>, 8611072, 16711900, 2, <enabled>) 注册 id",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:249",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:281"
+          },
+          "note": "API 映射：1.12.2 EntityEntry ↔ 26.3 DeferredRegister + EntityType，注册 id 字面量一致"
+        },
+        {
+          "clause": "注册用数值 id 2（getParasiteIDRegister）驱动掉落/生成派发",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:46",
+            "project": "src/main/resources/data/csrp/loot_table/entities/sim_bigspider.json:1"
+          },
+          "note": "数值 id 语义改由 per-entity loot_table + NaturalSpawnTables 表驱动，行为等价"
+        },
+        {
+          "clause": "MobCategory：继承 EntityMob（MONSTER）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:95",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:281"
+          },
+          "note": "project 用 MobCategory.MONSTER 注册（monster() helper 内建）"
+        },
+        {
+          "clause": "碰撞箱 func_70105_a(1.9F, 2.1F)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:38",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:281"
+          },
+          "note": "project sized(1.9FF, 2.1FF) 与之一致"
+        },
+        {
+          "clause": "眼高 1.75",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:78",
+            "project": null
+          },
+          "note": "project 未覆写 getEyeHeight，使用 26.3 默认值（≈0.85×高度=1.785），与原版 1.75 不一致"
+        },
+        {
+          "clause": "tracker(64, 3, true)：追踪距离 64 格 / 更新间隔 3 tick",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:188",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:630"
+          },
+          "note": "project clientTrackingRange(8) 为 8 区块=128 格，追踪距离被放大；更新间隔沿用默认 3"
+        },
+        {
+          "clause": "刷怪蛋颜色 8611072/16711900（全部 sim_* 共用同一颜色）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:249",
+            "project": "src/main/java/alku/csrp/registry/ModItems.java:179"
+          },
+          "note": "project 每只生物使用各自的配色，不再是统一颜色"
+        },
+        {
+          "clause": "刷怪蛋开关 SRPConfig.vanillaEggs",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:189",
+            "project": null
+          },
+          "note": "project 无该开关，刷怪蛋恒注册"
+        },
+        {
+          "clause": "SRPConfigMobs.dorpaEnabled 生物启用开关",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:91",
+            "project": null
+          },
+          "note": "project 无 per-mob 启用开关（仅 cothVictimParasites/自然生成表间接控制）"
+        },
+        {
+          "clause": "语言键 srparasites.sim_bigspider",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:186",
+            "project": "src/main/resources/assets/csrp/lang/en_us.json:84"
+          },
+          "note": "键名空间由 srparasites.* 映射为 entity.csrp.*"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "attributes",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "生命 SRPAttributes.DORPA_HEALTH = 22",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:32",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:505"
+          }
+        },
+        {
+          "clause": "护甲 SRPAttributes.DORPA_ARMOR = 3",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:33",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:505"
+          }
+        },
+        {
+          "clause": "攻击力 SRPAttributes.DORPA_ATTACK_DAMAGE = 9",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:34",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:505"
+          }
+        },
+        {
+          "clause": "移动速度 0.27",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:64",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:505"
+          }
+        },
+        {
+          "clause": "击退抗性 SRPAttributes.DORPA_KD_RESISTANCE = 0.5",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:35",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:505"
+          }
+        },
+        {
+          "clause": "跟随范围 SRPConfig.infectedFollow = 16",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfig.java:140",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:505"
+          },
+          "note": "project FOLLOW_RANGE=32，未读取 infectedFollow 配置"
+        },
+        {
+          "clause": "经验 field_70728_aV = SRPAttributes.XP_INFECTED = 8",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:146",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:94"
+          },
+          "note": "project xpReward=10"
+        },
+        {
+          "clause": "全局/单体倍率 SRPAttributes 初始化时全局倍率 × per-mob 倍率",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:1065",
+            "project": null
+          },
+          "note": "project 无 globalHealthMultiplier / xxxHealthMultiplier 之类的属性倍率配置"
+        },
+        {
+          "clause": "阶段属性加成 evolutionParasiteStatIncrease（phase ≥ 阈值时生命/护甲/攻击 ×(1+v)）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1676",
+            "project": null
+          },
+          "note": "project 的 sim_* 实体不读取进化阶段加成"
+        },
+        {
+          "clause": "基因加成 applyGene（最小伤害/伤害上限/穿墙/疾跑/水跃/技能/攻击速度）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:266",
+            "project": null
+          },
+          "note": "project 生成系统只作用于 primitive/adapted，sim_* 无基因接入"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "ai",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "继承 EntityMob：tasks.addTask(0, EntityAISwimming)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "(vanilla EntityMob 1.12.2) D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:95",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:131"
+          },
+          "note": "project FloatGoal(0)",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java",
+            "line": 57
+          }
+        },
+        {
+          "clause": "继承 EntityMob：tasks.addTask(2, EntityAIAttackMelee)",
+          "verdict": "na",
+          "evidence": {
+            "original": "(vanilla EntityMob) D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:50",
+            "project": null
+          },
+          "note": "project MeleeAttackGoal(2)",
+          "reviewNote": "cross-check: 原版继承链上未注册 EntityAIAttackMelee（initEntityAI 覆盖且未调用 super，见 original-ai-baseline.json），该条款不成立。",
+          "groundTruth": {
+            "verified": false,
+            "file": null,
+            "line": null
+          }
+        },
+        {
+          "clause": "继承 EntityMob：tasks.addTask(7, EntityAIWander)",
+          "verdict": "na",
+          "evidence": {
+            "original": "(vanilla EntityMob) D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:95",
+            "project": null
+          },
+          "note": "project WaterAvoidingRandomStrollGoal(5) 语义相近但无 120 tick 触发概率/状态门控",
+          "reviewNote": "cross-check: 原版继承链上未注册 EntityAIWander（initEntityAI 覆盖且未调用 super，见 original-ai-baseline.json），该条款不成立。",
+          "groundTruth": {
+            "verified": false,
+            "file": null,
+            "line": null
+          }
+        },
+        {
+          "clause": "继承 EntityMob：tasks.addTask(8, EntityAILookIdle)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "(vanilla EntityMob)",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:131"
+          },
+          "note": "project RandomLookAroundGoal(6)",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java",
+            "line": 59
+          }
+        },
+        {
+          "clause": "继承 EntityMob：tasks.addTask(8, EntityAIWatchClosest(EntityPlayer, 8))",
+          "verdict": "na",
+          "evidence": {
+            "original": "(vanilla EntityMob)",
+            "project": null
+          },
+          "note": "project 无对应的“注视最近玩家” goal",
+          "reviewNote": "cross-check: 原版继承链上未注册 EntityAIWatchClosest（initEntityAI 覆盖且未调用 super，见 original-ai-baseline.json），该条款不成立。",
+          "groundTruth": {
+            "verified": false,
+            "file": null,
+            "line": null
+          }
+        },
+        {
+          "clause": "继承 EntityMob：targetTasks.addTask(1, EntityAIHurtByTarget)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "(vanilla EntityMob)",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:137"
+          },
+          "note": "project HurtByTargetGoal(1).setAlertOthers()",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java",
+            "line": 56
+          }
+        },
+        {
+          "clause": "继承 EntityMob：targetTasks.addTask(2, EntityAINearestAttackableTarget(EntityPlayer))",
+          "verdict": "na",
+          "evidence": {
+            "original": "(vanilla EntityMob)",
+            "project": null
+          },
+          "note": "project 用 NearestAttackableTargetGoal<LivingEntity>(2) 覆盖玩家与生物，语义为超集",
+          "reviewNote": "cross-check: 原版继承链上未注册 EntityAINearestAttackableTarget（initEntityAI 覆盖且未调用 super，见 original-ai-baseline.json），该条款不成立。",
+          "groundTruth": {
+            "verified": false,
+            "file": null,
+            "line": null
+          }
+        },
+        {
+          "clause": "EntityParasiteBase 构造：tasks.addTask(0, EntityAIWait)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:189",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedMeltSystem.java:64"
+          },
+          "note": "project 无 wait goal；等待/定格语义由 AssimilatedMeltSystem.freeze 近似",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java",
+            "line": 155
+          }
+        },
+        {
+          "clause": "EntityParasiteBase 构造：tasks.addTask(5, EntityAIWanderStatus(1.0, 120, 0.001F, true))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:190",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:131"
+          },
+          "note": "project WaterAvoidingRandomStrollGoal(1.0) 无 status/checkPositionWander 门控",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java",
+            "line": 157
+          }
+        },
+        {
+          "clause": "EntityParasiteBase 构造：tasks.addTask(6, EntityAIParasiteFollow(1.3, 16, 6, true))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:191",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:135"
+          },
+          "note": "project ParasiteFollowGoal(6)",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java",
+            "line": 156
+          }
+        },
+        {
+          "clause": "EntityParasiteBase 构造：tasks.addTask(5, EntityAIJumping)",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:192",
+            "project": null
+          },
+          "note": "project 无跳跃/越障 goal（skillLeap 亦未接入 sim_*）",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java",
+            "line": 154
+          }
+        },
+        {
+          "clause": "EntityPInfected 构造：target 4 NearestAttackableTargetStatus(EntityPlayer, sneakPen 0.8, inviPen 0.7)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:58",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:138"
+          },
+          "note": "project NearestAttackableTargetGoal 不实现潜行/隐身察觉惩罚"
+        },
+        {
+          "clause": "EntityPInfected 构造：SRPConfig.mobattacking 时 target 4 EntityLiving（排除水栖/动物/村民+黑名单）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:62",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:138"
+          },
+          "note": "project isValidParasiteTarget 仅排除 Parasite 自身与死亡目标，未排除动物/水栖/黑名单"
+        },
+        {
+          "clause": "applyBonuses：phase ≥ evolutionAssimilatedDehiding(9) 时 target 5 村民",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:242",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:138"
+          },
+          "note": "project 的 LivingEntity 目标选择已包含村民"
+        },
+        {
+          "clause": "targetTasks.addTask(1, EntityAIHurtByTarget(this, true))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:56",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:137"
+          },
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java",
+            "line": 56
+          }
+        },
+        {
+          "clause": "tasks.addTask(0, EntityAISwimming(this))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:57",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:132"
+          },
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java",
+            "line": 57
+          }
+        },
+        {
+          "clause": "tasks.addTask(3, EntityAIAttackMeleeStatus(this, 1.5, false, 0.0))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:58",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:133"
+          },
+          "note": "project MeleeAttackGoal 速度 1.2（原版 1.5），且无 Status 版的最小伤害/长记忆",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java",
+            "line": 58
+          }
+        },
+        {
+          "clause": "tasks.addTask(8, EntityAILookIdle(this))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:59",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:136"
+          },
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java",
+            "line": 59
+          }
+        },
+        {
+          "clause": "tasks.addTask(6, EntityAIAttackProjectile(this, 60, 15, 3))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:60",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:171"
+          },
+          "note": "project 以 tick 内联实现 60 tick 冷却的远程攻击，无 EntityCanShoot/投射物",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java",
+            "line": 60
+          }
+        },
+        {
+          "clause": "tasks.addTask(6, EntityAIGetFollowers(this, 1, 16))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:61",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:135"
+          },
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java",
+            "line": 61
+          }
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "behaviors",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "近战附加最小伤害 attackEntityAsMobMinimum(MiniDamage = SRPConfig.infectedMinDamage 0.5)",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:858",
+            "project": null
+          },
+          "note": "project sim_* 直接走 Monster.doHurtTarget，没有最小伤害/穿透护甲流程"
+        },
+        {
+          "clause": "命中玩家时偷取食物 foodSteal = 0.1 并转化为 infected_drop",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:958",
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
+          },
+          "note": "stealFoodFromPlayer：按 infectedFoodSteal 概率偷取一份食物并以 assimilated_flesh 掉落；批次：同化体原版通用战斗规则（EntityPInfected / EntityParasiteBase）"
+        },
+        {
+          "clause": "命中时按 cothSpread 概率施加 COTH（SRPConfigSystems.cothInfected = 0.1）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:91",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:187"
+          },
+          "note": "project 命中 100% 施加（未使用 cothAssimilatedSpreadChance 0.1 掷骰）"
+        },
+        {
+          "clause": "每 5 tick 的 COTH 光环 InfectNearby（SRPConfigSystems.cothAura = 3 格，4800 tick）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:149",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:375"
+          },
+          "note": "project 半径与间隔不同（见 note/证据），持续时间 4800 tick 一致"
+        },
+        {
+          "clause": "受击发怒/伤害来源限制：DEBAR 时不掉进化点",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1324",
+            "project": "src/main/java/alku/csrp/world/EvolutionSystem.java:191"
+          },
+          "note": "project parasiteDeathPenalty 检查 ModMobEffects.DEBAR"
+        },
+        {
+          "clause": "击杀计数 killcount++ 并写入进化点（valueKill = 1）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1006",
+            "project": "src/main/java/alku/csrp/world/EvolutionEvents.java:111"
+          },
+          "note": "project EvolutionEvents.addKillPoints + EvolutionSystem.VALUE_KILL"
+        },
+        {
+          "clause": "死亡扣进化点 SRPConfig.infectedLoosingEPValue = 1",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:96",
+            "project": "src/main/java/alku/csrp/world/EvolutionSystem.java:191"
+          },
+          "note": "project ASSIMILATED 档惩罚 = 1"
+        },
+        {
+          "clause": "死亡时按 50% 概率（madeRng）进入自爆流程 dyingBurst(fuseTime = 40)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1432",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:290"
+          },
+          "note": "project 概率 0.25 且无 40 tick 引信；行为见 spawnDeathBurst"
+        },
+        {
+          "clause": "selfExplode：生成 EntityToxicCloud（半径 width×1.5、waitTime 10、duration/2、中毒 300、COTH 3600）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1525",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:480"
+          },
+          "note": "project 毒云半径/时长/效果时长不同（2.25/160/中毒200/COTH200）"
+        },
+        {
+          "clause": "selfExplode：播放 SRPSounds.MOBEXPLOTION",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1531",
+            "project": null
+          },
+          "note": "project 死亡爆发不播放爆炸音效"
+        },
+        {
+          "clause": "attackEntityFromEffects：受击时按 paraGore 概率铺设 goreSim 地面方块",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:264",
+            "project": null
+          },
+          "note": "project 未在受击时放置任何 gore 方块（GoreEntity 仅被囊肿系统使用）"
+        },
+        {
+          "clause": "attackEntityFromCap：伤害上限触发时抛出 3 个 EntityGore 炸弹",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:293",
+            "project": null
+          },
+          "note": "project 无对应逻辑"
+        },
+        {
+          "clause": "受击时 10% 概率调用 attackEntityFromEffects(1,1)",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:700",
+            "project": null
+          },
+          "note": "project 无该受击反馈"
+        },
+        {
+          "clause": "超距消失时生成活体囊肿 / 被调度柱回收（spawnCyst + storeBefDes）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1583",
+            "project": "src/main/java/alku/csrp/entity/ParasiteDespawnHandler.java:22"
+          },
+          "note": "project MobDespawnMixin 注入 + ParasiteDespawnHandler 等价"
+        },
+        {
+          "clause": "getStillAni / stillTicks：长时间静止时切换站桩动画",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:444",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:315"
+          },
+          "note": "project stillAnimationTicks（>25 tick 切换 still 动画）"
+        },
+        {
+          "clause": "寄生体伪装宿主机制 setHost/transform：phase ≥ 9 或使用同化物品时变回宿主",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:182",
+            "project": "src/main/java/alku/csrp/infection/InfectionMechanics.java:270"
+          },
+          "note": "project 宿主标签 + replaceHost/restoreHost 等价实现"
+        },
+        {
+          "clause": "物品交互：itemEvolve/itemDevolve/itemVariant（强制进化/退化/切换变体）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1129",
+            "project": "src/main/java/alku/csrp/entity/ManualVariantProvider.java:16"
+          },
+          "note": "project 用 Variant Wand + ManualVariantProvider 接口等价"
+        },
+        {
+          "clause": "落水时 liquidLeap 跃向目标（geneWaterleap）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:462",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:375"
+          },
+          "note": "project 无液体跳跃；仅部分生物有 LeapAtTargetGoal"
+        },
+        {
+          "clause": "placeNidus：killcount ≥ 10 且概率下生成 Nidus 弹",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:533",
+            "project": null
+          },
+          "note": "project sim_* 无 Nidus 生成"
+        },
+        {
+          "clause": "doLast：发现感染点后给目标 SPOT 效果并 alertOthers",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1167",
+            "project": "src/main/java/alku/csrp/entity/ParasiticScentEntity.java:56"
+          },
+          "note": "project 有 scent/群体警报系统，但 sim_* 未在探测时主动施加上位 SPOT"
+        },
+        {
+          "clause": "远程攻击 EntityAIAttackProjectile(this, 60, 15, 3)：每 60 tick 发射蛛网弹",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:60",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:171"
+          },
+          "note": "project 冷却 60 tick 一致，但用瞬时判定代替投射物实体"
+        },
+        {
+          "clause": "getProj 生成 EntityProjectileWebball（重力投射物，命中放置蜘蛛网/致盲 30%/60 tick）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:152",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:383"
+          },
+          "note": "project fireWebBall 直接对视线内目标施加缓慢 II/中毒，没有投射物、没有织网方块、没有致盲"
+        },
+        {
+          "clause": "selfExplode 额外召唤 SRPConfigMobs.dorpamob = \"srparasites:buglin;5;5\"",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:96",
+            "project": null
+          },
+          "note": "project 死亡爆发不召唤 Buglin（5 只）"
+        },
+        {
+          "clause": "skin 1 变体（1/3 概率）：生命 ×0.5、攻击 ×1.25、命中附加 40 tick 中毒、贴图 dorpa2.png",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:140",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:191"
+          },
+          "note": "project 无 skin 体系，但实现为“每次命中 1/3 概率中毒 40 tick”，且生命/攻击未做 0.5/1.25 调整"
+        },
+        {
+          "clause": "spawnGore 覆写为空（死亡不放置 gore/Remain）",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:101",
+            "project": null
+          },
+          "note": "原版刻意关闭，project 同样不生成 gore/Remain，条款不适用"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "damage_and_effects",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "伤害上限 SRPConfig.infectedCap = 2（超过即削减并施加 RAGE 200/1）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:87",
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
+          },
+          "note": "damageAfterIncomingCap：maxHealth/cap + 余数*0.5 上限 + RAGE 200/1，火焰/虚空不设限，基因门控；批次：同化体原版通用战斗规则（EntityPInfected / EntityParasiteBase）"
+        },
+        {
+          "clause": "火焰倍率 SRPConfig.firemultyplier = 4.0（火伤 ×4）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:790",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:199"
+          },
+          "note": "project hurt() 对 IS_FIRE 伤害 ×4"
+        },
+        {
+          "clause": "药水免疫：COTH/VIRA/CORRO/DLER 不可被施加（func_70687_e）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1084",
+            "project": "src/main/java/alku/csrp/event/StatusEffectEvents.java"
+          },
+          "note": "preventParasiteStatusApplication：寄生体拒绝 COTH/VIRA/CORRO/DLER；批次：同化体原版通用战斗规则（EntityPInfected / EntityParasiteBase）"
+        },
+        {
+          "clause": "VIRA 病毒叠加放大最小伤害",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:878",
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
+          },
+          "note": "applyMinimumMeleeDamage：VIRA 等级 +2 倍率；批次：同化体原版通用战斗规则（EntityPInfected / EntityParasiteBase）"
+        },
+        {
+          "clause": "受击后对玩家施加恐惧 FEAR（伤害 > 8 时 1..3 级，200~500 tick）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:168",
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java:26"
+          },
+          "note": "project ParasiteCombatEffects.applyFearFromDamage 数值一致"
+        },
+        {
+          "clause": "击杀后按 victim 最大生命 × geneMobHealing(3.0) 回血",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1040",
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
+          },
+          "note": "healOnKill：按 generationProfile.mobHealing 基因 × victim 最大生命回血；批次：同化体原版通用战斗规则（EntityPInfected / EntityParasiteBase）"
+        },
+        {
+          "clause": "击杀后用 PARATE 强化生命/护甲/伤害",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1046",
+            "project": null
+          },
+          "note": "project 无 PARATE 强化"
+        },
+        {
+          "clause": "thisMelting / EntityAIInfectedSearch 接入（killcount > primitiveKills(10) 且 levelCreated ≥ deveMergeUse(1)）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:111",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedMeltSystem.java:29"
+          },
+          "note": "project 用世界进化阶段 ≥1 替代 levelCreated 判定，其余（击杀数 >10、无目标）一致"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "sync_data",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "DataManager.register SPECIAL (byte)：parasiteStatus 状态机 0..6",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:134",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:54"
+          },
+          "note": "project ANIMATION_STATUS 只表达 0/1/2（+3/6 内部态），无 wait/leap/breakblock 等状态"
+        },
+        {
+          "clause": "DataManager.register SELFE (int)：自爆引信状态",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:135",
+            "project": null
+          },
+          "note": "project 无 SELFE 同步"
+        },
+        {
+          "clause": "DataManager.register SKIN (byte)：贴图/变体（1..120）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:136",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:56"
+          },
+          "note": "project 仅羊/狼保留变体同步，人类/牛/猪/蛛的 skin 体系缺失"
+        },
+        {
+          "clause": "DataManager.register COLD_L (boolean)：寒冷环境标记",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:137",
+            "project": null
+          },
+          "note": "project 无寒冷变体标记"
+        },
+        {
+          "clause": "DataManager.register DISLO15 (boolean)：击杀计数/禁用状态",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:116",
+            "project": null
+          },
+          "note": "project 无 Dislodgment 相关同步数据"
+        },
+        {
+          "clause": "EntityInfHuman/EntityInfCow/EntityInfSheep/EntityInfWolf register HEIGH (float) 融化高度",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:38",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:56"
+          },
+          "note": "project MELT_HEIGHT 语义一致但取值域不同"
+        },
+        {
+          "clause": "register MELTING (boolean)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:39",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:56"
+          }
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "animation",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "status 0 行走/待机动画（age_in_ticks + limb_swing）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "client/model/entity/infected/ModelDorpa.java:677",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:304"
+          },
+          "note": "project age_controller + movement_controller 播放同名提取动画"
+        },
+        {
+          "clause": "getStillAni 为真时切换到静止姿势",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "client/model/entity/infected/ModelDorpa.java:706",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:330"
+          },
+          "note": "project 使用 ...get_still_ani_1 变体"
+        },
+        {
+          "clause": "status 1/2 攻击/追击姿势",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "client/model/entity/infected/ModelDorpa.java:745",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:330"
+          },
+          "note": "project status 1/2 切换到 get_parasite_status_1/2 动画"
+        },
+        {
+          "clause": "受击/自爆闪白（getSelfeFlashIntensity(fuseTime=40) 驱动缩放脉动）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:2177",
+            "project": "src/main/java/alku/csrp/client/renderer/AssimilatedParasiteRenderer.java:15"
+          },
+          "note": "project 渲染器只按融化高度缩放，无引信闪白脉动"
+        },
+        {
+          "clause": "控制器注册：ModelSRP.func_78087_a 每帧姿势计算（含 underground 起跳/埋地）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "client/model/entity/infected/ModelDorpa.java:1",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:304"
+          },
+          "note": "project 使用 Citadel 控制器，缺 underground/埋地姿态"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "name": "model_texture",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "模型 ModelDorpa（1.12 Java 模型）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "client/model/entity/infected/ModelDorpa.java:1",
+            "project": "src/main/resources/assets/csrp/geo/sim_bigspider.geo.json:1"
+          },
+          "note": "project 使用等价几何体 geo 文件 + Citadel 模型"
+        },
+        {
+          "clause": "贴图变体 dorpa2.png (skin 1 变体)",
+          "verdict": "missing",
+          "evidence": {
+            "original": "client/renderer/entity/infected/RenderDorpa.java:11",
+            "project": null
+          },
+          "note": "project 只有单张贴图，skin/变体贴图与判定逻辑缺失"
+        },
+        {
+          "clause": "渲染阴影半径 1.2F",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "client/renderer/entity/infected/RenderDorpa.java:17",
+            "project": "src/main/java/alku/csrp/client/ClientModEvents.java:203"
+          },
+          "note": "project shadowRadius=1.2F"
+        },
+        {
+          "clause": "preRenderCallback：按引信强度缩放模型（1±0.4/0.1）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "client/renderer/entity/infected/RenderDorpa.java:19",
+            "project": null
+          },
+          "note": "project 渲染器未实现自爆引信的实时缩放"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "sounds",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "环境音 SRPSounds.INFECTEDSPIDER_GROWL（getParasiteStatus() != 0 时退化为 MOBSILENCE）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:119",
+            "project": "src/main/java/alku/csrp/entity/ParasiteSoundProfiles.java:26"
+          },
+          "note": "project 环境音映射存在，但没有“状态非 0 时静音”的判定"
+        },
+        {
+          "clause": "受伤音 SRPSounds.INFECTEDSPIDER_HURT",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:123",
+            "project": null
+          },
+          "note": "project sounds.json 中该音效 sounds 数组为空，实际不发声"
+        },
+        {
+          "clause": "死亡音 SRPSounds.INFECTEDSPIDER_DEATH",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:127",
+            "project": "src/main/java/alku/csrp/entity/ParasiteSoundProfiles.java:26"
+          }
+        },
+        {
+          "clause": "脚步声 SRPSounds.INFECTEDSPIDER_STEP（0.15 音量）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:131",
+            "project": null
+          },
+          "note": "project 未覆写 getStepSound / playStepSound，脚步声事件未还原"
+        },
+        {
+          "clause": "远程攻击音 SRPSounds.DORPA_RANGE",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:153",
+            "project": null
+          },
+          "note": "project dorpa.range 已注册但 fireWebBall 未播放"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "spawning",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "SRPSpawning.addSpawn(0, undefined.class, 1, 1, biome, 10, <enabled>)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:152",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:21"
+          },
+          "note": "project 阶段表权重/组大小不同（weight 25，3-5）"
+        },
+        {
+          "clause": "生成群组 min/max 数量",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:152",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:21"
+          },
+          "note": "原版 1-1，project 3-5"
+        },
+        {
+          "clause": "生成权重（SRPConfigMobs 配置项）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:90",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:21"
+          },
+          "note": "原版默认 10，project 25"
+        },
+        {
+          "clause": "阶段门控：canSpawninPhase(type id, phaseMax/Cancel ID 阈值)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:556",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:18"
+          },
+          "note": "project 按进化阶段选择不同生成表，等价实现"
+        },
+        {
+          "clause": "光照/难度/天数规则 func_70601_bi（SRPConfig.spawnDays、isValidLightLevelOne/Two）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1553",
+            "project": "src/main/java/alku/csrp/registry/CommonModEvents.java:328"
+          },
+          "note": "project 使用 Monster.checkMonsterSpawnRules（光照 ≤7 等），未接入 spawnDays 与寄生群系光照放宽规则"
+        },
+        {
+          "clause": "同化生成数据门控 getIDSpawn/canSpawnByIDData（每个生物一个阈值）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:102",
+            "project": null
+          },
+          "note": "project 无 per-mob 同化配额，宿主转化由 cothVictimParasites 表无条件决定"
+        },
+        {
+          "clause": "宿主转化映射 SRPConfigSystems.COTHVictimParasite（宿主 → 同化体）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems.java:101",
+            "project": "src/main/java/alku/csrp/Config.java:111"
+          },
+          "note": "project cothVictimParasites 配置项等价"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "loot",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "掉落表为空（SRPConfigMobs.dorpaLoot = new String[0]）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:93",
+            "project": "src/main/resources/data/csrp/loot_table/entities/sim_bigspider.json:1"
+          },
+          "note": "project 反而给了 1-2 个 assimilated_flesh，属新增掉落"
+        },
+        {
+          "clause": "经验 8（XP_INFECTED）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:146",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:94"
+          },
+          "note": "project xpReward=10"
+        }
+      ],
+      "confidence": "high"
+    }
+  ]
+}

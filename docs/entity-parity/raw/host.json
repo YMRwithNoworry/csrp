@@ -1,0 +1,849 @@
+{
+  "id": "host",
+  "originalClass": "EntityHost",
+  "projectClass": "HostEntity",
+  "facets": [
+    {
+      "name": "registration",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "CreateEntityMob(\"host\", EntityHost.class, egg 0x836500/0xFF00DC, 数值 id 48, SRPConfigMobs.hostEnabled)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:322",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:242"
+          },
+          "note": "注册 id 与类一致；原版数值 id 48 在 26.3 无对应概念，其作用（掉落表键）由 loot table 取代"
+        },
+        {
+          "clause": "EntityEntryBuilder.egg(0x836500, 0xFF00DC) 刷怪蛋",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:192",
+            "project": "src/main/java/alku/csrp/registry/ModItems.java:148"
+          },
+          "note": "副色一致；主色工程为 0x5A3200，与原版 0x836500 不符"
+        },
+        {
+          "clause": "注册受 SRPConfigMobs.hostEnabled 开关控制（false 时不注册）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:322",
+            "project": null
+          },
+          "note": "工程无 per-mob 启用开关"
+        },
+        {
+          "clause": "EntityEntryBuilder.tracker(64, 3, true)：追踪 64 格 / 3 tick 更新 / 同步速度",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:191",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:630"
+          },
+          "note": "工程 helper 固定 clientTrackingRange 8（ModEntities.java:627），追踪范围显著偏小"
+        },
+        {
+          "clause": "语言键 entity.srparasites.host.name",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:190",
+            "project": "src/main/resources/assets/csrp/lang/en_us.json:68"
+          },
+          "note": "前缀 srparasites → csrp，语义等价"
+        },
+        {
+          "clause": "碰撞箱 func_70105_a(0.9F, 0.25F)，出土时增至 3.5F",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:66",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:243"
+          },
+          "note": "工程固定 0.9 × 3.5，缺少 0.25→3.5 的动态碰撞箱（原版 checkBurrowed 每 tick ±0.05）"
+        },
+        {
+          "clause": "眼高 func_70047_e() 返回当前身高",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:471",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:243"
+          },
+          "note": "工程未声明 eyeHeight，26.3 默认 3.5×0.85≈2.98 且不随潜地变化"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "attributes",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "MAX_HEALTH = SRPAttributes.HOST_HEALTH (50)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:143",
+            "project": "src/main/java/alku/csrp/entity/HostEntity.java:65"
+          }
+        },
+        {
+          "clause": "ARMOR = SRPAttributes.HOST_ARMOR (7)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:144",
+            "project": "src/main/java/alku/csrp/entity/HostEntity.java:65"
+          }
+        },
+        {
+          "clause": "ATTACK_DAMAGE = SRPAttributes.HOST_ATTACK_DAMAGE (10)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:147",
+            "project": "src/main/java/alku/csrp/entity/HostEntity.java:65"
+          }
+        },
+        {
+          "clause": "MOVEMENT_SPEED = 0.12",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:145",
+            "project": "src/main/java/alku/csrp/entity/HostEntity.java:65"
+          }
+        },
+        {
+          "clause": "KNOCKBACK_RESISTANCE = 1.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:146",
+            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:66"
+          }
+        },
+        {
+          "clause": "FOLLOW_RANGE = SRPConfig.primitiveFollow (24)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:148",
+            "project": "src/main/java/alku/csrp/entity/HostEntity.java:65"
+          }
+        },
+        {
+          "clause": "damageCap = SRPConfig.primitiveCap (6) 进伤上限",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:106",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:418"
+          },
+          "note": "工程 HostEntity 未覆写 incomingDamageCapDivisor"
+        },
+        {
+          "clause": "适应参数 primitivePointRed 0.05 / primitivePointCap 12 / primitivePointDamCap 5 / primitiveChanceLe 0.7",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPMalleable.java:79",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:79"
+          },
+          "note": "工程默认 12 次×0.05、5 类来源、0.70 学习率，与原版 primitive 配置一致"
+        },
+        {
+          "clause": "MiniDamage = primitiveMinDamage (2.0)、foodSteal = primitiveFoodSteal (0.5)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:108",
+            "project": null
+          },
+          "note": "工程无这两个字段（最小伤害近战路径未接入）"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "ai",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "tasks.addTask(0, EntityAIWait)（基类构造注册，计 1 条）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:189",
+            "project": null
+          },
+          "note": "原版 initEntityAI 未调用 super，任务集完全由基类构造 + 子类覆写组成（见 docs/entity-parity/original-ai-baseline.json：本生物 baselineApplies=false）；工程无 wait GOAL"
+        },
+        {
+          "clause": "tasks.addTask(5, EntityAIWanderStatus(1.0, 120, 0.001F, true))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:190",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:292"
+          },
+          "note": "工程 WaterAvoidingRandomStrollGoal(1.0)，速度一致但优先级 7 且无静止 tick/概率参数"
+        },
+        {
+          "clause": "tasks.addTask(5, EntityParasiteBase.EntityAIJumping)（内部类写法）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:192",
+            "project": null
+          },
+          "note": "工程本批 6 只均未注册跃击 GOAL"
+        },
+        {
+          "clause": "tasks.addTask(6, EntityAIParasiteFollow(1.3, 16, 6, true))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:191",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:290"
+          },
+          "note": "工程 ParasiteFollowGoal（优先级 6，起 16 格 / 停 6 格，ParasiteFollowGoal.java:14-15）"
+        },
+        {
+          "clause": "构造函数移除跟随 GOAL：this.field_70714_bg.func_85156_a(this.folow)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:68",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:290"
+          },
+          "note": "工程保留 ParasiteFollowGoal（PrimitiveParasiteEntity.java:290），与原版 Host 移除跟随不一致"
+        },
+        {
+          "clause": "targetTasks.addTask(4, EntityAINearestAttackableTargetStatus(this, EntityPlayer.class, ..., primitiveWalls, primitiveSneakPen, primitiveInviPen))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:74",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:297"
+          },
+          "note": "工程用 NearestAttackableTargetGoal(LivingEntity) 统一覆盖，且固定 canPassThroughWalls=false，未复现 primitiveWalls/潜行隐身惩罚"
+        },
+        {
+          "clause": "targetTasks.addTask(4, EntityAINearestAttackableTargetStatus(this, EntityLiving.class, ... mobattackingBlackList ...))，受 SRPConfig.mobattacking 开关",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:81",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:297"
+          },
+          "note": "工程无条件注册 LivingEntity 目标且无黑名单/穿墙参数"
+        },
+        {
+          "clause": "targetTasks.addTask(1, EntityAIHurtByTarget(this, true))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:128",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:296"
+          },
+          "note": "26.3 对应 HurtByTargetGoal().setAlertOthers()"
+        },
+        {
+          "clause": "tasks.addTask(3, EntityAIAttackMeleeStatusAOE(this, 1.3, false, 0.0, 3.0, true))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:129",
+            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:82"
+          },
+          "note": "工程 MeleeAttackGoal(1.3) + doHurtTarget 半径 3.0，但缺少潜地前提判定与 AOE 触发音效"
+        },
+        {
+          "clause": "tasks.addTask(6, EntityAIAttackMeleeRangeSwitch(this, 8.0F))",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:130",
+            "project": null
+          },
+          "note": "工程无按距离切换攻击方式的 GOAL"
+        },
+        {
+          "clause": "tasks.addTask(4, EntityAIAttackRangedStatus(this, 1.3, 50, 8.0F, false))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:131",
+            "project": "src/main/java/alku/csrp/entity/HostEntity.java:60"
+          },
+          "note": "工程 rangedInterval=50，且仅在潜地且有视线时投弹（AbstractHostEntity.java:275）"
+        },
+        {
+          "clause": "tasks.addTask(2, EntityAISkill(this, 40, primitiveFollow, 2, false, 1, true))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:132",
+            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:289"
+          },
+          "note": "工程用 1/shockwaveChance(40) 随机触发 + 20 tick 蓄力替代原版 border 3 段状态机"
+        },
+        {
+          "clause": "原版 initEntityAI 未调用 super → 无 EntityMob 基线任务（无 EntityAIWatchClosest/EntityAILookIdle/EntityAIAttackMelee/EntityAIWander）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:127",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:294"
+          },
+          "note": "工程额外注册 FloatGoal(0) 与 RandomLookAroundGoal(8) 等基线 GOAL（baselineApplies=false，见 original-ai-baseline.json）"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "behaviors",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "潜地状态机：目标距离 <=9 时潜地、buriedC=80、速度置 0，冷却结束出土恢复 0.12",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:263",
+            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:106"
+          },
+          "note": "工程 distanceToSqr<=9、burrowDuration=80、潜地速度 0，数值一致"
+        },
+        {
+          "clause": "潜地动画计时 buried 4.8 → 0（每 tick 0.08）与 open 张开标记",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:234",
+            "project": "src/main/java/alku/csrp/entity/HostEntity.java:30"
+          },
+          "note": "工程 MAX_BURIED_TIMER 4.8 / STEP 0.08 + MOUTH_OPEN 同步参数"
+        },
+        {
+          "clause": "出土/入土时碰撞箱高度每 tick ±0.05 渐变（0.25 ↔ 3.5）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:250",
+            "project": null
+          },
+          "note": "工程仅记录动画计时，碰撞箱固定"
+        },
+        {
+          "clause": "投弹：EntityBomb fuse=80、HOST_BOMBDAMAGE=7、skin=1、作用半径 4，目标 >169 格不投",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:359",
+            "project": "src/main/java/alku/csrp/entity/HostEntity.java:94"
+          },
+          "note": "工程 fuse/damage/半径一致，但无 169 格距离门控"
+        },
+        {
+          "clause": "冲击波 spawnShock()：EntityWave 伤害 = 攻击力×0.3、MiniDamage、1 次、60 时长",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:585",
+            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:152"
+          }
+        },
+        {
+          "clause": "spawnRupters()：召唤 EntityMudo，16 格内上限 4，有目标 1/150、无目标 1/400",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:203",
+            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:192"
+          },
+          "note": "工程 spawnMinions(RUPTER, cap 4, 1/150 或 1/400)"
+        },
+        {
+          "clause": "killcount > SRPConfigMobs.hostHerd (40) 时进化为 EntityHostII",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:197",
+            "project": "src/main/java/alku/csrp/entity/HostEntity.java:133"
+          },
+          "note": "工程 HOST_TO_HOSTII_KILLS=40，击杀回调中替换实体"
+        },
+        {
+          "clause": "teleportByGround()：1/3 概率钻地传送到远处目标并给跳跃提升",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:315",
+            "project": null
+          }
+        },
+        {
+          "clause": "checkSpeed() 每 20 tick 在脚下放置 InfestRemain 方块",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:282",
+            "project": null
+          }
+        },
+        {
+          "clause": "func_70097_a：未完全出土（高度<1.0）时免疫箭矢/近战，仅特定来源穿透",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:333",
+            "project": null
+          },
+          "note": "工程 AbstractHostEntity 未覆写 hurt，潜地期间可被正常攻击"
+        },
+        {
+          "clause": "func_70024_g：仅潜地时接受击退",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:326",
+            "project": null
+          }
+        },
+        {
+          "clause": "spawnGroundParticles()：移动时脚下 BLOCK_CRACK 粒子",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:294",
+            "project": null
+          }
+        },
+        {
+          "clause": "func_70652_k：潜地且高度>=1 时攻击并把 buriedC+160；未潜地时只切换为潜地不造成伤害",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:379",
+            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:123"
+          },
+          "note": "工程 doHurtTarget 无条件范围伤害，忽略潜地前提与 buriedC 延长"
+        },
+        {
+          "clause": "func_70074_a：击杀后 particleStatus((byte)5) 粒子",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:443",
+            "project": null
+          }
+        },
+        {
+          "clause": "func_70103_a 客户端包 11/12 控制 open、13 抬升 attackTimer、100 喷火粒子",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:492",
+            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:97"
+          },
+          "note": "工程以 BURROW_ANIMATION_TICKS/动画触发替代，缺少 byte 100 火焰粒子包"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "damage_and_effects",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "damageCap：进伤上限 = 血量 / 配置除数（primitiveCap 6 / adaptedCap 9）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:778",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:418"
+          },
+          "note": "工程 hurtWithIncomingDamageCap 框架存在，但本实体未覆写 incomingDamageCapDivisor（默认 1，等于无上限）"
+        },
+        {
+          "clause": "火伤倍率 SRPConfig.firemultyplier = 4.0",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:795",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:343"
+          }
+        },
+        {
+          "clause": "药水免疫：COTH / VIRA / CORRO / DLER 无法被施加",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1084",
+            "project": null
+          }
+        },
+        {
+          "clause": "中毒伤害(amount==1)转为治疗 genePoisonHealing",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:635",
+            "project": null
+          }
+        },
+        {
+          "clause": "击杀计数 killcount++ 并写入进化点（SRPSaveData.setTotalKills valueKill）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1006",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:705"
+          },
+          "note": "工程只累加 parasiteKills 并触发适应形态，未写入阶段进化点"
+        },
+        {
+          "clause": "DEBAR_E 状态下死亡不给经验/战利品，且经验受 evolutionPArasitesWithoutXP 阶段门控",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1456",
+            "project": null
+          }
+        },
+        {
+          "clause": "死亡时 checkColony / leaveScent / 扣减 origin 血量 / valueEvDeath 扣进化点",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1324",
+            "project": null
+          }
+        },
+        {
+          "clause": "适应加成：按 pointReduction×累计点数比例减伤，受 adaptationCap 限制",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPMalleable.java:235",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:362"
+          },
+          "note": "工程 12 hits×0.05×effectiveness 0.95（HostEntity.java:26）"
+        },
+        {
+          "clause": "cothSpread 未初始化（=0）→ 近战不传播 COTH",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:168",
+            "project": "src/main/java/alku/csrp/infection/InfectionEvents.java:51"
+          },
+          "note": "工程对所有 Parasite 统一按 Config.cothCrudeSpreadChance (0.4) 传播 COTH，属额外行为"
+        },
+        {
+          "clause": "attackEntityAsMobMinimum：每次命中追加 MiniDamage(2.0) 并偷取玩家饱食度 0.5",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:858",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:501"
+          },
+          "note": "工程的 applyPrimitiveMinimumDamage 仅被投射物调用，近战路径未接入"
+        },
+        {
+          "clause": "被寄生虫伤害免疫（原版无此规则，仅靠索敌互斥）",
+          "verdict": "na",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:814",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:329"
+          },
+          "note": "原版本生物实体类内无该判定；工程额外拒绝寄生虫来源伤害"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "sync_data",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "DataManager.register SPECIAL(Byte) 同步 parasite status",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:134",
+            "project": null
+          },
+          "note": "工程无统一 status 参数（仅个别实体有动画状态参数）"
+        },
+        {
+          "clause": "DataManager.register SKIN(Byte) 同步皮肤/变体（120 冻结、121-125 雪地）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:136",
+            "project": null
+          }
+        },
+        {
+          "clause": "DataManager.register SELFE(Integer) 同步自爆/成长计数",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:135",
+            "project": null
+          }
+        },
+        {
+          "clause": "DataManager.register COLD_L / DISLO15(Boolean) 同步冻结与位移标记",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:137",
+            "project": null
+          }
+        },
+        {
+          "clause": "DataManager.register HIT(Byte) 适配命中状态（1 部分 / 2 达上限）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPMalleable.java:45",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:71"
+          },
+          "note": "26.3 等价实现为 SynchedEntityData ADAPTATION_HIT_STATUS"
+        },
+        {
+          "clause": "DataManager.register UP(Boolean) 同步潜地状态",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:58",
+            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:32"
+          },
+          "note": "26.3 以 BURROWED 参数复现"
+        },
+        {
+          "clause": "客户端字段 buried/open 通过 func_70103_a(11/12) 同步",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:492",
+            "project": "src/main/java/alku/csrp/entity/HostEntity.java:32"
+          },
+          "note": "工程改为服务端同步的 BURIED_TIMER / MOUTH_OPEN"
+        },
+        {
+          "clause": "killcount 为服务端字段（不同步）",
+          "verdict": "na",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:97",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:93"
+          },
+          "note": "原版与工程均不同步，仅写入 NBT"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "animation",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "动画分支由 getBurrowTimer / getBurrowed / getOpen / getAttackTimer 驱动",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/crude/ModelHost.java:1262",
+            "project": "src/main/resources/assets/csrp/animations/host.animation.json"
+          },
+          "note": "工程同名 Bedrock 动画 12 个（func_78087_a.age_in_ticks / get_burrow_timer / get_open_1 / get_burrowed_1 / get_attack_timer 组合）"
+        },
+        {
+          "clause": "movement_controller：移动/静止 + 潜地 + 开口 + 潜地过渡组合切换",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/crude/ModelHost.java:1496",
+            "project": "src/main/java/alku/csrp/entity/HostEntity.java:162"
+          },
+          "note": "工程 CitadelAnimationController(4) 复现同一组合表"
+        },
+        {
+          "clause": "attack_controller：get_attack_timer 触发式攻击动画",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/crude/ModelHost.java:1473",
+            "project": "src/main/java/alku/csrp/entity/HostEntity.java:180"
+          },
+          "note": "工程 4 组 triggerableAnim"
+        },
+        {
+          "clause": "preRenderCallback 自爆/受伤膨胀缩放（selfe flash）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/crude/RenderHost.java:19",
+            "project": null
+          }
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "name": "model_texture",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "模型 ModelHost + 贴图 textures/entity/monster/host.png",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/crude/RenderHost.java:10",
+            "project": "src/main/resources/assets/csrp/geo/host.geo.json"
+          },
+          "note": "工程 geo/host.geo.json + textures/entity/host.png，注册于 ClientModEvents.java:176"
+        },
+        {
+          "clause": "渲染器基类 RenderMalleable（含适配发光/伤害层），阴影 0.0F",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/crude/RenderHost.java:9",
+            "project": "src/main/java/alku/csrp/client/ClientModEvents.java:177"
+          },
+          "note": "工程用通用 PrimitiveParasiteRenderer，阴影半径 0.7F，无 RenderMalleable 层次"
+        },
+        {
+          "clause": "皮肤 120 使用冻结贴图 snowvariants/test.png",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/crude/RenderHost.java:11",
+            "project": null
+          },
+          "note": "工程无冻结变体贴图分派"
+        },
+        {
+          "clause": "潜地时模型随高度缩放",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:471",
+            "project": null
+          }
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "name": "sounds",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "AmbientSound：未潜地 HOST_UN(host.underground)、潜地 HOST_EM(host.em) 按状态切换",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:451",
+            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:228"
+          },
+          "note": "工程固定返回 host.growl；host.underground/host.em 资源存在（sounds.json:1547/1573）但未被播放"
+        },
+        {
+          "clause": "HurtSound = SRPSounds.HOST_HURT (host.hurt)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:455",
+            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:233"
+          }
+        },
+        {
+          "clause": "DeathSound = SRPSounds.HOST_DEATH (host.death)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:459",
+            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:238"
+          }
+        },
+        {
+          "clause": "AOE 攻击连播 SWIPE(1.0)/SWIPE(1.25)/SWIPE(2.0)，冲击波前再播 SWIPE(2.0)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:413",
+            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:156"
+          },
+          "note": "工程仅冲击波播放一次 MOB_SWIPE(2.0)，AOE 命中无音效"
+        },
+        {
+          "clause": "冲击波起手播放自身受伤音效 playSound(getHurtSound, 4.0F, 2.0±0.4)",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:548",
+            "project": null
+          }
+        },
+        {
+          "clause": "脚步音效未覆写（沿用原版默认方块脚步）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:1",
+            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:243"
+          },
+          "note": "工程主动播放 rupter.step 0.15F"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "spawning",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "SRPSpawning.addSpawn(0, EntityHost, 1, 1, 全群系, hostSpawnRate=0, hostEnabled)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:172",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:283"
+          },
+          "note": "工程按进化阶段整表替换，未保留 SRPConfigMobs.hostSpawnRate 权重与 hostEnabled 开关"
+        },
+        {
+          "clause": "阶段 -1 刷怪表 \"srparasites:host;1;2;5\"",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems.java:228",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:32"
+          },
+          "note": "数量 1-2、权重 5 一致"
+        },
+        {
+          "clause": "阶段 4/5/6/7 刷怪表均含 host;1;2;5",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems.java:580",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:205"
+          },
+          "note": "工程 PHASE_FOUR/FIVE/SEVEN 均含 host（135/168/205），PHASE_SIX 由 appendPhaseSix(PHASE_FIVE) 继承"
+        },
+        {
+          "clause": "阶段 8/9/10 刷怪表含 hostii/heed/crux（host 由低阶段继承）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems.java:709",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:397"
+          }
+        },
+        {
+          "clause": "allowMobs / phaseCustomSpawner 决定群系表或阶段表",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:123",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:283"
+          },
+          "note": "工程实现阶段表选择与 UBIQUITOUS_TABLE_CHANCE，缺少 allowMobs 开关"
+        },
+        {
+          "clause": "放置条件：ON_GROUND + 怪物光照规则",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:172",
+            "project": "src/main/java/alku/csrp/registry/CommonModEvents.java:372"
+          }
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "loot",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "hostLoot: srparasites:assimilated_flesh;80;7;false（80% 概率，数量 rand(7)=0-6，池内随机）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:309",
+            "project": "src/main/resources/assets/csrp/loot_table/entities/host.json"
+          },
+          "note": "工程掉落表 assimilated_flesh 1-7、80%，物品与概率一致，数量分布略有差异"
+        },
+        {
+          "clause": "hostLoot: srparasites:lurecomponent2;10;4;true（独立 10% 概率，数量 rand(4)=0-3）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:309",
+            "project": "src/main/resources/assets/csrp/loot_table/entities/host.json"
+          },
+          "note": "工程 lurecomponent2 1-4、10%"
+        },
+        {
+          "clause": "战利品经 LivingDropsEvent 生成，受 doMobLoot / DEBAR / dislo18 门控",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/handlers/SRPEventHandlerBus.java:1586",
+            "project": "src/main/resources/assets/csrp/loot_table/entities/host.json"
+          },
+          "note": "工程改为数据驱动掉落表，doMobLoot 由原版处理，DEBAR/dislo18 门控缺失"
+        },
+        {
+          "clause": "经验 = SRPAttributes.XP_PRIMITIVE (30)，且低于 evolutionPArasitesWithoutXP 阶段才给",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:105",
+            "project": "src/main/java/alku/csrp/entity/HostEntity.java:61"
+          },
+          "note": "工程 xpReward=20，无阶段门控"
+        }
+      ],
+      "confidence": "high"
+    }
+  ],
+  "missingSummary": [
+    "潜地状态下的受伤免疫/击退门控与动态碰撞箱未实现",
+    "进伤上限（primitiveCap=6）、火伤倍率 4.0、药水免疫、中毒转治疗均缺失",
+    "最小伤害 2.0 与偷取饱食度 0.5 的近战附加伤害未接入",
+    "钻地传送、脚下 InfestRemain、地面粒子等伴随表现缺失",
+    "AI：wait/jumpT/AOE 范围切换 GOAL 缺失，跟随 GOAL 未按原版移除",
+    "经验 20 < 原版 30，且缺少阶段加成与 per-mob 开关"
+  ],
+  "confidence": "high"
+}

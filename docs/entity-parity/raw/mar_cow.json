@@ -1,0 +1,1090 @@
+{
+  "id": "mar_cow",
+  "originalClass": "EntitySpeCow",
+  "projectClass": "MarauderizedCowEntity",
+  "facets": [
+    {
+      "name": "registration",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "SRPEntities.CreateEntityMob(\"mar_cow\", EntitySpeCow.class, 8611072, 16711900, 322, true) 注册项",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:273",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:362"
+          },
+          "note": "API 映射：1.12.2 EntityEntry ↔ 26.3 DeferredRegister + EntityType，注册 id 字面量一致"
+        },
+        {
+          "clause": "MobCategory：继承 EntityMob（MONSTER，EntityParasiteBase:95）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:95",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:362"
+          },
+          "note": "project 通过 monster() helper 以 MobCategory.MONSTER 注册"
+        },
+        {
+          "clause": "碰撞箱 func_70105_a(0.9F, 1.4F)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:45",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:363"
+          },
+          "note": "project sized(0.9F, 1.4F) 完全一致"
+        },
+        {
+          "clause": "眼高 func_70047_e() 返回 1.3F",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:167",
+            "project": null
+          },
+          "note": "project 的 monster() 未传 eyeHeight，使用 26.3 默认值（≈0.85×1.4=1.19），与原版 1.3 不符",
+          "confidence": "high"
+        },
+        {
+          "clause": "tracker(64, 3, true)：追踪距离 64 格 / 更新间隔 3 tick",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:188",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:653"
+          },
+          "note": "project clientTrackingRange(8) 表示 8 区块=128 格，追踪距离被放大；更新间隔沿用默认 3"
+        },
+        {
+          "clause": "刷怪蛋颜色 8611072 / 16711900（全部 mar_* 与 fer_bear 共用同一配色）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:273",
+            "project": "src/main/java/alku/csrp/registry/ModItems.java:237"
+          },
+          "note": "project 每只生物使用独立配色 0x54231F/0xC1583E，不再是统一颜色"
+        },
+        {
+          "clause": "刷怪蛋注册开关 SRPConfig.vanillaEggs",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:189",
+            "project": null
+          },
+          "note": "project 无该开关，刷怪蛋恒注册"
+        },
+        {
+          "clause": "生物启用开关 SRPConfigMobs.marcowEnabled（同时把守 getRandomAssimara 的构造分支）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:590",
+            "project": null
+          },
+          "note": "project 无 per-mob 启用开关，仅由生成表/刷怪蛋控制"
+        },
+        {
+          "clause": "语言键 srparasites.mar_cow（SRPEntities 循环生成 entity.<id> 键）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:186",
+            "project": "src/main/resources/assets/csrp/lang/en_us.json:113"
+          },
+          "note": "命名空间由 srparasites.* 映射为 entity.csrp.*；另有 compendium 名称键 entity.csrp.mar_cow.name"
+        },
+        {
+          "clause": "getParasiteIDRegister() = 322，用于掉落派发（SRPEventHandlerBus case 322）与显影/图鉴",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:57",
+            "project": "src/main/resources/data/csrp/loot_table/entities/mar_cow.json:1"
+          },
+          "note": "数值 id 语义改由 per-entity loot_table + EvolutionTierCatalog（tier=ASSIMARA）表驱动，行为等价"
+        },
+        {
+          "clause": "刷怪蛋可用 ItemMobSpawner 直接生成 mar_cow",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/item/ItemMobSpawner.java:505",
+            "project": "src/main/java/alku/csrp/registry/ModItems.java:237"
+          },
+          "note": "project 用原生 SpawnEggItem 等价实现"
+        },
+        {
+          "clause": "同化配额门控 getIDSpawn()=13（sim_cow 的 id）+ canSpawnByIDData()=SRPConfigMobs.infcowCanSpawnAssimilatedNat(4)",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:52",
+            "project": null
+          },
+          "note": "project 无 per-mob 世界级配额；SRPSpawning.java:545-551 的配额判定在 26.3 无等价物"
+        },
+        {
+          "clause": "this.type = 11（用于阶段生成/技能派发）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:47",
+            "project": null
+          },
+          "note": "project 无 parasiteType 字段，阶段门控改由实体 id/生成表表达"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "attributes",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "生命 SRPAttributes.MARCOW_HEALTH = 38",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:158",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java:42"
+          },
+          "note": "project MAX_HEALTH=38.0D（CommonModEvents.java:235 注册）"
+        },
+        {
+          "clause": "护甲 SRPAttributes.MARCOW_ARMOR = 8",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:159",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java:42"
+          }
+        },
+        {
+          "clause": "攻击力 SRPAttributes.MARCOW_ATTACK_DAMAGE = 15",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:160",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java:42"
+          }
+        },
+        {
+          "clause": "击退抗性 SRPAttributes.MARCOW_KD_RESISTANCE = 0.8",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:161",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java:42"
+          }
+        },
+        {
+          "clause": "移动速度 0.2F",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:80",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java:42"
+          }
+        },
+        {
+          "clause": "跟随范围 SRPConfig.assimaraFollow = 24.0",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:83",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java:42"
+          },
+          "note": "project FOLLOW_RANGE=32 且未读取任何 assimaraFollow 配置"
+        },
+        {
+          "clause": "经验 SRPAttributes.XP_INFECTED = SRPConfig.infectedXPValue = 8（EntityPAssimara:156 / EntityPInfected:86）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfig.java:146",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java:38"
+          },
+          "note": "project xpReward=12"
+        },
+        {
+          "clause": "全局 × per-mob 属性倍率（globalHealthMultiplier × marcowHealthMultiplier 等 4 项，SRPAttributes:1182-1185）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:1182",
+            "project": null
+          },
+          "note": "project 无属性倍率配置"
+        },
+        {
+          "clause": "阶段属性加成 evolutionParasiteStatIncrease（phase ≥ 阈值时生命/护甲/攻击 ×(1+v)，EntityParasiteBase:1684-1694）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1684",
+            "project": null
+          },
+          "note": "project 的 mar_* 不读取进化阶段加成"
+        },
+        {
+          "clause": "基因加成 applyGene（最小伤害/伤害上限/视线/疾跑/水跃/技能/攻速，EntityParasiteBase:266）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:266",
+            "project": null
+          },
+          "note": "project 生成系统只作用于 primitive/adapted，mar_* 无基因接入"
+        },
+        {
+          "clause": "rage 变体属性覆盖：生命 ×0.75=28.5、速度 0.26、攻击 ×1.25=18.75",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:93",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java:125"
+          },
+          "note": "project applyVariantAttributes 数值一致（28.5 / 0.26 / 18.75）"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "ai",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "原版 EntityMob 基线任务（近战/游荡/注视玩家/张望/hurtBy/最近玩家）不注册：EntitySpeCow.func_184651_r 覆写且未调用 super",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:66",
+            "project": null
+          },
+          "note": "依 docs/entity-parity/original-ai-baseline.json：baselineApplies=false（decidedBy EntitySpeCow:66, callsSuper=false），故不枚举 EntityMob 默认任务"
+        },
+        {
+          "clause": "EntityParasiteBase 构造：tasks.addTask(0, EntityAIWait)",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:189",
+            "project": null
+          },
+          "note": "project 无 wait/定格 goal（原版由 getWait() 冻结 60 tick，呕吐后 setWait(60) 依赖此 goal）"
+        },
+        {
+          "clause": "tasks.addTask(0, EntityAISwimmingDiving(this, 0.08))",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:68",
+            "project": null
+          },
+          "note": "project 只有 FloatGoal（PrimitiveParasiteEntity.java:287），无俯冲/下潜行为"
+        },
+        {
+          "clause": "tasks.addTask(2, EntityAIAttackMeleeStatus(this, 1.5, false, 0.0))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:72",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java:72"
+          },
+          "note": "project MeleeAttackGoal(this, 1.5D, false) 速度一致；优先级 3（MarauderizedParasiteEntity.java:111）与原版 2 不同"
+        },
+        {
+          "clause": "tasks.addTask(4, EntityAIAttackRangedStatus(this, 1.0, 200, 7.0F, false))：冷却 200 tick、半径 7 格",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:73",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java:193"
+          },
+          "note": "project VomitGoal 冷却 200 tick、距离 9~49（3~7 格）均一致，但缺少原版瞄准计时（attackTimer 累积）与 getWait(60) 僵直"
+        },
+        {
+          "clause": "tasks.addTask(5, EntityAIWanderStatus(this, 1.0, 120, 0.001F, true))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:190",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:292"
+          },
+          "note": "project WaterAvoidingRandomStrollGoal(1.0) 语义近似，但无状态门控/checkPositionWander"
+        },
+        {
+          "clause": "tasks.addTask(5, EntityAIJumping)（内部类 EntityParasiteBase.EntityAIJumping）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:192",
+            "project": null
+          },
+          "note": "project mar_* 无跳跃/越障 goal"
+        },
+        {
+          "clause": "tasks.addTask(6, EntityAIParasiteFollow(this, 1.3, 16.0, 6.0, true))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:191",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:290"
+          },
+          "note": "project ParasiteFollowGoal(6)（ParasiteFollowGoal.java:16）"
+        },
+        {
+          "clause": "tasks.addTask(6, EntityAIGetFollowers(this, 1, 16))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:70",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:290"
+          },
+          "note": "project 用 ParasiteFollowGoal 覆盖集结/跟随语义"
+        },
+        {
+          "clause": "tasks.addTask(6, EntityAIAttackMeleeRangeSwitch(this, 3.0F))：超过 3 格切换为远程",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:71",
+            "project": null
+          },
+          "note": "project 无近/远切换 goal，近战与呕吐各自独立判定"
+        },
+        {
+          "clause": "tasks.addTask(8, EntityAILookIdle(this))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:69",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:294"
+          },
+          "note": "project RandomLookAroundGoal(8)"
+        },
+        {
+          "clause": "targetTasks.addTask(1, EntityAIHurtByTarget(this, true))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:67",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:296"
+          },
+          "note": "project HurtByTargetGoal(1).setAlertOthers()，alert 语义一致"
+        },
+        {
+          "clause": "targetTasks.addTask(4, EntityAINearestAttackableTargetStatus(this, EntityPlayer.class, 0, true, false, null, infectedSneakPen 0.8, infectedInviPen 0.7))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:59",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:297"
+          },
+          "note": "project NearestAttackableTargetGoal<LivingEntity>(2) 是超集，但不实现潜行/隐身察觉惩罚"
+        },
+        {
+          "clause": "targetTasks.addTask(4, EntityAINearestAttackableTargetStatus(EntityLiving, 排除水栖/动物/村民 + 黑名单))（SRPConfig.mobattacking 为真时）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:64",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:314"
+          },
+          "note": "project isValidParasiteTarget 只排除寄生体自身与 THE_SIGN，不排除动物/水栖/村民，也无黑名单"
+        },
+        {
+          "clause": "applyBonuses：phase ≥ evolutionAssimilatedDehiding(9) 时 targetTasks.addTask(5, NearestAttackableTargetStatus(EntityVillager))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:243",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:297"
+          },
+          "note": "project 的 LivingEntity 目标选择已包含村民（无阶段门控，属超集）"
+        },
+        {
+          "clause": "applyBonuses：phase ≥ evolutionTotalKill(9) 时 targetTasks.addTask(4, NearestAttackableTargetStatus(EntityLivingBase，排除玩家))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:248",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:315"
+          },
+          "note": "project 有 phase ≥ 9 的 totalSlaughter 分支，但用于放行 THE_SIGN 目标，而非新增全敌目标"
+        },
+        {
+          "clause": "条件 goal：killcount > primitiveKills(10) && levelCreated ≥ deveMergeUse 且 thisMelting 时 tasks.addTask(3, EntityAIInfectedSearch(this, 1.1))",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:111",
+            "project": null
+          },
+          "note": "EntityPAssimara 构造中 thisMelting = false（EntityPAssimara.java:163），条件对本生物不可达"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "behaviors",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "近战附加最小伤害 attackEntityAsMobMinimum(MiniDamage = assimaraMinDamage 1.1)，受 geneMindam 门控",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:858",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:501"
+          },
+          "note": "project 有 applyPrimitiveMinimumDamage（Config.primitiveMinimumDamage），但 mar_* 的 doHurtTarget（MarauderizedParasiteEntity.java:277）未调用，近战附加伤害缺失"
+        },
+        {
+          "clause": "命中时按 cothSpread(=cothInfected 0.1) 概率施加 COTH 3600 tick（EntityParasiteBase:845-850）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:845",
+            "project": null
+          },
+          "note": "project 有 InfectionMechanics.applyCothEffect，但 MarauderizedParasiteEntity.doHurtTarget 只做溶血/攻击动画，不传播 COTH；且 cothSpreadChance 会把 mar_* 归到 Hijacked 档（InfectionMechanics.java:131）"
+        },
+        {
+          "clause": "每 5 tick 的 COTH 光环 InfectNearby(this, cothAura=3)，对 3 格内非寄生体施加 COTH 4800 tick",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:149",
+            "project": null
+          },
+          "note": "project 的 mar_* 无光环传播逻辑"
+        },
+        {
+          "clause": "命中玩家时偷取食物 foodSteal = 0.5（EntityPAssimara:161）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPAssimara.java:161",
+            "project": null
+          },
+          "note": "project 无 foodSteal/饥饿偷取"
+        },
+        {
+          "clause": "受击后对玩家施加恐惧 FEAR（伤害 > 8 时 1..3 级、时长 300+40×(lv-1) 夹在 200~500）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:168",
+            "project": null
+          },
+          "note": "project 的 ParasiteCombatEffects.applyFearFromDamage 只被 FeralParasiteEntity 调用（FeralParasiteEntity.java:179），mar_* 未接入"
+        },
+        {
+          "clause": "呕吐远程攻击：在自身前方 4.5 格生成 area-effect cloud（半径 3、时长 100、半径随时间收缩）并施加 VOMIT/VIRA/腐蚀/两种原版减益各 300 tick",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:187",
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java:53"
+          },
+          "note": "project spawnVomitCloud(owner, 4.5, 3.0F, 100, 300, 20) 前向距离/半径/时长/效果时长/等级全部一致（VOMIT、VIRAL、SLOWNESS、WEAKNESS、CORROSION）"
+        },
+        {
+          "clause": "呕吐后 lookAt(target) 并 setWait(60)（60 tick 僵直）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:203",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java:175"
+          },
+          "note": "project 仅 getLookControl().setLookAt(target,30,30)，无 60 tick 僵直（EntityAIWait 缺失）"
+        },
+        {
+          "clause": "客户端呕吐粒子：服务端 broadcastEntityEvent((byte)100)，客户端 vomit=40 tick，每 tick 沿视线 1.2 格处喷 6 个 GCLOUD 粒子",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:116",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java:167"
+          },
+          "note": "project VOMIT_EVENT=100、vomitTicks=40、6 粒子/速度分布一致；粒子类型用 SNEEZE 代替 GCLOUD 染色"
+        },
+        {
+          "clause": "沙漠/恶地群系变体掷骰：沙漠系 0.8、否则 0.01（finalizeSpawn）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:140",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java:56"
+          },
+          "note": "project 用 biome path 含 desert/badlands 判定，概率 0.8/0.01 一致"
+        },
+        {
+          "clause": "变体属性重算：变体切换时立即重设属性并把当前生命夹到新上限；切回普通时移除 RAGE",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:91",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java:119"
+          },
+          "note": "project applyVariantAttributes 与 setHealth(min(health,maxHealth)) 等价；差异：project 额外在 readAdditionalSaveData 时重算"
+        },
+        {
+          "clause": "变体持续获得 RAGE（RAGE_E）效果：缺失或剩余 < 40 tick 时补 400 tick",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:111",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java:81"
+          },
+          "note": "project ModMobEffects.RAGE 400 tick、阈值 40 tick 一致"
+        },
+        {
+          "clause": "手动变体上限 getMaxManualVariants() = 2（配合变异棒/物品切换）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:157",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java:110"
+          },
+          "note": "project 通过 ManualVariantProvider.getMaxManualVariants()=2 等价"
+        },
+        {
+          "clause": "selfExplode 额外召唤 SRPConfigMobs.infcowmob = \"srparasites:buglin;4;3\"",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:162",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java:147"
+          },
+          "note": "project die() 召唤 3+rand(2)=3~4 只 Buglin（原版固定 4 只、散布 3），且不继承自定义名/目标之外的状态"
+        },
+        {
+          "clause": "死亡自爆流程：canModRender==1 且 madeRng==0 时 dyingBurst（fuseTime=40）→ selfExplode（毒云 + gore + MOBEXPLOTION 音效）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1435",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java:147"
+          },
+          "note": "project 只保留 Buglin 召唤，缺 40 tick 引信、毒云、gore 方块与爆炸音效；50% madeRng 掷骰也未实现"
+        },
+        {
+          "clause": "超距/长期未加载时 spawnCyst（活体囊肿回收）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1583",
+            "project": "src/main/java/alku/csrp/entity/ParasiteDespawnHandler.java:22"
+          },
+          "note": "project 用 MobDespawnMixin + ParasiteDespawnHandler 等价实现"
+        },
+        {
+          "clause": "getStillAni/stillTicks：静止超过 25 tick 切换站桩姿态",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:444",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedParasiteEntity.java:153"
+          },
+          "note": "project stillTicks > 25 置 STILL_ANI，等价"
+        },
+        {
+          "clause": "寄生体状态机 getParasiteStatus() 0..6 与 handleParasiteStatus 递减攻击冷却",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1229",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedParasiteEntity.java:153"
+          },
+          "note": "project updateCitadelAnimationState 只有 0/1/2/3，且 1 由 12 tick 攻击动画驱动，无 wait/leap/breakblock/融化 等状态"
+        },
+        {
+          "clause": "受击 10% 概率触发 attackEntityFromEffects(1,1)（地面 gore 方块）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:664",
+            "project": null
+          },
+          "note": "project PrimitiveParasiteEntity.hurt 无此分支；hurtWithIncomingDamageCap 的 0.3 掷骰因 divider==1 永不触发（PrimitiveParasiteEntity.java:422）"
+        },
+        {
+          "clause": "attackEntityFromEffects/attackEntityFromCap/spawnGore：受击与死亡时铺设 goreSim 地面方块（paraGore）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:264",
+            "project": null
+          },
+          "note": "project PrimitiveParasiteEntity.java:453-457 只是空实现，无任何 gore 方块铺设"
+        },
+        {
+          "clause": "击杀数增长（killcount++，valueKill）与 feralKills 转化判定 getFeral（EntityPInfected:116；EntityPAssimara 未覆写 getFeral 故返回 null）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:116",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:704"
+          },
+          "note": "project parasiteKills 计数等价；mar_* 与 project 一样不转化为 feral（PrimitiveParasiteEntity.createAdaptedForm 不覆盖 mar_*）"
+        },
+        {
+          "clause": "融化（EntityCanMelt）流程：thisMelting=false，同化形态不融化",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPAssimara.java:163",
+            "project": null
+          },
+          "note": "原版对 mar_* 明确关闭融化，故不作为缺口"
+        },
+        {
+          "clause": "伪装宿主 setHost：EntityPAssimara.setHost 为空实现，同化形态不携带宿主",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPAssimara.java:168",
+            "project": null
+          },
+          "note": "原版即无宿主转化行为，project 亦无（空实现等价）"
+        },
+        {
+          "clause": "物品种交互：itemEvolve/itemDevolve/itemVariant 强制进化/退化/切变体（EntityParasiteBase:1129）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1129",
+            "project": "src/main/java/alku/csrp/entity/ManualVariantProvider.java:16"
+          },
+          "note": "project 只有变体切换（ManualVariantProvider），无强制进化/退化物品交互"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "damage_and_effects",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "伤害上限 SRPConfig.assimaraCap = 5（超出即削到 HP/5 + HP%5*0.5，并施加 RAGE 200/1）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPAssimara.java:157",
+            "project": null
+          },
+          "note": "project HijackedParasiteEntity 未覆写 incomingDamageCapDivisor（PrimitiveParasiteEntity.java:418 默认 1），上限流程整体停用"
+        },
+        {
+          "clause": "火焰伤害倍率 SRPConfig.firemultyplier = 4.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:790",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedParasiteEntity.java:273"
+          },
+          "note": "project hurt() 对 IS_FIRE 伤害 ×4.0"
+        },
+        {
+          "clause": "药水免疫：COTH/VIRA/CORRO/DLER 等寄生体效果不可被施加（func_70687_e，EntityParasiteBase:1084）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1084",
+            "project": null
+          },
+          "note": "project 未覆写 canBeAffected，寄生体可被施加这些效果"
+        },
+        {
+          "clause": "VIRA 病毒提升最小伤害（每级 +(MiniDamage × (amp+1))，EntityParasiteBase:893-897）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:893",
+            "project": null
+          },
+          "note": "project 无 VIRA 与最小伤害联动（且 mar_* 连最小伤害都未接入）"
+        },
+        {
+          "clause": "受击时 50% 掷骰 madeRng（0 则 death 走自爆分支），func_70097_a 中 RNG 初始化",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:628",
+            "project": null
+          },
+          "note": "project 无 madeRng 等价字段"
+        },
+        {
+          "clause": "击杀后按 victim 最大生命 × geneMobHealing(3.0) 回血（EntityParasiteBase:1040）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1040",
+            "project": null
+          },
+          "note": "project mar_* 无击杀回血（fer_* 有，见 fer_bear）"
+        },
+        {
+          "clause": "击杀后用 PARATE 强化生命/护甲/伤害（EntityParasiteBase:1046-1074）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1046",
+            "project": null
+          },
+          "note": "project 无 PARATE 强化"
+        },
+        {
+          "clause": "释放前的击杀者削减（KILLFER_E）对本生物不适用：EntityPInfected 链不覆写该逻辑",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPFeral.java:134",
+            "project": null
+          },
+          "note": "原版只有 feral/malleable 分支处理击杀者削减；project PrimitiveParasiteEntity.killingResistanceEffect() 对 mar_* 返回 null，行为一致"
+        },
+        {
+          "clause": "死亡扣进化点 valueEvDeath = assimaraLoosingEPValue = 5",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPAssimara.java:162",
+            "project": "src/main/java/alku/csrp/world/EvolutionSystem.java:209"
+          },
+          "note": "project ASSIMARA 档 = 5，一致"
+        },
+        {
+          "clause": "DEBAR 状态下死亡不掉进化点（EntityParasiteBase:1337）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1337",
+            "project": "src/main/java/alku/csrp/world/EvolutionSystem.java:189"
+          },
+          "note": "project parasiteDeathPenalty 检查 ModMobEffects.DEBAR"
+        },
+        {
+          "clause": "命中时 100 tick 攻击冷却 setAttackCooldownAni(100) 与动画联动",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:831",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedParasiteEntity.java:137"
+          },
+          "note": "project 只有 12 tick 攻击动画（ATTACK_ANIMATION_TICKS=12），无 100 tick 冷却概念"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "sync_data",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "DataManager.register SPECIAL (byte)：parasiteStatus 状态机 0..11",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:134",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedParasiteEntity.java:58"
+          },
+          "note": "project PARASITE_STATUS 为 INT 且只表达 0..3（0 待机 / 1 攻击 / 2 追击 / 3 特殊），原版为 byte 0..11"
+        },
+        {
+          "clause": "DataManager.register SELFE (int)：自爆引信状态（初值 -1）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:135",
+            "project": null
+          },
+          "note": "project 无 SELFE，死亡爆发与渲染闪白所需的引信状态不可同步"
+        },
+        {
+          "clause": "DataManager.register SKIN (byte)：变体贴图编号",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:136",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java:29"
+          },
+          "note": "project 用 RAGE_VARIANT(boolean) 表达 0/1 两种贴图，等价于 skin 0/1；但无数值 skin 体系"
+        },
+        {
+          "clause": "DataManager.register COLD_L (boolean)：寒冷环境标记（雪地变体）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:137",
+            "project": null
+          },
+          "note": "project 无寒冷变体标记"
+        },
+        {
+          "clause": "DataManager.register DISLO15 (boolean)：禁用/击杀计数相关状态",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:116",
+            "project": null
+          },
+          "note": "project 无 Dislodgment 相关同步数据"
+        },
+        {
+          "clause": "EntitySpeCow 未新增 DataManager 参数（func_70088_a 仅 super）",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:212",
+            "project": null
+          },
+          "note": "原版本类仅覆写 func_70103_a(byte) 处理事件 100；project 用 VOMIT_EVENT 等价（MarauderizedCowEntity.java:167）"
+        },
+        {
+          "clause": "MELTING/HEIGH 融化同步数据（sim_* 专用，同化形态不使用）",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfCow.java:38",
+            "project": null
+          },
+          "note": "mar_* 不融化，故无对应同步数据需求"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "animation",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "ModelSpeCow.func_78087_a status 0：四肢行走摆动 + 身体上下浮动 + 下颌 ageInTicks 摆动",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/special/ModelSpeCow.java:253",
+            "project": "src/main/resources/assets/csrp/animations/mar_cow.animation.json:1"
+          },
+          "note": "project 用同名 Tabula 动画 func_78087_a.age_in_ticks / .limb_swing（MarauderizedParasiteEntity.java:63-64,186-197）"
+        },
+        {
+          "clause": "status 0 静止变体（getStillAni）不播放行走摆动",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/special/ModelSpeCow.java:254",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedParasiteEntity.java:221"
+          },
+          "note": "project 用 func_78087_a.age_in_ticks.get_still_ani_1（AnimationProfile.HUMAN/VILLAGER 分支），COW 体型下由 limb_swing 控制器补足"
+        },
+        {
+          "clause": "status 1：攻击摆动（GS/GD = 2.5）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/special/ModelSpeCow.java:271",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedParasiteEntity.java:211"
+          },
+          "note": "project COW profile status 1 → get_parasite_status_1 动画"
+        },
+        {
+          "clause": "status 2：追击姿态（GS/GD = 1.5/0.3，含身体倾斜 0.8）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/special/ModelSpeCow.java:285",
+            "project": null
+          },
+          "note": "project COW profile 的 status 2 分支返回 null（MarauderizedParasiteEntity.java:213），只有 limb_swing.get_parasite_status_2"
+        },
+        {
+          "clause": "status 3：冲锋/突进姿态，静止时切换额外关节动画",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/special/ModelSpeCow.java:299",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedParasiteEntity.java:212"
+          },
+          "note": "project 仅 still 时播放 age_...status_3.get_still_ani_1，非静止状态无 age 动画映射"
+        },
+        {
+          "clause": "underground(parasite, ageInTicks, mainbody)：埋地/地下姿态修正",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/special/ModelSpeCow.java:320",
+            "project": null
+          },
+          "note": "project Citadel 控制器无 underground 姿态"
+        },
+        {
+          "clause": "渲染器 preRenderCallback 按 getSelfeFlashIntensity 做 1.1 倍基础缩放 + 引信脉动",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/infected/special/RenderSpeCow.java:19",
+            "project": null
+          },
+          "note": "project 渲染器不实现引信闪白/缩放脉动（MarauderizedParasiteEntity 也无引信状态）"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "name": "model_texture",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "模型 ModelSpeCow（1.12 Java 模型）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/special/ModelSpeCow.java:1",
+            "project": "src/main/resources/assets/csrp/geo/mar_cow.geo.json:1"
+          },
+          "note": "project 用等价 geo 几何体 + Citadel 模型（PrimitiveParasiteModel(\"mar_cow\")）"
+        },
+        {
+          "clause": "贴图 textures/entity/monster/specow.png",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/infected/special/RenderSpeCow.java:12",
+            "project": "src/main/resources/assets/csrp/textures/entity/mar_cow.png:1"
+          }
+        },
+        {
+          "clause": "rage 变体贴图 specow1.png（getSkin()==1 时切换）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/infected/special/RenderSpeCow.java:31",
+            "project": "src/main/java/alku/csrp/client/model/PrimitiveParasiteModel.java:134"
+          },
+          "note": "project isRageVariant() → textures/entity/mar_cow_desert.png"
+        },
+        {
+          "clause": "渲染阴影半径 0.5F",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/infected/special/RenderSpeCow.java:16",
+            "project": "src/main/java/alku/csrp/client/ClientModEvents.java:263"
+          },
+          "note": "project shadowRadius=0.55F"
+        },
+        {
+          "clause": "渲染器缩放 1.1 倍（preRenderCallback 内 GlStateManager.scale(f2*1.1F, f3*1.1F, f2*1.1F)）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/infected/special/RenderSpeCow.java:27",
+            "project": null
+          },
+          "note": "project 依赖 geo 内已烘焙尺寸，无 1.1 倍补偿缩放"
+        },
+        {
+          "clause": "动画文件（Tabula/1.12 模型动画，含 status 关节曲线）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/special/ModelSpeCow.java:265",
+            "project": "src/main/resources/assets/csrp/animations/mar_cow.animation.json:1"
+          },
+          "note": "project 提取同名动画键，共 7 条动画"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "sounds",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "环境音 SRPSounds.INFECTEDCOW_GROWL（getParasiteStatus() != 0 时退化为 SRPSounds.MOBSILENCE）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:171",
+            "project": "src/main/java/alku/csrp/entity/ParasiteSoundProfiles.java:23"
+          },
+          "note": "project 有 infectedcow.growl 映射，但无“状态非 0 静音”分支，且 project 无 MOBSILENCE 事件"
+        },
+        {
+          "clause": "受伤音 SRPSounds.INFECTEDCOW_HURT",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:175",
+            "project": "src/main/resources/assets/csrp/sounds.json:1"
+          },
+          "note": "project ParasiteSoundProfiles register(\"infectedcow\", ...) → infectedcow.hurt"
+        },
+        {
+          "clause": "死亡音 SRPSounds.INFECTEDCOW_DEATH",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:179",
+            "project": "src/main/java/alku/csrp/entity/ParasiteSoundProfiles.java:23"
+          }
+        },
+        {
+          "clause": "脚步声 SoundEvents.field_187566_ao（音量 0.15、音高 1.0）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:183",
+            "project": null
+          },
+          "note": "project 未覆写 playStepSound，沿用方块材质脚步声，无原版专用脚步事件"
+        },
+        {
+          "clause": "自爆音 SRPSounds.MOBEXPLOTION（音量 1.0）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1532",
+            "project": null
+          },
+          "note": "project mar_cow 死亡不播放爆炸音（ModSounds.MOB_EXPLOSION 存在于注册表但未被本实体调用）"
+        },
+        {
+          "clause": "音高 func_70647_i 由 EntityParasiteBase/EntityMob 默认提供（本类未覆写）",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:183",
+            "project": null
+          },
+          "note": "原版本类未覆写音高，故不作为缺口（fer_bear 覆写了，见该条）"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "spawning",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "原版 SRPSpawning 自然生成表未包含 mar_cow（addSpawn 列表无 EntitySpeCow）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:151",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:138"
+          },
+          "note": "project 在 PHASE_FOUR/FIVE/SEVEN 等表加入 mar_cow(weight 1, 1-1)，属于额外自然生成；原版仅能通过刷怪蛋/图鉴/崩解随机获得"
+        },
+        {
+          "clause": "阶段门控 canSpawninPhase(type=11, phaseMax/Cancel ID 阈值)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:556",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:18"
+          },
+          "note": "project 用按阶段替换生成表近似，但 mar_cow 入场阶段与原版 type=11 阈值体系不同"
+        },
+        {
+          "clause": "同化配额门控：getNumberIDDataSpawn(getIDSpawn 13) < canSpawnByIDData(4) 时禁止自然生成",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:547",
+            "project": null
+          },
+          "note": "project 无世界级 ID 配额，mar_cow 生成不受同化体累计数量限制"
+        },
+        {
+          "clause": "光照/难度/天数规则 func_70601_bi（isValidLightLevelTwo + spawnDays + 非和平）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1553",
+            "project": "src/main/java/alku/csrp/registry/CommonModEvents.java:373"
+          },
+          "note": "project 用 Monster.checkMonsterSpawnRules（光照 ≤ 7），未接 spawnDays 与寄生体光照豁免"
+        },
+        {
+          "clause": "COTH 宿主转化表不产出 mar_cow（COTHVictimParasite 只映射到 sim_*），mar_* 仅经刷怪蛋/崩解随机/图鉴生成",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems.java:101",
+            "project": "src/main/java/alku/csrp/Config.java:99"
+          },
+          "note": "project cothVictimParasites 配置等价；但 project 另通过生成表让 mar_cow 自然刷出，且无 getRandomAssimara 崩解随机重载等价物"
+        },
+        {
+          "clause": "SRPConfigMobs.marcowSpawnRate = 20 / marcowEnabled 控制生成权重与开关",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:589",
+            "project": null
+          },
+          "note": "project 生成表用硬编码 weight（1-1），无 marcowSpawnRate 配置项"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "loot",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "主掉落表 SRPConfigMobs.marcowLoot = {}（空表，原版不掉落物品）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:591",
+            "project": "src/main/resources/data/csrp/loot_table/entities/mar_cow.json:1"
+          },
+          "note": "project 掉落 csrp:assimilated_flesh ×2~4（100%）+ 25% csrp:lurecomponent4，属原版不存在的额外掉落"
+        },
+        {
+          "clause": "掉落派发开关 SRPEventHandlerBus case 322 → marcowLoot",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/handlers/SRPEventHandlerBus.java:2129",
+            "project": "src/main/resources/data/csrp/loot_table/entities/mar_cow.json:1"
+          },
+          "note": "project 用数据驱动 loot_table 取代 switch 派发，语义等价"
+        },
+        {
+          "clause": "mobsKilledDropLoot / cothActive 时的掉落取消规则（被寄生体击杀的生物不掉落）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/handlers/SRPEventHandlerBus.java:2147",
+            "project": null
+          },
+          "note": "project 未见等价的“寄生体击杀取消掉落”规则（无法在本实体侧确认）",
+          "confidence": "medium"
+        },
+        {
+          "clause": "经验 8（XP_INFECTED）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:146",
+            "project": "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java:38"
+          },
+          "note": "project xpReward=12"
+        }
+      ],
+      "confidence": "high"
+    }
+  ],
+  "missingSummary": [
+    "眼高 1.3 未实现（用默认值）",
+    "EntityAIWait（呕吐后 60 tick 僵直）与 EntityAIJumping、EntityAISwimmingDiving、EntityAIAttackMeleeRangeSwitch 四个 goal 缺失",
+    "同化配额门控（getIDSpawn/canSpawnByIDData）与 SRPConfigMobs.marcowEnabled 开关缺失",
+    "伤害上限 assimaraCap=5、药水免疫、VIRA 最小伤害联动、击杀回血、PARATE 强化、最小伤害攻击全部缺失",
+    "死亡自爆链（50% madeRng → 40 tick 引信 → 毒云 + gore + MOBEXPLOTION 爆炸音）仅保留 Buglin 召唤",
+    "COTH 命中传播与 3 格 COTH 光环缺失",
+    "SELFE/COLD_L/DISLO15 同步数据缺失；攻击/受击帧无引信闪白缩放",
+    "掉落表与原版空表不符（project 增加了 assimilated_flesh/lurecomponent4）"
+  ],
+  "confidence": "high"
+}

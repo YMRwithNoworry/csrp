@@ -1,0 +1,1112 @@
+{
+  "id": "pri_longarms",
+  "originalClass": "EntityShyco",
+  "projectClass": "LongarmsEntity",
+  "facets": [
+    {
+      "name": "registration",
+      "clauses": [
+        {
+          "clause": "CreateEntityMob(\"pri_longarms\", EntityShyco.class, id 1, egg 8350208/4210752)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:331",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:148"
+          },
+          "note": "注册 id 均为 pri_longarms；原版数值 id 1 在 26.3 无对应概念"
+        },
+        {
+          "clause": "builder.name(\"srparasites.\" + name) 语言键 entity.srparasites.pri_longarms.name",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:189",
+            "project": "src/main/resources/assets/csrp/lang/en_us.json:29"
+          },
+          "note": "翻译键前缀由 srparasites 改为 csrp，语义等价"
+        },
+        {
+          "clause": "注册受 SRPConfigMobs.shycoEnabled 开关控制（禁用时不注册）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:183",
+            "project": null
+          },
+          "note": "工程无 per-mob 启用开关"
+        },
+        {
+          "clause": "func_70105_a(0.6F, 3.2F) 碰撞箱",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:54",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:149"
+          },
+          "note": "工程 1.0F x 3.0F，宽高均与原版 0.6 x 3.2 不一致"
+        },
+        {
+          "clause": "func_70047_e() 返回 2.7F 眼高",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:138",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:630"
+          },
+          "note": "工程未声明 eyeHeight，26.3 默认 3.0*0.85=2.55，与原版 2.7 不一致"
+        },
+        {
+          "clause": "EntityEntryBuilder.tracker(64, 3, true) 追踪范围 64 / 更新间隔 3 / 速度同步",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:191",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:630"
+          },
+          "note": "工程 clientTrackingRange(8)、未显式 updateInterval(默认3)、无 setShouldReceiveVelocityUpdates"
+        },
+        {
+          "clause": "vanillaEggs 开关与刷怪蛋颜色 8350208/4210752",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:193",
+            "project": "src/main/java/alku/csrp/registry/ModItems.java:74"
+          },
+          "note": "工程颜色 0x551C1C/0xC9A17B（原版 0x7F6A00/0x404040），且无 vanillaEggs 开关"
+        },
+        {
+          "clause": "注册为 MONSTER 刷怪类别（SRPSpawning.addSpawn(type 0)）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:128",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:629"
+          }
+        },
+        {
+          "clause": "getParasiteIDRegister() 返回 1（数字寄生虫 id，用于群体/巢穴判定）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:58",
+            "project": null
+          },
+          "note": "工程改用字符串注册 id，无数字寄生虫 id 体系"
+        }
+      ],
+      "confidence": "high",
+      "status": "partial"
+    },
+    {
+      "name": "attributes",
+      "clauses": [
+        {
+          "clause": "MAX_HEALTH = SRPAttributes.SHYCO_HEALTH = 45.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:75",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:84"
+          }
+        },
+        {
+          "clause": "ARMOR = SHYCO_ARMOR = 9.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:76",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:84"
+          }
+        },
+        {
+          "clause": "MOVEMENT_SPEED = 0.3",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:77",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:85"
+          }
+        },
+        {
+          "clause": "ATTACK_DAMAGE = SHYCO_ATTACK_DAMAGE = 15.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:79",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:85"
+          }
+        },
+        {
+          "clause": "KNOCKBACK_RESISTANCE = SHYCO_KD_RESISTANCE = 0.7",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:78",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:86"
+          }
+        },
+        {
+          "clause": "FOLLOW_RANGE = SRPConfig.primitiveFollow（默认 24.0）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:80",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:86"
+          },
+          "note": "工程 createAttributes 声明 32.0，但 OriginalConfigEvents:46-50 在实体加入时用 MobsConfig.primitiveFollow（默认 24.0）覆盖→实际值与原版一致"
+        },
+        {
+          "clause": "extraDamage/currentDamage 使用 SRPAttributes.SHYCO_I_DAMAGE（受伤增伤系数）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:160",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:201"
+          },
+          "note": "工程 currentMeleeDamage 以固定 0.5 系数按已损生命增伤，未使用可配置的 SHYCO_I_DAMAGE"
+        },
+        {
+          "clause": "shycoHealthMultiplier/shycoArmorMultiplier/shycoDamageMultiplier/shycoKDResistanceMultiplier 与全局乘数相乘",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:1491",
+            "project": "src/main/java/alku/csrp/config/OriginalConfigEvents.java:38"
+          },
+          "note": "工程仅实现全局乘数，无 shyco 专属乘数"
+        }
+      ],
+      "confidence": "high",
+      "status": "partial"
+    },
+    {
+      "name": "ai",
+      "clauses": [
+        {
+          "clause": "targetTasks.addTask(1, EntityAIHurtByTarget(this, true, new Class[0]))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:64",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:296"
+          },
+          "note": "HurtByTargetGoal(...).setAlertOthers() 对应 true 语义",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java",
+            "line": 64
+          }
+        },
+        {
+          "clause": "tasks.addTask(0, EntityAISwimmingDiving(this, 0.095))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:65",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:115"
+          },
+          "note": "工程以 FloatGoal(0) + 水中每 20 tick 上推 0.095 实现同一语义（缺少追水中目标下潜分支）",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java",
+            "line": 65
+          }
+        },
+        {
+          "clause": "tasks.addTask(2, EntityAISkill(this, 100, (int)(primitiveFollow*0.7), 2, false, 1)) 冲击波技能",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:66",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:384"
+          },
+          "note": "冷却 100 tick；距离门限等效（原版 16^2 .. 2^2，工程 FOLLOW_RANGE*0.7=16.8 与 MIN 4.0）",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java",
+            "line": 66
+          }
+        },
+        {
+          "clause": "tasks.addTask(2, EntityAIWaterLeapAtTargetStatus(this, 0.7F, 1.5, 3, 20, 0))",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:67",
+            "project": null
+          },
+          "note": "工程无水中跃击技能与 20 tick 蓄力、跃击后 2.5 击退范围",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java",
+            "line": 67
+          }
+        },
+        {
+          "clause": "tasks.addTask(3, EntityAIAttackMeleeStatusAOE(this, 1.3, false, 8.0, 2.5))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:68",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:327"
+          },
+          "note": "LongarmsMeleeGoal：距离 8.0、速度 1.0/1.3、AoE 判定；优先级 3 变为 2",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java",
+            "line": 68
+          }
+        },
+        {
+          "clause": "tasks.addTask(8, EntityAILookIdle(this))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:69",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:294"
+          },
+          "note": "RandomLookAroundGoal 语义等价，优先级同为 8",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java",
+            "line": 69
+          }
+        },
+        {
+          "clause": "tasks.addTask(6, EntityAIGetFollowers(this, 2, 16)) 招募体质<41 的寄生虫跟随",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:70",
+            "project": null
+          },
+          "note": "工程仅 PrimitiveVariantEntity/Viscera/Heed 等实现了招募逻辑，pri_longarms 未实现",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java",
+            "line": 70
+          }
+        },
+        {
+          "clause": "tasks.addTask(2, EntityAISkill(this, 80, 4, false, 21)) 恐怖球技能（canOrbAttack 开关）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPPrimitive.java:55",
+            "project": null
+          },
+          "note": "工程 LongarmsEntity 未注册任何 ScaryOrb 技能 goal，仅保留基类 applyScaryOrbEffect 入口",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java",
+            "line": 66
+          }
+        },
+        {
+          "clause": "targetTasks.addTask(4, EntityAINearestAttackableTargetStatus(EntityPlayer, primitiveWalls, primitiveSneakPen, primitiveInviPen))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPPrimitive.java:47",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:297"
+          },
+          "note": "工程用 NearestAttackableTargetGoal(LivingEntity) 覆盖玩家与生物，但未实现潜行/隐身惩罚（SRPConfig.primitiveSneakPen=1.0、primitiveInviPen=1.0，二者默认恰好为 1.0 即无惩罚）；优先级 4 变为 2",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPPrimitive.java",
+            "line": 50
+          }
+        },
+        {
+          "clause": "targetTasks.addTask(4, EntityAINearestAttackableTargetStatus(EntityLiving 非水生/非动物/非村民, mobattacking))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPPrimitive.java:58",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:297"
+          },
+          "note": "同一 NearestAttackableTargetGoal(LivingEntity) 以 isValidParasiteTarget 过滤",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPPrimitive.java",
+            "line": 50
+          }
+        },
+        {
+          "clause": "tasks.addTask(7, EntityAIBlockLight(this, 20, 5))（SRPConfig.canTargetBlock）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPMalleable.java:92",
+            "project": null
+          },
+          "note": "工程无挖光源方块 AI",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPMalleable.java",
+            "line": 92
+          }
+        },
+        {
+          "clause": "tasks.addTask(0, this.wait) EntityAIWait 等待状态机（setWait(10) 后暂停 AI）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:189",
+            "project": null
+          },
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java",
+            "line": 155
+          }
+        },
+        {
+          "clause": "tasks.addTask(5, this.aiWander) EntityAIWanderStatus(1.0, 120, 0.001, true)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:190",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:292"
+          },
+          "note": "工程用原版 WaterAvoidingRandomStrollGoal(1.0)，未实现 checkPositionWander 与 0.001 触发概率；优先级 5 变为 7",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java",
+            "line": 157
+          }
+        },
+        {
+          "clause": "tasks.addTask(6, this.folow) EntityAIParasiteFollow(1.3, 16.0, 6.0, true)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:191",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:290"
+          },
+          "note": "ParasiteFollowGoal 采用同样的 16/6 距离与 1.3 速度",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java",
+            "line": 156
+          }
+        },
+        {
+          "clause": "tasks.addTask(5, this.jumpT) EntityAIJumping（目标高 1 格以上时跳跃）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:192",
+            "project": null
+          },
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java",
+            "line": 154
+          }
+        },
+        {
+          "clause": "tasks.addTask(2, EntityAIAttackMelee(this, 1.0, false))（EntityMob 继承）",
+          "verdict": "na",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:43",
+            "project": null
+          },
+          "note": "工程 LongarmsMeleeGoal + doHurtTarget 覆盖同一近战职责",
+          "reviewNote": "cross-check: 原版继承链上未注册 EntityAIAttackMelee（initEntityAI 覆盖且未调用 super，见 original-ai-baseline.json），该条款不成立。",
+          "groundTruth": {
+            "verified": false,
+            "file": null,
+            "line": null
+          }
+        }
+      ],
+      "confidence": "medium",
+      "status": "partial"
+    },
+    {
+      "name": "behaviors",
+      "clauses": [
+        {
+          "clause": "attackTimer 上冲 0.3/回落 0.15（挥击动画计时，>2.0 结束）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:110",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:119"
+          },
+          "note": "工程改用 swing()/attackAnimationCooldown(100) 表达同一挥击计时语义"
+        },
+        {
+          "clause": "attackEntityAsMobAOE：以目标为中心的 1.5 膨胀 AABB，对非寄生虫且可见的活体命中，命中寄生虫则清除自身目标",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:190",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:182"
+          },
+          "note": "工程 inflate(1.5) 与可见性判定一致，但缺少“命中寄生虫时清除自身目标”的分支"
+        },
+        {
+          "clause": "borderOrb != 0 时禁止普通攻击与 AOE 攻击",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:191",
+            "project": null
+          },
+          "note": "工程无恐怖球/惩罚球状态"
+        },
+        {
+          "clause": "maybeLaunchTarget：10% 概率击飞目标（玩家 VERT 0.525、其他 1.05，水平 0.4，并置 hurtMarked/hasImpulse）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:83",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:225"
+          },
+          "note": "概率、竖直分档与水平系数一致"
+        },
+        {
+          "clause": "近战命中后额外造成 currentDamage（随已损生命提升）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:168",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:214"
+          },
+          "note": "工程把增伤并入单次伤害计算（系数 0.5 固定），未使用 SHYCO_I_DAMAGE 配置项"
+        },
+        {
+          "clause": "冲击波状态机：setParasiteStatus(10)、navigation.stop、每 20 tick border++、border==4 释放、>5 或失效(DLoS/竖直>4/<-2)时结束",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:332",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:379"
+          },
+          "note": "工程 ShockwaveGoal 以 charge 0..80 tick、charge==60 释放、冷却 100 tick 重建，且竖直门限 ±4/-2 一致；但缺少 border 计数式的目标失效提前中止粒度"
+        },
+        {
+          "clause": "spawnShock：生成 EntityWaveShock，若生成位置存在碰撞则放弃，否则 setDamages(攻击力*0.3, MiniDamage=2.0, 1, 12)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:385",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:239"
+          },
+          "note": "工程 ShockwaveEntity 伤害用完整攻击力（1.0x）而非 0.3x，且对每个目标只命中一次（hitEntities）"
+        },
+        {
+          "clause": "冲击波命中时把目标上抬 0.64645（EntityWaveShock.func_70652_k）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/EntityWaveShock.java:172",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:233"
+          }
+        },
+        {
+          "clause": "冲击波波体：宽 3.1 高 0.2、速度 0.6、持续 duration=12 秒、沿途破坏硬度<=caster.getBlockH() 的方块",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/EntityWaveShock.java:41",
+            "project": "src/main/java/alku/csrp/entity/ShockwaveEntity.java:27"
+          },
+          "note": "工程波体尺寸 3.1x0.2 与速度 0.6 一致，但寿命为 240 tick 或命中即止，破坏硬度固定 1.0（原版 blockH=0 时本生物实际不破坏方块）"
+        },
+        {
+          "clause": "killcount > SRPConfig.adaptedKills(30) 时进化：func_70074_a / onLivingUpdate 中 spawnNext(EntityShycoAdapted, thunder=true)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:123",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:712"
+          },
+          "note": "工程阈值为固定 10（pri_bolster 30），与原版 adaptedKills=30 不一致；无闪电与抵抗继承"
+        },
+        {
+          "clause": "死亡时若殖民地系统开启：checkColony + spawnNext(EntityLesh)",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:143",
+            "project": null
+          },
+          "note": "工程 pri_longarms 无死亡殖民地转换"
+        },
+        {
+          "clause": "finalizeSpawn 变体皮肤 5/6/7（variantChance / evolutionParasiteAlwaysVariant）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:256",
+            "project": null
+          },
+          "note": "工程 LongarmsEntity 无 finalizeSpawn 变体分配，skin 系统整体缺失"
+        },
+        {
+          "clause": "func_70074_a 击杀回调：killcount++、粒子 particleStatus(5)、进化分值写入",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:225",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:705"
+          },
+          "note": "工程 killedEntity 记数并触发进化，但无击杀粒子与 SRPSaveData 进化分值写入"
+        },
+        {
+          "clause": "击杀/命中附加效果：skin 5 → VIRA_E(40 tick)、skin 6 → BLEED_E(40 tick)",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:173",
+            "project": null
+          },
+          "note": "变体皮肤系统缺失导致对应效果缺失"
+        },
+        {
+          "clause": "hpLeft 追踪并在 0.5 秒内喷发 GCLOUD(127,106) 粒子",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:119",
+            "project": null
+          }
+        },
+        {
+          "clause": "被弹射物命中（source == arrow）触发 skillBreakBlocks",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:648",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:164"
+          },
+          "note": "工程为持续朝目标破坏方块（硬度<=1.0、冷却 60），触发条件不同但破坏语义等价"
+        },
+        {
+          "clause": "坠落伤害仅在 distance >= 40 时生效（EntityPPrimitive.func_180430_e）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPPrimitive.java:306",
+            "project": null
+          },
+          "note": "工程 LongarmsEntity/PrimitiveParasiteEntity 未覆写 causeFallDamage"
+        },
+        {
+          "clause": "canRandomBlock：10% 概率完全免伤，播放 SHIELD_BLOCK 音效并生成 6 个 CRIT 粒子，同时把攻击者设为目标",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPPrimitive.java:126",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:272"
+          },
+          "note": "概率 0.1、音效与粒子数量、setTarget(attacker) 均一致"
+        },
+        {
+          "clause": "placeNidus：每 20 tick 有 1/350 概率投出 type 11 的 EntityGore 巢穴（killcount>=10 且 type>=11）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:533",
+            "project": null
+          }
+        },
+        {
+          "clause": "onClimbable / 攀爬行为（工程额外实现）",
+          "verdict": "na",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:43",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:90"
+          },
+          "note": "原版无攀爬逻辑，属工程增强"
+        }
+      ],
+      "confidence": "medium",
+      "status": "missing"
+    },
+    {
+      "name": "damage_and_effects",
+      "clauses": [
+        {
+          "clause": "火焰伤害乘数 SRPConfig.firemultyplier（默认 4.0）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:795",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:287"
+          },
+          "note": "工程 FIRE_DAMAGE_MULTIPLIER = 4.0F"
+        },
+        {
+          "clause": "所有活体攻击都会施加 20% 概率 RAGE(200 tick, amp 1)",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:796",
+            "project": null
+          },
+          "note": "工程仅在达到伤害上限时施加 RAGE，常规攻击不触发"
+        },
+        {
+          "clause": "单次伤害上限 damageCap（primitiveCap=6）：伤害 >= maxHealth/6 时削减并触发 RAGE 与血块表现",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:778",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:418"
+          },
+          "note": "工程 hurtWithIncomingDamageCap 存在但 incomingDamageCapDivisor() 返回 1，等于上限未生效"
+        },
+        {
+          "clause": "伤害适应：每点 0.05 减免、上限 12 点、最多 5 种来源、学习概率 0.7、新类型冷却 20 tick、火焰抑制 0.7",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfig.java:182",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:79"
+          },
+          "note": "ADAPTATION_PER_HIT=0.05 / MAX_ADAPTATION_HITS=12 / DEFAULT_MAX_LEARNABLE_DAMAGE_SOURCES=5 / 学习 0.70 / 冷却 20 / 火焰 0.70 全部逐项对应原版配置默认值"
+        },
+        {
+          "clause": "适应音效：hitStatus 1 → ADAPTATION_P、2 → ADAPTATION_F",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPMalleable.java:250",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:367"
+          }
+        },
+        {
+          "clause": "ANTIMALL/RES 效果每 10 tick 削减 1 点适应",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPMalleable.java:143",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:151"
+          }
+        },
+        {
+          "clause": "命中传播 COTH（SRPConfigSystems.cothPrimitive = 0.5）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:845",
+            "project": "src/main/java/alku/csrp/infection/InfectionEvents.java:50"
+          },
+          "note": "工程 cothPrimitiveSpreadChance 默认 0.5 且按 pri_ 前缀分派给本生物"
+        },
+        {
+          "clause": "免疫 COTH/VIRA/CORRO/DLER 效果（func_70687_e 返回 false）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1084",
+            "project": null
+          },
+          "note": "工程 LongarmsEntity/PrimitiveParasiteEntity 未覆写 canBeAffected"
+        },
+        {
+          "clause": "毒伤害治愈（source == magic && 自身带 poison && amount == 1.0 → 治疗 genePoisonHealing）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:635",
+            "project": null
+          }
+        },
+        {
+          "clause": "最低伤害 primitiveMinDamage = 2.0（每次命中额外扣血）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPPrimitive.java:96",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:501"
+          },
+          "note": "工程实现 applyPrimitiveMinimumDamage（默认 2.0），但 LongarmsEntity.hitLongarmsTarget 未调用它"
+        },
+        {
+          "clause": "生命恢复 primitiveRegen = 4.0 * globalHealthMultiplier（killcount > 1 时每 regenEff=5 次消耗 1 killcount）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPMalleable.java:152",
+            "project": null
+          }
+        },
+        {
+          "clause": "吞噬玩家食物 foodSteal=0.5 / foodRott / foodRootNumber",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:958",
+            "project": null
+          }
+        },
+        {
+          "clause": "击杀后治疗 geneMobHealing（3.0）与 setWait(10)",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1079",
+            "project": null
+          }
+        },
+        {
+          "clause": "对玩家造成 >8 伤害时施加 FEAR_E（等级随伤害 1..3）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPPrimitive.java:111",
+            "project": null
+          }
+        },
+        {
+          "clause": "KILLPRI_E 击杀抗性降低受到的伤害（最高 95%）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPPrimitive.java:166",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:387"
+          },
+          "note": "工程 killingResistanceEffect() 对 LongarmsEntity 返回 PRIMITIVE 效果"
+        },
+        {
+          "clause": "PIVOT 伤害转移给 notOwner（按 SRPConfigSystems.pivotDamageRHost）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:686",
+            "project": null
+          }
+        },
+        {
+          "clause": "adaptations 新来源冷却期间不重复学习（newDamageCooldown）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPMalleable.java:350",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:349"
+          }
+        }
+      ],
+      "confidence": "medium",
+      "status": "missing"
+    },
+    {
+      "name": "sync_data",
+      "clauses": [
+        {
+          "clause": "SPECIAL(byte) 寄生虫状态（0/1/2/10）同步驱动动画层",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:134",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:53"
+          },
+          "note": "工程用 ParasiteStatus 的 EntityDataAccessor<Integer>（值域一致），类型由 byte 改为 int"
+        },
+        {
+          "clause": "SKIN(byte) 皮肤/变体同步（setSkin/getSkin）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:136",
+            "project": null
+          }
+        },
+        {
+          "clause": "HIT(byte) 适应命中状态同步（getHitStatus）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPMalleable.java:45",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:71"
+          },
+          "note": "ADAPTATION_HIT_STATUS 语义等价（byte，1/2 档）"
+        },
+        {
+          "clause": "SELFE(int)/COLD_L(bool)/DISLO15(bool) 同步参数",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:135",
+            "project": null
+          }
+        },
+        {
+          "clause": "客户端动作广播：func_70103_a(12) 触发攻击姿态、func_70103_a(100) 喷 FLAME 粒子",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:285",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:397"
+          },
+          "note": "FLAME 粒子已实现；攻击姿态改为 swing() 触发，未走 byte 事件"
+        },
+        {
+          "clause": "NBT 持久化 parasitetype/parasitekills/adaptations/phasecreat 等",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1742",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:789"
+          },
+          "note": "工程保存 kills/legacy_killcount/adaptations/colony_spawned 与 ParasiteStatus，但无 skin/phase/level 字段"
+        }
+      ],
+      "confidence": "medium",
+      "status": "missing"
+    },
+    {
+      "name": "animation",
+      "clauses": [
+        {
+          "clause": "攻击姿态动画（ModelShyco 中 getAttackTimer() 驱动的挥击分支）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/primitive/ModelShyco.java:729",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:58"
+          },
+          "note": "工程以 animation.pri_longarms.get_attack_timer 及其组合键覆盖 status 0/1/2 三种攻击姿态"
+        },
+        {
+          "clause": "静止待机动画（getStillAni()==true 分支，stillTicks>25 判定）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:446",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:259"
+          },
+          "note": "STILL_ANIMATION_DELAY_TICKS = 25 与原版 threshold 一致"
+        },
+        {
+          "clause": "status 0 移动动画（limb_swing 摆动 jointLL/RL 等）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/primitive/ModelShyco.java:601",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:56"
+          },
+          "note": "LIMB_SWING 即 animation.pri_longarms.func_78087_a.limb_swing"
+        },
+        {
+          "clause": "status 1 动画（战斗/慢速行走组合）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/primitive/ModelShyco.java:643",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:63"
+          },
+          "note": "COMBAT_WALK/COMBAT_STILL_IDLE 对应 get_parasite_status_1 组合键"
+        },
+        {
+          "clause": "status 2 动画（奔袭）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/primitive/ModelShyco.java:685",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:69"
+          },
+          "note": "SPRINT_WALK/SPRINT_ATTACK 对应 get_parasite_status_2 组合键"
+        },
+        {
+          "clause": "status 10（冲击波/技能）姿态",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:338",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:322"
+          },
+          "note": "工程 STATUS_SHOCKWAVE 分支播放静止待机姿态"
+        },
+        {
+          "clause": "动画控制器过渡时间（原版每帧即时计算，无过渡）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/primitive/ModelShyco.java:579",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:307"
+          },
+          "note": "工程 CitadelAnimationController transitionTicks=4，存在 4 tick 过渡"
+        },
+        {
+          "clause": "冰冻变体（skin 120）专属动画/贴图表现",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/primitive/RenderShyco.java:42",
+            "project": null
+          }
+        }
+      ],
+      "confidence": "medium",
+      "status": "partial"
+    },
+    {
+      "name": "model_texture",
+      "clauses": [
+        {
+          "clause": "模型 ModelShyco（client/model/entity/primitive/ModelShyco.java）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/primitive/ModelShyco.java:1",
+            "project": "src/main/resources/assets/csrp/geo/pri_longarms.geo.json:1"
+          },
+          "note": "1.12.2 手写模型改为 Tabula/Citadel geo，几何语义等价"
+        },
+        {
+          "clause": "贴图 srparasites:textures/entity/monster/shyco.png",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/primitive/RenderShyco.java:12",
+            "project": "src/main/java/alku/csrp/client/model/PrimitiveParasiteModel.java:114"
+          },
+          "note": "工程贴图 csrp:textures/entity/pri_longarms.png，命名改写但语义等价"
+        },
+        {
+          "clause": "变体贴图 shycov/shycob/shycoh（skin 5/6/7）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/primitive/RenderShyco.java:34",
+            "project": "src/main/java/alku/csrp/client/model/PrimitiveParasiteModel.java:117"
+          },
+          "note": "工程 PrimitiveParasiteModel.texture 对 pri_longarms 返回固定贴图，尽管 assets 中已存在 shycov/shycob/shycoh.png 纹理"
+        },
+        {
+          "clause": "冰冻变体贴图 snowvariants/primitivelongarmsfrozen.png（skin 120）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/primitive/RenderShyco.java:17",
+            "project": null
+          }
+        },
+        {
+          "clause": "阴影半径 0.7F",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/primitive/RenderShyco.java:20",
+            "project": "src/main/java/alku/csrp/client/ClientModEvents.java:100"
+          },
+          "note": "工程 0.65F 与原版 0.7F 不一致"
+        },
+        {
+          "clause": "preRenderCallback 自爆/自毁闪烁缩放（getSelfeFlashIntensity 驱动 scale）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/primitive/RenderShyco.java:23",
+            "project": "src/main/java/alku/csrp/client/renderer/PrimitiveParasiteRenderer.java:50"
+          },
+          "note": "工程 scale() 只处理 MeltableAssimilated/CarrierEntity，无 selfe 闪烁缩放；服务端也无 selfeState/canModRender 机制"
+        },
+        {
+          "clause": "RenderMalleable 基类附加渲染（适应/受击染色等）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/primitive/RenderShyco.java:11",
+            "project": "src/main/java/alku/csrp/client/renderer/ParasiteGeoRenderer.java:22"
+          },
+          "note": "工程提供 adapt 染色接口 getTextureLocation 与隐藏逻辑，但未实现原版 RenderMalleable 的完整层"
+        }
+      ],
+      "confidence": "medium",
+      "status": "missing"
+    },
+    {
+      "name": "sounds",
+      "clauses": [
+        {
+          "clause": "getAmbientSound = getParasiteStatus() != 0 ? MOBSILENCE : SHYCO_GROWL",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:233",
+            "project": "src/main/java/alku/csrp/entity/ParasiteSoundProfiles.java:48"
+          },
+          "note": "工程固定返回 shyco.growl，缺少非闲置状态下静音的条件分支"
+        },
+        {
+          "clause": "getHurtSound = (随机 && getHitStatus() > 0) ? MOBSILENCE : SHYCO_HURT",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:237",
+            "project": "src/main/java/alku/csrp/entity/ParasiteSoundProfiles.java:48"
+          },
+          "note": "工程固定返回 shyco.hurt，缺少适应命中时静音分支"
+        },
+        {
+          "clause": "getDeathSound = SRPSounds.SHYCO_DEATH",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:241",
+            "project": "src/main/java/alku/csrp/entity/ParasiteSoundProfiles.java:48"
+          }
+        },
+        {
+          "clause": "func_180429_a 播放 SRPSounds.MONSTER_STEP（0.15F, 1.0F）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:276",
+            "project": null
+          },
+          "note": "工程 pri_longarms 未覆写脚步音效（monster.step 仅由 PrimitiveVariantEntity:565 播放）"
+        },
+        {
+          "clause": "AOE 攻击播放 SRPSounds.SWIPE（音量 2.0）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:199",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:184"
+          },
+          "note": "工程使用 mob.swipe 事件，音量 2.0 一致"
+        },
+        {
+          "clause": "冲击波蓄力播放 getHurtSound(generic) 音量 4.0、音高 1.6..2.4",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:342",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:394"
+          },
+          "note": "工程播放 shyco.special（音量 4.0，音高 1.8..2.2），使用了原版未在此处引用的音效事件"
+        },
+        {
+          "clause": "sounds.json 中 shyco.growl/hurt/death 事件定义",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSounds.java:522",
+            "project": "src/main/resources/assets/csrp/sounds.json:1041"
+          },
+          "note": "工程定义 shyco.death/growl/hurt 三条（另附 shyco.special）"
+        }
+      ],
+      "confidence": "high",
+      "status": "partial"
+    },
+    {
+      "name": "spawning",
+      "clauses": [
+        {
+          "clause": "所有生物群系 MONSTER 表：weight shycoSpawnRate=15，group 1-1",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:128",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:35"
+          },
+          "note": "工程在 PHASE_MINUS_ONE 用 spawn(\"pri_longarms\", 2, 3, 5)：weight 5 vs 15、group 2-3 vs 1-1"
+        },
+        {
+          "clause": "阶段生成表条目（phase -1 起引入 primitive 群）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems.java:214",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:35"
+          },
+          "note": "工程 PHASE_MINUS_ONE 即含 pri_longarms，与 phase -1 生成表结构对应"
+        },
+        {
+          "clause": "泛生（ubiquitous development）表：pri_longarms weight 15，group 2-3",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems.java:214",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:235"
+          },
+          "note": "工程 UD_TWO/UD_THREE 均为 spawn(\"pri_longarms\", 2, 3, 15)"
+        },
+        {
+          "clause": "光照与生成条件：isValidLightLevelOne/Two + 难度非 PEACEFUL + spawnDays 天数门控",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1553",
+            "project": "src/main/java/alku/csrp/registry/CommonModEvents.java:373"
+          },
+          "note": "工程复用 Monster.checkMonsterSpawnRules，未实现原版两级光照判定与 SRPConfig.spawnDays"
+        },
+        {
+          "clause": "阶段属性加成：phaseCreated >= evolutionParasiteStatIncrease 时生命/护甲/攻击 *(1+value)",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1683",
+            "project": null
+          },
+          "note": "工程无 finalizeSpawn 阶段属性加成（未见 evolutionParasiteStatIncrease 等价物）"
+        }
+      ],
+      "confidence": "medium",
+      "status": "partial"
+    },
+    {
+      "name": "loot",
+      "clauses": [
+        {
+          "clause": "未覆写 dropFewItems/entityDropItem → 无物品掉落",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java:43",
+            "project": "src/main/resources/data/csrp/loot_table/entities/pri_longarms.json:1"
+          },
+          "note": "工程额外掉落 csrp:lurecomponent3（被玩家击杀时 15% 概率），原版无该掉落"
+        },
+        {
+          "clause": "经验值 = SRPAttributes.XP_PRIMITIVE（SRPConfig.primitiveXPValue 默认 30）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPPrimitive.java:82",
+            "project": "src/main/java/alku/csrp/entity/LongarmsEntity.java:80"
+          },
+          "note": "工程 xpReward = 18，原版为 30"
+        },
+        {
+          "clause": "死亡经验受阶段门控：phase < evolutionPArasitesWithoutXP 才掉经验",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1459",
+            "project": null
+          }
+        },
+        {
+          "clause": "死亡钩子：spawnGore（保持血迹/EntityRemain）与 attackEntityFromCap 血块",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPPrimitive.java:236",
+            "project": null
+          },
+          "note": "工程 LongarmsEntity 未覆写 spawnGore，死亡不生成 remain/血迹"
+        }
+      ],
+      "confidence": "medium",
+      "status": "missing"
+    }
+  ],
+  "missingSummary": [
+    "碰撞箱 1.0x3.0 vs 0.6x3.2、眼高默认 2.55 vs 2.7、追踪范围 8 vs 64、刷怪蛋颜色不一致",
+    "缺少 per-mob 启用开关（shycoEnabled）与 shyco 专属属性乘数，无数字寄生虫 id",
+    "AI 缺失：水中跃击技能、EntityAIGetFollowers 招募、恐怖球技能(EntityAISkill id 21)、EntityAIBlockLight、EntityAIWait、EntityAIJumping、潜行/隐身索敌惩罚",
+    "冲击波波体伤害为 1.0x（原版 0.3x）、每目标仅命中一次、寿命与破坏硬度不匹配；AOE 缺少“命中寄生虫清除目标”分支",
+    "变体皮肤 5/6/7 与冰冻变体 120 全链路缺失（同步数据、finalizeSpawn、贴图、粒子、附加效果）",
+    "伤害侧缺失：单次伤害上限(damageCap=6)+RAGE、生命恢复、吞噬食物、击杀治疗、FEAR、毒治愈、效果免疫、PIVOT 转移",
+    "死亡链路缺失：殖民地/EntityLesh 转换、spawnGore 血迹、阶段经验门控；经验 18 vs 30；多出 lurecomponent3 掉落"
+  ],
+  "confidence": "medium"
+}

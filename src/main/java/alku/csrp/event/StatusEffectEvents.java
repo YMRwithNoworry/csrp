@@ -130,6 +130,22 @@ public final class StatusEffectEvents {
         }
     }
 
+    /**
+     * Legacy canBeAffected (EntityParasiteBase.func_70687_e): a parasitic body never takes the
+     * status effects its own kind spreads, so COTH, VIRA, CORRO and DLER can never be applied.
+     */
+    @SubscribeEvent
+    public static void preventParasiteStatusApplication(MobEffectEvent.Applicable event) {
+        if (!(event.getEntity() instanceof Parasite)) {
+            return;
+        }
+        MobEffectInstance instance = event.getEffectInstance();
+        if (instance.is(ModMobEffects.COTH) || instance.is(ModMobEffects.VIRAL)
+                || instance.is(ModMobEffects.CORROSION) || instance.is(ModMobEffects.NEEDLER)) {
+            event.setResult(MobEffectEvent.Applicable.Result.DO_NOT_APPLY);
+        }
+    }
+
     private static boolean isRooter(LivingEntity entity) {
         if (entity instanceof AbominationEntity abomination) {
             return abomination.getKind() == AbominationEntity.Kind.BODIES;

@@ -1,0 +1,925 @@
+{
+  "id": "hi_skeleton",
+  "originalClass": "EntityHiSkeleton",
+  "projectClass": "HiSkeletonEntity",
+  "facets": [
+    {
+      "name": "registration",
+      "clauses": [
+        {
+          "clause": "CreateEntityMob(\"hi_skeleton\", EntityHiSkeleton.class, egg 8611072/16711900, id 303, SRPConfigMobs.hiskeletonEnabled)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:291",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:359"
+          },
+          "note": "两处注册 id 均为 hi_skeleton；原版数字 id 303 在 26.3 无对应概念，不影响注册身份"
+        },
+        {
+          "clause": "builder.name(\"srparasites.\" + name) 语言键 entity.srparasites.hi_skeleton.name",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:189",
+            "project": "src/main/resources/assets/csrp/lang/en_us.json:111"
+          },
+          "note": "工程语言键 entity.csrp.hi_skeleton = \"Hijacked Skeleton\"，前缀 srparasites→csrp 语义等价"
+        },
+        {
+          "clause": "注册受 SRPConfigMobs.hiskeletonEnabled 开关控制（active=false 时不注册）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:183",
+            "project": null
+          },
+          "note": "工程无 per-mob 启用开关，hi_skeleton 始终注册"
+        },
+        {
+          "clause": "func_70105_a(0.6F, 1.95F) 碰撞箱",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:34",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:359"
+          },
+          "note": "monster(\"hi_skeleton\", ..., 0.6F, 1.95F) 与原版一致"
+        },
+        {
+          "clause": "func_70047_e() 返回 1.73F 眼高",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:86",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:359"
+          },
+          "note": "工程未声明 eyeHeight，26.3 默认 0.85*1.95=1.6575，与原版 1.73 不一致"
+        },
+        {
+          "clause": "EntityEntryBuilder.tracker(64, 3, true) 追踪范围 64 / 更新间隔 3 / 速度同步",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:191",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:630"
+          },
+          "note": "工程 clientTrackingRange(8)、未显式 updateInterval(默认 3)、无 setShouldReceiveVelocityUpdates"
+        },
+        {
+          "clause": "SRPConfig.vanillaEggs 开关与刷怪蛋颜色 8611072/16711900",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:193",
+            "project": "src/main/java/alku/csrp/registry/ModItems.java:232"
+          },
+          "note": "工程颜色 0x463D38/0xC7A17C（原版 0x8364C0/0xFEFEFC），且无 vanillaEggs 开关"
+        },
+        {
+          "clause": "注册为 MONSTER 刷怪类别（EntityMob 派生）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:31",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:629"
+          },
+          "note": "工程 monster() 辅助方法统一使用 MobCategory.MONSTER"
+        },
+        {
+          "clause": "getParasiteIDRegister() 返回 303（巢穴/刷怪计数/掉落分派使用的数字寄生虫 id）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:39",
+            "project": null
+          },
+          "note": "工程改用字符串注册 id，无数字寄生虫 id 体系"
+        },
+        {
+          "clause": "this.type = 11（寄生虫类型号，用于生成阶段门控与群体 AI 版本判定）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:35",
+            "project": null
+          },
+          "note": "工程无 parasite type 字段；相关逻辑改用 Config/NaturalSpawnTables 中的阶段与实体 id"
+        }
+      ],
+      "confidence": "high",
+      "status": "partial"
+    },
+    {
+      "name": "attributes",
+      "clauses": [
+        {
+          "clause": "MAX_HEALTH = SRPAttributes.MARVILLAGER_HEALTH = 27.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:59",
+            "project": "src/main/java/alku/csrp/entity/HiSkeletonEntity.java:35"
+          },
+          "note": "SRPAttributes.java:182 定义 27.0"
+        },
+        {
+          "clause": "ARMOR = SRPAttributes.MARVILLAGER_ARMOR = 8.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:60",
+            "project": "src/main/java/alku/csrp/entity/HiSkeletonEntity.java:35"
+          },
+          "note": "SRPAttributes.java:183 定义 8.0"
+        },
+        {
+          "clause": "ATTACK_DAMAGE = SRPAttributes.MARVILLAGER_ATTACK_DAMAGE = 17.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:63",
+            "project": "src/main/java/alku/csrp/entity/HiSkeletonEntity.java:35"
+          },
+          "note": "SRPAttributes.java:184 定义 17.0"
+        },
+        {
+          "clause": "KNOCKBACK_RESISTANCE = SRPAttributes.MARVILLAGER_KD_RESISTANCE = 0.9",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:62",
+            "project": "src/main/java/alku/csrp/entity/HiSkeletonEntity.java:35"
+          },
+          "note": "SRPAttributes.java:185 定义 0.9"
+        },
+        {
+          "clause": "MOVEMENT_SPEED = 0.205",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:61",
+            "project": "src/main/java/alku/csrp/entity/HiSkeletonEntity.java:35"
+          }
+        },
+        {
+          "clause": "FOLLOW_RANGE = SRPConfig.hijackedFollow（默认 24.0）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:64",
+            "project": "src/main/java/alku/csrp/entity/HiSkeletonEntity.java:35"
+          },
+          "note": "原版 SRPConfig.java:173 默认 24.0；工程写死 48.0 且无 hijackedFollow 配置项"
+        },
+        {
+          "clause": "XP = SRPAttributes.XP_HIJACKED = SRPConfig.hijackedXPValue（默认 11）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPHijacked.java:54",
+            "project": "src/main/java/alku/csrp/entity/HiSkeletonEntity.java:31"
+          },
+          "note": "工程 xpReward = 30（SRPAttributes.java:1021 / SRPConfig.java:178 原版默认 11）"
+        },
+        {
+          "clause": "scentHPMultiplier = 1.75F（被 scent 追踪时宿主生命上限倍率）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPHijacked.java:63",
+            "project": null
+          },
+          "note": "工程 ParasiticScentEntity 未按生物档次提供 1.75 倍率参数"
+        },
+        {
+          "clause": "生成时 phaseCreated >= evolutionParasiteStatIncrease → 生命/护甲/伤害 × (1 + evolutionParasiteStatIncreaseValue)",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1683",
+            "project": null
+          },
+          "note": "工程 EvolutionSystem.GenerationProfile 只有能力开关，无阶段属性加成"
+        },
+        {
+          "clause": "全局与专属属性乘数（globalHealthMultiplier * marvillagerHealthMultiplier 等 4 项）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:1206",
+            "project": "src/main/java/alku/csrp/config/OriginalConfigEvents.java:38"
+          },
+          "note": "工程仅实现全局乘数，无 marvillager 专属乘数"
+        }
+      ],
+      "confidence": "high",
+      "status": "partial"
+    },
+    {
+      "name": "ai",
+      "clauses": [
+        {
+          "clause": "targetTasks.addTask(4, EntityAINearestAttackableTargetStatus(EntityPlayer.class, hijackedSneakPen, hijackedInviPen))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPHijacked.java:27",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:297"
+          },
+          "note": "工程用 NearestAttackableTargetGoal(LivingEntity,10) 统一索敌；无潜行/隐身惩罚参数"
+        },
+        {
+          "clause": "targetTasks.addTask(4, EntityAINearestAttackableTargetStatus(EntityLiving.class)) 仅当 SRPConfig.mobattacking，且排除 EntityWaterMob/EntityAnimal/黑名单",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPHijacked.java:31",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:314"
+          },
+          "note": "工程 isValidParasiteTarget 排除寄生体与带印记玩家，未实现 mobattacking 黑名单/水生动物排除"
+        },
+        {
+          "clause": "targetTasks.addTask(1, EntityAIHurtByTarget(this, true, new Class[0]))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:49",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:296"
+          },
+          "note": "HurtByTargetGoal(...).setAlertOthers() 对应 true 语义"
+        },
+        {
+          "clause": "tasks.addTask(0, EntityAISwimmingDiving(this, 0.08))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:50",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:287"
+          },
+          "note": "工程仅用 FloatGoal（等价 EntityAISwimming），缺少目标在水下时的下潜逻辑"
+        },
+        {
+          "clause": "tasks.addTask(8, EntityAILookIdle(this))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:51",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:294"
+          },
+          "note": "RandomLookAroundGoal 语义等价，优先级同为 8"
+        },
+        {
+          "clause": "tasks.addTask(6, EntityAIGetFollowers(this, 1, 16))（让 type<31 的寄生体跟随自己）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:52",
+            "project": null
+          },
+          "note": "工程无 GetFollowers 等价 AI，也无 setParasiteToFollow 关系系统"
+        },
+        {
+          "clause": "tasks.addTask(6, EntityAIAttackMeleeRangeSwitch(this, 0.0F))（按距离切换 workTask 让远程 AI 接管）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:53",
+            "project": null
+          },
+          "note": "工程无 workTask(shouldWorkTask) 协作机制，近战/远程由 Goal 各自判定"
+        },
+        {
+          "clause": "tasks.addTask(4, EntityAIAttackRangedStatus(this, 1.2, 40, SRPConfig.hijackedFollow/2, true))（40 tick 射击间隔）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:54",
+            "project": "src/main/java/alku/csrp/entity/HiSkeletonEntity.java:85"
+          },
+          "note": "工程 SkeletonRangedGoal 有 40 tick 冷却与 LOS 判定，但无 1.2 移动速度趋近/远离行为与 workTask 门控"
+        },
+        {
+          "clause": "tasks.addTask(0, EntityAIWait)（基类等待/僵直状态机，wait 期间冻结 AI）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:189",
+            "project": null
+          }
+        },
+        {
+          "clause": "tasks.addTask(5, EntityAIWanderStatus(1.0, 120, 0.001, true))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:190",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:292"
+          },
+          "note": "工程用 WaterAvoidingRandomStrollGoal(1.0)，未实现 EntityAIWanderStatus 的 0.001 触发概率与 checkPositionWander"
+        },
+        {
+          "clause": "tasks.addTask(6, EntityAIParasiteFollow(1.3, 16.0, 6.0, true))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:191",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:290"
+          },
+          "note": "ParasiteFollowGoal 采用同样的 16/6 距离与 1.3 速度"
+        },
+        {
+          "clause": "tasks.addTask(5, EntityAIJumping)（跳上高台）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:192",
+            "project": null
+          }
+        },
+        {
+          "clause": "1.12.2 EntityMob 不注册基线 AI（近战/游荡/观察/索敌玩家），且 EntityHiSkeleton.func_184651_r 未调用 super",
+          "verdict": "na",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:48",
+            "project": null
+          },
+          "note": "依据 docs/entity-parity/original-ai-baseline.json：hi_skeleton baselineApplies=false；故本面只枚举继承链上真实注册的任务"
+        }
+      ],
+      "confidence": "high",
+      "status": "partial"
+    },
+    {
+      "name": "behaviors",
+      "clauses": [
+        {
+          "clause": "func_82196_d 远程攻击：发射 EntityProjectileSpineball（初速 3.0F），并从眼高 -0.2 位置出射",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:116",
+            "project": "src/main/java/alku/csrp/entity/HiSkeletonEntity.java:61"
+          },
+          "note": "工程 ParasiteProjectileEntity.Mode.SPINE，力量 3.0F、60 tick 生存，自眼位前 0.35 格出射；语义等价"
+        },
+        {
+          "clause": "射击时瞄准目标包围盒底部 + 高度/4 的高度修正",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:122",
+            "project": "src/main/java/alku/csrp/entity/HiSkeletonEntity.java:67"
+          },
+          "note": "工程瞄准 target.getEyePosition()，缺少原版 1/4 身高偏移"
+        },
+        {
+          "clause": "射击播放 SRPSounds.EMANA_SHOOTING（音量 2.0）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:121",
+            "project": null
+          },
+          "note": "工程发射时无音效（sounds.json 已有 emana.shooting 事件但未被调用）"
+        },
+        {
+          "clause": "远程攻击时把 parasiteStatus 置 1，若 geneMod(3) 为真则置 2（用于模型双臂姿态）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/EntityAIAttackRangedStatus.java:60",
+            "project": "src/main/java/alku/csrp/entity/HiSkeletonEntity.java:56"
+          },
+          "note": "工程以\"有存活目标\"即置 PARASITE_STATUS=2，缺少开火时的 1/2 区分与 geneMod(3) 分支"
+        },
+        {
+          "clause": "func_184724_a(boolean swingingArms) 空实现（不播放挥手动作）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:130",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:399"
+          },
+          "note": "工程命中时会 swing(MAIN_HAND)，原版刻意屏蔽挥手"
+        },
+        {
+          "clause": "func_70636_d 仅转发 super（无自定义周期行为）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:72",
+            "project": "src/main/java/alku/csrp/entity/HiSkeletonEntity.java:51"
+          },
+          "note": "工程 tick 只维护冷却与状态位，语义相当"
+        },
+        {
+          "clause": "func_180482_a 变体生成：variantChance 命中或 phase>=evolutionParasiteAlwaysVariant → setSkin(1)",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:107",
+            "project": null
+          },
+          "note": "工程未实现 hijacked 的 skin 变体系统"
+        },
+        {
+          "clause": "killcount 初始 0，type 11（Hijacked 基础值）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:97",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:93"
+          },
+          "note": "工程 parasiteKills/legacyKillCount 从 0 开始，语义接近；但无 type 与 Hijacked 专用的 oneMind/EP 计分"
+        },
+        {
+          "clause": "液面跳跃 handleWater/liquidLeap（在水面且被瞄准时向目标弹射）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:462",
+            "project": null
+          }
+        },
+        {
+          "clause": "placeNidus：type>=11 且周围寄生体 killcount 总和 >= reinforcerNidusStart 时发射 EntityGore(type 11) 生成 Nidus",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:536",
+            "project": null
+          },
+          "note": "工程无 Nidus(殖巢) 生成链路"
+        },
+        {
+          "clause": "超距/超时消失：与玩家距离 >16384 或 idle>600 且 >1024 → spawnCyst + storeBefDes + 移除",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1583",
+            "project": "src/main/java/alku/csrp/entity/ParasiteDespawnHandler.java:26"
+          },
+          "note": "工程以 MobDespawnMixin 拦截 removeWhenFarAway，等价实现囊肿残留/调度柱回收"
+        },
+        {
+          "clause": "func_184645_a 物品交互：itemEvolve 加 killcount、itemDevolve 强制变体并死亡、itemVariant 循环变体",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1129",
+            "project": null
+          }
+        },
+        {
+          "clause": "doLast/OneMind：索敌成功时给目标 SPOT 效果并通过 alertOthers 惊醒周围寄生体",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1167",
+            "project": null
+          },
+          "note": "工程有 SPOTTED 效果与 REPEL 等，但无 \"被寄生体发现即标记\" 与 OneMind 联动"
+        },
+        {
+          "clause": "静止判定仍(false→still)：静止 >25 tick 后把 aniticks 作为模型摆动输入",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:438",
+            "project": null
+          }
+        }
+      ],
+      "confidence": "medium",
+      "status": "partial"
+    },
+    {
+      "name": "damage_and_effects",
+      "clauses": [
+        {
+          "clause": "damageCap = SRPConfig.hijackedCap = 5：单次伤害上限 = maxHealth/5 + (maxHealth%5)*0.5，达到上限时施加 RAGE(200,1) 且 30% 概率血块表现",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPHijacked.java:55",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:418"
+          },
+          "note": "原版 SRPConfig.java:174 hijackedCap=5；工程 incomingDamageCapDivisor() 默认 1，HijackedParasiteEntity 未覆写 → 无伤害上限"
+        },
+        {
+          "clause": "MiniDamage = SRPConfig.hijackedMinDamage = 1.3（每次命中至少造成 1.3 伤害）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPHijacked.java:57",
+            "project": null
+          },
+          "note": "工程 HiSkeletonEntity 未调用 applyPrimitiveMinimumDamage/applyMinimumDamage 之类的保底伤害"
+        },
+        {
+          "clause": "cothSpread = SRPConfigSystems.cothHijacked：命中概率施加 COTH(3600, amp0)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPHijacked.java:62",
+            "project": "src/main/java/alku/csrp/infection/InfectionEvents.java:44"
+          },
+          "note": "工程 InfectionMechanics.cothSpreadChance 对 HijackedParasiteEntity 返回 Config.cothHijackedSpreadChance()，语义等价"
+        },
+        {
+          "clause": "foodSteal = 0.1F（命中玩家时额外消耗饱食度）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPHijacked.java:59",
+            "project": null
+          }
+        },
+        {
+          "clause": "fearPlayer：视线内的玩家施加 SRPPotions.FEAR_E(300, amp0，无粒子无图标)",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPHijacked.java:77",
+            "project": null
+          },
+          "note": "工程已注册 ModMobEffects.FEAR，但没有任何寄生体对其施加"
+        },
+        {
+          "clause": "oneMindDeathValue = SRPConfig.hijackedOneMindDeathV（OneMind 死亡扣分）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPHijacked.java:58",
+            "project": null
+          }
+        },
+        {
+          "clause": "valueEvDeath = SRPConfig.hijackedLoosingEPValue：死亡时扣除进化分值",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:31",
+            "project": "src/main/java/alku/csrp/world/EvolutionEvents.java:111"
+          },
+          "note": "工程按通用寄生体死亡扣分（PointSource.PARASITE_DEATH），未区分 hijackedLoosingEPValue"
+        },
+        {
+          "clause": "spawnGore/spawnEffectsGore 空实现（Hijacked 不产生血块）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPHijacked.java:107",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:453"
+          },
+          "note": "工程 attackEntityFromEffects 为默认空实现，HijackedParasiteEntity 未覆写 → 同样无血块"
+        },
+        {
+          "clause": "免疫同类伤害（func_70686_a 中同 mod 实体不互为目标；工程侧为伤害拦截）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1099",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:329"
+          },
+          "note": "工程 hurt() 直接对寄生体来源返回 false，等价"
+        },
+        {
+          "clause": "火焰伤害乘 SRPConfig.firemultyplier（默认 4.0）且 20% 概率施加 RAGE(200,1)",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:795",
+            "project": null
+          },
+          "note": "工程 HijackedParasiteEntity 继承链无火焰增伤，且 Config 中无 firemultyplier 项，RAGE 仅在伤害上限路径触发"
+        },
+        {
+          "clause": "毒伤害治愈：source == magic && 自身带 poison && amount == 1.0 → 治疗 genePoisonHealing 并免疫该次伤害",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:635",
+            "project": null
+          }
+        },
+        {
+          "clause": "免疫 COTH/VIRA/CORRO/DLER 效果（func_70687_e 返回 false）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1084",
+            "project": "src/main/java/alku/csrp/infection/InfectionMechanics.java:712"
+          },
+          "note": "工程仅通过 isConvertible 排除寄生体的 COTH 施加路径，未覆写 canBeAffected，VIRAL 等其他效果仍可附着"
+        },
+        {
+          "clause": "被攻击时 10% 概率触发 attackEntityFromEffects(1,1)（血块表现）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:664",
+            "project": null
+          }
+        },
+        {
+          "clause": "免于载具碰撞（func_184228_n 对船/矿车返回 false）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1095",
+            "project": null
+          }
+        },
+        {
+          "clause": "击杀计数 killcount 累加（>=0 才累加），并驱动阶段击杀加成",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1008",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:704"
+          },
+          "note": "工程 parasiteKills 无 \"负数不累加\" 分支，也无按阶段加成的 killcount 增长"
+        }
+      ],
+      "confidence": "high",
+      "status": "missing"
+    },
+    {
+      "name": "sync_data",
+      "clauses": [
+        {
+          "clause": "SPECIAL(byte) 寄生虫状态同步（驱动远程攻击姿态）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:134",
+            "project": "src/main/java/alku/csrp/entity/HiSkeletonEntity.java:22"
+          },
+          "note": "工程以 INT 类型 PARASITE_STATUS 表达，只有 0/2 两态"
+        },
+        {
+          "clause": "SELFE(int) 自爆计时同步",
+          "verdict": "na",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:135",
+            "project": null
+          },
+          "note": "EntityHiSkeleton 不参与自爆（canModRender=0），该参数对本生物不生效"
+        },
+        {
+          "clause": "SKIN(byte) 变体/皮肤同步",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:136",
+            "project": null
+          },
+          "note": "工程未接入 hijacked 变体皮肤（setSkin(1) 分支缺失）"
+        },
+        {
+          "clause": "COLD_L(bool) 寒冷变体同步 / DISLO15(bool) 错位免疫同步",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:137",
+            "project": null
+          }
+        },
+        {
+          "clause": "状态位服务端每 tick 写回（同步时机）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:73",
+            "project": "src/main/java/alku/csrp/entity/HiSkeletonEntity.java:56"
+          },
+          "note": "同为服务端 tick 写 entityData"
+        },
+        {
+          "clause": "NBT 持久化 parasitetype/parasitekills/phasecreat/skin 等字段",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1742",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:790"
+          },
+          "note": "工程只持久化 parasitekills/legacy_killcount/colony_spawned/damage_adaptations"
+        }
+      ],
+      "confidence": "medium",
+      "status": "partial"
+    },
+    {
+      "name": "animation",
+      "clauses": [
+        {
+          "clause": "常驻摆动动画（ModelHiSkeleton 中 ageInTicks 驱动的呼吸/待机分支）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/hijacked/ModelHiSkeleton.java:643",
+            "project": "src/main/java/alku/csrp/entity/HiSkeletonEntity.java:74"
+          },
+          "note": "工程 age_controller → animation.hi_skeleton.func_78087_a.age_in_ticks（10.83s 循环）"
+        },
+        {
+          "clause": "行走动画（limbSwing/limbSwingAmount 驱动四肢）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/hijacked/ModelHiSkeleton.java:698",
+            "project": "src/main/java/alku/csrp/entity/HiSkeletonEntity.java:76"
+          },
+          "note": "工程 movement_controller → func_78087_a.limb_swing，按 state.isMoving 播放"
+        },
+        {
+          "clause": "远程攻击姿态动画（getParasiteStatus()==2 分支单独摆动双臂）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/hijacked/ModelHiSkeleton.java:678",
+            "project": "src/main/java/alku/csrp/entity/HiSkeletonEntity.java:80"
+          },
+          "note": "工程用 func_78087_a.limb_swing.get_parasite_status_2，但触发条件为\"有目标\"而非\"正在射击\""
+        },
+        {
+          "clause": "getStillAni()/getAniTick() 静止摆动输入（模型在静止时使用 aniticks）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:2192",
+            "project": null
+          }
+        }
+      ],
+      "confidence": "medium",
+      "status": "partial"
+    },
+    {
+      "name": "model_texture",
+      "clauses": [
+        {
+          "clause": "模型 ModelHiSkeleton（client/model/entity/hijacked/ModelHiSkeleton.java）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/hijacked/ModelHiSkeleton.java:1",
+            "project": "src/main/resources/assets/csrp/geo/hi_skeleton.geo.json:1"
+          },
+          "note": "1.12.2 手写模型改为 Tabula/Citadel geo，几何语义等价"
+        },
+        {
+          "clause": "贴图 srparasites:textures/entity/monster/hiskeleton.png",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/hijacked/RenderHiSkeleton.java:10",
+            "project": "src/main/java/alku/csrp/client/renderer/ClientModEvents.java:258"
+          },
+          "note": "工程贴图 csrp:textures/entity/hi_skeleton.png（PrimitiveParasiteModel 按 id 推导），命名改写语义等价"
+        },
+        {
+          "clause": "阴影半径 0.6F",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/hijacked/RenderHiSkeleton.java:13",
+            "project": "src/main/java/alku/csrp/client/renderer/ClientModEvents.java:259"
+          },
+          "note": "工程 0.5F 与原版 0.6F 不一致"
+        },
+        {
+          "clause": "渲染基类 RenderSRP（受击闪红/模型缩放通用逻辑）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/hijacked/RenderHiSkeleton.java:9",
+            "project": "src/main/java/alku/csrp/client/renderer/PrimitiveParasiteRenderer.java:41"
+          },
+          "note": "工程 ParasiteGeoRenderer 提供贴图/遮挡/Braining 隐藏等，但无 hijacked 受击闪红层"
+        },
+        {
+          "clause": "模型边界与 0.6x1.95 碰撞箱匹配（ModelHiSkeleton 的 visible bounds）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/hijacked/RenderHiSkeleton.java:20",
+            "project": "src/main/resources/assets/csrp/geo/hi_skeleton.geo.json:1"
+          },
+          "note": "geo 中声明 visible_bounds_*，渲染缩放默认 1.0 与碰撞箱一致"
+        }
+      ],
+      "confidence": "medium",
+      "status": "partial"
+    },
+    {
+      "name": "sounds",
+      "clauses": [
+        {
+          "clause": "getAmbientSound：parasiteStatus!=0 ? MOBSILENCE : MOBSILENCE（恒静音）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:90",
+            "project": "src/main/java/alku/csrp/entity/ParasiteSoundProfiles.java:86"
+          },
+          "note": "工程 ParasiteSoundProfiles 未登记 hi_skeleton → ambient() 返回 null，实际表现同为静音"
+        },
+        {
+          "clause": "getHurtSound = SRPSounds.MOBSILENCE",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:94",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:110"
+          },
+          "note": "工程 hurt 音效同样为 null（静音）"
+        },
+        {
+          "clause": "getDeathSound = SRPSounds.MOBSILENCE",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:98",
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:115"
+          },
+          "note": "工程 death 音效同样为 null（静音）"
+        },
+        {
+          "clause": "func_180429_a 脚步播放 SoundEvents.field_187868_fj（骨架脚步）音量 0.15",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:102",
+            "project": null
+          },
+          "note": "工程未覆写 playStepSound，会按方块播放脚步音"
+        },
+        {
+          "clause": "sounds.json 定义 mob.silence 事件（MOBSILENCE 音源）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSounds.java:734",
+            "project": "src/main/resources/assets/csrp/sounds.json:1"
+          },
+          "note": "工程 sounds.json 含 mob.silence（csrp:misc/mob_silence），但 hi_skeleton 未引用"
+        }
+      ],
+      "confidence": "high",
+      "status": "partial"
+    },
+    {
+      "name": "spawning",
+      "clauses": [
+        {
+          "clause": "EntityCanSpawn 计数门控：SRPSaveData.getNumberIDDataSpawn(303) < SRPConfigMobs.higolemCanSpawnAssimilatedNat(=6)",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:547",
+            "project": null
+          },
+          "note": "工程无 per-id 生成计数（getIDSpawn/canSpawnByIDData）机制"
+        },
+        {
+          "clause": "CheckSpawn 阶段门控 canSpawninPhase（phase<=-1 禁止生成；按 type 与 phaseMaxParasiteID 判定）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:527",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:283"
+          },
+          "note": "工程以阶段生成表 + crossDimensionUnlocked 判定，语义接近；无 per-type 上限（type=11 在 phase 0 会被拒，工程无对应规则）"
+        },
+        {
+          "clause": "CheckSpawn 进化锁/殖民地锁 checkEvoLock/checkColoLock（由 dislo/基因码决定是否允许生成）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:541",
+            "project": null
+          }
+        },
+        {
+          "clause": "光照规则 isValidLightLevelOne/Two（天空光随机阈值 + 方块光 <=7 时 1/8 概率）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1632",
+            "project": "src/main/java/alku/csrp/registry/CommonModEvents.java:369"
+          },
+          "note": "工程复用 Monster.checkMonsterSpawnRules，未实现两级光照判定"
+        },
+        {
+          "clause": "生成天数门控 SRPConfig.spawnDays <= worldTime/24000",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1560",
+            "project": null
+          }
+        },
+        {
+          "clause": "原版不在任何自然生成表（SRPSpawning 生物群系循环与 phaseSpawnEntry* 均无 EntityHiSkeleton），仅通过刷怪蛋/刷怪器获得",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:144",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:44"
+          },
+          "note": "工程 NaturalSpawnTables 同样不含 hi_skeleton；但其也未注册 SpawnPlacement（无生成谓词）"
+        },
+        {
+          "clause": "生成时注入 phaseCreated/levelCreated（SRPSpawning CheckSpawn 钩子）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:524",
+            "project": null
+          },
+          "note": "工程在需要处直接读 Config.evolutionPhase，无实体侧 phase 快照字段"
+        }
+      ],
+      "confidence": "medium",
+      "status": "partial"
+    },
+    {
+      "name": "loot",
+      "clauses": [
+        {
+          "clause": "掉落分派：SRPEventHandlerBus 按 getParasiteIDRegister()==303 使用 SRPConfigMobs.hiskeletonLoot",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/handlers/SRPEventHandlerBus.java:2117",
+            "project": "src/main/resources/data/csrp/loot_table/entities/hi_skeleton.json:1"
+          },
+          "note": "工程用实体掉落表替代配置数组分派，语义等价"
+        },
+        {
+          "clause": "hiskeletonLoot = {srparasites:bloody_bone;20;3;true}（20% 概率，最多 3 个）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:677",
+            "project": "src/main/resources/data/csrp/loot_table/entities/hi_skeleton.json:1"
+          },
+          "note": "工程 chance 0.2 + set_count 3，与原版一致（工程掉表无 killed_by_player 条件，原版配置数组同样不看击杀者）"
+        },
+        {
+          "clause": "XP 掉落受阶段门控：phase < evolutionPArasitesWithoutXP 才生成经验球",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1459",
+            "project": "src/main/java/alku/csrp/entity/HiSkeletonEntity.java:31"
+          },
+          "note": "工程直接用 xpReward=30 交给原版掉落，无阶段门控"
+        },
+        {
+          "clause": "死亡钩子：spawnCyst / spawnBeckon / leaveScent / origin 生命扣减 / 进化分值扣减",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1324",
+            "project": "src/main/java/alku/csrp/world/EvolutionEvents.java:111"
+          },
+          "note": "工程仅有进化分值扣减；囊肿/信标/气味残留与 origin 系统缺失"
+        },
+        {
+          "clause": "onDeathDislo 错位死亡事件钩子",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1348",
+            "project": null
+          },
+          "note": "工程无 dislo（错位）事件系统"
+        }
+      ],
+      "confidence": "medium",
+      "status": "partial"
+    }
+  ],
+  "missingSummary": [
+    "缺少 per-mob 启用开关（hiskeletonEnabled）与 marvillager 专属属性乘数；FOLLOW_RANGE 48 而非 hijackedFollow(24)、XP 30 而非 11",
+    "AI 缺失 EntityAIGetFollowers、EntityAIAttackMeleeRangeSwitch、EntityAIWait、EntityAIJumping；索敌缺少 sneak/invisible 惩罚与 mobattacking 黑名单",
+    "缺 hijacked skin 变体（setSkin(1)）与 SKIN/COLD_L/DISLO15 同步参数、数字寄生虫 id 303、type 11",
+    "缺伤害上限 hijackedCap(5)、最小伤害 hijackedMinDamage(1.3)、foodSteal、fearPlayer(FEAR)、oneMindDeathValue",
+    "缺火焰伤害乘数(×4)与 20% RAGE、毒伤害治愈、效果免疫覆写、血块表现、载具碰撞免疫",
+    "缺 EntityCanSpawn 计数门控、进化锁/殖民地锁、spawnDays 门控与 phaseCreated 注入；无 SpawnPlacement 注册",
+    "缺 EMANA_SHOOTING 射击音效与骨架脚步音效；阴影半径 0.5 而非 0.6；缺 Nidus/doLast/物品交互"
+  ],
+  "confidence": "medium"
+}

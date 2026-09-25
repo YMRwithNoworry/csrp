@@ -1,0 +1,1407 @@
+{
+  "generatedAt": "2026-09-23T15:20:14.867Z",
+  "question": "Does the creature inherit the vanilla EntityMob baseline goals (melee attack, wander, watch closest, look idle, hurt-by, nearest player target)?",
+  "method": "func_184651_r (initEntityAI) definition scan along each creature's decompiled inheritance chain; EntityParasiteBase does not define it, so the first definition decides. Override without super.func_184651_r() => vanilla baseline goals are NOT registered.",
+  "summary": {
+    "baselineApplies": 17,
+    "baselineNotApplicable": 110,
+    "undecided": 0
+  },
+  "creatures": [
+    {
+      "id": "sim_bigspider",
+      "originalClass": "EntityDorpa",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityDorpa",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java",
+        "line": 55,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sim_squid",
+      "originalClass": "EntityInfSquid",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInfSquid",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfSquid.java",
+        "line": 60,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sim_human",
+      "originalClass": "EntityInfHuman",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInfHuman",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHuman.java",
+        "line": 115,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sim_cow",
+      "originalClass": "EntityInfCow",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInfCow",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfCow.java",
+        "line": 69,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sim_sheep",
+      "originalClass": "EntityInfSheep",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInfSheep",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfSheep.java",
+        "line": 68,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sim_wolf",
+      "originalClass": "EntityInfWolf",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInfWolf",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfWolf.java",
+        "line": 63,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sim_pig",
+      "originalClass": "EntityInfPig",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInfPig",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPig.java",
+        "line": 58,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sim_villager",
+      "originalClass": "EntityInfVillager",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInfVillager",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfVillager.java",
+        "line": 70,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sim_adventurer",
+      "originalClass": "EntityInfPlayer",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInfPlayer",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPlayer.java",
+        "line": 64,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sim_horse",
+      "originalClass": "EntityInfHorse",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInfHorse",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java",
+        "line": 67,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sim_bear",
+      "originalClass": "EntityInfBear",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInfBear",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfBear.java",
+        "line": 59,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sim_enderman",
+      "originalClass": "EntityInfEnderman",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInfEnderman",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java",
+        "line": 100,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sim_dragone",
+      "originalClass": "EntityInfDragonE",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInfDragonE",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java",
+        "line": 106,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sim_sheephead",
+      "originalClass": "EntityInfSheepHead",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInfSheepHead",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfSheepHead.java",
+        "line": 59,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sim_wolfhead",
+      "originalClass": "EntityInfWolfHead",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInfWolfHead",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfWolfHead.java",
+        "line": 59,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sim_cowhead",
+      "originalClass": "EntityInfCowHead",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInfCowHead",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfCowHead.java",
+        "line": 59,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sim_pighead",
+      "originalClass": "EntityInfPigHead",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInfPigHead",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPigHead.java",
+        "line": 59,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sim_villagerhead",
+      "originalClass": "EntityInfVillagerHead",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInfVillagerHead",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfVillagerHead.java",
+        "line": 61,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sim_horsehead",
+      "originalClass": "EntityInfHorseHead",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInfHorseHead",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfHorseHead.java",
+        "line": 59,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sim_humanhead",
+      "originalClass": "EntityInfHumanHead",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInfHumanHead",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfHumanHead.java",
+        "line": 60,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sim_endermanhead",
+      "originalClass": "EntityInfEndermanHead",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInfEndermanHead",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfEndermanHead.java",
+        "line": 85,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sim_dragonehead",
+      "originalClass": "EntityInfDragonEHead",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInfDragonEHead",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java",
+        "line": 48,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sim_adventurerhead",
+      "originalClass": "EntityInfPlayerHead",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInfPlayerHead",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java",
+        "line": 59,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "mar_enderman",
+      "originalClass": "EntitySpeEnderman",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntitySpeEnderman",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeEnderman.java",
+        "line": 89,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "mar_cow",
+      "originalClass": "EntitySpeCow",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntitySpeCow",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java",
+        "line": 66,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "mar_villager",
+      "originalClass": "EntitySpeVillager",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntitySpeVillager",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeVillager.java",
+        "line": 57,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "mar_human",
+      "originalClass": "EntitySpeHuman",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntitySpeHuman",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeHuman.java",
+        "line": 64,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "mar_sheep",
+      "originalClass": "EntitySpeSheep",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntitySpeSheep",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeSheep.java",
+        "line": 57,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "mar_bear",
+      "originalClass": "EntitySpeBear",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntitySpeBear",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeBear.java",
+        "line": 75,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "fer_bear",
+      "originalClass": "EntityFerBear",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityFerBear",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/feral/EntityFerBear.java",
+        "line": 50,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "fer_cow",
+      "originalClass": "EntityFerCow",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityFerCow",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/feral/EntityFerCow.java",
+        "line": 50,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "fer_enderman",
+      "originalClass": "EntityFerEnderman",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityFerEnderman",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/feral/EntityFerEnderman.java",
+        "line": 93,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "fer_horse",
+      "originalClass": "EntityFerHorse",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityFerHorse",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/feral/EntityFerHorse.java",
+        "line": 50,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "fer_human",
+      "originalClass": "EntityFerHuman",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityFerHuman",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/feral/EntityFerHuman.java",
+        "line": 50,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "fer_pig",
+      "originalClass": "EntityFerPig",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityFerPig",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/feral/EntityFerPig.java",
+        "line": 50,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "fer_sheep",
+      "originalClass": "EntityFerSheep",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityFerSheep",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/feral/EntityFerSheep.java",
+        "line": 50,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "fer_villager",
+      "originalClass": "EntityFerVillager",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityFerVillager",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/feral/EntityFerVillager.java",
+        "line": 50,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "fer_wolf",
+      "originalClass": "EntityFerWolf",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityFerWolf",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/feral/EntityFerWolf.java",
+        "line": 51,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "abo_bodies",
+      "originalClass": "EntityAboBodies",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityAboBodies",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/abomination/EntityAboBodies.java",
+        "line": 94,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "abo_head",
+      "originalClass": "EntityAboHead",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityAboHead",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/abomination/EntityAboHead.java",
+        "line": 77,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "hi_blaze",
+      "originalClass": "EntityHiBlaze",
+      "baselineApplies": true,
+      "decidedBy": {
+        "class": "EntityHiBlaze",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiBlaze.java",
+        "line": 66,
+        "callsSuper": true
+      }
+    },
+    {
+      "id": "hi_golem",
+      "originalClass": "EntityHiGolem",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityHiGolem",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiGolem.java",
+        "line": 72,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "hi_skeleton",
+      "originalClass": "EntityHiSkeleton",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityHiSkeleton",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java",
+        "line": 48,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "carrier_heavy",
+      "originalClass": "EntityRathol",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityRathol",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityRathol.java",
+        "line": 85,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "carrier_light",
+      "originalClass": "EntityGothol",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityGothol",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityGothol.java",
+        "line": 85,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "buglin",
+      "originalClass": "EntityLodo",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityLodo",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java",
+        "line": 52,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "carrier_flying",
+      "originalClass": "EntityButhol",
+      "baselineApplies": true,
+      "decidedBy": {
+        "class": "EntityButhol",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityButhol.java",
+        "line": 103,
+        "callsSuper": true
+      }
+    },
+    {
+      "id": "rupter",
+      "originalClass": "EntityMudo",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityMudo",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityMudo.java",
+        "line": 186,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "movingflesh",
+      "originalClass": "EntityLesh",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityLesh",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityLesh.java",
+        "line": 71,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "worker",
+      "originalClass": "EntityKol",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityKol",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityKol.java",
+        "line": 52,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "mangler",
+      "originalClass": "EntityNuuh",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityNuuh",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityNuuh.java",
+        "line": 97,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "gnat",
+      "originalClass": "EntityAta",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityAta",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityAta.java",
+        "line": 83,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "lice",
+      "originalClass": "EntityViin",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityViin",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityViin.java",
+        "line": 85,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "beckon_si",
+      "originalClass": "EntityVenkrol",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityVenkrol",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/deterrent/nexus/EntityVenkrol.java",
+        "line": 60,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "beckon_sii",
+      "originalClass": "EntityVenkrolSII",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityVenkrolSII",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/deterrent/nexus/EntityVenkrolSII.java",
+        "line": 59,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "beckon_siii",
+      "originalClass": "EntityVenkrolSIII",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityVenkrolSIII",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/deterrent/nexus/EntityVenkrolSIII.java",
+        "line": 59,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "beckon_siv",
+      "originalClass": "EntityVenkrolSIV",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityVenkrolSIV",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/deterrent/nexus/EntityVenkrolSIV.java",
+        "line": 84,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "dispatcherten",
+      "originalClass": "EntityDodT",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityDodT",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/deterrent/EntityDodT.java",
+        "line": 52,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "dispatcher_si",
+      "originalClass": "EntityDod",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityDod",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/deterrent/nexus/EntityDod.java",
+        "line": 45,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "dispatcher_sii",
+      "originalClass": "EntityDodSII",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityDodSII",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/deterrent/nexus/EntityDodSII.java",
+        "line": 48,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "dispatcher_siii",
+      "originalClass": "EntityDodSIII",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityDodSIII",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/deterrent/nexus/EntityDodSIII.java",
+        "line": 48,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "dispatcher_siv",
+      "originalClass": "EntityDodSIV",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityDodSIV",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/deterrent/nexus/EntityDodSIV.java",
+        "line": 62,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "rooterball",
+      "originalClass": "EntityLeemB",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityLeemB",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/deterrent/EntityLeemB.java",
+        "line": 24,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "rooter_si",
+      "originalClass": "EntityLeem",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityLeem",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/deterrent/nexus/EntityLeem.java",
+        "line": 50,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "rooter_sii",
+      "originalClass": "EntityLeemSII",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityLeemSII",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/deterrent/nexus/EntityLeemSII.java",
+        "line": 54,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "rooter_siii",
+      "originalClass": "EntityLeemSIII",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityLeemSIII",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/deterrent/nexus/EntityLeemSIII.java",
+        "line": 60,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "rooter_siv",
+      "originalClass": "EntityLeemSIV",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityLeemSIV",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/deterrent/nexus/EntityLeemSIV.java",
+        "line": 59,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "kyphosis",
+      "originalClass": "EntityTonro",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityTonro",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/deterrent/EntityTonro.java",
+        "line": 54,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "sentry",
+      "originalClass": "EntityUnvo",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityUnvo",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/deterrent/EntityUnvo.java",
+        "line": 44,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "seizer",
+      "originalClass": "EntityNak",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityNak",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/deterrent/EntityNak.java",
+        "line": 63,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "worm",
+      "originalClass": "EntityRof",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityRof",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/deterrent/EntityRof.java",
+        "line": 51,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "incompleteform_small",
+      "originalClass": "EntityInhooS",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInhooS",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityInhooS.java",
+        "line": 65,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "incompleteform_medium",
+      "originalClass": "EntityInhooM",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityInhooM",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityInhooM.java",
+        "line": 65,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "host",
+      "originalClass": "EntityHost",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityHost",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java",
+        "line": 127,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "hostii",
+      "originalClass": "EntityHostII",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityHostII",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHostII.java",
+        "line": 132,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "heed",
+      "originalClass": "EntityHeed",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityHeed",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHeed.java",
+        "line": 82,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "crux",
+      "originalClass": "EntityCruxA",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityCruxA",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityCruxA.java",
+        "line": 114,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "crux_incomplete",
+      "originalClass": "EntityCruxB",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityCruxB",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityCruxB.java",
+        "line": 93,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "thrall",
+      "originalClass": "EntityMes",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityMes",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityMes.java",
+        "line": 112,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "dredge",
+      "originalClass": "EntityDone",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityDone",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityDone.java",
+        "line": 121,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "airscrew",
+      "originalClass": "EntityLeer",
+      "baselineApplies": true,
+      "decidedBy": {
+        "class": "EntityLeer",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityLeer.java",
+        "line": 75,
+        "callsSuper": true
+      }
+    },
+    {
+      "id": "carrier_worm",
+      "originalClass": "EntityQuac",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityQuac",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityQuac.java",
+        "line": 128,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "pri_longarms",
+      "originalClass": "EntityShyco",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityShyco",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityShyco.java",
+        "line": 63,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "pri_manducater",
+      "originalClass": "EntityHull",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityHull",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityHull.java",
+        "line": 64,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "pri_reeker",
+      "originalClass": "EntityNogla",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityNogla",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityNogla.java",
+        "line": 92,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "pri_yelloweye",
+      "originalClass": "EntityEmana",
+      "baselineApplies": true,
+      "decidedBy": {
+        "class": "EntityEmana",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityEmana.java",
+        "line": 69,
+        "callsSuper": true
+      }
+    },
+    {
+      "id": "pri_summoner",
+      "originalClass": "EntityCanra",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityCanra",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityCanra.java",
+        "line": 76,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "pri_bolster",
+      "originalClass": "EntityBano",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityBano",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityBano.java",
+        "line": 54,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "pri_tozoon",
+      "originalClass": "EntityWymo",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityWymo",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityWymo.java",
+        "line": 82,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "pri_arachnida",
+      "originalClass": "EntityRanrac",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityRanrac",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityRanrac.java",
+        "line": 72,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "pri_devourer",
+      "originalClass": "EntityLum",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityLum",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityLum.java",
+        "line": 65,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "pri_vermin",
+      "originalClass": "EntityIki",
+      "baselineApplies": true,
+      "decidedBy": {
+        "class": "EntityIki",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityIki.java",
+        "line": 87,
+        "callsSuper": true
+      }
+    },
+    {
+      "id": "pri_viscera",
+      "originalClass": "EntityGim",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityGim",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityGim.java",
+        "line": 46,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "pri_burrower",
+      "originalClass": "EntityZaa",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityZaa",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/primitive/EntityZaa.java",
+        "line": 77,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "ada_longarms",
+      "originalClass": "EntityShycoAdapted",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityShycoAdapted",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/adapted/EntityShycoAdapted.java",
+        "line": 85,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "ada_manducater",
+      "originalClass": "EntityHullAdapted",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityHullAdapted",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/adapted/EntityHullAdapted.java",
+        "line": 129,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "ada_reeker",
+      "originalClass": "EntityNoglaAdapted",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityNoglaAdapted",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/adapted/EntityNoglaAdapted.java",
+        "line": 79,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "ada_yelloweye",
+      "originalClass": "EntityEmanaAdapted",
+      "baselineApplies": true,
+      "decidedBy": {
+        "class": "EntityEmanaAdapted",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/adapted/EntityEmanaAdapted.java",
+        "line": 73,
+        "callsSuper": true
+      }
+    },
+    {
+      "id": "ada_summoner",
+      "originalClass": "EntityCanraAdapted",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityCanraAdapted",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/adapted/EntityCanraAdapted.java",
+        "line": 91,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "ada_bolster",
+      "originalClass": "EntityBanoAdapted",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityBanoAdapted",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/adapted/EntityBanoAdapted.java",
+        "line": 70,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "ada_tozoon",
+      "originalClass": "EntityWymoAdapted",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityWymoAdapted",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/adapted/EntityWymoAdapted.java",
+        "line": 82,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "ada_arachnida",
+      "originalClass": "EntityRanracAdapted",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityRanracAdapted",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/adapted/EntityRanracAdapted.java",
+        "line": 77,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "ada_devourer",
+      "originalClass": "EntityLumAdapted",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityLumAdapted",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/adapted/EntityLumAdapted.java",
+        "line": 65,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "ada_vermin",
+      "originalClass": "EntityIkiAdapted",
+      "baselineApplies": true,
+      "decidedBy": {
+        "class": "EntityIkiAdapted",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/adapted/EntityIkiAdapted.java",
+        "line": 82,
+        "callsSuper": true
+      }
+    },
+    {
+      "id": "ada_viscera",
+      "originalClass": "EntityGimAdapted",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityGimAdapted",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/adapted/EntityGimAdapted.java",
+        "line": 54,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "ada_burrower",
+      "originalClass": "EntityZaaAdapted",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityZaaAdapted",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/adapted/EntityZaaAdapted.java",
+        "line": 77,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "overseer",
+      "originalClass": "EntityAlafha",
+      "baselineApplies": true,
+      "decidedBy": {
+        "class": "EntityAlafha",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/pure/EntityAlafha.java",
+        "line": 77,
+        "callsSuper": true
+      }
+    },
+    {
+      "id": "vigilante",
+      "originalClass": "EntityAnged",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityAnged",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/pure/EntityAnged.java",
+        "line": 58,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "warden",
+      "originalClass": "EntityGanro",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityGanro",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/pure/EntityGanro.java",
+        "line": 78,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "bomber_light",
+      "originalClass": "EntityOmboo",
+      "baselineApplies": true,
+      "decidedBy": {
+        "class": "EntityOmboo",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/pure/EntityOmboo.java",
+        "line": 56,
+        "callsSuper": true
+      }
+    },
+    {
+      "id": "marauder",
+      "originalClass": "EntityEsor",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityEsor",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/pure/EntityEsor.java",
+        "line": 76,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "monarch",
+      "originalClass": "EntityOrch",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityOrch",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/pure/EntityOrch.java",
+        "line": 67,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "grunt",
+      "originalClass": "EntityFlog",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityFlog",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/pure/EntityFlog.java",
+        "line": 56,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "bomber_heavy",
+      "originalClass": "EntityJinjo",
+      "baselineApplies": true,
+      "decidedBy": {
+        "class": "EntityJinjo",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/pure/preeminent/EntityJinjo.java",
+        "line": 61,
+        "callsSuper": true
+      }
+    },
+    {
+      "id": "wraith",
+      "originalClass": "EntityElvia",
+      "baselineApplies": true,
+      "decidedBy": {
+        "class": "EntityElvia",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/pure/preeminent/EntityElvia.java",
+        "line": 66,
+        "callsSuper": true
+      }
+    },
+    {
+      "id": "bogle",
+      "originalClass": "EntityLencia",
+      "baselineApplies": true,
+      "decidedBy": {
+        "class": "EntityLencia",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/pure/preeminent/EntityLencia.java",
+        "line": 63,
+        "callsSuper": true
+      }
+    },
+    {
+      "id": "haunter",
+      "originalClass": "EntityPheon",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityPheon",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/pure/preeminent/EntityPheon.java",
+        "line": 71,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "carrier_colony",
+      "originalClass": "EntityVesta",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityVesta",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/pure/preeminent/EntityVesta.java",
+        "line": 51,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "succor",
+      "originalClass": "EntityFlam",
+      "baselineApplies": true,
+      "decidedBy": {
+        "class": "EntityFlam",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/pure/preeminent/EntityFlam.java",
+        "line": 68,
+        "callsSuper": true
+      }
+    },
+    {
+      "id": "seeker",
+      "originalClass": "EntitySoo",
+      "baselineApplies": true,
+      "decidedBy": {
+        "class": "EntitySoo",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/pure/EntitySoo.java",
+        "line": 66,
+        "callsSuper": true
+      }
+    },
+    {
+      "id": "architect",
+      "originalClass": "EntityTenn",
+      "baselineApplies": true,
+      "decidedBy": {
+        "class": "EntityTenn",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/pure/preeminent/EntityTenn.java",
+        "line": 67,
+        "callsSuper": true
+      }
+    },
+    {
+      "id": "anc_dreadnaut",
+      "originalClass": "EntityOronco",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityOronco",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/ancient/EntityOronco.java",
+        "line": 84,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "anc_overlord",
+      "originalClass": "EntityTerla",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityTerla",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/ancient/EntityTerla.java",
+        "line": 57,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "anc_pod",
+      "originalClass": "EntityDropPod",
+      "baselineApplies": true,
+      "decidedBy": {
+        "class": "net.minecraft.entity.monster.EntityMob (vanilla, not in decompile)",
+        "line": null,
+        "callsSuper": true
+      }
+    },
+    {
+      "id": "anc_dreadnaut_ten",
+      "originalClass": "EntityOroncoTen",
+      "baselineApplies": true,
+      "decidedBy": {
+        "class": "net.minecraft.entity.monster.EntityMob (vanilla, not in decompile)",
+        "line": null,
+        "callsSuper": true
+      }
+    },
+    {
+      "id": "kirin",
+      "originalClass": "EntityKirin",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityKirin",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/derived/EntityKirin.java",
+        "line": 151,
+        "callsSuper": false
+      }
+    },
+    {
+      "id": "draconite",
+      "originalClass": "EntityHeblu",
+      "baselineApplies": false,
+      "decidedBy": {
+        "class": "EntityHeblu",
+        "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/derived/EntityHeblu.java",
+        "line": 106,
+        "callsSuper": false
+      }
+    }
+  ]
+}

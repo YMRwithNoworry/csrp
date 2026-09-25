@@ -1,0 +1,826 @@
+{
+  "id": "buglin",
+  "originalClass": "EntityLodo",
+  "projectClass": "BuglinEntity",
+  "facets": [
+    {
+      "name": "registration",
+      "clauses": [
+        {
+          "clause": "CreateEntityMob(\"buglin\", EntityLodo.class, id 5, egg 3224855/3224855)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:294",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:136"
+          },
+          "note": "两条注册 id 均为 buglin；原版数值 id 5 在 26.3 无对应概念，不影响注册身份"
+        },
+        {
+          "clause": "builder.name(\"srparasites.\" + name) 语言键 entity.srparasites.buglin.name",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:189",
+            "project": "src/main/resources/assets/csrp/lang/en_us.json:26"
+          },
+          "note": "翻译键前缀由 srparasites 改为 csrp，语义等价"
+        },
+        {
+          "clause": "注册受 SRPConfigMobs.lodoEnabled 开关控制（禁用时不注册）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:183",
+            "project": null
+          },
+          "note": "工程无 per-mob 启用开关，buglin 始终注册"
+        },
+        {
+          "clause": "func_70105_a(0.5F, 0.3F) 碰撞箱",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:39",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:138"
+          }
+        },
+        {
+          "clause": "func_70047_e() 返回 0.3F 眼高",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:169",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:137"
+          },
+          "note": "工程未声明 eyeHeight，26.3 默认 0.3*0.85=0.255，与原版 0.3 不一致"
+        },
+        {
+          "clause": "EntityEntryBuilder.tracker(64, 3, true) 追踪范围 64 / 更新间隔 3 / 速度同步",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:191",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:139"
+          },
+          "note": "工程 clientTrackingRange(8)、未显式 updateInterval(默认3)、无 setShouldReceiveVelocityUpdates"
+        },
+        {
+          "clause": "vanillaEggs 开关与刷怪蛋颜色 3224855/3224855",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:193",
+            "project": "src/main/java/alku/csrp/registry/ModItems.java:68"
+          },
+          "note": "工程颜色 0x8B1E1E/0xE1B85B（原版 0x313517/0x313517），且无 vanillaEggs 开关"
+        },
+        {
+          "clause": "注册为 MONSTER 刷怪类别（SRPSpawning.addSpawn(type 0)）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:147",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:137"
+          }
+        },
+        {
+          "clause": "getParasiteIDRegister() 返回 5（巢穴/群体系统使用的数字寄生虫 id）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:48",
+            "project": null
+          },
+          "note": "工程改用字符串注册 id，无数字寄生虫 id 体系"
+        }
+      ],
+      "confidence": "high",
+      "status": "partial"
+    },
+    {
+      "name": "attributes",
+      "clauses": [
+        {
+          "clause": "MAX_HEALTH = SRPAttributes.LODO_HEALTH = 7.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:78",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:65"
+          }
+        },
+        {
+          "clause": "ARMOR = LODO_ARMOR = 1.5",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:79",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:66"
+          }
+        },
+        {
+          "clause": "MOVEMENT_SPEED = 0.2",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:80",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:69"
+          }
+        },
+        {
+          "clause": "ATTACK_DAMAGE = LODO_ATTACK_DAMAGE = 3.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:81",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:67"
+          }
+        },
+        {
+          "clause": "KNOCKBACK_RESISTANCE = LODO_KD_RESISTANCE = 0.05",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:82",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:68"
+          }
+        },
+        {
+          "clause": "lodoHealthMultiplier/lodoArmorMultiplier/lodoDamageMultiplier/lodoKDResistanceMultiplier 与全局乘数相乘",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:1272",
+            "project": "src/main/java/alku/csrp/config/OriginalConfigEvents.java:38"
+          },
+          "note": "工程仅实现全局乘数（globalHealthMultiplier 等），无 lodo 专属乘数"
+        }
+      ],
+      "confidence": "high",
+      "status": "partial"
+    },
+    {
+      "name": "ai",
+      "clauses": [
+        {
+          "clause": "targetTasks.addTask(1, EntityAIHurtByTarget(this, true, new Class[0]))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:53",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:97"
+          },
+          "note": "HurtByTargetGoal(...).setAlertOthers() 对应 true 语义",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java",
+            "line": 53
+          }
+        },
+        {
+          "clause": "tasks.addTask(0, EntityAISwimming)（EntityMob 继承）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:54",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:91"
+          },
+          "note": "FloatGoal 为 26.3 的等价 SwimGoal",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java",
+            "line": 54
+          }
+        },
+        {
+          "clause": "tasks.addTask(3, EntityAIAvoidEntity(EntityLivingBase, predicate(!WaterMob && !Creeper && !ParasiteBase && !Animal), 8.0F, 1.0, 1.0))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:55",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:92"
+          },
+          "note": "距离与排除条件一致（WaterAnimal/Creeper/Parasite/Animal）；优先级 3 变为 1",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java",
+            "line": 58
+          }
+        },
+        {
+          "clause": "tasks.addTask(0, EntityAIWait)（基类等待状态机）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:189",
+            "project": null
+          },
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java",
+            "line": 155
+          }
+        },
+        {
+          "clause": "tasks.addTask(5, EntityAIWanderStatus(1.0, 120, 0.001, true))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:190",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:95"
+          },
+          "note": "工程使用原版 WaterAvoidingRandomStrollGoal(1.0)，未实现 EntityAIWanderStatus 的 checkPositionWander 与 0.001 触发概率",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java",
+            "line": 157
+          }
+        },
+        {
+          "clause": "tasks.addTask(6, EntityAIParasiteFollow(1.3, 16.0, 6.0, true))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:191",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:94"
+          },
+          "note": "ParasiteFollowGoal 采用同样的 16/6 距离与 1.3 速度",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java",
+            "line": 156
+          }
+        },
+        {
+          "clause": "tasks.addTask(5, EntityAIJumping)（跳上高台）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:192",
+            "project": null
+          },
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java",
+            "line": 154
+          }
+        },
+        {
+          "clause": "tasks.addTask(2, EntityAIAttackMelee(this, 1.0, false))（EntityMob 继承的近战任务）",
+          "verdict": "na",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:32",
+            "project": null
+          },
+          "note": "EntityLodo 继承 1.12.2 EntityMob，其构造器注册该近战任务；工程 BuglinEntity 无任何攻击 goal",
+          "reviewNote": "cross-check: 原版继承链上未注册 EntityAIAttackMelee（initEntityAI 覆盖且未调用 super，见 original-ai-baseline.json），该条款不成立。",
+          "groundTruth": {
+            "verified": false,
+            "file": null,
+            "line": null
+          }
+        },
+        {
+          "clause": "targetTasks.addTask(2, EntityAINearestAttackableTarget(EntityPlayer))（EntityMob 继承）",
+          "verdict": "na",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:32",
+            "project": null
+          },
+          "note": "工程 buglin 只在被攻击后反击，缺少原版对玩家的主动索敌",
+          "reviewNote": "cross-check: 原版继承链上未注册 EntityAINearestAttackableTarget（initEntityAI 覆盖且未调用 super，见 original-ai-baseline.json），该条款不成立。",
+          "groundTruth": {
+            "verified": false,
+            "file": null,
+            "line": null
+          }
+        },
+        {
+          "clause": "tasks.addTask(5, EntityAIWanderAvoidWater(1.0))（EntityMob 继承）",
+          "verdict": "na",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:32",
+            "project": null
+          },
+          "note": "与基类 aiWander 合并为同一个 WaterAvoidingRandomStrollGoal",
+          "reviewNote": "cross-check: 原版继承链上未注册 EntityAIWanderAvoidWater（initEntityAI 覆盖且未调用 super，见 original-ai-baseline.json），该条款不成立。",
+          "groundTruth": {
+            "verified": false,
+            "file": null,
+            "line": null
+          }
+        },
+        {
+          "clause": "tasks.addTask(6, EntityAIWatchClosest(EntityPlayer, 8.0F))（EntityMob 继承）",
+          "verdict": "na",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:32",
+            "project": null
+          },
+          "reviewNote": "cross-check: 原版继承链上未注册 EntityAIWatchClosest（initEntityAI 覆盖且未调用 super，见 original-ai-baseline.json），该条款不成立。",
+          "groundTruth": {
+            "verified": false,
+            "file": null,
+            "line": null
+          }
+        },
+        {
+          "clause": "tasks.addTask(6, EntityAILookIdle)（EntityMob 继承）",
+          "verdict": "na",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:32",
+            "project": null
+          },
+          "note": "RandomLookAroundGoal 语义等价；优先级 6 变为 4",
+          "reviewNote": "cross-check: 原版继承链上未注册 EntityAILookIdle（initEntityAI 覆盖且未调用 super，见 original-ai-baseline.json），该条款不成立。",
+          "groundTruth": {
+            "verified": false,
+            "file": null,
+            "line": null
+          }
+        }
+      ],
+      "confidence": "medium",
+      "status": "partial"
+    },
+    {
+      "name": "behaviors",
+      "clauses": [
+        {
+          "clause": "totalGrowtime = rand.nextInt(60) + 60（秒），每 20 tick actualGrowtime++",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:41",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:59"
+          }
+        },
+        {
+          "clause": "growStage 触发条件 actualGrowtime > totalGrowtime && ParasiteEventEntity.canSpawnNext || killcount > 1000",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:152",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:134"
+          },
+          "note": "工程只比较计时器，缺少 canSpawnNext 阶段门控与 killcount>1000 强制进化分支"
+        },
+        {
+          "clause": "进化时播放 LODO_MUDO 并 spawnNext(new EntityMudo)（继承自定义名/持久性）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:153",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:152"
+          },
+          "note": "工程对应生成 rupter 并继承名字与 persistenceRequired"
+        },
+        {
+          "clause": "killcount 初始为 -10.0（不参与击杀进化累加）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:42",
+            "project": null
+          },
+          "note": "工程 BuglinEntity 无 killcount 字段"
+        },
+        {
+          "clause": "type = 1、buried 初始 -1.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:43",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:54"
+          },
+          "note": "buried 以 emergenceTicks 表达，未设置时为 0 等价于未埋地"
+        },
+        {
+          "clause": "setFloorTimer() 置 buried = 1.0，由虫灵方块 BlockBuglin 生成实体时调用",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/block/BlockBuglin.java:69",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:84"
+          },
+          "note": "工程由 TunnelBlock 调用 startBuriedEmergence() 实现同一语义"
+        },
+        {
+          "clause": "埋地期间 navigation.stop 且水平坐标锁定（回写 field_70165_t/field_70161_v），每 tick buried -= 0.02",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:104",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:127"
+          },
+          "note": "0.02/tick 与 EMERGENCE_TICKS = 50 的埋地时长一致"
+        },
+        {
+          "clause": "埋地期间每 tick 生成 2 个 BLOCK_CRACK 粒子（使用脚下方块 id）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:113",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:157"
+          },
+          "note": "BlockParticleOption(ParticleTypes.BLOCK) 语义等价；工程每 2 tick 发送 2 个粒子"
+        },
+        {
+          "clause": "buried == 1.0 时播放 SRPSounds.LODO_EMERGE（SoundCategory.BLOCKS）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:95",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:116"
+          },
+          "note": "触发时机同为埋地开始的那一 tick"
+        },
+        {
+          "clause": "埋地时若 getParasiteStatus() == 3 则重置为 0",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:99",
+            "project": null
+          },
+          "note": "工程 buglin 无 parasite status 状态位"
+        },
+        {
+          "clause": "NBT \"ruptergrow\" 保存/读取 actualGrowtime",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:201",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:187"
+          },
+          "note": "工程另存 ruptergrow_target（生长目标），属增强"
+        },
+        {
+          "clause": "func_184645_a 无特殊交互（仅转发 super）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:165",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:42"
+          },
+          "note": "工程同样未覆写交互逻辑；原版实现本身为空"
+        },
+        {
+          "clause": "onDeathDislo 强制返回 false（不参与错位死亡事件）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:174",
+            "project": null
+          },
+          "note": "工程无 dislo（错位）系统"
+        }
+      ],
+      "confidence": "medium",
+      "status": "partial"
+    },
+    {
+      "name": "damage_and_effects",
+      "clauses": [
+        {
+          "clause": "func_82167_n：每 20 tick 对碰撞到的 EntityLivingBase 施加 COTH_E(100 tick, amp 0)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:146",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:175"
+          },
+          "note": "工程 push() 排除了 parasite（原版对同类也施加 COTH）；时长与等级一致"
+        },
+        {
+          "clause": "毒伤害治愈：source == magic && 自身带 poison && amount == 1.0 → 治疗 genePoisonHealing 并返回 false",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:635",
+            "project": null
+          }
+        },
+        {
+          "clause": "火焰伤害乘数 SRPConfig.firemultyplier（默认 4.0）与 20% 概率施加 RAGE",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:795",
+            "project": null
+          },
+          "note": "工程 BuglinEntity 无火焰增伤与 RAGE"
+        },
+        {
+          "clause": "免疫 COTH/VIRA/CORRO/DLER 效果（func_70687_e 返回 false）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1084",
+            "project": null
+          },
+          "note": "工程未覆写 canBeAffected"
+        },
+        {
+          "clause": "被攻击时 10% 概率触发 attackEntityFromEffects(1,1)（血块表现）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:664",
+            "project": null
+          },
+          "note": "EntityLodo 未覆写该钩子但基类仍会调用；工程 BuglinEntity 直接继承 Monster，无此入口"
+        },
+        {
+          "clause": "免于载具碰撞（func_184228_n 对船/矿车返回 false）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1095",
+            "project": null
+          }
+        }
+      ],
+      "confidence": "medium",
+      "status": "missing"
+    },
+    {
+      "name": "sync_data",
+      "clauses": [
+        {
+          "clause": "SPECIAL(byte) 寄生虫状态同步（埋地重置状态用）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:134",
+            "project": null
+          }
+        },
+        {
+          "clause": "SKIN(byte) 皮肤/变体同步",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:136",
+            "project": null
+          }
+        },
+        {
+          "clause": "SELFE(int)/COLD_L(bool)/DISLO15(bool) 同步参数",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:135",
+            "project": null
+          },
+          "note": "分别对应自爆计时、寒冷变体与 dislo15，工程均无"
+        },
+        {
+          "clause": "埋地状态同步到客户端（func_70103_a(50) 设置 buried = 1.0）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:223",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:115"
+          },
+          "note": "工程用 triggerAnim + CitadelAnimationTriggerPayload 网络包同步动画触发器，语义等价"
+        },
+        {
+          "clause": "NBT 持久化 parasitetype/parasitekills/phasecreat 等（func_70014_b）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1742",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:185"
+          },
+          "note": "工程仅持久化生长计时与目标，字段集大幅缩减"
+        }
+      ],
+      "confidence": "medium",
+      "status": "missing"
+    },
+    {
+      "name": "animation",
+      "clauses": [
+        {
+          "clause": "常驻摆动动画（ModelLodo 中 ageInTicks*0.643219 的 idle 分支）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/inborn/ModelLodo.java:182",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:47"
+          },
+          "note": "动画名 age_in_ticks 与 animations/buglin.animation.json 键一致"
+        },
+        {
+          "clause": "行走动画（getFloorTimer() < 0 分支，用 limbSwing/limbSwingAmount 摆动 joint1..5）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/inborn/ModelLodo.java:197",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:47"
+          },
+          "note": "工程只注册一个 age_controller 常驻循环，未见按 limbSwing 区分的独立行走动画层"
+        },
+        {
+          "clause": "埋地/出土动画（getFloorTimer() >= 0 分支，mainbody.offsetZ = buried）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/inborn/ModelLodo.java:173",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:49"
+          },
+          "note": "工程以 triggerableAnim(\"get_floor_timer\") 播放，但动画片段 animation_length=4.35s 与 50 tick(2.5s) 埋地时长不一致"
+        }
+      ],
+      "confidence": "medium",
+      "status": "partial"
+    },
+    {
+      "name": "model_texture",
+      "clauses": [
+        {
+          "clause": "模型 ModelLodo（client/model/entity/inborn/ModelLodo.java）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/inborn/ModelLodo.java:1",
+            "project": "src/main/resources/assets/csrp/geo/buglin.geo.json:1"
+          },
+          "note": "1.12.2 手写模型改为 Tabula/Citadel geo，几何语义等价"
+        },
+        {
+          "clause": "贴图 srparasites:textures/entity/monster/lodo.png",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/inborn/RenderLodo.java:10",
+            "project": "src/main/java/alku/csrp/client/model/CitadelParasiteModel.java:31"
+          },
+          "note": "工程贴图 csrp:textures/entity/buglin.png，命名改写但语义等价"
+        },
+        {
+          "clause": "冰冻变体贴图 slodo.png（skin 120）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/inborn/RenderLodo.java:11",
+            "project": null
+          },
+          "note": "工程 BuglinModel 使用固定贴图，无 skin 120 分支"
+        },
+        {
+          "clause": "阴影半径 0.2F",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/inborn/RenderLodo.java:14",
+            "project": "src/main/java/alku/csrp/client/renderer/BuglinRenderer.java:10"
+          },
+          "note": "工程 0.25F 与原版 0.2F 不一致"
+        },
+        {
+          "clause": "模型尺寸/可见边界与 0.5x0.3 碰撞箱匹配",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/inborn/ModelLodo.java:166",
+            "project": "src/main/resources/assets/csrp/geo/buglin.geo.json:7"
+          },
+          "note": "geo visible_bounds_width/height 已声明，缩放与渲染器默认一致"
+        },
+        {
+          "clause": "IHitboxedEntity 命中箱系统（EntityParasiteBase.hitboxes 更新/重置）",
+          "verdict": "na",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:319",
+            "project": null
+          },
+          "note": "EntityLodo 未定义 hitboxes 数组，该机制对本生物不生效"
+        }
+      ],
+      "confidence": "medium",
+      "status": "partial"
+    },
+    {
+      "name": "sounds",
+      "clauses": [
+        {
+          "clause": "getAmbientSound = SRPSounds.LODO_GROWL",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:178",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:205"
+          },
+          "note": "工程 ModSounds.BUGLIN_GROWL 注册为 lodo.growl"
+        },
+        {
+          "clause": "getHurtSound = SRPSounds.LODO_HURT",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:182",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:210"
+          },
+          "note": "工程 ModSounds.BUGLIN_HURT 注册为 lodo.hurt"
+        },
+        {
+          "clause": "getDeathSound = SRPSounds.LODO_DEATH",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:186",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:214"
+          },
+          "note": "工程 ModSounds.BUGLIN_DEATH 注册为 lodo.death"
+        },
+        {
+          "clause": "func_180429_a 播放 getStepSound() = SRPSounds.MOBSILENCE（脚步静音）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:190",
+            "project": null
+          },
+          "note": "工程未覆写脚步音效，会播放方块脚步音"
+        },
+        {
+          "clause": "进化播放 SRPSounds.LODO_MUDO（音量/音高 1.0）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:153",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:152"
+          },
+          "note": "工程 ModSounds.BUGLIN_GROW 注册为 lodo.mudo"
+        },
+        {
+          "clause": "出土播放 SRPSounds.LODO_EMERGE，原版 SoundCategory.BLOCKS",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:95",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:116"
+          },
+          "note": "工程 playSound 使用默认分类（NEUTRAL），非 BLOCKS"
+        },
+        {
+          "clause": "sounds.json 中 lodo.growl/hurt/death/mudo/emerge 五个事件定义",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSounds.java:610",
+            "project": "src/main/resources/assets/csrp/sounds.json:1403"
+          },
+          "note": "工程同样定义 lodo.* 五条（含 emerge）"
+        }
+      ],
+      "confidence": "high",
+      "status": "partial"
+    },
+    {
+      "name": "spawning",
+      "clauses": [
+        {
+          "clause": "阶段生成表 phase 0/1/2 条目 \"srparasites:buglin;2;6;30\"（weight 30, group 2-6）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems.java:249",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:45"
+          },
+          "note": "工程 PHASE_ZERO/ONE/TWO 均为 spawn(\"buglin\", 2, 6, 30)，数值完全一致"
+        },
+        {
+          "clause": "非阶段路径：所有生物群系 MONSTER 表加入 Lodo（weight lodoSpawnRate=30, group 2-5）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:147",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:288"
+          },
+          "note": "工程 select() 仅走阶段/泛生表路径，未见对所有生物群系 MONSTER 表无条件加入 buglin"
+        },
+        {
+          "clause": "生成阶段门控（SRPSaveData evolution phase，仅 phase 0-2 出现）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems.java:249",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:75"
+          },
+          "note": "工程 checkBuglinSpawnRules 限定 phase 0..2"
+        },
+        {
+          "clause": "光照规则 isValidLightLevelOne/Two（天空光随机阈值 + 方块光 <=7 时 1/8 概率）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1632",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:76"
+          },
+          "note": "工程复用 Monster.checkAnyLightMonsterSpawnRules，未实现原版两级光照判定"
+        },
+        {
+          "clause": "生成天数门控 SRPConfig.spawnDays <= worldTime/24000",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1560",
+            "project": null
+          }
+        },
+        {
+          "clause": "虫灵方块 BlockBuglin 在条件满足时生成 Lodo 并置埋地计时",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/block/BlockBuglin.java:44",
+            "project": "src/main/java/alku/csrp/block/TunnelBlock.java:93"
+          },
+          "note": "工程 TunnelBlock 在 1.0 半径无 buglin 且 16 半径寄生虫 <=10 时生成，与原版条件一致"
+        }
+      ],
+      "confidence": "medium",
+      "status": "partial"
+    },
+    {
+      "name": "loot",
+      "clauses": [
+        {
+          "clause": "未覆写 dropFewItems/entityDropItem → 无物品掉落",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:32",
+            "project": "src/main/resources/data/csrp/loot_table/entities/buglin.json:1"
+          },
+          "note": "工程 loot table pools 为空"
+        },
+        {
+          "clause": "经验值 = SRPAttributes.XP_LiTTLE（= infectedXPValue/2 = 4）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityLodo.java:40",
+            "project": "src/main/java/alku/csrp/entity/BuglinEntity.java:60"
+          },
+          "note": "工程 xpReward = 1，原版为 4（SRPConfig.infectedXPValue 默认 8）"
+        },
+        {
+          "clause": "死亡钩子：spawnCyst / spawnBeckon / leaveScent / origin 生命与进化分值扣减",
+          "verdict": "missing",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1324",
+            "project": null
+          },
+          "note": "工程 BuglinEntity 无死亡钩子"
+        }
+      ],
+      "confidence": "medium",
+      "status": "partial"
+    }
+  ],
+  "missingSummary": [
+    "缺少 per-mob 启用开关（SRPConfigMobs.lodoEnabled）与 lodo 专属属性乘数",
+    "AI 缺失 EntityMob 继承的玩家索敌与近战、EntityAIJumping、EntityAIWait、EntityAIWatchClosest",
+    "缺少 parasite status/SKIN/SELFE 等同步数据与数字寄生虫 id",
+    "毒伤害治愈、火焰乘数、效果免疫、RAGE、载具免疫等基类伤害规则未移植",
+    "冰冻变体贴图（slodo）与脚步静音音效缺失",
+    "经验值 1 而非 XP_LiTTLE(4)；缺少死亡钩子（spawnCyst/spawnBeckon/leaveScent）"
+  ],
+  "confidence": "medium"
+}

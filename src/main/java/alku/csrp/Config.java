@@ -72,6 +72,23 @@ public final class Config {
     private static final ModConfigSpec.DoubleValue PRIMITIVE_MINIMUM_DAMAGE = BUILDER
             .comment("Armor-bypassing minimum damage dealt by primitive parasite special attacks.")
             .defineInRange("primitiveMinimumDamage", 2.0D, 0.0D, 1000.0D);
+    private static final ModConfigSpec.IntValue INFECTED_DAMAGE_CAP = BUILDER
+            .comment("Legacy infected damage cap divisor: incoming damage is clamped to"
+                    + " maxHealth / cap + maxHealth % cap * 0.5 and reaching the cap grants RAGE II."
+                    + " 1 disables the cap (SRPConfig.infectedCap).")
+            .defineInRange("infectedDamageCap", 2, 1, 100);
+    private static final ModConfigSpec.DoubleValue INFECTED_MINIMUM_DAMAGE = BUILDER
+            .comment("Armor-bypassing minimum damage dealt by assimilated melee attacks"
+                    + " (SRPConfig.infectedMinDamage).")
+            .defineInRange("infectedMinimumDamage", 0.5D, 0.0D, 1000.0D);
+    private static final ModConfigSpec.DoubleValue INFECTED_FOOD_STEAL = BUILDER
+            .comment("Chance for an assimilated hit to steal food from a player; the stolen item"
+                    + " drops as assimilated flesh (legacy foodSteal).")
+            .defineInRange("infectedFoodSteal", 0.1D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue INFECTED_POISON_HEALING = BUILDER
+            .comment("Health an assimilated parasite regains per kill, as a fraction of the victim's"
+                    + " maximum health (legacy geneMobHealing).")
+            .defineInRange("infectedKillHeal", 1.0D, 0.0D, 100.0D);
     private static final ModConfigSpec.BooleanValue USE_EVOLUTION_PHASES = BUILDER
             .comment("Use SRP evolution phases instead of the legacy difficulty killcount behavior.")
             .define("useEvolutionPhases", true);
@@ -588,6 +605,10 @@ public final class Config {
 
     public static double killcountPlus() { return KILLCOUNT_PLUS.get(); }
     public static float primitiveMinimumDamage() { return PRIMITIVE_MINIMUM_DAMAGE.get().floatValue(); }
+    public static int infectedDamageCap() { return INFECTED_DAMAGE_CAP.get(); }
+    public static float infectedMinimumDamage() { return INFECTED_MINIMUM_DAMAGE.get().floatValue(); }
+    public static float infectedFoodSteal() { return INFECTED_FOOD_STEAL.get().floatValue(); }
+    public static float infectedKillHeal() { return INFECTED_POISON_HEALING.get().floatValue(); }
     public static boolean useEvolutionPhases() { return USE_EVOLUTION_PHASES.get(); }
     public static boolean generationEnabled() { return GENERATION_ENABLED.get(); }
     public static boolean pearlDestroyedOnBeholderKill() { return PEARL_DESTROYED_ON_BEHOLDER_KILL.get(); }
