@@ -668,7 +668,7 @@ public final class ModEntities {
     private static <T extends net.minecraft.world.entity.Mob> DeferredHolder<EntityType<?>, EntityType<T>> monster(
             String id, EntityType.EntityFactory<T> factory, float width, float height, float eyeHeight) {
         return ENTITIES.register(id, () -> EntityType.Builder.of(factory, MobCategory.MONSTER)
-                .sized(width, height).eyeHeight(eyeHeight).clientTrackingRange(8)
+                .sized(width, height).eyeHeight(eyeHeight).clientTrackingRange(4).updateInterval(3)
                 .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, id).toString()));
     }
 

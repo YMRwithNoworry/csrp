@@ -2567,3 +2567,14 @@ if (!level().isClientSide && isAlive() && selfeFuse.isActive(this) && selfeFuse.
 **3 参重载**（`:627`）给 `clientTrackingRange(4)`（64 格，**与原版 `tracker(64,3,true)` 一致** ✔），
 而 **4 参 eyeHeight 重载**（`:668`）**静默改为 8 区块（128 格）** ✗。这正是批次 88 我"证据不足、不动手"的那 5 处之一，
 如今有了成因解释与对照证据（同库 3 参重载即为 4）⇒ **下一批可据此把 4 参重载也对齐为 4**（并复核其余 4 处）。
+
+## 批次 164：4 参 `monster()` 重载 tracker 对齐（悬案之一结清）（2026-09-25 续）
+
+按批次 163 的跨类提示与对照证据落地：`ModEntities` 的 **4 参 eyeHeight 重载**（`:668`）原为
+`.sized(width, height).eyeHeight(eyeHeight).clientTrackingRange(8)`（128 格）✗，
+已对齐为 **`.clientTrackingRange(4).updateInterval(3)`**（64 格 / 间隔 3），与**3 参重载及原版 `tracker(64,3,true)` 一致** ✔。
+
+残留 `clientTrackingRange(8)` 由 **5 处降至 4 处**：`buglin`、`rupter`、`kirin`（直接注册）与 `parasite_projectile`
+（弹体，`updateInterval(1)` 属合理特例）。这 4 处**仍缺逐实体原版证据** ⇒ 维持批次 88 的判断（不动手）。
+
+**流程纪律**：本批严格按新硬性顺序执行——**先 `build` → 再跑套件（99/79/20 基线 ✔）→ 才提交**。
