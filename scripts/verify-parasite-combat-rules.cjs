@@ -401,6 +401,16 @@ for (const [pattern, message] of [
 ]) expect(hiskeletonSpawn, pattern, message);
 expect(mobsConfig, /public static double hiskeletonHealthMultiplier\(\)/, "the hiskeleton accessors are missing");
 
+// legacy SRPConfigMobs.marcow* multipliers are read by the marauderized cow
+const marcowSpawn = read("src/main/java/alku/csrp/entity/MarauderizedCowEntity.java");
+for (const [pattern, message] of [
+  [/38\.0D \* MobsConfig\.marcowHealthMultiplier\(\)/, "the marcow health multiplier is not read"],
+  [/15\.0D \* MobsConfig\.marcowDamageMultiplier\(\)/, "the marcow damage multiplier is not read"],
+  [/8\.0D \* MobsConfig\.marcowArmorMultiplier\(\)/, "the marcow armor multiplier is not read"],
+  [/0\.8D \* MobsConfig\.marcowKnockbackMultiplier\(\)/, "the marcow knockback multiplier is not read"]
+]) expect(marcowSpawn, pattern, message);
+expect(mobsConfig, /public static double marcowHealthMultiplier\(\)/, "the marcow accessors are missing");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

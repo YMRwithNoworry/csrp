@@ -1,18 +1,18 @@
 # 生物还原矩阵（SRParasites 1.10.9 → csrp）
 
-> 生成时间：2026-09-25T03:55:36.448Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
+> 生成时间：2026-09-25T03:57:06.455Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
 > 判定：✅ 全部条款满足；🟠 有部分实现但无缺失；❌ 存在缺失；· 未审计。
 
 - 注册生物总数：**127**；已审计：**13**；未审计：**114**
-- 条款总计：满足 695 / 部分 371 / 缺失 256（不计入 57 条不适用）
-- **加权完成度：66.6%**（partial 计 0.5）
+- 条款总计：满足 696 / 部分 371 / 缺失 255（不计入 57 条不适用）
+- **加权完成度：66.7%**（partial 计 0.5）
 
 ## 分面完成度
 
 | 面 | 满足 | 部分 | 缺失 | 完成度 |
 | --- | ---: | ---: | ---: | ---: |
 | 注册 `registration` | 62 | 40 | 29 | 62.6% |
-| 属性 `attributes` | 89 | 28 | 8 | 82.4% |
+| 属性 `attributes` | 90 | 28 | 7 | 83.2% |
 | AI `ai` | 87 | 74 | 28 | 65.6% |
 | 行为 `behaviors` | 165 | 69 | 66 | 66.5% |
 | 伤害/效果 `damage_and_effects` | 102 | 16 | 20 | 79.7% |
@@ -35,7 +35,7 @@
 | nexus_and_aberrant | 1/15 | 43 | 38 | 32 | 54.9% |
 | hijacked_and_feral | 2/12 | 108 | 58 | 60 | 60.6% |
 | early_lifecycle | 1/10 | 42 | 25 | 18 | 64.1% |
-| marauderized | 1/7 | 54 | 26 | 24 | 64.4% |
+| marauderized | 1/7 | 55 | 26 | 23 | 65.4% |
 | current | 2/13 | 96 | 44 | 35 | 67.4% |
 | assimilated | 6/23 | 352 | 180 | 87 | 71.4% |
 
@@ -161,7 +161,7 @@
 | `hi_skeleton` | EntityHiSkeleton | HiSkeletonEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | 59.8% |
 | `fer_villager` | EntityFerVillager | FeralParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 61.2% |
 | `host` | EntityHost | HostEntity | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | 🟠 | 64.1% |
-| `mar_cow` | EntitySpeCow | MarauderizedCowEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 64.4% |
+| `mar_cow` | EntitySpeCow | MarauderizedCowEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 65.4% |
 | `pri_longarms` | EntityShyco | LongarmsEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 67.1% |
 | `buglin` | EntityLodo | BuglinEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 67.9% |
 | `sim_human` | EntityInfHuman | SimHumanEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 68.6% |
@@ -205,7 +205,7 @@
 - AI：wait/jumpT/AOE 范围切换 GOAL 缺失，跟随 GOAL 未按原版移除
 - 经验 20 < 原版 30，且缺少阶段加成与 per-mob 开关
 
-### `mar_cow`（EntitySpeCow → MarauderizedCowEntity，64.4%）
+### `mar_cow`（EntitySpeCow → MarauderizedCowEntity，65.4%）
 - 眼高 1.3 未实现（用默认值）
 - EntityAIWait（呕吐后 60 tick 僵直）与 EntityAIJumping、EntityAISwimmingDiving、EntityAIAttackMeleeRangeSwitch 四个 goal 缺失
 - 同化配额门控（getIDSpawn/canSpawnByIDData）与 SRPConfigMobs.marcowEnabled 开关缺失

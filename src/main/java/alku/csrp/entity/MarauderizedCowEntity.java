@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.nbt.CompoundTag;
@@ -39,7 +40,13 @@ public final class MarauderizedCowEntity extends MarauderizedParasiteEntity impl
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return createMarauderizedAttributes(38.0D, 8.0D, 15.0D, 0.8D, 0.20D, 32.0D);
+        // Legacy SRPConfigMobs.marcow* per-mob multipliers (default 1.0F in the original).
+        return createMarauderizedAttributes(
+                38.0D * MobsConfig.marcowHealthMultiplier(),
+                8.0D * MobsConfig.marcowArmorMultiplier(),
+                15.0D * MobsConfig.marcowDamageMultiplier(),
+                Math.min(1.0D, 0.8D * MobsConfig.marcowKnockbackMultiplier()),
+                0.20D, 32.0D);
     }
 
     @Override

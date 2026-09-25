@@ -315,6 +315,25 @@ public final class MobsConfig {
     public static double hiskeletonArmorMultiplier() { return HISKELETON_ARMOR_MULTIPLIER.get(); }
     public static double hiskeletonKnockbackMultiplier() { return HISKELETON_KNOCKBACK_MULTIPLIER.get(); }
 
+    // Legacy SRPConfigMobs.marcow* (the marauderized cow).
+    private static final ModConfigSpec.DoubleValue MARCOW_HEALTH_MULTIPLIER = value(
+            "srparasites:marcow", "marcowHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for the marauderized cow.");
+    private static final ModConfigSpec.DoubleValue MARCOW_DAMAGE_MULTIPLIER = value(
+            "srparasites:marcow", "marcowDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Attack-damage multiplier for the marauderized cow.");
+    private static final ModConfigSpec.DoubleValue MARCOW_ARMOR_MULTIPLIER = value(
+            "srparasites:marcow", "marcowArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for the marauderized cow.");
+    private static final ModConfigSpec.DoubleValue MARCOW_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:marcow", "marcowKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
+            "Knockback-resistance multiplier for the marauderized cow.");
+
+    public static double marcowHealthMultiplier() { return MARCOW_HEALTH_MULTIPLIER.get(); }
+    public static double marcowDamageMultiplier() { return MARCOW_DAMAGE_MULTIPLIER.get(); }
+    public static double marcowArmorMultiplier() { return MARCOW_ARMOR_MULTIPLIER.get(); }
+    public static double marcowKnockbackMultiplier() { return MARCOW_KNOCKBACK_MULTIPLIER.get(); }
+
     public static double dorpaHealthMultiplier() { return DORPA_HEALTH_MULTIPLIER.get(); }
     public static double dorpaDamageMultiplier() { return DORPA_DAMAGE_MULTIPLIER.get(); }
     public static double dorpaArmorMultiplier() { return DORPA_ARMOR_MULTIPLIER.get(); }

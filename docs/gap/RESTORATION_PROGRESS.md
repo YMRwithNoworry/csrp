@@ -799,3 +799,12 @@ infsheep/infwolf/infvillager` 系列，默认值全 1.0F）。
 
 本线已覆盖 9 只：dorpa / infcow / infsheep / infwolf / infsquid / infhuman / fervillager / shyco / hiskeleton。
 剩余候选键名已确认：`host*`（host）、`marcow*`（mar_cow）；`buglin`/`beckon` 未在 `SRPConfigMobs` 中找到同名键。
+
+## 批次 51：mar_cow（marcow）的 per-mob 倍率接线（2026-09-25 续）
+
+键名 `marcow*`（`SRPConfigMobs:585` 确认，默认 1.0F）：`MobsConfig` 补 4 项 + 4 个访问器；
+`MarauderizedCowEntity.createAttributes` 按四项乘基础 生命 38 / 护甲 8 / 攻击 15 / 击退 0.8（夹取 1.0）。
+校验：断言 5 条；审计记账 1 条，满足 695 → **696**，缺失 256 → **255**，加权 **66.7%**。
+
+本线已覆盖 10 只：dorpa / infcow / infsheep / infwolf / infsquid / infhuman / fervillager / shyco / hiskeleton / marcow。
+剩余候选：`host*`（host，键名已确认）；`buglin`/`beckon` 无同名键（已确认）。

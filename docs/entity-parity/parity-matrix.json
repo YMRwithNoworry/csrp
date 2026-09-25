@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-25T03:55:36.448Z",
+  "generatedAt": "2026-09-25T03:57:06.455Z",
   "protocol": "docs/entity-parity/AUDIT_PROTOCOL.md",
   "input": "docs/entity-parity/audit-input.json",
   "counts": {
@@ -8,12 +8,12 @@
     "missing": 114
   },
   "overall": {
-    "satisfied": 695,
+    "satisfied": 696,
     "partial": 371,
-    "missing": 256,
+    "missing": 255,
     "na": 57,
     "denominator": 1322,
-    "completion": 66.6
+    "completion": 66.7
   },
   "facets": [
     {
@@ -29,12 +29,12 @@
     {
       "facet": "attributes",
       "label": "属性",
-      "satisfied": 89,
+      "satisfied": 90,
       "partial": 28,
-      "missing": 8,
+      "missing": 7,
       "na": 0,
       "denominator": 125,
-      "completion": 82.4
+      "completion": 83.2
     },
     {
       "facet": "ai",
@@ -220,12 +220,12 @@
       "group": "marauderized",
       "audited": 1,
       "expected": 7,
-      "satisfied": 54,
+      "satisfied": 55,
       "partial": 26,
-      "missing": 24,
+      "missing": 23,
       "na": 7,
       "denominator": 104,
-      "completion": 64.4
+      "completion": 65.4
     },
     {
       "group": "current",
@@ -2160,13 +2160,13 @@
       "group": "marauderized",
       "missing": false,
       "totals": {
-        "satisfied": 54,
+        "satisfied": 55,
         "partial": 26,
-        "missing": 24,
+        "missing": 23,
         "na": 7
       },
       "denominator": 104,
-      "completion": 64.4,
+      "completion": 65.4,
       "facets": {
         "registration": {
           "satisfied": 6,
@@ -2176,9 +2176,9 @@
           "clauses": 13
         },
         "attributes": {
-          "satisfied": 7,
+          "satisfied": 8,
           "partial": 2,
-          "missing": 2,
+          "missing": 1,
           "na": 0,
           "clauses": 11
         },

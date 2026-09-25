@@ -623,6 +623,19 @@ const BATCHES = {
         detail: "HiSkeletonEntity.createAttributes 读取原版 SRPConfigMobs 的 hiskeleton 四项（health/damage/armor/KDResistance，默认 1.0）并乘以基础生命 27/护甲 8/攻击 17/击退 0.9（夹取 1.0），与既有全局倍率构成「全局 × per-mob」结算"
       }
     ]
+  },
+  // 批次 51：mar_cow（marcow）的 per-mob 属性倍率接线
+  "per-mob-multipliers-marcow": {
+    note: "批次：per-mob 属性倍率接线（原版 SRPConfigMobs.marcow*，默认 1.0F）",
+    mobs: ["mar_cow"],
+    clauses: [
+      {
+        match: /per-mob|倍率/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java",
+        detail: "MarauderizedCowEntity.createAttributes 读取原版 SRPConfigMobs 的 marcow 四项（health/damage/armor/KDResistance，默认 1.0）并乘基础生命 38/护甲 8/攻击 15/击退 0.8（夹取 1.0），与既有全局倍率构成「全局 × per-mob」结算"
+      }
+    ]
   }
 };
 
