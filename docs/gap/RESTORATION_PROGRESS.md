@@ -2074,3 +2074,23 @@ if (kind == Kind.HORSE) { selfeFuse.setFuseTicks(70); }   // Legacy EntityInfHor
 
 **流程自省**：我在提交前**没有先跑套件**就 push 了（803afb98 带 21 失败入库），虽同轮修好，但这违反了本会话一直坚持的
 "改完即验、验完再提交"。原因是本轮上下文余量告急、我把 commit 与 build 合并思考了——**记录在案，后续轮次恢复"先套件后提交"**。
+
+## 批次 137：SELFE 引信的覆盖面缺口（preeminent / pure 两族缺失）（2026-09-25 续，未改代码）
+
+按批次 136 的计划，本轮准备给 `PreeminentParasiteEntity`（原版 `EntityPPreeminent:85 fuseTime = 70`）与
+`PureParasiteEntity`（`EntityPPure:92 = 70`）加覆写，核查时发现**它们根本没有 SELFE 引信**：
+
+```
+grep ParasiteFuseState|selfeFuse  PreeminentParasiteEntity / PureParasiteEntity   → 无任何命中
+grep -rl SelfeFuseOwner          → AssimilatedParasiteEntity / AssimilatedVariantEntity / FeralParasiteEntity
+                                   （另有若干渲染器读取该接口）
+```
+
+**结论**：端口的 SELFE 自爆引信目前只覆盖**三族**（同化 / 同化变体 / 野化），
+而原版在 **preeminent 与 pure** 两族同样具备（且 `fuseTime = 70`）。因此这不是"改个数值"，
+而是**功能缺口**：需要把既有的 `SelfeFuseOwner` + `ParasiteFuseState` 模式移植到这两族（含渲染侧的膨胀表现）。
+
+**下一批评估项**：① `EntityPPreeminent` / `EntityPPure` 的 SELFE 触发条件（`willExplodeOnDeath` 的随机判定与阶段门控）；
+② 端口 `PreeminentParasiteEntity` / `PureParasiteEntity` 的死亡流程挂载点；
+③ 渲染器是否已有膨胀支持（`SelfeFuseRender` 已被渲染器引用 ⇒ 需确认其判定依赖的接口是否要求实体实现）。
+④ 另记：`EntityCruxB/Lesh/Gothol/Rathol = 70`、`EntityButhol = 30` 对应的端口类尚需按名映射确认。
