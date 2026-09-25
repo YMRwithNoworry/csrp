@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 public final class BuglinRenderer extends ParasiteGeoRenderer<BuglinEntity> {
     public BuglinRenderer(EntityRendererProvider.Context context) {
         super(context, new BuglinModel());
-        this.shadowRadius = 0.25F;
+        // Legacy shadow radius of the original buglin renderer.
+        this.shadowRadius = 0.2F;
     }
 }

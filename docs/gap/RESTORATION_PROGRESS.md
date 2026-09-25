@@ -1653,3 +1653,13 @@ RenderInfSheep.java:17  0.5F     RenderInfWolf.java:16  0.5F     RenderInfSquid.
 | hi_skeleton | 0.6F | 由 `HiSkeletonRenderer` 之类内部决定 | ⏳ 待读 |
 
 `build` 通过、套件维持既有 20 失败。记账留待上述两条查完（条款是逐条数值，未对齐前不记账）。
+
+## 批次 109：渲染阴影半径第二批修正（hi_skeleton 0.6F / buglin 0.2F）（2026-09-25 续）
+
+| 生物 | 条款值 | 端口原值 | 处置 |
+| --- | --- | --- | --- |
+| hi_skeleton | 0.6F | 0.5F（`PrimitiveParasiteRenderer<>(…, "hi_skeleton", 0.5F)`） | ✅ 修正为 0.6F |
+| buglin | 0.2F | 0.25F（`BuglinRenderer.shadowRadius`，位于 `client/renderer/BuglinRenderer.java`） | ✅ 修正为 0.2F |
+
+连同批次 107/108：sim_cow/pig/sheep/wolf/squid(0.5F)、pri_longarms(0.7F)、hi_skeleton(0.6F)、buglin(0.2F) 均已对齐条款值；
+断言共 5 条（含批次 107 的 2 条）。`build` 通过、套件维持既有 20 失败。

@@ -505,6 +505,12 @@ expect(clientEvents, /SIM_BEAR\.get\(\), context ->\s*\n\s*new AssimilatedParasi
 expect(clientEvents, /SIM_WOLF\.get\(\), context ->\s*\n\s*new AssimilatedParasiteRenderer\(context, 0\.50F\)/,
   "the assimilated wolf must use the legacy 0.5F shadow radius");
 
+// Legacy per-mob renderer shadow radii (the clauses give one value per mob, not a family default).
+expect(clientEvents, /"pri_longarms", 0\.7F\)/, "pri_longarms must use the legacy 0.7F shadow radius");
+expect(clientEvents, /"hi_skeleton", 0\.6F\)/, "hi_skeleton must use the legacy 0.6F shadow radius");
+expect(read("src/main/java/alku/csrp/client/renderer/BuglinRenderer.java"), /shadowRadius = 0\.2F/,
+  "buglin must use the legacy 0.2F shadow radius");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));
