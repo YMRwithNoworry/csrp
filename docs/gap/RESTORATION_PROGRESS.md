@@ -690,3 +690,21 @@ if (kind == Kind.BIGSPIDER && rangedCooldown <= 0 && getTarget() != null && hasL
 2. 按 `MobsConfig` 既有 `defineInRange` 范式补条目；
 3. 在各族属性创建处（`createAttributes`）读取并相乘；
 4. 断言 + 记账（该条款为「全局 × per-mob」两项合取，须两侧齐备才可翻转）。
+
+## 批次 41：per-mob 属性倍率的取值来源锁定（2026-09-25 续，未改代码）
+
+批次 40 遗留的"需先取原版 per-mob 4 项值"本轮已解决，且**无需猜数**：
+
+1. **来源文件**：原版 per-mob 倍率不在 `SRPConfig`（那里只有 4 个 global，`:15-18` 默认 1.0F），
+   而在 **`SRPConfigMobs`**（例：`shycoHealthMultiplier:19`、`dorpaHealthMultiplier:85`、`ratholHealthMultiplier:96`）。
+   —— 端口 `config/MobsConfig.java` 正是该文件的对应物（已有 29 条 `*Multiplier`）。
+2. **默认值全部为 `1.0F`**（抽查 `shyco/gim/zaa/dorpa/rathol/gothol` 均如此）⇒ 端口补条目时**不存在"编数字"风险**。
+3. **命名约定**：`<原版内部名>{Health,Armor,Damage,KDResistance}Multiplier`，与 4 个全局项一一对应；
+   因此 `sim_bigspider`（原版类 `EntityDorpa`）对应 `dorpaHealthMultiplier` 等 4 项。
+4. 端口既有范式（照抄即可）：`MobsConfig:156-160` 的 `arachnidaHealthMultiplier` / `arachnidaDamageMultiplier`，
+   形式为 `(实体 id, 键名, 默认值, 最小值, 最大值, 注释)`。
+
+下一轮实施清单（完全无待调研项）：
+1. 按 `SRPConfigMobs` 为已审计生物各补 4 条（默认 1.0，范围与 `arachnida*` 同）；
+2. 在对应族 `createAttributes` 中读取并相乘（`dorpa*` → `AssimilatedVariantEntity` 的 BIGSPIDER 分支等）；
+3. 断言 + 记账（条款为「全局 × per-mob」合取，两侧齐备后方可翻转）。
