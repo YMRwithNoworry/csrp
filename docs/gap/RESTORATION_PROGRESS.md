@@ -588,3 +588,15 @@ canUse:  dis < distanceC && dis >= distanceL    // → 8 ≤ d < 32 格
 本轮改用 **edit 工具逐处按字节匹配**，三处编辑（字段/构造、循环抢夺判定、谓词上移）一次到位。
 校验：`verify-parasite-combat-rules.cjs` 增加 3 条断言（**先落实现再落断言**，避免上轮的失败断言窗口）。
 未接线：adapted 族的 `addGoal(6, new RecruitFollowersGoal(this, 32, 3))` 注册点（其 goals 锚点待下一轮确认）。
+
+## 批次 34：hi_skeleton 招募任务接线（2026-09-25 续）
+
+原版 `EntityHiSkeleton:52` 注册 `EntityAIGetFollowers(this, 1, 16)`（优先级 6）。与 adapted 族不同，
+`HiSkeletonEntity` 经 `HijackedParasiteEntity → PrimitiveParasiteEntity` **继承**了端口的 `ParasiteFollowGoal`
+（领导模型齐全），因此本轮可直接接线而不会出现「指派了 leader 却无人跟随」的语义错配。
+
+顺带记录一项**本轮判断为暂不接线**的决定：adapted 族（`AdaptedVariantEntity`）**没有** `ParasiteFollowGoal`
+（全文件 0 处，其 goals 全部按 kind 分支注册），若只加 version 3 招募会出现「有 leader 无跟随」的错配；
+应在补齐该族的跟随模型后再接线（已在条目中注明）。
+
+校验：`verify-parasite-combat-rules.cjs` 增加 1 条断言；审计记账 1 条，满足 682 → **683**。

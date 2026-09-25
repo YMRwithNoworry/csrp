@@ -246,12 +246,12 @@
         },
         {
           "clause": "tasks.addTask(6, EntityAIGetFollowers(this, 1, 16))（让 type<31 的寄生体跟随自己）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/hijacked/EntityHiSkeleton.java:52",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/RecruitFollowersGoal.java"
           },
-          "note": "工程无 GetFollowers 等价 AI，也无 setParasiteToFollow 关系系统"
+          "note": "RecruitFollowersGoal 复刻 EntityAIGetFollowers version 1/range 16（每 20 tick、自身无 leader 且无目标时招募一个有视线且尚无 leader 的寄生体跟随）；HiSkeletonEntity 按原版优先级 6 注册，其领导模型由 primitive 链继承的 ParasiteFollowGoal 提供；批次：EntityAIGetFollowers 招募跟随（hi_skeleton，原版 EntityHiSkeleton:52 优先级 6 / range 16）"
         },
         {
           "clause": "tasks.addTask(6, EntityAIAttackMeleeRangeSwitch(this, 0.0F))（按距离切换 workTask 让远程 AI 接管）",

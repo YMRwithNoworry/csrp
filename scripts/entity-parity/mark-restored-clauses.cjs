@@ -480,6 +480,19 @@ const BATCHES = {
         detail: "同化族招募任务已实现（RecruitFollowersGoal 复刻 EntityAIGetFollowers version 1/range 16）；sim_human 按原版 EntityInfHuman:122 在优先级 5 注册"
       }
     ]
+  },
+  // 批次 34：hi_skeleton 的招募任务（原版 EntityHiSkeleton:52）
+  "recruit-followers-hiskeleton": {
+    note: "批次：EntityAIGetFollowers 招募跟随（hi_skeleton，原版 EntityHiSkeleton:52 优先级 6 / range 16）",
+    mobs: ["hi_skeleton"],
+    clauses: [
+      {
+        match: /EntityAIGetFollowers/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/RecruitFollowersGoal.java",
+        detail: "RecruitFollowersGoal 复刻 EntityAIGetFollowers version 1/range 16（每 20 tick、自身无 leader 且无目标时招募一个有视线且尚无 leader 的寄生体跟随）；HiSkeletonEntity 按原版优先级 6 注册，其领导模型由 primitive 链继承的 ParasiteFollowGoal 提供"
+      }
+    ]
   }
 };
 

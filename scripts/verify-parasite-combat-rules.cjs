@@ -284,6 +284,11 @@ expect(recruitV3, /public RecruitFollowersGoal\(Mob leader, int searchRange, int
 expect(recruitV3, /version < 3 \|\| ParasiteFollowGoal\.commandRank\(existing\) > STEAL_LEADER_RANK/,
   "version 3 must gate the steal on the leader rank");
 
+// legacy EntityHiSkeleton:52 tasks.addTask(6, EntityAIGetFollowers(this, 1, 16))
+expect(read("src/main/java/alku/csrp/entity/HiSkeletonEntity.java"),
+  /addGoal\(6, new RecruitFollowersGoal\(this, 16\)\)/,
+  "HiSkeletonEntity must register the legacy recruit task at priority 6");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

@@ -45,6 +45,8 @@ public final class HiSkeletonEntity extends HijackedParasiteEntity {
     protected void registerGoals() {
         super.registerGoals();
         goalSelector.addGoal(2, new SkeletonRangedGoal());
+        // Legacy EntityHiSkeleton:52 tasks.addTask(6, EntityAIGetFollowers(this, 1, 16)).
+        goalSelector.addGoal(6, new RecruitFollowersGoal(this, 16));
     }
 
     @Override

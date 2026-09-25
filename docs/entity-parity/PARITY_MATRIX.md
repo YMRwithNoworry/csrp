@@ -1,11 +1,11 @@
 # 生物还原矩阵（SRParasites 1.10.9 → csrp）
 
-> 生成时间：2026-09-25T03:27:15.661Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
+> 生成时间：2026-09-25T03:32:37.428Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
 > 判定：✅ 全部条款满足；🟠 有部分实现但无缺失；❌ 存在缺失；· 未审计。
 
 - 注册生物总数：**127**；已审计：**13**；未审计：**114**
-- 条款总计：满足 682 / 部分 374 / 缺失 266（不计入 57 条不适用）
-- **加权完成度：65.7%**（partial 计 0.5）
+- 条款总计：满足 683 / 部分 374 / 缺失 265（不计入 57 条不适用）
+- **加权完成度：65.8%**（partial 计 0.5）
 
 ## 分面完成度
 
@@ -13,7 +13,7 @@
 | --- | ---: | ---: | ---: | ---: |
 | 注册 `registration` | 61 | 40 | 30 | 61.8% |
 | 属性 `attributes` | 80 | 29 | 16 | 75.6% |
-| AI `ai` | 85 | 75 | 29 | 64.8% |
+| AI `ai` | 86 | 75 | 28 | 65.3% |
 | 行为 `behaviors` | 164 | 70 | 66 | 66.3% |
 | 伤害/效果 `damage_and_effects` | 102 | 16 | 20 | 79.7% |
 | 同步数据 `sync_data` | 26 | 33 | 30 | 47.8% |
@@ -33,7 +33,7 @@
 | pure_and_preeminent | 0/19 | 0 | 0 | 0 | 0% |
 | ancient | 0/4 | 0 | 0 | 0 | 0% |
 | nexus_and_aberrant | 1/15 | 43 | 38 | 32 | 54.9% |
-| hijacked_and_feral | 2/12 | 103 | 59 | 64 | 58.6% |
+| hijacked_and_feral | 2/12 | 104 | 59 | 63 | 59.1% |
 | early_lifecycle | 1/10 | 42 | 25 | 18 | 64.1% |
 | marauderized | 1/7 | 54 | 26 | 24 | 64.4% |
 | current | 2/13 | 96 | 44 | 35 | 67.4% |
@@ -158,7 +158,7 @@
 | `kirin` | EntityKirin | KirinEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `draconite` | EntityHeblu | DraconiteEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `beckon_siii` | EntityVenkrolSIII | NexusParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 54.9% |
-| `hi_skeleton` | EntityHiSkeleton | HiSkeletonEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | 57.6% |
+| `hi_skeleton` | EntityHiSkeleton | HiSkeletonEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | 58.7% |
 | `fer_villager` | EntityFerVillager | FeralParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 59.3% |
 | `host` | EntityHost | HostEntity | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | 🟠 | 64.1% |
 | `mar_cow` | EntitySpeCow | MarauderizedCowEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 64.4% |
@@ -181,7 +181,7 @@
 - 同步缺失：SKIN/SELFE/COLD_L/DISLO15 与 byte 12/50/51/52 广播；冰冻变体贴图与 LayerGlowing/受击染色层
 - 掉落与经验：80%/0-9 个 → 20%/1 个；经验 110 → 64；缺阶段经验门控、死亡钩子与死亡粒子
 
-### `hi_skeleton`（EntityHiSkeleton → HiSkeletonEntity，57.6%）
+### `hi_skeleton`（EntityHiSkeleton → HiSkeletonEntity，58.7%）
 - 缺少 per-mob 启用开关（hiskeletonEnabled）与 marvillager 专属属性乘数；FOLLOW_RANGE 48 而非 hijackedFollow(24)、XP 30 而非 11
 - AI 缺失 EntityAIGetFollowers、EntityAIAttackMeleeRangeSwitch、EntityAIWait、EntityAIJumping；索敌缺少 sneak/invisible 惩罚与 mobattacking 黑名单
 - 缺 hijacked skin 变体（setSkin(1)）与 SKIN/COLD_L/DISLO15 同步参数、数字寄生虫 id 303、type 11
