@@ -10,7 +10,9 @@ function read(relativePath) {
         failures.push(`missing ${relativePath}`);
         return "";
     }
-    return fs.readFileSync(file, "utf8");
+    // Normalise CRLF: the multi-line markers below are written with "\n", so a Windows checkout
+    // (core.autocrlf=true) would otherwise fail the method extraction for no real reason.
+    return fs.readFileSync(file, "utf8").replace(/\r\n/g, "\n");
 }
 
 function expect(content, pattern, description) {
