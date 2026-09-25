@@ -2952,3 +2952,22 @@ sim_villager 93 / sim_adventurer 95 / sim_horse 94 / sim_bear 92 / sim_enderman 
 
 **审计面的作用再次显现**：这条缺口（音效全缺）是审计发现的，而**缺口的具体范围**（三处）是复核盘清的——
 两者缺一不可。
+
+## 批次 186：第四批委派终报——两项**可立即行动**的发现（2026-09-25 续）
+
+**（一）头部眼高 0.8F 只算 partial，原因与我遇到的完全同型**：1.21 的 `getEyeHeight(Pose)` 是 `final`，
+而头部走的是 **3 参 `monster()` helper（不传 eyeHeight）** ⇒ 实际取到默认值（约 0.765）✗。
+**修法**：改用 **4 参 helper 并传 0.8F**（与批次 171 修龙眼高的手法一致 ✔）。**下一批落地。**
+
+**（二）步声音效"事件已存在但从未被调用"**：`SoundEventCatalog.java:423` 已有 `small.step`，
+但头部实体**从不调用 `playStepSound`** ⇒ 静默无声 ✗。这是典型的"资源齐备、接线缺失"缺口，改动小、可断言。
+
+**（三）其报告的其他缺口**（已记录，按硬度排序）：`infcowEnabled`/`infpigEnabled`/`vanillaEggs` 开关、
+`attackSpeedT=15` 节奏、`canSpawnByIDData` 配额、`disloGiveBodies` 头部重建、`COLD_L`/`DISLO15` 同步。
+
+**（四）其未解阻塞（如实标注）**：SRG 名 `func_70110_aj`（`EntityInfCowHead:96` / `EntityInfPigHead:96`）——
+它检索了整棵反编译树、映射文件与网络搜索均未找到对应方法名，故**未判定为 satisfied**（保持 partial）✔ 处置正确。
+
+**（五）并发写作者的协同表现（值得记录）**：它察觉到我同一时段对 `AssimilatedHeadEntity` 的 +2 行改动（跳跃技能接线），
+于是**把 ≥117 的所有引用行号逐条 +2 重锚并逐行核验**，还把头部技能条款翻为 satisfied ✔。
+这是"共享工作区下的正确做法"：**发现文件变动 → 重新锚定 → 核验**，而不是沿用过期行号。
