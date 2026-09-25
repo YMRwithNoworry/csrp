@@ -1922,3 +1922,17 @@ SRPConfigMobs.java:4370  angedEnabled = cfg.getBoolean("Vigilante Enabled", "srp
 批次 127 补记：提交时同批纳入 **`raw/sim_horse.json`** 与 **`raw/crosscheck/sim_adventurer.by-agent.json`**
 （后者为子代理自建的交叉核对副本）。矩阵刷新后：**已审计 17/127**（未审计 110），
 条款 满足 **903** / 部分 443 / 缺失 302，加权 **68.2%**。`sim_horse` 的产出同样需按既有标准验收（下一轮）。
+
+## 批次 128：验收 `sim_horse.json`（2026-09-25 续）
+
+第三份子代理产出：`raw/sim_horse.json`，**11 facet / 94 条**（50 satisfied / 24 partial / 15 missing / 5 na）。
+抽查 3 条 satisfied 并**实测 3 条引文**（含一条指向掉落表文件的存在性）：
+
+```
+✔ ModEntities.java 确含 sim_horse
+✔ 原版 SRPEntities.java:258 确含 CreateEntityMob("sim_horse", EntityInfHorse…
+✔ src/main/resources/data/csrp/loot_table/entities/sim_horse.json 实际存在
+```
+
+⇒ 予以采纳。**累积验收 3 份**（sim_villager 93 / sim_adventurer 95 / sim_horse 94），合计 282 条条款，
+全部通过"结构一致 + 抽样实测引文"两道检查。
