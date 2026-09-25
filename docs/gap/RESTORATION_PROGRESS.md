@@ -2829,3 +2829,30 @@ EntityParasiteBase:2416   protected void skillLeap() {
 何时置 `SkillLeapFlag`。下一批读完该段即可开始实现 `LeapSkill`（端口可参考 `LiquidLeap` 的既有跃迁写法）。
 
 **进度小结（该靶点）**：参数语义 ✅、门控条件 ✅、动作体 ⏳、端口技能实现 ⏳（需新写）。
+
+## 批次 179：`skillLeap()` 动作体解出——**实现条件齐备**（2026-09-25 续）
+
+```java
+EntityParasiteBase:2427   if (attacking >= 1) {
+                              attacking++;
+                              skillBreakBlocks();
+                              if (attacking == 2 && onGround) {
+                                  setParasiteStatus(10);
+                                  navigation.stop();
+                                  dx = targetX - x;  dz = targetZ - z;  f = sqrt(dx*dx + dz*dz);
+                                  motionY = leapMotionY;                                   // 0.7
+                                  motionX += dx / f * jumpSpeed * 0.9 + motionX * 0.3;      // jumpSpeed 2.5
+                                  motionZ += dz / f * jumpSpeed * 0.9 + motionZ * 0.3;
+                              }
+                              if (attacking > 2 && onGround && jumpR != 0) { …AABB(jumpR,2.0,jumpR) 内造成伤害… }
+                          }
+```
+
+**头部参数 `(0.7F, 2.5, 0)` 的完整效果**：
+1. 首次 tick 记录目标 X/Z（`attacking` 0→1）；
+2. 下一 tick（`attacking == 2`）且**在地面**时：置寄生体状态 10、停止导航、按"朝向记忆点"施加
+   `motionY = 0.7`、水平速度 `jumpSpeed * 0.9 = 2.25` 并叠加 30% 现有水平速度；
+3. 再落地后（`attacking > 2`）：因头部 **`jumpR = 0`** ⇒ **不造成落点伤害** ✔（`jumpR != 0` 才有伤害段）。
+
+**⇒ 实现 `LeapSkill implements ParasiteSkill` 的全部要素已就绪**（门控、参数、动作、终止条件），
+端口可参考 `LiquidLeap` 的既有跃迁写法。下一批即可写代码 + 接线（头部优先级 0）+ 断言 + 记账。
