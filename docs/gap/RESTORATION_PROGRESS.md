@@ -841,3 +841,22 @@ infsheep/infwolf/infvillager` 系列，默认值全 1.0F）。
 `case ARACHNIDA` 由「只用 `arachnida*` 基础值」改为「基础值 × `arachnida*Multiplier`」（击退抗性夹取 1.0）。
 两侧（primitive + adapted）现已一致，`arachnida*` 这 4 条配置键不再是死键。断言 2 条。
 `PrimitiveVariantEntity` 中还有 `bolster*`/`tozoon*` 等同类分支（本次未核对文本，未动）。
+
+## 批次 56：死键清单固化 + 防复发守卫（2026-09-25 续）
+
+对 `MobsConfig` 的 85 条 `*Multiplier` 键做了一次全量比对（键名 vs `public static double xxx()` 访问器），
+发现欠账**远大于批次 52 的估计**：除已接线的两组（aarachnida、以及本会话新加的 dorpa/infcow/infsheep/infwolf/
+infsquid/infhuman/fervillager/shyco/hiskeleton/marcow/host）外，还有 **12 组、约 40 条键从无访问器**：
+
+```
+heavyBomber*  overseer*  vigilante*  warden*
+primitiveBolster*  primitiveBurrower*  primitiveDevourer*  primitiveManducater*
+primitiveReeker*  primitiveTozoon*  primitiveViscera*  primitiveYelloweye*
+```
+
+其中 `primitive*` 八组恰好对应 `PrimitiveVariantEntity.activeKind()` 的分支（与 arachnida 同构，可照批次 55 的
+办法逐一叠加）；`heavyBomber/overseer/vigilante/warden` 属 Preeminent/Pure 系。
+
+**本轮动作**：在 `verify-parasite-combat-rules.cjs` 增加**防复发守卫**——扫描所有 `*Multiplier` 键，
+凡无同名访问器且不在显式 `KNOWN_UNWIRED_MULTIPLIER_GROUPS` 白名单内即报错。
+这样：① 新增死键会立刻被拦住；② 白名单本身就是一份可勾选的待办清单，随接线逐步缩短。
