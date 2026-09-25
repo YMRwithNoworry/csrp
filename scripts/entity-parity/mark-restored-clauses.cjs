@@ -688,6 +688,25 @@ const BATCHES = {
         detail: "逐生物对齐原版渲染阴影半径：sim_cow/pig/sheep/wolf/squid = 0.5F、pri_longarms = 0.7F、hi_skeleton = 0.6F、mar_cow = 0.5F（ClientModEvents 的渲染器实参），buglin = 0.2F（client/renderer/BuglinRenderer.shadowRadius）；原版身体渲染器实参已核（RenderInfCow/Pig/Sheep/Wolf/Squid 均 0.5F，RenderInfBear 为 0.7F 属例外，故未纳入本批）。"
       }
     ]
+  },
+  // 批次 121：AssimilatedVariantEntity 全族对齐后，sim_bigspider 的跟随范围/经验可据实收敛
+  "variant-follow-xp": {
+    note: "批次：AssimilatedVariantEntity 全族 followRange=16 / XP=8 对齐",
+    mobs: ["sim_bigspider"],
+    clauses: [
+      {
+        match: /跟随范围 SRPConfig\.infectedFollow/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java",
+        detail: "原版 infectedFollow = 16（SRPConfig.java:146）对同化档统一；端口 AssimilatedVariantEntity.Kind.BIGSPIDER 第六参已由 32.0D 对齐为 16.0D（批次 120）。"
+      },
+      {
+        match: /经验 field_70728_aV = SRPAttributes\.XP_INFECTED/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java",
+        detail: "原版 XP_INFECTED = infectedXPValue = 8（SRPConfig.java:146，EntityPInfected:86 施加）；端口 Kind.BIGSPIDER 的 experience 参数已由 10 对齐为 8（批次 120）。"
+      }
+    ]
   }
 };
 

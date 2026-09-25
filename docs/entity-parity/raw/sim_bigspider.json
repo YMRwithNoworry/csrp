@@ -146,21 +146,21 @@
         },
         {
           "clause": "跟随范围 SRPConfig.infectedFollow = 16",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfig.java:140",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:505"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java"
           },
-          "note": "project FOLLOW_RANGE=32，未读取 infectedFollow 配置"
+          "note": "原版 infectedFollow = 16（SRPConfig.java:146）对同化档统一；端口 AssimilatedVariantEntity.Kind.BIGSPIDER 第六参已由 32.0D 对齐为 16.0D（批次 120）。；批次：AssimilatedVariantEntity 全族 followRange=16 / XP=8 对齐"
         },
         {
           "clause": "经验 field_70728_aV = SRPAttributes.XP_INFECTED = 8",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:146",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:94"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java"
           },
-          "note": "project xpReward=10"
+          "note": "原版 XP_INFECTED = infectedXPValue = 8（SRPConfig.java:146，EntityPInfected:86 施加）；端口 Kind.BIGSPIDER 的 experience 参数已由 10 对齐为 8（批次 120）。；批次：AssimilatedVariantEntity 全族 followRange=16 / XP=8 对齐"
         },
         {
           "clause": "全局/单体倍率 SRPAttributes 初始化时全局倍率 × per-mob 倍率",

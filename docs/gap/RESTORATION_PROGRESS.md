@@ -1830,3 +1830,13 @@ SRPConfigMobs.java:4370  angedEnabled = cfg.getBoolean("Vigilante Enabled", "srp
 
 **待办（下一轮）**：`sim_bigspider` 与 `sim_human` 的既有审计 JSON 中，跟随范围/经验条款可能仍按旧值记为 satisfied
 ⇒ 需按修正后的证据**更新这两份审计**（避免"账实不符"）。
+
+## 批次 121：sim_bigspider 跟随范围/经验据实收敛（+2 条）（2026-09-25 续）
+
+批次 120 后复核 `sim_bigspider` 的既有审计：相关两条本为 **partial**（原值 32/10 与条款值不符所致），
+**不存在账实虚高**；本轮源码既已对齐（16 / 8），遂据实升为 satisfied 并写明证据（`SRPConfig.java:146` ↔ `AssimilatedVariantEntity` 的 Kind.BIGSPIDER 行）。
+
+账面：满足 717 → **719**，部分 356 → **354**，加权 **67.4% → 67.5%**。
+
+**仍待复核**：`sim_human` 的审计中未见同名的跟随范围/经验条款（其文本可能不同），下一轮逐条确认，
+确保全族"账实一致"（这是批次 120 遗留风险的另一半）。

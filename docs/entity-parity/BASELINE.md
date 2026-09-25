@@ -1,6 +1,6 @@
 # 生物部分还原度基线
 
-> 生成时间：2026-09-25T05:30:25.348Z
+> 生成时间：2026-09-25T05:33:17.665Z
 > 事实来源：`D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites`（SRParasites 1.10.9，生物部分与 1.10.8 一致）
 > 本工程：`D:/code/MC模组/csrp`（MC 26.3 / NeoForge 26.3，分支 `port-26.3`）
 
@@ -15,15 +15,15 @@
 ## 总体基线
 
 - 覆盖：**14/127** 只生物已出条款级审计
-- 条款：满足 **717**、部分 **356**、缺失 **255**（另有 57 条判定为不适用）
-- **加权完成度：67.4%**
+- 条款：满足 **719**、部分 **354**、缺失 **255**（另有 57 条判定为不适用）
+- **加权完成度：67.5%**
 
 ## 分面基线
 
 | 面 | 满足 | 部分 | 缺失 | 完成度 |
 | --- | ---: | ---: | ---: | ---: |
 | 注册 | 63 | 40 | 29 | 62.9% |
-| 属性 | 95 | 28 | 7 | 83.8% |
+| 属性 | 97 | 26 | 7 | 84.6% |
 | AI | 87 | 74 | 28 | 65.6% |
 | 行为 | 165 | 69 | 66 | 66.5% |
 | 伤害/效果 | 102 | 16 | 20 | 79.7% |
@@ -47,8 +47,8 @@
 | `buglin` | EntityLodo | BuglinEntity | 68.6% | 41/14/15 |
 | `sim_human` | EntityInfHuman | SimHumanEntity | 69.1% | 62/28/20 |
 | `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | 71% | 52/28/13 |
-| `sim_bigspider` | EntityDorpa | AssimilatedVariantEntity | 71.9% | 57/27/14 |
 | `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | 72.4% | 63/29/15 |
+| `sim_bigspider` | EntityDorpa | AssimilatedVariantEntity | 73% | 59/25/14 |
 | `sim_cow` | EntityInfCow | AssimilatedParasiteEntity | 73.1% | 62/31/13 |
 | `sim_sheep` | EntityInfSheep | AssimilatedParasiteEntity | 75.2% | 65/28/12 |
 | `sim_pig` | EntityInfPig | AssimilatedParasiteEntity | 100% | 6/0/0 |
