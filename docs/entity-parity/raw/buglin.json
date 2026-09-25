@@ -621,12 +621,12 @@
         },
         {
           "clause": "阴影半径 0.2F",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/inborn/RenderLodo.java:14",
-            "project": "src/main/java/alku/csrp/client/renderer/BuglinRenderer.java:10"
+            "project": "src/main/java/alku/csrp/client/ClientModEvents.java"
           },
-          "note": "工程 0.25F 与原版 0.2F 不一致"
+          "note": "逐生物对齐原版渲染阴影半径：sim_cow/pig/sheep/wolf/squid = 0.5F、pri_longarms = 0.7F、hi_skeleton = 0.6F、mar_cow = 0.5F（ClientModEvents 的渲染器实参），buglin = 0.2F（client/renderer/BuglinRenderer.shadowRadius）；原版身体渲染器实参已核（RenderInfCow/Pig/Sheep/Wolf/Squid 均 0.5F，RenderInfBear 为 0.7F 属例外，故未纳入本批）。；批次：渲染阴影半径按条款逐生物对齐"
         },
         {
           "clause": "模型尺寸/可见边界与 0.5x0.3 碰撞箱匹配",

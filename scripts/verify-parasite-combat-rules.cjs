@@ -511,6 +511,8 @@ expect(clientEvents, /"hi_skeleton", 0\.6F\)/, "hi_skeleton must use the legacy 
 expect(read("src/main/java/alku/csrp/client/renderer/BuglinRenderer.java"), /shadowRadius = 0\.2F/,
   "buglin must use the legacy 0.2F shadow radius");
 
+expect(clientEvents, /"mar_cow", 0\.5F, 1\.1F\)/, "mar_cow must use the legacy 0.5F shadow radius");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

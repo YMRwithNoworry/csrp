@@ -675,6 +675,19 @@ const BATCHES = {
         detail: "原版 ignoreL 仅在使用进化阶段关闭时生效（EntityParasiteBase:1568 的 else-if 分支：为真则用宽松档 isValidLightLevelTwo），已按此语义实现：Config 新增 ignoreL 键（默认 false），SpawnLightChecks.canSpawnNaturally 在 Config.useEvolutionPhases() 为假时按 ignoreLightLevel() 选择宽松/严格档；结合既有的 isValidLightLevelOne/Two、spawnDays tick 门槛与非和平判定，该条款要素齐备。"
       }
     ]
+  },
+  // 批次 110：渲染阴影半径逐生物对齐
+  "shadow-radii": {
+    note: "批次：渲染阴影半径按条款逐生物对齐",
+    mobs: ["sim_cow", "sim_pig", "sim_sheep", "sim_wolf", "sim_squid", "pri_longarms", "hi_skeleton", "buglin", "mar_cow"],
+    clauses: [
+      {
+        match: /阴影半径/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/client/ClientModEvents.java",
+        detail: "逐生物对齐原版渲染阴影半径：sim_cow/pig/sheep/wolf/squid = 0.5F、pri_longarms = 0.7F、hi_skeleton = 0.6F、mar_cow = 0.5F（ClientModEvents 的渲染器实参），buglin = 0.2F（client/renderer/BuglinRenderer.shadowRadius）；原版身体渲染器实参已核（RenderInfCow/Pig/Sheep/Wolf/Squid 均 0.5F，RenderInfBear 为 0.7F 属例外，故未纳入本批）。"
+      }
+    ]
   }
 };
 

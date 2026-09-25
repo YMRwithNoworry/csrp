@@ -1,6 +1,6 @@
 # 生物部分还原度基线
 
-> 生成时间：2026-09-25T05:07:58.629Z
+> 生成时间：2026-09-25T05:21:44.237Z
 > 事实来源：`D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites`（SRParasites 1.10.9，生物部分与 1.10.8 一致）
 > 本工程：`D:/code/MC模组/csrp`（MC 26.3 / NeoForge 26.3，分支 `port-26.3`）
 
@@ -15,8 +15,8 @@
 ## 总体基线
 
 - 覆盖：**13/127** 只生物已出条款级审计
-- 条款：满足 **703**、部分 **364**、缺失 **255**（另有 57 条判定为不适用）
-- **加权完成度：66.9%**
+- 条款：满足 **711**、部分 **356**、缺失 **255**（另有 57 条判定为不适用）
+- **加权完成度：67.2%**
 
 ## 分面基线
 
@@ -29,7 +29,7 @@
 | 伤害/效果 | 102 | 16 | 20 | 79.7% |
 | 同步数据 | 26 | 33 | 30 | 47.8% |
 | 动画 | 53 | 13 | 7 | 81.5% |
-| 模型/贴图 | 37 | 12 | 19 | 63.2% |
+| 模型/贴图 | 45 | 4 | 19 | 69.1% |
 | 音效 | 33 | 21 | 18 | 60.4% |
 | 生成 | 39 | 32 | 16 | 63.2% |
 | 掉落 | 9 | 26 | 15 | 44% |
@@ -39,18 +39,18 @@
 | id | 原版类 | 工程类 | 完成度 | 满足/部分/缺失 |
 | --- | --- | --- | ---: | --- |
 | `beckon_siii` | EntityVenkrolSIII | NexusParasiteEntity | 54.9% | 43/38/32 |
-| `hi_skeleton` | EntityHiSkeleton | HiSkeletonEntity | 59.8% | 42/26/24 |
+| `hi_skeleton` | EntityHiSkeleton | HiSkeletonEntity | 60.3% | 43/25/24 |
 | `fer_villager` | EntityFerVillager | FeralParasiteEntity | 61.6% | 67/31/36 |
 | `host` | EntityHost | HostEntity | 64.1% | 42/25/18 |
-| `mar_cow` | EntitySpeCow | MarauderizedCowEntity | 65.9% | 56/25/23 |
-| `pri_longarms` | EntityShyco | LongarmsEntity | 67.1% | 56/29/20 |
-| `buglin` | EntityLodo | BuglinEntity | 67.9% | 40/15/15 |
+| `mar_cow` | EntitySpeCow | MarauderizedCowEntity | 66.3% | 57/24/23 |
+| `pri_longarms` | EntityShyco | LongarmsEntity | 67.6% | 57/28/20 |
+| `buglin` | EntityLodo | BuglinEntity | 68.6% | 41/14/15 |
 | `sim_human` | EntityInfHuman | SimHumanEntity | 69.1% | 62/28/20 |
-| `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | 70.4% | 51/29/13 |
+| `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | 71% | 52/28/13 |
 | `sim_bigspider` | EntityDorpa | AssimilatedVariantEntity | 71.9% | 57/27/14 |
-| `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | 72% | 62/30/15 |
-| `sim_cow` | EntityInfCow | AssimilatedParasiteEntity | 72.6% | 61/32/13 |
-| `sim_sheep` | EntityInfSheep | AssimilatedParasiteEntity | 74.8% | 64/29/12 |
+| `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | 72.4% | 63/29/15 |
+| `sim_cow` | EntityInfCow | AssimilatedParasiteEntity | 73.1% | 62/31/13 |
+| `sim_sheep` | EntityInfSheep | AssimilatedParasiteEntity | 75.2% | 65/28/12 |
 
 ## 已知前提与风险
 

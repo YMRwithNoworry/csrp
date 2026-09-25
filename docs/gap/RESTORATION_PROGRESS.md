@@ -1663,3 +1663,16 @@ RenderInfSheep.java:17  0.5F     RenderInfWolf.java:16  0.5F     RenderInfSquid.
 
 连同批次 107/108：sim_cow/pig/sheep/wolf/squid(0.5F)、pri_longarms(0.7F)、hi_skeleton(0.6F)、buglin(0.2F) 均已对齐条款值；
 断言共 5 条（含批次 107 的 2 条）。`build` 通过、套件维持既有 20 失败。
+
+## 批次 110：mar_cow 阴影半径修正 + 阴影半径条款记账（+8 条）（2026-09-25 续）
+
+`mar_cow` 渲染器实参由 `0.55F` 改为条款值 **0.5F**（`PrimitiveParasiteRenderer<>(…, "mar_cow", 0.5F, 1.1F)`，1.1F 为缩放）。
+连同批次 107/108/109 的 sim_cow/pig/sheep/wolf/squid(0.5F)、pri_longarms(0.7F)、hi_skeleton(0.6F)、buglin(0.2F)，
+共 **8 条**「阴影半径」条款记为 satisfied（sim_bear 未纳入：其原版值为 0.7F 属例外，且其条款文本尚未逐字核对）。
+
+账面：满足 703 → **711**，部分 364 → **356**，加权 **66.9% → 67.2%**。
+
+**未结项（如实记录）**：本批后套件出现 **21 失败**（基线为 20）。已排查两个可疑脚本：
+`verify-buglin-port.cjs` 失败原因是几何/动画未接线（与半径无关）、`verify-marauder-port.cjs` 亦为既有失败（geo 文件缺失）；
+第 21 个失败脚本**尚未定位**，列为下一轮首要任务（可能是某个断言了旧渲染实参的脚本，或套件内非确定性项——
+第 80 轮曾出现过同类"20→21→订正后回 20"的情形）。

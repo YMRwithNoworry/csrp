@@ -897,12 +897,12 @@
         },
         {
           "clause": "渲染阴影半径 0.5F",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "client/renderer/entity/infected/RenderInfSquid.java:13",
-            "project": "src/main/java/alku/csrp/client/ClientModEvents.java:201"
+            "project": "src/main/java/alku/csrp/client/ClientModEvents.java"
           },
-          "note": "project shadowRadius=0.45F"
+          "note": "逐生物对齐原版渲染阴影半径：sim_cow/pig/sheep/wolf/squid = 0.5F、pri_longarms = 0.7F、hi_skeleton = 0.6F、mar_cow = 0.5F（ClientModEvents 的渲染器实参），buglin = 0.2F（client/renderer/BuglinRenderer.shadowRadius）；原版身体渲染器实参已核（RenderInfCow/Pig/Sheep/Wolf/Squid 均 0.5F，RenderInfBear 为 0.7F 属例外，故未纳入本批）。；批次：渲染阴影半径按条款逐生物对齐"
         },
         {
           "clause": "preRenderCallback：按引信强度缩放模型（1±0.4/0.1）",

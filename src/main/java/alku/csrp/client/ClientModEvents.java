@@ -260,7 +260,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.MAR_BEAR.get(), context ->
                 new TetheredMarauderizedRenderer<>(context, "mar_bear", 0.65F, 1.3F));
         event.registerEntityRenderer(ModEntities.MAR_COW.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "mar_cow", 0.55F, 1.1F));
+                new PrimitiveParasiteRenderer<>(context, "mar_cow", 0.5F, 1.1F));
         event.registerEntityRenderer(ModEntities.MAR_ENDERMAN.get(), context ->
                 new TetheredMarauderizedRenderer<>(context, "mar_enderman", 0.5F, 1.1F));
         event.registerEntityRenderer(ModEntities.MAR_HUMAN.get(), context ->
