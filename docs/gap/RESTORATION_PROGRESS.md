@@ -2134,3 +2134,22 @@ grep -rl SelfeFuseOwner          → AssimilatedParasiteEntity / AssimilatedVari
 **方法论收获**：批次 138 我基于"马是特例"的假设选择不动手，本轮查基类后发现基类**本来就是 300/3600** ⇒
 "先取证再动手"这次换来的不是"避免改错"，而是"**发现原本以为的特例其实是通例**"——
 两种情况都证明同一件事：**假设必须由基类/源头的证据校验**。
+
+## 批次 140：`sim_pig` 自爆召唤的机制查清（2026-09-25 续，未改代码）
+
+按"先查源头"的教训，本轮先看原版的召唤机制（而非直接改端口）：
+
+```
+原版 EntityInfPig.java:176   ParasiteSummon.spawnM(this, new String[]{SRPConfigMobs.infpigmob}, 0, false, this.func_95999_t());
+原版 SRPConfigMobs.infpigmob = "srparasites:buglin;2;2"   ← 配置串：实体id;最小;最大
+原版 EntityParasiteBase.java:1443 / 1504  调用 this.selfExplode()（基类共享自爆流程）
+```
+
+**结论**：这是**逐生物**的"死亡/自爆时召唤增援"，通过**配置串**（`<实体id>;<min>;<max>`）驱动，
+且每个生物有各自的键（`infpigmob` 等）。端口的 `ParasiteCombatRules.selfExplode` 目前无此机制。
+
+**实施所需的两个前置**（下一批查）：
+1. 端口是否已有"按配置串召唤"的工具（如 `ParasiteSummon` 对应物）——若无可复用，需先实现解析 `<id>;min;max` 的最小工具；
+2. 配置面：原版每个生物一个 `xMob` 键（数量可观），需先统计全部键与默认值，再决定是**全量移植**还是**按已审计生物优先**。
+
+**在查清这两点前不动代码**——避免又造出"只加键不接线"或"半套机制"。
