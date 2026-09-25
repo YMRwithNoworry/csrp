@@ -2436,3 +2436,26 @@ id 用固定 `ResourceLocation`（`csrp:attacking_speed_boost`）以便可靠摘
 不要在反编译树里盲目搜索（第一份委派为此浪费了大量步骤）。
 
 主树基线复核：`run-all-verifications` = 99 / 79 通过 / 20 失败 ✔（委派不影响基线）。
+
+## 批次 158：`sim_horse` 膨胀自爆（`EntityAIAttackSwell`）三处证据取齐（2026-09-25 续，未改代码）
+
+```
+原版 EntityInfHorse:73    this.field_70714_bg.func_75776_a(2, new EntityAIAttackSwell(this, 5.0));
+                          this.field_70714_bg.func_75776_a(6, new EntityAIGetFollowers(this, 1, 16));   ← 已由批次 148 前的 RecruitFollowersGoal 覆盖
+原版 EntityInfHorse:184   @Override public void setSelfeState(int state) {
+                              if (this.func_110143_aJ() <= this.func_110138_aP() * 0.5) super.setSelfeState(state);
+                          }        ← 【半血门控】：只有生命 ≤50% 时引信状态才允许推进
+原版 EntityInfHorse:190   public void func_70071_h_() { if (this.func_70089_S()) this.dyingBurst(false, 1); … }
+                                   ← 【存活期逐 tick】膨胀表现（区别于死亡后的引信燃烧）
+```
+
+**端口现状（子代理报告 + 本会话核查）**：`ParasiteFuseState` **只在 `tickDeath` 中推进** ⇒ 原版的"**存活期**半血膨胀→自爆"
+这条路径**完全不存在**；且端口无 `EntityAIAttackSwell` 对应物、无 `setSelfeState` 门控。
+
+**实施规划（分三步，避免半套机制）**：
+1. **门控**：在端口引信状态推进处加"所有者生命 ≤50%"条件（仅对需要该门控的生物，如马）——需要一个 per-mob 开关；
+2. **存活期推进**：在 `tick` 中当生命 ≤50% 时推进引信（并触发膨胀表现），与死亡路径**互斥**（避免双触发）；
+3. **AI 目标**：新增 `AttackSwellGoal(this, 5.0)`（原版 `EntityAIAttackSwell` 的语义需先读其类体——**下一轮补**），
+   注册到马（或该族）的优先级 2。
+
+**在读完 `EntityAIAttackSwell` 类体前不写代码**——否则第 3 步会变成猜测。
