@@ -3441,3 +3441,21 @@ if (target != null) {
 
 **本轮与上一轮形成对照**：上一轮因锚点属于别的文件而**未写入**（零风险中止），本轮用真实锚点（`:53` 的 `LEAP_TICKS` 字段）一次落地 ✔
 ——同一件事，差的就是"先确认锚点归属"这一步。
+
+## 批次 214：enderman 头音效映射修正（2026-09-25 续）
+
+第六批委派指出"端口把 `sim_endermanhead` 映射进 `infectedhead` profile，于是播放了原版**从未播放**的 growl/hurt/death"。
+源头核实：
+
+```
+grep -c "func_184639_G|func_184601_bQ|func_184615_bR" EntityInfEndermanHead.java  → 0
+   ⇒ 原版该类【不覆写】ambient/hurt/death 三个音效方法（继承父链的默认行为）
+端口 ParasiteSoundProfiles   register("infectedhead", …, "sim_endermanhead", …)  ✗ 强制套用了头部音效
+```
+
+⇒ 已把 `"sim_endermanhead"` 从该 profile 中**移除** ✔（不再强加原版没有的音效）。
+
+**待确认（下一批）**：移除后该头部实际播放什么，取决于端口 profile 系统的**默认回退**（无映射时的行为）——
+需读 `ParasiteSoundProfiles` 的回退逻辑，确认其等价于原版的"继承父链默认"，而不是"完全静音"或"另一个错误音效"。
+**在确认回退语义前，本改动方向正确但结果待验**（已如实标注）。
+`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。

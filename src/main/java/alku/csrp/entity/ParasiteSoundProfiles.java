@@ -17,7 +17,7 @@ final class ParasiteSoundProfiles {
         register("infectedhuman", "sim_human", "sim_villager", "mar_human", "mar_sheep", "mar_villager",
                 "fer_human", "fer_villager");
         register("assimadventurer", "sim_adventurer");
-        register("infectedhead", "sim_adventurerhead", "sim_endermanhead", "sim_horsehead", "sim_humanhead",
+        register("infectedhead", "sim_adventurerhead", "sim_horsehead", "sim_humanhead",
                 "sim_cowhead", "sim_pighead", "sim_sheephead", "sim_villagerhead", "sim_wolfhead");
         register("infectedpig", "sim_pig", "fer_pig");
         register("infectedcow", "sim_cow", "mar_cow", "fer_cow");
