@@ -2756,3 +2756,30 @@ EntityAISkill.java:43      排除 attID 13 与 31（推测为"无需视线/特�
 
 **链路已推进三层**：`EntityAISkill(…, attackID)` → `doSpecialSkill(attID)` → （待查）具体攻击实现。
 **在查到最后一层前不接线**——这正是"能触发但做错事"风险的来源。
+
+## 批次 176：分派链**追到底**——`attID == 14` 即 `skillLeap()`（2026-09-25 续）
+
+```java
+EntityParasiteBase:2201   public void doSpecialSkill(byte id) {
+                              switch (id) {
+                                 case 13: this.skillBreakBlocks(); return;
+                                 case 14: this.skillLeap();        return;   // ← 头部技能即【跳跃技能】
+                              }
+                          }
+EntityParasiteBase:2211   getFinished(14) -> this.SkillLeapFlag
+原版 EntityInfWolfHead:61  this.setskillLeapValues(0.7F, 2.5, 0);            // 跳跃参数
+```
+
+**完整链路（三层，已全部解出）**：
+
+```
+EntityAISkill(this, 40, 100, 3, true, 14)      // 冷却 40、上界 100、下界 3、需视线、attackID 14
+   → parentEntity.doSpecialSkill(14)            // 分派
+   → skillLeap()                                // 行为：跳跃，参数 (0.7F, 2.5, 0)
+```
+
+**端口接线所需的最后一项**：端口是否存在等价的"跳跃技能"`ParasiteSkill` 实现（现有 `LeapAtTargetGoal` 是**目标型 goal**，
+与原版的**技能型跳跃**不是一回事 ✗）。下一批先查端口是否有 `LeapSkill` 或 `ParasiteSkill` 形式的跳跃实现，
+有则按 `ParasiteSkillGoal(this, 14, <leap>, 40, 100, 3, true)` 接线（优先级 0），无则先补技能实现。
+
+**至此头部技能靶点的证据链已完整**（参数映射 + 行为语义 + 配置值），只差"端口有无对应技能实现"这一项。
