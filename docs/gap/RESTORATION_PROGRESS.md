@@ -2599,3 +2599,22 @@ if (!level().isClientSide && isAlive() && selfeFuse.isActive(this) && selfeFuse.
 ```
 
 已改为 **0.30D**（其余头部 kind 本就是 0.30 ✔，故修正后全族一致）。`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+## 批次 167：`sim_dragone` 部件生命——公式与配置键均已就绪，卡在**赋值时机**（2026-09-25 续，未改代码）
+
+```
+端口 AssimilatedDragonEntity:50   private static final float PART_HEALTH = 52.0F;   ← 固定值
+端口 :86-87                        private float headHealth = PART_HEALTH;  leftWingHealth = PART_HEALTH;
+原版 SRPConfig.java:128           public static double tendrilHealth = 0.4;   // "Tendril health from its parent (1=100%)"
+端口 Config.java:59/669           tendrilHealth 键【已存在】（默认 0.5，范围 0.5–100）+ 访问器 tendrilHealth()
+```
+
+**结论**：原版部件生命 = `父体最大生命 × tendrilHealth`（马 260 × 0.4 = 104），而端口写死 52.0F ✗。
+端口的配置面**已经就绪**（`Config.tendrilHealth()` 可用），所以缺的只是**接线**。
+
+**卡点（下一批先解决）**：`headHealth/leftWingHealth` 是**字段初始化**（`:86-87`），而字段初始化阶段**读不到属性**
+（`getMaxHealth()` 依赖 `createAttributes` 已生效）⇒ 必须把赋值移到**构造体/生成钩子**（如 `finalizeSpawn` 或构造体尾部）。
+下一批先读该类的构造体与 `finalizeSpawn`，确认属性在何处可用，再接线并断言。
+
+**为何不在本轮硬改**：赋值时机若判断错，部件生命会取到默认值（20）而非 104 —— 这类"编译通过但语义错"的改动，
+正是本会话反复强调要避免的；**先读生命周期，再改赋值点**。
