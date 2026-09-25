@@ -1812,3 +1812,21 @@ SRPConfigMobs.java:4370  angedEnabled = cfg.getBoolean("Vigilante Enabled", "srp
 这正是"扩大审计面"的价值：**覆盖面本身就是一种检查手段**，遗漏会随覆盖面扩大而暴露。
 
 `build` 通过、套件维持既有 20 失败（无耦合断言被触发）。`sim_villager` 的审计 JSON 将于下一轮随修正后的证据一并落盘。
+
+## 批次 120：`AssimilatedVariantEntity` 全族对齐（上轮根因的直接推论）（2026-09-25 续）
+
+批次 119 的根因是"第 73/75 轮只对齐了 `AssimilatedParasiteEntity`，漏了 `AssimilatedVariantEntity`"。
+本轮据此**一次扫完该族四个 kind**：
+
+| kind | 生命 | 护甲 | 攻击 | 击退 | 跟随范围 | 经验 |
+| --- | --- | --- | --- | --- | --- | --- |
+| BIGSPIDER | 22.0 | 3.0 | 9.0 | 0.5 | 32.0 → **16.0** | 10 → **8** |
+| HORSE | 24.0 | 0.5 | 7.5 | 0.1 | 32.0 → **16.0** | 12 → **8** |
+| HUMAN | 15.0 | 5.0 | 9.0 | 0.1 | 32.0 → **16.0** | 10 → **8** |
+| VILLAGER | 16.0 | 5.0 | 10.0 | 0.2 | 32.0 → **16.0**（批次 119） | 10 → **8**（批次 119） |
+
+依据：`SRPConfig.infectedFollow = 16`（`SRPConfig.java:146`）与 `SRPConfig.infectedXPValue = 8` 对**整个同化档**统一，
+原版由 `EntityPInfected:86`（XP）与同化族统一的跟随范围施加。`build` 通过、套件维持既有 20 失败。
+
+**待办（下一轮）**：`sim_bigspider` 与 `sim_human` 的既有审计 JSON 中，跟随范围/经验条款可能仍按旧值记为 satisfied
+⇒ 需按修正后的证据**更新这两份审计**（避免"账实不符"）。

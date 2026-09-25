@@ -612,11 +612,11 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
     }
 
     public enum Kind {
-        BIGSPIDER("sim_bigspider", 22.0D, 3.0D, 9.0D, 0.5D, 0.27D, 32.0D, 10,
+        BIGSPIDER("sim_bigspider", 22.0D, 3.0D, 9.0D, 0.5D, 0.27D, 16.0D, 8,
                 1.0F, 0.0F, 0, 0),
-        HORSE("sim_horse", 24.0D, 0.5D, 7.5D, 0.1D, 0.27D, 32.0D, 12,
+        HORSE("sim_horse", 24.0D, 0.5D, 7.5D, 0.1D, 0.27D, 16.0D, 8,
                 1.75F, 1.6F, 73, 1),
-        HUMAN("sim_human", 15.0D, 5.0D, 9.0D, 0.1D, 0.23D, 32.0D, 10,
+        HUMAN("sim_human", 15.0D, 5.0D, 9.0D, 0.1D, 0.23D, 16.0D, 8,
                 1.95F, 1.95F, 127, 1),
         VILLAGER("sim_villager", 16.0D, 5.0D, 10.0D, 0.2D, 0.23D, 16.0D, 8,
                 1.95F, 1.95F, 127, 1);
