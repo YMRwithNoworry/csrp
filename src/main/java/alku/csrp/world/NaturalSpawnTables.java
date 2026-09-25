@@ -383,7 +383,7 @@ public final class NaturalSpawnTables {
         java.util.ArrayList<MobSpawnSettings.SpawnerData> entries = new java.util.ArrayList<>();
         entries.add(spawn("lice", 1, 4, 20));
         if (dragon) {
-            entries.add(spawn("sim_dragone", 1, 1, 1));
+            entries.add(spawn("sim_dragone", 3, 6, 2));
         }
         entries.addAll(List.of(
                 spawn("fer_human", 4, 5, 25),

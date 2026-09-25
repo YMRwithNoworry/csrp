@@ -2635,3 +2635,19 @@ leftWingHealth = legacyPartHealth;
 - NBT 读档路径（`:304-305`）仍会覆盖为存档值 ✔ 语义正确。
 
 断言 1 条；`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+## 批次 169：`sim_dragone` 生成表条目对齐（组 1-1/权重 1 → 3-6/权重 2）（2026-09-25 续）
+
+第三批委派审计指出该生物的生成条目偏离。双侧核实：
+
+```
+原版 SRPSpawning.java:162   addSpawn(0, EntityInfDragonE.class, 3, 6, biome, SRPConfigMobs.infdragoneSpawnRate, infdragoneEnabled)
+原版 SRPConfigMobs          infdragoneSpawnRate = 2
+端口 NaturalSpawnTables:386 spawn("sim_dragone", 1, 1, 1)   ✗
+```
+
+已改为 `spawn("sim_dragone", 3, 6, 2)`（组大小 3-6、权重 2，权重取自原版配置默认值 —— 由脚本直接从原版文件读取后写入，非人工转录）。
+`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+**说明**：端口生成表按阶段分池（批次 104 的架构差异），本轮只对齐**该条目自身的参数**（组大小与权重），
+不触碰分池架构——架构级决策仍待专项批次。
