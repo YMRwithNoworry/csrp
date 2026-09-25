@@ -1271,3 +1271,20 @@ EntityDod / EntityLeem / EntityVenkrol : XP_INFECTED * 2
 **自校验信号**：改动后全文件 `clientTrackingRange(4).updateInterval(3)` 共 **17 处** ⇒ 另有 **16 个实体原本就用**
 这一组合，说明 4/3 正是本项目的既有惯例（与原版 tracker(64,3,true) 一致），而 `monster` helper 的 8 是唯一例外。
 `build` 通过、套件维持既有 20 失败。
+
+## 批次 88：残留 5 处 `clientTrackingRange(8)` 的核查结论（2026-09-25 续，未改）
+
+五处及其形态：
+
+| 位置 | 实体 | 形态 |
+| --- | --- | --- |
+| `:139` | `buglin`（0.5×0.3 小体型，直接注册） | `.clientTrackingRange(8)`，无 updateInterval |
+| `:145` | `rupter`（0.85×1.0） | 同上 |
+| `:254` | `kirin`（2.13×**8.85** 大体型） | 同行 `.clientTrackingRange(8)` |
+| `:528` | `parasite_projectile`（弹体） | `.clientTrackingRange(8).updateInterval(1)` |
+| `:671` | `monster(..., eyeHeight)` **5 参重载**（供 draconite 2.4×3.8 等大体型） | `.clientTrackingRange(8)` |
+
+**为何不改**：要判断它们该是 4/3 还是更大的范围，需原版各实体的注册参数；而全库检索 `.tracker(` **只命中 2 处**
+（说明原版其余注册写法不同，如无点号前缀或多行链式），**不足以支撑"一律 64/3"的结论**——
+尤其弹体（间隔 1 属合理特例）与大体积重载（128 格可能是刻意为之）两类，盲目统一反而可能造成新的偏差。
+故按纪律留手，待取得原版逐类参数后再定（可考虑先查原版大体积实体如 kirin/draconite 的实际 tracker 值）。
