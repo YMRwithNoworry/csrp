@@ -4420,3 +4420,40 @@ MarauderizedEndermanEntity  →  TetheredMarauderizedEntity（:19）
 
 **方法论**：本轮再次印证"**同族内形态可能不同**"（头部族眼高 6 档、音效逐类、伤害两种形态 ✗）——
 **任何"统一公式"都必须逐类验证**，这是本阶段最稳定的结论 ✔。
+
+## 批次 262：LONGARMS 伤害差 1 **仍未解释**（不无据改端口）+ 阶段交接摘要（2026-09-25 续）
+
+```
+grep "shycoadaptedmelee|SHYCO_A_MELLE" 原版 → 【0 命中】✗
+⇒ LONGARMS 的伤害仍按 base + additional：primitive Shyco 15 + shycoadapteddamage 12 = 27
+   端口 = 26 ✗（差 1，【原因未明】）
+```
+
+**处置**：**不无据改端口** ✔（差 1 可能是端口笔误 ✗、也可能是某个我尚未找到的因子 ✗；
+按纪律须先有源头依据再动 ✔）。已记为**开放项** ✔。
+
+---
+
+## 阶段交接摘要（截至第 254 轮）
+
+**总体**：审计面 **32/127**（未审计 95）；条款满足 **1579** / 部分 694 / 缺失 419；加权 **71.5%**；
+`build` 通过、套件 **99 / 79 / 20** 全程未漂移 ✔。
+
+**已完成的主要工作**：
+1. 头部族：眼高**逐类 6 档**（0.3–0.8 ✔）、步声、技能（`LeapSkill` + `ParasiteSkillGoal` ✔）、命中 COTH/FEAR、
+   掉落清空、旧版映射修正（`infplayerhead` ✔）、音效逐类（enderman 头 ✔）；
+2. `sim_dragone`：部件生命（`maxHealth × tendrilHealth` ✔）、步高、眼高、生成条目、音效、Boss 栏；
+3. primitive 族属性 **8/8 核对通过** ✔；头部族属性 **8/8 核对通过** ✔；
+4. adapted 族：公式解出（`base + additional` ✔ + `*adaptedmelee` 直接值形态 ✔）、**修正 2 行真实错误**（VERMIN/BURROWER ✔）；
+5. `mar_*`：命中 COTH 接线 ✔、掉落清空 ✔、生成条目移除 ✔、follow 等价确认 ✔；COTH 光环半径对齐 3 ✔；
+6. 证据漂移批量校正（11 文件 20 处 ✔）；委派 9 批共 **15 份审计**，全部验收 ✔。
+
+**开放项（交接）**：
+- **机制级 5 项**：多部件命中盒、SELFE 覆盖面、`SRPSpawning` 架构分叉、头部 killcount、`disloGiveBodies`（头→体）；
+- **配置面**：`cothAura` 可配置化等（端口为常量 ✗）；
+- **数值开放项**：LONGARMS 伤害 26 vs 27（本批 ✗）、`EntityEmana` 之外的 adapted 附加键缺项（DEVOURER/ARACHNIDA/BOLSTER ✗）；
+- **头部族**：`attackSpeedT=15` 第 2 步（需先做 goal 语义比对 ✗）；
+- **`mar_villager`**：射程 2–16 vs 12 格、优先级 1 vs 4、命中效果发散、缺射击音效 ✗。
+
+**方法沉淀（8 条委派约束 + 6 条自查规则）**：证据先行、编译当事实核查、照抄既有范式、台账只记有证据项、
+小批委派 + 增量落盘、先核对后修改、先怀疑自己的工具/公式、**"接线 vs 建机制"判别** ✔。
