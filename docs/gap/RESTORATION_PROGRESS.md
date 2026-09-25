@@ -936,3 +936,7 @@ strict: 46 known backlog key(s), 0 new ones.      # 由 50 降至 46
 ## 批次 63：primitive manducater 倍率接线（backlog 38 → 34）（2026-09-25 续）
 
 同固化流程：`MANDUCATER_` 四键下线，`--strict` 由 38 降至 **34**。
+
+## 批次 64：primitive tozoon 倍率接线（backlog 34 → 30）（2026-09-25 续）
+
+同固化流程：`TOZOON_` 四键下线，`--strict` 由 34 降至 **30**（已清 5/12 组）。

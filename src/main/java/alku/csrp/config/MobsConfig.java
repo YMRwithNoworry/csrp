@@ -243,6 +243,12 @@ public final class MobsConfig {
     public static double manducaterArmorMultiplier() { return MANDUCATER_ARMOR_MULTIPLIER.get(); }
     public static double manducaterKnockbackMultiplier() { return MANDUCATER_KNOCKBACK_MULTIPLIER.get(); }
 
+    // Legacy SRPConfigMobs primitive tozoon multipliers (constant names verified by the audit).
+    public static double tozoonHealthMultiplier() { return TOZOON_HEALTH_MULTIPLIER.get(); }
+    public static double tozoonDamageMultiplier() { return TOZOON_DAMAGE_MULTIPLIER.get(); }
+    public static double tozoonArmorMultiplier() { return TOZOON_ARMOR_MULTIPLIER.get(); }
+    public static double tozoonKnockbackMultiplier() { return TOZOON_KNOCKBACK_MULTIPLIER.get(); }
+
     public static double infsheepHealthMultiplier() { return INFSHEEP_HEALTH_MULTIPLIER.get(); }
     public static double infsheepDamageMultiplier() { return INFSHEEP_DAMAGE_MULTIPLIER.get(); }
     public static double infsheepArmorMultiplier() { return INFSHEEP_ARMOR_MULTIPLIER.get(); }
