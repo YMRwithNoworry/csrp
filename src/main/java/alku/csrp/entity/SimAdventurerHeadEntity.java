@@ -54,6 +54,13 @@ import java.util.EnumSet;
 
 /** Walking head companion that reforms an Assimilated Adventurer with a Medium Incomplete Form. */
 public final class SimAdventurerHeadEntity extends Monster implements CitadelAnimatedEntity, Parasite {
+
+    /** Legacy EntityInf*Head playStepSound override returning SRPSounds.SMALL_STEPS. */
+    @Override
+    protected void playStepSound(net.minecraft.core.BlockPos pos, net.minecraft.world.level.block.state.BlockState state) {
+        playSound(alku.csrp.registry.ModSounds.get("small.step"), getSoundVolume(), getVoicePitch());
+    }
+
     private static final EntityDataAccessor<Integer> LEAP_TICKS = SynchedEntityData.defineId(
             SimAdventurerHeadEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(

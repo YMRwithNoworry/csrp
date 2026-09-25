@@ -31,6 +31,13 @@ import alku.csrp.animation.CitadelAnimationUtil;
 
 /** Detached dragon head retains its fireball attack after the body has been decapitated. */
 public final class AssimilatedDragonHeadEntity extends Monster implements CitadelAnimatedEntity, Parasite {
+
+    /** Legacy EntityInf*Head playStepSound override returning SRPSounds.SMALL_STEPS. */
+    @Override
+    protected void playStepSound(net.minecraft.core.BlockPos pos, net.minecraft.world.level.block.state.BlockState state) {
+        playSound(alku.csrp.registry.ModSounds.get("small.step"), getSoundVolume(), getVoicePitch());
+    }
+
     private final CitadelRawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
     private final CitadelRawAnimation LIMB = ParasiteAnimations.loop(this, "func_78087_a.limb_swing");
     private final CitadelAnimationCache animationCache = CitadelAnimationUtil.createInstanceCache(this);

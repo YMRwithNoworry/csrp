@@ -3551,3 +3551,20 @@ getDeathSound():   if (kind == Kind.ENDERMAN) return SoundEvents.GENERIC_DEATH;
 **后续修复应按审计的生物清单逐一核对**（已写入方法记录）。
 
 `build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+## 批次 220：另两个头部类补步声（`small.step`）（2026-09-25 续）
+
+第七批委派指出这两种头部**未接步声**（原版 `EntityInfDragonEHead:93`、`EntityInfPlayerHead:157` 返回 `SRPSounds.SMALL_STEPS`）。
+照兄弟类（批次 189）的既有范式，在两个类中各加同一覆写：
+
+```java
+@Override
+protected void playStepSound(BlockPos pos, BlockState state) {
+    playSound(ModSounds.get("small.step"), getSoundVolume(), getVoicePitch());
+}
+```
+
+断言改为**遍历三个头部类**校验（避免再次出现"只改了一个类"的范围漏洞 ✔）；`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+**断言设计上的改进**：把"单点断言"改成"**跨同类遍历断言**"——这样若将来新增头部类而未接步声，断言会直接暴露，
+而不是等到下一轮审计才发现（**用断言固化"范围"而不仅是"点"**）。

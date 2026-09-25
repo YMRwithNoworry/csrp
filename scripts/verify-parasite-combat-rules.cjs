@@ -595,6 +595,11 @@ expect(read("src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java"),
   /playSound\(alku\.csrp\.registry\.ModSounds\.INFECTED_ENDERMAN_PORTAL\.get\(\), 1\.0F, 1\.0F\)/,
   "the head teleport does not play the portal sound");
 
+// Legacy heads use SRPSounds.SMALL_STEPS for footsteps in every head class.
+for (const f of ["AssimilatedHeadEntity", "AssimilatedDragonHeadEntity", "SimAdventurerHeadEntity"]) {
+  expect(read("src/main/java/alku/csrp/entity/" + f + ".java"), /ModSounds\.get\("small\.step"\)/, f + " does not wire the step sound");
+}
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));
