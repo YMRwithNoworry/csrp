@@ -1172,3 +1172,7 @@ ancient 5000 pure 75    preeminent 200 derived 350   turret 75
 - ✅ 已一致：adapted（`AdaLongleg/AdaScuttler/AdaWatcher/AdaptedVariant` 均 55）、ancient（5000）、pure（`PureParasiteEntity` 75）；
 - ✗ 本轮修正：`PrimitiveVariantEntity:204` 的 `kind == YELLOWEYE ? 30 : 18` → **统一 30**（原版 primitive 档即 30，YELLOWEYE 本就 30）；
 - ⏳ 仍待核对：hijacked（应为 11，端口 `HijackedParasiteEntity` 由构造参数传入，需追各子类实参）、preeminent（200）、derived（350）、turret（75）以及同化族的 `AssimilatedDragon(300)/DragonHead(40)/Enderman(24)` 等特例是否对应原版特殊值。
+
+批次 79 补记（同批已修）：改动 `PrimitiveVariantEntity` 的 XP 表达式后，`verify-primitive-yelloweye-port.cjs:30`
+的旧断言 `/xpReward = kind == Kind.YELLOWEYE \? 30 : 18/` 立即失效（套件 20 → 21 失败），已改为 `/xpReward = 30;/`
+并注明"整档共用 primitiveXPValue = 30"——YELLOWEYE 的取值不变（30），仅表达式统一。套件回到基线 99/79/20。

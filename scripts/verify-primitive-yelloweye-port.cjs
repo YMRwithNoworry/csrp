@@ -27,7 +27,7 @@ expect(entity,
 expect(entity,
   /case YELLOWEYE -> applyConfiguredAttributes\([\s\S]*?MobsConfig\.yelloweyeHealth\(\)[\s\S]*?MobsConfig\.yelloweyeArmor\(\)[\s\S]*?MobsConfig\.yelloweyeNadeDamage\(\)[\s\S]*?MobsConfig\.yelloweyeKnockbackResistance\(\)/,
   "Primitive Yelloweye config is not applied after entity registration");
-expect(entity, /xpReward = kind == Kind\.YELLOWEYE \? 30 : 18/,
+expect(entity, /xpReward = 30;/,  // the whole primitive tier shares primitiveXPValue = 30
   "Primitive Yelloweye original experience reward is missing");
 expect(entity, /moveControl = new YelloweyeMoveControl\(this\)/,
   "Primitive Yelloweye inertia-based flight control is missing");
