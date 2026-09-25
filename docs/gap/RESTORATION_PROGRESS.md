@@ -1202,3 +1202,20 @@ ancient 5000 pure 75    preeminent 200 derived 350   turret 75
 
 至此 XP 线只剩"同化族特例"（`AssimilatedDragon 300` / `AssimilatedDragonHead 40` / `AssimilatedEnderman 24`）未核对——
 需查原版 `EntityInfDragonE` 等的 XP 来源（可能来自 `infectedXPValue` 或另有专门常量）。
+
+## 批次 83：原版 XP 的**结构**查清（2026-09-25 续，记录未改）
+
+批次 82 遗留的"同化族特例"需要先理解原版的赋值方式，本轮用它替换了逐类猜测：
+
+```
+EntityPInfected / EntityPAssimara : field_70728_aV = SRPAttributes.XP_INFECTED          // 基准
+EntityAboBodies                   : XP_INFECTED * 3
+EntityDod / EntityLeem / EntityVenkrol : XP_INFECTED * 2
+统计：XP_PRIMITIVE(7 处) / XP_LiTTLE(5) / XP_ADAPTED*2(5) / XP_INFECTED*2(4) / XP_ADAPTED(4) / XP_ADAPTED*4(4) / XP_PRIMITIVE*2(3) / XP_PURE(2)
+```
+
+即原版经验 = **档次常量 × 倍数**（×2/×3/×4），另有 `XP_LiTTLE` 档用于小体型生物。
+
+**结论**：端口把经验写成逐类硬编码字面量（如 `AssimilatedDragon 300`、`Enderman 24`、`DragonHead 40`）本身不是错，
+但要判断其对错，必须**先定位每类在原版的表达式**（`XP_X * n`），而非拿档次基准值去套——
+这正是本轮不改数值的原因（上一轮 turret 已因同类理由留手）。下一批按"逐类找原版表达式"推进。
