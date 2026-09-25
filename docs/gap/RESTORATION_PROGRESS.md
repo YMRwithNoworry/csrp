@@ -2783,3 +2783,24 @@ EntityAISkill(this, 40, 100, 3, true, 14)      // 冷却 40、上界 100、下�
 有则按 `ParasiteSkillGoal(this, 14, <leap>, 40, 100, 3, true)` 接线（优先级 0），无则先补技能实现。
 
 **至此头部技能靶点的证据链已完整**（参数映射 + 行为语义 + 配置值），只差"端口有无对应技能实现"这一项。
+
+## 批次 177：端口技能生态盘点——**只有 1 个技能实现**，头部跳跃技能需新写（2026-09-25 续，未改代码）
+
+```
+grep "implements ParasiteSkillGoal.ParasiteSkill|class *Skill implements|ParasiteSkill {" src/main/java
+  → LongarmsEntity:156  ScaryOrbSkill（唯一实现）
+  → ParasiteSkillGoal:25  interface ParasiteSkill（接口定义）
+```
+
+⇒ 端口的"技能"框架虽已具备（接口 + 目标 + 冷却/距离/视线门控 ✔ 均为本会话早前所建），
+但**只实现了一个技能**（恐怖球）。原版头部的 `attackID 14` 需要**跳跃技能**，因此必须**新写一个 `ParasiteSkill`**。
+
+**新写所需的两项前置（下一批查）**：
+1. 原版 `skillLeap()` 的实现体（如何起跳、是否带伤害/效果、`SkillLeapFlag` 何时置位）；
+2. `setskillLeapValues(0.7F, 2.5, 0)` 三个参数的含义（推测为：跃迁垂直速度、水平速度、附加参数）。
+
+**可复用的端口既有资产**：`LiquidLeap` / `WaterLeapAtTargetGoal` 已实现过"带速度的跃迁"逻辑，可作为新技能的参考实现，
+避免从零推导运动参数。
+
+**结论**：该靶点从"接线"升级为"**补一个技能实现**"（比预期多一层），这也是本会话反复出现的模式——
+**追证据链的过程会改变任务的规模判断**，而提前发现规模变化远好于写到一半才发现。
