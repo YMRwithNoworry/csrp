@@ -2153,3 +2153,29 @@ grep -rl SelfeFuseOwner          → AssimilatedParasiteEntity / AssimilatedVari
 2. 配置面：原版每个生物一个 `xMob` 键（数量可观），需先统计全部键与默认值，再决定是**全量移植**还是**按已审计生物优先**。
 
 **在查清这两点前不动代码**——避免又造出"只加键不接线"或"半套机制"。
+
+## 批次 141：自爆召唤的两项前置全部查清（2026-09-25 续，未改代码）
+
+**前置 ①（端口是否有召唤工具）**：`grep -rln "spawnM|ParasiteSummon|summon"` 命中的都是无关类
+（`SummonerEntity`、`SpottedMobEffect` 等），且**全仓没有配置串解析**（`split(";")` 无命中）⇒
+端口**无**可复用的"按配置串召唤"工具，需自建一个最小解析器。
+
+**前置 ②（配置面规模）**：原版共 **8** 个 `*mob` 键（String，格式 `<实体id>;<min>;<max>`），已见 5 个：
+
+```
+SRPConfigMobs.java:94    dorpamob    = "srparasites:buglin;5;5"
+                :396   infcowmob   = "srparasites:buglin;4;3"
+                :410   infsheepmob  = "srparasites:buglin;3;3"
+                :424   infwolfmob   = "srparasites:buglin;2;2"
+                :438   infpigmob    = "srparasites:buglin;2;2"
+（另有 3 个未取全，下一轮补齐）
+```
+
+⇒ 这是个**有界功能**（8 键、目标实体统一为 `buglin`），不是"数量可观的配置面"，实施路径清晰：
+
+1. `MobsConfig` 加 8 个 String 键（默认值照抄原版）；
+2. 新增最小工具：解析 `<id>;<min>;<max>` 并按组大小在尸体位置生成（走 `BuiltInRegistries.ENTITY_TYPE` 查 id）；
+3. 挂载点：端口自爆/死亡流程（`ParasiteCombatRules.selfExplode` 或实体 `onDeathUpdate`），按 `Kind` 取对应键；
+4. 断言（解析工具的单测式校验 + 挂载点存在性）+ 记账。
+
+**在实施前补齐剩余 3 个键值**（一次 grep 即可），确保 8 个键一次落全、不留半套。
