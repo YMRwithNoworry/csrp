@@ -876,3 +876,25 @@ primitiveReeker*  primitiveTozoon*  primitiveViscera*  primitiveYelloweye*
 教训与批次 33/54 同类：**结论必须先落到单条可复核的证据上，再做批量推断**。
 
 净变更：删除 14 行守卫（无其它改动）；套件回到既有基线（99 / 79 / 20）。
+
+## 批次 58：用解析式审计替换 grep 猜测——并**再次订正批次 57**（2026-09-25 续）
+
+新增 `scripts/audit-mob-multipliers.cjs`：按 `value(id, key, default, min, max, comment)` 调用**逐字段解析**
+（正则跨行匹配），把「常量名 → 配置键」与「访问器 → 常量」两张表建起来，再求差集。这才是可信的口径。
+
+实测（当前 HEAD）：
+
+```
+declared value(...) constants: 121     per-mob multiplier keys: 99     accessors: 56
+unreachable (no accessor):     50
+  BOLSTER_* → primitiveBolsterArmorMultiplier / … / primitiveBolsterKnockbackResistanceMultiplier
+  BURROWER_* DEVOURER_* MANDUCATER_* REEKER_* TOZOON_* VISCERA_* YELLOWEYE_*
+  (均为 primitive* 系列，另含 JINJO_* → heavyBomber*、OVERSEER_*、VIGILANTE_*、WARDEN_*)
+```
+
+**订正批次 57**：上一轮我断言"该清单是 grep 误解析产物、bolster 键不存在"，这是**错的**——
+键确实存在（`primitiveBolsterArmorMultiplier` 等 50 条），我之所以查不到，是因为按**常量名**
+`PRIMITIVE_BOLSTER_HEALTH_MULTIPLIER` 去搜，而它的真实常量名是 `BOLSTER_HEALTH_MULTIPLIER`。
+因此批次 56 的清单**方向是对的**（只是当时的生成方式不可靠、名字有截断），批次 57 的否定**过头了**，
+且当时删掉的守卫**应当恢复**（下一批按本审计脚本的口径重建，白名单即上表 50 条）。
+教训升级：**证伪也要有证据；"查不到"可能只是查错了名字**。
