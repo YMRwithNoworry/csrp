@@ -486,3 +486,17 @@ canUse:  dis < distanceC && dis >= distanceL    // → 8 ≤ d < 32 格
 与已完成者，恰好命中 3 条。审计：满足 653 → **656**，缺失 289 → **286**，加权完成度 63.8% → **64.0%**。
 
 工具说明：`mobs` 过滤与既有的 `projectClasses` 正交，后续遇到「同一 class 下生物完成度不一」的情形可直接使用。
+
+## 批次 26：sim_bigspider 的 gene 捆绑条款订正（2026-09-25 续）
+
+上一轮遗留的类名悬案已解：`sim_bigspider` 的原版类是 **`EntityDorpa`**
+（`entity/monster/infected/EntityDorpa.java`，来自 `audit-input.json` 的 `originalClass`）。
+
+其任务表（`ORIGINAL_AI_TASKS.md:1469`）为：`EntityAISwimming`(0)、`EntityAIAttackMeleeStatus`(3)、
+`EntityAIInfectedSearch`(3,cond + 3)、`EntityAIAttackProjectile`(6)、`EntityAIGetFollowers`(6)、`EntityAILookIdle`(8)
+—— **无 `EntityAISkill`、无 `EntityAIWaterLeapAtTargetStatus`、无 `EntityAIBlockLight`**，即 gene 捆绑条款里的
+技能/水跃/穿墙三项对它同样不适用；适用子项六项均已实现 ⇒ 订正为满足。
+
+审计：满足 656 → **657**，缺失 286 → **285**，加权完成度 64.0% → **64.1%**。
+至此已审计 13 只生物中，gene 捆绑条款仅剩 `sim_cow` 一只未完成（其原版 `EntityInfCow:75` 有
+`EntityAISkill(this, 60, 32, 8, true, 1)` → charge 技能，下一批实施）。

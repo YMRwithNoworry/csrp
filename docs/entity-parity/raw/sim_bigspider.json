@@ -182,12 +182,12 @@
         },
         {
           "clause": "基因加成 applyGene（最小伤害/伤害上限/穿墙/疾跑/水跃/技能/攻击速度）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:266",
-            "project": null
+            "project": "src/main/java/alku/csrp/world/EvolutionSystem.java"
           },
-          "note": "project 生成系统只作用于 primitive/adapted，sim_* 无基因接入"
+          "note": "适用子项全部实现（最小伤害/伤害上限/治疗/毒伤治疗/疾跑/攻击速度）；不适用子项：ORIGINAL_AI_TASKS.md:1469 起 EntityDorpa 段落无 EntityAISkill/EntityAIWaterLeapAtTargetStatus/EntityAIBlockLight；批次：gene 捆绑条款完成（sim_bigspider = EntityDorpa；水跃/穿墙/技能经原版任务表证伪为不适用）"
         }
       ],
       "confidence": "high"

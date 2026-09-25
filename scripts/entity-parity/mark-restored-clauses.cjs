@@ -387,6 +387,19 @@ const BATCHES = {
         detail: "适用子项全部实现：最小伤害/伤害上限（ParasiteCombatRules 门控）、击杀治疗与毒伤治疗（既有）、疾跑与攻击速度（GeneMeleeGoal）。不适用子项：EntityAIWaterLeapAtTargetStatus 与 EntityAIBlockLight 在其原版类均为 0，EntityAISkill 未出现在 ORIGINAL_AI_TASKS.md 的 EntityInfSheep/InfWolf/InfSquid 段落"
       }
     ]
+  },
+  // 批次 26：sim_bigspider（原版 EntityDorpa）gene 捆绑条款完成
+  "gene-bundle-dorpa": {
+    note: "批次：gene 捆绑条款完成（sim_bigspider = EntityDorpa；水跃/穿墙/技能经原版任务表证伪为不适用）",
+    mobs: ["sim_bigspider"],
+    clauses: [
+      {
+        match: /applyGene/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/world/EvolutionSystem.java",
+        detail: "适用子项全部实现（最小伤害/伤害上限/治疗/毒伤治疗/疾跑/攻击速度）；不适用子项：ORIGINAL_AI_TASKS.md:1469 起 EntityDorpa 段落无 EntityAISkill/EntityAIWaterLeapAtTargetStatus/EntityAIBlockLight"
+      }
+    ]
   }
 };
 
