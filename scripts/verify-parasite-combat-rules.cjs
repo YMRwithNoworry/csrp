@@ -276,6 +276,14 @@ for (const file of ["AssimilatedParasiteEntity.java", "FeralParasiteEntity.java"
   }
 }
 
+// legacy EntityAIGetFollowers version 3: steal followers from low ranking leaders
+const recruitV3 = read("src/main/java/alku/csrp/entity/RecruitFollowersGoal.java");
+expect(recruitV3, /STEAL_LEADER_RANK = 40/, "the legacy version 3 steal ceiling is missing");
+expect(recruitV3, /public RecruitFollowersGoal\(Mob leader, int searchRange, int version\)/,
+  "the versioned constructor is missing");
+expect(recruitV3, /version < 3 \|\| ParasiteFollowGoal\.commandRank\(existing\) > STEAL_LEADER_RANK/,
+  "version 3 must gate the steal on the leader rank");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

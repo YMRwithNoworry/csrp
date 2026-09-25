@@ -574,3 +574,17 @@ canUse:  dis < distanceC && dis >= distanceL    // → 8 ≤ d < 32 格
 
 审计记账：该生物审计中无独立 `EntityAIGetFollowers` 条款（其 AI 条款为更粗的 `tasks.addTask` 形态），
 故本轮**账面不变**，属行为保真度补全；对应断言已加入 `verify-parasite-combat-rules.cjs`。
+
+## 批次 33：EntityAIGetFollowers version 3（2026-09-25 续）
+
+原版 `EntityAIGetFollowers` 的 `case 3`（adapted 系 `tasks.addTask(6, EntityAIGetFollowers(this, 3, 32))`）与 version 1 的差异：
+候选类型 `< 41`，且**当候选已有跟随者时**，若其上级 `getParasiteType() <= 40` 则**抢走**该跟随者。
+
+`RecruitFollowersGoal` 扩展：新增 `version` 字段与 3 参构造（默认 1），`STEAL_LEADER_RANK = 40`，
+循环体按 `version < 3 || commandRank(existing) > 40` 判定是否跳过；实体筛选谓词中的「无跟随者」条件上移到循环内
+（否则 version 3 的抢夺永远命中不了——本批修正了这点）。数值类型门用端口既有的 `commandRank` 作等价物。
+
+**踩坑与修法（本轮重点）**：上一轮用多行 `\n` 锚点做该扩展**全部静默失配**（仓库文件是 CRLF）；
+本轮改用 **edit 工具逐处按字节匹配**，三处编辑（字段/构造、循环抢夺判定、谓词上移）一次到位。
+校验：`verify-parasite-combat-rules.cjs` 增加 3 条断言（**先落实现再落断言**，避免上轮的失败断言窗口）。
+未接线：adapted 族的 `addGoal(6, new RecruitFollowersGoal(this, 32, 3))` 注册点（其 goals 锚点待下一轮确认）。

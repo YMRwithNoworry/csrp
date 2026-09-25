@@ -25,12 +25,22 @@ public final class RecruitFollowersGoal extends Goal {
     /** Legacy vertical half-extent of the search box. */
     private static final double SEARCH_HEIGHT = 2.0D;
 
+    /** Legacy numeric-type ceiling of the stolen leader in version 3. */
+    private static final int STEAL_LEADER_RANK = 40;
+
     private final Mob leader;
     private final int searchRange;
+    private final int version;
 
     public RecruitFollowersGoal(Mob leader, int searchRange) {
+        this(leader, searchRange, 1);
+    }
+
+    /** @param version legacy version; 3 also steals followers from low ranking leaders */
+    public RecruitFollowersGoal(Mob leader, int searchRange, int version) {
         this.leader = leader;
         this.searchRange = searchRange;
+        this.version = version;
         setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
     }
 
@@ -51,8 +61,14 @@ public final class RecruitFollowersGoal extends Goal {
         for (Mob candidate : leader.level().getEntitiesOfClass(Mob.class,
                 leader.getBoundingBox().inflate(searchRange, SEARCH_HEIGHT, searchRange),
                 mob -> mob != leader && mob instanceof Parasite && mob.isAlive()
-                        && ParasiteFollowGoal.getLeader(mob) == null
                         && leader.hasLineOfSight(mob))) {
+            Mob existing = ParasiteFollowGoal.getLeader(candidate);
+            // Version 1 only takes leaderless mobs; version 3 also steals followers whose leader
+            // ranks at or below 40 (the port analogue of the legacy numeric parasite type).
+            if (existing != null
+                    && (version < 3 || ParasiteFollowGoal.commandRank(existing) > STEAL_LEADER_RANK)) {
+                continue;
+            }
             ParasiteFollowGoal.setLeader(candidate, leader);
             // The original stopped after the first recruit.
             break;
