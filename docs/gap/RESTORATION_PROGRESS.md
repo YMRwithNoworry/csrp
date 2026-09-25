@@ -940,3 +940,18 @@ strict: 46 known backlog key(s), 0 new ones.      # 由 50 降至 46
 ## 批次 64：primitive tozoon 倍率接线（backlog 34 → 30）（2026-09-25 续）
 
 同固化流程：`TOZOON_` 四键下线，`--strict` 由 34 降至 **30**（已清 5/12 组）。
+
+## 批次 65：VISCERA / YELLOWEYE 两组的接线点核查（2026-09-25 续，未改代码）
+
+继续清 backlog 时对接下来两组做了**接线点核查**，结论是这两组都不能照抄前五组：
+
+| 组 | 核查结果 |
+| --- | --- |
+| `VISCERA_*` | `PrimitiveVariantEntity` 中**没有** `case VISCERA`——该生物是独立类（`VisceraEntity`），其属性不走 `applyConfiguredAttributes` 的 switch，需另找插入点 |
+| `YELLOWEYE_*` | 有 `case YELLOWEYE`（`:379`），但第三个实参是 **`MobsConfig.yelloweyeNadeDamage()`**（榴弹伤害）而非攻击伤害——`YELLOWEYE_DAMAGE_MULTIPLIER` 究竟应对应"攻击伤害"还是"榴弹伤害"**无法从现有证据判定** |
+
+**处置**：本轮**不接这两组**。理由：若只加访问器不接线，`--strict` 的 backlog 计数会虚降而键仍不可读（比不做更糟）；
+若把 `YELLOWEYE_DAMAGE_MULTIPLIER` 想当然地乘到 `yelloweyeNadeDamage()`，就是在没有证据的情况下改数值语义。
+两者都已在文档留痕，待补齐证据（原版 `SRPConfigMobs.yelloweyeDamageMultiplier` 的注释/使用点、`VisceraEntity` 的属性来源）后再动。
+
+净变更：回滚一次仅有访问器的临时改动；backlog 维持 **30**（已清 5/12 组）。
