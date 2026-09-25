@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.config.MobsConfig;
 import alku.csrp.world.EvolutionSystem;
 import alku.csrp.Csrp;
 import alku.csrp.event.ParasiteCombatRules;
@@ -117,11 +118,17 @@ public final class AssimilatedParasiteEntity extends Monster
     }
 
     public static AttributeSupplier.Builder createAttributes(Kind kind) {
+        // Legacy SRPConfigMobs per-mob multipliers (default 1.0F in the original).
+        boolean cow = kind == Kind.COW;
+        double health = cow ? MobsConfig.infcowHealthMultiplier() : 1.0D;
+        double damage = cow ? MobsConfig.infcowDamageMultiplier() : 1.0D;
+        double armor = cow ? MobsConfig.infcowArmorMultiplier() : 1.0D;
+        double knockback = cow ? MobsConfig.infcowKnockbackMultiplier() : 1.0D;
         return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, kind.maxHealth)
-                .add(Attributes.ATTACK_DAMAGE, kind.attackDamage)
-                .add(Attributes.ARMOR, kind.armor)
-                .add(Attributes.KNOCKBACK_RESISTANCE, kind.knockbackResistance)
+                .add(Attributes.MAX_HEALTH, kind.maxHealth * health)
+                .add(Attributes.ATTACK_DAMAGE, kind.attackDamage * damage)
+                .add(Attributes.ARMOR, kind.armor * armor)
+                .add(Attributes.KNOCKBACK_RESISTANCE, Math.min(1.0D, kind.knockbackResistance * knockback))
                 .add(Attributes.MOVEMENT_SPEED, kind.movementSpeed)
                 .add(Attributes.FOLLOW_RANGE, kind.followRange);
     }

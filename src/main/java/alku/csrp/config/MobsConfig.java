@@ -166,6 +166,25 @@ public final class MobsConfig {
             "srparasites:dorpa", "dorpaKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
             "Knockback-resistance multiplier for the assimilated spider.");
 
+    // Legacy SRPConfigMobs.infcow* (the assimilated cow).
+    private static final ModConfigSpec.DoubleValue INFCOW_HEALTH_MULTIPLIER = value(
+            "srparasites:infcow", "infcowHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for the assimilated cow (legacy SRPConfigMobs.infcowHealthMultiplier).");
+    private static final ModConfigSpec.DoubleValue INFCOW_DAMAGE_MULTIPLIER = value(
+            "srparasites:infcow", "infcowDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Attack-damage multiplier for the assimilated cow.");
+    private static final ModConfigSpec.DoubleValue INFCOW_ARMOR_MULTIPLIER = value(
+            "srparasites:infcow", "infcowArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for the assimilated cow.");
+    private static final ModConfigSpec.DoubleValue INFCOW_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:infcow", "infcowKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
+            "Knockback-resistance multiplier for the assimilated cow.");
+
+    public static double infcowHealthMultiplier() { return INFCOW_HEALTH_MULTIPLIER.get(); }
+    public static double infcowDamageMultiplier() { return INFCOW_DAMAGE_MULTIPLIER.get(); }
+    public static double infcowArmorMultiplier() { return INFCOW_ARMOR_MULTIPLIER.get(); }
+    public static double infcowKnockbackMultiplier() { return INFCOW_KNOCKBACK_MULTIPLIER.get(); }
+
     public static double dorpaHealthMultiplier() { return DORPA_HEALTH_MULTIPLIER.get(); }
     public static double dorpaDamageMultiplier() { return DORPA_DAMAGE_MULTIPLIER.get(); }
     public static double dorpaArmorMultiplier() { return DORPA_ARMOR_MULTIPLIER.get(); }

@@ -732,3 +732,15 @@ if (kind == Kind.BIGSPIDER && rangedCooldown <= 0 && getTarget() != null && hasL
 - 同时修正了批次 40/42 指出的遗留半成品方向：既有的 `arachnida*` 配置键仍是"只配置不读取"，可在下一轮照本批范式接上。
 
 校验：`verify-parasite-combat-rules.cjs` 增加 6 条断言；审计记账 1 条，满足 685 → **686**，缺失 265 → **264**。
+
+## 批次 44：sim_cow 的 per-mob 倍率接线（2026-09-25 续）
+
+按批次 43 的范式复制到同化牛：原版键名由 `SRPConfigMobs` 查得为 `infcow*`（`infbear/infhuman/infsquid/infcow/
+infsheep/infwolf/infvillager` 系列，默认值全 1.0F）。
+
+- `MobsConfig` 新增 `infcowHealth/Damage/Armor/KDResistanceMultiplier` 四项 + 4 个访问器；
+- `AssimilatedParasiteEntity.createAttributes` 在 `Kind.COW` 分支读取相乘（击退抗性仍按上限夹取 1.0）。
+
+**同族剩余**（键名已知，照抄即可）：`infsheep`、`infwolf`、`infsquid`、`infhuman`（`sim_human` 为独立类）、
+`infbear`；野化族对应 `fer*` 系列（`ferbear` 已确认存在，`fervillager` 待逐项核对）。
+校验：`verify-parasite-combat-rules.cjs` 增加 5 条断言；审计记账 1 条，满足 686 → **687**，缺失 264 → **263**。

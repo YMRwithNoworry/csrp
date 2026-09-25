@@ -334,6 +334,16 @@ for (const [pattern, message] of [
 ]) expect(spawnMobs, pattern, message);
 expect(mobsConfig, /public static double dorpaHealthMultiplier\(\)/, "the dorpa accessors are missing");
 
+// legacy SRPConfigMobs.infcow* multipliers are read by the assimilated cow
+const assimilatedSpawn = read("src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java");
+for (const [pattern, message] of [
+  [/boolean cow = kind == Kind\.COW;/, "the infcow multiplier branch is missing"],
+  [/MobsConfig\.infcowHealthMultiplier\(\)/, "the cow health multiplier is not read"],
+  [/MobsConfig\.infcowDamageMultiplier\(\)/, "the cow damage multiplier is not read"],
+  [/MobsConfig\.infcowArmorMultiplier\(\)/, "the cow armor multiplier is not read"],
+  [/MobsConfig\.infcowKnockbackMultiplier\(\)/, "the cow knockback multiplier is not read"]
+]) expect(assimilatedSpawn, pattern, message);
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));
