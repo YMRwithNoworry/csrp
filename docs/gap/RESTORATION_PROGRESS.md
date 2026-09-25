@@ -3867,3 +3867,22 @@ grep "ARACHNIDA|Arachnida" 原版 util/SRPAttributes.java → 【0 命中】✗
 "原版分散/端口集中"（本项）两种组合，**不能按一端推断另一端** ✔。
 
 **下一批**：逐类读取原版 8 个 primitive 实体的属性方法（`func_110147_ax`），与端口 switch 表逐项比对。
+
+## 批次 236：primitive 比对的**前置障碍**——原版类名与端口 kind 名需先建映射（2026-09-25 续，未改代码）
+
+```
+原版 primitive/ 下 12 个类：EntityBano, EntityCanra, EntityEmana, EntityGim, EntityHull, EntityIki,
+                            EntityLum, EntityNogla, EntityRanrac, EntityShyco, EntityWymo, EntityZaa
+端口 PrimitiveVariantEntity.Kind：ARACHNIDA, BOLSTER, BURROWER, DEVOURER, MANDUCATER, REEKER, TOZOON, YELLOWEYE
+```
+
+**障碍**：两套命名**不对应**（原版用内部名，端口用功能名）⇒ 直接逐项比对会**张冠李戴** ✗。
+唯一可用的线索是**数值指纹**（如端口 REEKER 速度 0.31234 ↔ 原版 `EntityNogla` 的 0.31234 ✔ 唯一匹配），
+但原版该类的 `hp=3763.0` ✗ 与端口 REEKER 的 40 ✗ 相差悬殊 ⇒ **不能仅凭速度指纹建立映射** ✗。
+
+**下一批的正确做法**：先建立**可靠的 id ↔ 原版类**映射——数据来源应是审计输入文件
+（`docs/entity-parity/audit-input.json` 的 `originalClass` 字段 ✔ 已含该映射 ✔），
+再按映射逐项比对 ✔（**不要用数值指纹反推映射**，那是循环论证 ✗）。
+
+**方法论**：本会话多次遇到"两套命名不对应"（如 `infplayerhead` ↔ 冒险者头、`sim_dragonhead` 兼容别名）。
+**先建映射、再比对**，是跨命名体系核对的必要条件；跳过映射直接按顺序对比，必然产生虚假差异。
