@@ -315,7 +315,7 @@ public final class ModEntities {
                     AssimilatedHeadEntity.Kind.PIG), 0.7F, 0.9F, 0.8F);
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedHeadEntity>> SIM_SHEEP_HEAD =
             monster("sim_sheephead", (type, level) -> new AssimilatedHeadEntity(type, level,
-                    AssimilatedHeadEntity.Kind.SHEEP), 0.7F, 0.7F, 0.8F);
+                    AssimilatedHeadEntity.Kind.SHEEP), 0.7F, 0.7F, 0.6F);
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedVariantEntity>> SIM_VILLAGER =
             monster("sim_villager", (type, level) -> new AssimilatedVariantEntity(type, level,
                     AssimilatedVariantEntity.Kind.VILLAGER), 0.6F, 1.95F);
@@ -324,7 +324,7 @@ public final class ModEntities {
                     AssimilatedHeadEntity.Kind.VILLAGER), 0.7F, 0.8F, 0.7F);
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedHeadEntity>> SIM_WOLF_HEAD =
             monster("sim_wolfhead", (type, level) -> new AssimilatedHeadEntity(type, level,
-                    AssimilatedHeadEntity.Kind.WOLF), 0.7F, 0.6F, 0.8F);
+                    AssimilatedHeadEntity.Kind.WOLF), 0.7F, 0.6F, 0.3F);
     public static final DeferredHolder<EntityType<?>, EntityType<FeralParasiteEntity>> FER_BEAR =
             monster("fer_bear", (type, level) -> new FeralParasiteEntity(type, level,
                     FeralParasiteEntity.Kind.BEAR), 1.3F, 1.4F);
