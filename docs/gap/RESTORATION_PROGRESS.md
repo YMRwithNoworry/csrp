@@ -475,3 +475,14 @@ canUse:  dis < distanceC && dis >= distanceL    // → 8 ≤ d < 32 格
 与端口 `CowChargeGoal` 的 `PREPARE_TICKS = 40` 吻合）与 `sim_bigspider`（原版类名待考）仍未完成。
 
 审计：满足 650 → **653**，缺失 292 → **289**。
+
+## 批次 25：记账脚本加 per-mob 过滤 + 同化族其余三只订正（2026-09-25 续）
+
+批次 24 遗留：`sim_sheep`/`sim_wolf`/`sim_squid` 的 gene 捆绑条款同样已满足，但三者与仍缺技能的 `sim_cow`
+共用 `AssimilatedParasiteEntity` 这个 class，class 粒度过滤无法只翻它们。
+
+本轮给 `scripts/entity-parity/mark-restored-clauses.cjs` 增加可选 `mobs: [...]` 过滤（在 projectClasses 判定之前），
+并新增批次 `gene-bundle-assimilated`（`mobs: ["sim_sheep","sim_wolf","sim_squid"]`）——dry-run 正确跳过 `sim_cow`
+与已完成者，恰好命中 3 条。审计：满足 653 → **656**，缺失 289 → **286**，加权完成度 63.8% → **64.0%**。
+
+工具说明：`mobs` 过滤与既有的 `projectClasses` 正交，后续遇到「同一 class 下生物完成度不一」的情形可直接使用。

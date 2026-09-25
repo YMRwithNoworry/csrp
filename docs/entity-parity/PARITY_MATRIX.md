@@ -1,18 +1,18 @@
 # 生物还原矩阵（SRParasites 1.10.9 → csrp）
 
-> 生成时间：2026-09-25T03:14:37.040Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
+> 生成时间：2026-09-25T03:15:31.165Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
 > 判定：✅ 全部条款满足；🟠 有部分实现但无缺失；❌ 存在缺失；· 未审计。
 
 - 注册生物总数：**127**；已审计：**13**；未审计：**114**
-- 条款总计：满足 653 / 部分 380 / 缺失 289（不计入 57 条不适用）
-- **加权完成度：63.8%**（partial 计 0.5）
+- 条款总计：满足 656 / 部分 380 / 缺失 286（不计入 57 条不适用）
+- **加权完成度：64%**（partial 计 0.5）
 
 ## 分面完成度
 
 | 面 | 满足 | 部分 | 缺失 | 完成度 |
 | --- | ---: | ---: | ---: | ---: |
 | 注册 `registration` | 61 | 40 | 30 | 61.8% |
-| 属性 `attributes` | 69 | 29 | 27 | 66.8% |
+| 属性 `attributes` | 72 | 29 | 24 | 69.2% |
 | AI `ai` | 79 | 75 | 35 | 61.6% |
 | 行为 `behaviors` | 152 | 76 | 72 | 63.3% |
 | 伤害/效果 `damage_and_effects` | 102 | 16 | 20 | 79.7% |
@@ -36,8 +36,8 @@
 | hijacked_and_feral | 2/12 | 98 | 59 | 69 | 56.4% |
 | early_lifecycle | 1/10 | 42 | 25 | 18 | 64.1% |
 | marauderized | 1/7 | 54 | 26 | 24 | 64.4% |
-| assimilated | 6/23 | 321 | 188 | 110 | 67% |
 | current | 2/13 | 96 | 44 | 35 | 67.4% |
+| assimilated | 6/23 | 324 | 188 | 107 | 67.5% |
 
 ## 逐生物矩阵
 
@@ -163,13 +163,13 @@
 | `host` | EntityHost | HostEntity | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | 🟠 | 64.1% |
 | `mar_cow` | EntitySpeCow | MarauderizedCowEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 64.4% |
 | `sim_human` | EntityInfHuman | SimHumanEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 65.5% |
-| `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 66.1% |
-| `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 66.8% |
 | `sim_cow` | EntityInfCow | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 67% |
 | `pri_longarms` | EntityShyco | LongarmsEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 67.1% |
+| `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 67.2% |
+| `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 67.8% |
 | `sim_bigspider` | EntityDorpa | AssimilatedVariantEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 67.9% |
 | `buglin` | EntityLodo | BuglinEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 67.9% |
-| `sim_sheep` | EntityInfSheep | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 69% |
+| `sim_sheep` | EntityInfSheep | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 70% |
 
 ## 缺口清单（按完成度升序）
 
@@ -216,12 +216,6 @@
 ### `sim_human`（EntityInfHuman → SimHumanEntity，65.5%）
 - （无缺口摘要，见 raw JSON）
 
-### `sim_squid`（EntityInfSquid → AssimilatedParasiteEntity，66.1%）
-- （无缺口摘要，见 raw JSON）
-
-### `sim_wolf`（EntityInfWolf → AssimilatedParasiteEntity，66.8%）
-- （无缺口摘要，见 raw JSON）
-
 ### `sim_cow`（EntityInfCow → AssimilatedParasiteEntity，67%）
 - （无缺口摘要，见 raw JSON）
 
@@ -232,6 +226,12 @@
 - 冲击波波体伤害为 1.0x（原版 0.3x）、每目标仅命中一次、寿命与破坏硬度不匹配；AOE 缺少“命中寄生虫清除目标”分支
 - 变体皮肤 5/6/7 与冰冻变体 120 全链路缺失（同步数据、finalizeSpawn、贴图、粒子、附加效果）
 - 伤害侧缺失：单次伤害上限(damageCap=6)+RAGE、生命恢复、吞噬食物、击杀治疗、FEAR、毒治愈、效果免疫、PIVOT 转移
+
+### `sim_squid`（EntityInfSquid → AssimilatedParasiteEntity，67.2%）
+- （无缺口摘要，见 raw JSON）
+
+### `sim_wolf`（EntityInfWolf → AssimilatedParasiteEntity，67.8%）
+- （无缺口摘要，见 raw JSON）
 
 ### `sim_bigspider`（EntityDorpa → AssimilatedVariantEntity，67.9%）
 - （无缺口摘要，见 raw JSON）
@@ -244,5 +244,5 @@
 - 冰冻变体贴图（slodo）与脚步静音音效缺失
 - 经验值 1 而非 XP_LiTTLE(4)；缺少死亡钩子（spawnCyst/spawnBeckon/leaveScent）
 
-### `sim_sheep`（EntityInfSheep → AssimilatedParasiteEntity，69%）
+### `sim_sheep`（EntityInfSheep → AssimilatedParasiteEntity，70%）
 - （无缺口摘要，见 raw JSON）

@@ -374,6 +374,19 @@ const BATCHES = {
         detail: "适用子项全部实现：最小伤害/伤害上限（ParasiteCombatRules 门控 r6）、击杀治疗与毒伤治疗（既有）、疾跑与攻击速度（GeneMeleeGoal r12-15）。不适用子项经原版证据证伪：EntityAIWaterLeapAtTargetStatus 仅 EntityFer*/EntityInfHuman 有（r9/r12 已实现）、EntityAIBlockLight 在 EntityInf*/EntityFer*/EntitySpe* 全段为 0、EntityAISkill 仅 EntityInfCow 与 EntitySpeBear 有（ORIGINAL_AI_TASKS.md）"
       }
     ]
+  },
+  // 批次 25：同化族中已完成的其余三只（class 粒度过滤会误带仍缺技能的 sim_cow，故用 mob 过滤）
+  "gene-bundle-assimilated": {
+    note: "批次：gene 捆绑条款完成（sim_sheep/sim_wolf/sim_squid；水跃、穿墙破块、技能经原版任务表证伪为不适用）",
+    mobs: ["sim_sheep", "sim_wolf", "sim_squid"],
+    clauses: [
+      {
+        match: /applyGene/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/world/EvolutionSystem.java",
+        detail: "适用子项全部实现：最小伤害/伤害上限（ParasiteCombatRules 门控）、击杀治疗与毒伤治疗（既有）、疾跑与攻击速度（GeneMeleeGoal）。不适用子项：EntityAIWaterLeapAtTargetStatus 与 EntityAIBlockLight 在其原版类均为 0，EntityAISkill 未出现在 ORIGINAL_AI_TASKS.md 的 EntityInfSheep/InfWolf/InfSquid 段落"
+      }
+    ]
   }
 };
 
@@ -397,6 +410,10 @@ let changedClauses = 0;
 for (const file of files) {
   const full = path.join(rawDir, file);
   const data = JSON.parse(fs.readFileSync(full, "utf8"));
+  if (batch.mobs && !batch.mobs.includes(data.id)) {
+    console.log(`[skip] ${data.id}: not in this batch mob list`);
+    continue;
+  }
   if (batch.projectClasses && !batch.projectClasses.some((c) => (data.projectClass ?? "").startsWith(c))) {
     console.log(`[skip] ${data.id} (${data.projectClass}): not touched by this batch`);
     continue;

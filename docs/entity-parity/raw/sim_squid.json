@@ -184,12 +184,12 @@
         },
         {
           "clause": "基因加成 applyGene（最小伤害/伤害上限/穿墙/疾跑/水跃/技能/攻击速度）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:266",
-            "project": null
+            "project": "src/main/java/alku/csrp/world/EvolutionSystem.java"
           },
-          "note": "project 生成系统只作用于 primitive/adapted，sim_* 无基因接入"
+          "note": "适用子项全部实现：最小伤害/伤害上限（ParasiteCombatRules 门控）、击杀治疗与毒伤治疗（既有）、疾跑与攻击速度（GeneMeleeGoal）。不适用子项：EntityAIWaterLeapAtTargetStatus 与 EntityAIBlockLight 在其原版类均为 0，EntityAISkill 未出现在 ORIGINAL_AI_TASKS.md 的 EntityInfSheep/InfWolf/InfSquid 段落；批次：gene 捆绑条款完成（sim_sheep/sim_wolf/sim_squid；水跃、穿墙破块、技能经原版任务表证伪为不适用）"
         }
       ],
       "confidence": "high"
