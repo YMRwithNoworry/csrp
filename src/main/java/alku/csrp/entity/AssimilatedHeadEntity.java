@@ -332,7 +332,10 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
     }
 
     private boolean isValidParasiteTarget(LivingEntity target) {
-        return target != this && target.isAlive() && !(target instanceof Parasite)
+        // Legacy EntityInfEndermanHead:93 targets EntityInhooM (an incomplete form, i.e. a Parasite),
+        // so incomplete forms must pass the filter even though other parasites do not.
+        return target != this && target.isAlive()
+                && (!(target instanceof Parasite) || target instanceof IncompleteFormMediumEntity)
                 && !shouldRetreatForPackSize();
     }
 

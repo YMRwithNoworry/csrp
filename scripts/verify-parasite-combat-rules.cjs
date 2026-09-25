@@ -612,6 +612,11 @@ for (const f of ["AssimilatedHeadEntity", "SimAdventurerHeadEntity"]) {
   expect(src, /applyCoth/, f + " does not apply COTH on hit");
 }
 
+// Legacy EntityInfEndermanHead:93 targets EntityInhooM, so incomplete forms must pass the filter.
+expect(read("src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java"),
+  /!\(target instanceof Parasite\) \|\| target instanceof IncompleteFormMediumEntity/,
+  "incomplete forms cannot be targeted by the heads");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

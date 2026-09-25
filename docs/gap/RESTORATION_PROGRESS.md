@@ -3627,3 +3627,28 @@ if (hit && !level().isClientSide && target instanceof LivingEntity livingTarget)
 2. **重申 `missing` 与 `partial` 的判别**（机制缺失 vs 值/分支不符）——批次 202/208 的教训。
 
 主树基线复核：套件 99 / 79 通过 / 20 失败 ✔ 未受影响。
+
+## 批次 225：修正"头部合并分支不可达"的逻辑 bug（2026-09-25 续）
+
+第六/七批委派均指出：`AssimilatedHeadEntity` 里"不完全体 → 身体"的合并分支**永远不可达**。本轮自行复核并修正：
+
+```
+端口 isValidParasiteTarget:335   return target != this && target.isAlive() && !(target instanceof Parasite) && …
+端口 :219                       if (target instanceof IncompleteFormMediumEntity && level() instanceof ServerLevel …) { …合并… }
+                                —— 而 IncompleteFormMediumEntity 正是 Parasite（经 CrudeParasiteEntity → PrimitiveParasiteEntity）
+                                ⇒ 该分支被自己的过滤器挡在门外 ✗【死代码】
+原版 EntityInfEndermanHead:93   func_75776_a(5, new EntityAINearestAttackableTarget(this, EntityInhooM.class, true))
+                                ⇒ 【原版确实以不完全体为目标】✔ ⇒ 端口过滤器过宽 ✗
+```
+
+**修正**（有据可依）：
+```java
+return target != this && target.isAlive()
+        && (!(target instanceof Parasite) || target instanceof IncompleteFormMediumEntity)
+        && !shouldRetreatForPackSize();
+```
+⇒ 不完全体可通过过滤（其他寄生体仍被排除 ✔），合并分支恢复可达 ✔。
+
+**这类 bug 的特征**：**编译通过、运行不报错、也不会有日志**——只是"某个功能永远不发生"。
+它由审计发现（两次委派都指出），而**修正依据必须来自原版的目标注册**（`:93`），否则就只是"让死代码活过来"而已。
+断言 1 条；`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
