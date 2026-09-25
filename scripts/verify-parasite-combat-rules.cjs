@@ -581,6 +581,11 @@ expect(melee, /public GeneMeleeGoal\(Mob mob, double baseSpeed, boolean requireL
 expect(melee, /this\.attackIntervalTicks = Math\.max\(1, attackIntervalTicks\)/,
   "the melee goal does not store the per-mob attack interval");
 
+// Legacy EntityInfEndermanHead:105-111 applies ATTACKING_SPEED_BOOST while targeting.
+expect(read("src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java"),
+  /headSpeed\.addTransientModifier\(new net\.minecraft\.world\.entity\.ai\.attributes\.AttributeModifier\(/,
+  "the head attacking speed boost is not applied");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

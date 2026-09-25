@@ -3421,3 +3421,23 @@ public GeneMeleeGoal(Mob mob, double baseSpeed, boolean requireLineOfSight, int 
 **教训**：跨文件批量脚本必须**先确认锚点所属文件**；本次幸而脚本设计为"锚点缺失即中止且不写入"，避免了半成品。
 
 **下一批**：先读 `AssimilatedHeadEntity` 的字段区取得真实锚点 → 落地修饰符 → 断言。
+
+## 批次 213：enderman 头 `ATTACKING_SPEED_BOOST` 落地（2026-09-25 续）
+
+按批次 212 的方案落地（复用本体在批次 154 的同一写法）：在头部**既有的 `setTarget` 覆写**中增删修饰符
+
+```java
+super.setTarget(target);
+headSpeed.removeModifier(ATTACKING_SPEED_BOOST_ID);
+if (target != null) {
+    headSpeed.addTransientModifier(new AttributeModifier(ATTACKING_SPEED_BOOST_ID, 0.15D, ADD_VALUE));
+}
+```
+
+- 固定 id（`csrp:head_attacking_speed_boost`）确保可靠摘除 ✔；值 0.15 与原版一致 ✔；
+- 无需新增钩子（端口头部早已覆写 `setTarget` ✔）。
+
+断言 1 条；`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+**本轮与上一轮形成对照**：上一轮因锚点属于别的文件而**未写入**（零风险中止），本轮用真实锚点（`:53` 的 `LEAP_TICKS` 字段）一次落地 ✔
+——同一件事，差的就是"先确认锚点归属"这一步。

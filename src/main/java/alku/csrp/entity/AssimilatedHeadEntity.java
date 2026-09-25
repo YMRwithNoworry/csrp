@@ -50,6 +50,10 @@ import java.util.EnumSet;
 
 /** Shared walking-head behavior: infect targets and rebuild a body with a medium incomplete form. */
 public final class AssimilatedHeadEntity extends Monster implements CitadelAnimatedEntity, Parasite {
+    /** Legacy ATTACKING_SPEED_BOOST_ID of EntityInfEndermanHead:57. */
+    private static final net.minecraft.resources.ResourceLocation ATTACKING_SPEED_BOOST_ID =
+            net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(alku.csrp.Csrp.MODID, "head_attacking_speed_boost");
+
     private static final EntityDataAccessor<Integer> LEAP_TICKS = SynchedEntityData.defineId(
             AssimilatedHeadEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
@@ -139,6 +143,16 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
     @Override
     public void setTarget(LivingEntity target) {
         super.setTarget(target);
+        // Legacy EntityInfEndermanHead:105-111: +0.15 movement speed while a target is set.
+        var headSpeed = getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED);
+        if (headSpeed != null) {
+            headSpeed.removeModifier(ATTACKING_SPEED_BOOST_ID);
+            if (target != null) {
+                headSpeed.addTransientModifier(new net.minecraft.world.entity.ai.attributes.AttributeModifier(
+                        ATTACKING_SPEED_BOOST_ID, 0.15D,
+                        net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_VALUE));
+            }
+        }
         setAggressive(target != null);
         if (kind == Kind.ENDERMAN) {
             entityData.set(SCREAMING, target != null);
