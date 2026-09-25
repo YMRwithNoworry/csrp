@@ -102,16 +102,26 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
 
     @Override
     protected SoundEvent getAmbientSound() {
+        // Legacy EntityInfEndermanHead never overrides the sound methods: silent ambient.
+        if (kind == Kind.ENDERMAN) {
+            return null;
+        }
         return ParasiteSoundProfiles.ambient(this);
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
+        if (kind == Kind.ENDERMAN) {
+            return net.minecraft.sounds.SoundEvents.GENERIC_HURT;
+        }
         return ParasiteSoundProfiles.hurt(this);
     }
 
     @Override
     protected SoundEvent getDeathSound() {
+        if (kind == Kind.ENDERMAN) {
+            return net.minecraft.sounds.SoundEvents.GENERIC_DEATH;
+        }
         return ParasiteSoundProfiles.death(this);
     }
 

@@ -586,6 +586,10 @@ expect(read("src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java"),
   /headSpeed\.addTransientModifier\(new net\.minecraft\.world\.entity\.ai\.attributes\.AttributeModifier\(/,
   "the head attacking speed boost is not applied");
 
+// Legacy EntityInfEndermanHead never overrides the sound methods: vanilla generic hurt/death, no ambient.
+expect(read("src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java"),
+  /kind == Kind\.ENDERMAN[\s\S]{0,80}?SoundEvents\.GENERIC_HURT/, "the enderman head hurt sound is wrong");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

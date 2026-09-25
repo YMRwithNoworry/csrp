@@ -3483,3 +3483,20 @@ grep -c "func_184639_G|func_184601_bQ|func_184615_bR" EntityInfEndermanHead.java
 
 **方法论**：本轮**没有**把"移除了错误映射"直接记成"音效已对齐"——**回退语义的差别是真实存在的**，
 而把它写清楚（"更接近但不完全等价"）比含糊过去更有价值。
+
+## 批次 216：头部音效按 kind 分支落地（enderman 头 → vanilla 通用音）（2026-09-25 续）
+
+按批次 215 的路径 2 落地：头部三个音效方法加**逐类分支**
+
+```java
+getAmbientSound(): if (kind == Kind.ENDERMAN) return null;                  // 原版不覆写 ⇒ 无 ambient
+getHurtSound():    if (kind == Kind.ENDERMAN) return SoundEvents.GENERIC_HURT;
+getDeathSound():   if (kind == Kind.ENDERMAN) return SoundEvents.GENERIC_DEATH;
+```
+
+⇒ 该头部不再"静音"（批次 214 的中间状态），也不再播放原版从未播放的 `infectedhead` 音效，而是**与原版一致地继承 vanilla 通用音** ✔。
+
+断言 1 条；`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+**本批完成了一条"三步收敛"**：① 发现映射错误（批次 214 移除）→ ② 查明回退语义、**如实标注"更接近但不等价"**（批次 215）→ ③ 按逐类分支补齐到等价（本批）。
+**中间那一步的如实标注是关键**：若在第 ① 步就宣称"音效已对齐"，第 ③ 步就不会发生。
