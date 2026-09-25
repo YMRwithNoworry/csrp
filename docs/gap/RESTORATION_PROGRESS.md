@@ -1605,3 +1605,23 @@ EntityPInfected.java:86       this.field_70728_aV = SRPAttributes.XP_INFECTED;  
 
 至此 XP 线**全部档次闭合**：infected 8 / feral 16 / primitive 30 / hijacked 11 / adapted 55 / ancient 5000 /
 pure 75 / preeminent 200 / derived 350 / 同化族特例 8；仅 `turret 75` 因缺"turret 类"映射证据仍未定，`XP_LiTTLE=4` 端口暂无对应实现。
+
+## 批次 106：trackingRange 线**收束**——一个差点被误读的参数（2026-09-25 续）
+
+批次 88 留了"残留 5 处 `clientTrackingRange(8)` 待查原版 kirin/draconite 的真实 tracker 值"。本轮去查，**差点犯一个错**：
+
+```
+SRPEntities.java:390   CreateEntityMob("kirin", EntityKirin.class, 4272252, 4272252, 67, true)
+                                                                                  ^^ 我一度以为是追踪范围
+SRPEntities.java:182   private static <T extends Entity> EntityEntry CreateEntityMob(
+                           String name, Class<T> cls, int primaryColorIn, int secondaryColorIn, int id, boolean active)
+                                                                                        ^^^^^^ 实为实体 id
+```
+
+**含义**：`67` 是**实体注册 id**（1.12 时代 `EntityEntryBuilder.id(...)`），与追踪范围无关。若按误读去改端口，
+就会把"id"当成"追踪距离"写进 `clientTrackingRange` —— 这正是本会话反复强调的"看起来对"陷阱；签名一读即破。
+
+**结论（本线收束）**：原版全库 `.tracker(` 仅 2 处命中（既有多为不同写法/默认值），**无法逐类还原 tracker 参数**，
+故批次 88 的判断（残留 5 处保持不动）**维持不变**，不再在缺证据的情况下尝试统一。
+
+至此三条遗留数列线全部有明确归宿：XP ✅ 闭合、tracker ⏹ 证据不足收束、`SRPSpawning` 架构分叉 ⏸ 待决策。
