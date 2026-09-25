@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-25T05:05:24.427Z",
+  "generatedAt": "2026-09-25T05:07:58.629Z",
   "protocol": "docs/entity-parity/AUDIT_PROTOCOL.md",
   "input": "docs/entity-parity/audit-input.json",
   "counts": {
@@ -8,8 +8,8 @@
     "missing": 114
   },
   "overall": {
-    "satisfied": 702,
-    "partial": 365,
+    "satisfied": 703,
+    "partial": 364,
     "missing": 255,
     "na": 57,
     "denominator": 1322,
@@ -109,12 +109,12 @@
     {
       "facet": "spawning",
       "label": "生成",
-      "satisfied": 38,
-      "partial": 33,
+      "satisfied": 39,
+      "partial": 32,
       "missing": 16,
       "na": 2,
       "denominator": 87,
-      "completion": 62.6
+      "completion": 63.2
     },
     {
       "facet": "loot",
@@ -198,12 +198,12 @@
       "group": "hijacked_and_feral",
       "audited": 2,
       "expected": 12,
-      "satisfied": 108,
-      "partial": 58,
+      "satisfied": 109,
+      "partial": 57,
       "missing": 60,
       "na": 3,
       "denominator": 226,
-      "completion": 60.6
+      "completion": 60.8
     },
     {
       "group": "early_lifecycle",
@@ -3004,13 +3004,13 @@
       "group": "hijacked_and_feral",
       "missing": false,
       "totals": {
-        "satisfied": 66,
-        "partial": 32,
+        "satisfied": 67,
+        "partial": 31,
         "missing": 36,
         "na": 1
       },
       "denominator": 134,
-      "completion": 61.2,
+      "completion": 61.6,
       "facets": {
         "registration": {
           "satisfied": 7,
@@ -3076,8 +3076,8 @@
           "clauses": 6
         },
         "spawning": {
-          "satisfied": 7,
-          "partial": 2,
+          "satisfied": 8,
+          "partial": 1,
           "missing": 2,
           "na": 0,
           "clauses": 11

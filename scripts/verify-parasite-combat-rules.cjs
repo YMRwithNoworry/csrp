@@ -492,6 +492,12 @@ expect(lightChecks, /Config\.spawnDays\(\) > level\.getLevel\(\)\.getGameTime\(\
 expect(lightChecks, /phase >= alku\.csrp\.Config\.evolutionSpawningIgnoreSunlight\(\)/,
   "the phase-dependent light tier is not applied");
 
+// Legacy SRPConfig.ignoreL only applies when evolution phases are disabled.
+expect(mobsConfig ? lightChecks : lightChecks, /else if \(alku\.csrp\.Config\.ignoreLightLevel\(\)\)/,
+  "the ignoreL branch is not wired");
+expect(read("src/main/java/alku/csrp/Config.java"), /public static boolean ignoreLightLevel\(\)/,
+  "the ignoreL config key is missing");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

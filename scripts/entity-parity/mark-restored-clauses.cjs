@@ -662,6 +662,19 @@ const BATCHES = {
         detail: "已实现原版 func_70601_bi 语义：ParasiteCombatRules.enforceLegacySpawnValidity 在 FinalizeSpawnEvent 上判定，未通过则 setSpawnCancelled(true)（刷怪笼/刷怪蛋/指令豁免）；world/SpawnLightChecks 提供两级光照（isValidLightLevelTwo 的随机门控照抄、isValidLightLevelOne 含 SKY>nextInt(32)、getMaxLocalRawBrightness<=nextInt(8)、getWalkTargetValue>=0）与 canSpawnNaturally（和平难度拒、Config.spawnDays() > getGameTime() 拒、按 phase>=evolutionSpawningIgnoreSunlight || phase==-1&&phaseLightlessMinusOne 选档）；配置键 spawnDays/evolutionSpawningIgnoreSunlight/phaseLightlessMinusOne 已补。已知偏差（文档批次 94）：寄生区以脚下方块为 InfestedBlock 近似、不模拟雷暴临时减光。"
       }
     ]
+  },
+  // 批次 101：fer_villager 的生成合法性（含 SRPConfig.ignoreL）
+  "spawn-validity-ignorel": {
+    note: "批次：生成合法性补 ignoreL（useEvolution 关闭时改用宽松档）",
+    mobs: ["fer_villager"],
+    clauses: [
+      {
+        match: /ignoreL/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/world/SpawnLightChecks.java",
+        detail: "原版 ignoreL 仅在使用进化阶段关闭时生效（EntityParasiteBase:1568 的 else-if 分支：为真则用宽松档 isValidLightLevelTwo），已按此语义实现：Config 新增 ignoreL 键（默认 false），SpawnLightChecks.canSpawnNaturally 在 Config.useEvolutionPhases() 为假时按 ignoreLightLevel() 选择宽松/严格档；结合既有的 isValidLightLevelOne/Two、spawnDays tick 门槛与非和平判定，该条款要素齐备。"
+      }
+    ]
   }
 };
 

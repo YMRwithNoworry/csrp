@@ -76,8 +76,15 @@ public final class SpawnLightChecks {
         if (alku.csrp.Config.spawnDays() > level.getLevel().getGameTime()) {
             return false;
         }
-        boolean looser = phase >= alku.csrp.Config.evolutionSpawningIgnoreSunlight()
-                || (phase == -1 && alku.csrp.Config.phaseLightlessMinusOne());
+        boolean looser;
+        if (alku.csrp.Config.useEvolutionPhases()) {
+            looser = phase >= alku.csrp.Config.evolutionSpawningIgnoreSunlight()
+                    || (phase == -1 && alku.csrp.Config.phaseLightlessMinusOne());
+        } else if (alku.csrp.Config.ignoreLightLevel()) {
+            looser = true;   // legacy SRPConfig.ignoreL applies only without evolution phases
+        } else {
+            looser = false;
+        }
         return looser ? isValidLightLevelTwo(level.getLevel(), mob)
                 : isValidLightLevelOne(level.getLevel(), mob, parasiteRegion);
     }

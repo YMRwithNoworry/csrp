@@ -1512,3 +1512,20 @@ NexusParasiteEntity:222     if (activeKind.family == Family.BECKON && activeKind
 | fer_villager | 额外要求 **`SRPConfig.ignoreL`** | ⏸ **保持 partial**——该键的使用点尚未查清，我刻意未加（不造死键），故不能记账 |
 
 账面：满足 696 → **702**，部分 371 → **365**，加权 **66.7% → 66.9%**。`beckon_siii` 的同类条款原为 `na`（不适用）。
+
+## 批次 101：补 `ignoreL` 键并收敛 fer_villager 条款（2026-09-25 续）
+
+本轮把 `SRPConfig.ignoreL` 的**使用点**查清（这正是上一批拒绝加键的原因）：
+
+```
+EntityParasiteBase:1568   } else if (SRPConfig.ignoreL) {   // 仅在 SRPConfigSystems.useEvolution == false 时
+                              … canSpawnMob && 难度!=PEACEFUL && isValidLightLevelTwo() && spawnDays <= worldTime
+EntityParasiteBase:1573   } else {                           // 关闭进化且 ignoreL=false ⇒ 严格档 One
+```
+
+即完整分支为：`useEvolution` 为真 → 按 `phaseCreated` 选档；为假 → `ignoreL ? Two : One`。
+据此实现：`Config` 新增 `ignoreL` 键（默认 false）；`canSpawnNaturally` 在 `Config.useEvolutionPhases()` 为假时
+按 `ignoreLightLevel()` 选宽松/严格档。断言 2 条。
+
+**记账**：`fer_villager` 那条 partial 的缺失项（`ignoreL`）已补齐 ⇒ 记为 satisfied。
+账面：满足 702 → **703**，部分 365 → **364**，加权维持 **66.9%**。

@@ -135,6 +135,10 @@ public final class Config {
             .comment("Treat phase -1 parasites as lightless, i.e. use the looser light check"
                     + " (SRPConfigSystems.phaseLightlessMinusOne = true).")
             .define("phaseLightlessMinusOne", true);
+    private static final ModConfigSpec.BooleanValue IGNORE_LIGHT = BUILDER
+            .comment("Legacy SRPConfig.ignoreL (false): when evolution phases are disabled, use the"
+                    + " looser light-level check for natural spawns.")
+            .define("ignoreL", false);
     private static final ModConfigSpec.DoubleValue PARASITE_REGEN = BUILDER
             .comment("Health a parasite regains per regeneration tick while it has killcount left"
                     + " (legacy primitiveRegen, consumed one killcount per 5 heals).")
@@ -686,6 +690,7 @@ public final class Config {
     public static int spawnDays() { return SPAWN_DAYS.get(); }
     public static int evolutionSpawningIgnoreSunlight() { return EVOLUTION_SPAWN_IGNORE_SUNLIGHT.get(); }
     public static boolean phaseLightlessMinusOne() { return PHASE_LIGHTLESS_MINUS_ONE.get(); }
+    public static boolean ignoreLightLevel() { return IGNORE_LIGHT.get(); }
     public static boolean useEvolutionPhases() { return USE_EVOLUTION_PHASES.get(); }
     public static boolean generationEnabled() { return GENERATION_ENABLED.get(); }
     public static boolean pearlDestroyedOnBeholderKill() { return PEARL_DESTROYED_ON_BEHOLDER_KILL.get(); }
