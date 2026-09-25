@@ -83,12 +83,36 @@ for (const [pattern, message] of [
   [/poseStack\.scale\(horizontalScale, verticalScale, horizontalScale\)/,
     "the legacy swell scale is missing"]
 ]) expect(render, pattern, message);
+// the marauderized family inherits the fuse through HijackedParasiteEntity, so its renderer only
+// needs the swell (the tethered one used by mar_bear / mar_enderman)
+expect(read("src/main/java/alku/csrp/entity/HijackedParasiteEntity.java"),
+  /class HijackedParasiteEntity extends PrimitiveParasiteEntity/,
+  "HijackedParasiteEntity must stay on the PrimitiveParasiteEntity chain (it carries the fuse)");
 for (const file of ["PrimitiveParasiteRenderer.java", "AssimilatedParasiteRenderer.java",
-  "SimHumanRenderer.java"]) {
+  "SimHumanRenderer.java", "TetheredMarauderizedRenderer.java"]) {
   expect(read(`src/main/java/alku/csrp/client/renderer/${file}`),
     /SelfeFuseRender\.applySwelling\(fuseOwner, poseStack, partialTick\)/,
     `${file} does not apply the fuse swell`);
 }
+
+// the marauderized family is permanently scaled by its renderer (legacy RenderSpe* base scale)
+const clientEvents = read("src/main/java/alku/csrp/client/ClientModEvents.java");
+for (const [pattern, message] of [
+  [/new PrimitiveParasiteRenderer<>\(context, "mar_cow", 0\.55F, 1\.1F\)/,
+    "mar_cow must keep the legacy 1.1 base scale"],
+  [/new PrimitiveParasiteRenderer<>\(context, "mar_villager", 0\.5F, 1\.1F\)/,
+    "mar_villager must keep the legacy 1.1 base scale"],
+  [/new TetheredMarauderizedRenderer<>\(context, "mar_bear", 0\.65F, 1\.3F\)/,
+    "mar_bear must keep the legacy 1.3 base scale"],
+  [/new TetheredMarauderizedRenderer<>\(context, "mar_enderman", 0\.5F, 1\.1F\)/,
+    "mar_enderman must keep the legacy 1.1 base scale"]
+]) expect(clientEvents, pattern, message);
+expect(read("src/main/java/alku/csrp/client/renderer/PrimitiveParasiteRenderer.java"),
+  /private final float baseScale;,?\r?\n/,
+  "PrimitiveParasiteRenderer must carry a base scale");
+expect(read("src/main/java/alku/csrp/client/renderer/TetheredMarauderizedRenderer.java"),
+  /private final float baseScale;/,
+  "TetheredMarauderizedRenderer must carry a base scale");
 
 if (failures.length) {
   console.error("Parasite SELFE fuse verification failed:");

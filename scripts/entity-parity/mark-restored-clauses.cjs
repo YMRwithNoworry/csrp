@@ -270,6 +270,30 @@ const BATCHES = {
         detail: "SelfeFuseRender.applySwelling 用原版 f1/f2/f3 公式缩放；Primitive/Assimilated/SimHuman 三个渲染器均已接入"
       }
     ]
+  },
+  // 批次 8：掠夺化族引信订正——该族经 HijackedParasiteEntity 继承 PrimitiveParasiteEntity，
+  // 本就带着 SELFE 引信；本轮只补 TetheredMarauderizedRenderer 的膨胀缩放。
+  "selfe-fuse-marauderized": {
+    note: "批次：掠夺化族引信（经 HijackedParasiteEntity 继承）+ 束缚型渲染器膨胀",
+    projectClasses: [
+      "MarauderizedCowEntity", "MarauderizedBearEntity", "MarauderizedSheepEntity",
+      "MarauderizedHumanEntity", "MarauderizedVillagerEntity", "MarauderizedEndermanEntity",
+      "TetheredMarauderizedEntity"
+    ],
+    clauses: [
+      {
+        match: /^(?!.*(COLD_L|DISLO15))(?=.*SELFE).*$/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java",
+        detail: "MarauderizedParasiteEntity extends HijackedParasiteEntity extends PrimitiveParasiteEntity，继承 ParasiteFuseState 引信与 SELFE 同步"
+      },
+      {
+        match: /^(?!.*status 6)(?=.*(getSelfeFlashIntensity|闪烁缩放|闪白)).*$/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/client/renderer/TetheredMarauderizedRenderer.java",
+        detail: "mar_cow/mar_human/mar_sheep/mar_villager 走 PrimitiveParasiteRenderer（已接），mar_bear/mar_enderman 走 TetheredMarauderizedRenderer（本批接入 SelfeFuseRender）"
+      }
+    ]
   }
 };
 

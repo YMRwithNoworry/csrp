@@ -1,6 +1,7 @@
 package alku.csrp.client.renderer;
 
 import alku.csrp.client.model.PrimitiveParasiteModel;
+import alku.csrp.entity.SelfeFuseOwner;
 import alku.csrp.entity.TetheredMarauderizedEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -17,9 +18,24 @@ public final class TetheredMarauderizedRenderer<T extends TetheredMarauderizedEn
     private static final int TETHER_SEGMENTS = 24;
     private static final float TETHER_RADIUS = 0.045F;
 
-    public TetheredMarauderizedRenderer(EntityRendererProvider.Context context, String id, float shadowRadius) {
+    public TetheredMarauderizedRenderer(EntityRendererProvider.Context context, String id, float shadowRadius,
+                                        float baseScale) {
         super(context, new PrimitiveParasiteModel<>(id));
         this.shadowRadius = shadowRadius;
+        this.baseScale = baseScale;
+    }
+
+    private final float baseScale;
+
+    @Override
+    protected void scale(T entity, PoseStack poseStack, float partialTick) {
+        if (baseScale != 1.0F) {
+            poseStack.scale(baseScale, baseScale, baseScale);
+        }
+        if (entity instanceof SelfeFuseOwner fuseOwner) {
+            SelfeFuseRender.applySwelling(fuseOwner, poseStack, partialTick);
+        }
+        super.scale(entity, poseStack, partialTick);
     }
 
     @Override

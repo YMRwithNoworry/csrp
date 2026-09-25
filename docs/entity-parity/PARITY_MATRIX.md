@@ -1,11 +1,11 @@
 # 生物还原矩阵（SRParasites 1.10.9 → csrp）
 
-> 生成时间：2026-09-25T02:15:51.239Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
+> 生成时间：2026-09-25T02:21:17.224Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
 > 判定：✅ 全部条款满足；🟠 有部分实现但无缺失；❌ 存在缺失；· 未审计。
 
 - 注册生物总数：**127**；已审计：**13**；未审计：**114**
-- 条款总计：满足 641 / 部分 382 / 缺失 299（不计入 57 条不适用）
-- **加权完成度：62.9%**（partial 计 0.5）
+- 条款总计：满足 643 / 部分 382 / 缺失 297（不计入 57 条不适用）
+- **加权完成度：63.1%**（partial 计 0.5）
 
 ## 分面完成度
 
@@ -16,8 +16,8 @@
 | AI `ai` | 74 | 76 | 39 | 59.3% |
 | 行为 `behaviors` | 150 | 77 | 73 | 62.8% |
 | 伤害/效果 `damage_and_effects` | 102 | 16 | 20 | 79.7% |
-| 同步数据 `sync_data` | 25 | 33 | 31 | 46.6% |
-| 动画 `animation` | 52 | 13 | 8 | 80.1% |
+| 同步数据 `sync_data` | 26 | 33 | 30 | 47.8% |
+| 动画 `animation` | 53 | 13 | 7 | 81.5% |
 | 模型/贴图 `model_texture` | 37 | 12 | 19 | 63.2% |
 | 音效 `sounds` | 33 | 21 | 18 | 60.4% |
 | 生成 `spawning` | 32 | 39 | 16 | 59.2% |
@@ -34,7 +34,7 @@
 | ancient | 0/4 | 0 | 0 | 0 | 0% |
 | nexus_and_aberrant | 1/15 | 42 | 38 | 33 | 54% |
 | hijacked_and_feral | 2/12 | 95 | 59 | 72 | 55.1% |
-| marauderized | 1/7 | 51 | 26 | 27 | 61.5% |
+| marauderized | 1/7 | 53 | 26 | 25 | 63.5% |
 | early_lifecycle | 1/10 | 42 | 25 | 18 | 64.1% |
 | current | 2/13 | 93 | 44 | 38 | 65.7% |
 | assimilated | 6/23 | 318 | 190 | 111 | 66.7% |
@@ -160,7 +160,7 @@
 | `beckon_siii` | EntityVenkrolSIII | NexusParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 54% |
 | `fer_villager` | EntityFerVillager | FeralParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 54.1% |
 | `hi_skeleton` | EntityHiSkeleton | HiSkeletonEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | 56.5% |
-| `mar_cow` | EntitySpeCow | MarauderizedCowEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 61.5% |
+| `mar_cow` | EntitySpeCow | MarauderizedCowEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 63.5% |
 | `sim_human` | EntityInfHuman | SimHumanEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 63.6% |
 | `host` | EntityHost | HostEntity | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | 🟠 | 64.1% |
 | `pri_longarms` | EntityShyco | LongarmsEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 64.3% |
@@ -197,7 +197,7 @@
 - 缺火焰伤害乘数(×4)与 20% RAGE、毒伤害治愈、效果免疫覆写、血块表现、载具碰撞免疫
 - 缺 EntityCanSpawn 计数门控、进化锁/殖民地锁、spawnDays 门控与 phaseCreated 注入；无 SpawnPlacement 注册
 
-### `mar_cow`（EntitySpeCow → MarauderizedCowEntity，61.5%）
+### `mar_cow`（EntitySpeCow → MarauderizedCowEntity，63.5%）
 - 眼高 1.3 未实现（用默认值）
 - EntityAIWait（呕吐后 60 tick 僵直）与 EntityAIJumping、EntityAISwimmingDiving、EntityAIAttackMeleeRangeSwitch 四个 goal 缺失
 - 同化配额门控（getIDSpawn/canSpawnByIDData）与 SRPConfigMobs.marcowEnabled 开关缺失

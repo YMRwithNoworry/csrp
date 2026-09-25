@@ -41,15 +41,30 @@ public final class PrimitiveParasiteRenderer<T extends Mob & CitadelAnimatedEnti
     private static final int BEAM_BLUE = 128;
 
     public PrimitiveParasiteRenderer(EntityRendererProvider.Context context, String id, float shadowRadius) {
+        this(context, id, shadowRadius, 1.0F);
+    }
+
+    /**
+     * @param baseScale permanent model scale; the original {@code RenderSpe*} (marauderized) family
+     *                  rendered at 1.1F (1.3F for the bear) on every frame, not only while fusing
+     */
+    public PrimitiveParasiteRenderer(EntityRendererProvider.Context context, String id, float shadowRadius,
+                                     float baseScale) {
         super(context, new PrimitiveParasiteModel<>(id));
         this.shadowRadius = shadowRadius;
+        this.baseScale = baseScale;
         if ("pri_yelloweye".equals(id)) {
             addLayer(new YelloweyeGlowLayer<>(this));
         }
     }
 
+    private final float baseScale;
+
     @Override
     protected void scale(T entity, PoseStack poseStack, float partialTick) {
+        if (baseScale != 1.0F) {
+            poseStack.scale(baseScale, baseScale, baseScale);
+        }
         if (entity instanceof MeltableAssimilated meltable && meltable.isMelting()) {
             poseStack.scale(1.0F, meltable.getMeltRenderScale(partialTick), 1.0F);
         }

@@ -207,3 +207,19 @@ applyGene/阶段属性加成、同步数据（SELFE/COLD_L/DISLO15）、AI 任�
 未接线：`Marauderized*`（`MarauderRenderer`）与 `TetheredMarauderizedEntity`，对应条款仍记缺失。
 校验：`scripts/verify-parasite-selfe-fuse.cjs`（重写为组件 + 五族接线断言）；审计记账 14 条，
 满足条款 627 → **641**（缺失 307 → 299，部分 388 → 382）。
+
+## 批次 8：掠夺化族引信订正 + 基础缩放（2026-09-25 续）
+
+上一批记录的「`Marauderized*` 未接线」经核实是**误判**：`MarauderizedParasiteEntity extends
+HijackedParasiteEntity extends PrimitiveParasiteEntity`（`entity/HijackedParasiteEntity.java:10`），
+该族本就继承 `ParasiteFuseState` 引信与 `SELFE` 同步，其 `hurt` 也经 `super.hurt` 触发首次受击掷骰。
+真正缺的只有渲染端，本批补齐并顺带还原基础缩放：
+
+| 项 | 原版出处 | 实现 |
+| --- | --- | --- |
+| 掠夺化族基础缩放 | `client/renderer/entity/infected/special/RenderSpe*.java`（`f2 * 1.1F`，`RenderSpeBear` 为 `1.3F`） | `PrimitiveParasiteRenderer` / `TetheredMarauderizedRenderer` 新增 `baseScale` 参数；注册处 `mar_cow/mar_human/mar_sheep/mar_villager/mar_enderman` 传 1.1F、`mar_bear` 传 1.3F |
+| 束缚型渲染器引信膨胀 | 同族 `preRenderCallback` | `TetheredMarauderizedRenderer.scale` 接入 `SelfeFuseRender.applySwelling` |
+
+注意：原版的 1.1/1.3 基础缩放**每帧都生效**（无引信时 `f=0` → 缩放即 1.1），因此端口按「常驻基础缩放 +
+引信膨胀叠加」实现，与原版 `f2 * 1.1F` 等价。hijacked（`RenderHi*`）族原版无缩放调用，未加缩放。
+校验：`scripts/verify-parasite-selfe-fuse.cjs` 扩充注册与参数断言；审计记账 2 条，满足 641 → **643**。

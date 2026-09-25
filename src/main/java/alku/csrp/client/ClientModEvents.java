@@ -258,17 +258,17 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.HI_SKELETON.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "hi_skeleton", 0.5F));
         event.registerEntityRenderer(ModEntities.MAR_BEAR.get(), context ->
-                new TetheredMarauderizedRenderer<>(context, "mar_bear", 0.65F));
+                new TetheredMarauderizedRenderer<>(context, "mar_bear", 0.65F, 1.3F));
         event.registerEntityRenderer(ModEntities.MAR_COW.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "mar_cow", 0.55F));
+                new PrimitiveParasiteRenderer<>(context, "mar_cow", 0.55F, 1.1F));
         event.registerEntityRenderer(ModEntities.MAR_ENDERMAN.get(), context ->
-                new TetheredMarauderizedRenderer<>(context, "mar_enderman", 0.5F));
+                new TetheredMarauderizedRenderer<>(context, "mar_enderman", 0.5F, 1.1F));
         event.registerEntityRenderer(ModEntities.MAR_HUMAN.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "mar_human", 0.5F));
+                new PrimitiveParasiteRenderer<>(context, "mar_human", 0.5F, 1.1F));
         event.registerEntityRenderer(ModEntities.MAR_SHEEP.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "mar_sheep", 0.5F));
+                new PrimitiveParasiteRenderer<>(context, "mar_sheep", 0.5F, 1.1F));
         event.registerEntityRenderer(ModEntities.MAR_VILLAGER.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "mar_villager", 0.5F));
+                new PrimitiveParasiteRenderer<>(context, "mar_villager", 0.5F, 1.1F));
         event.registerEntityRenderer(ModEntities.MARAUDER.get(), MarauderRenderer::new);
         event.registerEntityRenderer(ModEntities.MARAUDER_TENDRIL.get(), MarauderTendrilRenderer::new);
         event.registerEntityRenderer(ModEntities.DISPATCHERTEN.get(), context ->

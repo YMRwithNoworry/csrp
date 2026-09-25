@@ -725,12 +725,12 @@
         },
         {
           "clause": "DataManager.register SELFE (int)：自爆引信状态（初值 -1）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:135",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java"
           },
-          "note": "project 无 SELFE，死亡爆发与渲染闪白所需的引信状态不可同步"
+          "note": "MarauderizedParasiteEntity extends HijackedParasiteEntity extends PrimitiveParasiteEntity，继承 ParasiteFuseState 引信与 SELFE 同步；批次：掠夺化族引信（经 HijackedParasiteEntity 继承）+ 束缚型渲染器膨胀"
         },
         {
           "clause": "DataManager.register SKIN (byte)：变体贴图编号",
@@ -840,12 +840,12 @@
         },
         {
           "clause": "渲染器 preRenderCallback 按 getSelfeFlashIntensity 做 1.1 倍基础缩放 + 引信脉动",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/infected/special/RenderSpeCow.java:19",
-            "project": null
+            "project": "src/main/java/alku/csrp/client/renderer/TetheredMarauderizedRenderer.java"
           },
-          "note": "project 渲染器不实现引信闪白/缩放脉动（MarauderizedParasiteEntity 也无引信状态）"
+          "note": "mar_cow/mar_human/mar_sheep/mar_villager 走 PrimitiveParasiteRenderer（已接），mar_bear/mar_enderman 走 TetheredMarauderizedRenderer（本批接入 SelfeFuseRender）；批次：掠夺化族引信（经 HijackedParasiteEntity 继承）+ 束缚型渲染器膨胀"
         }
       ],
       "confidence": "medium"

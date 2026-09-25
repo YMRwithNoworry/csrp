@@ -1,6 +1,6 @@
 # 生物部分还原度基线
 
-> 生成时间：2026-09-25T02:15:51.239Z
+> 生成时间：2026-09-25T02:21:17.224Z
 > 事实来源：`D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites`（SRParasites 1.10.9，生物部分与 1.10.8 一致）
 > 本工程：`D:/code/MC模组/csrp`（MC 26.3 / NeoForge 26.3，分支 `port-26.3`）
 
@@ -15,8 +15,8 @@
 ## 总体基线
 
 - 覆盖：**13/127** 只生物已出条款级审计
-- 条款：满足 **641**、部分 **382**、缺失 **299**（另有 57 条判定为不适用）
-- **加权完成度：62.9%**
+- 条款：满足 **643**、部分 **382**、缺失 **297**（另有 57 条判定为不适用）
+- **加权完成度：63.1%**
 
 ## 分面基线
 
@@ -27,8 +27,8 @@
 | AI | 74 | 76 | 39 | 59.3% |
 | 行为 | 150 | 77 | 73 | 62.8% |
 | 伤害/效果 | 102 | 16 | 20 | 79.7% |
-| 同步数据 | 25 | 33 | 31 | 46.6% |
-| 动画 | 52 | 13 | 8 | 80.1% |
+| 同步数据 | 26 | 33 | 30 | 47.8% |
+| 动画 | 53 | 13 | 7 | 81.5% |
 | 模型/贴图 | 37 | 12 | 19 | 63.2% |
 | 音效 | 33 | 21 | 18 | 60.4% |
 | 生成 | 32 | 39 | 16 | 59.2% |
@@ -41,7 +41,7 @@
 | `beckon_siii` | EntityVenkrolSIII | NexusParasiteEntity | 54% | 42/38/33 |
 | `fer_villager` | EntityFerVillager | FeralParasiteEntity | 54.1% | 56/33/45 |
 | `hi_skeleton` | EntityHiSkeleton | HiSkeletonEntity | 56.5% | 39/26/27 |
-| `mar_cow` | EntitySpeCow | MarauderizedCowEntity | 61.5% | 51/26/27 |
+| `mar_cow` | EntitySpeCow | MarauderizedCowEntity | 63.5% | 53/26/25 |
 | `sim_human` | EntityInfHuman | SimHumanEntity | 63.6% | 54/32/24 |
 | `host` | EntityHost | HostEntity | 64.1% | 42/25/18 |
 | `pri_longarms` | EntityShyco | LongarmsEntity | 64.3% | 53/29/23 |
