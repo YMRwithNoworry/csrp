@@ -4132,3 +4132,26 @@ primitive Shyco 生命 45（批次 232 提取） + adapted 附加 50 = 95   ⇔ 
 **下一批（决定性一步）**：读 `ikiadaptedhealth` 与 `zaaadaptedhealth` 的**配置注释原文**：
 - 若均含 "Additional" ⇒ 端口 VERMIN/BURROWER 两行**确实错位**，应改为 115/45 与 95/27 ✔；
 - 若 `iki` 那条是"总量"语义 ⇒ 需按该语义重算，端口可能正确 ✔。
+
+## 批次 247：**修正端口 adapted 两行**（VERMIN / BURROWER 取值错位）（2026-09-25 续）
+
+**决定性证据（配置注释原文）**：
+
+```
+原版 SRPConfigMobs:4252-4256   ikiadaptedhealth/damage = cfg.getFloat("Stage Adapted additional Health/Damage",
+                                  "srparasites:vermin", …, "【Additional health/damage for Adapted Vermin.】")
+原版 SRPConfigMobs:1465-1469   zaaadaptedhealth/damage = cfg.getFloat(…, "srparasites:burrower", …,
+                                  "【Additional health/damage for Adapted Burrower.】")
+```
+
+⇒ 两条均为"**附加**"语义 ✔（且配置分类名 `srparasites:vermin` / `srparasites:burrower` 与生物对应 ✔）
+⇒ 按 `基值 + 附加`：**VERMIN = 45 + 70 = 115 / 45**、**BURROWER = 45 + 50 = 95 / 27** ✔。
+
+**修正**：端口原为 `VERMIN 70/30`（＝附加项本身，未加基值 ✗）、`BURROWER 115/45`（＝VERMIN 应有值 ✗）
+⇒ 已改为 **VERMIN 115/45**、**BURROWER 95/27** ✔。
+
+**这是一处真实的数值错误**，且其形态很典型：**"两行错位 + 一行漏加基值"** —— 单看任一行都"像正常数值"，
+只有**按公式重算并交叉比对**才能发现 ✗。`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+**本阶段完整链条（值得记录）**：批次 242 报"9/12 不一致" → 243 怀疑自己（证实漏基值项）→ 244 公式确认（7/12 吻合）
+→ 245/246 定位两行 → **247 修正**。**若在批次 242 直接"按计算值改 9 行"，会改错 7 行、只对 2 行** ✗。

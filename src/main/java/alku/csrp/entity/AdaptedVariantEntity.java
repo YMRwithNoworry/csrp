@@ -331,9 +331,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 followRange = 32.0D;
             }
             case BURROWER -> {
-                health = 115.0D;
+                health = 95.0D;
                 armor = 24.0D;
-                damage = 45.0D;
+                damage = 27.0D;
                 speed = 0.32D;
                 knockbackResistance = 1.0D;
                 followRange = 32.0D;
@@ -387,9 +387,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 followRange = 32.0D;
             }
             case VERMIN -> {
-                health = 70.0D;
+                health = 115.0D;
                 armor = 15.0D;
-                damage = 30.0D;
+                damage = 45.0D;
                 speed = 0.25D;
                 knockbackResistance = 0.65D;
                 followRange = 32.0D;
