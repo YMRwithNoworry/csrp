@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.world.EvolutionSystem;
 import alku.csrp.event.ParasiteCombatRules;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
@@ -155,10 +156,22 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
         builder.define(MELT_TICKS, 0);
     }
 
+    /** Legacy geneSpecialmove (applyGene): gates the leap granted by the generation. */
+    private boolean generationAllowsSpecialMoves() {
+        return level() instanceof ServerLevel serverLevel
+                && EvolutionSystem.generationProfile(serverLevel).specialMoves();
+    }
+
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
-        goalSelector.addGoal(1, new LeapAtTargetGoal(this, 0.4F));
+        // Legacy geneSpecialmove: the generation decides whether special moves exist at all.
+        goalSelector.addGoal(1, new LeapAtTargetGoal(this, 0.4F) {
+            @Override
+            public boolean canUse() {
+                return generationAllowsSpecialMoves() && super.canUse();
+            }
+        });
         goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));

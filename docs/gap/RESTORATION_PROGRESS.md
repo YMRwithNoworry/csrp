@@ -223,3 +223,21 @@ HijackedParasiteEntity extends PrimitiveParasiteEntity`（`entity/HijackedParasi
 注意：原版的 1.1/1.3 基础缩放**每帧都生效**（无引信时 `f=0` → 缩放即 1.1），因此端口按「常驻基础缩放 +
 引信膨胀叠加」实现，与原版 `f2 * 1.1F` 等价。hijacked（`RenderHi*`）族原版无缩放调用，未加缩放。
 校验：`scripts/verify-parasite-selfe-fuse.cjs` 扩充注册与参数断言；审计记账 2 条，满足 641 → **643**。
+
+## 批次 9（部分）：基因门控接入伤害规则（2026-09-25 续）
+
+原版 `applyGene(boolean[] kool, float[] goon)`（`EntityParasiteBase:266`）与端口的
+`EvolutionSystem.GenerationProfile` **字段一一对应**（`kool[0..5]` = mindam/damcap/lookwall/sprinting/
+waterleap/specialmove；`goon[0..2]` = poisonHealing/mobHealing/attackSpeed）。本批把其中**伤害相关**的两条接上：
+
+| 原版语义 | 出处 | 端口实现 |
+| --- | --- | --- |
+| `flagCap = damageCap > 1 && geneDamcap` | `EntityParasiteBase:706` | `ParasiteCombatRules.applyDefenseRules` 的层级伤害上限增加 `GenerationProfile::damageCap` 门控（新增 `generationAllows(...)` helper） |
+| `if (!geneMindam) return false;` | `EntityParasiteBase:858-865` | `applyAttackRules` 的最小伤害改为 `GenerationProfile::minimumDamage` 门控后才施加 |
+| `geneSpecialmove` 门控技能 | `applyGene` + `getGeneMod(5)` | `SimHumanEntity` 的 `LeapAtTargetGoal` 由无条件注册改为 `canUse` 内查 `specialMoves()` |
+
+**为何本轮不翻转「基因加成 applyGene」条款**：该条款是**捆绑条款**（最小伤害/伤害上限/穿墙/疾跑/水跃/技能/治疗/攻速），
+其中 `waterleap`/`specialmove`/`blockSearch` 对应的**能力本体**在同化/野化/掠夺化族里尚不存在（实测 `FeralParasiteEntity`、
+`AssimilatedParasiteEntity`、`AssimilatedVariantEntity`、`MarauderizedParasiteEntity` 均无水跃/疾跑/穿墙实现，
+仅 `FeralEndermanEntity`/`LongarmsEntity` 等少数子类有）。按记账诚实原则不翻转，待能力本体补齐后一并核对。
+校验：`scripts/verify-parasite-combat-rules.cjs` 增加 4 条门控断言（并修正 1 条因改写条件而失配的既有断言）。

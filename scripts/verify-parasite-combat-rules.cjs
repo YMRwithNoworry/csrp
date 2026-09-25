@@ -58,7 +58,7 @@ for (const [pattern, message] of [
     "damage cap formula must match maxHealth/cap + maxHealth%cap*0.5"],
   [/new MobEffectInstance\(ModMobEffects\.RAGE, 200, 1, false, false\)/,
     "reaching the damage cap must grant RAGE 200/1"],
-  [/DamageTypeTags\.IS_FIRE\)\) \{\n            return;/, "the damage cap must skip fire damage"],
+  [/DamageTypeTags\.IS_FIRE\)[\s\S]{0,160}?return;/, "the damage cap must skip fire damage"],
   [/convertPoisonToHealing/, "poison-to-healing conversion is missing"],
   [/DamageTypes\.MAGIC/, "poison conversion must key on magic damage"],
   [/parasite\.hasEffect\(MobEffects\.POISON\)/, "poison conversion must require the poison effect"],
@@ -111,6 +111,22 @@ for (const [source, name] of [[primitive, "PrimitiveParasiteEntity"], [buglin, "
   expect(source, /ModMobEffects\.RAGE, 200, 1, false, false/, `${name}: fire RAGE roll is missing`);
   expect(source, /0\.2F/, `${name}: fire RAGE chance must be 20%`);
 }
+
+// legacy applyGene: the damage cap and the minimum damage only run when the generation says so
+for (const [pattern, message] of [
+  [/private static boolean generationAllows\(LivingEntity parasite,/,
+    "the applyGene gate helper is missing"],
+  [/!generationAllows\(parasite, EvolutionSystem\.GenerationProfile::damageCap\)/,
+    "the damage cap must be gated by the geneDamcap flag"],
+  [/if \(generationAllows\(parasite, EvolutionSystem\.GenerationProfile::minimumDamage\)\) \{/,
+    "the minimum damage must be gated by the geneMindam flag"],
+  [/import alku\.csrp\.world\.EvolutionSystem;/, "the EvolutionSystem import is missing"]
+]) expect(rules, pattern, message);
+
+// geneSpecialmove also gates the sim_human leap (the goal is a vanilla one, so the check is in canUse)
+const simHuman = read("src/main/java/alku/csrp/entity/SimHumanEntity.java");
+expect(simHuman, /private boolean generationAllowsSpecialMoves\(\) \{[\s\S]{0,200}?specialMoves\(\)/,
+  "sim_human must gate its leap on the geneSpecialmove flag");
 
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");

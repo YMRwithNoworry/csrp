@@ -13,6 +13,7 @@ import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
+import alku.csrp.world.EvolutionSystem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -91,7 +92,10 @@ public final class ParasiteCombatRules {
             ModBlocks.placeGore(goreLevel, parasite.blockPosition(),
                     tierKey(BuiltInRegistries.ENTITY_TYPE.getKey(parasite.getType()).getPath()), false);
         }
-        if (tier.damageCap() <= 1 || event.getSource().is(DamageTypeTags.IS_FIRE)) {
+        // Legacy flagCap = damageCap > 1 && geneDamcap: the generation decides whether the tier cap
+        // applies at all (applyGene).
+        if (tier.damageCap() <= 1 || event.getSource().is(DamageTypeTags.IS_FIRE)
+                || !generationAllows(parasite, EvolutionSystem.GenerationProfile::damageCap)) {
             return;
         }
         float maximumHealth = parasite.getMaxHealth();
@@ -125,9 +129,22 @@ public final class ParasiteCombatRules {
         }
         Tier tier = tierOf(parasite);
         applyFear(parasite, victim, event.getNewDamage());
-        ParasiteCombatEffects.applyMinimumDamage(parasite, victim, tier.minimumDamage());
+        // Legacy attackEntityAsMobMinimum returns early while !geneMindam.
+        if (generationAllows(parasite, EvolutionSystem.GenerationProfile::minimumDamage)) {
+            ParasiteCombatEffects.applyMinimumDamage(parasite, victim, tier.minimumDamage());
+        }
         ParasiteCombatEffects.stealFood(parasite, victim, tier.foodSteal(),
                 Config.parasiteFoodTheftChance());
+    }
+
+    /**
+     * Legacy applyGene: several combat rules only run when the current generation enables the
+     * matching gene flag.
+     */
+    private static boolean generationAllows(LivingEntity parasite,
+                                            java.util.function.Predicate<EvolutionSystem.GenerationProfile> flag) {
+        return parasite.level() instanceof ServerLevel serverLevel
+                && flag.test(EvolutionSystem.generationProfile(serverLevel));
     }
 
     @SubscribeEvent
