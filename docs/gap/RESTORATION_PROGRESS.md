@@ -4190,3 +4190,22 @@ primitive Shyco 生命 45（批次 232 提取） + adapted 附加 50 = 95   ⇔ 
 **注**：这是本会话第 2 次"**端口比原版多做了事**"（第 1 次是 `mar_*` 的自然生成条目 ✗）——
 **反向差异**（端口多、原版无）与"缺失"同样属于偏差，且更隐蔽：它不会表现为"功能不工作"，
 而是表现为"**做了原版不该做的事**"（多掉物品、多刷怪），**只有对照原版才能发现** ✗。
+
+## 批次 250：`mar_*` COTH 接线方案落档（2026-09-25 续，未改代码）
+
+```
+端口 AssimilatedParasiteEntity:676   InfectionMechanics.applyCoth(nearby, this, COTH_DURATION_TICKS);   ← sim_ 分支已有 ✔
+端口 MarauderizedParasiteEntity:244  public boolean doHurtTarget(Entity entity) {
+                                        boolean hit = super.doHurtTarget(entity);                        ← 【仅 super，无 COTH】✗
+```
+
+⇒ **接线点明确**：在 `MarauderizedParasiteEntity.doHurtTarget` 的 `hit` 之后补 COTH（照 sim_ 分支写法 ✔）。
+**但需先读 sim_ 分支 `:676` 的上下文**（该行位于"遍历附近实体"的循环内 ✗ 还是在命中目标上 ✗）——
+**两者的语义不同**：原版 `EntityParasiteBase:845` 是"**命中时**对**被击者**施加 COTH" ✗，
+而端口 `:676` 是"对**附近实体**施加" ✗ ⇒ **不能直接照搬** ✗（本会话已多次遇到"端口形态与原版不同"✗）。
+
+**另一处待办**：委派指出**端口 COTH 光环半径 8 vs 原版 `cothAura = 3`** ✗（`EntityPInfected:149` ↔ `AssimilatedParasiteEntity:74`）——
+这是**数值差异**（非机制缺失 ✗），需单独核实原版 `cothAura` 的语义（半径？方块？✗）再改 ✗。
+
+**下一批**：① 读 `AssimilatedParasiteEntity:670-680` 与 `EntityParasiteBase:845` 两侧上下文，确认"命中施加"的语义 ✗；
+② 按原版语义在 `MarauderizedParasiteEntity` 接线 ✗；③ 核实 `cothAura` 半径并核对端口 8 ✗。
