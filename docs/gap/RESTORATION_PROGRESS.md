@@ -1409,3 +1409,23 @@ NexusParasiteEntity:222     if (activeKind.family == Family.BECKON && activeKind
 **因此实现 `isValidLightLevelOne` 只差两件事**：① 雷暴分支在 1.21 的可行写法（或取舍理由）；② 寄生群系的对应物。
 其余已可直接照抄：`SKY > nextInt(32) → false`、`getMaxLocalRawBrightness(pos) <= nextInt(8)`、
 `PathfinderMob.getWalkTargetValue(pos) >= 0.0F`。
+
+## 批次 94：`isValidLightLevelOne` 的两个剩余项**不是机械移植**（2026-09-25 续）
+
+本轮查证两个未知点的端口现状：
+
+| 原版要素 | 端口现状（实证） | 含义 |
+| --- | --- | --- |
+| `world.getBiome(pos) instanceof BiomeParasiteBase` | `grep isParasiteBiome\|ParasiteBiome\|BiomeTags` 只命中 `world/ParasiteBiomeGenerator`（一个**地形/方块改造器**），**没有群系类型或标签** | 端口用"改造地形"表达寄生区，而非注册寄生群系 ⇒ 无 `instanceof` 的对象 |
+| 雷暴时 `setSkylightSubtracted(10)` 重取亮度 | `grep SkyDarken\|skyDarken` **0 命中** | 端口没有可写的天空减光入口；1.21 亦未在端口内使用该概念 |
+
+**结论**：`isValidLightLevelOne` 的这两项属**设计取舍**而非照抄，故不能靠"多查几个 grep"解决。
+
+**推荐做法（下一批执行，并在代码注释与文档同时声明偏差）**：
+实现"去掉阻断项后的可信部分"——`SKY > nextInt(32) → false`、`getMaxLocalRawBrightness(pos) <= nextInt(8)`、
+`PathfinderMob.getWalkTargetValue(pos) >= 0.0F`；对两项偏差处理如下：
+- **寄生群系短路**：暂以"下方方块为寄生方块"作为近似判据（与端口 `ParasiteBiomeGenerator` 的改造方式一致），并在注释写明这是近似；
+- **雷暴分支**：暂不模拟（不修改全局天空减光），注释写明"原版仅在雷暴时临时降低天空光重取"，属已知简化。
+
+两项偏差都会使判定**更严格**（寄生区内/雷暴时不放宽），不会产生"比原版更容易生成"的失衡；
+待端口引入群系概念或减光入口后可无痛回填。这样既推进实现，又不留"看起来照抄实则虚构"的代码。
