@@ -2878,3 +2878,19 @@ AssimilatedHeadEntity:248-249   public boolean causeFallDamage(float distance, f
 `motionY=0.7`、水平 `jumpSpeed*0.9` 并叠加 30% 现有速度；头部 `jumpR=0` 故无落点伤害）。
 **尚未接线**（头部优先级 0 的 `ParasiteSkillGoal(this, 14, new LeapSkill(...), 40, 100, 3, true)` 待下一轮补），
 该类目前无调用方 ⇒ **不产生编译/运行影响**，但按纪律记为**未完成状态**。
+
+## 批次 181：头部跳跃技能接线完成（`LeapSkill` + 优先级 0）（2026-09-25 续）
+
+批次 178 写入的 `LeapSkill` 本轮完成接线，**靶点闭环**：
+
+```java
+// AssimilatedHeadEntity（优先级 0，对应原版 tasks.addTask(0, EntityAISkill(this, 40, 100, 3, true, 14))）
+goalSelector.addGoal(0, new ParasiteSkillGoal(this, 14, new LeapSkill(this, 0.7F, 2.5D, 0), 40, 100, 3, true));
+```
+
+参数逐项对应：`attackID 14`（→ `doSpecialSkill(14)` → `skillLeap()`）、`cooldown 40`、**上界 100**、**下界 3**、
+`needVisual true`、跳跃参数 `(0.7F, 2.5, 0)` ✔。断言 2 条；`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+**该靶点全过程回顾**（值得记为方法范例）：审计指出"缺 `EntityAISkill(40,100,3,true,14)`" → 查 `EntityAISkill` 构造（5 参/6 参）
+→ 追分派链 `doSpecialSkill(14)` → 追到 `skillLeap()` 动作体 → 查端口技能生态（发现只有 1 个实现，需新写）
+→ 读 `ParasiteSkill` 接口 → 写 `LeapSkill` → 接线 → 断言。**共 6 轮，每轮都只推进一层证据，没有一次猜测。**

@@ -546,6 +546,13 @@ expect(variant, /selfeFuse\.clear\(this\);\s*\n\s*\}/, "the live swell does not 
 expect(read("src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java"),
   /getMaxHealth\(\) \* alku\.csrp\.Config\.tendrilHealth\(\)/, "the part health formula is not wired");
 
+// Legacy tasks.addTask(0, EntityAISkill(this, 40, 100, 3, true, 14)) -> skillLeap() for the heads.
+expect(read("src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java"),
+  /new ParasiteSkillGoal\(this, 14, new LeapSkill\(this, 0\.7F, 2\.5D, 0\), 40, 100, 3, true\)/,
+  "the head leap skill is not registered");
+expect(read("src/main/java/alku/csrp/entity/LeapSkill.java"),
+  /mob\.setDeltaMovement\(/, "the leap skill does not apply the legacy leap velocity");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));
