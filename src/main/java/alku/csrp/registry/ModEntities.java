@@ -256,7 +256,7 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<SimAdventurerEntity>> SIM_ADVENTURER =
             monster("sim_adventurer", SimAdventurerEntity::new, 0.6F, 1.95F);
     public static final DeferredHolder<EntityType<?>, EntityType<SimAdventurerHeadEntity>> SIM_ADVENTURER_HEAD =
-            monster("sim_adventurerhead", SimAdventurerHeadEntity::new, 0.7F, 0.9F);
+            monster("sim_adventurerhead", SimAdventurerHeadEntity::new, 0.7F, 0.9F, 0.8F);
     public static final DeferredHolder<EntityType<?>, EntityType<MovingFleshEntity>> MOVINGFLESH =
             monster("movingflesh", MovingFleshEntity::new, 0.7F, 0.5F);
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedParasiteEntity>> SIM_BEAR =
@@ -288,9 +288,9 @@ public final class ModEntities {
                     .sized(1.0F, 1.0F).clientTrackingRange(10).updateInterval(1)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "dragon_egg_assimilation").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedDragonHeadEntity>> SIM_DRAGON_HEAD =
-            monster("sim_dragonehead", AssimilatedDragonHeadEntity::new, 1.75F, 1.95F);
+            monster("sim_dragonehead", AssimilatedDragonHeadEntity::new, 1.75F, 1.95F, 0.8F);
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedDragonHeadEntity>> SIM_DRAGON_HEAD_COMPAT =
-            monster("sim_dragonhead", AssimilatedDragonHeadEntity::new, 1.75F, 1.95F);
+            monster("sim_dragonhead", AssimilatedDragonHeadEntity::new, 1.75F, 1.95F, 0.8F);
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedEndermanEntity>> SIM_ENDERMAN =
             monster("sim_enderman", AssimilatedEndermanEntity::new, 0.6F, 2.3F);
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedHeadEntity>> SIM_ENDERMAN_HEAD =

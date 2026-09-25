@@ -3535,3 +3535,19 @@ getDeathSound():   if (kind == Kind.ENDERMAN) return SoundEvents.GENERIC_DEATH;
 - `sim_dragonehead` 掉落经核实**已为空**（我方批次 210 生效 ✔，委派所见为改动前状态）。
 
 **（四）其未解阻塞**：SRG 名 `func_70110_aj` 依旧无法判定（无映射表）⇒ 保持 partial ✔。
+
+## 批次 219：补齐另两个头部类的眼高（dragon head / adventurer head）（2026-09-25 续）
+
+第七批委派指出"眼高修复只覆盖了 `AssimilatedHeadEntity` 的 8 种 kind，另两种头部漏掉"。逐类取证并补齐：
+
+```
+原版 EntityInfDragonEHead  func_70047_e → 0.8F     （端口 ModEntities:291 原走 3 参 helper ✗）
+原版 EntityInfPlayerHead   func_70047_e → 0.8F     （端口 ModEntities:259 原走 3 参 helper ✗）
+⇒ 均改为 4 参 helper 并传 0.8F ✔；端口专有别名 sim_dragonhead（SIM_DRAGON_HEAD_COMPAT）同值一并处理 ✔
+```
+
+**这修补了我批次 188/209 的范围漏洞**：当时我**以"类"为单位**修复（`AssimilatedHeadEntity`），
+而委派审计**以"生物"为单位**——两者范围不一致，于是"改了一个类却漏掉另外两个头部类" ✗。
+**后续修复应按审计的生物清单逐一核对**（已写入方法记录）。
+
+`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
