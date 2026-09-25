@@ -47,7 +47,7 @@ const checks = {
     /SwimmingDivingGoal[\s\S]*-0\.12D[\s\S]*random\.nextFloat\(\) < 0\.8F/,
     /movement\.x \* 0\.2D \+ direction\.x \* 0\.8D[\s\S]*movement\.z \* 0\.2D \+ direction\.z \* 0\.8D/,
     /ModSounds\.get\("small\.step"\)[\s\S]*ModSounds\.get\("nuuh\.growl"\)[\s\S]*ModSounds\.get\("nuuh\.hurt"\)[\s\S]*ModSounds\.get\("nuuh\.death"\)/],
-  host: ["HostEntity.java", /createHostAttributes\(50\.0,\s*7\.0,\s*10\.0/,
+  host: ["HostEntity.java", /createHostAttributes\(\s*50\.0 \* MobsConfig\.hostHealthMultiplier\(\),\s*7\.0 \* MobsConfig\.hostArmorMultiplier\(\),\s*10\.0 \* MobsConfig\.hostDamageMultiplier\(\),/,
     /BURROW_DURATION_TICKS/, /performShockwave/, /summonRupters/,
     /ModEntities\.HOSTII/],
   hostii: ["HostIIEntity.java", /createHostAttributes\(140\.0,\s*12\.0,\s*18\.0/,

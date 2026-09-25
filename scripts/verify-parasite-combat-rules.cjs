@@ -411,6 +411,15 @@ for (const [pattern, message] of [
 ]) expect(marcowSpawn, pattern, message);
 expect(mobsConfig, /public static double marcowHealthMultiplier\(\)/, "the marcow accessors are missing");
 
+// legacy SRPConfigMobs.host* multipliers are read by the host parasite
+const hostSpawn = read("src/main/java/alku/csrp/entity/HostEntity.java");
+for (const [pattern, message] of [
+  [/50\.0 \* MobsConfig\.hostHealthMultiplier\(\)/, "the host health multiplier is not read"],
+  [/10\.0 \* MobsConfig\.hostDamageMultiplier\(\)/, "the host damage multiplier is not read"],
+  [/7\.0 \* MobsConfig\.hostArmorMultiplier\(\)/, "the host armor multiplier is not read"]
+]) expect(hostSpawn, pattern, message);
+expect(mobsConfig, /public static double hostHealthMultiplier\(\)/, "the host accessors are missing");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

@@ -636,6 +636,19 @@ const BATCHES = {
         detail: "MarauderizedCowEntity.createAttributes 读取原版 SRPConfigMobs 的 marcow 四项（health/damage/armor/KDResistance，默认 1.0）并乘基础生命 38/护甲 8/攻击 15/击退 0.8（夹取 1.0），与既有全局倍率构成「全局 × per-mob」结算"
       }
     ]
+  },
+  // 批次 52：host 的 per-mob 属性倍率接线
+  "per-mob-multipliers-host": {
+    note: "批次：per-mob 属性倍率接线（原版 SRPConfigMobs.host*，默认 1.0F）",
+    mobs: ["host"],
+    clauses: [
+      {
+        match: /per-mob|倍率/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/HostEntity.java",
+        detail: "HostEntity.createAttributes 读取原版 SRPConfigMobs 的 host 三项（health/damage/armor，默认 1.0）并乘基础生命 50/护甲 7/攻击 10；击退抗性由 helper 固定为 1.0（已在上限，倍率等价），与既有全局倍率构成「全局 × per-mob」结算"
+      }
+    ]
   }
 };
 

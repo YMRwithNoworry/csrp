@@ -62,7 +62,13 @@ public final class HostEntity extends AbstractHostEntity {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return createHostAttributes(50.0, 7.0, 10.0, 0.12, 24.0);
+        // Legacy SRPConfigMobs.host* per-mob multipliers (default 1.0F in the original). Knockback
+        // resistance is fixed at 1.0 inside the helper, so its multiplier is already at the cap.
+        return createHostAttributes(
+                50.0 * MobsConfig.hostHealthMultiplier(),
+                7.0 * MobsConfig.hostArmorMultiplier(),
+                10.0 * MobsConfig.hostDamageMultiplier(),
+                0.12, 24.0);
     }
 
     @Override

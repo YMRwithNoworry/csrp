@@ -808,3 +808,12 @@ infsheep/infwolf/infvillager` 系列，默认值全 1.0F）。
 
 本线已覆盖 10 只：dorpa / infcow / infsheep / infwolf / infsquid / infhuman / fervillager / shyco / hiskeleton / marcow。
 剩余候选：`host*`（host，键名已确认）；`buglin`/`beckon` 无同名键（已确认）。
+
+## 批次 52：host 的 per-mob 倍率接线（2026-09-25 续）
+
+键名 `host*`（`SRPConfigMobs:300` 确认，默认 1.0F）：`MobsConfig` 补 4 项 + 4 个访问器；
+`HostEntity.createAttributes` 按三项乘基础 生命 50 / 护甲 7 / 攻击 10（helper 参数序为 health, armor, damage, speed, follow）；
+击退抗性由 `AbstractHostEntity.createHostAttributes` 固定为 1.0（已在上限，乘倍率等价，已在注释与文档说明）。
+**同批订正断言**：`verify-early-lifecycle-entities-port.cjs:50` 原本断言 host 属性的字面量，改为断言新表达式——
+否则会多出一个假失败（本轮实际发生并被套件当场抓出：20 → 21 失败，订正后回到 20）。
+本线已覆盖 11 只：…/ hiskeleton / marcow / host。剩余：`buglin`、`beckon`（已确认无同名键）。

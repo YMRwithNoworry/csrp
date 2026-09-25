@@ -334,6 +334,25 @@ public final class MobsConfig {
     public static double marcowArmorMultiplier() { return MARCOW_ARMOR_MULTIPLIER.get(); }
     public static double marcowKnockbackMultiplier() { return MARCOW_KNOCKBACK_MULTIPLIER.get(); }
 
+    // Legacy SRPConfigMobs.host* (the assimilated host).
+    private static final ModConfigSpec.DoubleValue HOST_HEALTH_MULTIPLIER = value(
+            "srparasites:host", "hostHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for the host parasite (legacy SRPConfigMobs.hostHealthMultiplier).");
+    private static final ModConfigSpec.DoubleValue HOST_DAMAGE_MULTIPLIER = value(
+            "srparasites:host", "hostDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Attack-damage multiplier for the host parasite.");
+    private static final ModConfigSpec.DoubleValue HOST_ARMOR_MULTIPLIER = value(
+            "srparasites:host", "hostArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for the host parasite.");
+    private static final ModConfigSpec.DoubleValue HOST_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:host", "hostKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
+            "Knockback-resistance multiplier for the host parasite.");
+
+    public static double hostHealthMultiplier() { return HOST_HEALTH_MULTIPLIER.get(); }
+    public static double hostDamageMultiplier() { return HOST_DAMAGE_MULTIPLIER.get(); }
+    public static double hostArmorMultiplier() { return HOST_ARMOR_MULTIPLIER.get(); }
+    public static double hostKnockbackMultiplier() { return HOST_KNOCKBACK_MULTIPLIER.get(); }
+
     public static double dorpaHealthMultiplier() { return DORPA_HEALTH_MULTIPLIER.get(); }
     public static double dorpaDamageMultiplier() { return DORPA_DAMAGE_MULTIPLIER.get(); }
     public static double dorpaArmorMultiplier() { return DORPA_ARMOR_MULTIPLIER.get(); }
