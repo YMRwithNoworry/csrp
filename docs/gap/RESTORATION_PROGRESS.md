@@ -1158,3 +1158,17 @@ SRPConfig: infectedXPValue = 8 / feralXPValue = 16 / primitiveXPValue = 30
 `FeralParasiteEntity.Kind` 九种经验**全部为 16**，与原版 `SRPConfig.feralXPValue = 16` 一致（一次 edit 完成，
 未再尝试正则批量——批次 76 的失败已说明该手段在此文件上不可靠）。
 `build` 通过、套件维持既有 20 失败。
+
+## 批次 79：原始族变体经验对齐 + 全档次 XP 常量查清（2026-09-25 续）
+
+原版各档次 XP 常量（`SRPConfig`）已一次查全，作为后续对齐的唯一依据：
+
+```
+infected 8   feral 16   hijacked 11   primitive 30   adapted 55
+ancient 5000 pure 75    preeminent 200 derived 350   turret 75
+```
+
+对照端口现状：
+- ✅ 已一致：adapted（`AdaLongleg/AdaScuttler/AdaWatcher/AdaptedVariant` 均 55）、ancient（5000）、pure（`PureParasiteEntity` 75）；
+- ✗ 本轮修正：`PrimitiveVariantEntity:204` 的 `kind == YELLOWEYE ? 30 : 18` → **统一 30**（原版 primitive 档即 30，YELLOWEYE 本就 30）；
+- ⏳ 仍待核对：hijacked（应为 11，端口 `HijackedParasiteEntity` 由构造参数传入，需追各子类实参）、preeminent（200）、derived（350）、turret（75）以及同化族的 `AssimilatedDragon(300)/DragonHead(40)/Enderman(24)` 等特例是否对应原版特殊值。

@@ -201,7 +201,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     public PrimitiveVariantEntity(EntityType<? extends PrimitiveVariantEntity> type, Level level, Kind kind) {
         super(type, level);
         this.kind = kind;
-        xpReward = kind == Kind.YELLOWEYE ? 30 : 18;
+        // Legacy SRPConfig.primitiveXPValue = 30 for the whole primitive tier (YELLOWEYE already 30).
+        xpReward = 30;
         if (kind == Kind.DEVOURER) {
             xpReward = 1 + random.nextInt(3);
         }
