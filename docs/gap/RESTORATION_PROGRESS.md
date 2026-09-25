@@ -1474,3 +1474,19 @@ NexusParasiteEntity:222     if (activeKind.family == Family.BECKON && activeKind
 
 倾向方案 1（改动小、语义清晰、偏差可声明），但其偏差会使判定略**宽松**（少了路径权重一票），
 需在实现时权衡是否改用"路径权重一项在 pos 版中以 `level.getBlockState(pos).isAir()` 之类的近似"——**留待下一批决策**。
+
+## 批次 98：接线成功——生成合法性改走 `FinalizeSpawnEvent`（生成合法性第 4 步）（2026-09-25 续）
+
+批次 97 发现静态谓词无法承载实体实例方法后，本轮选**方案 2**（实体已存在时判定）并落地：
+
+- `world/SpawnLightChecks.canSpawnNaturally(level, mob, phase, parasiteRegion)`：和平难度 → 拒；`Config.spawnDays() > level.getGameTime()` → 拒
+  （原版比的是世界总 tick 数，1.21 对应 `getGameTime()`）；再按 `phase >= evolutionSpawningIgnoreSunlight || (phase == -1 && phaseLightlessMinusOne)`
+  选 Two（宽松）或 One（严格）档。
+- `ParasiteCombatRules.enforceLegacySpawnValidity(FinalizeSpawnEvent)`（`@SubscribeEvent`）：对寄生体在生成时套用上述判定，
+  不通过则 `event.setSpawnCancelled(true)`；**刷怪笼 / 刷怪蛋 / 指令生成豁免**（原版这些场景本就不走该方法）。
+
+**编译再次充当验证器**：`FinalizeSpawnEvent.getSpawnType()`、`MobSpawnType.SPAWNER/SPAWN_EGG/COMMAND`、
+`FinalizeSpawnEvent.setSpawnCancelled(boolean)`、`Level.getGameTime()` 全部通过编译 ⇒ API 假设成立（无需外部查证）。
+为降低风险，两个文件的改动都使用**全限定名**、未新增 import。断言 5 条；`build` 通过、套件维持既有 20 失败。
+
+**遗留（如实记录）**：`parasiteRegion` 仍以 `false` 传入（寄生区近似判据待接，见批次 94/97）；`ignoreL` 键待其使用点查清后再补。

@@ -203,6 +203,28 @@ public final class ParasiteCombatRules {
         scaleBaseAttribute(parasite, Attributes.ATTACK_DAMAGE, multiplier);
     }
 
+    /**
+     * The legacy spawn validity of {@code func_70601_bi}. The original is an entity method consulted
+     * by the spawner; this port applies the same rules once the entity exists and cancels the spawn
+     * instead. Spawner, spawn-egg and command placements keep working, as they did in the original
+     * (they never consulted that method).
+     */
+    @SubscribeEvent
+    public static void enforceLegacySpawnValidity(FinalizeSpawnEvent event) {
+        if (!(event.getEntity() instanceof net.minecraft.world.entity.PathfinderMob parasite)
+                || !(parasite instanceof Parasite)
+                || event.getSpawnType() == net.minecraft.world.entity.MobSpawnType.SPAWNER
+                || event.getSpawnType() == net.minecraft.world.entity.MobSpawnType.SPAWN_EGG
+                || event.getSpawnType() == net.minecraft.world.entity.MobSpawnType.COMMAND) {
+            return;
+        }
+        if (event.getLevel() instanceof ServerLevel serverLevel
+                && !alku.csrp.world.SpawnLightChecks.canSpawnNaturally(serverLevel, parasite,
+                        SrpWorldData.get(serverLevel).evolutionPhase(), false)) {
+            event.setSpawnCancelled(true);
+        }
+    }
+
     private static void scaleBaseAttribute(LivingEntity entity, Holder<Attribute> attribute,
                                            double multiplier) {
         AttributeInstance instance = entity.getAttribute(attribute);

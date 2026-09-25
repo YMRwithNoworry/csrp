@@ -480,6 +480,18 @@ expect(lightChecks, /getMaxLocalRawBrightness\(pos\)/, "the local-brightness gat
 expect(lightChecks, /getWalkTargetValue\(pos\) >= 0\.0F/, "the walk-target gate of the strict tier is not ported");
 expect(lightChecks, /if \(parasiteRegion\) \{/, "the parasite-region approximation is not wired");
 
+// Legacy spawn validity is enforced on the spawn event (func_70601_bi equivalent).
+const combatRules = read("src/main/java/alku/csrp/event/ParasiteCombatRules.java");
+expect(combatRules, /@SubscribeEvent\s+public static void enforceLegacySpawnValidity\(FinalizeSpawnEvent event\)/,
+  "the legacy spawn-validity handler is not subscribed");
+expect(combatRules, /event\.setSpawnCancelled\(true\)/, "the spawn is never cancelled by the legacy gate");
+expect(combatRules, /event\.getSpawnType\(\) == net\.minecraft\.world\.entity\.MobSpawnType\.SPAWNER/,
+  "spawner placements must stay exempt, as in the original");
+expect(lightChecks, /Config\.spawnDays\(\) > level\.getLevel\(\)\.getGameTime\(\)/,
+  "the spawnDays tick threshold is not applied");
+expect(lightChecks, /phase >= alku\.csrp\.Config\.evolutionSpawningIgnoreSunlight\(\)/,
+  "the phase-dependent light tier is not applied");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

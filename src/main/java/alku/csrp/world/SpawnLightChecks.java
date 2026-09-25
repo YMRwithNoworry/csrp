@@ -62,6 +62,26 @@ public final class SpawnLightChecks {
         return light <= random.nextInt(8) && mob.getWalkTargetValue(pos) >= 0.0F;
     }
 
+    /**
+     * The legacy spawn-validity gate ({@code func_70601_bi}): peaceful worlds, the {@code spawnDays}
+     * tick threshold and the phase-dependent light tier. The original compares {@code spawnDays}
+     * against the world's total tick count, which is {@code getGameTime()} here, and lets
+     * higher-phase parasites (or phase -1 when configured) use the looser two-check.
+     */
+    public static boolean canSpawnNaturally(net.minecraft.world.level.ServerLevelAccessor level,
+                                           PathfinderMob mob, int phase, boolean parasiteRegion) {
+        if (level.getDifficulty() == net.minecraft.world.Difficulty.PEACEFUL) {
+            return false;
+        }
+        if (alku.csrp.Config.spawnDays() > level.getLevel().getGameTime()) {
+            return false;
+        }
+        boolean looser = phase >= alku.csrp.Config.evolutionSpawningIgnoreSunlight()
+                || (phase == -1 && alku.csrp.Config.phaseLightlessMinusOne());
+        return looser ? isValidLightLevelTwo(level.getLevel(), mob)
+                : isValidLightLevelOne(level.getLevel(), mob, parasiteRegion);
+    }
+
     private static BlockPos entityBlockPos(Entity entity) {
         return new BlockPos((int) Math.floor(entity.getX()), (int) Math.floor(entity.getY()),
                 (int) Math.floor(entity.getZ()));
