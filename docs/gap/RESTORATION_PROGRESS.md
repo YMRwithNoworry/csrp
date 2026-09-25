@@ -1529,3 +1529,26 @@ EntityParasiteBase:1573   } else {                           // 关闭进化且 
 
 **记账**：`fer_villager` 那条 partial 的缺失项（`ignoreL`）已补齐 ⇒ 记为 satisfied。
 账面：满足 702 → **703**，部分 365 → **364**，加权维持 **66.9%**。
+
+## 批次 102：`SRPSpawning.addSpawn` 条款的**表结构**查清（2026-09-25 续，未改代码）
+
+条款原文示例（6 条 partial）：`SRPSpawning.addSpawn(0, EntityHost, 1, 1, 全群系, hostSpawnRate=0, hostEnabled)`。
+（前两批我把类名当 `undefined.class` 是因为审计时未解析；实际操作中已定位真实定义处：
+`init/SRPSpawning.java:365 public static void addSpawn(int type, Class<? extends EntityLiving> entity, int groupMin, int groupMax, Biome biome, int weight, boolean addSpawn)`。）
+
+**表结构（每只生物两条）**：
+
+```java
+addSpawn(0, EntityShyco.class,        1, 1, biome, SRPConfigMobs.shycoSpawnRate,  SRPConfigMobs.shycoEnabled);
+addSpawn(0, EntityShycoAdapted.class, 1, 1, biome, SRPConfigMobs.shycoASpawnRate, SRPConfigMobs.shycoEnabled);
+addSpawn(0, EntityEmana.class,        2, 3, biome, SRPConfigMobs.emanaSpawnRate,  SRPConfigMobs.emanaEnabled);
+addSpawn(0, EntityHull.class,         4, 6, biome, SRPConfigMobs.hullSpawnRate,   SRPConfigMobs.hullEnabled);
+…
+```
+
+**要点（对端口对齐很关键）**：① 每只都有**未适应/适应两条独立注册**，各有独立生成率（`xSpawnRate` 与 `xASpawnRate`）
+但**共用一个 enable 开关**；② 组大小是**逐物种**的（1-1 / 2-3 / 4-6 / 1-2 …），不是全局统一；
+③ 第六参是权重（生成率），第七参是开关，二者都来自 `SRPConfigMobs`。
+
+**下一批做法**：把原版整表（约 40+ 条）完整导出，与端口现有生成注册逐条对照（组大小 / 权重 / 开关 / 是否缺适应变体），
+再按差异逐项对齐——属"数据对齐"型任务，需先取全表以避免边改边猜。
