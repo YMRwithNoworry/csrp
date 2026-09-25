@@ -98,7 +98,7 @@ for (const file of ["PrimitiveParasiteRenderer.java", "AssimilatedParasiteRender
 // the marauderized family is permanently scaled by its renderer (legacy RenderSpe* base scale)
 const clientEvents = read("src/main/java/alku/csrp/client/ClientModEvents.java");
 for (const [pattern, message] of [
-  [/new PrimitiveParasiteRenderer<>\(context, "mar_cow", 0\.55F, 1\.1F\)/,
+  [/new PrimitiveParasiteRenderer<>\(context, "mar_cow", 0\.5F, 1\.1F\)/,  // radius aligned to the legacy 0.5F
     "mar_cow must keep the legacy 1.1 base scale"],
   [/new PrimitiveParasiteRenderer<>\(context, "mar_villager", 0\.5F, 1\.1F\)/,
     "mar_villager must keep the legacy 1.1 base scale"],
