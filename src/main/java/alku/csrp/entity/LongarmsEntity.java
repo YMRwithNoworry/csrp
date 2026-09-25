@@ -78,7 +78,8 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
 
     public LongarmsEntity(EntityType<? extends LongarmsEntity> type, Level level) {
         super(type, level);
-        xpReward = 18;
+        // Legacy SRPConfig.primitiveXPValue = 30 for the primitive tier.
+        xpReward = 30;
     }
 
     public static AttributeSupplier.Builder createAttributes() {

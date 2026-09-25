@@ -1145,3 +1145,9 @@ SRPConfig: infectedXPValue = 8 / feralXPValue = 16 / primitiveXPValue = 30
 **剩余 7 种待对齐**（BEAR 12 / COW 12 / ENDERMAN 24 / HORSE 12 / HUMAN 10 / PIG 8 / SHEEP 9）——
 纯数值批量，下一轮用 edit 工具逐行改（本轮的正则批量因缩进/转义未命中，已改用 edit 工具，避免重蹈批次 71 的脚本事故）。
 `build` 通过、套件维持既有 20 失败。
+
+## 批次 77：原始族经验对齐 primitiveXPValue = 30（2026-09-25 续）
+
+同批次 75/76 的取值链：原始族统一为 `SRPConfig.primitiveXPValue = 30`。`LongarmsEntity`（pri_longarms，已审计）
+原为 `xpReward = 18` ⇒ 改为 **30**。
+其余原始族生物（Pri... 各族）与野化族剩余 7 种的经验值仍待批量对齐，证据（30 / 16）已在文档中备好。
