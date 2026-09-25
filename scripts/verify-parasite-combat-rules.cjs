@@ -621,6 +621,10 @@ expect(read("src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java"),
 expect(read("src/main/java/alku/csrp/entity/MarauderizedParasiteEntity.java"),
   /applyCoth\(cothTarget, this\)/, "the marauderized branch does not apply COTH on hit");
 
+// Legacy SRPConfigSystems.cothAura default is 3 (config range 0-10).
+expect(read("src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java"),
+  /COTH_AURA_RADIUS = 3;/, "the COTH aura radius must match the legacy cothAura default");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

@@ -4233,3 +4233,20 @@ if (hit && entity instanceof LivingEntity cothTarget) {
 
 **方法论**：本轮体现了"**语义确认优先于照抄**"——若直接复制 `:676` 的光环写法，会得到一个"编译通过但行为不同"的实现 ✗
 （对被击者 vs 对周围所有实体），而这正是本会话反复强调要避免的。
+
+## 批次 252：COTH 光环半径对齐（8 → 3）（2026-09-25 续）
+
+第八批委派指出"端口 COTH 光环半径 8 vs 原版 `cothAura = 3`"。双侧核实：
+
+```
+原版 EntityPInfected:149   this.InfectNearby(this, SRPConfigSystems.cothAura);      ⇒ cothAura 是【范围参数】
+原版 SRPConfigSystems:90   public static int cothAura = 3;                          ⇒ 默认【3】（范围 0–10）
+原版 :1857                 cfg.getInt("COTH Aura", "status_effects", cothAura, 0, 10, "…spread from mob to mob")
+端口 AssimilatedParasiteEntity:74   private static final int COTH_AURA_RADIUS = 8;   ✗ 硬编码 8
+```
+
+⇒ 已改为 **3** ✔（并注明来源 ✔）。断言 1 条；`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+**这是一处"数值级"偏差**（不是机制缺失 ✗）：机制、调用点、语义都对，只是**数值取自别处**（8 ✗）——
+这类偏差最难靠"看代码逻辑"发现，**只能靠逐项对照原版配置默认值** ✔。
+**注**：原版该项是**可配置**的（0–10）✗，端口目前为常量 ✗ ⇒ "配置面"差异记入待办（与"机制补齐"阶段一并规划 ✔）。

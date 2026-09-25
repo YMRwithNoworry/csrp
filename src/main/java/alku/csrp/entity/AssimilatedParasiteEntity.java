@@ -71,7 +71,8 @@ public final class AssimilatedParasiteEntity extends Monster
         SelfeFuseOwner {
     public static final int FERAL_KILL_THRESHOLD = 60;
     private static final int COTH_DURATION_TICKS = 4_800;
-    private static final int COTH_AURA_RADIUS = 8;
+    /** Legacy SRPConfigSystems.cothAura default (0-10, "COTH Aura"). */
+    private static final int COTH_AURA_RADIUS = 3;
     private static final EntityDataAccessor<Integer> SHEEP_TEXTURE_VARIANT =
             SynchedEntityData.defineId(AssimilatedParasiteEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> TAMED_WOLF_TEXTURE =
