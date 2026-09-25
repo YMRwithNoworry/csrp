@@ -72,23 +72,38 @@ public final class Config {
     private static final ModConfigSpec.DoubleValue PRIMITIVE_MINIMUM_DAMAGE = BUILDER
             .comment("Armor-bypassing minimum damage dealt by primitive parasite special attacks.")
             .defineInRange("primitiveMinimumDamage", 2.0D, 0.0D, 1000.0D);
-    private static final ModConfigSpec.IntValue INFECTED_DAMAGE_CAP = BUILDER
-            .comment("Legacy infected damage cap divisor: incoming damage is clamped to"
-                    + " maxHealth / cap + maxHealth % cap * 0.5 and reaching the cap grants RAGE II."
-                    + " 1 disables the cap (SRPConfig.infectedCap).")
-            .defineInRange("infectedDamageCap", 2, 1, 100);
-    private static final ModConfigSpec.DoubleValue INFECTED_MINIMUM_DAMAGE = BUILDER
-            .comment("Armor-bypassing minimum damage dealt by assimilated melee attacks"
-                    + " (SRPConfig.infectedMinDamage).")
-            .defineInRange("infectedMinimumDamage", 0.5D, 0.0D, 1000.0D);
-    private static final ModConfigSpec.DoubleValue INFECTED_FOOD_STEAL = BUILDER
-            .comment("Chance for an assimilated hit to steal food from a player; the stolen item"
-                    + " drops as assimilated flesh (legacy foodSteal).")
-            .defineInRange("infectedFoodSteal", 0.1D, 0.0D, 1.0D);
-    private static final ModConfigSpec.DoubleValue INFECTED_POISON_HEALING = BUILDER
-            .comment("Health an assimilated parasite regains per kill, as a fraction of the victim's"
-                    + " maximum health (legacy geneMobHealing).")
-            .defineInRange("infectedKillHeal", 1.0D, 0.0D, 100.0D);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> PARASITE_COMBAT_TABLE = BUILDER
+            .comment("Per-tier legacy combat values (SRPConfig.<tier>Cap / <tier>MinDamage / foodSteal)",
+                    "format: tier;damageCapDivisor;minimumDamage;foodSteal",
+                    "tiers: infected, feral, hijacked, assimara, primitive, adapted, pure, preeminent,",
+                    "ancient, derived, nexus_si, nexus_sii, nexus_siii, nexus_siv")
+            .defineList("parasiteCombatTable", List.of(
+                    "infected;2;0.5;0.1",
+                    "feral;3;0.75;0.5",
+                    "hijacked;5;1.3;0.1",
+                    "assimara;5;1.1;0.5",
+                    "primitive;6;2.0;0.5",
+                    "adapted;9;4.0;0.5",
+                    "pure;13;7.0;0.5",
+                    "preeminent;18;10.0;0.5",
+                    "ancient;5;2.5;0.5",
+                    "derived;25;14.0;0.5",
+                    "nexus_si;4;0.0;0.5",
+                    "nexus_sii;8;0.0;0.5",
+                    "nexus_siii;14;0.0;0.5",
+                    "nexus_siv;20;0.0;0.5"),
+                    Config::validCombatTableEntry);
+    private static final ModConfigSpec.DoubleValue PARASITE_POISON_HEALING = BUILDER
+            .comment("Health a parasite regains when poison damage is converted into healing"
+                    + " (legacy genePoisonHealing).")
+            .defineInRange("parasitePoisonHealing", 2.5D, 0.0D, 1000.0D);
+    private static final ModConfigSpec.DoubleValue PARASITE_FOOD_THEFT_CHANCE = BUILDER
+            .comment("Chance for a parasite hit to convert one of the victim's food items into"
+                    + " assimilated flesh (legacy foodRott).")
+            .defineInRange("parasiteFoodTheftChance", 0.1D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue PARASITE_FIRE_MULTIPLIER = BUILDER
+            .comment("Fire damage multiplier applied to parasites (legacy firemultyplier).")
+            .defineInRange("parasiteFireMultiplier", 4.0D, 1.0D, 100.0D);
     private static final ModConfigSpec.BooleanValue USE_EVOLUTION_PHASES = BUILDER
             .comment("Use SRP evolution phases instead of the legacy difficulty killcount behavior.")
             .define("useEvolutionPhases", true);
@@ -566,6 +581,24 @@ public final class Config {
                 value -> value instanceof Integer trigger && trigger >= 0 && trigger <= 18);
     }
 
+    /** Validates a parasiteCombatTable entry: tier;damageCapDivisor;minimumDamage;foodSteal. */
+    private static boolean validCombatTableEntry(Object value) {
+        if (!(value instanceof String entry)) {
+            return false;
+        }
+        String[] parts = entry.split(";", -1);
+        if (parts.length != 4 || parts[0].isBlank()) {
+            return false;
+        }
+        try {
+            return Integer.parseInt(parts[1].trim()) >= 1
+                    && Float.parseFloat(parts[2].trim()) >= 0.0F
+                    && Float.parseFloat(parts[3].trim()) >= 0.0F;
+        } catch (NumberFormatException ignored) {
+            return false;
+        }
+    }
+
     private static ModConfigSpec.ConfigValue<List<? extends Integer>> dislodgmentPhaseCodes(String name) {
         return BUILDER.defineList(name, DEFAULT_DISLODGMENT_PHASE_CODES,
                 value -> value instanceof Integer code && code >= 0 && code <= 29);
@@ -605,10 +638,10 @@ public final class Config {
 
     public static double killcountPlus() { return KILLCOUNT_PLUS.get(); }
     public static float primitiveMinimumDamage() { return PRIMITIVE_MINIMUM_DAMAGE.get().floatValue(); }
-    public static int infectedDamageCap() { return INFECTED_DAMAGE_CAP.get(); }
-    public static float infectedMinimumDamage() { return INFECTED_MINIMUM_DAMAGE.get().floatValue(); }
-    public static float infectedFoodSteal() { return INFECTED_FOOD_STEAL.get().floatValue(); }
-    public static float infectedKillHeal() { return INFECTED_POISON_HEALING.get().floatValue(); }
+    public static List<? extends String> parasiteCombatTable() { return PARASITE_COMBAT_TABLE.get(); }
+    public static float parasitePoisonHealing() { return PARASITE_POISON_HEALING.get().floatValue(); }
+    public static float parasiteFoodTheftChance() { return PARASITE_FOOD_THEFT_CHANCE.get().floatValue(); }
+    public static float parasiteFireMultiplier() { return PARASITE_FIRE_MULTIPLIER.get().floatValue(); }
     public static boolean useEvolutionPhases() { return USE_EVOLUTION_PHASES.get(); }
     public static boolean generationEnabled() { return GENERATION_ENABLED.get(); }
     public static boolean pearlDestroyedOnBeholderKill() { return PEARL_DESTROYED_ON_BEHOLDER_KILL.get(); }

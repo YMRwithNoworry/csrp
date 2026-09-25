@@ -193,8 +193,6 @@ public final class AssimilatedParasiteEntity extends Monster
         boolean hit = super.doHurtTarget(entity);
         if (hit && livingTarget != null) {
             ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
-            ParasiteCombatEffects.applyMinimumMeleeDamage(this, livingTarget);
-            ParasiteCombatEffects.stealFoodFromPlayer(this, livingTarget);
         }
         if (hit && kind == Kind.SQUID) {
             float damage = (float) getAttributeValue(Attributes.ATTACK_DAMAGE);
@@ -211,13 +209,11 @@ public final class AssimilatedParasiteEntity extends Monster
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        float dealt = source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount;
-        return super.hurt(source, ParasiteCombatEffects.damageAfterIncomingCap(this, source, dealt));
+        return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
 
     @Override
     public boolean killedEntity(ServerLevel level, LivingEntity victim) {
-        ParasiteCombatEffects.healOnKill(this, victim);
         parasiteKills++;
         if (AssimilatedMeltSystem.tryStartGroup(this, parasiteKills)) {
             parasiteKills = 0;

@@ -45,3 +45,25 @@ node scripts/entity-parity/build-entity-parity-input.cjs && node scripts/entity-
 4. **AI 补全**：`EntityAISwimmingDiving`、`EntityAIWaterLeapAtTargetStatus`、`EntityAIInfectedSearch`（融化搜索）、Nidus 生成、`doLast` 的 SPOT/alertOthers；对照 `docs/entity-parity/ORIGINAL_AI_TASKS.md`（127 只 × 1254 条注册）。
 5. **内容缺口**（`docs/gap/PORT_COMPLETION_PLAN.md`）：残骸/木系楼梯台阶墙、`colonyoutpost`/`relaycontroller`/`noderelay`/`parasitecanister`、`assimilated_blossom` 与花盆、灌木/藤蔓/叶子、gore 六块、`lurecomponent7-10`、客户端体积雾/黑天幕/粒子/GUI。
 6. **覆盖审计**：对剩余 114 只生物按 `AUDIT_PROTOCOL.md` 出条款级审计，让缺口清单覆盖全 127 只。
+
+## 批次 2：全科通用战斗规则事件化（2026-09-25）
+
+原版这些规则写在 `EntityParasiteBase`（全科共享），逐科比对的数值取自 `SRPConfig`。
+1.21.1 落点改为**事件驱动 + 分科参数表**，一次覆盖所有寄生体科，不再逐科复制：
+
+| 规则 | 原版出处 | 实现 |
+| --- | --- | --- |
+| 分科伤害上限 + 触顶 RAGE 200/1 | `EntityParasiteBase:706-790`、`SRPConfig.<tier>Cap` | `ParasiteCombatRules.applyDefenseRules`（`maxHealth/cap + 余数*0.5`，火焰不设限，`parasiteCombatTable` 配置：infected 2 / feral 3 / hijacked 5 / assimara 5 / primitive 6 / adapted 9 / pure 13 / preeminent 18 / ancient 5 / derived 25 / nexus 4·8·14·20） |
+| 分科穿甲最小伤害（VIRA 放大） | `EntityParasiteBase:858-1002` | `applyAttackRules` → `ParasiteCombatEffects.applyMinimumDamage`（`base × (VIRA等级+2)`） |
+| 分科 foodSteal 饥饿 + foodRott 食物转掉落 | `EntityParasiteBase:958-1000` | `ParasiteCombatEffects.stealFood`（`causeFoodExhaustion` + `assimilated_flesh`） |
+| 毒伤害（magic, amount==1, 自身中毒）转治疗 | `EntityParasiteBase:1084+`、`genePoisonHealing` | `ParasiteCombatRules.convertPoisonToHealing`（`parasitePoisonHealing` 2.5） |
+| 命中 >8 伤害给玩家 FEAR 1..3 级 | `EntityPInfected:168-180` | `ParasiteCombatRules.applyFear` |
+| 击杀回血 geneMobHealing | `EntityParasiteBase:1079` | `ParasiteCombatRules.applyKillHeal`（`generationProfile.mobHealing` 门控） |
+| 火伤 × firemultyplier(4.0) + 20% RAGE | `EntityParasiteBase:67` | `PrimitiveParasiteEntity.hurt`（Primitive/Crude/Hijacked/Host 系继承）+ `BuglinEntity.hurt` |
+
+批次 1 的类内接线已回退为事件化实现（避免双份结算）。分科解析按注册 id 前缀（`sim_`/`fer_`/`hi_`/`mar_`/`pri_`/`ada_`/`beckon_s*`…），与 `InfectionMechanics` 现有约定一致。
+校验：`scripts/verify-parasite-combat-rules.cjs`；审计记账 45 条，满足条款 523 → **568**（缺失 402 → 360）。
+
+**仍未做**（下一批）：gore 血迹方块 / `EntityGore` / `spawnGore`+`RemainEntity` / `selfExplode` 毒云与召唤表、
+`setWait(10)`、PVOT 伤害转移、`placeNidus`、`liquidLeap`、`doLast` SPOT/alertOthers、
+applyGene/阶段属性加成、同步数据（SELFE/COLD_L/DISLO15）、AI 任务补全与界面/客户端层。

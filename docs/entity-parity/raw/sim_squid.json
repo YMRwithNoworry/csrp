@@ -430,12 +430,12 @@
       "clauses": [
         {
           "clause": "近战附加最小伤害 attackEntityAsMobMinimum(MiniDamage = SRPConfig.infectedMinDamage 0.5)",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:858",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
           },
-          "note": "project sim_* 直接走 Monster.doHurtTarget，没有最小伤害/穿透护甲流程"
+          "note": "applyMinimumDamage：按科 minimumDamage 穿甲扣血，并随 VIRA 等级 +2 放大；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "命中玩家时偷取食物 foodSteal = 0.1 并转化为 infected_drop",

@@ -69,6 +69,25 @@ public class BuglinEntity extends Monster implements CitadelAnimatedEntity, Para
                 .add(Attributes.MOVEMENT_SPEED, 0.2);
     }
 
+    /**
+     * Legacy EntityParasiteBase.attackEntityFrom fire handling: SRPConfig.firemultyplier, plus a
+     * 20% roll for RAGE II. Buglin sits outside the PrimitiveParasiteEntity chain, so it needs its
+     * own copy of the shared rule.
+     */
+    @Override
+    public boolean hurt(net.minecraft.world.damagesource.DamageSource source, float amount) {
+        if (source.is(net.minecraft.tags.DamageTypeTags.IS_FIRE)) {
+            amount *= Config.parasiteFireMultiplier();
+            if (!level().isClientSide && Config.rageEnabled()
+                    && !hasEffect(alku.csrp.registry.ModMobEffects.RAGE)
+                    && random.nextFloat() < 0.2F) {
+                addEffect(new net.minecraft.world.effect.MobEffectInstance(
+                        alku.csrp.registry.ModMobEffects.RAGE, 200, 1, false, false), this);
+            }
+        }
+        return super.hurt(source, amount);
+    }
+
     public static boolean checkBuglinSpawnRules(EntityType<? extends Monster> type, ServerLevelAccessor level,
                                                  MobSpawnType spawnType, BlockPos pos, RandomSource random) {
         int phase = Config.evolutionPhase(level.getLevel());

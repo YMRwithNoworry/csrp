@@ -184,8 +184,6 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
         boolean hit = super.doHurtTarget(entity);
         if (hit && livingTarget != null) {
             ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
-            ParasiteCombatEffects.applyMinimumMeleeDamage(this, livingTarget);
-            ParasiteCombatEffects.stealFoodFromPlayer(this, livingTarget);
             InfectionMechanics.applyCoth(livingTarget, this);
             if ((kind == Kind.HUMAN || kind == Kind.VILLAGER) && random.nextFloat() < BLEED_CHANCE) {
                 livingTarget.addEffect(new MobEffectInstance(ModMobEffects.BLEED, 100, 0), this);
@@ -199,13 +197,11 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
-        float dealt = source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount;
-        return super.hurt(source, ParasiteCombatEffects.damageAfterIncomingCap(this, source, dealt));
+        return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
 
     @Override
     public boolean killedEntity(ServerLevel level, LivingEntity victim) {
-        ParasiteCombatEffects.healOnKill(this, victim);
         if ((kind == Kind.HUMAN || kind == Kind.VILLAGER) && victim instanceof AbstractSkeleton
                 && ++skeletonKills >= HOST_SKELETON_KILLS) {
             transformToHost(level);

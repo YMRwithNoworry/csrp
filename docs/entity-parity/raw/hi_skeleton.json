@@ -453,21 +453,21 @@
       "clauses": [
         {
           "clause": "damageCap = SRPConfig.hijackedCap = 5：单次伤害上限 = maxHealth/5 + (maxHealth%5)*0.5，达到上限时施加 RAGE(200,1) 且 30% 概率血块表现",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPHijacked.java:55",
-            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:418"
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
-          "note": "原版 SRPConfig.java:174 hijackedCap=5；工程 incomingDamageCapDivisor() 默认 1，HijackedParasiteEntity 未覆写 → 无伤害上限"
+          "note": "applyDefenseRules：按 parasiteCombatTable 分科上限（infected 2 / feral 3 / hijacked 5 / assimara 5 / primitive 6 / adapted 9 / pure 13 / nexus 4-20），触顶 RAGE 200/1；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "MiniDamage = SRPConfig.hijackedMinDamage = 1.3（每次命中至少造成 1.3 伤害）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPHijacked.java:57",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
           },
-          "note": "工程 HiSkeletonEntity 未调用 applyPrimitiveMinimumDamage/applyMinimumDamage 之类的保底伤害"
+          "note": "applyMinimumDamage：按科 minimumDamage 穿甲扣血，并随 VIRA 等级 +2 放大；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "cothSpread = SRPConfigSystems.cothHijacked：命中概率施加 COTH(3600, amp0)",
@@ -480,11 +480,12 @@
         },
         {
           "clause": "foodSteal = 0.1F（命中玩家时额外消耗饱食度）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPHijacked.java:59",
-            "project": null
-          }
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
+          },
+          "note": "stealFood：按科 foodSteal 增加玩家饥饿度，并按 foodRott 概率把一份食物转成 assimilated_flesh；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "fearPlayer：视线内的玩家施加 SRPPotions.FEAR_E(300, amp0，无粒子无图标)",
@@ -532,29 +533,30 @@
         },
         {
           "clause": "火焰伤害乘 SRPConfig.firemultyplier（默认 4.0）且 20% 概率施加 RAGE(200,1)",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:795",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java"
           },
-          "note": "工程 HijackedParasiteEntity 继承链无火焰增伤，且 Config 中无 firemultyplier 项，RAGE 仅在伤害上限路径触发"
+          "note": "火伤 × parasiteFireMultiplier(4.0) 且 20% 概率 RAGE 200/1（Primitive 系继承；Buglin 单独实现）；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "毒伤害治愈：source == magic && 自身带 poison && amount == 1.0 → 治疗 genePoisonHealing 并免疫该次伤害",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:635",
-            "project": null
-          }
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
+          },
+          "note": "convertPoisonToHealing：magic 来源且 amount==1 且自身中毒时改为治疗 parasitePoisonHealing；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "免疫 COTH/VIRA/CORRO/DLER 效果（func_70687_e 返回 false）",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1084",
-            "project": "src/main/java/alku/csrp/infection/InfectionMechanics.java:712"
+            "project": "src/main/java/alku/csrp/event/StatusEffectEvents.java"
           },
-          "note": "工程仅通过 isConvertible 排除寄生体的 COTH 施加路径，未覆写 canBeAffected，VIRAL 等其他效果仍可附着"
+          "note": "preventParasiteStatusApplication：寄生体拒绝 COTH/VIRA/CORRO/DLER；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "被攻击时 10% 概率触发 attackEntityFromEffects(1,1)（血块表现）",

@@ -81,6 +81,8 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
     private static final int DEFAULT_MAX_LEARNABLE_DAMAGE_SOURCES = 5;
     private static final int NEW_DAMAGE_COOLDOWN_TICKS = 20;
     private static final int FIRE_ADAPTATION_BLOCK_TICKS = 10;
+    /** Legacy EntityParasiteBase fire handling: chance for RAGE II on a fire hit. */
+    private static final float FIRE_RAGE_CHANCE = 0.2F;
     private static final TagKey<DamageType> TACZ_BULLET_DAMAGE = TagKey.create(Registries.DAMAGE_TYPE,
             ResourceLocation.fromNamespaceAndPath("tacz", "bullets"));
     private static final Map<Class<?>, Optional<Method>> TACZ_BULLET_GUN_ID_METHODS = new ConcurrentHashMap<>();
@@ -333,6 +335,15 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
         Holder<MobEffect> resistanceEffect = killingResistanceEffect();
         if (resistanceEffect != null) {
             amount = ParasiteCombatEffects.damageAfterKillingResistance(source, amount, resistanceEffect);
+        }
+        if (source.is(DamageTypeTags.IS_FIRE)) {
+            // Legacy EntityParasiteBase.attackEntityFrom: SRPConfig.firemultyplier, plus a 20% roll
+            // for RAGE II on every fire hit.
+            amount *= Config.parasiteFireMultiplier();
+            if (!level().isClientSide && Config.rageEnabled() && !hasEffect(ModMobEffects.RAGE)
+                    && random.nextFloat() < FIRE_RAGE_CHANCE) {
+                addEffect(new MobEffectInstance(ModMobEffects.RAGE, 200, 1, false, false), this);
+            }
         }
         if (!usesDamageAdaptation()) {
             return hurtWithIncomingDamageCap(source, amount);

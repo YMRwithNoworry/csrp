@@ -56,6 +56,68 @@ const BATCHES = {
         detail: "healOnKill：按 generationProfile.mobHealing 基因 × victim 最大生命回血"
       }
     ]
+  },
+  // 批次 2：把上面的规则事件化并按科分档，一次覆盖全部寄生体科（原版 EntityParasiteBase 全科共享）。
+  "all-tier-combat-rules": {
+    note: "批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）",
+    projectClasses: [
+      "FeralParasiteEntity", "MarauderizedCowEntity", "HiSkeletonEntity", "LongarmsEntity",
+      "HostEntity", "BuglinEntity", "NexusParasiteEntity",
+      "AssimilatedParasiteEntity", "AssimilatedVariantEntity", "SimHumanEntity"
+    ],
+    clauses: [
+      {
+        // Cap clauses only: the gore reaction and the applyGene paragraph stay untouched.
+        match: /^(?!.*(EntityGore|基因|attackEntityFromCap))(?=.*(伤害上限|damageCap|进伤上限)).*$/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/event/ParasiteCombatRules.java",
+        detail: "applyDefenseRules：按 parasiteCombatTable 分科上限（infected 2 / feral 3 / hijacked 5 / assimara 5 / primitive 6 / adapted 9 / pure 13 / nexus 4-20），触顶 RAGE 200/1"
+      },
+      {
+        match: /^(?!.*(基因|skin|血块|spawnShock|EntityWaveShock|charge\(\)))(?=.*(最小伤害|MiniDamage|命中至少)).*$/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java",
+        detail: "applyMinimumDamage：按科 minimumDamage 穿甲扣血，并随 VIRA 等级 +2 放大"
+      },
+      {
+        match: /^(?!.*(EntityGore|基因))(?=.*(偷取食物|foodSteal|食物转为|吞噬玩家食物|增加饥饿)).*$/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java",
+        detail: "stealFood：按科 foodSteal 增加玩家饥饿度，并按 foodRott 概率把一份食物转成 assimilated_flesh"
+      },
+      {
+        match: /毒伤害治愈|中毒伤害/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/event/ParasiteCombatRules.java",
+        detail: "convertPoisonToHealing：magic 来源且 amount==1 且自身中毒时改为治疗 parasitePoisonHealing"
+      },
+      {
+        match: /药水免疫|免疫 COTH/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/event/StatusEffectEvents.java",
+        detail: "preventParasiteStatusApplication：寄生体拒绝 COTH/VIRA/CORRO/DLER"
+      },
+      {
+        // setWait(10) is a separate animation lock and is not implemented yet.
+        match: /^(?!.*setWait)(?=.*(击杀后按 victim|击杀回血|击杀后治疗)).*$/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/event/ParasiteCombatRules.java",
+        detail: "applyKillHeal：击杀按 generationProfile.mobHealing × victim 最大生命回血"
+      },
+      {
+        // Line-of-sight fear variants still need their own pass.
+        match: /^(?!.*视线内)(?=.*(FEAR|恐惧)).*$/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/event/ParasiteCombatRules.java",
+        detail: "applyFear：命中造成 > 8 伤害时按伤害给 FEAR 1..3 级（200~500 tick）"
+      },
+      {
+        match: /^(?!.*skin)(?=.*(火焰伤害乘|火伤倍率)).*$/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java",
+        detail: "火伤 × parasiteFireMultiplier(4.0) 且 20% 概率 RAGE 200/1（Primitive 系继承；Buglin 单独实现）"
+      }
+    ]
   }
 };
 
@@ -79,7 +141,7 @@ let changedClauses = 0;
 for (const file of files) {
   const full = path.join(rawDir, file);
   const data = JSON.parse(fs.readFileSync(full, "utf8"));
-  if (batch.projectClasses && !batch.projectClasses.includes(data.projectClass)) {
+  if (batch.projectClasses && !batch.projectClasses.some((c) => (data.projectClass ?? "").startsWith(c))) {
     console.log(`[skip] ${data.id} (${data.projectClass}): not touched by this batch`);
     continue;
   }

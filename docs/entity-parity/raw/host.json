@@ -127,12 +127,12 @@
         },
         {
           "clause": "damageCap = SRPConfig.primitiveCap (6) 进伤上限",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:106",
-            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:418"
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
-          "note": "工程 HostEntity 未覆写 incomingDamageCapDivisor"
+          "note": "applyDefenseRules：按 parasiteCombatTable 分科上限（infected 2 / feral 3 / hijacked 5 / assimara 5 / primitive 6 / adapted 9 / pure 13 / nexus 4-20），触顶 RAGE 200/1；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "适应参数 primitivePointRed 0.05 / primitivePointCap 12 / primitivePointDamCap 5 / primitiveChanceLe 0.7",
@@ -145,12 +145,12 @@
         },
         {
           "clause": "MiniDamage = primitiveMinDamage (2.0)、foodSteal = primitiveFoodSteal (0.5)",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:108",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
           },
-          "note": "工程无这两个字段（最小伤害近战路径未接入）"
+          "note": "applyMinimumDamage：按科 minimumDamage 穿甲扣血，并随 VIRA 等级 +2 放大；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         }
       ],
       "confidence": "high"
@@ -421,36 +421,39 @@
       "clauses": [
         {
           "clause": "damageCap：进伤上限 = 血量 / 配置除数（primitiveCap 6 / adaptedCap 9）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:778",
-            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:418"
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
-          "note": "工程 hurtWithIncomingDamageCap 框架存在，但本实体未覆写 incomingDamageCapDivisor（默认 1，等于无上限）"
+          "note": "applyDefenseRules：按 parasiteCombatTable 分科上限（infected 2 / feral 3 / hijacked 5 / assimara 5 / primitive 6 / adapted 9 / pure 13 / nexus 4-20），触顶 RAGE 200/1；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "火伤倍率 SRPConfig.firemultyplier = 4.0",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:795",
-            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:343"
-          }
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java"
+          },
+          "note": "火伤 × parasiteFireMultiplier(4.0) 且 20% 概率 RAGE 200/1（Primitive 系继承；Buglin 单独实现）；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "药水免疫：COTH / VIRA / CORRO / DLER 无法被施加",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1084",
-            "project": null
-          }
+            "project": "src/main/java/alku/csrp/event/StatusEffectEvents.java"
+          },
+          "note": "preventParasiteStatusApplication：寄生体拒绝 COTH/VIRA/CORRO/DLER；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "中毒伤害(amount==1)转为治疗 genePoisonHealing",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:635",
-            "project": null
-          }
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
+          },
+          "note": "convertPoisonToHealing：magic 来源且 amount==1 且自身中毒时改为治疗 parasitePoisonHealing；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "击杀计数 killcount++ 并写入进化点（SRPSaveData.setTotalKills valueKill）",
@@ -497,12 +500,12 @@
         },
         {
           "clause": "attackEntityAsMobMinimum：每次命中追加 MiniDamage(2.0) 并偷取玩家饱食度 0.5",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:858",
-            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:501"
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
           },
-          "note": "工程的 applyPrimitiveMinimumDamage 仅被投射物调用，近战路径未接入"
+          "note": "applyMinimumDamage：按科 minimumDamage 穿甲扣血，并随 VIRA 等级 +2 放大；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "被寄生虫伤害免疫（原版无此规则，仅靠索敌互斥）",

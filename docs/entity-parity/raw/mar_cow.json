@@ -396,12 +396,12 @@
       "clauses": [
         {
           "clause": "近战附加最小伤害 attackEntityAsMobMinimum(MiniDamage = assimaraMinDamage 1.1)，受 geneMindam 门控",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:858",
-            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:501"
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
           },
-          "note": "project 有 applyPrimitiveMinimumDamage（Config.primitiveMinimumDamage），但 mar_* 的 doHurtTarget（MarauderizedParasiteEntity.java:277）未调用，近战附加伤害缺失"
+          "note": "applyMinimumDamage：按科 minimumDamage 穿甲扣血，并随 VIRA 等级 +2 放大；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "命中时按 cothSpread(=cothInfected 0.1) 概率施加 COTH 3600 tick（EntityParasiteBase:845-850）",
@@ -423,21 +423,21 @@
         },
         {
           "clause": "命中玩家时偷取食物 foodSteal = 0.5（EntityPAssimara:161）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPAssimara.java:161",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
           },
-          "note": "project 无 foodSteal/饥饿偷取"
+          "note": "stealFood：按科 foodSteal 增加玩家饥饿度，并按 foodRott 概率把一份食物转成 assimilated_flesh；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "受击后对玩家施加恐惧 FEAR（伤害 > 8 时 1..3 级、时长 300+40×(lv-1) 夹在 200~500）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:168",
-            "project": null
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
-          "note": "project 的 ParasiteCombatEffects.applyFearFromDamage 只被 FeralParasiteEntity 调用（FeralParasiteEntity.java:179），mar_* 未接入"
+          "note": "applyFear：命中造成 > 8 伤害时按伤害给 FEAR 1..3 级（200~500 tick）；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "呕吐远程攻击：在自身前方 4.5 格生成 area-effect cloud（半径 3、时长 100、半径随时间收缩）并施加 VOMIT/VIRA/腐蚀/两种原版减益各 300 tick",
@@ -610,12 +610,12 @@
       "clauses": [
         {
           "clause": "伤害上限 SRPConfig.assimaraCap = 5（超出即削到 HP/5 + HP%5*0.5，并施加 RAGE 200/1）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPAssimara.java:157",
-            "project": null
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
-          "note": "project HijackedParasiteEntity 未覆写 incomingDamageCapDivisor（PrimitiveParasiteEntity.java:418 默认 1），上限流程整体停用"
+          "note": "applyDefenseRules：按 parasiteCombatTable 分科上限（infected 2 / feral 3 / hijacked 5 / assimara 5 / primitive 6 / adapted 9 / pure 13 / nexus 4-20），触顶 RAGE 200/1；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "火焰伤害倍率 SRPConfig.firemultyplier = 4.0",
@@ -628,21 +628,21 @@
         },
         {
           "clause": "药水免疫：COTH/VIRA/CORRO/DLER 等寄生体效果不可被施加（func_70687_e，EntityParasiteBase:1084）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1084",
-            "project": null
+            "project": "src/main/java/alku/csrp/event/StatusEffectEvents.java"
           },
-          "note": "project 未覆写 canBeAffected，寄生体可被施加这些效果"
+          "note": "preventParasiteStatusApplication：寄生体拒绝 COTH/VIRA/CORRO/DLER；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "VIRA 病毒提升最小伤害（每级 +(MiniDamage × (amp+1))，EntityParasiteBase:893-897）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:893",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
           },
-          "note": "project 无 VIRA 与最小伤害联动（且 mar_* 连最小伤害都未接入）"
+          "note": "applyMinimumDamage：按科 minimumDamage 穿甲扣血，并随 VIRA 等级 +2 放大；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "受击时 50% 掷骰 madeRng（0 则 death 走自爆分支），func_70097_a 中 RNG 初始化",
@@ -655,12 +655,12 @@
         },
         {
           "clause": "击杀后按 victim 最大生命 × geneMobHealing(3.0) 回血（EntityParasiteBase:1040）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1040",
-            "project": null
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
-          "note": "project mar_* 无击杀回血（fer_* 有，见 fer_bear）"
+          "note": "applyKillHeal：击杀按 generationProfile.mobHealing × victim 最大生命回血；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "击杀后用 PARATE 强化生命/护甲/伤害（EntityParasiteBase:1046-1074）",

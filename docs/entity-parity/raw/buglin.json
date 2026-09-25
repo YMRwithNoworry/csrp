@@ -459,29 +459,30 @@
         },
         {
           "clause": "毒伤害治愈：source == magic && 自身带 poison && amount == 1.0 → 治疗 genePoisonHealing 并返回 false",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:635",
-            "project": null
-          }
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
+          },
+          "note": "convertPoisonToHealing：magic 来源且 amount==1 且自身中毒时改为治疗 parasitePoisonHealing；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "火焰伤害乘数 SRPConfig.firemultyplier（默认 4.0）与 20% 概率施加 RAGE",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:795",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java"
           },
-          "note": "工程 BuglinEntity 无火焰增伤与 RAGE"
+          "note": "火伤 × parasiteFireMultiplier(4.0) 且 20% 概率 RAGE 200/1（Primitive 系继承；Buglin 单独实现）；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "免疫 COTH/VIRA/CORRO/DLER 效果（func_70687_e 返回 false）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1084",
-            "project": null
+            "project": "src/main/java/alku/csrp/event/StatusEffectEvents.java"
           },
-          "note": "工程未覆写 canBeAffected"
+          "note": "preventParasiteStatusApplication：寄生体拒绝 COTH/VIRA/CORRO/DLER；批次：全科通用战斗规则事件化（EntityParasiteBase，按 SRPConfig 各科分档）"
         },
         {
           "clause": "被攻击时 10% 概率触发 attackEntityFromEffects(1,1)（血块表现）",

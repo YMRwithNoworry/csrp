@@ -22,7 +22,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 
 /** Shared damage-based status calculations used by legacy parasite tiers. */
-final class ParasiteCombatEffects {
+public final class ParasiteCombatEffects {
     private static final float FEAR_DAMAGE_THRESHOLD = 8.0F;
 
     private ParasiteCombatEffects() {
@@ -32,7 +32,7 @@ final class ParasiteCombatEffects {
         return target.getHealth() + target.getAbsorptionAmount();
     }
 
-    static void applyFearFromDamage(LivingEntity target, float healthBefore, Entity source) {
+    public static void applyFearFromDamage(LivingEntity target, float healthBefore, Entity source) {
         if (target.level().isClientSide) {
             return;
         }
@@ -80,41 +80,16 @@ final class ParasiteCombatEffects {
                 severeAmplifier, false, true));
         owner.level().addFreshEntity(cloud);
     }
-
     /**
-     * Legacy damageCap (EntityParasiteBase.attackEntityFrom): damage at or above
-     * maxHealth / cap + maxHealth % cap * 0.5 is clamped to that value and grants RAGE II for
-     * 200 ticks. Fire and void damage stay uncapped, and the cap only applies while the current
-     * generation profile grants the gene.
+     * Legacy attackEntityAsMobMinimum: a parasite melee hit chips at least the tier's minimum
+     * damage through armor, multiplied by the victim's VIRA amplifier. EntityParasiteBase computes
+     * MinimumDamage * (amp + 1) while VIRA is present and adds the base value on top, which is the
+     * same as base * (amp + 2) here.
      */
-    static float damageAfterIncomingCap(LivingEntity self, DamageSource source, float amount) {
-        if (!(self.level() instanceof ServerLevel serverLevel)) {
-            return amount;
-        }
-        int cap = Config.infectedDamageCap();
-        if (cap <= 1 || source.is(DamageTypeTags.IS_FIRE) || source.is(DamageTypes.FELL_OUT_OF_WORLD)
-                || !EvolutionSystem.generationProfile(serverLevel).damageCap()) {
-            return amount;
-        }
-        float maximumHealth = self.getMaxHealth();
-        float capped = maximumHealth / cap + maximumHealth % cap * 0.5F;
-        if (amount >= capped && !self.hasEffect(ModMobEffects.RAGE)) {
-            self.addEffect(new MobEffectInstance(ModMobEffects.RAGE, 200, 1, false, false), self);
-        }
-        return Math.min(amount, capped);
-    }
-
-    /**
-     * Legacy attackEntityAsMobMinimum: assimilated melee always chips at least the configured
-     * minimum damage through armor, multiplied by the victim's VIRA amplifier (+2), the way
-     * EntityPInfected passes MiniDamage into the base implementation.
-     */
-    static void applyMinimumMeleeDamage(LivingEntity attacker, LivingEntity target) {
-        float base = Config.infectedMinimumDamage();
+    public static void applyMinimumDamage(LivingEntity attacker, LivingEntity target, float base) {
         if (base <= 0.0F || target instanceof Parasite || target == attacker || !target.isAlive()
                 || target instanceof Player player && player.getAbilities().instabuild
-                || !(attacker.level() instanceof ServerLevel serverLevel)
-                || !EvolutionSystem.generationProfile(serverLevel).minimumDamage()) {
+                || !(attacker.level() instanceof ServerLevel serverLevel)) {
             return;
         }
         MobEffectInstance viral = target.getEffect(ModMobEffects.VIRAL);
@@ -131,16 +106,19 @@ final class ParasiteCombatEffects {
     }
 
     /**
-     * Legacy attackEntityAsMobFood: a hit may steal one food item out of the victim's inventory and
-     * drop it as assimilated flesh (the original infected_drop).
+     * Legacy attackEntityAsMob / attackEntityAsMobFood: hitting a player drains the tier's
+     * foodSteal value as exhaustion and may convert one food item into assimilated flesh
+     * (the original infected_drop) at the shared foodRott chance.
      */
-    static void stealFoodFromPlayer(LivingEntity attacker, LivingEntity target) {
-        if (!(target instanceof Player player) || player.getAbilities().instabuild
+    public static void stealFood(LivingEntity attacker, LivingEntity victim, float exhaustion, float theftChance) {
+        if (!(victim instanceof Player player) || player.getAbilities().instabuild
                 || !(attacker.level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        float chance = Config.infectedFoodSteal();
-        if (chance <= 0.0F || attacker.getRandom().nextDouble() >= chance) {
+        if (exhaustion > 0.0F) {
+            player.causeFoodExhaustion(exhaustion);
+        }
+        if (theftChance <= 0.0F || attacker.getRandom().nextDouble() >= theftChance) {
             return;
         }
         for (int slot = 0; slot < player.getInventory().getContainerSize(); slot++) {
@@ -158,11 +136,10 @@ final class ParasiteCombatEffects {
     }
 
     /**
-     * Legacy geneMobHealing: a kill heals the killer for a share of the victim's maximum health.
-     * The share is the generation profile's mobHealing gene, which is 0 below generation 2, so low
-     * generation parasites do not regenerate from kills.
+     * Legacy geneMobHealing: a kill heals the killer for a share of the victim's maximum health,
+     * gated by the generation profile mobHealing gene (0 below generation 2).
      */
-    static void healOnKill(LivingEntity killer, LivingEntity victim) {
+    public static void healOnKill(LivingEntity killer, LivingEntity victim) {
         if (victim == null || !(killer.level() instanceof ServerLevel serverLevel)) {
             return;
         }
@@ -170,6 +147,6 @@ final class ParasiteCombatEffects {
         if (multiplier <= 0.0F) {
             return;
         }
-        killer.heal(victim.getMaxHealth() * multiplier * Config.infectedKillHeal());
+        killer.heal(victim.getMaxHealth() * multiplier);
     }
 }
