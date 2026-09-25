@@ -1090,12 +1090,12 @@
         },
         {
           "clause": "死亡钩子：spawnGore（保持血迹/EntityRemain）与 attackEntityFromCap 血块",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPPrimitive.java:236",
-            "project": null
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
-          "note": "工程 LongarmsEntity 未覆写 spawnGore，死亡不生成 remain/血迹"
+          "note": "leaveGore：BIG 血迹方块 + RemainEntity（goal = 20 × parasiteRemainValue）+ 摊铺 flat 血迹 + 3 个 type 1 血肉弹；批次：死亡血肉与自爆（EntityParasiteBase.spawnGore / EntityPInfected.spawnGore / selfExplode）"
         }
       ],
       "confidence": "medium",

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-25T01:21:15.418Z",
+  "generatedAt": "2026-09-25T01:46:19.308Z",
   "protocol": "docs/entity-parity/AUDIT_PROTOCOL.md",
   "input": "docs/entity-parity/audit-input.json",
   "counts": {
@@ -8,12 +8,12 @@
     "missing": 114
   },
   "overall": {
-    "satisfied": 568,
-    "partial": 394,
-    "missing": 360,
+    "satisfied": 610,
+    "partial": 388,
+    "missing": 324,
     "na": 57,
     "denominator": 1322,
-    "completion": 57.9
+    "completion": 60.8
   },
   "facets": [
     {
@@ -49,22 +49,22 @@
     {
       "facet": "behaviors",
       "label": "行为",
-      "satisfied": 112,
-      "partial": 83,
-      "missing": 105,
+      "satisfied": 150,
+      "partial": 77,
+      "missing": 73,
       "na": 4,
       "denominator": 300,
-      "completion": 51.2
+      "completion": 62.8
     },
     {
       "facet": "damage_and_effects",
       "label": "伤害/效果",
-      "satisfied": 89,
+      "satisfied": 92,
       "partial": 16,
-      "missing": 33,
+      "missing": 30,
       "na": 4,
       "denominator": 138,
-      "completion": 70.3
+      "completion": 72.5
     },
     {
       "facet": "sync_data",
@@ -119,12 +119,12 @@
     {
       "facet": "loot",
       "label": "掉落",
-      "satisfied": 8,
+      "satisfied": 9,
       "partial": 26,
-      "missing": 16,
+      "missing": 15,
       "na": 0,
       "denominator": 50,
-      "completion": 42
+      "completion": 44
     }
   ],
   "groups": [
@@ -184,17 +184,6 @@
       "completion": 0
     },
     {
-      "group": "hijacked_and_feral",
-      "audited": 2,
-      "expected": 12,
-      "satisfied": 87,
-      "partial": 59,
-      "missing": 80,
-      "na": 3,
-      "denominator": 226,
-      "completion": 51.5
-    },
-    {
       "group": "nexus_and_aberrant",
       "audited": 1,
       "expected": 15,
@@ -206,37 +195,26 @@
       "completion": 52.2
     },
     {
+      "group": "hijacked_and_feral",
+      "audited": 2,
+      "expected": 12,
+      "satisfied": 92,
+      "partial": 59,
+      "missing": 75,
+      "na": 3,
+      "denominator": 226,
+      "completion": 53.8
+    },
+    {
       "group": "marauderized",
       "audited": 1,
       "expected": 7,
-      "satisfied": 48,
+      "satisfied": 50,
       "partial": 26,
-      "missing": 30,
+      "missing": 28,
       "na": 7,
       "denominator": 104,
-      "completion": 58.7
-    },
-    {
-      "group": "assimilated",
-      "audited": 6,
-      "expected": 23,
-      "satisfied": 267,
-      "partial": 202,
-      "missing": 150,
-      "na": 33,
-      "denominator": 619,
-      "completion": 59.5
-    },
-    {
-      "group": "current",
-      "audited": 2,
-      "expected": 13,
-      "satisfied": 86,
-      "partial": 44,
-      "missing": 45,
-      "na": 8,
-      "denominator": 175,
-      "completion": 61.7
+      "completion": 60.6
     },
     {
       "group": "early_lifecycle",
@@ -248,6 +226,28 @@
       "na": 2,
       "denominator": 85,
       "completion": 61.8
+    },
+    {
+      "group": "current",
+      "audited": 2,
+      "expected": 13,
+      "satisfied": 88,
+      "partial": 44,
+      "missing": 43,
+      "na": 8,
+      "denominator": 175,
+      "completion": 62.9
+    },
+    {
+      "group": "assimilated",
+      "audited": 6,
+      "expected": 23,
+      "satisfied": 300,
+      "partial": 196,
+      "missing": 123,
+      "na": 33,
+      "denominator": 619,
+      "completion": 64.3
     }
   ],
   "creatures": [
@@ -304,13 +304,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 43,
-        "partial": 33,
-        "missing": 22,
+        "satisfied": 48,
+        "partial": 32,
+        "missing": 18,
         "na": 5
       },
       "denominator": 98,
-      "completion": 60.7,
+      "completion": 65.3,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -334,9 +334,9 @@
           "clauses": 20
         },
         "behaviors": {
-          "satisfied": 9,
-          "partial": 9,
-          "missing": 6,
+          "satisfied": 14,
+          "partial": 8,
+          "missing": 2,
           "na": 1,
           "clauses": 25
         },
@@ -448,13 +448,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 38,
-        "partial": 33,
-        "missing": 22,
+        "satisfied": 43,
+        "partial": 32,
+        "missing": 18,
         "na": 7
       },
       "denominator": 93,
-      "completion": 58.6,
+      "completion": 63.4,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -478,9 +478,9 @@
           "clauses": 17
         },
         "behaviors": {
-          "satisfied": 10,
-          "partial": 9,
-          "missing": 8,
+          "satisfied": 15,
+          "partial": 8,
+          "missing": 4,
           "na": 0,
           "clauses": 27
         },
@@ -590,13 +590,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 46,
-        "partial": 34,
-        "missing": 30,
+        "satisfied": 51,
+        "partial": 33,
+        "missing": 26,
         "na": 6
       },
       "denominator": 110,
-      "completion": 57.3,
+      "completion": 61.4,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -620,9 +620,9 @@
           "clauses": 22
         },
         "behaviors": {
-          "satisfied": 12,
-          "partial": 8,
-          "missing": 12,
+          "satisfied": 17,
+          "partial": 7,
+          "missing": 8,
           "na": 1,
           "clauses": 33
         },
@@ -733,13 +733,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 45,
-        "partial": 36,
-        "missing": 25,
+        "satisfied": 51,
+        "partial": 35,
+        "missing": 20,
         "na": 5
       },
       "denominator": 106,
-      "completion": 59.4,
+      "completion": 64.6,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -763,9 +763,9 @@
           "clauses": 20
         },
         "behaviors": {
-          "satisfied": 10,
-          "partial": 9,
-          "missing": 9,
+          "satisfied": 16,
+          "partial": 8,
+          "missing": 4,
           "na": 0,
           "clauses": 28
         },
@@ -876,13 +876,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 48,
-        "partial": 33,
-        "missing": 24,
+        "satisfied": 54,
+        "partial": 32,
+        "missing": 19,
         "na": 5
       },
       "denominator": 105,
-      "completion": 61.4,
+      "completion": 66.7,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -906,9 +906,9 @@
           "clauses": 19
         },
         "behaviors": {
-          "satisfied": 13,
-          "partial": 7,
-          "missing": 9,
+          "satisfied": 19,
+          "partial": 6,
+          "missing": 4,
           "na": 0,
           "clauses": 29
         },
@@ -1019,13 +1019,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 47,
-        "partial": 33,
-        "missing": 27,
+        "satisfied": 53,
+        "partial": 32,
+        "missing": 22,
         "na": 5
       },
       "denominator": 107,
-      "completion": 59.3,
+      "completion": 64.5,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -1049,9 +1049,9 @@
           "clauses": 20
         },
         "behaviors": {
-          "satisfied": 12,
-          "partial": 7,
-          "missing": 11,
+          "satisfied": 18,
+          "partial": 6,
+          "missing": 6,
           "na": 0,
           "clauses": 30
         },
@@ -2148,13 +2148,13 @@
       "group": "marauderized",
       "missing": false,
       "totals": {
-        "satisfied": 48,
+        "satisfied": 50,
         "partial": 26,
-        "missing": 30,
+        "missing": 28,
         "na": 7
       },
       "denominator": 104,
-      "completion": 58.7,
+      "completion": 60.6,
       "facets": {
         "registration": {
           "satisfied": 6,
@@ -2178,9 +2178,9 @@
           "clauses": 17
         },
         "behaviors": {
-          "satisfied": 13,
+          "satisfied": 15,
           "partial": 5,
-          "missing": 4,
+          "missing": 2,
           "na": 1,
           "clauses": 23
         },
@@ -2980,13 +2980,13 @@
       "group": "hijacked_and_feral",
       "missing": false,
       "totals": {
-        "satisfied": 50,
+        "satisfied": 54,
         "partial": 33,
-        "missing": 51,
+        "missing": 47,
         "na": 1
       },
       "denominator": 134,
-      "completion": 49.6,
+      "completion": 52.6,
       "facets": {
         "registration": {
           "satisfied": 6,
@@ -3010,16 +3010,16 @@
           "clauses": 22
         },
         "behaviors": {
-          "satisfied": 10,
+          "satisfied": 13,
           "partial": 4,
-          "missing": 13,
+          "missing": 10,
           "na": 0,
           "clauses": 27
         },
         "damage_and_effects": {
-          "satisfied": 8,
+          "satisfied": 9,
           "partial": 0,
-          "missing": 11,
+          "missing": 10,
           "na": 0,
           "clauses": 19
         },
@@ -3423,13 +3423,13 @@
       "group": "hijacked_and_feral",
       "missing": false,
       "totals": {
-        "satisfied": 37,
+        "satisfied": 38,
         "partial": 26,
-        "missing": 29,
+        "missing": 28,
         "na": 2
       },
       "denominator": 92,
-      "completion": 54.3,
+      "completion": 55.4,
       "facets": {
         "registration": {
           "satisfied": 4,
@@ -3460,9 +3460,9 @@
           "clauses": 14
         },
         "damage_and_effects": {
-          "satisfied": 9,
+          "satisfied": 10,
           "partial": 2,
-          "missing": 4,
+          "missing": 3,
           "na": 0,
           "clauses": 15
         },
@@ -3675,13 +3675,13 @@
       "group": "current",
       "missing": false,
       "totals": {
-        "satisfied": 39,
+        "satisfied": 40,
         "partial": 15,
-        "missing": 16,
+        "missing": 15,
         "na": 6
       },
       "denominator": 70,
-      "completion": 66.4,
+      "completion": 67.9,
       "facets": {
         "registration": {
           "satisfied": 4,
@@ -3712,9 +3712,9 @@
           "clauses": 13
         },
         "damage_and_effects": {
-          "satisfied": 3,
+          "satisfied": 4,
           "partial": 1,
-          "missing": 2,
+          "missing": 1,
           "na": 0,
           "clauses": 6
         },
@@ -6406,13 +6406,13 @@
       "group": "current",
       "missing": false,
       "totals": {
-        "satisfied": 47,
+        "satisfied": 48,
         "partial": 29,
-        "missing": 29,
+        "missing": 28,
         "na": 2
       },
       "denominator": 105,
-      "completion": 58.6,
+      "completion": 59.5,
       "facets": {
         "registration": {
           "satisfied": 3,
@@ -6485,9 +6485,9 @@
           "clauses": 5
         },
         "loot": {
-          "satisfied": 0,
+          "satisfied": 1,
           "partial": 2,
-          "missing": 2,
+          "missing": 1,
           "na": 0,
           "clauses": 4
         }

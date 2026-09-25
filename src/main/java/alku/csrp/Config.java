@@ -104,6 +104,17 @@ public final class Config {
     private static final ModConfigSpec.DoubleValue PARASITE_FIRE_MULTIPLIER = BUILDER
             .comment("Fire damage multiplier applied to parasites (legacy firemultyplier).")
             .defineInRange("parasiteFireMultiplier", 4.0D, 1.0D, 100.0D);
+    private static final ModConfigSpec.BooleanValue PARASITE_GORE_ENABLED = BUILDER
+            .comment("Let parasites leave gore blocks and Remains behind (legacy paraGore).")
+            .define("parasiteGore", true);
+    private static final ModConfigSpec.IntValue PARASITE_REMAIN_VALUE = BUILDER
+            .comment("Remain life points per unit: the original rebuilt a Remain with"
+                    + " 20 * value ticks (SRPConfig.infectedRemainValue).")
+            .defineInRange("parasiteRemainValue", 10, 1, 50000);
+    private static final ModConfigSpec.DoubleValue PARASITE_SELF_EXPLODE_CHANCE = BUILDER
+            .comment("Chance for a dying parasite to burst into a toxic cloud and gore"
+                    + " (legacy dyingBurst / selfExplode).")
+            .defineInRange("parasiteSelfExplodeChance", 0.5D, 0.0D, 1.0D);
     private static final ModConfigSpec.BooleanValue USE_EVOLUTION_PHASES = BUILDER
             .comment("Use SRP evolution phases instead of the legacy difficulty killcount behavior.")
             .define("useEvolutionPhases", true);
@@ -642,6 +653,9 @@ public final class Config {
     public static float parasitePoisonHealing() { return PARASITE_POISON_HEALING.get().floatValue(); }
     public static float parasiteFoodTheftChance() { return PARASITE_FOOD_THEFT_CHANCE.get().floatValue(); }
     public static float parasiteFireMultiplier() { return PARASITE_FIRE_MULTIPLIER.get().floatValue(); }
+    public static boolean parasiteGoreEnabled() { return PARASITE_GORE_ENABLED.get(); }
+    public static int parasiteRemainValue() { return PARASITE_REMAIN_VALUE.get(); }
+    public static double parasiteSelfExplodeChance() { return PARASITE_SELF_EXPLODE_CHANCE.get(); }
     public static boolean useEvolutionPhases() { return USE_EVOLUTION_PHASES.get(); }
     public static boolean generationEnabled() { return GENERATION_ENABLED.get(); }
     public static boolean pearlDestroyedOnBeholderKill() { return PEARL_DESTROYED_ON_BEHOLDER_KILL.get(); }

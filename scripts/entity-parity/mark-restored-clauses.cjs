@@ -118,6 +118,49 @@ const BATCHES = {
         detail: "火伤 × parasiteFireMultiplier(4.0) 且 20% 概率 RAGE 200/1（Primitive 系继承；Buglin 单独实现）"
       }
     ]
+  },
+  // 批次 4：死亡血肉与自爆（原版 spawnGore / attackEntityFromEffects / attackEntityFromCap / selfExplode）
+  "death-gore-and-self-explode": {
+    note: "批次：死亡血肉与自爆（EntityParasiteBase.spawnGore / EntityPInfected.spawnGore / selfExplode）",
+    projectClasses: [
+      "FeralParasiteEntity", "MarauderizedCowEntity", "HiSkeletonEntity", "LongarmsEntity",
+      "HostEntity", "BuglinEntity", "NexusParasiteEntity",
+      "AssimilatedParasiteEntity", "AssimilatedVariantEntity", "SimHumanEntity"
+    ],
+    clauses: [
+      {
+        // The original also spawns EntityAta / checks worldMobCap / syncs skin in a few tiers;
+        // those clauses keep their verdict.
+        match: /^(?!.*(EntityAta|worldMobCap|skin 同步))(?=.*(EntityRemain|spawnGore)).*$/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/event/ParasiteCombatRules.java",
+        detail: "leaveGore：BIG 血迹方块 + RemainEntity（goal = 20 × parasiteRemainValue）+ 摊铺 flat 血迹 + 3 个 type 1 血肉弹"
+      },
+      {
+        match: /^(?!.*(粒子|客户端|EntityAta|worldMobCap|skin 同步))(?=.*(attackEntityFromEffects|铺 gore|血迹方块)).*$/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/registry/ModBlocks.java",
+        detail: "ModBlocks.placeGore 按科选 goresim/gorepri/goreada/gorepur/gorefer/goremar，受击 10% 铺 flat 血迹"
+      },
+      {
+        match: /^(?!.*(EntityAta|worldMobCap|skin 同步)).*attackEntityFromCap.*$/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/event/ParasiteCombatRules.java",
+        detail: "spawnGoreBombs：触顶 30% 抛 1 个、死亡抛 3 个 type 1 EntityGore（带随机初速）"
+      },
+      {
+        match: /10% 概率(调用|触发) attackEntityFromEffects/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/event/ParasiteCombatRules.java",
+        detail: "GORE_ON_HURT_CHANCE = 0.1F：受击 10% 铺设一块 flat 血迹"
+      },
+      {
+        match: /^(?!.*(dyingBurst|额外召唤))(?=.*selfExplode).*$/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/event/ParasiteCombatRules.java",
+        detail: "selfExplode：MOB_EXPLOSION 音效 + ToxicCloud（半径 width×1.5、waitTime 10、时长减半、中毒 300、COTH 3600）；40 tick 引信未做，仍走死亡即爆"
+      }
+    ]
   }
 };
 

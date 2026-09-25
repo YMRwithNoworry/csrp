@@ -486,12 +486,12 @@
         },
         {
           "clause": "被攻击时 10% 概率触发 attackEntityFromEffects(1,1)（血块表现）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:664",
-            "project": null
+            "project": "src/main/java/alku/csrp/registry/ModBlocks.java"
           },
-          "note": "EntityLodo 未覆写该钩子但基类仍会调用；工程 BuglinEntity 直接继承 Monster，无此入口"
+          "note": "ModBlocks.placeGore 按科选 goresim/gorepri/goreada/gorepur/gorefer/goremar，受击 10% 铺 flat 血迹；批次：死亡血肉与自爆（EntityParasiteBase.spawnGore / EntityPInfected.spawnGore / selfExplode）"
         },
         {
           "clause": "免于载具碰撞（func_184228_n 对船/矿车返回 false）",

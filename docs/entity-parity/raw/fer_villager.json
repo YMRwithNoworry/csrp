@@ -480,21 +480,21 @@
         },
         {
           "clause": "attackEntityFromEffects(range,count)：按 paraGore 铺 goreFer 血迹方块（受击 10% 触发 1,1）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPFeral.java:177",
-            "project": null
+            "project": "src/main/java/alku/csrp/registry/ModBlocks.java"
           },
-          "note": "project 未在受击时铺血迹方块；10% 触发点（EntityParasiteBase:664）亦缺失"
+          "note": "ModBlocks.placeGore 按科选 goresim/gorepri/goreada/gorepur/gorefer/goremar，受击 10% 铺 flat 血迹；批次：死亡血肉与自爆（EntityParasiteBase.spawnGore / EntityPInfected.spawnGore / selfExplode）"
         },
         {
           "clause": "attackEntityFromCap(go)：伤害上限触发时抛出 go 个 type 1 EntityGore",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPFeral.java:206",
-            "project": null
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
-          "note": "project 无对应逻辑"
+          "note": "spawnGoreBombs：触顶 30% 抛 1 个、死亡抛 3 个 type 1 EntityGore（带随机初速）；批次：死亡血肉与自爆（EntityParasiteBase.spawnGore / EntityPInfected.spawnGore / selfExplode）"
         },
         {
           "clause": "spawnGore：BIG 血迹方块 + EntityRemain（skin 同步、goal = 20×feralRemainValue = 240）+ 世界寄生体数 < worldMobCap(40) 时生成 EntityAta + attackEntityFromCap(3)",
@@ -516,12 +516,12 @@
         },
         {
           "clause": "selfExplode：播放 SRPSounds.MOBEXPLOTION + 生成 EntityToxicCloud（半径 width×1.5、waitTime 10、duration/2、中毒 300、COTH 3600）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1525",
-            "project": null
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
-          "note": "project 无自爆流程（毒云类存在但 fer_villager 不生成）"
+          "note": "selfExplode：MOB_EXPLOSION 音效 + ToxicCloud（半径 width×1.5、waitTime 10、时长减半、中毒 300、COTH 3600）；40 tick 引信未做，仍走死亡即爆；批次：死亡血肉与自爆（EntityParasiteBase.spawnGore / EntityPInfected.spawnGore / selfExplode）"
         },
         {
           "clause": "spawnEffectsGore 客户端粒子（GSPLASH 每 5 次共 21 个 / GCLOUD 5 个 / GSPLASH 5 个）",
@@ -766,12 +766,12 @@
         },
         {
           "clause": "受击 10% 概率触发 attackEntityFromEffects(1,1)（血迹/粒子反馈）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:664",
-            "project": null
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
-          "note": "project 无受击血迹反馈"
+          "note": "GORE_ON_HURT_CHANCE = 0.1F：受击 10% 铺设一块 flat 血迹；批次：死亡血肉与自爆（EntityParasiteBase.spawnGore / EntityPInfected.spawnGore / selfExplode）"
         },
         {
           "clause": "dislo 7/8/9 时受击 1/5 概率播放状态粒子（particleStatus 8/11/13）",

@@ -530,48 +530,48 @@
         },
         {
           "clause": "selfExplode：生成 EntityToxicCloud（半径 width×1.5、waitTime 10、duration/2、中毒 300、COTH 3600）",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1525",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:480"
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
-          "note": "project 毒云半径/时长/效果时长不同（2.25/160/中毒200/COTH200）"
+          "note": "selfExplode：MOB_EXPLOSION 音效 + ToxicCloud（半径 width×1.5、waitTime 10、时长减半、中毒 300、COTH 3600）；40 tick 引信未做，仍走死亡即爆；批次：死亡血肉与自爆（EntityParasiteBase.spawnGore / EntityPInfected.spawnGore / selfExplode）"
         },
         {
           "clause": "selfExplode：播放 SRPSounds.MOBEXPLOTION",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1531",
-            "project": null
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
-          "note": "project 死亡爆发不播放爆炸音效"
+          "note": "selfExplode：MOB_EXPLOSION 音效 + ToxicCloud（半径 width×1.5、waitTime 10、时长减半、中毒 300、COTH 3600）；40 tick 引信未做，仍走死亡即爆；批次：死亡血肉与自爆（EntityParasiteBase.spawnGore / EntityPInfected.spawnGore / selfExplode）"
         },
         {
           "clause": "attackEntityFromEffects：受击时按 paraGore 概率铺设 goreSim 地面方块",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:264",
-            "project": null
+            "project": "src/main/java/alku/csrp/registry/ModBlocks.java"
           },
-          "note": "project 未在受击时放置任何 gore 方块（GoreEntity 仅被囊肿系统使用）"
+          "note": "ModBlocks.placeGore 按科选 goresim/gorepri/goreada/gorepur/gorefer/goremar，受击 10% 铺 flat 血迹；批次：死亡血肉与自爆（EntityParasiteBase.spawnGore / EntityPInfected.spawnGore / selfExplode）"
         },
         {
           "clause": "attackEntityFromCap：伤害上限触发时抛出 3 个 EntityGore 炸弹",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:293",
-            "project": null
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
-          "note": "project 无对应逻辑"
+          "note": "spawnGoreBombs：触顶 30% 抛 1 个、死亡抛 3 个 type 1 EntityGore（带随机初速）；批次：死亡血肉与自爆（EntityParasiteBase.spawnGore / EntityPInfected.spawnGore / selfExplode）"
         },
         {
           "clause": "受击时 10% 概率调用 attackEntityFromEffects(1,1)",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:700",
-            "project": null
+            "project": "src/main/java/alku/csrp/registry/ModBlocks.java"
           },
-          "note": "project 无该受击反馈"
+          "note": "ModBlocks.placeGore 按科选 goresim/gorepri/goreada/gorepur/gorefer/goremar，受击 10% 铺 flat 血迹；批次：死亡血肉与自爆（EntityParasiteBase.spawnGore / EntityPInfected.spawnGore / selfExplode）"
         },
         {
           "clause": "超距消失时生成活体囊肿 / 被调度柱回收（spawnCyst + storeBefDes）",
@@ -708,12 +708,12 @@
         },
         {
           "clause": "spawnGore：goreSim 方块 + EntityRemain",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:319",
-            "project": null
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
-          "note": "project 不生成 gore 方块与 Remain 实体"
+          "note": "leaveGore：BIG 血迹方块 + RemainEntity（goal = 20 × parasiteRemainValue）+ 摊铺 flat 血迹 + 3 个 type 1 血肉弹；批次：死亡血肉与自爆（EntityParasiteBase.spawnGore / EntityPInfected.spawnGore / selfExplode）"
         }
       ],
       "confidence": "high"

@@ -45,7 +45,9 @@ import alku.csrp.block.ThornshadeBlock;
 import alku.csrp.block.TrophyBlock;
 import alku.csrp.block.TunnelBlock;
 import alku.csrp.block.VacuousCystBlock;
+import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CactusBlock;
 import net.minecraft.world.level.block.CraftingTableBlock;
@@ -656,6 +658,27 @@ public final class ModBlocks {
 
     private static final EnumProperty<GoreVariant> GORE_VARIANT =
             EnumProperty.create("variant", GoreVariant.class);
+
+    /** Legacy gore block per parasite tier, as used by the original spawnGore passes. */
+    private static final java.util.Map<String, String> GORE_BLOCK_BY_TIER = java.util.Map.of(
+            "infected", "goresim", "primitive", "gorepri", "adapted", "goreada",
+            "pure", "gorepur", "feral", "gorefer", "assimara", "goremar");
+
+    /**
+     * Places a legacy gore block ({@code goreSim}/{@code gorePri}/…) for a parasite tier, matching
+     * the original {@code attackEntityFromEffects}/{@code spawnGore} behaviour.
+     *
+     * @return false when the tier has no gore block or the position cannot be replaced
+     */
+    public static boolean placeGore(Level level, BlockPos pos, String tier, boolean big) {
+        String id = GORE_BLOCK_BY_TIER.get(tier);
+        DeferredBlock<? extends Block> holder = id == null ? null : LEGACY_BLOCKS.get(id);
+        if (holder == null || !level.getBlockState(pos).canBeReplaced()) {
+            return false;
+        }
+        return level.setBlockAndUpdate(pos, holder.get().defaultBlockState()
+                .setValue(GORE_VARIANT, big ? GoreVariant.BIG : GoreVariant.FLAT));
+    }
 
     private enum OreVariant implements net.minecraft.util.StringRepresentable {
         CO("co"),

@@ -549,21 +549,21 @@
         },
         {
           "clause": "受击 10% 概率触发 attackEntityFromEffects(1,1)（地面 gore 方块）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:664",
-            "project": null
+            "project": "src/main/java/alku/csrp/registry/ModBlocks.java"
           },
-          "note": "project PrimitiveParasiteEntity.hurt 无此分支；hurtWithIncomingDamageCap 的 0.3 掷骰因 divider==1 永不触发（PrimitiveParasiteEntity.java:422）"
+          "note": "ModBlocks.placeGore 按科选 goresim/gorepri/goreada/gorepur/gorefer/goremar，受击 10% 铺 flat 血迹；批次：死亡血肉与自爆（EntityParasiteBase.spawnGore / EntityPInfected.spawnGore / selfExplode）"
         },
         {
           "clause": "attackEntityFromEffects/attackEntityFromCap/spawnGore：受击与死亡时铺设 goreSim 地面方块（paraGore）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:264",
-            "project": null
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
-          "note": "project PrimitiveParasiteEntity.java:453-457 只是空实现，无任何 gore 方块铺设"
+          "note": "leaveGore：BIG 血迹方块 + RemainEntity（goal = 20 × parasiteRemainValue）+ 摊铺 flat 血迹 + 3 个 type 1 血肉弹；批次：死亡血肉与自爆（EntityParasiteBase.spawnGore / EntityPInfected.spawnGore / selfExplode）"
         },
         {
           "clause": "击杀数增长（killcount++，valueKill）与 feralKills 转化判定 getFeral（EntityPInfected:116；EntityPAssimara 未覆写 getFeral 故返回 null）",

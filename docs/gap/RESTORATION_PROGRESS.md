@@ -135,3 +135,21 @@ applyGene/阶段属性加成、同步数据（SELFE/COLD_L/DISLO15）、AI 任�
 **0 条真实缺口**，其中 27 条经原版模型源码判定为「原版从未动画该姿态」。
 审计脚本现在自带原版证据（`Model<内部名>.java` 的 `func_78087_a` 方法体 + 姿态输入判定），
 不再把这类请求误报为缺失。
+
+## 批次 4：死亡血肉与自爆（2026-09-25 续）
+
+原版 `EntityParasiteBase.spawnGore` / `attackEntityFromEffects` / `attackEntityFromCap` / `selfExplode`
+（受感染科在 `EntityPInfected` 覆写）：
+
+| 条款 | 原版出处 | 1.21.1 实现 |
+| --- | --- | --- |
+| `spawnGore`：BIG 血迹方块 + `EntityRemain`（goal = 20×`infectedRemainValue`）+ 3 个血肉弹 | `EntityPInfected:319-339` | `ParasiteCombatRules.leaveGore`（死亡时） |
+| `attackEntityFromEffects(range,count)`：按 `paraGore` 铺血迹方块 | `EntityPInfected:264-291` | `ModBlocks.placeGore`（按科选 goresim/gorepri/goreada/gorepur/gorefer/goremar）+ 受击 10% 铺 flat |
+| `attackEntityFromCap(go)`：抛 go 个 type 1 `EntityGore` | `EntityPInfected:293-317` | `spawnGoreBombs`（触顶 30% 抛 1 个、死亡抛 3 个，带随机初速） |
+| `selfExplode`：`MOB_EXPLOTION` + `EntityToxicCloud`（半径 width×1.5、waitTime 10、时长减半、中毒 300、COTH 3600） | `EntityParasiteBase.selfExplode` | `ParasiteCombatRules.selfExplode`（死亡 50% 触发） |
+
+新增配置：`parasiteGore`(true)、`parasiteRemainValue`(10)、`parasiteSelfExplodeChance`(0.5)。
+差异说明：①原版的 40 tick 引信（`dyingBurst`）未做，改为死亡即爆；②毒云 COTH 图标按本工程约定保持可见
+（`verify-coth-visibility.cjs` 全局禁止 `visible=false`，原版是隐藏的）；③未接 `selfExplode` 的额外召唤表与
+`EntityAta`/`worldMobCap` 逻辑（对应条款仍记为缺失）。
+校验：`scripts/verify-parasite-gore.cjs`；审计记账 42 条，满足条款 568 → **611**（缺失 360 → 323）。
