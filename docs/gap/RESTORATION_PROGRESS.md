@@ -3153,3 +3153,23 @@ startSeenByPlayer/stopSeenByPlayer → bossEvent.addPlayer/removePlayer       //
 
 **（三）其并发协同（第二次观察）**：我的步声提交（`a7124985`）在其审计过程中落地，使 `AssimilatedHeadEntity` 老 247 行之后的引用**整体位移 +6**；
 它**逐条重derive** 了全部行号（172 条引用自检、0 处不符），并把 `SMALL_STEPS` 条款由 partial 升为 satisfied ✔。
+
+## 批次 199：`cothSpread` 一说不予实施（源头未找到该名称）（2026-09-25 续，未改代码）
+
+第六批委派列出"`cothSpread` 掷点缺失（端口 COTH 100% 施加）"。按纪律**先到源头复核**：
+
+```
+原版 SRPConfig 中 grep -in "coth" 的命中：stackablePotionsLimit(:385，含 "srparasites:coth;2")、armorCoth(:402)、
+                                        "Incomplete Cap" 注释(:747)、armorCoth 读取(:2024)
+                                        —— 【无 cothSpread 这一名称】
+端口 AssimilatedHeadEntity:374   cloud.addEffect(new MobEffectInstance(COTH, 3600, 1, false, false, true));
+```
+
+**结论**：以 `cothSpread` 为名的机制在原版配置中**不存在**（可能该审计项指的是别处的掷点逻辑，或名称有误）⇒
+**本轮不据此改代码**（沿用批次 152「贴图随机」的处理原则：**源头找不到就不实施**）。
+
+**待查**：若确有此机制，应在原版 COTH 相关方法（而非配置）中查找（例如 `SRPConfig.armorCoth` 附近或毒云生成处）；
+查到实证后再决定端口是否改为条件施加。
+
+**方法论重申**：这是本会话第 3 次"**审计主张在源头无法复现**"（前两次：贴图随机、SRG 方法名 `func_70110_aj`）。
+每次都按同一原则处理——**保持现状 + 记录待查**，而不是照主张改代码。
