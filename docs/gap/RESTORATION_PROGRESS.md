@@ -4288,3 +4288,22 @@ grep 断言 mar_* 生成条目的脚本 → 【无】✔（仅 verify-natural-sp
 
 **方法论回顾**：反向差异从"发现（253）→ 查影响面（254 前）→ 执行（254）"共 **2 轮**，
 比"缺失类"修复多了一步"**影响面确认**" ✔ —— 这一步换来的是"删对了且没崩别处" ✔。
+
+## 批次 255：`mar_enderman` follow 任务——主张**属实**，但移除需按端口结构处理（2026-09-25 续，未改代码）
+
+```
+原版 entity/monster/infected/special/EntitySpeEnderman.java:66
+        this.field_70714_bg.func_85156_a(this.folow);      ← func_85156_a = 【移除 goal】⇒ 原版【移除】follow 任务 ✔
+端口   MarauderizedEndermanEntity 未直接注册 ParasiteFollowGoal（grep 无命中 ✗）
+       ⇒ 该 goal 注册在【父类】中（MarauderizedParasiteEntity 或其上层 ✗）
+```
+
+**结论**：委派主张**属实** ✔（原版确实移除 follow ✗，端口保留 ✗）。但**实现方式需按端口结构决定** ✗：
+- 端口若在父类统一注册 follow ⇒ 直接在 `MarauderizedEndermanEntity` 里"删掉一行"是做不到的 ✗，
+  需在**该子类中移除该 goal**（如 `goalSelector.removeGoal(...)` 或覆写注册逻辑 ✗）；
+- 或在该子类构造函数中按原版语义执行等价的"移除" ✗。
+
+**下一批**：先读端口该族的 goal 注册位置（父类 or 子类 ✗），再选择"子类移除"的实现方式 ✔。
+
+**方法论**：本轮体现了"**主张属实 ≠ 实现路径明确**"——原版在**子类构造函数**里移除父类注册的 goal ✗，
+而端口的注册位置可能不同 ✗ ⇒ **必须按端口的实际结构选择实现方式**（本会话已多次遇到"原版形态与端口形态不同"✗）。
