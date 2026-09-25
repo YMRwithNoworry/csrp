@@ -220,9 +220,20 @@ public final class ParasiteCombatRules {
         }
         if (event.getLevel() instanceof ServerLevel serverLevel
                 && !alku.csrp.world.SpawnLightChecks.canSpawnNaturally(serverLevel, parasite,
-                        SrpWorldData.get(serverLevel).evolutionPhase(), false)) {
+                        SrpWorldData.get(serverLevel).evolutionPhase(),
+                        isParasiteRegion(serverLevel, parasite))) {
             event.setSpawnCancelled(true);
         }
+    }
+
+    /**
+     * Approximates the original’s {@code instanceof BiomeParasiteBase} short-circuit: this port
+     * expresses parasite regions through infested terrain rather than a biome type, so standing on
+     * an infested block is treated as being inside one (recorded in RESTORATION_PROGRESS batch 94).
+     */
+    private static boolean isParasiteRegion(ServerLevel level, LivingEntity parasite) {
+        return level.getBlockState(parasite.blockPosition().below()).getBlock()
+                instanceof alku.csrp.block.InfestedBlock;
     }
 
     private static void scaleBaseAttribute(LivingEntity entity, Holder<Attribute> attribute,

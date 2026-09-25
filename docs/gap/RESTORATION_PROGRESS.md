@@ -1490,3 +1490,13 @@ NexusParasiteEntity:222     if (activeKind.family == Family.BECKON && activeKind
 为降低风险，两个文件的改动都使用**全限定名**、未新增 import。断言 5 条；`build` 通过、套件维持既有 20 失败。
 
 **遗留（如实记录）**：`parasiteRegion` 仍以 `false` 传入（寄生区近似判据待接，见批次 94/97）；`ignoreL` 键待其使用点查清后再补。
+
+## 批次 99：寄生区近似判据接线（消掉硬编码 false）（2026-09-25 续）
+
+`ParasiteCombatRules` 新增 `isParasiteRegion(serverLevel, parasite)`：脚下方块为 `InfestedBlock` 即视为处于寄生区，
+并把它作为 `parasiteRegion` 传入 `SpawnLightChecks.canSpawnNaturally` ⇒ 原版 `instanceof BiomeParasiteBase` 的短路
+（寄生区内改用宽松档）在端口有了对应近似，且**不再硬编码 `false`**。
+
+**编译再次拦下一处真实错误**：`getBlockState(...)` 返回 `BlockState`，需先 `.getBlock()` 才能 `instanceof InfestedBlock`——
+若只靠肉眼，这处会被我当成"写得没错"（这与本会话多次"以为对"的情形同类，编译器是最便宜的对手）。
+`build` 通过、套件维持既有 20 失败。
