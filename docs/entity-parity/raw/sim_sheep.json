@@ -812,12 +812,12 @@
         },
         {
           "clause": "DataManager.register SELFE (int)：自爆引信状态",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:135",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/ParasiteFuseState.java"
           },
-          "note": "project 无 SELFE 同步"
+          "note": "共享 ParasiteFuseState：SELFE 同步（默认 -1）+ madeRng 首次受击掷骰 + fuseTime 40 引信；各族 defineSynchedData 注册同一 accessor；批次：SELFE 引信铺开到 Assimilated/SimHuman/Feral 系（原版 EntityPInfected 全家族共享）"
         },
         {
           "clause": "DataManager.register SKIN (byte)：贴图/变体（1..120）",
@@ -917,12 +917,12 @@
         },
         {
           "clause": "受击/自爆闪白（getSelfeFlashIntensity(fuseTime=40) 驱动缩放脉动）",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:2177",
-            "project": "src/main/java/alku/csrp/client/renderer/AssimilatedParasiteRenderer.java:15"
+            "project": "src/main/java/alku/csrp/client/renderer/SelfeFuseRender.java"
           },
-          "note": "project 渲染器只按融化高度缩放，无引信闪白脉动"
+          "note": "SelfeFuseRender.applySwelling 用原版 f1/f2/f3 公式缩放；Primitive/Assimilated/SimHuman 三个渲染器均已接入；批次：SELFE 引信铺开到 Assimilated/SimHuman/Feral 系（原版 EntityPInfected 全家族共享）"
         },
         {
           "clause": "控制器注册：ModelSRP.func_78087_a 每帧姿势计算（含 underground 起跳/埋地）",

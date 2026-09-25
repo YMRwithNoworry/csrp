@@ -2,6 +2,7 @@ package alku.csrp.client.renderer;
 
 import alku.csrp.client.model.AssimilatedParasiteModel;
 import alku.csrp.entity.AssimilatedParasiteEntity;
+import alku.csrp.entity.SelfeFuseOwner;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 
@@ -15,6 +16,9 @@ public final class AssimilatedParasiteRenderer extends ParasiteGeoRenderer<Assim
     protected void scale(AssimilatedParasiteEntity entity, PoseStack poseStack, float partialTick) {
         if (entity.isMelting()) {
             poseStack.scale(1.0F, entity.getMeltRenderScale(partialTick), 1.0F);
+        }
+        if (entity instanceof SelfeFuseOwner fuseOwner) {
+            SelfeFuseRender.applySwelling(fuseOwner, poseStack, partialTick);
         }
         super.scale(entity, poseStack, partialTick);
     }

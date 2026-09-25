@@ -187,3 +187,23 @@ applyGene/阶段属性加成、同步数据（SELFE/COLD_L/DISLO15）、AI 任�
 
 上一批的「死亡即爆」已升级为原版引信流程（非 primitive 链暂仍即时爆炸，待接线）。
 校验：`scripts/verify-parasite-selfe-fuse.cjs`；审计记账 3 条，满足条款 624 → **627**（缺失 310 → 307）。
+
+## 批次 7：SELFE 引信铺开到同化/野化系（2026-09-25 续）
+
+原版 `EntityPInfected` 全家族共享同一套引信；上一批只在 `PrimitiveParasiteEntity` 链实现了。本批把引信抽成共享组件并铺开：
+
+| 新增 | 作用 |
+| --- | --- |
+| `entity/ParasiteFuseState` | 共享引信状态：`SELFE` 同步 accessor（默认 -1）、`madeRng` 首次受击掷骰（`nextInt(2)`，广播 byte 40）、`FUSE_TICKS = 40`、`advance()`、`flashIntensity()`（`/(fuseTime-2)`） |
+| `entity/SelfeFuseOwner` | 族类实现的接口：`willExplodeOnDeath` / `startDyingFuse` / `isDyingFuseActive` / `getSelfeFlashIntensity` |
+| `client/renderer/SelfeFuseRender` | 共享 `applySwelling`：原版 `preRenderCallback` 的 `f1/f2/f3` 公式，供任意实现类复用 |
+
+接线（各族 `defineSynchedData` 注册同一 accessor + `tickDeath` 持尸引信 + `hurt` 掷骰）：
+`PrimitiveParasiteEntity`（重构复用，覆盖 primitive/crude/hijacked/host/pure/preeminent/ancient/derived/deterrent/nexus）、
+`AssimilatedParasiteEntity`、`AssimilatedVariantEntity`、`SimHumanEntity`、`FeralParasiteEntity`。
+渲染：`PrimitiveParasiteRenderer`、`AssimilatedParasiteRenderer`、`SimHumanRenderer` 接入膨胀缩放。
+`ParasiteCombatRules.applyDeathGore` 改为对任意 `SelfeFuseOwner` 交付引信（不再只认 primitive 链）。
+
+未接线：`Marauderized*`（`MarauderRenderer`）与 `TetheredMarauderizedEntity`，对应条款仍记缺失。
+校验：`scripts/verify-parasite-selfe-fuse.cjs`（重写为组件 + 五族接线断言）；审计记账 14 条，
+满足条款 627 → **641**（缺失 307 → 299，部分 388 → 382）。

@@ -4,9 +4,10 @@ import alku.csrp.Csrp;
 import alku.csrp.Config;
 import alku.csrp.entity.GoreEntity;
 import alku.csrp.entity.Parasite;
-import alku.csrp.entity.PrimitiveParasiteEntity;
 import alku.csrp.entity.ParasiteCombatEffects;
+import alku.csrp.entity.PrimitiveParasiteEntity;
 import alku.csrp.entity.RemainEntity;
+import alku.csrp.entity.SelfeFuseOwner;
 import alku.csrp.entity.ToxicCloudEntity;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModEntities;
@@ -158,9 +159,9 @@ public final class ParasiteCombatRules {
             leaveGore(level, parasite, tier);
         }
         // Legacy func_70609_aI: a parasite whose madeRng roll said so holds the corpse for the
-        // fuseTime and bursts at the end of it (see PrimitiveParasiteEntity.tickDeath).
-        if (parasite instanceof PrimitiveParasiteEntity primitive && primitive.willExplodeOnDeath()) {
-            primitive.startDyingFuse();
+        // fuseTime and bursts at the end of it (see ParasiteFuseState / the family tickDeath).
+        if (parasite instanceof SelfeFuseOwner fuseOwner && fuseOwner.willExplodeOnDeath()) {
+            fuseOwner.startDyingFuse();
             return;
         }
         if (parasite.getRandom().nextDouble() < Config.parasiteSelfExplodeChance()) {

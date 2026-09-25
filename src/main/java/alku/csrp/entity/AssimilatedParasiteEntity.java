@@ -1,6 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.Csrp;
+import alku.csrp.event.ParasiteCombatRules;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
@@ -65,7 +66,8 @@ import java.util.EnumSet;
  * primitive-parasite damage-adaptation state.
  */
 public final class AssimilatedParasiteEntity extends Monster
-        implements CitadelAnimatedEntity, Parasite, MeltableAssimilated, ManualVariantProvider {
+        implements CitadelAnimatedEntity, Parasite, MeltableAssimilated, ManualVariantProvider,
+        SelfeFuseOwner {
     public static final int FERAL_KILL_THRESHOLD = 60;
     private static final int COTH_DURATION_TICKS = 4_800;
     private static final int COTH_AURA_RADIUS = 8;
@@ -209,6 +211,9 @@ public final class AssimilatedParasiteEntity extends Monster
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
+        if (!level().isClientSide) {
+            selfeFuse.willExplodeOnDeath(this);
+        }
         return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
 
@@ -290,9 +295,55 @@ public final class AssimilatedParasiteEntity extends Monster
         discard();
     }
 
+    /** Legacy SELFE self-destruct fuse, shared with every other parasite family. */
+    private final ParasiteFuseState selfeFuse = new ParasiteFuseState();
+
+    @Override
+    public boolean willExplodeOnDeath() {
+        return selfeFuse.willExplodeOnDeath(this);
+    }
+
+    @Override
+    public void startDyingFuse() {
+        selfeFuse.start(this);
+    }
+
+    @Override
+    public boolean isDyingFuseActive() {
+        return selfeFuse.isActive(this);
+    }
+
+    @Override
+    public float getSelfeFlashIntensity(float partialTick) {
+        return selfeFuse.flashIntensity(this, partialTick);
+    }
+
+    /** Legacy onDeathUpdate: hold the corpse while the fuse burns, then burst. */
+    @Override
+    protected void tickDeath() {
+        if (!selfeFuse.isActive(this)) {
+            super.tickDeath();
+            return;
+        }
+        if (deathTime < ParasiteFuseState.DEATH_ANIMATION_TICKS) {
+            deathTime++;
+        }
+        if (level().isClientSide) {
+            return;
+        }
+        if (selfeFuse.advance(this)) {
+            if (level() instanceof ServerLevel serverLevel) {
+                ParasiteCombatRules.selfExplode(serverLevel, this);
+            }
+            selfeFuse.clear(this);
+            super.tickDeath();
+        }
+    }
+
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
+        builder.define(ParasiteFuseState.SELFE, -1);
         builder.define(SHEEP_TEXTURE_VARIANT, 0);
         builder.define(TAMED_WOLF_TEXTURE, false);
         builder.define(MELTING, false);

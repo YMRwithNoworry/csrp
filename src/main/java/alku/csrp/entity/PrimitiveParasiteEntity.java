@@ -67,16 +67,16 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /** Shared 1.12 primitive-parasite state: hostile targeting, kills, and repeated-damage adaptation. */
-public abstract class PrimitiveParasiteEntity extends Monster implements CitadelAnimatedEntity, Parasite {
+public abstract class PrimitiveParasiteEntity extends Monster
+        implements CitadelAnimatedEntity, Parasite, SelfeFuseOwner {
     private static final Map<String, BlockBreakProfile> BLOCK_BREAK_PROFILES = createBlockBreakProfiles();
     private int blockBreakCooldown;
     private static final EntityDataAccessor<Byte> ADAPTATION_HIT_STATUS = SynchedEntityData.defineId(
             PrimitiveParasiteEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Integer> SPECIAL_LEAP_TICKS = SynchedEntityData.defineId(
             PrimitiveParasiteEntity.class, EntityDataSerializers.INT);
-    /** Legacy SELFE: the self-destruct fuse state the client renders as a swelling flash. */
-    private static final EntityDataAccessor<Integer> SELFE = SynchedEntityData.defineId(
-            PrimitiveParasiteEntity.class, EntityDataSerializers.INT);
+    /** Legacy SELFE fuse, shared by every parasite family (see {@link ParasiteFuseState}). */
+    private final ParasiteFuseState selfeFuse = new ParasiteFuseState();
     private static final String KILLS_TAG = "parasitekills";
     private static final String LEGACY_KILLCOUNT_TAG = "legacy_killcount";
     private static final String ADAPTATIONS_TAG = "damage_adaptations";
@@ -89,9 +89,6 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
     /** Legacy EntityAIWait: how long a kill suspends the parasite's AI, and the regen cadence. */
     private static final int KILL_WAIT_TICKS = 10;
     private static final int REGEN_EFFICIENCY_TICKS = 5;
-    /** Legacy fuseTime: ticks a dying parasite burns before it bursts. */
-    private static final int SELFE_FUSE_TICKS = 40;
-    private static final int DEATH_ANIMATION_TICKS = 20;
     /** Legacy EntityParasiteBase fire handling: chance for RAGE II on a fire hit. */
     private static final float FIRE_RAGE_CHANCE = 0.2F;
     private static final TagKey<DamageType> TACZ_BULLET_DAMAGE = TagKey.create(Registries.DAMAGE_TYPE,
@@ -111,7 +108,6 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
     private int fireAdaptationBlockTicks;
     private int waitTicks;
     private int regenUse = 1;
-    private byte explodesOnDeath = -1;
 
     protected PrimitiveParasiteEntity(EntityType<? extends PrimitiveParasiteEntity> type, Level level) {
         super(type, level);
@@ -137,7 +133,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
         super.defineSynchedData(builder);
         builder.define(ADAPTATION_HIT_STATUS, (byte) 0);
         builder.define(SPECIAL_LEAP_TICKS, 0);
-        builder.define(SELFE, -1);
+        builder.define(ParasiteFuseState.SELFE, -1);
     }
 
     @Override
@@ -313,47 +309,39 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
      * Legacy madeRng: the self-destruct roll happens on the first hit and is remembered for the
      * rest of the mob's life, so a parasite that will burst on death is already decided by then.
      */
+    @Override
     public boolean willExplodeOnDeath() {
-        if (explodesOnDeath < 0) {
-            explodesOnDeath = (byte) random.nextInt(2);
-            if (explodesOnDeath == 0 && !level().isClientSide) {
-                level().broadcastEntityEvent(this, (byte) 40);
-            }
-        }
-        return explodesOnDeath == 0;
+        return selfeFuse.willExplodeOnDeath(this);
     }
 
-    /** Legacy dyingBurst(true, 1): the corpse burns a {@value #SELFE_FUSE_TICKS} tick fuse. */
+    /** Legacy dyingBurst(true, 1): the corpse burns a {@link ParasiteFuseState#FUSE_TICKS} tick fuse. */
+    @Override
     public void startDyingFuse() {
-        if (getSelfeState() < 0) {
-            setSelfeState(0);
-        }
+        selfeFuse.start(this);
     }
 
+    @Override
     public boolean isDyingFuseActive() {
-        return getSelfeState() >= 0;
+        return selfeFuse.isActive(this);
     }
 
     /** Legacy SELFE getter: -1 while no fuse is burning. */
     public int getSelfeState() {
-        return entityData.get(SELFE);
+        return selfeFuse.getState(this);
     }
 
     /** Legacy setSelfeState: 1 arms the fuse, -1 clears it. */
     public void setSelfeState(int state) {
-        entityData.set(SELFE, state);
+        selfeFuse.setState(this, state);
     }
 
     /**
      * Legacy getSelfeFlashIntensity: 0..1 across the fuse, used by the renderer to swell the model
      * (the original divided by fuseTime - 2).
      */
+    @Override
     public float getSelfeFlashIntensity(float partialTick) {
-        int fuse = getSelfeState();
-        if (fuse < 0) {
-            return 0.0F;
-        }
-        return Mth.clamp((fuse + partialTick) / (float) (SELFE_FUSE_TICKS - 2), 0.0F, 1.0F);
+        return selfeFuse.flashIntensity(this, partialTick);
     }
 
     /**
@@ -362,23 +350,21 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
      */
     @Override
     protected void tickDeath() {
-        if (!isDyingFuseActive()) {
+        if (!selfeFuse.isActive(this)) {
             super.tickDeath();
             return;
         }
-        if (deathTime < DEATH_ANIMATION_TICKS) {
+        if (deathTime < ParasiteFuseState.DEATH_ANIMATION_TICKS) {
             deathTime++;
         }
         if (level().isClientSide) {
             return;
         }
-        int next = getSelfeState() + 1;
-        setSelfeState(next);
-        if (next >= SELFE_FUSE_TICKS) {
+        if (selfeFuse.advance(this)) {
             if (level() instanceof ServerLevel serverLevel) {
                 ParasiteCombatRules.selfExplode(serverLevel, this);
             }
-            setSelfeState(-1);
+            selfeFuse.clear(this);
             super.tickDeath();
         }
     }

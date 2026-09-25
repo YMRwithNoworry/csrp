@@ -248,6 +248,28 @@ const BATCHES = {
         detail: "getSelfeFlashIntensity 按 (fuse + partial)/(fuseTime - 2) 驱动 preRenderCallback 同款膨胀缩放（f1/f2/f3 公式）"
       }
     ]
+  },
+  // 批次 7：SELFE 引信铺开到同化/野化系（Assimilated* / SimHuman / Feral）
+  "selfe-fuse-families": {
+    note: "批次：SELFE 引信铺开到 Assimilated/SimHuman/Feral 系（原版 EntityPInfected 全家族共享）",
+    projectClasses: [
+      "AssimilatedParasiteEntity", "AssimilatedVariantEntity", "SimHumanEntity", "FeralParasiteEntity"
+    ],
+    clauses: [
+      {
+        match: /^(?!.*(COLD_L|DISLO15))(?=.*SELFE).*$/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/ParasiteFuseState.java",
+        detail: "共享 ParasiteFuseState：SELFE 同步（默认 -1）+ madeRng 首次受击掷骰 + fuseTime 40 引信；各族 defineSynchedData 注册同一 accessor"
+      },
+      {
+        // status 6 is the self-destruct pose, which is not implemented yet.
+        match: /^(?!.*status 6)(?=.*(getSelfeFlashIntensity|闪烁缩放|闪白)).*$/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/client/renderer/SelfeFuseRender.java",
+        detail: "SelfeFuseRender.applySwelling 用原版 f1/f2/f3 公式缩放；Primitive/Assimilated/SimHuman 三个渲染器均已接入"
+      }
+    ]
   }
 };
 

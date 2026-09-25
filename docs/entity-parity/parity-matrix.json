@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-25T02:03:10.844Z",
+  "generatedAt": "2026-09-25T02:15:51.239Z",
   "protocol": "docs/entity-parity/AUDIT_PROTOCOL.md",
   "input": "docs/entity-parity/audit-input.json",
   "counts": {
@@ -8,12 +8,12 @@
     "missing": 114
   },
   "overall": {
-    "satisfied": 627,
-    "partial": 388,
-    "missing": 307,
+    "satisfied": 641,
+    "partial": 382,
+    "missing": 299,
     "na": 57,
     "denominator": 1322,
-    "completion": 62.1
+    "completion": 62.9
   },
   "facets": [
     {
@@ -69,32 +69,32 @@
     {
       "facet": "sync_data",
       "label": "同步数据",
-      "satisfied": 18,
+      "satisfied": 25,
       "partial": 33,
-      "missing": 38,
+      "missing": 31,
       "na": 4,
       "denominator": 89,
-      "completion": 38.8
+      "completion": 46.6
     },
     {
       "facet": "animation",
       "label": "动画",
-      "satisfied": 46,
-      "partial": 19,
+      "satisfied": 52,
+      "partial": 13,
       "missing": 8,
       "na": 1,
       "denominator": 73,
-      "completion": 76
+      "completion": 80.1
     },
     {
       "facet": "model_texture",
       "label": "模型/贴图",
-      "satisfied": 36,
+      "satisfied": 37,
       "partial": 12,
-      "missing": 20,
+      "missing": 19,
       "na": 1,
       "denominator": 68,
-      "completion": 61.8
+      "completion": 63.2
     },
     {
       "facet": "sounds",
@@ -198,12 +198,12 @@
       "group": "hijacked_and_feral",
       "audited": 2,
       "expected": 12,
-      "satisfied": 93,
+      "satisfied": 95,
       "partial": 59,
-      "missing": 74,
+      "missing": 72,
       "na": 3,
       "denominator": 226,
-      "completion": 54.2
+      "completion": 55.1
     },
     {
       "group": "marauderized",
@@ -228,17 +228,6 @@
       "completion": 64.1
     },
     {
-      "group": "assimilated",
-      "audited": 6,
-      "expected": 23,
-      "satisfied": 306,
-      "partial": 196,
-      "missing": 117,
-      "na": 33,
-      "denominator": 619,
-      "completion": 65.3
-    },
-    {
       "group": "current",
       "audited": 2,
       "expected": 13,
@@ -248,6 +237,17 @@
       "na": 8,
       "denominator": 175,
       "completion": 65.7
+    },
+    {
+      "group": "assimilated",
+      "audited": 6,
+      "expected": 23,
+      "satisfied": 318,
+      "partial": 190,
+      "missing": 111,
+      "na": 33,
+      "denominator": 619,
+      "completion": 66.7
     }
   ],
   "creatures": [
@@ -294,7 +294,8 @@
           "implements": [
             "CitadelAnimatedEntity",
             "Parasite",
-            "MeltableAssimilated"
+            "MeltableAssimilated",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -304,13 +305,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 49,
-        "partial": 32,
-        "missing": 17,
+        "satisfied": 51,
+        "partial": 31,
+        "missing": 16,
         "na": 5
       },
       "denominator": 98,
-      "completion": 66.3,
+      "completion": 67.9,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -348,15 +349,15 @@
           "clauses": 8
         },
         "sync_data": {
-          "satisfied": 1,
+          "satisfied": 2,
           "partial": 3,
-          "missing": 3,
+          "missing": 2,
           "na": 0,
           "clauses": 7
         },
         "animation": {
-          "satisfied": 3,
-          "partial": 2,
+          "satisfied": 4,
+          "partial": 1,
           "missing": 0,
           "na": 0,
           "clauses": 5
@@ -438,7 +439,8 @@
             "CitadelAnimatedEntity",
             "Parasite",
             "MeltableAssimilated",
-            "ManualVariantProvider"
+            "ManualVariantProvider",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -448,13 +450,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 44,
-        "partial": 32,
-        "missing": 17,
+        "satisfied": 46,
+        "partial": 31,
+        "missing": 16,
         "na": 7
       },
       "denominator": 93,
-      "completion": 64.5,
+      "completion": 66.1,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -492,15 +494,15 @@
           "clauses": 8
         },
         "sync_data": {
-          "satisfied": 1,
+          "satisfied": 2,
           "partial": 3,
-          "missing": 4,
+          "missing": 3,
           "na": 0,
           "clauses": 8
         },
         "animation": {
-          "satisfied": 2,
-          "partial": 2,
+          "satisfied": 3,
+          "partial": 1,
           "missing": 0,
           "na": 0,
           "clauses": 4
@@ -580,7 +582,8 @@
           "implements": [
             "CitadelAnimatedEntity",
             "Parasite",
-            "MeltableAssimilated"
+            "MeltableAssimilated",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -590,13 +593,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 52,
-        "partial": 33,
-        "missing": 25,
+        "satisfied": 54,
+        "partial": 32,
+        "missing": 24,
         "na": 6
       },
       "denominator": 110,
-      "completion": 62.3,
+      "completion": 63.6,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -634,15 +637,15 @@
           "clauses": 8
         },
         "sync_data": {
-          "satisfied": 1,
+          "satisfied": 2,
           "partial": 3,
-          "missing": 3,
+          "missing": 2,
           "na": 0,
           "clauses": 7
         },
         "animation": {
-          "satisfied": 4,
-          "partial": 2,
+          "satisfied": 5,
+          "partial": 1,
           "missing": 0,
           "na": 0,
           "clauses": 6
@@ -723,7 +726,8 @@
             "CitadelAnimatedEntity",
             "Parasite",
             "MeltableAssimilated",
-            "ManualVariantProvider"
+            "ManualVariantProvider",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -733,13 +737,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 52,
-        "partial": 35,
-        "missing": 19,
+        "satisfied": 54,
+        "partial": 34,
+        "missing": 18,
         "na": 5
       },
       "denominator": 106,
-      "completion": 65.6,
+      "completion": 67,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -777,15 +781,15 @@
           "clauses": 8
         },
         "sync_data": {
-          "satisfied": 1,
+          "satisfied": 2,
           "partial": 3,
-          "missing": 3,
+          "missing": 2,
           "na": 0,
           "clauses": 7
         },
         "animation": {
-          "satisfied": 5,
-          "partial": 2,
+          "satisfied": 6,
+          "partial": 1,
           "missing": 0,
           "na": 0,
           "clauses": 7
@@ -866,7 +870,8 @@
             "CitadelAnimatedEntity",
             "Parasite",
             "MeltableAssimilated",
-            "ManualVariantProvider"
+            "ManualVariantProvider",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -876,13 +881,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 55,
-        "partial": 32,
-        "missing": 18,
+        "satisfied": 57,
+        "partial": 31,
+        "missing": 17,
         "na": 5
       },
       "denominator": 105,
-      "completion": 67.6,
+      "completion": 69,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -920,15 +925,15 @@
           "clauses": 8
         },
         "sync_data": {
-          "satisfied": 2,
+          "satisfied": 3,
           "partial": 3,
-          "missing": 3,
+          "missing": 2,
           "na": 0,
           "clauses": 8
         },
         "animation": {
-          "satisfied": 4,
-          "partial": 2,
+          "satisfied": 5,
+          "partial": 1,
           "missing": 0,
           "na": 0,
           "clauses": 6
@@ -1009,7 +1014,8 @@
             "CitadelAnimatedEntity",
             "Parasite",
             "MeltableAssimilated",
-            "ManualVariantProvider"
+            "ManualVariantProvider",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -1019,13 +1025,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 54,
-        "partial": 32,
-        "missing": 21,
+        "satisfied": 56,
+        "partial": 31,
+        "missing": 20,
         "na": 5
       },
       "denominator": 107,
-      "completion": 65.4,
+      "completion": 66.8,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -1063,15 +1069,15 @@
           "clauses": 8
         },
         "sync_data": {
-          "satisfied": 2,
+          "satisfied": 3,
           "partial": 3,
-          "missing": 3,
+          "missing": 2,
           "na": 0,
           "clauses": 8
         },
         "animation": {
-          "satisfied": 4,
-          "partial": 2,
+          "satisfied": 5,
+          "partial": 1,
           "missing": 0,
           "na": 0,
           "clauses": 6
@@ -1152,7 +1158,8 @@
             "CitadelAnimatedEntity",
             "Parasite",
             "MeltableAssimilated",
-            "ManualVariantProvider"
+            "ManualVariantProvider",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -1205,7 +1212,8 @@
           "implements": [
             "CitadelAnimatedEntity",
             "Parasite",
-            "MeltableAssimilated"
+            "MeltableAssimilated",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -1311,7 +1319,8 @@
           "implements": [
             "CitadelAnimatedEntity",
             "Parasite",
-            "MeltableAssimilated"
+            "MeltableAssimilated",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -1365,7 +1374,8 @@
             "CitadelAnimatedEntity",
             "Parasite",
             "MeltableAssimilated",
-            "ManualVariantProvider"
+            "ManualVariantProvider",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -2056,7 +2066,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -2138,7 +2149,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -2316,7 +2328,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -2394,7 +2407,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -2474,7 +2488,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -2563,7 +2578,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -2613,7 +2629,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -2663,7 +2680,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -2720,7 +2738,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -2770,7 +2789,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -2820,7 +2840,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -2870,7 +2891,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -2920,7 +2942,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -2970,7 +2993,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -2980,13 +3004,13 @@
       "group": "hijacked_and_feral",
       "missing": false,
       "totals": {
-        "satisfied": 54,
+        "satisfied": 56,
         "partial": 33,
-        "missing": 47,
+        "missing": 45,
         "na": 1
       },
       "denominator": 134,
-      "completion": 52.6,
+      "completion": 54.1,
       "facets": {
         "registration": {
           "satisfied": 6,
@@ -3024,9 +3048,9 @@
           "clauses": 19
         },
         "sync_data": {
-          "satisfied": 0,
+          "satisfied": 1,
           "partial": 3,
-          "missing": 4,
+          "missing": 3,
           "na": 0,
           "clauses": 7
         },
@@ -3038,9 +3062,9 @@
           "clauses": 8
         },
         "model_texture": {
-          "satisfied": 4,
+          "satisfied": 5,
           "partial": 0,
-          "missing": 2,
+          "missing": 1,
           "na": 0,
           "clauses": 6
         },
@@ -3116,7 +3140,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -3164,7 +3189,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -3212,7 +3238,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -3281,7 +3308,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -3347,7 +3375,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -3413,7 +3442,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -3567,7 +3597,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -3624,7 +3655,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -3820,7 +3852,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -3917,7 +3950,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -3967,7 +4001,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -4024,7 +4059,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -4072,7 +4108,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -4122,7 +4159,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -4200,7 +4238,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -4278,7 +4317,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -4356,7 +4396,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -4532,7 +4573,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -4594,7 +4636,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -4672,7 +4715,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -4750,7 +4794,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -4828,7 +4873,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -4908,7 +4954,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -4970,7 +5017,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -5048,7 +5096,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -5126,7 +5175,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -5206,7 +5256,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -5286,7 +5337,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -5350,7 +5402,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -5414,7 +5467,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -5476,7 +5530,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -5538,7 +5593,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -5600,7 +5656,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -5669,7 +5726,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -5741,7 +5799,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -5909,7 +5968,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -5973,7 +6033,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -6037,7 +6098,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -6092,7 +6154,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -6154,7 +6217,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -6216,7 +6280,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -6275,7 +6340,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -6332,7 +6398,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -6396,7 +6463,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -6564,7 +6632,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -6635,7 +6704,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -6709,7 +6779,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -6776,7 +6847,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -6847,7 +6919,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -6921,7 +6994,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -6994,7 +7068,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -7068,7 +7143,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -7133,7 +7209,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -7197,7 +7274,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -7270,7 +7348,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -7347,7 +7426,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -7422,7 +7502,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -7497,7 +7578,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -7574,7 +7656,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -7651,7 +7734,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -7727,7 +7811,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -7803,7 +7888,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -7878,7 +7964,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -7954,7 +8041,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -8030,7 +8118,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -8103,7 +8192,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -8178,7 +8268,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -8250,7 +8341,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -8320,7 +8412,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -8390,7 +8483,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -8459,7 +8553,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -8526,7 +8621,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -8596,7 +8692,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -8665,7 +8762,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -8734,7 +8832,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -8805,7 +8904,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -8876,7 +8976,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -8949,7 +9050,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -9018,7 +9120,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -9083,7 +9186,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -9152,7 +9256,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -9219,7 +9324,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -9283,7 +9389,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -9349,7 +9456,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -9397,7 +9505,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -9445,7 +9554,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -9521,7 +9631,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }
@@ -9602,7 +9713,8 @@
           "extends": "Monster",
           "implements": [
             "CitadelAnimatedEntity",
-            "Parasite"
+            "Parasite",
+            "SelfeFuseOwner"
           ],
           "isAbstract": false
         }

@@ -1,6 +1,7 @@
 package alku.csrp.client.renderer;
 
 import alku.csrp.client.model.SimHumanModel;
+import alku.csrp.entity.SelfeFuseOwner;
 import alku.csrp.entity.SimHumanEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -18,6 +19,9 @@ public final class SimHumanRenderer extends ParasiteGeoRenderer<SimHumanEntity> 
     protected void scale(SimHumanEntity entity, PoseStack poseStack, float partialTick) {
         if (entity.isMelting()) {
             poseStack.scale(1.0F, entity.getMeltRenderScale(partialTick), 1.0F);
+        }
+        if (entity instanceof SelfeFuseOwner fuseOwner) {
+            SelfeFuseRender.applySwelling(fuseOwner, poseStack, partialTick);
         }
         super.scale(entity, poseStack, partialTick);
     }

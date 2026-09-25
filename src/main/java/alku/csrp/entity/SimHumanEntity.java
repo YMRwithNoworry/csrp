@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.event.ParasiteCombatRules;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
@@ -41,7 +42,7 @@ import alku.csrp.animation.CitadelAnimationUtil;
 /**
  * Assimilated Human animation states mirror ModelInfHuman.
  */
-public final class SimHumanEntity extends Monster implements CitadelAnimatedEntity, Parasite, MeltableAssimilated {
+public final class SimHumanEntity extends Monster implements CitadelAnimatedEntity, Parasite, MeltableAssimilated, SelfeFuseOwner {
 
     // 动画状态常量
     public static final int STATE_NORMAL = 0;
@@ -100,9 +101,55 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
                 .add(Attributes.FOLLOW_RANGE, 32.0D);
     }
 
+    /** Legacy SELFE self-destruct fuse, shared with every other parasite family. */
+    private final ParasiteFuseState selfeFuse = new ParasiteFuseState();
+
+    @Override
+    public boolean willExplodeOnDeath() {
+        return selfeFuse.willExplodeOnDeath(this);
+    }
+
+    @Override
+    public void startDyingFuse() {
+        selfeFuse.start(this);
+    }
+
+    @Override
+    public boolean isDyingFuseActive() {
+        return selfeFuse.isActive(this);
+    }
+
+    @Override
+    public float getSelfeFlashIntensity(float partialTick) {
+        return selfeFuse.flashIntensity(this, partialTick);
+    }
+
+    /** Legacy onDeathUpdate: hold the corpse while the fuse burns, then burst. */
+    @Override
+    protected void tickDeath() {
+        if (!selfeFuse.isActive(this)) {
+            super.tickDeath();
+            return;
+        }
+        if (deathTime < ParasiteFuseState.DEATH_ANIMATION_TICKS) {
+            deathTime++;
+        }
+        if (level().isClientSide) {
+            return;
+        }
+        if (selfeFuse.advance(this)) {
+            if (level() instanceof ServerLevel serverLevel) {
+                ParasiteCombatRules.selfExplode(serverLevel, this);
+            }
+            selfeFuse.clear(this);
+            super.tickDeath();
+        }
+    }
+
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
+        builder.define(ParasiteFuseState.SELFE, -1);
         builder.define(ANIMATION_STATE, STATE_NORMAL);
         builder.define(MELTING, false);
         builder.define(MELT_TICKS, 0);
@@ -223,6 +270,9 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
+        if (!level().isClientSide) {
+            selfeFuse.willExplodeOnDeath(this);
+        }
         return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
 

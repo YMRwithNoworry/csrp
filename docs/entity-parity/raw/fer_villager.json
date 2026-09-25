@@ -872,12 +872,12 @@
         },
         {
           "clause": "DataManager.register SELFE (int)：自爆引信刻度（timeSinceIgnited）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:135",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/ParasiteFuseState.java"
           },
-          "note": "project 无引信同步（无自杀爆炸流程）"
+          "note": "共享 ParasiteFuseState：SELFE 同步（默认 -1）+ madeRng 首次受击掷骰 + fuseTime 40 引信；各族 defineSynchedData 注册同一 accessor；批次：SELFE 引信铺开到 Assimilated/SimHuman/Feral 系（原版 EntityPInfected 全家族共享）"
         },
         {
           "clause": "DataManager.register SKIN (byte)：贴图/变体（1..120，120 = 耐寒形态）",
@@ -1039,12 +1039,12 @@
         },
         {
           "clause": "preRenderCallback：按 getSelfeFlashIntensity 缩放（水平 ×(1+0.4f)，垂直 ×(1+0.1f)/脉动）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "client/renderer/entity/feral/RenderFerVillager.java:18",
-            "project": null
+            "project": "src/main/java/alku/csrp/client/renderer/SelfeFuseRender.java"
           },
-          "note": "project fer_villager 渲染器无引信缩放（该缩放仅 CarrierEntity 有）"
+          "note": "SelfeFuseRender.applySwelling 用原版 f1/f2/f3 公式缩放；Primitive/Assimilated/SimHuman 三个渲染器均已接入；批次：SELFE 引信铺开到 Assimilated/SimHuman/Feral 系（原版 EntityPInfected 全家族共享）"
         },
         {
           "clause": "EntityFerVillager.canModRender = 1 决定死亡渲染分支（保留尸体/自爆动画）",

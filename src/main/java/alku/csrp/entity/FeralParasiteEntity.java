@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.event.ParasiteCombatRules;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -31,7 +32,7 @@ import alku.csrp.animation.CitadelRawAnimation;
 import alku.csrp.animation.CitadelAnimationUtil;
 
 /** Shared legacy Feral behaviour: fire weakness and kill-fuelled recovery. */
-public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntity, Parasite {
+public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntity, Parasite, SelfeFuseOwner {
     private static final float REGEN_AMOUNT = 3.0F;
     private static final int REGEN_KILL_INTERVAL = 10;
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
@@ -88,9 +89,55 @@ public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntit
                 true, false, this::isValidParasiteTarget));
     }
 
+    /** Legacy SELFE self-destruct fuse, shared with every other parasite family. */
+    private final ParasiteFuseState selfeFuse = new ParasiteFuseState();
+
+    @Override
+    public boolean willExplodeOnDeath() {
+        return selfeFuse.willExplodeOnDeath(this);
+    }
+
+    @Override
+    public void startDyingFuse() {
+        selfeFuse.start(this);
+    }
+
+    @Override
+    public boolean isDyingFuseActive() {
+        return selfeFuse.isActive(this);
+    }
+
+    @Override
+    public float getSelfeFlashIntensity(float partialTick) {
+        return selfeFuse.flashIntensity(this, partialTick);
+    }
+
+    /** Legacy onDeathUpdate: hold the corpse while the fuse burns, then burst. */
+    @Override
+    protected void tickDeath() {
+        if (!selfeFuse.isActive(this)) {
+            super.tickDeath();
+            return;
+        }
+        if (deathTime < ParasiteFuseState.DEATH_ANIMATION_TICKS) {
+            deathTime++;
+        }
+        if (level().isClientSide) {
+            return;
+        }
+        if (selfeFuse.advance(this)) {
+            if (level() instanceof ServerLevel serverLevel) {
+                ParasiteCombatRules.selfExplode(serverLevel, this);
+            }
+            selfeFuse.clear(this);
+            super.tickDeath();
+        }
+    }
+
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
+        builder.define(ParasiteFuseState.SELFE, -1);
         builder.define(PARASITE_STATUS, 0);
         builder.define(STILL_ANI, false);
     }
@@ -149,6 +196,9 @@ public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntit
 
     @Override
     public boolean hurt(DamageSource source, float amount) {
+        if (!level().isClientSide) {
+            selfeFuse.willExplodeOnDeath(this);
+        }
         amount = ParasiteCombatEffects.damageAfterKillingResistance(source, amount, ModMobEffects.FERAL);
         return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
     }
