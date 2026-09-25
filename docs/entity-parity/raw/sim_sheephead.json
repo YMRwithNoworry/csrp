@@ -290,12 +290,12 @@
         },
         {
           "clause": "func_180430_e：摔落伤害 x0.3",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfSheepHead.java:137",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java"
           },
-          "note": "project 无摔落伤害 0.3 倍率覆写"
+          "note": "子代理复核指出：端口 AssimilatedHeadEntity 已覆写 causeFallDamage（1.21 对应原版 func_180430_e）并以 damageMultiplier * 0.3F 计算，即原版的 0.3 倍摔落伤害；原审计记 missing 属假阴性，据实收敛。；批次：修正既有审计的假阴性（摔落伤害 x0.3）"
         },
         {
           "clause": "func_70686_a：寄生体同类不攻击，玩家恒可攻击，其余按 mobAttackingFull + 黑名单",

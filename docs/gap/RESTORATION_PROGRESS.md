@@ -2856,3 +2856,25 @@ EntityParasiteBase:2427   if (attacking >= 1) {
 
 **⇒ 实现 `LeapSkill implements ParasiteSkill` 的全部要素已就绪**（门控、参数、动作、终止条件），
 端口可参考 `LiquidLeap` 的既有跃迁写法。下一批即可写代码 + 接线（头部优先级 0）+ 断言 + 记账。
+
+## 批次 180：修正既有审计的**假阴性**（摔落伤害 ×0.3）+ 第四批委派首份产出（2026-09-25 续）
+
+**（一）假阴性纠正**：第四批委派（`c6a709d1…`）交付 `raw/sim_cowhead.json`（64 条：32/20/8/4）时，
+**主动复核了既有审计**并指出：`sim_sheephead.json` 把「摔落伤害 ×0.3」记为 `missing`，但端口**已实现**——
+
+```
+AssimilatedHeadEntity:248-249   public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
+                                    return super.causeFallDamage(distance, damageMultiplier * 0.3F, source);
+```
+
+`causeFallDamage` 即 1.21 对原版 `func_180430_e` 的直接对应物 ⇒ 原 `missing` 属**假阴性**，已据实收敛为 satisfied。
+账面：满足 1133 → **1166**，部分 539 → **559**，缺失 336 → **343**，加权 **69.8% → 69.9%**。
+
+**（二）其指出的引用偏移**：`sim_sheephead.json` 引用 `SRPEntities.java:188/:186`，而实际 helper 起于 `:181`、
+`builder.name` 在 `:189`、`builder.tracker` 在 `:191` ⇒ **引用行号偏差 2–3 行**（**不影响判定结论**，仅精度问题）。
+这类偏差会在后续引用核验中暴露，故记录在案：**审计引用行号宜由脚本核对**（本会话已有"实测引文"流程 ✔）。
+
+**（三）我方本轮进展**：已写入 `entity/LeapSkill`（按批次 179 解出的语义：记录目标点 → 落地时施加
+`motionY=0.7`、水平 `jumpSpeed*0.9` 并叠加 30% 现有速度；头部 `jumpR=0` 故无落点伤害）。
+**尚未接线**（头部优先级 0 的 `ParasiteSkillGoal(this, 14, new LeapSkill(...), 40, 100, 3, true)` 待下一轮补），
+该类目前无调用方 ⇒ **不产生编译/运行影响**，但按纪律记为**未完成状态**。

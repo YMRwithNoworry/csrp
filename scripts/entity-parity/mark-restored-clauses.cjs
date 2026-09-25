@@ -821,6 +821,19 @@ const BATCHES = {
         detail: "原版 EntityInfHorse:190 存活期逐 tick 调 dyingBurst(false, 1)（EntityParasiteBase:1492：timeSinceIgnited += state*value，达 fuseTime 即 selfExplode，fromDeath=false 不做死后处理）；端口在 tick() 中加存活期推进（!clientSide && isAlive() && isActive() && advance() -> selfExplode + clear），与 tickDeath 路径互斥；fuseTime 由批次 136 的 per-owner 覆写置为 70。膨胀表现由 PrimitiveParasiteRenderer:84 的 applySwelling 承载。"
       }
     ]
+  },
+  // 批次 180：子代理指出 sim_sheephead 的「摔落伤害 x0.3」是假阴性（端口已实现）
+  "head-fall-damage-false-negative": {
+    note: "批次：修正既有审计的假阴性（摔落伤害 x0.3）",
+    mobs: ["sim_sheephead"],
+    clauses: [
+      {
+        match: /摔落伤害|fall.?damage|func_180430_e/i,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java",
+        detail: "子代理复核指出：端口 AssimilatedHeadEntity 已覆写 causeFallDamage（1.21 对应原版 func_180430_e）并以 damageMultiplier * 0.3F 计算，即原版的 0.3 倍摔落伤害；原审计记 missing 属假阴性，据实收敛。"
+      }
+    ]
   }
 };
 
