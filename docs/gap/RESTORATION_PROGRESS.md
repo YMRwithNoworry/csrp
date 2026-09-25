@@ -1389,3 +1389,23 @@ protected boolean isValidLightLevelOne() {
 
 **结论**：本方法**暂不实现**——它依赖 3 个未确认的映射点与 1 个实体侧实例方法，在证据补齐前落代码等于猜；
 守卫断言已锁定 `Two` 级的随机形态（批次 91），`One` 级待上述三项确认后再补。
+
+## 批次 93：三个 1.21 映射点中两个已用**端口既有用法**证实（2026-09-25 续）
+
+批次 92 列的待确认项，本轮改用"端口自己已经在用哪些 API"来证实（比查外部文档可靠，且能保证签名一致）：
+
+```java
+DerivedParasiteEntity:372   return level().getMaxLocalRawBrightness(blockPosition()) <= SHADOW_LIGHT_THRESHOLD;
+NexusParasiteEntity:222     if (activeKind.family == Family.BECKON && activeKind.stage == 4 && level().isThundering() ...
+```
+
+| 待确认项 | 结论 |
+| --- | --- |
+| `getLightFromNeighbors(pos)` | ✅ **`Level.getMaxLocalRawBrightness(BlockPos)`**（端口已在用，签名与语义匹配） |
+| `isThundering()` | ✅ `Level.isThundering()`（端口已在用） |
+| 雷暴下的 `setSkylightSubtracted(10)` | ⏳ 仍待定：1.21 的 `Level` 是否暴露服务端可写的"天空减光"设置者未知；**若不存在，该分支需按"不临时改全局状态"的方式取舍并留证** |
+| 寄生群系判定（`BiomeParasiteBase`） | ⏳ 待查端口是否有对应谓词/标签 |
+
+**因此实现 `isValidLightLevelOne` 只差两件事**：① 雷暴分支在 1.21 的可行写法（或取舍理由）；② 寄生群系的对应物。
+其余已可直接照抄：`SKY > nextInt(32) → false`、`getMaxLocalRawBrightness(pos) <= nextInt(8)`、
+`PathfinderMob.getWalkTargetValue(pos) >= 0.0F`。
