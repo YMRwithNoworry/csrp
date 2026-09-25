@@ -165,12 +165,12 @@
         },
         {
           "clause": "per-mob 属性倍率 SRPConfigMobs.infvillager{Health,Damage,Armor,KDResistance}Multiplier（默认 1.0F）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:440",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:113"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java"
           },
-          "note": "project createAttributes 只为 BIGSPIDER（dorpa）接线 MobsConfig 倍率，VILLAGER/HORSE 恒为 1.0D（MobsConfig 无 infvillager* 项）；原版默认亦为 1.0F，故运行期无差异但配置项缺失"
+          "note": "原版 SRPConfigMobs.java:440-443 定义 invvillagerHealth/Damage/Armor/KDResistanceMultiplier（默认 1.0F）；端口 MobsConfig 新增同名四键与访问器，并在 AssimilatedVariantEntity.createAttributes(Kind) 的 villager 分支对四维各乘一次（Kind 值为硬编码字面量，单次应用）。；批次：实现 infvillager* per-mob 倍率（键与接线同时落地）"
         },
         {
           "clause": "阶段属性加成 evolutionParasiteStatIncrease（phase ≥ 阈值时生命/护甲/攻击 ×(1+v)）",

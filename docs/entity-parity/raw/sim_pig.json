@@ -63,12 +63,12 @@
         },
         {
           "clause": "tracker(64, 3, true)：追踪距离 64 格 / 更新间隔 3 tick",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:188",
             "project": "src/main/java/alku/csrp/registry/ModEntities.java:630"
           },
-          "note": "project monster() helper 统一 clientTrackingRange(8) = 8 区块 = 128 格，追踪距离被放大；updateInterval 沿用默认 3"
+          "note": "project monster() helper 为 clientTrackingRange(4) = 4 区块 = 64 格，updateInterval(3)，与原版 tracker(64, 3, true) 一致（helper 见 ModEntities.java:629-632）"
         },
         {
           "clause": "刷怪蛋颜色 8611072 / 16711900（0x836500 / 0xFF00DC）",

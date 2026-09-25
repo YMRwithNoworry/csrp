@@ -1,6 +1,6 @@
 # 生物部分还原度基线
 
-> 生成时间：2026-09-25T05:34:54.698Z
+> 生成时间：2026-09-25T05:38:32.704Z
 > 事实来源：`D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites`（SRParasites 1.10.9，生物部分与 1.10.8 一致）
 > 本工程：`D:/code/MC模组/csrp`（MC 26.3 / NeoForge 26.3，分支 `port-26.3`）
 
@@ -14,25 +14,25 @@
 
 ## 总体基线
 
-- 覆盖：**15/127** 只生物已出条款级审计
-- 条款：满足 **798**、部分 **397**、缺失 **273**（另有 62 条判定为不适用）
-- **加权完成度：67.9%**
+- 覆盖：**16/127** 只生物已出条款级审计
+- 条款：满足 **853**、部分 **419**、缺失 **287**（另有 66 条判定为不适用）
+- **加权完成度：68.2%**
 
 ## 分面基线
 
 | 面 | 满足 | 部分 | 缺失 | 完成度 |
 | --- | ---: | ---: | ---: | ---: |
-| 注册 | 74 | 45 | 33 | 63.5% |
-| 属性 | 111 | 31 | 4 | 86.6% |
-| AI | 95 | 86 | 32 | 64.8% |
-| 行为 | 179 | 74 | 70 | 66.9% |
-| 伤害/效果 | 110 | 16 | 20 | 80.8% |
-| 同步数据 | 29 | 35 | 33 | 47.9% |
-| 动画 | 57 | 14 | 7 | 82.1% |
-| 模型/贴图 | 49 | 5 | 19 | 70.5% |
-| 音效 | 37 | 25 | 20 | 60.4% |
-| 生成 | 48 | 37 | 17 | 65.2% |
-| 掉落 | 9 | 29 | 18 | 42% |
+| 注册 | 81 | 46 | 35 | 64.2% |
+| 属性 | 119 | 33 | 4 | 86.9% |
+| AI | 100 | 91 | 34 | 64.7% |
+| 行为 | 189 | 78 | 71 | 67.5% |
+| 伤害/效果 | 118 | 16 | 20 | 81.8% |
+| 同步数据 | 31 | 37 | 37 | 47.1% |
+| 动画 | 61 | 15 | 8 | 81.5% |
+| 模型/贴图 | 52 | 6 | 20 | 70.5% |
+| 音效 | 40 | 27 | 21 | 60.8% |
+| 生成 | 51 | 40 | 19 | 64.5% |
+| 掉落 | 11 | 30 | 18 | 44.1% |
 
 ## 完成度最低的 20 只（补齐队列起点）
 
@@ -42,13 +42,14 @@
 | `hi_skeleton` | EntityHiSkeleton | HiSkeletonEntity | 61.4% | 44/25/23 |
 | `fer_villager` | EntityFerVillager | FeralParasiteEntity | 61.6% | 67/31/36 |
 | `host` | EntityHost | HostEntity | 64.1% | 42/25/18 |
-| `sim_pig` | EntityInfPig | AssimilatedParasiteEntity | 66.1% | 27/20/9 |
+| `sim_pig` | EntityInfPig | AssimilatedParasiteEntity | 67% | 28/19/9 |
 | `mar_cow` | EntitySpeCow | MarauderizedCowEntity | 67.3% | 58/24/22 |
 | `buglin` | EntityLodo | BuglinEntity | 68.6% | 41/14/15 |
 | `pri_longarms` | EntityShyco | LongarmsEntity | 68.6% | 58/28/19 |
-| `sim_villager` | EntityInfVillager | AssimilatedVariantEntity | 70.6% | 51/25/14 |
 | `sim_human` | EntityInfHuman | SimHumanEntity | 70.9% | 65/26/19 |
+| `sim_adventurer` | EntityInfPlayer | SimAdventurerEntity | 70.9% | 53/23/15 |
 | `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | 71% | 52/28/13 |
+| `sim_villager` | EntityInfVillager | AssimilatedVariantEntity | 71.7% | 52/25/13 |
 | `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | 72.4% | 63/29/15 |
 | `sim_cow` | EntityInfCow | AssimilatedParasiteEntity | 73.1% | 62/31/13 |
 | `sim_bigspider` | EntityDorpa | AssimilatedVariantEntity | 74% | 60/25/13 |

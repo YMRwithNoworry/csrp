@@ -1894,3 +1894,14 @@ SRPConfigMobs.java:4370  angedEnabled = cfg.getBoolean("Vigilante Enabled", "srp
   对 `Kind.VILLAGER` 的四维各乘一次倍率（Kind 值为硬编码字面量 ⇒ **单次应用**，未重演批次 71 的双重乘算）。
 
 断言 2 条；`build` 通过、套件维持既有 20 失败。至此 per-mob 倍率线覆盖 **12 只**（含本轮的同化变体村民）。
+
+## 批次 126：infvillager 条款收敛 + 第二份子代理产出落盘（2026-09-25 续）
+
+**（一）记账**：`sim_villager` 审计中那条 `per-mob 属性倍率 invvillager*`（原 missing）已随批次 125 的实现收敛为 satisfied
+（证据：`SRPConfigMobs.java:440-443` ↔ `AssimilatedVariantEntity.createAttributes` 的 villager 分支）。
+
+**（二）审计面继续增长**：矩阵显示已审计 **16** 只（上一轮 15），条款总数再度上升（满足 798 → 853）
+⇒ 又有子代理产出落盘。按纪律**先验收再采信**：下一轮抽查其 `satisfied` 引文与 `missing` 判定，
+与已验收的 `sim_villager.json` 采用同一标准（双侧 路径:行号 + 实测若干条）。
+
+当前账面：满足 **853** / 部分 419 / 缺失 287，加权 **68.2%**；审计面 16/127。

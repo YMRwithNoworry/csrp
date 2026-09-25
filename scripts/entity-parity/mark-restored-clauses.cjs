@@ -739,6 +739,19 @@ const BATCHES = {
         detail: "applyPhaseStatBonus(FinalizeSpawnEvent) 对任意 Parasite 生效：Config.useEvolutionPhases() 为真且 SrpWorldData.evolutionPhase() >= Config.evolutionStatIncreasePhase()（默认 10）时，把 MAX_HEALTH / ARMOR / ATTACK_DAMAGE 的基值乘以 (1 + Config.evolutionStatIncreaseValue())（默认 0.07）。五只生物均继承 Parasite（PrimitiveParasiteEntity:71 implements Parasite；HijackedParasiteEntity:10 extends PrimitiveParasiteEntity；MarauderizedParasiteEntity:21 extends HijackedParasiteEntity；AssimilatedVariantEntity:55 implements Parasite），故同受该规则约束——原 missing 记录系审计文本写于实现之前、之后未回填。"
       }
     ]
+  },
+  // 批次 126：infvillager* per-mob 倍率已实现（子代理审计发现的缺口）
+  "per-mob-multipliers-infvillager": {
+    note: "批次：实现 infvillager* per-mob 倍率（键与接线同时落地）",
+    mobs: ["sim_villager"],
+    clauses: [
+      {
+        match: /per-mob|倍率/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java",
+        detail: "原版 SRPConfigMobs.java:440-443 定义 invvillagerHealth/Damage/Armor/KDResistanceMultiplier（默认 1.0F）；端口 MobsConfig 新增同名四键与访问器，并在 AssimilatedVariantEntity.createAttributes(Kind) 的 villager 分支对四维各乘一次（Kind 值为硬编码字面量，单次应用）。"
+      }
+    ]
   }
 };
 
