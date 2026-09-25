@@ -970,3 +970,22 @@ strict: 46 known backlog key(s), 0 new ones.      # 由 50 降至 46
 "需要逐组判定：原版有 → 接线；原版无 → 删除或明确标注为端口扩展"。判定需要一个**原版键清单**作为基准，
 下一批应从 `SRPConfigMobs` 解析出全部 `<name>HealthMultiplier/DamageMultiplier/...` 字段名，
 与端口 `MobsConfig` 求交/差集后再分组归类。本轮不做删除，避免误删可能被其它系统使用的端口扩展键。
+
+## 批次 67：把「原版是否有该键」的判定做进脚本（2026-09-25 续）
+
+批次 66 的线索需要全量核实，但**内联 shell 循环在本环境不可靠**（实测 `for k in …; do grep -c "float $k" …` 的 `$k` 未正确展开，
+12 个不同键全部命中同一行 `:498`，产出的是假数据）。因此按"与其在 shell 里猜，不如让工具产出可复核数据"的原则，
+把判定做进 `scripts/audit-mob-multipliers.cjs`：读取原版 `SRPConfigMobs.java`（若存在），
+对每条 backlog 键同时探测**键名**与其去掉 `primitive` 前缀的写法。
+
+当前输出：
+
+```
+backlog backed by the original (must be wired): 0
+backlog port-only (no restoration gap):        30
+```
+
+**必须说明的可靠性边界（避免重蹈批次 57/58 的覆辙）**：该探测按**配置键名**匹配，而端口的键名与端口常量名、
+原版字段名三者并不总一致——例如 `heavyBomber*` 这组的端口常量名是 `JINJO_*`，原版对应字段名很可能也是 `jinjo*`。
+因此"0 条原版背书"**只能视为初步结论**；下一步应把**常量名**（`JINJO_HEALTH_MULTIPLIER` → `jinjoHealthMultiplier`）
+也纳入候选拼写一并探测，再据三路结果（键名/去前缀/常量名）给出定论。

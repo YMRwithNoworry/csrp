@@ -47,6 +47,29 @@ for (const line of unreachable.sort()) console.log(`  ${line}`);
 console.log(`\ndangling (accessor without constant): ${dangling.length}`);
 for (const line of dangling.sort()) console.log(`  ${line}`);
 
+// Classify the backlog against the original mod: a key the original never had is a port-only
+// extension, so "no accessor" is not a restoration gap for it. Original field names drop the port's
+// `primitive` prefix (port primitiveBolsterHealthMultiplier <- original bolsterHealthMultiplier),
+// so both spellings are probed.
+const originalConfig = path.join(root, "..", "_srp-orig", "decomp-1.10.9", "dhanantry",
+  "scapeandrunparasites", "util", "config", "SRPConfigMobs.java");
+if (fs.existsSync(originalConfig)) {
+  const original = fs.readFileSync(originalConfig, "utf8");
+  const originalBacked = [];
+  const portOnly = [];
+  for (const entry of unreachable) {
+    const key = entry.slice(entry.indexOf("(") + 1, -1);
+    const candidates = [key, key.replace(/^primitive/, "")];
+    (candidates.some((name) => original.includes("float " + name)) ? originalBacked : portOnly).push(key);
+  }
+  console.log(`\nbacklog backed by the original (must be wired): ${originalBacked.length}`);
+  for (const key of originalBacked.sort()) console.log(`  ${key}`);
+  console.log(`backlog port-only (no restoration gap):         ${portOnly.length}`);
+  for (const key of portOnly.sort()) console.log(`  ${key}`);
+} else {
+  console.log("\n(original SRPConfigMobs.java not found; backlog not classified)");
+}
+
 // Informational only: some accessors read constants declared through other helpers (follow ranges,
 // explosion multipliers) that this parser does not model, so they are not failures.
 if (dangling.length) {
