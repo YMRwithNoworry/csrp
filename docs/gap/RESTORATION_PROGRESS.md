@@ -67,3 +67,49 @@ node scripts/entity-parity/build-entity-parity-input.cjs && node scripts/entity-
 **仍未做**（下一批）：gore 血迹方块 / `EntityGore` / `spawnGore`+`RemainEntity` / `selfExplode` 毒云与召唤表、
 `setWait(10)`、PVOT 伤害转移、`placeNidus`、`liquidLeap`、`doLast` SPOT/alertOthers、
 applyGene/阶段属性加成、同步数据（SELFE/COLD_L/DISLO15）、AI 任务补全与界面/客户端层。
+
+## 批次 3：动画剪辑解析修复（行走动画缺失，2026-09-25）
+
+**现象**：原始召唤兽（`pri_summoner`）等生物完全没有动画（含行走），呈现"贴地滑动"。
+
+**根因**（两层，逐一定位）：
+1. `ParasiteAnimations.usesShortAnimationKeys` 把 `pri_summoner` 当成"短键资源"，于是
+   `func_78087_a.limb_swing` 被原样返回；但它的剪辑是全限定名
+   （`animation.pri_summoner.func_78087_a.limb_swing`，见 `assets/csrp/tabula/pri_summoner.tbl`
+   内嵌 `animations.json` 的 6 个键）→ `LegacyAnimationLibrary.findClip` 精确查不到、
+   末段回退（`limb_swing`）也查不到 → 静默不播放任何剪辑。
+   旁证：`scripts/verify-entity-animation-contracts.cjs` 里同一份解析镜像**本来就没有**
+   pri_summoner，说明是 Java 与设计不一致（该脚本一直通过）。
+2. `findClip` 只有"精确 + 最后一段"两种查法：既不能把裸名请求匹配到全限定键，
+   也不能把未转写的状态剪辑（例如 `...limb_swing.get_parasite_status_3`）降级到基础剪辑，
+   于是一旦转写不全就整只生物无动画。
+
+**修复**：
+- `ParasiteAnimations`：`pri_summoner` 移出短键集合（补注释说明原因）；短键资源新增
+  legacy→短名翻译（`func_78087_a.limb_swing*`→`walk`、`func_78087_a.age_in_ticks*`→`idle`、
+  `get_attack_timer*`→`attack`），修复 `abo_head`。
+- `LegacyAnimationLibrary.findClip`：新增两趟兼容查找——①请求是资源键后缀时命中
+  （裸名↔全限定名互通）；②逐级去掉请求尾段（`a.b.c`→`a.b`→`a`）直到命中已转写的基础剪辑。
+  缺剪辑的状态不再"冻结"，而是回退到最近的基础剪辑。
+
+**效果**（`scripts/audit-animation-clips.cjs`，257 条请求）：
+- 未解析请求 **82 → 40**，受影响实体 **13 → 5**；
+  `pri_summoner` 6/6 → **0**、`abo_head` 7 条 → **0**；
+  `fer_wolf`/`worm`/`anc_overlord`/`warden`/`sim_wolfhead` 的状态剪辑缺失改为降级命中；
+  `sim_dragonhead` 走 `sim_dragonehead` 资源名互通。
+- 校验：新增 `scripts/verify-animation-clip-resolution.cjs`（把"pri_summoner 不得进入短键集合"
+  写成回归断言）；`run-all-verifications` 失败集合仍为既有 20 个。
+
+**剩余真实数据缺口**（转写不全，需要补资源而非改代码）：
+
+| 实体 | 已有剪辑 | 缺口 |
+| --- | ---: | --- |
+| `ada_yelloweye` | 2 | 无 `func_78087_a.limb_swing`（行走）、`get_attack_timer`、`get_dig_model` 等 20 条 |
+| `pri_yelloweye` | 1 | 只有 `age_in_ticks`，缺行走/攻击/掘地 12 条 |
+| `rooterball` | 0 | 完全没有 `animations.json`（6 条请求全缺） |
+| `sim_squid` | 1 | 只有 `age_in_ticks`，缺 `func_78087_a.limb_swing` |
+| `wraith` | 2 | 缺 `func_78087_a.limb_swing` |
+
+补法：从 `_srp-orig/decomp-1.10.9` 的对应模型类（`client/model/Model*.java` 的
+`setRotationAngles` 肢体摆动公式）补转 `.tbl` 内嵌 `animations.json` 的缺失剪辑，
+与现有转写管线（`scripts/modelrenderer-to-gecko.cjs` / `convert-geo-to-tabula.cjs`）保持一致。

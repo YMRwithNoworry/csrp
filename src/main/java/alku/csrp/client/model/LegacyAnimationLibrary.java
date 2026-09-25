@@ -80,13 +80,52 @@ final class LegacyAnimationLibrary {
         }
     }
 
+    /**
+     * Resolves a requested clip name against the loaded resource.
+     *
+     * <p>Besides the exact key and the plain last-segment key, two compatibility passes are needed
+     * because the requested spelling and the transcribed resource do not always agree:
+     * <ul>
+     *   <li>a bare request such as {@code func_78087_a.limb_swing} must find the fully qualified
+     *       resource key {@code animation.<id>.func_78087_a.limb_swing};</li>
+     *   <li>a state clip that was never transcribed ({@code ...limb_swing.get_parasite_status_3})
+     *       must degrade to the closest transcribed ancestor
+     *       ({@code ...limb_swing}) instead of leaving the mob frozen.</li>
+     * </ul>
+     * Without this, a missing key silently meant "no animation at all" (reported for the Primitive
+     * Summoner and several other mobs).
+     */
     private AnimationClip findClip(String animationName) {
         AnimationClip exact = clips.get(animationName);
         if (exact != null) {
             return exact;
         }
         int separator = animationName.lastIndexOf('.');
-        return separator < 0 ? null : clips.get(animationName.substring(separator + 1));
+        if (separator >= 0) {
+            AnimationClip lastSegment = clips.get(animationName.substring(separator + 1));
+            if (lastSegment != null) {
+                return lastSegment;
+            }
+        }
+        String candidate = animationName;
+        while (!candidate.isEmpty()) {
+            AnimationClip degraded = clips.get(candidate);
+            if (degraded != null) {
+                return degraded;
+            }
+            for (Map.Entry<String, AnimationClip> entry : clips.entrySet()) {
+                String key = entry.getKey();
+                if (key.length() > candidate.length() && key.endsWith(candidate)) {
+                    return entry.getValue();
+                }
+            }
+            int dot = candidate.lastIndexOf('.');
+            if (dot < 0) {
+                break;
+            }
+            candidate = candidate.substring(0, dot);
+        }
+        return null;
     }
 
     private void load() {

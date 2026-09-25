@@ -87,14 +87,33 @@ final class ParasiteAnimations {
         // These are the project-only fallback resources that were not
         // present in the extracted SRP resource set and retain short keys.
         if (usesShortAnimationKeys(resourceId)) {
+            // Their clips are named idle/walk/fly/attack, so translate the legacy identifiers the
+            // entity classes still request (func_78087_a.limb_swing is the walk cycle).
+            if (action.startsWith("func_78087_a.limb_swing")) {
+                return "walk";
+            }
+            if (action.startsWith("func_78087_a.age_in_ticks")) {
+                return "idle";
+            }
+            if (action.startsWith("get_attack_timer")) {
+                return "attack";
+            }
             return action;
         }
         return "animation." + resourceId + "." + action;
     }
 
+    /**
+     * Resources whose clips are named {@code idle}/{@code walk}/{@code fly}/{@code attack} instead
+     * of the legacy {@code animation.<id>.func_78087_a.*} spelling.
+     *
+     * <p>{@code pri_summoner} is deliberately NOT in this set: its clips are fully qualified
+     * ({@code animation.pri_summoner.func_78087_a.limb_swing}), so treating it as a short-key
+     * resource made every request miss and left the Primitive Summoner completely unanimated —
+     * including its walk cycle.
+     */
     private static boolean usesShortAnimationKeys(String resourceId) {
         return resourceId.equals("abo_head") || resourceId.equals("marauder_tendril")
-                || resourceId.equals("pri_summoner")
                 || resourceId.equals("inf_sheep") || resourceId.equals("inf_sheep_head")
                 || resourceId.equals("inf_villager");
     }
