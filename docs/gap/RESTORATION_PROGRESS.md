@@ -1552,3 +1552,20 @@ addSpawn(0, EntityHull.class,         4, 6, biome, SRPConfigMobs.hullSpawnRate, 
 
 **下一批做法**：把原版整表（约 40+ 条）完整导出，与端口现有生成注册逐条对照（组大小 / 权重 / 开关 / 是否缺适应变体），
 再按差异逐项对齐——属"数据对齐"型任务，需先取全表以避免边改边猜。
+
+## 批次 103：原版生成表导出 + 端口对照目标定位（2026-09-25 续）
+
+**原版整表已导出**（持久化，避免反复考古）：`docs/gap/original-spawn-table.txt`，共 **66 条** `addSpawn(...)` 条目，
+格式为 `addSpawn(维度, 实体类, 组min, 组max, 群系, SRPConfigMobs.xSpawnRate/xASpawnRate, xEnabled)`。
+
+**端口对照目标**已定位（两点均经实证）：
+
+| 项 | 位置 |
+| --- | --- |
+| 生成表数据 | `world/NaturalSpawnTables`（`NaturalSpawnTables.select(level, pos)` 返回候选条目） |
+| 生成表注入点 | `world/EvolutionEvents.replaceNaturalSpawnCandidates(LevelEvent.PotentialSpawns)`：先移除本模组既有候选，再按 `allowMobs()`/维度许可/`crossDimensionUnlocked` 过滤后 `addSpawnerData` |
+
+即端口的自然生成**不走 `SpawnPlacements` 而走 `PotentialSpawns` 事件**（与批次 98 的生成合法性接线互补：前者决定"生成谁、多少"，后者决定"能否生成"）。
+
+**下一批做法**：把 `NaturalSpawnTables` 的条目与上述 66 条逐项对照（实体、组大小、权重、群系/维度、开关、是否缺适应变体），
+产出差异清单后再逐项对齐（数据对齐型任务，先列清单再改）。
