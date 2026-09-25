@@ -454,6 +454,19 @@ const BATCHES = {
         detail: "复刻原版：水中/岩浆中且在目标于液体内、平方距离 <25 且低 1 格以上时按 yMotion 下潜；否则 80% 概率划水（jump）；三族按原版优先级 0 与 0.08 参数注册"
       }
     ]
+  },
+  // 批次 31：EntityAIGetFollowers（原版 entity/ai/EntityAIGetFollowers.java，version 1 / range 16）
+  "recruit-followers": {
+    note: "批次：EntityAIGetFollowers 招募跟随（version 1，range 16，优先级 6）",
+    projectClasses: ["AssimilatedParasiteEntity", "FeralParasiteEntity"],
+    clauses: [
+      {
+        match: /EntityAIGetFollowers/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/RecruitFollowersGoal.java",
+        detail: "复刻原版：每 20 tick、自身无 leader 且无目标时，在 (range,2,range) 盒内找第一个有视线、存活、尚无 leader 的寄生体并令其跟随（ParasiteFollowGoal.setLeader）；同化与野化族按原版优先级 6 / range 16 注册（EntityInfCow:74 等）"
+      }
+    ]
   }
 };
 

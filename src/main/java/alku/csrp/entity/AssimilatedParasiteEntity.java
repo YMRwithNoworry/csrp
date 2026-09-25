@@ -142,6 +142,9 @@ public final class AssimilatedParasiteEntity extends Monster
         } else {
             goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         }
+        // Legacy tasks.addTask(6, EntityAIGetFollowers(this, 1, 16)): recruit one nearby
+        // leaderless parasite to follow this one.
+        goalSelector.addGoal(6, new RecruitFollowersGoal(this, 16));
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());

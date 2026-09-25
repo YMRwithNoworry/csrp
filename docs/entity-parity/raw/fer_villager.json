@@ -356,12 +356,12 @@
         },
         {
           "clause": "EntityFerVillager 构造：tasks.addTask(6, EntityAIGetFollowers(this, 1, 16))",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/feral/EntityFerVillager.java:56",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/RecruitFollowersGoal.java"
           },
-          "note": "project 的 ParasiteFollowGoal 是「跟随者」而非「招募跟随者」，fer_villager 不招募（只有 Dredge/Heed/Preeminent 等调用 setLeader）"
+          "note": "复刻原版：每 20 tick、自身无 leader 且无目标时，在 (range,2,range) 盒内找第一个有视线、存活、尚无 leader 的寄生体并令其跟随（ParasiteFollowGoal.setLeader）；同化与野化族按原版优先级 6 / range 16 注册（EntityInfCow:74 等）；批次：EntityAIGetFollowers 招募跟随（version 1，range 16，优先级 6）"
         },
         {
           "clause": "EntityAIWanderStatus 门控：parasiteStatus != 0 或 mustUpdate 时不游荡 + 1/120 概率",

@@ -551,3 +551,18 @@ canUse:  dis < distanceC && dis >= distanceL    // → 8 ≤ d < 32 格
 
 注册：`AssimilatedParasiteEntity`（同化全族）、`FeralParasiteEntity`（野化全族）、`SimHumanEntity`，均为优先级 0、参数 0.08。
 校验：`verify-parasite-combat-rules.cjs` 增加 9 条断言；审计记账 9 条，满足 672 → **681**，缺失 276 → **267**。
+
+## 批次 31：EntityAIGetFollowers 招募跟随（2026-09-25 续）
+
+原版 `entity/ai/EntityAIGetFollowers(parent, version, range)`（version 1，各 `EntityInf*`/`EntityFer*`/`EntityHi*`/
+`EntityDorpa` 均以 `(this, 1, 16)` 注册在优先级 6，`EntityInfHuman` 为优先级 5）：
+
+| 原版 | 实现 `entity/RecruitFollowersGoal` |
+| --- | --- |
+| `canUse`：`tickCount % 20 == 0` 且自身无跟随者、无目标 | 同（用端口 `ParasiteFollowGoal.getLeader` 判定） |
+| `updateTask`：在 `(range, 2, range)` 盒内找**第一个**有视线、存活、`getParasiteFollowing() == null` 的寄生体并令其跟随 | 同（`leader.hasLineOfSight` + `setLeader`，找到即 `break`） |
+| `getParasiteType() < 31`（数值类型门） | 端口已用 per-family 接线替代数值 id 体系，该门隐含 |
+
+注册：`AssimilatedParasiteEntity`（同化族）、`FeralParasiteEntity`（野化族），优先级 6、range 16。
+未接线：`EntityInfHuman` 的优先级 5 形态与 adapted 系的 version 3 / range 32（后续批次）。
+校验：`verify-parasite-combat-rules.cjs` 增加 8 条断言；审计记账 1 条，满足 681 → **682**。

@@ -256,6 +256,22 @@ for (const file of ["AssimilatedParasiteEntity.java", "FeralParasiteEntity.java"
   }
 }
 
+// legacy EntityAIGetFollowers(this, 1, 16): recruit one leaderless parasite nearby
+const recruit = read("src/main/java/alku/csrp/entity/RecruitFollowersGoal.java");
+for (const [pattern, message] of [
+  [/public final class RecruitFollowersGoal extends Goal/, "the recruit goal is missing"],
+  [/CHECK_INTERVAL_TICKS = 20/, "the legacy twenty tick cadence is missing"],
+  [/SEARCH_HEIGHT = 2\.0D/, "the legacy search box height is missing"],
+  [/ParasiteFollowGoal\.getLeader\(leader\) == null/, "the leaderless gate is missing"],
+  [/ParasiteFollowGoal\.setLeader\(candidate, leader\)/, "the recruit must assign the leader"],
+  [/leader\.hasLineOfSight\(mob\)/, "line of sight must be required"]
+]) expect(recruit, pattern, message);
+for (const file of ["AssimilatedParasiteEntity.java", "FeralParasiteEntity.java"]) {
+  if (!/addGoal\(6, new RecruitFollowersGoal\(this, 16\)\)/.test(read("src/main/java/alku/csrp/entity/" + file))) {
+    failures.push(file + " must register the legacy recruit task at priority 6 with range 16");
+  }
+}
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

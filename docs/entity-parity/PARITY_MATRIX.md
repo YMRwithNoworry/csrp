@@ -1,10 +1,10 @@
 # 生物还原矩阵（SRParasites 1.10.9 → csrp）
 
-> 生成时间：2026-09-25T03:25:21.460Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
+> 生成时间：2026-09-25T03:27:15.661Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
 > 判定：✅ 全部条款满足；🟠 有部分实现但无缺失；❌ 存在缺失；· 未审计。
 
 - 注册生物总数：**127**；已审计：**13**；未审计：**114**
-- 条款总计：满足 681 / 部分 374 / 缺失 267（不计入 57 条不适用）
+- 条款总计：满足 682 / 部分 374 / 缺失 266（不计入 57 条不适用）
 - **加权完成度：65.7%**（partial 计 0.5）
 
 ## 分面完成度
@@ -13,7 +13,7 @@
 | --- | ---: | ---: | ---: | ---: |
 | 注册 `registration` | 61 | 40 | 30 | 61.8% |
 | 属性 `attributes` | 80 | 29 | 16 | 75.6% |
-| AI `ai` | 84 | 75 | 30 | 64.3% |
+| AI `ai` | 85 | 75 | 29 | 64.8% |
 | 行为 `behaviors` | 164 | 70 | 66 | 66.3% |
 | 伤害/效果 `damage_and_effects` | 102 | 16 | 20 | 79.7% |
 | 同步数据 `sync_data` | 26 | 33 | 30 | 47.8% |
@@ -33,7 +33,7 @@
 | pure_and_preeminent | 0/19 | 0 | 0 | 0 | 0% |
 | ancient | 0/4 | 0 | 0 | 0 | 0% |
 | nexus_and_aberrant | 1/15 | 43 | 38 | 32 | 54.9% |
-| hijacked_and_feral | 2/12 | 102 | 59 | 65 | 58.2% |
+| hijacked_and_feral | 2/12 | 103 | 59 | 64 | 58.6% |
 | early_lifecycle | 1/10 | 42 | 25 | 18 | 64.1% |
 | marauderized | 1/7 | 54 | 26 | 24 | 64.4% |
 | current | 2/13 | 96 | 44 | 35 | 67.4% |
@@ -159,7 +159,7 @@
 | `draconite` | EntityHeblu | DraconiteEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `beckon_siii` | EntityVenkrolSIII | NexusParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 54.9% |
 | `hi_skeleton` | EntityHiSkeleton | HiSkeletonEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | 57.6% |
-| `fer_villager` | EntityFerVillager | FeralParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 58.6% |
+| `fer_villager` | EntityFerVillager | FeralParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 59.3% |
 | `host` | EntityHost | HostEntity | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | 🟠 | 64.1% |
 | `mar_cow` | EntitySpeCow | MarauderizedCowEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 64.4% |
 | `pri_longarms` | EntityShyco | LongarmsEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 67.1% |
@@ -189,7 +189,7 @@
 - 缺火焰伤害乘数(×4)与 20% RAGE、毒伤害治愈、效果免疫覆写、血块表现、载具碰撞免疫
 - 缺 EntityCanSpawn 计数门控、进化锁/殖民地锁、spawnDays 门控与 phaseCreated 注入；无 SpawnPlacement 注册
 
-### `fer_villager`（EntityFerVillager → FeralParasiteEntity，58.6%）
+### `fer_villager`（EntityFerVillager → FeralParasiteEntity，59.3%）
 - 自爆死亡链完全缺失：madeRng 50% → status 6 引信 → dyingBurst/selfExplode（MOBEXPLOSION 音效、ToxicCloud 中毒/COTH、spawnGore 血迹 BIG + EntityRemain(240) + EntityAta + 3 个 EntityGore）以及渲染器引信缩放，fer_villager 的死亡表现与原版差异最大
 - 受击/命中反馈缺失：feralMult 0.3 的 EntityGore 炸弹、10% goreFer 血迹铺陈、最小伤害 0.75（+VIRA 放大）、伤害上限 feralCap 3 与 RAGE、攻击冷却 attackCooldownAni=100、偷袭食物与 infected_drop
 - AI 缺口：EntityAIEvade 闪避、EntityAIWaterLeapAtTargetStatus 水跃、EntityAIJumping 越障、EntityAIWaterLeapAtTargetStatus/EntityAIWaterLeap 与 EntityAISwimmingDiving 潜水、EntityAIGetFollowers 招募、EntityAIParasiteFollow 反被语义相反（原版 Fer 明确移除）

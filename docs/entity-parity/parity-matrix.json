@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-25T03:25:21.460Z",
+  "generatedAt": "2026-09-25T03:27:15.661Z",
   "protocol": "docs/entity-parity/AUDIT_PROTOCOL.md",
   "input": "docs/entity-parity/audit-input.json",
   "counts": {
@@ -8,9 +8,9 @@
     "missing": 114
   },
   "overall": {
-    "satisfied": 681,
+    "satisfied": 682,
     "partial": 374,
-    "missing": 267,
+    "missing": 266,
     "na": 57,
     "denominator": 1322,
     "completion": 65.7
@@ -39,12 +39,12 @@
     {
       "facet": "ai",
       "label": "AI",
-      "satisfied": 84,
+      "satisfied": 85,
       "partial": 75,
-      "missing": 30,
+      "missing": 29,
       "na": 39,
       "denominator": 189,
-      "completion": 64.3
+      "completion": 64.8
     },
     {
       "facet": "behaviors",
@@ -198,12 +198,12 @@
       "group": "hijacked_and_feral",
       "audited": 2,
       "expected": 12,
-      "satisfied": 102,
+      "satisfied": 103,
       "partial": 59,
-      "missing": 65,
+      "missing": 64,
       "na": 3,
       "denominator": 226,
-      "completion": 58.2
+      "completion": 58.6
     },
     {
       "group": "early_lifecycle",
@@ -3004,13 +3004,13 @@
       "group": "hijacked_and_feral",
       "missing": false,
       "totals": {
-        "satisfied": 62,
+        "satisfied": 63,
         "partial": 33,
-        "missing": 39,
+        "missing": 38,
         "na": 1
       },
       "denominator": 134,
-      "completion": 58.6,
+      "completion": 59.3,
       "facets": {
         "registration": {
           "satisfied": 6,
@@ -3027,9 +3027,9 @@
           "clauses": 12
         },
         "ai": {
-          "satisfied": 4,
+          "satisfied": 5,
           "partial": 13,
-          "missing": 5,
+          "missing": 4,
           "na": 0,
           "clauses": 22
         },
