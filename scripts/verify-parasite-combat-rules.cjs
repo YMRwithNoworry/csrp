@@ -542,6 +542,10 @@ expect(variant, /!level\(\)\.isClientSide && isAlive\(\) && selfeFuse\.isActive\
   "the live swell does not advance the fuse");
 expect(variant, /selfeFuse\.clear\(this\);\s*\n\s*\}/, "the live swell does not clear the fuse after bursting");
 
+// Legacy part health: the dragon head/wings use maxHealth * SRPConfig.tendrilHealth.
+expect(read("src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java"),
+  /getMaxHealth\(\) \* alku\.csrp\.Config\.tendrilHealth\(\)/, "the part health formula is not wired");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

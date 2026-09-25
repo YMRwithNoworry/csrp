@@ -95,6 +95,10 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
 
     public AssimilatedDragonEntity(EntityType<? extends AssimilatedDragonEntity> type, Level level) {
         super(type, level);
+        // Legacy: part health is maxHealth * SRPConfig.tendrilHealth (260 * 0.4 = 104).
+        float legacyPartHealth = (float) (getMaxHealth() * alku.csrp.Config.tendrilHealth());
+        headHealth = legacyPartHealth;
+        leftWingHealth = legacyPartHealth;
         headPart = new DragonBodyPart(this, BodyPart.HEAD, "head", 2.2F, 2.0F);
         leftWingPart = new DragonBodyPart(this, BodyPart.LEFT_WING, "left_wing", 3.1F, 2.8F);
         rightWingPart = new DragonBodyPart(this, BodyPart.RIGHT_WING, "right_wing", 3.1F, 2.8F);

@@ -2618,3 +2618,20 @@ if (!level().isClientSide && isAlive() && selfeFuse.isActive(this) && selfeFuse.
 
 **为何不在本轮硬改**：赋值时机若判断错，部件生命会取到默认值（20）而非 104 —— 这类"编译通过但语义错"的改动，
 正是本会话反复强调要避免的；**先读生命周期，再改赋值点**。
+
+## 批次 168：`sim_dragone` 部件生命接线（固定 52.0F → `maxHealth × tendrilHealth`）（2026-09-25 续）
+
+按批次 167 的方案解决"赋值时机"问题：把赋值从**字段初始化**（读不到属性）移到**构造体 `super(...)` 之后**：
+
+```java
+// AssimilatedDragonEntity 构造体
+float legacyPartHealth = (float) (getMaxHealth() * alku.csrp.Config.tendrilHealth());
+headHealth = legacyPartHealth;
+leftWingHealth = legacyPartHealth;
+```
+
+- 公式与原版一致：`父体最大生命 × SRPConfig.tendrilHealth`（260 × 0.4 = **104**，此前写死 52.0F ✗）；
+- 复用端口**已存在**的 `Config.tendrilHealth()`（默认 0.5）✔；
+- NBT 读档路径（`:304-305`）仍会覆盖为存档值 ✔ 语义正确。
+
+断言 1 条；`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
