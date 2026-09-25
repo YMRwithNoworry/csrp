@@ -834,3 +834,10 @@ infsheep/infwolf/infvillager` 系列，默认值全 1.0F）。
 「只用 `adaptedArachnida*` 基础值」改为「基础值 × `arachnida*Multiplier`」（击退抗性夹取 1.0），
 即原版 `SRPAttributes` 的「全局 × per-mob」在 arachnida 上的落地；断言 3 条。
 `PrimitiveVariantEntity` 的同类分支（`:342`）留待下一批（其文本尚未核对，避免凭记忆改）。
+
+## 批次 55：arachnida per-mob 倍率叠加（Primitive 侧）（2026-09-25 续）
+
+按批次 54 的同一改法完成 primitive 侧：`PrimitiveVariantEntity.applyConfiguredAttributes` 的
+`case ARACHNIDA` 由「只用 `arachnida*` 基础值」改为「基础值 × `arachnida*Multiplier`」（击退抗性夹取 1.0）。
+两侧（primitive + adapted）现已一致，`arachnida*` 这 4 条配置键不再是死键。断言 2 条。
+`PrimitiveVariantEntity` 中还有 `bolster*`/`tozoon*` 等同类分支（本次未核对文本，未动）。

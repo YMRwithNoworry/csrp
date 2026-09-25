@@ -340,8 +340,11 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     public void applyConfiguredAttributes() {
         switch (activeKind()) {
             case ARACHNIDA -> applyConfiguredAttributes(
-                    MobsConfig.arachnidaHealth(), MobsConfig.arachnidaArmor(),
-                    MobsConfig.arachnidaDamage(), MobsConfig.arachnidaKnockbackResistance());
+                    MobsConfig.arachnidaHealth() * MobsConfig.arachnidaHealthMultiplier(),
+                    MobsConfig.arachnidaArmor() * MobsConfig.arachnidaArmorMultiplier(),
+                    MobsConfig.arachnidaDamage() * MobsConfig.arachnidaDamageMultiplier(),
+                    Math.min(1.0D, MobsConfig.arachnidaKnockbackResistance()
+                            * MobsConfig.arachnidaKnockbackMultiplier()));
             case BOLSTER -> applyConfiguredAttributes(
                     MobsConfig.bolsterHealth(), MobsConfig.bolsterArmor(),
                     MobsConfig.bolsterDamage(), MobsConfig.bolsterKnockbackResistance());

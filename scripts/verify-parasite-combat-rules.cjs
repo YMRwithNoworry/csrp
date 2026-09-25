@@ -439,6 +439,14 @@ for (const [pattern, message] of [
     "the arachnida knockback multiplier is not stacked"]
 ]) expect(adaptedVariant, pattern, message);
 
+// the primitive arachnida stacks its per-mob multipliers the same way
+expect(read("src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java"),
+  /arachnidaHealth\(\) \* MobsConfig\.arachnidaHealthMultiplier\(\)/,
+  "the primitive arachnida health multiplier is not stacked");
+expect(read("src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java"),
+  /arachnidaKnockbackResistance\(\)[\s\S]{0,60}?arachnidaKnockbackMultiplier\(\)/,
+  "the primitive arachnida knockback multiplier is not stacked");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));
