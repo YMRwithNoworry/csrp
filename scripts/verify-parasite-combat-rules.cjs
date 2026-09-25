@@ -617,6 +617,10 @@ expect(read("src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java"),
   /!\(target instanceof Parasite\) \|\| target instanceof IncompleteFormMediumEntity/,
   "incomplete forms cannot be targeted by the heads");
 
+// Legacy EntityParasiteBase:845: the marauderized branch also applies COTH on hit.
+expect(read("src/main/java/alku/csrp/entity/MarauderizedParasiteEntity.java"),
+  /applyCoth\(cothTarget, this\)/, "the marauderized branch does not apply COTH on hit");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

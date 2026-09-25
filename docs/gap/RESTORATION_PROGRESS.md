@@ -4209,3 +4209,27 @@ primitive Shyco 生命 45（批次 232 提取） + adapted 附加 50 = 95   ⇔ 
 
 **下一批**：① 读 `AssimilatedParasiteEntity:670-680` 与 `EntityParasiteBase:845` 两侧上下文，确认"命中施加"的语义 ✗；
 ② 按原版语义在 `MarauderizedParasiteEntity` 接线 ✗；③ 核实 `cothAura` 半径并核对端口 8 ✗。
+
+## 批次 251：`mar_*` 命中 COTH 接线（2026-09-25 续）
+
+按批次 250 的方案，先读两侧上下文确认语义（**关键**）：
+
+```
+端口 AssimilatedParasiteEntity:672-677   private void infectNearby() { for (附近实体…) applyCoth(nearby, this, …); }
+                                         ⇒ 这是【光环】（循环附近实体）✔
+原版 EntityParasiteBase:845              ⇒ 是【命中时对被击者施加】✔ —— 与端口的光环【语义不同】✗
+```
+
+⇒ 未照搬光环写法，而是按**原版语义**在 `MarauderizedParasiteEntity.doHurtTarget` 的 `hit` 分支补：
+
+```java
+if (hit && entity instanceof LivingEntity cothTarget) {
+    alku.csrp.infection.InfectionMechanics.applyCoth(cothTarget, this);
+}
+```
+
+**编译拦下两次引用错误**：① 未导入 `InfectionMechanics` ✗；② 我凭记忆写的包名 `alku.csrp.world` ✗（实为 `alku.csrp.infection` ✗，
+已由 grep 核实 ✔）。断言 1 条；`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+**方法论**：本轮体现了"**语义确认优先于照抄**"——若直接复制 `:676` 的光环写法，会得到一个"编译通过但行为不同"的实现 ✗
+（对被击者 vs 对周围所有实体），而这正是本会话反复强调要避免的。

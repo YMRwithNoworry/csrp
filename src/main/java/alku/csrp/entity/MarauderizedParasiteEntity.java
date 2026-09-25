@@ -249,6 +249,10 @@ public abstract class MarauderizedParasiteEntity extends HijackedParasiteEntity 
         if (hit && entity instanceof LivingEntity target && random.nextFloat() < BLEED_CHANCE) {
             target.addEffect(new MobEffectInstance(ModMobEffects.BLEED, 100, 0), this);
         }
+        // Legacy EntityParasiteBase:845: the struck victim catches COTH on hit.
+        if (hit && entity instanceof LivingEntity cothTarget) {
+            alku.csrp.infection.InfectionMechanics.applyCoth(cothTarget, this);
+        }
         return hit;
     }
 
