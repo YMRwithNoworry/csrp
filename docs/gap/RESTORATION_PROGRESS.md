@@ -671,3 +671,22 @@ if (kind == Kind.BIGSPIDER && rangedCooldown <= 0 && getTarget() != null && hasL
 目标失效/离开射程/失去视线时与其余连发状态一并复位。
 校验：`verify-parasite-combat-rules.cjs` 增加 3 条断言。
 至此 `EntityAIAttackProjectile(this, 60, 15, 3)` 的**全部子项**（射程 65 格、视线、60 tick 蓄力、RAGE 翻倍、15 tick × 3 连发、预警音）均已还原。
+
+## 批次 40：per-mob 属性倍率的缺口定位（2026-09-25 续，未改代码）
+
+审计条款：「生成时按全局 × per-mob 倍率结算属性（`globalHealthMultiplier × fervillagerHealthMultiplier` 等 4 项）」。
+本轮把它的两侧现状查清，结论是**机制已存在、只是未覆盖已审计生物**：
+
+| 侧 | 现状 | 证据 |
+| --- | --- | --- |
+| 全局倍率 | ✅ 已实现并接线 | `GeneralConfig.globalHealthMultiplier()` 等 4 项在 `config/OriginalConfigEvents.java:39-45` 通过属性修饰符应用 |
+| per-mob 倍率 | ⚠️ 机制存在但未覆盖已审计生物 | `config/MobsConfig.java` 中 `*HealthMultiplier`/`*DamageMultiplier` 共 **29** 条（例：`arachnidaHealthMultiplier`、`arachnidaDamageMultiplier`，见 `:156/:159`），但 `fervillager`/`infcow`/`specow` 等已审计生物**均为 0 条** |
+
+即：**照抄 `arachnida*` 的既有范式**即可（配置项 + 属性创建处读取），但需要先从原版 `SRPConfig` 取每只生物的 4 个倍率值
+（`fervillagerHealthMultiplier` 等），不能凭猜填数——这正是本轮不动手的原因。
+
+下一轮实施清单（无待调研项）：
+1. 从 `SRPConfig` 取出已审计生物（`fer_villager`、`sim_cow`、`mar_cow` 等）的 4 项 per-mob 倍率默认值；
+2. 按 `MobsConfig` 既有 `defineInRange` 范式补条目；
+3. 在各族属性创建处（`createAttributes`）读取并相乘；
+4. 断言 + 记账（该条款为「全局 × per-mob」两项合取，须两侧齐备才可翻转）。
