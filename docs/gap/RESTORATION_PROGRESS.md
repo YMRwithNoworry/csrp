@@ -2722,3 +2722,22 @@ monster("sim_dragone", AssimilatedDragonEntity::new, 1.9F, 3.8F, 1.75F)   // 原
 
 **下一批实施**：先读端口 `ParasiteSkillGoal` 的构造签名（Longarms 用法为 `ParasiteSkillGoal(this, 21, new ScaryOrbSkill(), 80, 4, false)`，
 需确认各参含义）→ 按上述语义接线到头部（优先级 0）→ 断言 → 记账。
+
+## 批次 174：头部技能接线——签名已确认，**还差 attackID 14 的行为**（2026-09-25 续，未改代码）
+
+```
+端口 ParasiteSkillGoal 构造（沿用 legacy 命名，故与原文可逐参对应）：
+   (Mob mob, int attackId, ParasiteSkill skill, int cooldownTicks, int minDistance, boolean needVisual)
+   (Mob mob, int attackId, ParasiteSkill skill, int cooldownTicks, int minDistance, int maxDistance, boolean needVisual)
+原版 6 参调用 EntityAISkill(this, 40, 100, 3, true, 14)
+   ⇒ 端口应写 ParasiteSkillGoal(this, 14, <skill>, 40, 100, 3, true)
+```
+
+**映射已明确**（端口 `minDistance` 即原版 `miniDistance`＝**上界**，`maxDistance`＝下界；两处命名都保留了原版的反直觉写法，
+因此**逐参照搬**即可，无需换算 ✔）。
+
+**仍缺的一块**：`attackID = 14` 对应的**技能行为**（原版按 `attID` 分派到具体攻击）。端口需要等价的 `ParasiteSkill` 实现，
+而该攻击的语义尚未查（原版中 `attID == 14` 的分支）。
+
+**下一批**：在 `EntityParasiteBase`/相关类中查 `attID == 14` 的分支 → 确认行为（是否与端口既有的某个技能等价）→ 再接线。
+**在确认技能行为前不写代码**——否则会接上一个"能触发但做错事"的技能（比不接更糟）。
