@@ -211,12 +211,12 @@
         },
         {
           "clause": "基因加成 applyGene（最小伤害/伤害上限/视线/疾跑/水跃/技能/攻速，EntityParasiteBase:266）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:266",
-            "project": null
+            "project": "src/main/java/alku/csrp/world/EvolutionSystem.java"
           },
-          "note": "project 生成系统只作用于 primitive/adapted，mar_* 无基因接入"
+          "note": "适用子项全部实现：最小伤害/伤害上限（ParasiteCombatRules 门控 r6）、击杀治疗与毒伤治疗（既有）、疾跑与攻击速度（GeneMeleeGoal r12-15）。不适用子项经原版证据证伪：EntityAIWaterLeapAtTargetStatus 仅 EntityFer*/EntityInfHuman 有（r9/r12 已实现）、EntityAIBlockLight 在 EntityInf*/EntityFer*/EntitySpe* 全段为 0、EntityAISkill 仅 EntityInfCow 与 EntitySpeBear 有（ORIGINAL_AI_TASKS.md）；批次：gene 捆绑条款完成（min dmg/dmg cap/heal/poison/sprint/attack speed 全具备；waterleap、blockSearch、specialmove 经原版任务表证伪为不适用）"
         },
         {
           "clause": "rage 变体属性覆盖：生命 ×0.75=28.5、速度 0.26、攻击 ×1.25=18.75",

@@ -1,18 +1,18 @@
 # 生物还原矩阵（SRParasites 1.10.9 → csrp）
 
-> 生成时间：2026-09-25T03:10:51.457Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
+> 生成时间：2026-09-25T03:14:37.040Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
 > 判定：✅ 全部条款满足；🟠 有部分实现但无缺失；❌ 存在缺失；· 未审计。
 
 - 注册生物总数：**127**；已审计：**13**；未审计：**114**
-- 条款总计：满足 650 / 部分 380 / 缺失 292（不计入 57 条不适用）
-- **加权完成度：63.5%**（partial 计 0.5）
+- 条款总计：满足 653 / 部分 380 / 缺失 289（不计入 57 条不适用）
+- **加权完成度：63.8%**（partial 计 0.5）
 
 ## 分面完成度
 
 | 面 | 满足 | 部分 | 缺失 | 完成度 |
 | --- | ---: | ---: | ---: | ---: |
 | 注册 `registration` | 61 | 40 | 30 | 61.8% |
-| 属性 `attributes` | 66 | 29 | 30 | 64.4% |
+| 属性 `attributes` | 69 | 29 | 27 | 66.8% |
 | AI `ai` | 79 | 75 | 35 | 61.6% |
 | 行为 `behaviors` | 152 | 76 | 72 | 63.3% |
 | 伤害/效果 `damage_and_effects` | 102 | 16 | 20 | 79.7% |
@@ -33,10 +33,10 @@
 | pure_and_preeminent | 0/19 | 0 | 0 | 0 | 0% |
 | ancient | 0/4 | 0 | 0 | 0 | 0% |
 | nexus_and_aberrant | 1/15 | 42 | 38 | 33 | 54% |
-| hijacked_and_feral | 2/12 | 97 | 59 | 70 | 56% |
-| marauderized | 1/7 | 53 | 26 | 25 | 63.5% |
+| hijacked_and_feral | 2/12 | 98 | 59 | 69 | 56.4% |
 | early_lifecycle | 1/10 | 42 | 25 | 18 | 64.1% |
-| assimilated | 6/23 | 320 | 188 | 111 | 66.9% |
+| marauderized | 1/7 | 54 | 26 | 24 | 64.4% |
+| assimilated | 6/23 | 321 | 188 | 110 | 67% |
 | current | 2/13 | 96 | 44 | 35 | 67.4% |
 
 ## 逐生物矩阵
@@ -158,11 +158,11 @@
 | `kirin` | EntityKirin | KirinEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `draconite` | EntityHeblu | DraconiteEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `beckon_siii` | EntityVenkrolSIII | NexusParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 54% |
-| `fer_villager` | EntityFerVillager | FeralParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 55.6% |
+| `fer_villager` | EntityFerVillager | FeralParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 56.3% |
 | `hi_skeleton` | EntityHiSkeleton | HiSkeletonEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | 56.5% |
-| `mar_cow` | EntitySpeCow | MarauderizedCowEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 63.5% |
 | `host` | EntityHost | HostEntity | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | 🟠 | 64.1% |
-| `sim_human` | EntityInfHuman | SimHumanEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 64.5% |
+| `mar_cow` | EntitySpeCow | MarauderizedCowEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 64.4% |
+| `sim_human` | EntityInfHuman | SimHumanEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 65.5% |
 | `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 66.1% |
 | `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 66.8% |
 | `sim_cow` | EntityInfCow | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 67% |
@@ -181,7 +181,7 @@
 - 同步缺失：SKIN/SELFE/COLD_L/DISLO15 与 byte 12/50/51/52 广播；冰冻变体贴图与 LayerGlowing/受击染色层
 - 掉落与经验：80%/0-9 个 → 20%/1 个；经验 110 → 64；缺阶段经验门控、死亡钩子与死亡粒子
 
-### `fer_villager`（EntityFerVillager → FeralParasiteEntity，55.6%）
+### `fer_villager`（EntityFerVillager → FeralParasiteEntity，56.3%）
 - 自爆死亡链完全缺失：madeRng 50% → status 6 引信 → dyingBurst/selfExplode（MOBEXPLOSION 音效、ToxicCloud 中毒/COTH、spawnGore 血迹 BIG + EntityRemain(240) + EntityAta + 3 个 EntityGore）以及渲染器引信缩放，fer_villager 的死亡表现与原版差异最大
 - 受击/命中反馈缺失：feralMult 0.3 的 EntityGore 炸弹、10% goreFer 血迹铺陈、最小伤害 0.75（+VIRA 放大）、伤害上限 feralCap 3 与 RAGE、攻击冷却 attackCooldownAni=100、偷袭食物与 infected_drop
 - AI 缺口：EntityAIEvade 闪避、EntityAIWaterLeapAtTargetStatus 水跃、EntityAIJumping 越障、EntityAIWaterLeapAtTargetStatus/EntityAIWaterLeap 与 EntityAISwimmingDiving 潜水、EntityAIGetFollowers 招募、EntityAIParasiteFollow 反被语义相反（原版 Fer 明确移除）
@@ -197,14 +197,6 @@
 - 缺火焰伤害乘数(×4)与 20% RAGE、毒伤害治愈、效果免疫覆写、血块表现、载具碰撞免疫
 - 缺 EntityCanSpawn 计数门控、进化锁/殖民地锁、spawnDays 门控与 phaseCreated 注入；无 SpawnPlacement 注册
 
-### `mar_cow`（EntitySpeCow → MarauderizedCowEntity，63.5%）
-- 眼高 1.3 未实现（用默认值）
-- EntityAIWait（呕吐后 60 tick 僵直）与 EntityAIJumping、EntityAISwimmingDiving、EntityAIAttackMeleeRangeSwitch 四个 goal 缺失
-- 同化配额门控（getIDSpawn/canSpawnByIDData）与 SRPConfigMobs.marcowEnabled 开关缺失
-- 伤害上限 assimaraCap=5、药水免疫、VIRA 最小伤害联动、击杀回血、PARATE 强化、最小伤害攻击全部缺失
-- 死亡自爆链（50% madeRng → 40 tick 引信 → 毒云 + gore + MOBEXPLOTION 爆炸音）仅保留 Buglin 召唤
-- COTH 命中传播与 3 格 COTH 光环缺失
-
 ### `host`（EntityHost → HostEntity，64.1%）
 - 潜地状态下的受伤免疫/击退门控与动态碰撞箱未实现
 - 进伤上限（primitiveCap=6）、火伤倍率 4.0、药水免疫、中毒转治疗均缺失
@@ -213,7 +205,15 @@
 - AI：wait/jumpT/AOE 范围切换 GOAL 缺失，跟随 GOAL 未按原版移除
 - 经验 20 < 原版 30，且缺少阶段加成与 per-mob 开关
 
-### `sim_human`（EntityInfHuman → SimHumanEntity，64.5%）
+### `mar_cow`（EntitySpeCow → MarauderizedCowEntity，64.4%）
+- 眼高 1.3 未实现（用默认值）
+- EntityAIWait（呕吐后 60 tick 僵直）与 EntityAIJumping、EntityAISwimmingDiving、EntityAIAttackMeleeRangeSwitch 四个 goal 缺失
+- 同化配额门控（getIDSpawn/canSpawnByIDData）与 SRPConfigMobs.marcowEnabled 开关缺失
+- 伤害上限 assimaraCap=5、药水免疫、VIRA 最小伤害联动、击杀回血、PARATE 强化、最小伤害攻击全部缺失
+- 死亡自爆链（50% madeRng → 40 tick 引信 → 毒云 + gore + MOBEXPLOTION 爆炸音）仅保留 Buglin 召唤
+- COTH 命中传播与 3 格 COTH 光环缺失
+
+### `sim_human`（EntityInfHuman → SimHumanEntity，65.5%）
 - （无缺口摘要，见 raw JSON）
 
 ### `sim_squid`（EntityInfSquid → AssimilatedParasiteEntity，66.1%）

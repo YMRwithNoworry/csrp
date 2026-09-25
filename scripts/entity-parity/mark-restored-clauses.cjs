@@ -361,6 +361,19 @@ const BATCHES = {
         detail: "共享 ParasiteSkillGoal 复刻契约（geneSpecialmove 门控、距离窗口平方、needVisual、冷却、attackID 派发）；LongarmsEntity 以 (80, 4, false, 21) 注册，技能体复用既有 applyScaryOrbEffect/applyScaryOrbMinimumDamage"
       }
     ]
+  },
+  // 批次 24：gene 捆绑条款翻转（适用子项已全具备；不可用子项经原版任务表证伪）
+  "gene-bundle-complete": {
+    note: "批次：gene 捆绑条款完成（min dmg/dmg cap/heal/poison/sprint/attack speed 全具备；waterleap、blockSearch、specialmove 经原版任务表证伪为不适用）",
+    projectClasses: ["MarauderizedCowEntity", "FeralParasiteEntity", "SimHumanEntity"],
+    clauses: [
+      {
+        match: /applyGene/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/world/EvolutionSystem.java",
+        detail: "适用子项全部实现：最小伤害/伤害上限（ParasiteCombatRules 门控 r6）、击杀治疗与毒伤治疗（既有）、疾跑与攻击速度（GeneMeleeGoal r12-15）。不适用子项经原版证据证伪：EntityAIWaterLeapAtTargetStatus 仅 EntityFer*/EntityInfHuman 有（r9/r12 已实现）、EntityAIBlockLight 在 EntityInf*/EntityFer*/EntitySpe* 全段为 0、EntityAISkill 仅 EntityInfCow 与 EntitySpeBear 有（ORIGINAL_AI_TASKS.md）"
+      }
+    ]
   }
 };
 

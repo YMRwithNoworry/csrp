@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-25T03:10:51.457Z",
+  "generatedAt": "2026-09-25T03:14:37.040Z",
   "protocol": "docs/entity-parity/AUDIT_PROTOCOL.md",
   "input": "docs/entity-parity/audit-input.json",
   "counts": {
@@ -8,12 +8,12 @@
     "missing": 114
   },
   "overall": {
-    "satisfied": 650,
+    "satisfied": 653,
     "partial": 380,
-    "missing": 292,
+    "missing": 289,
     "na": 57,
     "denominator": 1322,
-    "completion": 63.5
+    "completion": 63.8
   },
   "facets": [
     {
@@ -29,12 +29,12 @@
     {
       "facet": "attributes",
       "label": "属性",
-      "satisfied": 66,
+      "satisfied": 69,
       "partial": 29,
-      "missing": 30,
+      "missing": 27,
       "na": 0,
       "denominator": 125,
-      "completion": 64.4
+      "completion": 66.8
     },
     {
       "facet": "ai",
@@ -198,23 +198,12 @@
       "group": "hijacked_and_feral",
       "audited": 2,
       "expected": 12,
-      "satisfied": 97,
+      "satisfied": 98,
       "partial": 59,
-      "missing": 70,
+      "missing": 69,
       "na": 3,
       "denominator": 226,
-      "completion": 56
-    },
-    {
-      "group": "marauderized",
-      "audited": 1,
-      "expected": 7,
-      "satisfied": 53,
-      "partial": 26,
-      "missing": 25,
-      "na": 7,
-      "denominator": 104,
-      "completion": 63.5
+      "completion": 56.4
     },
     {
       "group": "early_lifecycle",
@@ -228,15 +217,26 @@
       "completion": 64.1
     },
     {
+      "group": "marauderized",
+      "audited": 1,
+      "expected": 7,
+      "satisfied": 54,
+      "partial": 26,
+      "missing": 24,
+      "na": 7,
+      "denominator": 104,
+      "completion": 64.4
+    },
+    {
       "group": "assimilated",
       "audited": 6,
       "expected": 23,
-      "satisfied": 320,
+      "satisfied": 321,
       "partial": 188,
-      "missing": 111,
+      "missing": 110,
       "na": 33,
       "denominator": 619,
-      "completion": 66.9
+      "completion": 67
     },
     {
       "group": "current",
@@ -593,13 +593,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 56,
+        "satisfied": 57,
         "partial": 30,
-        "missing": 24,
+        "missing": 23,
         "na": 6
       },
       "denominator": 110,
-      "completion": 64.5,
+      "completion": 65.5,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -609,9 +609,9 @@
           "clauses": 10
         },
         "attributes": {
-          "satisfied": 5,
+          "satisfied": 6,
           "partial": 2,
-          "missing": 3,
+          "missing": 2,
           "na": 0,
           "clauses": 10
         },
@@ -2160,13 +2160,13 @@
       "group": "marauderized",
       "missing": false,
       "totals": {
-        "satisfied": 53,
+        "satisfied": 54,
         "partial": 26,
-        "missing": 25,
+        "missing": 24,
         "na": 7
       },
       "denominator": 104,
-      "completion": 63.5,
+      "completion": 64.4,
       "facets": {
         "registration": {
           "satisfied": 6,
@@ -2176,9 +2176,9 @@
           "clauses": 13
         },
         "attributes": {
-          "satisfied": 6,
+          "satisfied": 7,
           "partial": 2,
-          "missing": 3,
+          "missing": 2,
           "na": 0,
           "clauses": 11
         },
@@ -3004,13 +3004,13 @@
       "group": "hijacked_and_feral",
       "missing": false,
       "totals": {
-        "satisfied": 58,
+        "satisfied": 59,
         "partial": 33,
-        "missing": 43,
+        "missing": 42,
         "na": 1
       },
       "denominator": 134,
-      "completion": 55.6,
+      "completion": 56.3,
       "facets": {
         "registration": {
           "satisfied": 6,
@@ -3020,9 +3020,9 @@
           "clauses": 11
         },
         "attributes": {
-          "satisfied": 5,
+          "satisfied": 6,
           "partial": 3,
-          "missing": 4,
+          "missing": 3,
           "na": 0,
           "clauses": 12
         },

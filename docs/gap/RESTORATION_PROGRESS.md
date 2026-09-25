@@ -458,3 +458,20 @@ canUse:  dis < distanceC && dis >= distanceL    // → 8 ≤ d < 32 格
 `sim_cow` 技能本体对应原版 `doSpecialSkill(1) → charge()`（`attacking < 40` 蓄力，与端口既有
 `CowChargeGoal` 的 `PREPARE_TICKS = 40` 吻合），下一批适配。
 校验：`verify-parasite-combat-rules.cjs` 更新 1 条并新增 1 条窗口断言；全套失败集合仍为既有 20 个。
+
+## 批次 24：gene 捆绑条款首批翻转（2026-09-25 续）
+
+逐项核对后确认：对 `EntityInf*`/`EntityFer*`/`EntitySpe*` 三族，gene 捆绑条款里的
+**水跃、穿墙破块、技能三项原版均不适用**（证据：`EntityAIWaterLeapAtTargetStatus` 仅
+`EntityFer*` 与 `EntityInfHuman` 有；`EntityAIBlockLight` 在其全部段落为 0；`EntityAISkill` 在
+`ORIGINAL_AI_TASKS.md` 中仅 `EntityInfCow:1494` 与 `EntitySpeBear:957` 出现）。因此适用子项只剩
+最小伤害/伤害上限/治疗/毒伤治疗/疾跑/攻击速度——**这六项已全部实现**。
+
+据此翻转 3 条（class 粒度可确证者）：`mar_cow`、`fer_villager`、`sim_human`。
+
+未翻转但**同样已满足**（受记账脚本的 class 粒度限制，`AssimilatedParasiteEntity` 同时承载仍缺技能的
+`sim_cow`）：`sim_sheep`、`sim_wolf`、`sim_squid`。下一批给记账脚本加 per-mob 过滤即可一并订正；
+`sim_cow`（原版 `EntityInfCow:75 EntityAISkill(this, 60, 32, 8, true, 1)` → `doSpecialSkill(1) → charge()`，
+与端口 `CowChargeGoal` 的 `PREPARE_TICKS = 40` 吻合）与 `sim_bigspider`（原版类名待考）仍未完成。
+
+审计：满足 650 → **653**，缺失 292 → **289**。
