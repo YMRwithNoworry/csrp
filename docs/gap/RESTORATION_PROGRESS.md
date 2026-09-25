@@ -3404,3 +3404,20 @@ public GeneMeleeGoal(Mob mob, double baseSpeed, boolean requireLineOfSight, int 
 **同类提示**：这是头部族**又一处逐类差异**（此前的眼高：cow/pig/horse/enderman 0.8、villager/human 0.7、sheep 0.6、wolf 0.3）。
 ⇒ **头部族的每个数值都应逐类取证**，不能依赖"同族同值"（该做法已在眼高一事上 4/4 被证伪）。
 `build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+## 批次 212：enderman 头 `ATTACKING_SPEED_BOOST` 的挂载点已确认（2026-09-25 续，未改代码）
+
+```
+原版 EntityInfEndermanHead:57-58   定义 ATTACKING_SPEED_BOOST（0.15F）
+原版 EntityInfEndermanHead:105-111 覆写 func_70624_b(=setTarget) 增删该修饰符
+端口 AssimilatedHeadEntity:140-141 【已覆写 setTarget】⇒ 正是理想挂载点 ✔
+```
+
+**方案**：在端口头部**既有的 `setTarget` 覆写**中，`super.setTarget(target)` 之后按本体（批次 154 给 enderman 本体所做）的
+同一写法增删修饰符（固定 `ResourceLocation` + `0.15` + `ADD_VALUE`），**无需新增钩子** ✔。
+
+**本轮未落地的原因（如实记录）**：我的插入脚本用了一个**不属于该文件的锚点**（`PART_HEALTH`/`TEXTURE_VARIANT` 分别属于龙/变体类），
+脚本在写入前即退出 ⇒ **工作树未产生任何改动** ✔（已 `git status` 确认）。
+**教训**：跨文件批量脚本必须**先确认锚点所属文件**；本次幸而脚本设计为"锚点缺失即中止且不写入"，避免了半成品。
+
+**下一批**：先读 `AssimilatedHeadEntity` 的字段区取得真实锚点 → 落地修饰符 → 断言。
