@@ -420,6 +420,14 @@ for (const [pattern, message] of [
 ]) expect(hostSpawn, pattern, message);
 expect(mobsConfig, /public static double hostHealthMultiplier\(\)/, "the host accessors are missing");
 
+// the legacy arachnida per-mob multiplier keys must be reachable from code
+for (const key of ["arachnidaHealthMultiplier", "arachnidaDamageMultiplier",
+  "arachnidaArmorMultiplier", "arachnidaKnockbackMultiplier"]) {
+  if (!mobsConfig.includes("public static double " + key + "()")) {
+    failures.push(`MobsConfig has no accessor for ${key}`);
+  }
+}
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

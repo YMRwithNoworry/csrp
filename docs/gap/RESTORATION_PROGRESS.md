@@ -817,3 +817,13 @@ infsheep/infwolf/infvillager` 系列，默认值全 1.0F）。
 **同批订正断言**：`verify-early-lifecycle-entities-port.cjs:50` 原本断言 host 属性的字面量，改为断言新表达式——
 否则会多出一个假失败（本轮实际发生并被套件当场抓出：20 → 21 失败，订正后回到 20）。
 本线已覆盖 11 只：…/ hiskeleton / marcow / host。剩余：`buglin`、`beckon`（已确认无同名键）。
+
+## 批次 53：arachnida per-mob 倍率键打通（2026-09-25 续）
+
+批次 52 定位到：`arachnida*` 等 29 条 `*Multiplier` 键是**私有常量、无任何访问器**，因此外部代码**根本无法读取**——
+这才是"只配置不读取"的根因（不是缺接线，而是缺入口）。
+
+本批先打通入口：`MobsConfig` 增加 `arachnidaHealth/Damage/Armor/KnockbackMultiplier()` 四个公开访问器
+（注释写明"键存在但不可达"），断言 4 条。下一步即可在 `AdaptedVariantEntity` / `PrimitiveVariantEntity` 的
+`case ARACHNIDA` 分支把 `adaptedArachnida*`（基础值）与 `arachnida*Multiplier`（per-mob 倍率）相乘——
+即原版「全局 × per-mob」的第三层（该两族的基础值来自 `MobsConfig.adaptedArachnida*`，与 arachnida* 是两套并存配置面）。

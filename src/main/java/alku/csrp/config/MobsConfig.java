@@ -211,6 +211,13 @@ public final class MobsConfig {
             "srparasites:infwolf", "infwolfKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
             "Knockback-resistance multiplier for the assimilated wolf.");
 
+    // Legacy SRPConfigMobs.arachnida* accessors: the keys existed but were unreachable, so no code
+    // could read the per-mob multipliers they describe.
+    public static double arachnidaHealthMultiplier() { return ARACHNIDA_HEALTH_MULTIPLIER.get(); }
+    public static double arachnidaDamageMultiplier() { return ARACHNIDA_DAMAGE_MULTIPLIER.get(); }
+    public static double arachnidaArmorMultiplier() { return ARACHNIDA_ARMOR_MULTIPLIER.get(); }
+    public static double arachnidaKnockbackMultiplier() { return ARACHNIDA_KNOCKBACK_MULTIPLIER.get(); }
+
     public static double infsheepHealthMultiplier() { return INFSHEEP_HEALTH_MULTIPLIER.get(); }
     public static double infsheepDamageMultiplier() { return INFSHEEP_DAMAGE_MULTIPLIER.get(); }
     public static double infsheepArmorMultiplier() { return INFSHEEP_ARMOR_MULTIPLIER.get(); }
