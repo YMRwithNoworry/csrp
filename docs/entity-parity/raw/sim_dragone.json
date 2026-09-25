@@ -1,0 +1,768 @@
+{
+  "id": "sim_dragone",
+  "originalClass": "EntityInfDragonE",
+  "projectClass": "AssimilatedDragonEntity",
+  "facets": [
+    {
+      "name": "registration",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "SRPEntities.CreateEntityMob(\"sim_dragone\", EntityInfDragonE.class, 8611072, 16711900, 64, infdragoneEnabled) 注册 id",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:261",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:284"
+          },
+          "note": "API 映射：1.12.2 EntityEntry ↔ 1.21 DeferredRegister + EntityType，注册 id 字面量一致"
+        },
+        {
+          "clause": "数值 id 64（getParasiteIDRegister）驱动生成/掉落派发",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:98",
+            "project": "src/main/java/alku/csrp/world/EvolutionSystem.java:178"
+          },
+          "note": "project 改用注册 id 字符串派发（sim_dragone → phase 3 跨维度解锁），数值 id 语义由表驱动替代"
+        },
+        {
+          "clause": "MobCategory：继承 EntityMob（MONSTER）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:95",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:629"
+          },
+          "note": "project 用 MobCategory.MONSTER 注册（monster() helper 内建）"
+        },
+        {
+          "clause": "碰撞箱 func_70105_a(1.9F, 3.8F)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:78",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:284"
+          },
+          "note": "sized(1.9F, 3.8F) 与之一致"
+        },
+        {
+          "clause": "台阶高度 field_70138_W = 1.0F",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:79",
+            "project": null
+          },
+          "note": "project 未设置 stepHeight（EntityType.Builder/实体构造均无），沿用 1.21 默认 0.6"
+        },
+        {
+          "clause": "眼高 func_70047_e = 1.75F",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:338",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:284"
+          },
+          "note": "project 未用带 eyeHeight 的 monster() 重载，使用默认眼高（0.85 × 3.8 ≈ 3.23），与原版 1.75 不一致"
+        },
+        {
+          "clause": "tracker 追踪距离 64 格 / 更新间隔 3 tick",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:188",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:630"
+          },
+          "note": "project clientTrackingRange(4) = 4 区块 = 64 格，updateInterval(3)，与原版一致"
+        },
+        {
+          "clause": "刷怪蛋颜色 8611072/16711900",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:261",
+            "project": "src/main/java/alku/csrp/registry/ModItems.java:181"
+          },
+          "note": "project 使用 0x231C2B/0x9B4050 自定义配色，非原版统一色"
+        },
+        {
+          "clause": "刷怪蛋开关 SRPConfigMobs.infdragoneEnabled",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:493",
+            "project": null
+          },
+          "note": "project 无 per-mob 启用开关，刷怪蛋恒注册"
+        },
+        {
+          "clause": "语言键 srparasites.sim_dragone",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:261",
+            "project": "src/main/resources/assets/csrp/lang/en_us.json:85"
+          },
+          "note": "键名空间由 srparasites.* 映射为 entity.csrp.*"
+        },
+        {
+          "clause": "Boss 血条 BossInfoServer(Color.RED, Overlay.PROGRESS) + func_186741_a(false) 隐藏",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:59",
+            "project": null
+          },
+          "note": "project 仅 AncientParasiteEntity/ParasiticScentEntity/SourceEntity 使用 ServerBossEvent，AssimilatedDragonEntity 无 Boss 血条"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "attributes",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "生命 SRPAttributes.INFDRAGONE_HEALTH = 260.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:110",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:109"
+          }
+        },
+        {
+          "clause": "护甲 SRPAttributes.INFDRAGONE_ARMOR = 25.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:111",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:110"
+          }
+        },
+        {
+          "clause": "攻击力 SRPAttributes.INFDRAGONE_ATTACK_DAMAGE = 30.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:112",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:111"
+          }
+        },
+        {
+          "clause": "击退抗性 SRPAttributes.INFDRAGONE_KD_RESISTANCE = 1.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:113",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:112"
+          }
+        },
+        {
+          "clause": "移动速度 0.27",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:120",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:113"
+          }
+        },
+        {
+          "clause": "飞行速度属性 FLYING_SPEED 0.27",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:116",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:114"
+          },
+          "note": "原版 func_110147_ax 只注册 生命/护甲/速度/击退抗性/攻击/跟随范围，1.12.2 无 FLYING_SPEED 属性；project 新增该属性属版本差异"
+        },
+        {
+          "clause": "跟随范围 64.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:123",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:115"
+          }
+        },
+        {
+          "clause": "远程伤害 SRPAttributes.INFDRAGONE_RANGED_ATTACK_DAMAGE = 20.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:114",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:488"
+          },
+          "note": "project shootDragonBreath 对命中目标造成 20.0F"
+        },
+        {
+          "clause": "部件（左右翼/头）生命 = 本体生命 × SRPConfig.tendrilHealth（默认 0.4 → 104）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:89",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:50"
+          },
+          "note": "project 固定 PART_HEALTH = 52.0F（= 260 × 0.2），既不读取 Config.tendrilHealth（src/main/java/alku/csrp/Config.java:59 默认 0.5），也与原版默认 0.4 不同（原版 SRPConfig.java:128 tendrilHealth = 0.4）"
+        },
+        {
+          "clause": "经验 field_70728_aV = SRPAttributes.XP_INFECTED = 8",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:146",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:104"
+          },
+          "note": "project xpReward = 8（构造函数内显式赋值）"
+        },
+        {
+          "clause": "全局 × per-mob 倍率（infdragoneHealth/Damage/Armor/KDResistance/RangeDamageMultiplier）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:1142",
+            "project": null
+          },
+          "note": "原版按 全局倍率 × SRPConfigMobs.infdragone*（SRPConfigMobs.java:486-490，默认 1.0）结算；project createAttributes() 为硬编码字面量，且 Config.java 中未见任何 dragone 相关键（grep -i dragone 无命中）"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "ai",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "targetTasks.addTask(1, EntityAIHurtByTarget(this, true))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:107",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:139"
+          },
+          "note": "project HurtByTargetGoal(1).setAlertOthers()"
+        },
+        {
+          "clause": "tasks.addTask(0, EntityAISwimmingDiving(this, 0.08))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:108",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:131"
+          },
+          "note": "project 无潜水 goal；仅 FlyingPathNavigation.setCanFloat(true)，无 yMotion 0.08 下潜语义"
+        },
+        {
+          "clause": "tasks.addTask(3, EntityAIAttackMeleeStatusAOE(this, 1.9, false, 8.0, 6.0))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:109",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:601"
+          },
+          "note": "project DragonCombatGoal：移动速度 1.35（原版 1.9）、近战触发距离 4.5 格（原版 8.0 格窗口/6.0 AOE 半径），非 AOE 命中"
+        },
+        {
+          "clause": "tasks.addTask(6, AIMoveRandom)：1/7 概率随机飞向空位（距离分级 ±7/±2/±3）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:110",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:596"
+          },
+          "note": "project 仅 setWantedPosition(目标上方 4 格, 0.8)，无随机游荡/距离分级"
+        },
+        {
+          "clause": "tasks.addTask(6, AIFireballAttack)：飞行且有头时每 20 tick 发射 EntityProjectileDragonE（RAGE 时计时翻倍）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:111",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:172"
+          },
+          "note": "project 冷却 40 tick（RANGED_COOLDOWN，:51），改为直接伤害 20 + ToxicCloud，不生成弹体，也无 RAGE 加速"
+        },
+        {
+          "clause": "tasks.addTask(3, EntityAIFlightAttack(this, 64.0))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:112",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:590"
+          },
+          "note": "project 在 DragonCombatGoal 中按距离（>144 或目标高 3 格）起飞、<36 降落，起飞距离阈值与原版 64.0 不同"
+        },
+        {
+          "clause": "tasks.addTask(2, EntityAISkill(this, 60, 32, 7, true, 1))：火焰技能派发",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:113",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:172"
+          },
+          "note": "project 无 EntityAISkill：吐息由 tick 内冷却 40 驱动（原版为 60 冷却 / 32 格窗口 / attID 1）；doSpecialSkill/flame 的 status 10 语义被保留"
+        },
+        {
+          "clause": "构造中移除默认跟随 goal：field_70714_bg.func_85156_a(this.folow)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:83",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:138"
+          },
+          "note": "原版显式移除跟随任务；project 反而注册 ParasiteFollowGoal(6)，方向相反"
+        },
+        {
+          "clause": "继承 EntityMob/EntityParasiteBase 的通用目标选择（EntityAINearestAttackableTarget）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:58",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:140"
+          },
+          "note": "project NearestAttackableTargetGoal<LivingEntity>(2)，isValidParasiteTarget 排除 Parasite 自身；原版的潜行/隐身察觉惩罚（0.8/0.7）未还原"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "name": "behaviors",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "changeStateTo(true)：需左右翼健全，起飞设 parasiteStatus 3、FLYING=true、yMotion 0.5；落地（onGround 且 flying > 40）自动降落",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:311",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:377"
+          },
+          "note": "project canFly()（双翼）门控与 setFlying 一致，但无 yMotion 0.5 起飞冲量、无 onGround>40 tick 自动降落（仅 !canFly() 时强制降落，:165）"
+        },
+        {
+          "clause": "受击时 1/12 概率原地起飞（仅非飞行态）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:221",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:229"
+          },
+          "note": "project random.nextInt(12) == 0 && !isFlying() && canFly()，另加服务端判定"
+        },
+        {
+          "clause": "killcount 恒为 -10（永不进入 feral 判定）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:130",
+            "project": null
+          },
+          "note": "project 无 killcount 字段，亦无 sim_dragone 的 feral 转换路径，压制 feral 的效果由「无该机制」等价达成"
+        },
+        {
+          "clause": "部件生命耗尽：左翼 → EntityTendril(skin 7)、右翼 → EntityTendril(skin 8)、头 → EntityInfDragonEHead(skin 5)，并降落/移除部件",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:240",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:247"
+          },
+          "note": "project 翼 → TendrilEntity(DRAGON_LEFT_WING/DRAGON_RIGHT_WING) 且强制降落；头 → AssimilatedDragonHeadEntity（ModEntities.SIM_DRAGON_HEAD），语义一致"
+        },
+        {
+          "clause": "部件死亡状态同步广播 SRPPacketEntityBodyDead + func_70103_a(11/22/33)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:248",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:250"
+          },
+          "note": "project 用 SynchedEntityData（LEFT_WING_ATTACHED/RIGHT_WING_ATTACHED/HEAD_ATTACHED）替代自定义网络包与 byte 事件，无 11/22/33 事件码"
+        },
+        {
+          "clause": "死亡时移除三个部件实体（func_70106_y）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:292",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:284"
+          },
+          "note": "project 走 1.21 原版 multipart（PartEntity + getParts），随本体移除自动处理"
+        },
+        {
+          "clause": "摔落伤害免疫（func_180430_e 空实现）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:308",
+            "project": null
+          },
+          "note": "project 未覆写 causeFallDamage/fall 相关，落地仍受摔落伤害（飞行时 setNoGravity 仅部分规避）"
+        },
+        {
+          "clause": "flame()：status 10、每 10 tick 发射 EntityProjectileDragonE，limit ≥ 60 结束",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:517",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:471"
+          },
+          "note": "project status 10 + breathStateTimer 40（原版 60 tick/每 10 tick 一发），伤害直挂目标并生成 ToxicCloud，无弹体、无 4.0 格发射偏移与 1016 音效"
+        },
+        {
+          "clause": "selfExplode() / spawnGore() 空实现（原版显式禁用自爆与死亡血肉）",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:353",
+            "project": null
+          },
+          "note": "原版把这两个覆写留空（:353 selfExplode、:357 spawnGore），即原版本无自爆/血肉行为；project 亦未实现，效果一致"
+        },
+        {
+          "clause": "破坏硬度 ≤ 3 的方块（BLOCK_BREAK_RANGE 4、冷却 60 tick、需 mobGriefing）",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:54"
+          },
+          "note": "原版 EntityInfDragonE 类体内无破块逻辑（该类仅实现飞行/部件/火球）；project 新增 tickBlockBreaking（:178-207），属项目扩展而非还原目标"
+        },
+        {
+          "clause": "func_70091_d 覆写：移动后调用 func_145775_I 处理方块碰撞",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:447"
+          },
+          "note": "1.21 Entity.move 默认执行方块碰撞处理，project 无需覆写"
+        },
+        {
+          "clause": "龙蛋同化：吐息范围同化龙蛋",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:54"
+          },
+          "note": "原版 EntityInfDragonE 无龙蛋同化逻辑（其 fireball 命中由 EntityProjectileDragonE 处理）；project 新增 DragonEggAssimilationEntity.assimilateDragonEggs（:484），属项目扩展"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "name": "damage_and_effects",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "火焰倍率 SRPConfig.firemultyplier = 4.0（火伤 ×4）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:790",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:227"
+          },
+          "note": "project hurt() 对 IS_FIRE 伤害 ×4.0F"
+        },
+        {
+          "clause": "近战附加最小伤害 attackEntityAsMobMinimum(MiniDamage)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:858",
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
+          },
+          "note": "经 EntityPInfected 继承链生效：ParasiteCombatEffects.applyMinimumDamage 按科分档穿甲扣血（VIRA 等级 +2 放大）"
+        },
+        {
+          "clause": "伤害上限 SRPConfig.infectedCap（超过即削减并施加 RAGE 200/1）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:87",
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
+          },
+          "note": "damageAfterIncomingCap：maxHealth/cap + 余数 ×0.5 上限 + RAGE 200/1；火焰/虚空不设限"
+        },
+        {
+          "clause": "命中时对目标施加恐惧 FEAR（伤害 > 8 时 1..3 级，200~500 tick）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:168",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:219"
+          },
+          "note": "project doHurtTarget 调用 ParasiteCombatEffects.applyFearFromDamage"
+        },
+        {
+          "clause": "命中时施加 COTH（SRPConfigSystems.cothInfected = 0.1 概率）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:91",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:220"
+          },
+          "note": "project 命中 100% 调用 InfectionMechanics.applyCoth，未使用概率掷骰"
+        },
+        {
+          "clause": "药水免疫：COTH/VIRA/CORRO/DLER 不可被施加到寄生体自身（func_70687_e）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1084",
+            "project": "src/main/java/alku/csrp/event/StatusEffectEvents.java"
+          },
+          "note": "preventParasiteStatusApplication 对 Parasite 实现类统一拦截"
+        },
+        {
+          "clause": "Boss 血条随生命更新 + 受击者加入 Boss 追踪",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:193",
+            "project": null
+          },
+          "note": "project 无 ServerBossEvent，func_70619_bc 的进度同步与 func_184203_c 的玩家加入均无对应实现"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "sync_data",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "DataManager.register FLYING (boolean)，默认 true",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:55",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:72"
+          },
+          "note": "project 默认 false（:122），原版 FieldInitializer 默认 true（:456）；同步项本身一致"
+        },
+        {
+          "clause": "DataManager.register ATTACKING (boolean)：攻击动画标志",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:67",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:121"
+          },
+          "note": "project 未单独同步 ATTACKING，用 PARASITE_STATUS == 1（attackStateTimer 20 tick）表达攻击动画"
+        },
+        {
+          "clause": "DataManager.register VEX_FLAGS (byte) + getVexFlag/setVexFlag 位掩码",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:66",
+            "project": null
+          },
+          "note": "project 无 vex 位掩码同步项；原版该字段及其读写方法为死代码（仅 :460/:465 定义，无调用点）"
+        },
+        {
+          "clause": "parasiteStatus 状态机 3（飞行）/10（吐息）经 SPECIAL(byte) 同步",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:134",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:70"
+          },
+          "note": "project PARASITE_STATUS(INT) 表达 0/1/2/3/10；setParasiteStatus(3) 于起飞、10 于吐息，与原版调用点一致"
+        },
+        {
+          "clause": "部件生命以 func_70103_a(11/22/33) 客户端清零 + NBT parasiteleftTendril/parasiterightTendril 持久化",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:435",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:74"
+          },
+          "note": "project 用三个 boolean（HEAD/LEFT_WING/RIGHT_WING_ATTACHED）替代部件血量同步与 11/22/33 事件码；NBT 键名改为 head_health/left_wing_health/right_wing_health（:292-294）"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "animation",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "飞行时肢体摆动改用 getaaa() 驱动（func_78087_a 中 limbSwing = parasite.getaaa()）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "client/model/entity/infected/ModelInfDragonE.java:1640",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:67"
+          },
+          "note": "project 以 AGE_FLYING = \"func_78087_a.age_in_ticks.get_flying_state_1\" 播放飞行循环（Citadel 提取动画），而非运行时替换 limbSwing；原版 aaa/sss 计时器（:164/:165）未还原"
+        },
+        {
+          "clause": "status 10（吐息）使用独立姿势",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "client/model/entity/infected/ModelInfDragonE.java:1728",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:320"
+          },
+          "note": "project status == 10 → AGE_STATUS_10 = \"func_78087_a.age_in_ticks.get_parasite_status_10\""
+        },
+        {
+          "clause": "部件可见性由 getLeft()/getRight()/getHead() == 0 控制（jointLW1/jointRW1/jointN4）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "client/model/entity/infected/ModelInfDragonE.java:1637",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:540"
+          },
+          "note": "project 通过 PartEntity.isPickable()（DragonBodyPart）按 attached 布尔隐藏命中箱，几何体可见性由 geo/动画文件处理，无 joint*_k 逐关节隐藏"
+        },
+        {
+          "clause": "起飞过渡动画 getaaa.get_flying_state_1",
+          "verdict": "partial",
+          "evidence": {
+            "original": "client/model/entity/infected/ModelInfDragonE.java:1640",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:69"
+          },
+          "note": "project TAKEOFF 动画时长固定 20 tick（TAKEOFF_ANIMATION_TICKS，:92），原版 aaa 从 0 累积到 24 的自然过渡（:164/:166）未复刻"
+        },
+        {
+          "clause": "近战/游泳 status 1、2 的肢体动画分支",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "client/model/entity/infected/ModelInfDragonE.java:1728",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:336"
+          },
+          "note": "project movement_controller 按 status 1/2 切换 LIMB_STATUS_1/LIMB_STATUS_2"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "name": "model_texture",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "模型 ModelInfDragonE（1.12 Java 模型）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "client/model/entity/infected/ModelInfDragonE.java:1",
+            "project": "src/main/resources/assets/csrp/geo/sim_dragone.geo.json:1"
+          },
+          "note": "project 使用等价几何体 geo 文件 + Citadel 模型"
+        },
+        {
+          "clause": "实体贴图 infdragone.png",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "client/renderer/entity/infected/RenderInfDragonE.java:10",
+            "project": "src/main/resources/assets/csrp/textures/entity/sim_dragone.png:1"
+          },
+          "note": "贴图改名 sim_dragone.png，内容等价"
+        },
+        {
+          "clause": "渲染阴影半径 1.2F",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "client/renderer/entity/infected/RenderInfDragonE.java:13",
+            "project": "src/main/java/alku/csrp/client/ClientModEvents.java:206"
+          },
+          "note": "project PrimitiveParasiteRenderer<>(context, \"sim_dragone\", 1.2F) 与之一致"
+        },
+        {
+          "clause": "翼部件模型 ModelTendrilDragonELW / ModelTendrilDragonERW",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "client/model/entity/misc/ModelTendrilDragonELW.java:1",
+            "project": "src/main/resources/assets/csrp/geo/tendril_dragonelw.geo.json:1"
+          },
+          "note": "project 配套 tendril_dragonelw.geo.json / tendril_dragonerw.geo.json"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "sounds",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "环境音：状态非 0 时 SRPSounds.MOBSILENCE，否则同样 MOBSILENCE（原版两者相同）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:361",
+            "project": null
+          },
+          "note": "project 未覆写 getAmbientSound，也未见 sim_dragone 的音效档案（grep -i dragon 在 ParasiteSoundProfiles.java/sounds.json 无命中）；Mob 默认返回 null，效果近似静音但无显式映射"
+        },
+        {
+          "clause": "受伤音 SoundEvents.field_187526_aP（末影龙受伤音）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:365",
+            "project": null
+          },
+          "note": "project 未覆写 getHurtSound；ParasiteSoundProfiles 无 sim_dragone 条目，受伤时静音"
+        },
+        {
+          "clause": "死亡音 SRPSounds.MOBSILENCE",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:373",
+            "project": null
+          },
+          "note": "project 未覆写 getDeathSound → 默认 null（静音），与原版 MOBSILENCE 实际效果一致，但无显式实现"
+        },
+        {
+          "clause": "音量 func_70599_aP = 5.0F（环境音音量）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:369",
+            "project": null
+          },
+          "note": "project 无音量覆写（1.21 的 SoundSource/音量由播放侧决定）"
+        },
+        {
+          "clause": "脚步声 SoundEvents.field_187823_fN，音量 0.15F",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:377",
+            "project": null
+          },
+          "note": "project 未覆写 getStepSound/playStepSound"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "name": "spawning",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "SRPSpawning.addSpawn(0, EntityInfDragonE.class, 3, 6, biome, infdragoneSpawnRate = 2, infdragoneEnabled)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:162",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:386"
+          },
+          "note": "project spawn(\"sim_dragone\", 1, 1, 1)：权重 1、组大小 1-1（原版权重 2、组 3-6）"
+        },
+        {
+          "clause": "仅晚期阶段表（latePhase 的 dragon 分支）纳入生成",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:556",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:384"
+          },
+          "note": "project 以 latePhase(boolean dragon, ...) 条件分支实现阶段门控，与原版 canSpawninPhase 阈值语义等价"
+        },
+        {
+          "clause": "同化生成配额 canSpawnByIDData = SRPConfigMobs.infdragoneCanSpawnAssimilatedNat（默认 -1）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:103",
+            "project": null
+          },
+          "note": "project 无 per-mob 同化配额（原版默认值 -1 见 SRPConfigMobs.java:492）"
+        },
+        {
+          "clause": "刷怪蛋/启用开关 SRPConfigMobs.infdragoneEnabled",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:493",
+            "project": null
+          },
+          "note": "project 无该开关（Config.java 无 dragone 键）"
+        },
+        {
+          "clause": "自然生成合法性 func_70601_bi（光照/难度/天数）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1553",
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
+          },
+          "note": "ParasiteCombatRules.enforceLegacySpawnValidity + SpawnLightChecks 统一套用到寄生体自然生成（含 sim_dragone）"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "name": "loot",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "配置掉落列表 SRPConfigMobs.infdragoneLoot（默认空数组，可配置 <item>;<chance>;<count>;<...>）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:494",
+            "project": "src/main/resources/data/csrp/loot_table/entities/sim_dragone.json:1"
+          },
+          "note": "原版默认空列表（默认无掉落，由配置驱动）；project 固定掉落 csrp:assimilated_flesh，数量 uniform 1-3、100% 概率"
+        },
+        {
+          "clause": "经验 8（XP_INFECTED）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:146",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:104"
+          },
+          "note": "project xpReward = 8，与原版一致"
+        },
+        {
+          "clause": "掉落注册表名（deathLootTable 默认路径）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:261",
+            "project": "src/main/resources/data/csrp/loot_table/entities/sim_dragone.json:1"
+          },
+          "note": "project 通过 1.21 实体战利品表目录按注册 id 自动挂载"
+        }
+      ],
+      "confidence": "medium"
+    }
+  ]
+}
