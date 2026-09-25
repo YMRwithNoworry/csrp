@@ -3030,3 +3030,19 @@ protected void playStepSound(BlockPos pos, BlockState state) {
 ① 眼高：1.21 把方法改成 `final`，值只能经注册参数传（机制在、路径变）；
 ② 步声：事件与范式都在，只是头部没调用（资源在、接线缺）。
 这类缺口的共同特征是**编译与运行都不报错**，只能靠审计发现。
+
+## 批次 191：验收第五批两份产出（`sim_horsehead` / `sim_villagerhead`）（2026-09-25 续）
+
+| 产出 | 条款 | 满意/部分/缺失/不适用 |
+| --- | --- | --- |
+| `sim_horsehead` | 66 | 33 / 20 / 7 / 6 |
+| `sim_villagerhead` | 66 | 34 / 19 / 10 / 3 |
+
+结构规范（各 11 facet、双侧 `路径:行号` 引文齐备）。**实测两条引文**：
+
+```
+✔ 原版 SRPEntities.java 确含 CreateEntityMob("sim_horsehead"…
+✔ 端口 ModEntities.java 确含 sim_villagerhead
+```
+
+⇒ 予以采纳。**委派产出累积验收 11 份**（约 876 条条款），全部通过"结构一致 + 抽样实测引文"两道检查。

@@ -1,6 +1,6 @@
 # 生物部分还原度基线
 
-> 生成时间：2026-09-25T06:37:43.817Z
+> 生成时间：2026-09-25T06:38:35.557Z
 > 事实来源：`D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites`（SRParasites 1.10.9，生物部分与 1.10.8 一致）
 > 本工程：`D:/code/MC模组/csrp`（MC 26.3 / NeoForge 26.3，分支 `port-26.3`）
 
@@ -14,25 +14,25 @@
 
 ## 总体基线
 
-- 覆盖：**25/127** 只生物已出条款级审计
-- 条款：满足 **1246**、部分 **590**、缺失 **355**（另有 103 条判定为不适用）
-- **加权完成度：70.3%**
+- 覆盖：**26/127** 只生物已出条款级审计
+- 条款：满足 **1279**、部分 **610**、缺失 **362**（另有 109 条判定为不适用）
+- **加权完成度：70.4%**
 
 ## 分面基线
 
 | 面 | 满足 | 部分 | 缺失 | 完成度 |
 | --- | ---: | ---: | ---: | ---: |
-| 注册 | 136 | 65 | 55 | 65.8% |
-| 属性 | 180 | 42 | 12 | 85.9% |
-| AI | 147 | 138 | 34 | 67.7% |
-| 行为 | 239 | 116 | 71 | 69.7% |
-| 伤害/效果 | 163 | 21 | 21 | 84.6% |
-| 同步数据 | 48 | 49 | 53 | 48.3% |
-| 动画 | 98 | 21 | 9 | 84.8% |
-| 模型/贴图 | 81 | 6 | 22 | 77.1% |
-| 音效 | 62 | 40 | 28 | 63.1% |
-| 生成 | 71 | 52 | 29 | 63.8% |
-| 掉落 | 21 | 40 | 21 | 50% |
+| 注册 | 141 | 68 | 57 | 65.8% |
+| 属性 | 186 | 43 | 13 | 85.7% |
+| AI | 152 | 143 | 34 | 67.9% |
+| 行为 | 240 | 120 | 72 | 69.4% |
+| 伤害/效果 | 167 | 22 | 21 | 84.8% |
+| 同步数据 | 50 | 50 | 55 | 48.4% |
+| 动画 | 102 | 22 | 9 | 85% |
+| 模型/贴图 | 83 | 6 | 22 | 77.5% |
+| 音效 | 64 | 42 | 28 | 63.4% |
+| 生成 | 72 | 53 | 30 | 63.5% |
+| 掉落 | 22 | 41 | 21 | 50.6% |
 
 ## 完成度最低的 20 只（补齐队列起点）
 
@@ -52,12 +52,12 @@
 | `sim_human` | EntityInfHuman | SimHumanEntity | 70.9% | 65/26/19 |
 | `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | 71% | 52/28/13 |
 | `sim_adventurer` | EntityInfPlayer | SimAdventurerEntity | 71.4% | 54/22/15 |
+| `sim_horsehead` | EntityInfHorseHead | AssimilatedHeadEntity | 71.7% | 33/20/7 |
 | `sim_wolfhead` | EntityInfWolfHead | AssimilatedHeadEntity | 74.2% | 36/17/7 |
 | `sim_cowhead` | EntityInfCowHead | AssimilatedHeadEntity | 74.2% | 36/17/7 |
 | `sim_pighead` | EntityInfPigHead | AssimilatedHeadEntity | 74.2% | 36/17/7 |
 | `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | 74.3% | 65/29/13 |
 | `sim_bigspider` | EntityDorpa | AssimilatedVariantEntity | 75% | 61/25/12 |
-| `sim_cow` | EntityInfCow | AssimilatedParasiteEntity | 75% | 64/31/11 |
 
 ## 已知前提与风险
 
