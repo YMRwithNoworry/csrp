@@ -447,6 +447,12 @@ expect(read("src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java"),
   /arachnidaKnockbackResistance\(\)[\s\S]{0,60}?arachnidaKnockbackMultiplier\(\)/,
   "the primitive arachnida knockback multiplier is not stacked");
 
+// the primitive bolster multipliers now stack on its configured base values
+expect(read("src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java"),
+  /bolsterHealth\(\) \* MobsConfig\.bolsterHealthMultiplier\(\)/,
+  "the bolster health multiplier is not stacked");
+expect(mobsConfig, /public static double bolsterKnockbackMultiplier\(\)/, "the bolster accessors are missing");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

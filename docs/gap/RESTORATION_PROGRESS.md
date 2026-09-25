@@ -910,3 +910,16 @@ strict: 50 known backlog key(s), 0 new ones.      # 当前输出；退出码 0
 
 同时把"dangling 访问器"降级为**提示信息**：解析器不建模 `PREEMINENT_FOLLOW`/`PURE_FOLLOW` 这类
 经其它 helper 声明的常量，若当失败处理会产生假阳性（本轮实测 3 条，代码本身可正常编译）。
+
+## 批次 60：primitive bolster 倍率接线（backlog 50 → 46）（2026-09-25 续）
+
+按批次 58 审计脚本给出的**实证常量名**（`BOLSTER_HEALTH_MULTIPLIER` 等，非我先前误用的 `PRIMITIVE_BOLSTER_*`）：
+`MobsConfig` 加 4 个访问器；`PrimitiveVariantEntity` 的 `case BOLSTER` 由「只用 `bolster*` 基础值」
+改为「基础值 × 倍率」（击退抗性夹取 1.0）；并把 `BOLSTER_` 从 `--strict` 白名单划掉。
+
+```
+$ node scripts/audit-mob-multipliers.cjs --strict
+strict: 46 known backlog key(s), 0 new ones.      # 由 50 降至 46
+```
+
+这标志着 12 组死键 backlog 的**第一组下线**；后续每组按同一流程（查审计脚本给的名字 → 访问器 → case 叠加 → 白名单划掉）即可稳定推进。

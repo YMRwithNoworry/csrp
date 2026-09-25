@@ -218,6 +218,13 @@ public final class MobsConfig {
     public static double arachnidaArmorMultiplier() { return ARACHNIDA_ARMOR_MULTIPLIER.get(); }
     public static double arachnidaKnockbackMultiplier() { return ARACHNIDA_KNOCKBACK_MULTIPLIER.get(); }
 
+    // Legacy SRPConfigMobs primitive bolster multipliers (keys had no reachable reader; the constant
+    // names below are the ones verified by scripts/audit-mob-multipliers.cjs).
+    public static double bolsterHealthMultiplier() { return BOLSTER_HEALTH_MULTIPLIER.get(); }
+    public static double bolsterDamageMultiplier() { return BOLSTER_DAMAGE_MULTIPLIER.get(); }
+    public static double bolsterArmorMultiplier() { return BOLSTER_ARMOR_MULTIPLIER.get(); }
+    public static double bolsterKnockbackMultiplier() { return BOLSTER_KNOCKBACK_MULTIPLIER.get(); }
+
     public static double infsheepHealthMultiplier() { return INFSHEEP_HEALTH_MULTIPLIER.get(); }
     public static double infsheepDamageMultiplier() { return INFSHEEP_DAMAGE_MULTIPLIER.get(); }
     public static double infsheepArmorMultiplier() { return INFSHEEP_ARMOR_MULTIPLIER.get(); }

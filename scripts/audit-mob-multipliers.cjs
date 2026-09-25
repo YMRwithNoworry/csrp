@@ -57,7 +57,7 @@ if (dangling.length) {
 // backlog fails the run, so a newly added dead key cannot slip in unnoticed. The allowlist is the
 // parsed backlog itself (see the group names above) - shrink it as groups get wired up.
 const KNOWN_UNWIRED_GROUPS = [
-  "BOLSTER_", "BURROWER_", "DEVOURER_", "MANDUCATER_", "REEKER_", "TOZOON_", "VISCERA_", "YELLOWEYE_",
+  "BURROWER_", "DEVOURER_", "MANDUCATER_", "REEKER_", "TOZOON_", "VISCERA_", "YELLOWEYE_",
   "JINJO_", "OVERSEER_", "VIGILANTE_", "WARDEN_"
 ];
 if (process.argv.includes("--strict")) {
