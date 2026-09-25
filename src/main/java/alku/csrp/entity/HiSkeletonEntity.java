@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModEntities;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -32,7 +33,13 @@ public final class HiSkeletonEntity extends HijackedParasiteEntity {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return HijackedParasiteEntity.createAttributes(27.0D, 8.0D, 17.0D, 0.9D, 0.205D, 48.0D);
+        // Legacy SRPConfigMobs.hiskeleton* per-mob multipliers (default 1.0F in the original).
+        return HijackedParasiteEntity.createAttributes(
+                27.0D * MobsConfig.hiskeletonHealthMultiplier(),
+                8.0D * MobsConfig.hiskeletonArmorMultiplier(),
+                17.0D * MobsConfig.hiskeletonDamageMultiplier(),
+                Math.min(1.0D, 0.9D * MobsConfig.hiskeletonKnockbackMultiplier()),
+                0.205D, 48.0D);
     }
 
     @Override

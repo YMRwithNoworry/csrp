@@ -391,6 +391,16 @@ for (const [pattern, message] of [
 ]) expect(longarmsSpawn, pattern, message);
 expect(mobsConfig, /public static double shycoHealthMultiplier\(\)/, "the shyco accessors are missing");
 
+// legacy SRPConfigMobs.hiskeleton* multipliers are read by the hijacked skeleton
+const hiskeletonSpawn = read("src/main/java/alku/csrp/entity/HiSkeletonEntity.java");
+for (const [pattern, message] of [
+  [/27\.0D \* MobsConfig\.hiskeletonHealthMultiplier\(\)/, "the skeleton health multiplier is not read"],
+  [/17\.0D \* MobsConfig\.hiskeletonDamageMultiplier\(\)/, "the skeleton damage multiplier is not read"],
+  [/8\.0D \* MobsConfig\.hiskeletonArmorMultiplier\(\)/, "the skeleton armor multiplier is not read"],
+  [/0\.9D \* MobsConfig\.hiskeletonKnockbackMultiplier\(\)/, "the skeleton knockback multiplier is not read"]
+]) expect(hiskeletonSpawn, pattern, message);
+expect(mobsConfig, /public static double hiskeletonHealthMultiplier\(\)/, "the hiskeleton accessors are missing");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

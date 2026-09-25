@@ -789,3 +789,13 @@ infsheep/infwolf/infvillager` 系列，默认值全 1.0F）。
 **账面未变**（该生物审计中的相关条款措辞与匹配式不符，dry-run 0 命中），属行为保真度补全；断言 5 条。
 本线已覆盖 8 只：dorpa / infcow / infsheep / infwolf / infsquid / infhuman / fervillager / shyco。
 剩余候选（键名待核对）：`buglin`、`hiskeleton`、`host`、`speCow`(mar_cow)、`beckon*`。
+
+## 批次 50：hi_skeleton（hiskeleton）的 per-mob 倍率接线（2026-09-25 续）
+
+键名 `hiskeleton*`（`SRPConfigMobs:671` 确认，默认 1.0F）：`MobsConfig` 补 4 项 + 4 个访问器；
+`HiSkeletonEntity.createAttributes`（委托 `HijackedParasiteEntity.createAttributes(生命, 护甲, 攻击, 击退, 速度, 跟随)`）
+改为按四项乘基础值 27/8/17/0.9（击退夹取 1.0）。
+校验：断言 5 条；审计记账 1 条，满足 694 → **695**，缺失 257 → **256**，加权 **66.6%**。
+
+本线已覆盖 9 只：dorpa / infcow / infsheep / infwolf / infsquid / infhuman / fervillager / shyco / hiskeleton。
+剩余候选键名已确认：`host*`（host）、`marcow*`（mar_cow）；`buglin`/`beckon` 未在 `SRPConfigMobs` 中找到同名键。

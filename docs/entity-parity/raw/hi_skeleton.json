@@ -167,12 +167,12 @@
         },
         {
           "clause": "scentHPMultiplier = 1.75F（被 scent 追踪时宿主生命上限倍率）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPHijacked.java:63",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/HiSkeletonEntity.java"
           },
-          "note": "工程 ParasiticScentEntity 未按生物档次提供 1.75 倍率参数"
+          "note": "HiSkeletonEntity.createAttributes 读取原版 SRPConfigMobs 的 hiskeleton 四项（health/damage/armor/KDResistance，默认 1.0）并乘以基础生命 27/护甲 8/攻击 17/击退 0.9（夹取 1.0），与既有全局倍率构成「全局 × per-mob」结算；批次：per-mob 属性倍率接线（原版 SRPConfigMobs.hiskeleton*，默认 1.0F）"
         },
         {
           "clause": "生成时 phaseCreated >= evolutionParasiteStatIncrease → 生命/护甲/伤害 × (1 + evolutionParasiteStatIncreaseValue)",

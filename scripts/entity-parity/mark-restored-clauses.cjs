@@ -610,6 +610,19 @@ const BATCHES = {
         detail: "LongarmsEntity.createAttributes 读取原版 SRPConfigMobs 的 shyco 四项（health/damage/armor/KDResistance，默认 1.0）并相乘基础生命 45/护甲 9/攻击 15/击退 0.7（夹取 1.0），与既有全局倍率构成「全局 × per-mob」结算"
       }
     ]
+  },
+  // 批次 50：hi_skeleton（hiskeleton）的 per-mob 属性倍率接线
+  "per-mob-multipliers-hiskeleton": {
+    note: "批次：per-mob 属性倍率接线（原版 SRPConfigMobs.hiskeleton*，默认 1.0F）",
+    mobs: ["hi_skeleton"],
+    clauses: [
+      {
+        match: /per-mob|倍率/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/HiSkeletonEntity.java",
+        detail: "HiSkeletonEntity.createAttributes 读取原版 SRPConfigMobs 的 hiskeleton 四项（health/damage/armor/KDResistance，默认 1.0）并乘以基础生命 27/护甲 8/攻击 17/击退 0.9（夹取 1.0），与既有全局倍率构成「全局 × per-mob」结算"
+      }
+    ]
   }
 };
 

@@ -296,6 +296,25 @@ public final class MobsConfig {
     public static double shycoArmorMultiplier() { return SHYCO_ARMOR_MULTIPLIER.get(); }
     public static double shycoKnockbackMultiplier() { return SHYCO_KNOCKBACK_MULTIPLIER.get(); }
 
+    // Legacy SRPConfigMobs.hiskeleton* (the hijacked skeleton).
+    private static final ModConfigSpec.DoubleValue HISKELETON_HEALTH_MULTIPLIER = value(
+            "srparasites:hiskeleton", "hiskeletonHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for the hijacked skeleton.");
+    private static final ModConfigSpec.DoubleValue HISKELETON_DAMAGE_MULTIPLIER = value(
+            "srparasites:hiskeleton", "hiskeletonDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Attack-damage multiplier for the hijacked skeleton.");
+    private static final ModConfigSpec.DoubleValue HISKELETON_ARMOR_MULTIPLIER = value(
+            "srparasites:hiskeleton", "hiskeletonArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for the hijacked skeleton.");
+    private static final ModConfigSpec.DoubleValue HISKELETON_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:hiskeleton", "hiskeletonKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
+            "Knockback-resistance multiplier for the hijacked skeleton.");
+
+    public static double hiskeletonHealthMultiplier() { return HISKELETON_HEALTH_MULTIPLIER.get(); }
+    public static double hiskeletonDamageMultiplier() { return HISKELETON_DAMAGE_MULTIPLIER.get(); }
+    public static double hiskeletonArmorMultiplier() { return HISKELETON_ARMOR_MULTIPLIER.get(); }
+    public static double hiskeletonKnockbackMultiplier() { return HISKELETON_KNOCKBACK_MULTIPLIER.get(); }
+
     public static double dorpaHealthMultiplier() { return DORPA_HEALTH_MULTIPLIER.get(); }
     public static double dorpaDamageMultiplier() { return DORPA_DAMAGE_MULTIPLIER.get(); }
     public static double dorpaArmorMultiplier() { return DORPA_ARMOR_MULTIPLIER.get(); }
