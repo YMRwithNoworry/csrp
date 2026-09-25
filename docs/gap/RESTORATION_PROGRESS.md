@@ -1219,3 +1219,20 @@ EntityDod / EntityLeem / EntityVenkrol : XP_INFECTED * 2
 **结论**：端口把经验写成逐类硬编码字面量（如 `AssimilatedDragon 300`、`Enderman 24`、`DragonHead 40`）本身不是错，
 但要判断其对错，必须**先定位每类在原版的表达式**（`XP_X * n`），而非拿档次基准值去套——
 这正是本轮不改数值的原因（上一轮 turret 已因同类理由留手）。下一批按"逐类找原版表达式"推进。
+
+## 批次 84：XP 线收束与交接（2026-09-25 续）
+
+按"逐类找原版表达式"推进时，`EntityInfDragonE`/`EntityInfEnderman`/`EntityInfDragonEHead`/`EntityInfHumanHead`
+四个类名在 `_srp-orig` 路径下**均未命中**（`find` 无结果 ⇒ 类名不同或 XP 赋值在别处）。至此 XP 线告一段落：
+
+**已完成且验证一致**（按档次常量）：
+`infected 8` ✅、`feral 16` ✅、`primitive 30` ✅、`hijacked 11` ✅、`adapted 55` ✅、`ancient 5000` ✅、
+`pure 75` ✅、`preeminent 200` ✅、`derived 350` ✅；`XP_LiTTLE = infectedXPValue / 2 = 4`（已查清，端口尚未见对应实现）。
+
+**剩余未核对**（需先解决类名/赋值点定位）：
+- 同化族特例：`AssimilatedDragon 300`、`AssimilatedDragonHead 40`、`AssimilatedEnderman 24`；
+- turret 档（75）对应的原版使用类；
+- `XP_LiTTLE`(4) 是否在端口有小体型生物需要该值。
+
+**下一批建议的定位手法**（本轮已验证 `find -name` 不够）：改从原版**赋值点**反查——
+`grep -rn "field_70728_aV" <decomp>/entity | grep -i dragon`，或先列出 `entity/monster/infected/` 目录真实类名。
