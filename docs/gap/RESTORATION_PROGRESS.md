@@ -4091,3 +4091,24 @@ primitive Shyco 生命 45（批次 232 提取） + adapted 附加 50 = 95   ⇔ 
 
 **方法论**：本轮把"9 项不一致"缩减为"**公式已确认 + 3 类具体差异**"——**先修正自己的方法，再逐项定位真实差异**，
 这正是批次 237 的价值兑现 ✔。
+
+## 批次 245：VERMIN/BURROWER 差异**仍未定位**（附加键已确认）（2026-09-25 续）
+
+```
+原版 SRPConfigMobs:69    zaaadaptedhealth = 50.0F      （Zaa = pri_burrower）
+原版 SRPConfigMobs:709   ikiadaptedhealth = 70.0F      （Iki = pri_vermin）
+原版 SRPConfigMobs:729   wymoadaptedhealth = 70.0F     （Wymo = pri_tozoon）
+```
+
+结合批次 232 的基值（ZAA 45、IKI 45、WYMO 45）：
+- BURROWER 应为 45 + 50 = **95** ✗ vs 端口 **115** ✗
+- VERMIN 应为 45 + 70 = **115** ✗ vs 端口 **70** ✗
+- TOZOON 应为 45 + 70 = **115** ✔ = 端口 115 ✔
+
+**观察**：端口的 **BURROWER 115** 恰等于 **VERMIN 应有的 115** ✗，而端口的 **VERMIN 70** 恰等于 **IKI 的附加值 70** ✗
+⇒ **疑为端口表在该两行发生错位/取值来源不同** ✗（例如 BURROWER 行取了 TOZOON/VERMIN 的值、VERMIN 行取了"附加"而非"基值+附加" ✗）。
+
+**但本轮不下结论**（纪律）：需先**完整读出端口该两行的实际代码**（本轮 grep 未命中，疑为匹配式问题 ✗ —— 这正是批次 234 记录过的"工具未命中先怀疑匹配式"），
+再与计算值比对后定性 ✔。
+
+**下一批**：用更简单的匹配式重读端口 adapted 表的 VERMIN/BURROWER 两行（含上下文），确认是"值错"还是"我的映射错"。
