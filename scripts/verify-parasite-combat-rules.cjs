@@ -453,6 +453,14 @@ expect(mobsConfig, /public static double tozoonKnockbackMultiplier\(\)/, "the to
 // the heavy bomber stacks its original jinjo* multipliers
 expect(mobsConfig, /public static double heavyBomberHealthMultiplier\(\)/, "the heavyBomber accessors are missing");
 
+// Legacy SRPConfig.infectedFollow = 16: every assimilated kind uses a 16 block follow range
+const assimilatedKinds = read("src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java");
+for (const kind of ["sim_bear", "sim_cow", "sim_pig", "sim_sheep", "sim_wolf", "sim_squid"]) {
+  if (!new RegExp(kind + "\", [0-9.]+D, [0-9.]+D, [0-9.]+D, [0-9.]+D, [0-9.]+D, 16\\.0D").test(assimilatedKinds)) {
+    failures.push(`${kind} must use the legacy 16 block follow range`);
+  }
+}
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

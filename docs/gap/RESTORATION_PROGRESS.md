@@ -1094,3 +1094,13 @@ HOST_HEALTH_MULTIPLIER        : 382 声明 / 395 我的直通访问器
 - ✅ 正确且单次应用：dorpa / infcow / infsheep / infwolf / infsquid / infhuman / fervillager / shyco / hiskeleton / marcow / host（11 只）；
 - ✅ 已回退双重乘算：primitive 六例 + adapted arachnida + preeminent heavyBomber；
 - ✅ 配置面所有倍率键均可达（`audit --strict` = 0）。
+
+## 批次 73：同化族跟随范围对齐原版 `infectedFollow = 16`（2026-09-25 续）
+
+用新脚本 `scripts/entity-parity/cluster-gaps.cjs` 对剩余缺口重新聚类（missing 255 / partial 371），
+按其输出挑出证据明确、改动最小的一项：条款「跟随范围 SRPConfig.infectedFollow = 16」（6 条 partial）。
+
+`AssimilatedParasiteEntity.Kind` 的 followRange 原为 32/24（按体型自定），与原版统一值 16 不符 ⇒ 六种全部改为 `16.0D`。
+
+**记账从宽不发**：该条款是 partial，除跟随范围外可能还捆绑其它子项，故本轮**不翻转**，只把数值对齐并加断言
+（6 条：每种 kind 的 followRange 必须为 16.0D）。聚类脚本已沉淀（`cluster-gaps.cjs`），后续选靶有据可依。
