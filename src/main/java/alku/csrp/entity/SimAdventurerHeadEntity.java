@@ -161,6 +161,11 @@ public final class SimAdventurerHeadEntity extends Monster implements CitadelAni
         float healthBefore = target instanceof LivingEntity living
                 ? ParasiteCombatEffects.healthWithAbsorption(living) : 0.0F;
         boolean hit = super.doHurtTarget(target);
+        // Legacy EntityParasiteBase:845 / EntityPInfected:168: on-hit COTH and FEAR, as the sibling head class does.
+        if (hit && !level().isClientSide && target instanceof LivingEntity livingTarget) {
+            ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
+            InfectionMechanics.applyCoth(livingTarget, this);
+        }
         if (hit && !level().isClientSide) {
             if (target instanceof LivingEntity living) {
                 applyMinimumDamage(living, healthBefore);

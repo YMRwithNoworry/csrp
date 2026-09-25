@@ -3583,3 +3583,18 @@ goalSelector.addGoal(0, new ParasiteSkillGoal(this, 14, new LeapSkill(this, 0.7F
 **复用价值**：批次 179 为兄弟类新写的 `LeapSkill`（含 `skillLeap` 的完整语义）**无需任何修改即可用于本类** ✔
 ——这正是当初"追证据链追到底、按原版语义实现"的回报：**实现得越贴近原版语义，跨类复用的成本越低**。
 断言 1 条；`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+## 批次 222：`SimAdventurerHeadEntity` 命中 COTH + FEAR 接线（2026-09-25 续）
+
+第七批委派指出该头部缺"命中 COTH 与 FEAR"（原版 `EntityParasiteBase:845` / `EntityPInfected:168`），
+而兄弟类 `AssimilatedHeadEntity:247-250` 已有。实读后发现该头部**已有 `healthBefore` 与命中块**（只是只做最小伤害）✗，
+遂在 `super.doHurtTarget` 之后补同一写法：
+
+```java
+if (hit && !level().isClientSide && target instanceof LivingEntity livingTarget) {
+    ParasiteCombatEffects.applyFearFromDamage(livingTarget, healthBefore, this);
+    InfectionMechanics.applyCoth(livingTarget, this);
+}
+```
+
+断言改为**遍历两个头部类**校验（与批次 220 的"范围化断言"同一思路 ✔）；`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。

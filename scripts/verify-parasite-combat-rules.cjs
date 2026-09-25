@@ -605,6 +605,13 @@ expect(read("src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java"),
   /new ParasiteSkillGoal\(this, 14, new LeapSkill\(this, 0\.7F, 2\.5D, 0\), 40, 100, 3, true\)/,
   "the adventurer head leap skill is not registered");
 
+// Legacy heads apply on-hit COTH and FEAR in every head class (EntityParasiteBase:845 / EntityPInfected:168).
+for (const f of ["AssimilatedHeadEntity", "SimAdventurerHeadEntity"]) {
+  const src = read("src/main/java/alku/csrp/entity/" + f + ".java");
+  expect(src, /applyFearFromDamage/, f + " does not apply FEAR on hit");
+  expect(src, /applyCoth/, f + " does not apply COTH on hit");
+}
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));
