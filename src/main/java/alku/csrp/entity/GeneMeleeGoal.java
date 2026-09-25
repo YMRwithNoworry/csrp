@@ -25,11 +25,19 @@ public final class GeneMeleeGoal extends Goal {
     private static final double SPRINT_MULTIPLIER = 1.3D;
 
     private final Mob mob;
+    /** Legacy per-mob attackSpeedT; defaults to the family base of 20 ticks. */
+    private final int attackIntervalTicks;
     private final double baseSpeed;
     private final boolean requireLineOfSight;
     private int attackCooldown;
 
     public GeneMeleeGoal(Mob mob, double baseSpeed, boolean requireLineOfSight) {
+        this(mob, baseSpeed, requireLineOfSight, BASE_ATTACK_INTERVAL_TICKS);
+    }
+
+    /** @param attackIntervalTicks legacy attackSpeedT (heads use 15). */
+    public GeneMeleeGoal(Mob mob, double baseSpeed, boolean requireLineOfSight, int attackIntervalTicks) {
+        this.attackIntervalTicks = Math.max(1, attackIntervalTicks);
         this.mob = mob;
         this.baseSpeed = baseSpeed;
         this.requireLineOfSight = requireLineOfSight;
@@ -80,9 +88,9 @@ public final class GeneMeleeGoal extends Goal {
         float multiplier = mob.level() instanceof ServerLevel serverLevel
                 ? EvolutionSystem.generationProfile(serverLevel).attackSpeedMultiplier() : 1.0F;
         if (multiplier <= 0.0F) {
-            return BASE_ATTACK_INTERVAL_TICKS;
+            return attackIntervalTicks;
         }
-        return Math.max(1, Math.round(BASE_ATTACK_INTERVAL_TICKS * multiplier));
+        return Math.max(1, Math.round(attackIntervalTicks * multiplier));
     }
 
     /** Legacy geneSprinting: close long distances faster once the generation unlocks it. */

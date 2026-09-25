@@ -574,6 +574,13 @@ expect(read("src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java"),
   /bossEvent\.setProgress\(Math\.max\(0\.0F, getHealth\(\) \/ getMaxHealth\(\)\)\)/,
   "the dragon boss bar does not track health");
 
+// Legacy attackSpeedT is now per-instance (family base 20, heads 15).
+const melee = read("src/main/java/alku/csrp/entity/GeneMeleeGoal.java");
+expect(melee, /public GeneMeleeGoal\(Mob mob, double baseSpeed, boolean requireLineOfSight, int attackIntervalTicks\)/,
+  "the melee goal does not accept a per-mob attack interval");
+expect(melee, /this\.attackIntervalTicks = Math\.max\(1, attackIntervalTicks\)/,
+  "the melee goal does not store the per-mob attack interval");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

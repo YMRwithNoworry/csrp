@@ -3308,3 +3308,23 @@ GeneMeleeGoal.java:32      public GeneMeleeGoal(Mob mob, double baseSpeed, boole
 
 **为何不在本轮硬改**：这次替换涉及"**换 goal 实现 + 迁移自有行为**"两件事，属中等改动；
 本会话的教训是**一次只动一层**（先参数化 `GeneMeleeGoal` 并验证，再切换头部的 goal 注册），避免又出现"半改"状态。
+
+## 批次 207：第 1 步完成——`GeneMeleeGoal` 节奏参数化（2026-09-25 续）
+
+按批次 206 的方案第 1 步落地：给 `GeneMeleeGoal` 增加**每实例节奏**
+
+```java
+private final int attackIntervalTicks;                       // 新增字段
+public GeneMeleeGoal(Mob mob, double baseSpeed, boolean requireLineOfSight) {
+    this(mob, baseSpeed, requireLineOfSight, BASE_ATTACK_INTERVAL_TICKS);   // 原调用点行为不变（20）
+}
+/** @param attackIntervalTicks legacy attackSpeedT (heads use 15). */
+public GeneMeleeGoal(Mob mob, double baseSpeed, boolean requireLineOfSight, int attackIntervalTicks) { … }
+```
+
+**关键约束（已达成）**：**现有调用点行为零变更**——3 参构造委托到 4 参并传原常量 20 ✔，
+因此本步**不会改变任何现有生物的战斗节奏**，只是打开了"逐类设置"的入口（这正是"一次只动一层"的价值）。
+
+**编译拦下一处真实错误**：我用 `split/join` 批量替换常量时，把**构造委托行**里的常量也换成了字段
+⇒ `无法在调用超类型构造函数之前引用 attackIntervalTicks` ✗（Java 的构造前引用限制）；已单独修正该行 ✔。
+断言 2 条；`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
