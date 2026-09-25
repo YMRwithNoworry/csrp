@@ -1,0 +1,624 @@
+{
+  "id": "sim_dragonehead",
+  "originalClass": "EntityInfDragonEHead",
+  "projectClass": "AssimilatedDragonHeadEntity",
+  "facets": [
+    {
+      "name": "registration",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "SRPEntities.CreateEntityMob(\"sim_dragonehead\", EntityInfDragonEHead.class, 8611072, 16711900, 70, SRPConfigMobs.infdragoneEnabled) 注册 id",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:270",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:291"
+          },
+          "note": "API 映射：1.12.2 EntityEntryBuilder ↔ 1.21.1 DeferredRegister + EntityType，注册 id 字面量一致；另注册有兼容 id sim_dragonhead（ModEntities.java:293）"
+        },
+        {
+          "clause": "注册用数值 id 70（getParasiteIDRegister）驱动掉落派发",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:40",
+            "project": "src/main/resources/data/csrp/loot_table/entities/sim_dragonehead.json:1"
+          },
+          "note": "原版 SRPEventHandlerBus.java:2033 的 case 70 → infdragoneheadLoot 派发；project 无数值 id 表，改由 per-entity loot_table 承担"
+        },
+        {
+          "clause": "MobCategory：继承 EntityPInfected -> EntityParasiteBase -> EntityMob（MONSTER）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:30",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:629"
+          },
+          "note": "原版链路 EntityParasiteBase.java:95（extends EntityMob）；project 用 MobCategory.MONSTER 注册（monster() helper 内建）"
+        },
+        {
+          "clause": "碰撞箱 func_70105_a(1.75F, 1.95F)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:33",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:291"
+          },
+          "note": "project monster(\"sim_dragonehead\", ..., 1.75F, 1.95F) 与之一致"
+        },
+        {
+          "clause": "眼高 func_70047_e() = 0.8F",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:82",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:291"
+          },
+          "note": "1.21 的 Entity.getEyeHeight(Pose) 为 final，眼高只能经注册参数传递；本类仍用 3 参 monster() helper（ModEntities.java:627-631，不接受 eyeHeight），取 EntityType.Builder 默认眼高，非原版 0.8F。同族 sim_endermanhead 已改用 4 参 helper 显式传 0.8F（ModEntities.java:297），本类漏改"
+        },
+        {
+          "clause": "tracker(64, 3, true)：追踪距离 64 格 / 更新间隔 3 tick",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:191",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:630"
+          },
+          "note": "project clientTrackingRange(4) = 4 区块 = 64 格、updateInterval(3)，与原版 tracker(64, 3, true) 等价"
+        },
+        {
+          "clause": "刷怪蛋颜色 8611072 / 16711900（0x836500 / 0xFF00DC，全部 sim_* 共用）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:270",
+            "project": "src/main/java/alku/csrp/registry/ModItems.java:185"
+          },
+          "note": "project 为 sim_dragonehead 单独配色 0x2D1E2B / 0xC05A66，不再是全族统一颜色"
+        },
+        {
+          "clause": "SRPConfigMobs.infdragoneEnabled 生物启用开关",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:493",
+            "project": null
+          },
+          "note": "原版 infdragoneEnabled=false 时 CreateEntityMob 直接返回 null（不注册）；project 无 per-mob 启用开关"
+        },
+        {
+          "clause": "SRPConfig.vanillaEggs 刷怪蛋开关（builder.egg 的条件）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:193",
+            "project": null
+          },
+          "note": "project 无该开关，刷怪蛋恒注册"
+        },
+        {
+          "clause": "语言键 srparasites.sim_dragonehead（builder.name(\"srparasites.\" + name)）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:189",
+            "project": "src/main/resources/assets/csrp/lang/en_us.json:87"
+          },
+          "note": "键名空间由 srparasites.* 映射为 entity.csrp.*"
+        },
+        {
+          "clause": "旧刷怪器物品 infdragonehead 生成 EntityInfDragonEHead",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/item/ItemMobSpawner.java:405",
+            "project": "src/main/java/alku/csrp/item/LegacyMobSpawnerItem.java:177"
+          },
+          "note": "project 映射到兼容注册 id sim_dragonhead（ModEntities.java:293），同一实体类与体积，行为等价"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "attributes",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "生命 SRPAttributes.INFDRAGONE_HEADHEALTH = INFDRAGONE_HEALTH(260.0) × infdragoneHealthHead(0.3) = 78.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:1147",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:47"
+          },
+          "note": "倍率来源 SRPConfigMobs.java:496（infdragoneHealthHead = 0.3F）、基数 SRPAttributes.java:110（260.0，再乘全局/单体倍率）；project MAX_HEALTH 78.0D 与原版 260.0×0.3 一致"
+        },
+        {
+          "clause": "攻击力 SRPAttributes.INFDRAGONE_HEADDAMAGE = INFDRAGONE_ATTACK_DAMAGE(30.0) × infdragoneDamageHead(0.3) = 9.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:1148",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:48"
+          },
+          "note": "倍率来源 SRPConfigMobs.java:497；project ATTACK_DAMAGE 9.0D"
+        },
+        {
+          "clause": "移动速度 0.3",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:61",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:49"
+          },
+          "note": "project MOVEMENT_SPEED 0.30D"
+        },
+        {
+          "clause": "跟随范围 32.0（followRange，头颅自行覆写而非取 SRPConfig.infectedFollow）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:63",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:51"
+          },
+          "note": "project FOLLOW_RANGE 32.0D；与同族 EntityInfCowHead 取 16.0 不同，本类原版即写死 32.0"
+        },
+        {
+          "clause": "击退抗性（原版 func_110147_ax 未设置 KNOCKBACK_RESISTANCE）",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:58",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:50"
+          },
+          "note": "原版头部属性块（58-64 行）只写 生命/速度/攻击力/跟随范围 四项，未写 field_111266_c，击退抗性保持默认（EntityPInfected/EntityParasiteBase 均无 func_110147_ax）；project 反显式写入 0.4D，属新增而非缺失"
+        },
+        {
+          "clause": "经验 field_70728_aV = SRPAttributes.XP_INFECTED = 8",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:86",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:42"
+          },
+          "note": "project xpReward = 8，与原版 SRPConfig.infectedXPValue 默认 8 一致"
+        },
+        {
+          "clause": "killcount = -10.0 初始（头颅不参与 Feral 转化/merge 计数）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:34",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:33"
+          },
+          "note": "project AssimilatedDragonHeadEntity 无 killcount 字段与 feral/merge 判定路径，原版该负初值用于抑制头颅计数，语义上无对应实现"
+        },
+        {
+          "clause": "attackSpeedT = 15（攻击间隔基准，原版 getAttackSpeed() = attackSpeedT × 基因倍率）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:35",
+            "project": null
+          },
+          "note": "project 头颅用 vanilla MeleeAttackGoal（冷却 20 tick），带基因间隔的 GeneMeleeGoal 未接入头颅，原版 15 tick 基准无对应实现"
+        },
+        {
+          "clause": "阶段属性加成 evolutionParasiteStatIncrease（phase ≥ 阈值时生命/护甲/攻击 ×(1+v)）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1676",
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
+          },
+          "note": "ParasiteCombatRules.applyPhaseStatBonus 在 FinalizeSpawnEvent 上按 phase 放大 MAX_HEALTH/ARMOR/ATTACK_DAMAGE，门控为 instanceof Parasite（AssimilatedDragonHeadEntity 实现 Parasite，见 :33），头颅同样计入"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "ai",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "tasks.addTask(0, EntityAISwimming(this))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:51",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:56"
+          },
+          "note": "project FloatGoal(0) 为 1.21 的 EntityAISwimming 对应物"
+        },
+        {
+          "clause": "tasks.addTask(2, EntityAILeapAtTarget(this, 0.4F))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:53",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:57"
+          },
+          "note": "project LeapAtTargetGoal(2, 0.4F) 参数与优先级一致；本类原版未调用 setskillLeapValues（不同于其它头颅）"
+        },
+        {
+          "clause": "tasks.addTask(3, EntityAIAttackMeleeStatus(this, 1.3, false, -1.0))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:54",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:58"
+          },
+          "note": "project MeleeAttackGoal(1.3D, false) 速度与优先级槽位一致；原版第 4 参 -1.0（EntityAIAttackMeleeStatus:34 的 runningD，即 blockDistance = runningD²，负值等于不设近身加速）在 project 无对应参数"
+        },
+        {
+          "clause": "tasks.addTask(6, AIFireballAttack)：火球攻击任务",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:49",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:73"
+          },
+          "note": "project 用 tick() 内的 cooldown 计时（fireballCooldown = 30）替代 goal；原版 attackTimer == 15 即发射（EntityInfDragonEHead.java:127），RAGE 时每 tick 额外 +1（:123-125）即约 7 tick，project 固定 30 tick 且不读 RAGE"
+        },
+        {
+          "clause": "火球发射前置：目标距离² < 4096（64 格）且 canEntityBeSeen 视线",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:120",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:75"
+          },
+          "note": "project 只判 hasLineOfSight，无 4096（64 格）距离上限；原版 d0 = 64.0 的距离常量为平方后使用"
+        },
+        {
+          "clause": "火球弹体 EntityProjectileDragonE + 发射点沿视线 4.0 偏移 + 1016 音效 + FLAME 粒子 3 次",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:136",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:126"
+          },
+          "note": "project 改为 ToxicCloudEntity 吐息（半径 2.5、80 tick、附带 COTH 240/0 + VIRAL 120/0）并对 24 格锥形区域首个可见目标造成 12.0 间接魔法伤害；原版为直线飞行弹体且伤害由 EntityProjectileDragonE 决定，形态不同（非缺失，属替代实现）"
+        },
+        {
+          "clause": "tasks.addTask(8, EntityAILookIdle(this))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:52",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:61"
+          },
+          "note": "project RandomLookAroundGoal(6)，优先级与原版 8 不同但功能等价"
+        },
+        {
+          "clause": "targetTasks.addTask(1, EntityAIHurtByTarget(this, false, new Class[0]))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:50",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:62"
+          },
+          "note": "project HurtByTargetGoal(this) 未 setAlertOthers()，等价于原版 false + 空 Class[]"
+        },
+        {
+          "clause": "targetTasks.addTask(5, EntityAINearestAttackableTarget(this, EntityPlayer.class, true))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:55",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:63"
+          },
+          "note": "project NearestAttackableTargetGoal<LivingEntity>(2) 以 target instanceof Player 谓词等价于只选玩家，语义一致；优先级 2 与原版专用槽位 5 不同"
+        },
+        {
+          "clause": "EntityPInfected 构造：target 4 EntityAINearestAttackableTargetStatus(EntityPlayer, sneakPen 0.8, inviPen 0.7)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:60",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:63"
+          },
+          "note": "project NearestAttackableTargetGoal 不实现潜行/隐身察觉惩罚（SRPConfig.infectedSneakPen / infectedInviPen）"
+        },
+        {
+          "clause": "EntityPInfected 构造：SRPConfig.mobattacking 时 target 4 EntityLiving（排除水生/动物/村民 + 黑名单）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:62",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:63"
+          },
+          "note": "project 的谓词只保留 instanceof Player，未实现原版的非水生/非动物/非村民过滤与 mobattackingBlackList"
+        },
+        {
+          "clause": "EntityParasiteBase 构造：tasks.addTask(5, EntityAIWanderStatus(1.0, 120, 0.001F, true))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:190",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:59"
+          },
+          "note": "project WaterAvoidingRandomStrollGoal(1.0) 无 status/checkPositionWander 门控，优先级槽位也不同"
+        },
+        {
+          "clause": "EntityParasiteBase 构造：tasks.addTask(6, EntityAIParasiteFollow(1.3, 16, 6, true))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:191",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:60"
+          },
+          "note": "project ParasiteFollowGoal(6)"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "behaviors",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "摔落伤害 func_180430_e 乘子 ×0.3",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:86",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:100"
+          },
+          "note": "project causeFallDamage(distance, damageMultiplier * 0.3F, source) 与原版 func_180430_e(distance, damageMultiplier * 0.3F) 等价"
+        },
+        {
+          "clause": "火焰伤害倍率 SRPConfig.firemultyplier = 4.0（火伤 ×4，skin 120 时 ×2）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:801",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:95"
+          },
+          "note": "project hurt() 对 IS_FIRE 伤害 ×4 一致；skin 120 的减免分支不适用（project 头颅无 skin）"
+        },
+        {
+          "clause": "近战最小伤害 attackEntityAsMobMinimum（MiniDamage = SRPConfig.infectedMinDamage 0.5）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:858",
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
+          },
+          "note": "project applyMinimumDamage 按科分档扣血并由 VIRA 放大；原版 MiniDamage 由 EntityPInfected 构造器从 SRPConfig.infectedMinDamage 灌入（EntityPInfected.java:90）"
+        },
+        {
+          "clause": "命中时按 cothSpread（SRPConfigSystems.cothInfected = 0.1）概率施加 COTH",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:845",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:88"
+          },
+          "note": "原版判定 random.nextDouble() < cothSpread，值来自 EntityPInfected.java:92；project applyCoth 命中即 100% 施加，未按概率掷骰"
+        },
+        {
+          "clause": "命中并把目标血量打落到阈值以下时施加恐惧 FEAR",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:168",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:87"
+          },
+          "note": "project ParasiteCombatEffects.applyFearFromDamage 数值与原版 fearPlayer 一致"
+        },
+        {
+          "clause": "死亡/移除时无头颅专属死亡行为（原版头颅不发怒、不召唤）",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:67",
+            "project": null
+          },
+          "note": "原版头颅的 func_70636_d（67-76）只处理 disloGiveBodies 躯体生成，无 death/selfExplode 分支；project 同样无头颅专属死亡行为，两侧一致"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "damage_and_effects",
+      "status": "satisfied",
+      "clauses": [
+        {
+          "clause": "伤害上限 SRPConfig.infectedCap = 2（超过即削减）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:87",
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
+          },
+          "note": "damageCap = SRPConfig.infectedCap 由 EntityPInfected 构造器统一灌入；project damageAfterIncomingCap 实现同公式（maxHealth/cap + 余数*0.5 上限 + RAGE），火焰/虚空不设限"
+        },
+        {
+          "clause": "药水免疫：COTH/VIRA/CORRO/DLER 不可被施加（func_70687_e）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1084",
+            "project": "src/main/java/alku/csrp/event/StatusEffectEvents.java"
+          },
+          "note": "project preventParasiteStatusApplication 拒绝 COTH/VIRA/CORRO/DLER"
+        },
+        {
+          "clause": "击杀后按 victim 最大生命 × geneMobHealing 回血 / 击杀计数与进化点",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1040",
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
+          },
+          "note": "project healOnKill 以 generationProfile.mobHealing 基因 × victim 最大生命回血，击杀点由 EvolutionEvents.addKillPoints 结算（Parasite 接口门控，头颅计入）"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "sync_data",
+      "status": "missing",
+      "clauses": [
+        {
+          "clause": "DataManager.register SPECIAL (byte)：parasiteStatus 状态机（模型 :1401 读取 getParasiteStatus 切动画）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:134",
+            "project": null
+          },
+          "note": "project AssimilatedDragonHeadEntity 无 defineSynchedData 覆写、无状态同步值；同族的 AssimilatedHeadEntity 有 PARASITE_STATUS/LEAP_TICKS/SCREAMING（同族 AssimilatedHeadEntity 的 defineSynchedData），本类未接入"
+        },
+        {
+          "clause": "DataManager.register SKIN (byte)：头颅变体（躯体头部被打掉时以 setSkin(5) 生成）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:268",
+            "project": null
+          },
+          "note": "SKIN 参数定义于 EntityParasiteBase.java:136；project AssimilatedDragonHeadEntity 无 skin 字段/同步，setSkin(5) 的变体语义未还原"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "animation",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "行走/待机动画：limbSwing/limbSwingAmount 驱动 swingY/swingZ（GS = 2.0F、GD = 0.5F）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/head/ModelInfDragonEHead.java:1409",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:107"
+          },
+          "note": "project movement_controller 播放 func_78087_a.limb_swing 提取动画（资源 animations/sim_dragonehead.animation.json），与原版摆动块（1409-1428）对应"
+        },
+        {
+          "clause": "待机动画：ageInTicks 驱动（func_78087_a.age_in_ticks）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/head/ModelInfDragonEHead.java:1379",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:105"
+          },
+          "note": "project age_controller（interval 0）循环 func_78087_a.age_in_ticks"
+        },
+        {
+          "clause": "头发关节 ageInTicks 正弦振荡（频率 0.218 / 0.20198 / 0.221998）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/head/ModelInfDragonEHead.java:1466",
+            "project": "src/main/resources/assets/csrp/animations/sim_dragonehead.animation.json:1"
+          },
+          "note": "project 由 geo+动画资源承载同组关节的振荡（Citadel 动画资产，逐关节 bake 而非运行时三角函数）"
+        },
+        {
+          "clause": "静止姿势门控 getStillAni()（为真时停止摆动）与 parasiteStatus 分支",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/head/ModelInfDragonEHead.java:1406",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:105"
+          },
+          "note": "原版 1403 行的 var13 被写死为 0（本地变量未取自 parasiteStatus），故实际只有 0/1/2 分支与 !getStillAni 生效；project 无 getStillAni 等价门控，控制器状态机只有 age/movement 两条"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "name": "model_texture",
+      "status": "satisfied",
+      "clauses": [
+        {
+          "clause": "模型 ModelInfDragonEHead（1.12 Java 模型）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/head/ModelInfDragonEHead.java:1",
+            "project": "src/main/resources/assets/csrp/geo/sim_dragonehead.geo.json:1"
+          },
+          "note": "project 使用等价几何体 geo 文件 + Citadel 模型（PrimitiveParasiteRenderer 按 id 加载同名 geo）"
+        },
+        {
+          "clause": "实体贴图 srparasites:textures/entity/monster/dragoneh.png",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/infected/head/RenderInfDragonEHead.java:10",
+            "project": "src/main/resources/assets/csrp/textures/entity/sim_dragonehead.png:1"
+          },
+          "note": "贴图按 id 重命名（dragoneh.png → sim_dragonehead.png），内容对应"
+        },
+        {
+          "clause": "渲染阴影半径 0.6F",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/infected/head/RenderInfDragonEHead.java:13",
+            "project": "src/main/java/alku/csrp/client/ClientModEvents.java:210"
+          },
+          "note": "project PrimitiveParasiteRenderer<>(context, \"sim_dragonehead\", 0.6F)；兼容注册 sim_dragonhead 同值（ClientModEvents.java:212）"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "sounds",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "环境音/受伤音/死亡音：原版 EntityInfDragonEHead 未覆写 func_184639_G / func_184601_bQ / func_184615_bR",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:30",
+            "project": null
+          },
+          "note": "grep 上述三个 SRG 名在本文件 0 命中（同族 EntityInfCowHead.java:154/158/162 才有覆写），父链 EntityPInfected/EntityParasiteBase 亦无 SoundEvent 引用，故原版头颅三音皆为空；project ParasiteSoundProfiles 未登记 sim_dragonehead（:20 的 infectedhead 组不含本 id），两侧同为无声，行为一致"
+        },
+        {
+          "clause": "脚步声 SRPSounds.SMALL_STEPS（覆写 func_180429_a 播放 small.step）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:93",
+            "project": null
+          },
+          "note": "project AssimilatedDragonHeadEntity 未覆写 playStepSound（全仓 grep playStepSound 无本类，对照同族 AssimilatedHeadEntity 已接线 small.step），原版小的脚步声事件无对应实现"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "spawning",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "原版 SRPSpawning 未注册 EntityInfDragonEHead（头颅不走自然生成表）",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java"
+          },
+          "note": "grep \"Head\" 在 SRPSpawning.java 中 0 处命中；project 的 NaturalSpawnTables.java 同样无 head 条目（grep -i head 0 处），两侧一致"
+        },
+        {
+          "clause": "生成来源：躯体头部部件被打掉 → new EntityInfDragonEHead + setSkin(5)，并移除 head 部件",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:267",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:481"
+          },
+          "note": "project detachHead()（由 AssimilatedDragonEntity.java:288 在头部部件损坏时调用）生成 SIM_DRAGON_HEAD 并继承目标，方向与位置语义一致，但未设置 setSkin(5) 变体，也未广播原版 byte 33 的部件死亡包"
+        },
+        {
+          "clause": "disloGiveBodies：头颅在 srpTicks == 10 且维度 phase code ≥ 1 时生长回 EntityInfDragonE",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:74",
+            "project": null
+          },
+          "note": "project 全仓无头颅→躯体的生长机制（grep spawnNext/becomes body 无命中；仅在 AssimilatedDragonEntity:476 有躯体→头颅的 detachHead 反向实现），SRPConfigSystems.disloGiveBodies 语义缺失"
+        },
+        {
+          "clause": "同化生成配额 canSpawnByIDData = SRPConfigMobs.infdragoneCanSpawnAssimilatedNat（默认 -1）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:45",
+            "project": null
+          },
+          "note": "配置项 SRPConfigMobs.java:492（-1）；project 无 per-mob 同化配额，宿主转化由 cothVictimParasites 表无条件决定"
+        },
+        {
+          "clause": "信息素波次生成表不含 sim_dragonehead",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems.java:911",
+            "project": "src/main/java/alku/csrp/entity/ParasiticScentEntity.java:56"
+          },
+          "note": "grep \"dragonehead\" 在 SRPConfigSystems.java 中 0 处命中（scentLevelTwo/Three 列的是 endermanhead 等其它头颅）；project LEVEL_MOBS 第 3/4 档同样不含 sim_dragonehead，两侧一致"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "loot",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "头颅掉落表 SRPConfigMobs.infdragoneheadLoot = new String[0]（头颅无掉落）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:495",
+            "project": "src/main/resources/data/csrp/loot_table/entities/sim_dragonehead.json:1"
+          },
+          "note": "原版由 SRPEventHandlerBus.java:2033（case 70，见 :2032）派发该空表即无掉落；project 为 sim_dragonehead 新增 100% 掉落 1-3 个 csrp:assimilated_flesh 的战利品表（新增行为，非缺失）"
+        },
+        {
+          "clause": "经验 8（XP_INFECTED = SRPConfig.infectedXPValue）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:86",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:42"
+          },
+          "note": "project xpReward = 8 于构造器直接赋值"
+        }
+      ],
+      "confidence": "high"
+    }
+  ]
+}

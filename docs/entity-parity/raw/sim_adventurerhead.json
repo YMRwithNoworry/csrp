@@ -1,0 +1,651 @@
+{
+  "id": "sim_adventurerhead",
+  "originalClass": "EntityInfPlayerHead",
+  "projectClass": "SimAdventurerHeadEntity",
+  "facets": [
+    {
+      "name": "registration",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "SRPEntities.CreateEntityMob(\"sim_adventurerhead\", EntityInfPlayerHead.class, 8611072, 16711900, 71, SRPConfigMobs.infadventurerEnabled) 注册 id",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:271",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:259"
+          },
+          "note": "API 映射：1.12.2 EntityEntryBuilder ↔ 1.21.1 DeferredRegister + EntityType，注册 id 字面量一致"
+        },
+        {
+          "clause": "注册用数值 id 71（getParasiteIDRegister）驱动掉落派发",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:51",
+            "project": "src/main/resources/data/csrp/loot_table/entities/sim_adventurerhead.json:1"
+          },
+          "note": "原版 SRPEventHandlerBus.java:2036（case 71，见 :2035）派发 infadventurerheadLoot；project 无数值 id 表，改由 per-entity loot_table 承担"
+        },
+        {
+          "clause": "MobCategory：继承 EntityPInfected -> EntityParasiteBase -> EntityMob（MONSTER）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:41",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:629"
+          },
+          "note": "原版链路 EntityPInfected -> EntityParasiteBase.java:95（extends EntityMob）；project 用 MobCategory.MONSTER 注册（monster() helper 内建）"
+        },
+        {
+          "clause": "碰撞箱 func_70105_a(0.7F, 0.9F)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:44",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:259"
+          },
+          "note": "project monster(\"sim_adventurerhead\", ..., 0.7F, 0.9F) 与之一致"
+        },
+        {
+          "clause": "眼高 func_70047_e() = 0.8F",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:87",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:259"
+          },
+          "note": "1.21 的 Entity.getEyeHeight(Pose) 为 final，眼高只能经注册参数传递；本类仍用 3 参 monster() helper（ModEntities.java:627-631，不接受 eyeHeight），取 EntityType.Builder 默认眼高，非原版 0.8F。同族 sim_endermanhead 已改用 4 参 helper 显式传 0.8F（ModEntities.java:297），本类漏改"
+        },
+        {
+          "clause": "tracker(64, 3, true)：追踪距离 64 格 / 更新间隔 3 tick",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:191",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:630"
+          },
+          "note": "project clientTrackingRange(4) = 4 区块 = 64 格、updateInterval(3)，与原版 tracker(64, 3, true) 等价"
+        },
+        {
+          "clause": "刷怪蛋颜色 8611072 / 16711900（0x836500 / 0xFF00DC，全部 sim_* 共用）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:271",
+            "project": "src/main/java/alku/csrp/registry/ModItems.java:163"
+          },
+          "note": "project 为 sim_adventurerhead 单独配色 0x5A3228 / 0xC48A68，不再是全族统一颜色"
+        },
+        {
+          "clause": "SRPConfigMobs.infadventurerEnabled 生物启用开关",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:477",
+            "project": null
+          },
+          "note": "原版该开关同时门控注册（SRPEntities.java:271）与旧刷怪器物品路径（ItemMobSpawner.java:384）；project 无 per-mob 启用开关"
+        },
+        {
+          "clause": "SRPConfig.vanillaEggs 刷怪蛋开关（builder.egg 的条件）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:193",
+            "project": null
+          },
+          "note": "project 无该开关，刷怪蛋恒注册"
+        },
+        {
+          "clause": "语言键 srparasites.sim_adventurerhead（builder.name(\"srparasites.\" + name)）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:189",
+            "project": "src/main/resources/assets/csrp/lang/en_us.json:76"
+          },
+          "note": "键名空间由 srparasites.* 映射为 entity.csrp.*"
+        },
+        {
+          "clause": "旧刷怪器物品 infplayerhead 生成 EntityInfPlayerHead",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/item/ItemMobSpawner.java:384",
+            "project": "src/main/java/alku/csrp/item/LegacyMobSpawnerItem.java:157"
+          },
+          "note": "原版 infplayerhead 走 spawnPlayerHead → new EntityInfPlayerHead（ItemMobSpawner.java:575），即注册名 sim_adventurerhead；project 把 infplayerhead 映射到 sim_humanhead（另一条 infhumanhead 也映射到 sim_humanhead，LegacyMobSpawnerItem.java:163），本实体无旧名入口——映射目标错误"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "attributes",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "生命 SRPAttributes.INFADVENTURER_HEADHEALTH = INFADVENTURER_HEALTH(15.0) × infadventurerHealthHead(0.3) = 4.5",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:1139",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:79"
+          },
+          "note": "基数 SRPAttributes.java:102（15.0）、倍率 SRPConfigMobs.java:482（0.3F）；project MAX_HEALTH 4.5D 与原版 15.0×0.3 一致"
+        },
+        {
+          "clause": "攻击力 SRPAttributes.INFADVENTURER_HEADDAMAGE = INFADVENTURER_ATTACK_DAMAGE(9.0) × infadventurerDamageHead(0.3) = 2.7",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:1140",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:80"
+          },
+          "note": "基数 SRPAttributes.java:104（9.0）、倍率 SRPConfigMobs.java:483（0.3F）；project ATTACK_DAMAGE 2.7D"
+        },
+        {
+          "clause": "移动速度 0.3",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:79",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:81"
+          },
+          "note": "project MOVEMENT_SPEED 0.3D"
+        },
+        {
+          "clause": "跟随范围（原版 func_110147_ax 未设置 followRange，取引擎通用默认）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:76",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:83"
+          },
+          "note": "原版头部属性块（76-81 行）只写 生命/速度/攻击力 三项，未写 field_111265_b，也非 SRPConfig.infectedFollow（该键仅被 EntityInfCow/EntityInfBear/EntityInhoo* 等使用）；project 显式写 FOLLOW_RANGE=16.0D，与 1.12.2 引擎默认 16.0 数值一致，但仓库内无 vanilla 默认值的可引用来源，故不判 satisfied"
+        },
+        {
+          "clause": "击退抗性（原版 func_110147_ax 未设置 KNOCKBACK_RESISTANCE）",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:76",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:82"
+          },
+          "note": "原版未写 field_111266_c（SRPAttributes.INFADVENTURER_KD_RESISTANCE 只在 EntityInfPlayer 本体使用），击退抗性保持默认；project 反而显式写入 0.1D，属新增而非缺失"
+        },
+        {
+          "clause": "经验 field_70728_aV = SRPAttributes.XP_INFECTED = 8",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:86",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:74"
+          },
+          "note": "project xpReward = 8，与原版 SRPConfig.infectedXPValue 默认 8 一致"
+        },
+        {
+          "clause": "killcount = -10.0 初始（头颅不参与 Feral 转化/merge 计数）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:45",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:56"
+          },
+          "note": "project 无 killcount 字段与 feral/merge 判定路径（该类只实现 Parasite 接口），原版该负初值用于抑制头颅计数"
+        },
+        {
+          "clause": "attackSpeedT = 15（攻击间隔基准，原版 getAttackSpeed() = attackSpeedT × 基因倍率）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:46",
+            "project": null
+          },
+          "note": "project 头颅用 vanilla MeleeAttackGoal（冷却 20 tick），带基因间隔的 GeneMeleeGoal 未接入本类，原版 15 tick 基准无对应实现"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "ai",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "tasks.addTask(0, EntityAISkill(this, 40, 100, 3, true, 14)) + setskillLeapValues(0.7F, 2.5, 0)：突进技能",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:60",
+            "project": null
+          },
+          "note": "project SimAdventurerHeadEntity.registerGoals（86-108）无 ParasiteSkillGoal/LeapSkill，setParasiteStatus(10) 只由 LeapAtTargetGoal（:92）在起跳时写入；同族 AssimilatedHeadEntity 已按原版参数接线 ParasiteSkillGoal(this, 14, new LeapSkill(this, 0.7F, 2.5D, 0), 40, 100, 3, true)，本类漏接"
+        },
+        {
+          "clause": "tasks.addTask(0, EntityAISwimming(this))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:63",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:88"
+          },
+          "note": "project FloatGoal(0) 为 1.21 的 EntityAISwimming 对应物"
+        },
+        {
+          "clause": "tasks.addTask(2, EntityAILeapAtTarget(this, 0.4F))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:65",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:92"
+          },
+          "note": "project LeapAtTargetGoal(3, 0.4F)，参数一致、槽位由 2 改 3（0 槽被技能占用改由 FloatGoal 占据）"
+        },
+        {
+          "clause": "tasks.addTask(3, EntityAIAttackMeleeStatus(this, 1.3, false, -1.0))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:66",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:101"
+          },
+          "note": "project HeadMeleeGoal(1.3D, false) 速度一致；原版第 4 参 -1.0（EntityAIAttackMeleeStatus:34 的 runningD，blockDistance = runningD²，负值即不设近身加速）无对应参数，project 改为状态 1 切换动画"
+        },
+        {
+          "clause": "tasks.addTask(4, EntityAIAvoidOrAttack(this, 0.5F, 10, 2))：work-task/编队联动（光照 ≥0.5 或 RAGE 时加入附近寄生体编队）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:67",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:100"
+          },
+          "note": "project 无 work-task/编队（setWorkTask/setParasiteToFollow）机制；语义最近的是 HeadCothCloudGoal（8 格内同类 ≤2 且无目标时放毒云）与 ParasiteFollowGoal，光照/RAGE 分支未还原"
+        },
+        {
+          "clause": "tasks.addTask(5, EntityAIAvoidEntityStatus(this, EntityLivingBase.class, 谓词: 非水生/非爬行者/非寄生体/非动物, 8.0F, 1.3)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:68",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:90"
+          },
+          "note": "project AvoidEntityGoal(8.0F, 1.0D, 1.3D) 距离一致、优先级 1（原版 5）；回避条件改为 shouldAvoid（白天无同类时逃离 + 编队不足时回避 Player/Monster），未复刻原版谓词（原版谓词还排除 EntityCreeper）"
+        },
+        {
+          "clause": "tasks.addTask(8, EntityAILookIdle(this))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:64",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:104"
+          },
+          "note": "project RandomLookAroundGoal(6)，优先级与原版 8 不同但功能等价"
+        },
+        {
+          "clause": "targetTasks.addTask(1, EntityAIHurtByTarget(this, false, new Class[0]))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:62",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:105"
+          },
+          "note": "project HurtByTargetGoal(this) 未 setAlertOthers()，等价于原版 false + 空 Class[]"
+        },
+        {
+          "clause": "targetTasks.addTask(5, EntityAINearestAttackableTarget(this, EntityInhooM.class, true))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:73",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:106"
+          },
+          "note": "project 用 NearestAttackableTargetGoal<LivingEntity>(2) 覆盖 IncompleteFormMediumEntity（=EntityInhooM）与其它生物，语义为超集；另新增 MergeWithIncompleteFormGoal（:89）主动搜寻媒介体，原版仅在命中时融合"
+        },
+        {
+          "clause": "EntityPInfected 构造：target 4 EntityAINearestAttackableTargetStatus(EntityPlayer, sneakPen 0.8, inviPen 0.7)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:60",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:106"
+          },
+          "note": "project NearestAttackableTargetGoal 不实现潜行/隐身察觉惩罚（SRPConfig.infectedSneakPen / infectedInviPen）"
+        },
+        {
+          "clause": "EntityPInfected 构造：SRPConfig.mobattacking 时 target 4 EntityLiving（排除水生/动物/村民 + 黑名单）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:62",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:106"
+          },
+          "note": "project 的 isValidParasiteTarget 仅排除 Parasite 自身、死亡目标与编队不足态，未实现原版的非水生/非动物/非村民过滤与 mobattackingBlackList"
+        },
+        {
+          "clause": "EntityParasiteBase 构造：tasks.addTask(5, EntityAIWanderStatus(1.0, 120, 0.001F, true))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:190",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:102"
+          },
+          "note": "project WaterAvoidingRandomStrollGoal(1.0) 无 status/checkPositionWander 门控"
+        },
+        {
+          "clause": "EntityParasiteBase 构造：tasks.addTask(6, EntityAIParasiteFollow(1.3, 16, 6, true))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:191",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:103"
+          },
+          "note": "project ParasiteFollowGoal(6)"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "behaviors",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "攻击命中 IncompleteFormMedium（EntityInhooM）时融合为 EntityInfPlayer 并抹除媒介体",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:93",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:150"
+          },
+          "note": "project mergeWith（:345）生成 SIM_ADVENTURER 并继承名牌/持久化，随后 medium.discard() + discard()；缺少原版的 particleStatus((byte)7) 粒子反馈（:94）"
+        },
+        {
+          "clause": "近战附加最小伤害 MiniDamage（SRPConfig.infectedMinDamage 0.5）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:858",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:157"
+          },
+          "note": "project applyMinimumDamage（:363）按 MINIMUM_DAMAGE 0.5F 补足伤害并先扣吸收，等效原版 attackEntityAsMobMinimum；原版值来自 EntityPInfected.java:89（SRPConfig.infectedMinDamage）"
+        },
+        {
+          "clause": "命中时按 cothSpread（SRPConfigSystems.cothInfected = 0.1）概率施加 COTH",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:845",
+            "project": null
+          },
+          "note": "project doHurtTarget（:148-161）只做最小伤害补足，未调用 InfectionMechanics.applyCoth；COTH 仅由 20 tick 一次的光环（:134）施加，与原版命中概率传播不同（同族 AssimilatedHeadEntity 有该调用，本类漏接）"
+        },
+        {
+          "clause": "COTH 光环 InfectNearby(this, SRPConfigSystems.cothAura = 3 格)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:149",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:134"
+          },
+          "note": "半径一致（cothAura 默认 3，SRPConfigSystems.java:90）；原版门控为 srpTicks == 5（EntityPInfected.java:109）而 srpTicks 在 >20 时归零（EntityParasiteBase.java:386），实际约每 21 tick 一次，project 为 tickCount % 20 == 0，节奏有 1 tick 偏差；project 另加 hasLineOfSight 门控"
+        },
+        {
+          "clause": "受击/目标为玩家时施加恐惧 FEAR",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:168",
+            "project": null
+          },
+          "note": "project 的 fearPlayer 等价物 ParasiteCombatEffects.applyFearFromDamage 只被 Assimilated*/Feral*/SimHuman* 调用（grep 命中 9 处，均不含 SimAdventurerHeadEntity），本类无恐惧施加路径"
+        },
+        {
+          "clause": "摔落伤害 func_180430_e 乘子 ×0.3",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:138",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:170"
+          },
+          "note": "project causeFallDamage(distance, damageMultiplier * 0.3F, source) 与原版等价"
+        },
+        {
+          "clause": "火焰伤害倍率 SRPConfig.firemultyplier = 4.0（火伤 ×4）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:801",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:165"
+          },
+          "note": "project hurt() 对 IS_FIRE 伤害 ×4；原版 skin 120 的减免分支对本类不适用"
+        },
+        {
+          "clause": "水中推进：project 在 tick() 内朝目标方向施加推进力（原版本类未注册潜水/划水 goal）",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:59",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:138"
+          },
+          "note": "原版 func_184651_r（59-74 行）只注册 skill/leap/melee/avoid×2/lookidle 与目标选择，无 EntityAISwimmingDiving（EntityInfCow.java:71 才有该 goal）；父链 EntityParasiteBase 仅在 srpTicks == 1 时调用 handleWater(true)（EntityParasiteBase.java:380）。project 在 tick() 内实现「在水/气泡柱中且有目标时沿方向加 (0.08, 0.14, 0.08)」，属新增行为而非缺失"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "damage_and_effects",
+      "status": "satisfied",
+      "clauses": [
+        {
+          "clause": "伤害上限 SRPConfig.infectedCap = 2（超过即削减）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:87",
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
+          },
+          "note": "damageCap 由 EntityPInfected 构造器统一灌入；project damageAfterIncomingCap 实现同公式（maxHealth/cap + 余数*0.5 上限 + RAGE），门控为 instanceof Parasite（SimAdventurerHeadEntity.java:56 实现该接口）"
+        },
+        {
+          "clause": "药水免疫：COTH/VIRA/CORRO/DLER 不可被施加（func_70687_e）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1084",
+            "project": "src/main/java/alku/csrp/event/StatusEffectEvents.java"
+          },
+          "note": "project preventParasiteStatusApplication 拒绝 COTH/VIRA/CORRO/DLER"
+        },
+        {
+          "clause": "击杀后按 victim 最大生命回血 / 击杀点与阶段属性加成",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1040",
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
+          },
+          "note": "project healOnKill 以 gene 的 mobHealing 倍率 × victim 最大生命回血，击杀点由 EvolutionEvents.addKillPoints 结算、阶段加成由 ParasiteCombatRules.applyPhaseStatBonus 结算，均以 Parasite 接口门控"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "sync_data",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "DataManager.register SPECIAL (byte)：parasiteStatus 状态机（环境音与姿态均按其分支）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:134",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:59"
+          },
+          "note": "project 用 INT 型 PARASITE_STATUS（序列化器 EntityDataSerializers.INT，:60；注册于 :303-307）承载同语义，但只表达 0/1/10 三档，原版为 byte 的 0..6 状态机；原版该值在 EntityInfPlayerHead.java:142（环境音）与 ModelInfPlayerHead.java:577-615（姿态）分支使用"
+        },
+        {
+          "clause": "LEAP_TICKS 同步（project 新增，原版无此参数）",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:83",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:57"
+          },
+          "note": "原版该头部只覆写空的 func_70110_aj（83-84 行），无额外同步参数；project 新增 LEAP_TICKS 驱动 status 10 → 0 的落地回落（:113-121），属新增同步数据而非缺失"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "name": "animation",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "status 0 行走动画（GS = 2.4F、GD = 0.3F 的 swingY/swingZ + mainbody 上下浮动）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/head/ModelInfPlayerHead.java:578",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:199"
+          },
+          "note": "project movement_controller 播放 func_78087_a.limb_swing（行走摆动已由动画资产逐关节 bake），但 age_controller 只在 status == 10 时播放动画（:197-198），status 0 的 age/idle 动画（原版 598 行 moveY(mainbody, 0.4F*GS, ...)）无对应控制器"
+        },
+        {
+          "clause": "status 1/2 攻击姿态（GS = 1.0F、GD = 0.35F）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/head/ModelInfPlayerHead.java:615",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:203"
+          },
+          "note": "project getParasiteStatus() == 1 时切换 func_78087_a.limb_swing.get_parasite_status_1（:64-65 声明），HeadMeleeGoal 在 start/tick 写状态 1（:325/:332）"
+        },
+        {
+          "clause": "status 10 突进姿态（sin(ageInTicks * 0.9F) * 0.4F 驱动关节 + mainbody 前倾 -0.9F）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/head/ModelInfPlayerHead.java:601",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:198"
+          },
+          "note": "project age_controller 在 status 10 时播放 func_78087_a.age_in_ticks.get_parasite_status_10（:66-67 声明）"
+        },
+        {
+          "clause": "getStillAni 为真时切换静止姿势",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/head/ModelInfPlayerHead.java:579",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:200"
+          },
+          "note": "project 用 ParasiteAnimations.isMoving(实体, 状态) 作为近似门控（:200），未实现 getStillAni（原版为实体侧的静止标志，非移动判定）"
+        }
+      ],
+      "confidence": "medium"
+    },
+    {
+      "name": "model_texture",
+      "status": "satisfied",
+      "clauses": [
+        {
+          "clause": "模型 ModelInfPlayerHead（1.12 Java 模型）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/head/ModelInfPlayerHead.java:1",
+            "project": "src/main/resources/assets/csrp/geo/sim_adventurerhead.geo.json:6"
+          },
+          "note": "project 使用等价几何体 geo 文件（identifier geometry.csrp.sim_adventurerhead）+ Citadel 模型"
+        },
+        {
+          "clause": "实体贴图 srparasites:textures/entity/monster/playerh.png",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/infected/head/RenderInfPlayerHead.java:10",
+            "project": "src/main/resources/assets/csrp/textures/entity/sim_adventurerhead.png:1"
+          },
+          "note": "贴图按 id 重命名（playerh.png → sim_adventurerhead.png），内容对应"
+        },
+        {
+          "clause": "渲染阴影半径 0.6F",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/infected/head/RenderInfPlayerHead.java:13",
+            "project": "src/main/java/alku/csrp/client/ClientModEvents.java:189"
+          },
+          "note": "project PrimitiveParasiteRenderer<>(context, \"sim_adventurerhead\", 0.6F)"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "sounds",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "环境音 SRPSounds.INFECTEDHEAD_GROWL（getParasiteStatus() != 0 时退化为 SRPSounds.MOBSILENCE）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:142",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:182"
+          },
+          "note": "project 用专用事件 sim_adventurer_head.living（ModSounds.java:88，sounds.json:6208 指向 mob/assimilated/adventurer_head/growl*），事件名与素材目录均不同；且无「状态非 0 时静音」判定（原版三元表达式在 :142）"
+        },
+        {
+          "clause": "受伤音 SRPSounds.INFECTEDHEAD_HURT",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:146",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:187"
+          },
+          "note": "project 用专用事件 sim_adventurer_head.hurt（ModSounds.java:89，sounds.json:6216），事件名不同；ParasiteSoundProfiles.java:20 虽把 sim_adventurerhead 登记进 infectedhead 组，但本类直接覆写 getHurtSound，profile 未生效"
+        },
+        {
+          "clause": "死亡音 SRPSounds.INFECTEDHEAD_DEATH",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:150",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:192"
+          },
+          "note": "project 用专用事件 sim_adventurer_head.death（ModSounds.java:90，sounds.json:6223），事件名不同"
+        },
+        {
+          "clause": "脚步声 SRPSounds.SMALL_STEPS（覆写 func_180429_a 播放 small.step）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:157",
+            "project": null
+          },
+          "note": "project SimAdventurerHeadEntity 未覆写 playStepSound（全仓 grep playStepSound 无本类，对照同族 AssimilatedHeadEntity 已接线 small.step），原版小的脚步声事件无对应实现"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "spawning",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "原版 SRPSpawning 未注册 EntityInfPlayerHead（头颅不走自然生成表）",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java"
+          },
+          "note": "grep \"Head\" 在 SRPSpawning.java 中 0 处命中；project 的 NaturalSpawnTables.java 同样无 head 条目（grep -i head 0 处），两侧一致"
+        },
+        {
+          "clause": "生成来源：本体死亡（deathTime == 20）时按 INFADVENTURER_HEADCHANCE(0.5) 生成 \"srparasites:sim_adventurerhead;1;1\"",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPlayer.java:126",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerEntity.java:183"
+          },
+          "note": "project HEAD_SPAWN_CHANCE = 0.5F（SimAdventurerEntity.java:72）数值一致，但概率硬编码、未读取 infadventurerheadchance（SRPConfigMobs.java:484）且不走 ParasiteSummon 配置串；同时 project 在其前插入 EXPLOSION_CHANCE 0.25 的自爆分支（:180-182），原版头颅生成是独立的死亡分支"
+        },
+        {
+          "clause": "disloGiveBodies：头颅在 srpTicks == 10 且维度 phase code ≥ 1 时生长回 EntityInfPlayer",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:110",
+            "project": null
+          },
+          "note": "project SimAdventurerHeadEntity.tick（:111-145）无躯体生长分支，全仓亦无头颅→躯体机制（同族 sim_dragonehead 同一缺口）；SRPConfigSystems.disloGiveBodies 语义缺失"
+        },
+        {
+          "clause": "同化生成配额 canSpawnByIDData = SRPConfigMobs.infhumanCanSpawnAssimilatedNat（默认 5）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:56",
+            "project": null
+          },
+          "note": "注意原版本类复用的是人类键 infhumanCanSpawnAssimilatedNat（SRPConfigMobs.java:365 = 5）而非独立的冒险者键；project 无 per-mob 同化配额，宿主转化由 cothVictimParasites 表无条件决定"
+        },
+        {
+          "clause": "信息素波次生成表 scentLevelTwo/Three 含 srparasites:sim_adventurerhead",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems.java:910",
+            "project": "src/main/java/alku/csrp/entity/ParasiticScentEntity.java:59"
+          },
+          "note": "project LEVEL_MOBS 第 3/4 档列表含 sim_adventurerhead（:56 与 :59），与原版 scentLevelTwo/Three 对应"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "loot",
+      "status": "satisfied",
+      "clauses": [
+        {
+          "clause": "头颅掉落表 SRPConfigMobs.infadventurerheadLoot = new String[0]（头颅无掉落）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:481",
+            "project": "src/main/resources/data/csrp/loot_table/entities/sim_adventurerhead.json:1"
+          },
+          "note": "原版由 SRPEventHandlerBus.java:2036（case 71）派发该空表即无掉落；project 的战利品表同样为空 pools（{\"pools\": []}），两侧一致——这是与 sim_dragonehead/sim_cowhead 等（project 另加 1-3 血肉）不同的处置"
+        },
+        {
+          "clause": "经验 8（XP_INFECTED = SRPConfig.infectedXPValue）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:86",
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:74"
+          },
+          "note": "project xpReward = 8 于构造器直接赋值"
+        }
+      ],
+      "confidence": "high"
+    }
+  ]
+}

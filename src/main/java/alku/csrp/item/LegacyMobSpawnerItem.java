@@ -154,7 +154,7 @@ public final class LegacyMobSpawnerItem extends Item {
         return switch (name) {
             case "pod" -> "anc_pod";
             case "mes", "infplayer" -> "sim_human";
-            case "infplayerhead" -> "sim_humanhead";
+            case "infplayerhead" -> "sim_adventurerhead";
             case "infsquid" -> "sim_squid";
             case "infbear" -> "sim_bear";
             case "infcow" -> "sim_cow";

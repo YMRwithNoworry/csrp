@@ -3511,3 +3511,27 @@ getDeathSound():   if (kind == Kind.ENDERMAN) return SoundEvents.GENERIC_DEATH;
 
 **这是本会话第 3 处"资源齐备、接线缺失"型缺口**（前两处：头部步声 `small.step`、龙的静音音效）——
 共同特征是**编译与运行都不报错，只是没有声音**，只能靠审计发现。
+
+## 批次 218：修正旧版刷怪映射 bug + 第七批委派终报（2026-09-25 续）
+
+**（一）修正一处真实 bug**：第七批委派发现端口把旧版名 `infplayerhead` 映射到 `sim_humanhead`，而原版走**冒险者头**。双侧核实：
+
+```
+端口 LegacyMobSpawnerItem:157   case "infplayerhead" -> "sim_humanhead";                    ✗
+原版 ItemMobSpawner:384         if (this.name.equals("infplayerhead") && infadventurerEnabled) ⇒ 生成冒险者头
+端口 :163                       case "infhumanhead"  -> "sim_humanhead";                    ✔ 正确
+```
+
+⇒ 已改为 `"infplayerhead" -> "sim_adventurerhead"` ✔（`infhumanhead` 那条不动 ✔）。`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+**（二）第七批交付并验收**：`sim_dragonehead`（60 条：30/17/8/5）、`sim_adventurerhead`（63 条：29/21/9/4），
+含 246 条证据引用与 6 处行号订正；**并正确处置了 id 竞争**（发现兄弟代理先写了 `sim_endermanhead.json`，遂重新取列表改审另两只，未覆盖他人文件 ✔）。
+
+**（三）其列出的跨类缺口（待办，均已记录）**：
+- **另两种头部漏在我批次 188/209 的眼高修复之外**：`sim_dragonehead`（`ModEntities:259`）、`sim_adventurerhead`（`:291`）仍走 3 参 helper ✗（我此前只覆盖了 `AssimilatedHeadEntity` 的 8 种 kind）；
+- **这两种头部未接 `small.step` 步声**（原版 `EntityInfDragonEHead:93`、`EntityInfPlayerHead:157` 返回 `SMALL_STEPS`）✗——我批次 189 只改了 `AssimilatedHeadEntity` ✗；
+- `disloGiveBodies`（头→体）对两种头部均缺 ✗；
+- `SimAdventurerHeadEntity` 缺技能目标（兄弟类已有）、缺命中 COTH 与 FEAR ✗；
+- `sim_dragonehead` 掉落经核实**已为空**（我方批次 210 生效 ✔，委派所见为改动前状态）。
+
+**（四）其未解阻塞**：SRG 名 `func_70110_aj` 依旧无法判定（无映射表）⇒ 保持 partial ✔。
