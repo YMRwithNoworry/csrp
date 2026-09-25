@@ -1429,3 +1429,12 @@ NexusParasiteEntity:222     if (activeKind.family == Family.BECKON && activeKind
 
 两项偏差都会使判定**更严格**（寄生区内/雷暴时不放宽），不会产生"比原版更容易生成"的失衡；
 待端口引入群系概念或减光入口后可无痛回填。这样既推进实现，又不留"看起来照抄实则虚构"的代码。
+
+## 批次 95：实现 `isValidLightLevelOne`（生成合法性第 2 步）（2026-09-25 续）
+
+`world/SpawnLightChecks` 增加严格档判定：`parasiteRegion` 为真则转 Two 档（近似，见批次 94 的取舍说明）；
+否则 `SKY > nextInt(32) → false`、`getMaxLocalRawBrightness(pos) <= nextInt(8)`、`getWalkTargetValue(pos) >= 0.0F`。
+偏差（群系近似 + 不模拟雷暴减光）已写入方法注释并指向本文档；断言 4 条。
+
+**编译过程本身提供了两条校验**：① 缺 `Mob` 导入被当场拦下；② `getWalkTargetValue` 在 1.21 属 `PathfinderMob`
+而非 `Mob` —— 与批次 92 记录的"实体侧方法"判断一致，签名已改为 `PathfinderMob`。

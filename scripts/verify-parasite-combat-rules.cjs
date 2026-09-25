@@ -473,6 +473,13 @@ const lightChecks = read("src/main/java/alku/csrp/world/SpawnLightChecks.java");
 expect(lightChecks, /light <= random\.nextInt\(1000\) && light <= 7/, "the two-check threshold is not ported");
 expect(lightChecks, /\? random\.nextInt\(8\) == 0 : false/, "the two-check random gate is not ported");
 
+// Legacy spawn-validity strict light tier (isValidLightLevelOne), with its documented deviations.
+expect(lightChecks, /getBrightness\(LightLayer\.SKY, pos\) > random\.nextInt\(32\)/,
+  "the sky-light gate of the strict tier is not ported");
+expect(lightChecks, /getMaxLocalRawBrightness\(pos\)/, "the local-brightness gate of the strict tier is not ported");
+expect(lightChecks, /getWalkTargetValue\(pos\) >= 0\.0F/, "the walk-target gate of the strict tier is not ported");
+expect(lightChecks, /if \(parasiteRegion\) \{/, "the parasite-region approximation is not wired");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));
