@@ -365,16 +365,17 @@
         },
         {
           "clause": "tasks.addTask(5, this.jumpT) EntityAIJumping（目标高 1 格以上时跳跃）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:192",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/JumpAtHigherTargetGoal.java"
           },
           "groundTruth": {
             "verified": true,
             "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java",
             "line": 154
-          }
+          },
+          "note": "每 10 tick 判定：目标高出门眼 1 格以上且平方距离 < 4.0 且在地面 → 停导航 + 起跳（垂直 0.2 + 高*0.15，水平 0.5*0.8 + 现速*0.2）；沿用原版 canUse 内执行并返回 false 的形态；LongarmsEntity 优先级 5 注册；批次：EntityAIJumping 跳跃 AI（EntityParasiteBase.EntityAIJumping:2525）"
         },
         {
           "clause": "tasks.addTask(2, EntityAIAttackMelee(this, 1.0, false))（EntityMob 继承）",

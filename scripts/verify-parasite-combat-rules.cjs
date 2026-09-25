@@ -174,6 +174,21 @@ for (const [pattern, message] of [
   [/sprinting && mob\.distanceToSqr\(target\) > SPRINT_DISTANCE_SQR/, "the sprint gene must still apply while the target is far"],
 ]) expect(geneMelee, pattern, message);
 
+// legacy EntityAIJumping: a periodic hop when the target is above the mob
+const jumping = read("src/main/java/alku/csrp/entity/JumpAtHigherTargetGoal.java");
+for (const [pattern, message] of [
+  [/public final class JumpAtHigherTargetGoal extends Goal/, "the jumping goal is missing"],
+  [/CHECK_INTERVAL_TICKS = 10/, "the legacy ten tick cadence is missing"],
+  [/target\.distanceToSqr\(mob\.getX\(\), target\.getY\(\), mob\.getZ\(\)\) >= VERTICAL_RANGE_SQR/,
+    "the legacy squared-distance gate is missing"],
+  [/target\.getY\(\) - \(mob\.getY\(\) \+ mob\.getEyeHeight\(\)\) <= REQUIRED_HEIGHT_DIFFERENCE/,
+    "the one block height difference gate is missing"],
+  [/0\.2D \+ mob\.getBbHeight\(\) \* 0\.15D/, "the legacy hop velocity is missing"]
+]) expect(jumping, pattern, message);
+expect(read("src/main/java/alku/csrp/entity/LongarmsEntity.java"),
+  /addGoal\(5, new JumpAtHigherTargetGoal\(this\)\)/,
+  "LongarmsEntity must register EntityAIJumping at priority 5");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

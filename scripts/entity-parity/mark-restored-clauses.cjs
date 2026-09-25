@@ -335,6 +335,19 @@ const BATCHES = {
         detail: "液体命中累积 charge（上限 4，每 20 tick 判定一次），每 tick 消耗一枚并按 geneWaterleap 朝目标突进：潜没时高度 0.1/强度 0.5、出水时 0.3/1.0，水平公式 str*0.8 + 现速*0.2"
       }
     ]
+  },
+  // 批次 16：EntityAIJumping（原版 EntityParasiteBase:2525）
+  "jumping-ai": {
+    note: "批次：EntityAIJumping 跳跃 AI（EntityParasiteBase.EntityAIJumping:2525）",
+    projectClasses: ["LongarmsEntity"],
+    clauses: [
+      {
+        match: /EntityAIJumping/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/JumpAtHigherTargetGoal.java",
+        detail: "每 10 tick 判定：目标高出门眼 1 格以上且平方距离 < 4.0 且在地面 → 停导航 + 起跳（垂直 0.2 + 高*0.15，水平 0.5*0.8 + 现速*0.2）；沿用原版 canUse 内执行并返回 false 的形态；LongarmsEntity 优先级 5 注册"
+      }
+    ]
   }
 };
 

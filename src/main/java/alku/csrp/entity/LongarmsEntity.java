@@ -104,6 +104,9 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         // Legacy EntityShyco:89 tasks.addTask(2, EntityAIWaterLeapAtTargetStatus(this, 0.7F, 1.5, 3, 20, 0)).
         goalSelector.addGoal(2, new WaterLeapAtTargetGoal(this, 0.7F, 1.5D, 20, 0.0D));
         goalSelector.addGoal(2, new LongarmsMeleeGoal());
+        // Legacy EntityShyco tasks.addTask(5, this.jumpT): EntityAIJumping hops when the target is
+        // more than a block above the mob's eyes.
+        goalSelector.addGoal(5, new JumpAtHigherTargetGoal(this));
     }
 
     @Override

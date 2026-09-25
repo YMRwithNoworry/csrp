@@ -321,3 +321,16 @@ gene 门分别用 `waterLeapEnabled()` 与 `generationProfile(...).waterLeap()`�
 （"MeleeAttackGoal" → "GeneMeleeGoal"）——这类「改代码不带改断言」正是静态守卫抓出来的。
 `GeneSprintGoal` 保留（仅疾跑的场景仍可复用），当前无调用点。
 校验：`verify-parasite-combat-rules.cjs` 两族断言改为 gene 目标；全套 99 脚本失败集合回到既有 20 个。
+
+## 批次 16：EntityAIJumping 跳跃 AI（2026-09-25 续）
+
+原版 `EntityParasiteBase.EntityAIJumping`（`:2525-2562`，`func_75248_a(4)` 互斥 JUMP）：
+
+| 原版语义 | 实现 |
+| --- | --- |
+| 每 10 tick 检查一次（`secs`） | `CHECK_INTERVAL_TICKS = 10` |
+| 目标平方距离 < 4.0 且 `target.y - (mob.y + eyeHeight) > 1.0` 且在地面 | 同门限照搬（含原版「用目标自身 Y 参与距离」的写法） |
+| 停导航 + 起跳：垂直 `0.2 + 高*0.15`，水平 `dx/f * 0.5*0.8 + 现速*0.2` | `entity/JumpAtHigherTargetGoal`，沿原版在 `canUse` 内执行并返回 false 的形态（周期性触发器而非持续任务） |
+
+接线：`LongarmsEntity` 优先级 5（原版 `tasks.addTask(5, this.jumpT)`）。
+校验：`verify-parasite-combat-rules.cjs` 增 6 条断言；审计记账 1 条，满足 648 → **649**。
