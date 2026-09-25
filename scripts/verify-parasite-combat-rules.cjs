@@ -183,6 +183,19 @@ expect(read("src/main/java/alku/csrp/entity/LongarmsEntity.java"),
 expect(primitive, /protected final boolean specialMovesEnabled\(\) \{[\s\S]{0,200}?\.specialMoves\(\)/,
   "PrimitiveParasiteEntity.specialMovesEnabled() is missing");
 
+// legacy EntityAISkill: the shared dispatch contract (gate + distance window + cadence)
+const skillGoal = read("src/main/java/alku/csrp/entity/ParasiteSkillGoal.java");
+for (const [pattern, message] of [
+  [/public final class ParasiteSkillGoal extends Goal/, "the skill dispatch goal is missing"],
+  [/interface ParasiteSkill \{/, "the doSpecialSkill contract is missing"],
+  [/void tick\(\);/, "the skill contract must expose the per-tick step"],
+  [/boolean isFinished\(\);/, "the skill contract must expose the legacy getFinished"],
+  [/minDistanceSqr = \(double\) minDistance \* minDistance/, "distances must be squared like the original"],
+  [/parasite\.specialMovesEnabled\(\)/, "the skill must be gated by geneSpecialmove"],
+  [/!needVisual \|\| mob\.getSensing\(\)\.hasLineOfSight\(target\)/, "needVisual must require line of sight"],
+  [/if \(attackTimer < cooldownTicks\)/, "the legacy cooldown warm-up is missing"]
+]) expect(skillGoal, pattern, message);
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

@@ -409,3 +409,20 @@ EntityInfCow: 0    EntityInfHuman: 0    EntitySpeCow: 0    EntityFerVillager: 0
 校验：`verify-parasite-combat-rules.cjs` 增加 1 条断言；全套 99 脚本失败集合仍为既有 20 个；`build` 通过。
 下一步（批次 21）：新建共享 `ParasiteSkillGoal`（门控/距离窗口/冷却/attackID 派发），再把各族既有技能
 （`CowChargeGoal` 等）适配为 attackID 条目，注册到同化/野化/掠夺化三族。
+
+## 批次 21：ParasiteSkillGoal 派发契约（2026-09-25 续）
+
+按批次 19 路径第 ② 步落地：新增 `entity/ParasiteSkillGoal`，复刻 `EntityAISkill` 的契约形状。
+
+| 原版 | 端口 |
+| --- | --- |
+| 构造 `(para, cooldown, miniDistance, [maxDistance], needVisual, attackID[, ignoreStatus])`，距离存平方 | 三个构造重载，`minDistanceSqr`/`maxDistanceSqr` 在构造时平方 |
+| `func_75250_a`：`getGeneMod(5)` 门控 + 状态条件；attackID 13/31 与 `ignoreStatus` 例外 | `canUse` 用 `mob instanceof PrimitiveParasiteEntity && specialMovesEnabled()`；例外由子类覆写 `geneAllows()`/`canUse()` 表达 |
+| 距离窗口 `distanceL² ≤ d² < distanceC²` | 同（`maxDistance == 0` 视为无上界） |
+| `needVisual` → 需视线 | `mob.getSensing().hasLineOfSight(target)` |
+| 每 tick 调 `doSpecialSkill(attackID)` 直到 `getFinished(attackID)` | 内部接口 `ParasiteSkill { tick(); isFinished(); }`，`attackID` 作为身份保留 |
+| 起手前的冷却累积 | `attackTimer < cooldownTicks` 预热，再置 `attacking = 1` |
+
+本批只落地**契约层**（尚无注册点）：下一批把各族既有技能（`CowChargeGoal`、`LongarmsMeleeGoal`、
+`ShockwaveGoal` 等）适配成 `ParasiteSkill` 条目并按原版参数表注册，即可翻转 7 条 gene 捆绑条款。
+校验：`verify-parasite-combat-rules.cjs` 增加 8 条断言；全套 99 脚本失败集合仍为既有 20 个；`build` 通过。
