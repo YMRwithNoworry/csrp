@@ -3500,3 +3500,14 @@ getDeathSound():   if (kind == Kind.ENDERMAN) return SoundEvents.GENERIC_DEATH;
 
 **本批完成了一条"三步收敛"**：① 发现映射错误（批次 214 移除）→ ② 查明回退语义、**如实标注"更接近但不等价"**（批次 215）→ ③ 按逐类分支补齐到等价（本批）。
 **中间那一步的如实标注是关键**：若在第 ① 步就宣称"音效已对齐"，第 ③ 步就不会发生。
+
+## 批次 217：头部传送音效接线（`infectedenderman.portal`）（2026-09-25 续）
+
+第六批委派指出"`infectedenderman.portal` 已注册（`ModSounds:111`、`sounds.json:844`）但 `teleportAwayFromTarget` 从不播放"。
+源头核实：原版 `EntityInfEndermanHead:333` 在传送时 `func_184185_a(SRPSounds.INFECTEDENDERMAN_PORTAL, 1.0F, 1.0F)` ✔。
+
+⇒ 在端口 `teleportAwayFromTarget` 方法体起始处补上同调用（音量/音高 1.0F）✔。断言 1 条；
+`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+**这是本会话第 3 处"资源齐备、接线缺失"型缺口**（前两处：头部步声 `small.step`、龙的静音音效）——
+共同特征是**编译与运行都不报错，只是没有声音**，只能靠审计发现。

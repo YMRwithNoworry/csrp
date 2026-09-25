@@ -590,6 +590,11 @@ expect(read("src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java"),
 expect(read("src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java"),
   /kind == Kind\.ENDERMAN[\s\S]{0,80}?SoundEvents\.GENERIC_HURT/, "the enderman head hurt sound is wrong");
 
+// Legacy EntityInfEndermanHead:333 plays the portal sound while teleporting.
+expect(read("src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java"),
+  /playSound\(alku\.csrp\.registry\.ModSounds\.INFECTED_ENDERMAN_PORTAL\.get\(\), 1\.0F, 1\.0F\)/,
+  "the head teleport does not play the portal sound");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

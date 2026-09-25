@@ -403,6 +403,8 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
     }
 
     private boolean teleportAwayFromTarget(LivingEntity target) {
+        // Legacy EntityInfEndermanHead:333 plays the portal sound when teleporting.
+        playSound(alku.csrp.registry.ModSounds.INFECTED_ENDERMAN_PORTAL.get(), 1.0F, 1.0F);
         for (int attempt = 0; attempt < 8; attempt++) {
             Vec3 destination = position().add((random.nextDouble() - 0.5D) * 32.0D,
                     random.nextInt(16) - 8, (random.nextDouble() - 0.5D) * 32.0D);
