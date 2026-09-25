@@ -1133,3 +1133,15 @@ SRPConfig: infectedXPValue = 8 / feralXPValue = 16 / primitiveXPValue = 30
 
 **顺手获得的同线信息**（后续可复用）：feral 族应为 **16**、primitive 族应为 **30**——如果这两族的
 `Kind.experience` 也偏离，可照本批一次性对齐。
+
+## 批次 76：野化族经验对齐（已审计生物 fer_villager 到位）（2026-09-25 续）
+
+按批次 75 的取值链，野化族应统一为 `SRPConfig.feralXPValue = 16`。端口 `FeralParasiteEntity.Kind`
+原为 12/12/24/12/10/8/9/10/10 ⇒ 本轮先把**已审计生物**与其邻项对齐：
+
+- `VILLAGER`（= `fer_villager`）：10 → **16** ✔（正是其审计里"经验 16→10"标记的缺口）
+- `WOLF`：10 → **16**（同批同值，顺手对齐）
+
+**剩余 7 种待对齐**（BEAR 12 / COW 12 / ENDERMAN 24 / HORSE 12 / HUMAN 10 / PIG 8 / SHEEP 9）——
+纯数值批量，下一轮用 edit 工具逐行改（本轮的正则批量因缩进/转义未命中，已改用 edit 工具，避免重蹈批次 71 的脚本事故）。
+`build` 通过、套件维持既有 20 失败。

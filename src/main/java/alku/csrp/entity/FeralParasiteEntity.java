@@ -343,8 +343,8 @@ public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntit
         HUMAN(24.0D, 15.0D, 7.0D, 0.3D, 0.26D, 32.0D, 10),
         PIG(16.0D, 13.0D, 8.0D, 0.7D, 0.32D, 24.0D, 8),
         SHEEP(21.0D, 12.0D, 5.0D, 0.7D, 0.30D, 24.0D, 9),
-        VILLAGER(27.0D, 17.0D, 8.0D, 0.9D, 0.26D, 32.0D, 10),
-        WOLF(16.0D, 15.0D, 4.0D, 0.4D, 0.36D, 32.0D, 10);
+        VILLAGER(27.0D, 17.0D, 8.0D, 0.9D, 0.26D, 32.0D, 16),
+        WOLF(16.0D, 15.0D, 4.0D, 0.4D, 0.36D, 32.0D, 16);
 
         private final double maxHealth;
         private final double attackDamage;
