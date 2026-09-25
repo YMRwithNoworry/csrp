@@ -48,6 +48,28 @@ import java.util.EnumSet;
 /** Assimilated Ender Dragon with removable head and wing durability driving flight and ranged combat. */
 public final class AssimilatedDragonEntity extends Monster implements CitadelAnimatedEntity, Parasite {
     private static final float PART_HEALTH = 52.0F;
+
+    // Legacy EntityInfDragonE:361/373: ambient and death are MOBSILENCE, the hurt sound is the
+    // vanilla ender-dragon one and the sound volume is 5.0F.
+    @Override
+    protected net.minecraft.sounds.SoundEvent getAmbientSound() {
+        return null;
+    }
+
+    @Override
+    protected net.minecraft.sounds.SoundEvent getDeathSound() {
+        return null;
+    }
+
+    @Override
+    protected net.minecraft.sounds.SoundEvent getHurtSound(net.minecraft.world.damagesource.DamageSource source) {
+        return net.minecraft.sounds.SoundEvents.ENDER_DRAGON_HURT;
+    }
+
+    @Override
+    protected float getSoundVolume() {
+        return 5.0F;
+    }
     private static final int RANGED_COOLDOWN = 40;
     private static final int BLOCK_BREAK_COOLDOWN = 60;
     private static final int BLOCK_BREAK_RANGE = 4;

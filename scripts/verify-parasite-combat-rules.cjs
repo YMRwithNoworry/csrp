@@ -558,6 +558,14 @@ expect(read("src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java"),
   /protected void playStepSound\([^)]*\)[\s\S]{0,160}?ModSounds\.get\("small\.step"\)/,
   "the head step sound is not wired");
 
+// Legacy EntityInfDragonE:361/373: ambient+death are silent, hurt is the ender-dragon sound, volume 5.
+expect(read("src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java"),
+  /getAmbientSound\(\) \{\s*return null;/, "the dragon ambient sound must be silent");
+expect(read("src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java"),
+  /return net\.minecraft\.sounds\.SoundEvents\.ENDER_DRAGON_HURT;/, "the dragon hurt sound is wrong");
+expect(read("src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java"),
+  /getSoundVolume\(\) \{\s*return 5\.0F;/, "the dragon sound volume must be 5.0F");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

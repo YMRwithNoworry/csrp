@@ -3075,3 +3075,18 @@ protected void playStepSound(BlockPos pos, BlockState state) {
 
 **方法论（第 N 次同类）**：**审计描述与实际范围之间常有落差**——审计说"音效全缺"，直查后发现是"两处返回静音"。
 本会话反复验证：**任何缺口在动手前都要自己直查一遍原版**，既防漏做，也防**过度实现**（多注册一堆无人使用的音效资源）。
+
+## 批次 194：龙音效落地（ambient/death 静音、hurt 用末影龙音、音量 5.0F）（2026-09-25 续）
+
+批次 193 订正范围后，本轮按 **1.21 惯用法（覆写返回 `null` = 静音）** 落地。原版四个方法已确认：
+
+```
+EntityInfDragonE:360  func_184639_G (getAmbientSound)      → SRPSounds.MOBSILENCE      ⇒ 端口 return null
+EntityInfDragonE:364  func_184601_bQ (getHurtSound)        → SoundEvents.field_187526_aP（原版末影龙受伤音）
+                                                                                        ⇒ 端口 SoundEvents.ENDER_DRAGON_HURT
+EntityInfDragonE:368  func_70599_aP (getSoundVolume)       → 5.0F                      ⇒ 端口 return 5.0F
+EntityInfDragonE:373  func_184615_bR (getDeathSound)       → SRPSounds.MOBSILENCE      ⇒ 端口 return null
+```
+
+⇒ 该生物音效**四项一次落地**（无需新增任何音效资源——这正是批次 193 订正后避免的"过度实现"）。断言 3 条；
+`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
