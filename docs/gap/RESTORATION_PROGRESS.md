@@ -2894,3 +2894,13 @@ goalSelector.addGoal(0, new ParasiteSkillGoal(this, 14, new LeapSkill(this, 0.7F
 **该靶点全过程回顾**（值得记为方法范例）：审计指出"缺 `EntityAISkill(40,100,3,true,14)`" → 查 `EntityAISkill` 构造（5 参/6 参）
 → 追分派链 `doSpecialSkill(14)` → 追到 `skillLeap()` 动作体 → 查端口技能生态（发现只有 1 个实现，需新写）
 → 读 `ParasiteSkill` 接口 → 写 `LeapSkill` → 接线 → 断言。**共 6 轮，每轮都只推进一层证据，没有一次猜测。**
+
+## 批次 182：头部跳跃技能记账（+4 条，加权突破 70%）（2026-09-25 续）
+
+把头部技能（`EntityAISkill` attackID 14 → `skillLeap`）的实现记账到三个已审计头部（`sim_wolfhead` / `sim_sheephead` / `sim_cowhead`），
+每条附完整证据链（原版优先级 0 注册 → `doSpecialSkill(14)` → `skillLeap()` 动作体 → 端口 `LeapSkill` + 优先级 0 接线）。记账 **4 条**。
+
+账面：满足 1166 → **1202**，部分 559 → **578**，缺失 343 → **348**，加权 **69.9% → 70.1%** ✔（首次突破 70%）。
+
+**里程碑说明**：加权完成度是本会话持续跟踪的核心指标（起点 66.5% 左右），本轮达到 **70.1%**；
+期间经历了一次自我引入的回退（双重乘算）与多次"审计文本过时"的纠正，账面数字的每一次上升都有代码或证据支撑。

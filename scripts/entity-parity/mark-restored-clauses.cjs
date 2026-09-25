@@ -834,6 +834,19 @@ const BATCHES = {
         detail: "子代理复核指出：端口 AssimilatedHeadEntity 已覆写 causeFallDamage（1.21 对应原版 func_180430_e）并以 damageMultiplier * 0.3F 计算，即原版的 0.3 倍摔落伤害；原审计记 missing 属假阴性，据实收敛。"
       }
     ]
+  },
+  // 批次 182：头部跳跃技能（EntityAISkill attackID 14 -> skillLeap）
+  "head-leap-skill": {
+    note: "批次：头部技能接线（LeapSkill + ParasiteSkillGoal 优先级 0）",
+    mobs: ["sim_wolfhead", "sim_sheephead", "sim_cowhead"],
+    clauses: [
+      {
+        match: /EntityAISkill|skillLeap|跳跃技能|setskillLeapValues|技能/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/LeapSkill.java",
+        detail: "原版头部在 tasks 优先级 0 注册 EntityAISkill(this, 40, 100, 3, true, 14) 并 setskillLeapValues(0.7F, 2.5, 0)；attackID 14 经 doSpecialSkill(14) 分派到 skillLeap()（EntityParasiteBase:2416/2427：记录目标点，落地时置状态 10、motionY=0.7、水平 jumpSpeed*0.9=2.25 并叠加 30% 现有速度；jumpR=0 故无落点伤害）。端口新增 LeapSkill 实现该语义，并在 AssimilatedHeadEntity 以优先级 0 注册 ParasiteSkillGoal(this, 14, new LeapSkill(this, 0.7F, 2.5D, 0), 40, 100, 3, true)。"
+      }
+    ]
   }
 };
 

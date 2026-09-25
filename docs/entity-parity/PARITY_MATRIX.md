@@ -1,27 +1,27 @@
 # 生物还原矩阵（SRParasites 1.10.9 → csrp）
 
-> 生成时间：2026-09-25T06:27:59.830Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
+> 生成时间：2026-09-25T06:30:01.478Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
 > 判定：✅ 全部条款满足；🟠 有部分实现但无缺失；❌ 存在缺失；· 未审计。
 
-- 注册生物总数：**127**；已审计：**23**；未审计：**104**
-- 条款总计：满足 1166 / 部分 559 / 缺失 343（不计入 96 条不适用）
-- **加权完成度：69.9%**（partial 计 0.5）
+- 注册生物总数：**127**；已审计：**24**；未审计：**103**
+- 条款总计：满足 1202 / 部分 578 / 缺失 348（不计入 100 条不适用）
+- **加权完成度：70.1%**（partial 计 0.5）
 
 ## 分面完成度
 
 | 面 | 满足 | 部分 | 缺失 | 完成度 |
 | --- | ---: | ---: | ---: | ---: |
-| 注册 `registration` | 122 | 63 | 51 | 65% |
-| 属性 `attributes` | 168 | 40 | 10 | 86.2% |
-| AI `ai` | 133 | 129 | 37 | 66.1% |
-| 行为 `behaviors` | 237 | 108 | 68 | 70.5% |
-| 伤害/效果 `damage_and_effects` | 155 | 19 | 21 | 84.4% |
-| 同步数据 `sync_data` | 44 | 47 | 48 | 48.6% |
-| 动画 `animation` | 88 | 21 | 9 | 83.5% |
-| 模型/贴图 `model_texture` | 77 | 6 | 21 | 76.9% |
-| 音效 `sounds` | 54 | 38 | 30 | 59.8% |
-| 生成 `spawning` | 69 | 50 | 27 | 64.4% |
-| 掉落 `loot` | 19 | 38 | 21 | 48.7% |
+| 注册 `registration` | 127 | 66 | 53 | 65% |
+| 属性 `attributes` | 174 | 41 | 11 | 86.1% |
+| AI `ai` | 140 | 134 | 35 | 67% |
+| 行为 `behaviors` | 238 | 112 | 69 | 70.2% |
+| 伤害/效果 `damage_and_effects` | 159 | 20 | 21 | 84.5% |
+| 同步数据 `sync_data` | 46 | 48 | 50 | 48.6% |
+| 动画 `animation` | 93 | 21 | 9 | 84.1% |
+| 模型/贴图 `model_texture` | 79 | 6 | 21 | 77.4% |
+| 音效 `sounds` | 56 | 40 | 30 | 60.3% |
+| 生成 `spawning` | 70 | 51 | 28 | 64.1% |
+| 掉落 `loot` | 20 | 39 | 21 | 49.4% |
 
 ## 分组完成度
 
@@ -37,13 +37,12 @@
 | early_lifecycle | 1/10 | 42 | 25 | 18 | 64.1% |
 | marauderized | 1/7 | 58 | 24 | 22 | 67.3% |
 | current | 2/13 | 99 | 42 | 34 | 68.6% |
-| assimilated | 16/23 | 813 | 374 | 178 | 73.3% |
+| assimilated | 17/23 | 849 | 393 | 183 | 73.4% |
 
 ## 逐生物矩阵
 
 | id | 原版类 | 工程类 | 注册 | 属性 | AI | 行为 | 伤害/效果 | 同步数据 | 动画 | 模型/贴图 | 音效 | 生成 | 掉落 | 完成度 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | ---: |
-| `sim_pighead` | EntityInfPigHead | AssimilatedHeadEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `sim_villagerhead` | EntityInfVillagerHead | AssimilatedHeadEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `sim_horsehead` | EntityInfHorseHead | AssimilatedHeadEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `sim_humanhead` | EntityInfHumanHead | AssimilatedHeadEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
@@ -150,18 +149,19 @@
 | `beckon_siii` | EntityVenkrolSIII | NexusParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 54.9% |
 | `hi_skeleton` | EntityHiSkeleton | HiSkeletonEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | 61.4% |
 | `fer_villager` | EntityFerVillager | FeralParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 61.6% |
-| `sim_sheephead` | EntityInfSheepHead | AssimilatedHeadEntity | ❌ | ❌ | ❌ | ❌ | · | · | ✅ | · | ❌ | ❌ | 🟠 | 64% |
 | `host` | EntityHost | HostEntity | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | 🟠 | 64.1% |
+| `sim_sheephead` | EntityInfSheepHead | AssimilatedHeadEntity | ❌ | ❌ | ❌ | ❌ | · | · | ✅ | · | ❌ | ❌ | 🟠 | 66.3% |
 | `sim_dragone` | EntityInfDragonE | AssimilatedDragonEntity | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | ✅ | ❌ | ❌ | 🟠 | 66.7% |
 | `mar_cow` | EntitySpeCow | MarauderizedCowEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 67.3% |
 | `buglin` | EntityLodo | BuglinEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 68.6% |
 | `pri_longarms` | EntityShyco | LongarmsEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 68.6% |
 | `sim_pig` | EntityInfPig | AssimilatedParasiteEntity | ❌ | 🟠 | ❌ | ❌ | · | · | · | · | ❌ | ❌ | ❌ | 68.8% |
-| `sim_wolfhead` | EntityInfWolfHead | AssimilatedHeadEntity | ❌ | 🟠 | ❌ | ❌ | 🟠 | ❌ | ❌ | ✅ | ❌ | ❌ | 🟠 | 70% |
-| `sim_cowhead` | EntityInfCowHead | AssimilatedHeadEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ✅ | ✅ | 🟠 | ❌ | 🟠 | 70% |
+| `sim_pighead` | EntityInfPigHead | AssimilatedHeadEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ✅ | ✅ | 🟠 | ❌ | 🟠 | 70% |
 | `sim_human` | EntityInfHuman | SimHumanEntity | ❌ | ✅ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 70.9% |
 | `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | ❌ | 🟠 | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 71% |
 | `sim_adventurer` | EntityInfPlayer | SimAdventurerEntity | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | 71.4% |
+| `sim_wolfhead` | EntityInfWolfHead | AssimilatedHeadEntity | ❌ | 🟠 | 🟠 | ❌ | 🟠 | ❌ | ❌ | ✅ | ❌ | ❌ | 🟠 | 71.7% |
+| `sim_cowhead` | EntityInfCowHead | AssimilatedHeadEntity | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ✅ | ✅ | 🟠 | ❌ | 🟠 | 72.5% |
 | `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | ❌ | 🟠 | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 74.3% |
 | `sim_bigspider` | EntityDorpa | AssimilatedVariantEntity | ❌ | ✅ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 75% |
 | `sim_cow` | EntityInfCow | AssimilatedParasiteEntity | ❌ | 🟠 | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 75% |
@@ -197,9 +197,6 @@
 - 同步/NBT 与状态表达缺口：SELFE/SKIN/COLD_L/DISLO15 等 5 项数据参数缺失，parasiteStatus 只能表达 0..2 并被 clamp 到 3，缺少 6/10 等引信与水跃状态
 - 生成与掉落规则缺口：无 spawnDays/寄生群系亮度放宽、无 getIDSpawn 27 同化配额与 id 锁、默认掉落表与原版（默认空表 + chance/looting 语义）不一致，额外掉 csrp:bone 1-3；脚步声与音高未还原
 
-### `sim_sheephead`（EntityInfSheepHead → AssimilatedHeadEntity，64%）
-- （无缺口摘要，见 raw JSON）
-
 ### `host`（EntityHost → HostEntity，64.1%）
 - 潜地状态下的受伤免疫/击退门控与动态碰撞箱未实现
 - 进伤上限（primitiveCap=6）、火伤倍率 4.0、药水免疫、中毒转治疗均缺失
@@ -207,6 +204,9 @@
 - 钻地传送、脚下 InfestRemain、地面粒子等伴随表现缺失
 - AI：wait/jumpT/AOE 范围切换 GOAL 缺失，跟随 GOAL 未按原版移除
 - 经验 20 < 原版 30，且缺少阶段加成与 per-mob 开关
+
+### `sim_sheephead`（EntityInfSheepHead → AssimilatedHeadEntity，66.3%）
+- （无缺口摘要，见 raw JSON）
 
 ### `sim_dragone`（EntityInfDragonE → AssimilatedDragonEntity，66.7%）
 - （无缺口摘要，见 raw JSON）
@@ -238,10 +238,7 @@
 ### `sim_pig`（EntityInfPig → AssimilatedParasiteEntity，68.8%）
 - （无缺口摘要，见 raw JSON）
 
-### `sim_wolfhead`（EntityInfWolfHead → AssimilatedHeadEntity，70%）
-- （无缺口摘要，见 raw JSON）
-
-### `sim_cowhead`（EntityInfCowHead → AssimilatedHeadEntity，70%）
+### `sim_pighead`（EntityInfPigHead → AssimilatedHeadEntity，70%）
 - （无缺口摘要，见 raw JSON）
 
 ### `sim_human`（EntityInfHuman → SimHumanEntity，70.9%）
@@ -251,6 +248,12 @@
 - （无缺口摘要，见 raw JSON）
 
 ### `sim_adventurer`（EntityInfPlayer → SimAdventurerEntity，71.4%）
+- （无缺口摘要，见 raw JSON）
+
+### `sim_wolfhead`（EntityInfWolfHead → AssimilatedHeadEntity，71.7%）
+- （无缺口摘要，见 raw JSON）
+
+### `sim_cowhead`（EntityInfCowHead → AssimilatedHeadEntity，72.5%）
 - （无缺口摘要，见 raw JSON）
 
 ### `sim_wolf`（EntityInfWolf → AssimilatedParasiteEntity，74.3%）

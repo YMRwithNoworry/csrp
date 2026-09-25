@@ -176,12 +176,12 @@
       "clauses": [
         {
           "clause": "tasks.addTask(0, EntityAISkill(this, 40, 100, 3, true, 14)) + setskillLeapValues(0.7F, 2.5, 0)",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfWolfHead.java:60",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/LeapSkill.java"
           },
-          "note": "project 无 EntityAISkill，也无 skillLeap 参数（0.7F/2.5）；仅以 LeapAtTargetGoal(0.4F) 复刻 task 2"
+          "note": "原版头部在 tasks 优先级 0 注册 EntityAISkill(this, 40, 100, 3, true, 14) 并 setskillLeapValues(0.7F, 2.5, 0)；attackID 14 经 doSpecialSkill(14) 分派到 skillLeap()（EntityParasiteBase:2416/2427：记录目标点，落地时置状态 10、motionY=0.7、水平 jumpSpeed*0.9=2.25 并叠加 30% 现有速度；jumpR=0 故无落点伤害）。端口新增 LeapSkill 实现该语义，并在 AssimilatedHeadEntity 以优先级 0 注册 ParasiteSkillGoal(this, 14, new LeapSkill(this, 0.7F, 2.5D, 0), 40, 100, 3, true)。；批次：头部技能接线（LeapSkill + ParasiteSkillGoal 优先级 0）"
         },
         {
           "clause": "tasks.addTask(0, EntityAISwimming(this))",
