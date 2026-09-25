@@ -60,6 +60,10 @@ public final class AssimilatedEndermanEntity extends Monster
         implements CitadelAnimatedEntity, Parasite, ManualVariantProvider {
     private static final EntityDataAccessor<Boolean> SHRIMP_FED = SynchedEntityData.defineId(
             AssimilatedEndermanEntity.class, EntityDataSerializers.BOOLEAN);
+    /** Legacy ATTACKING_SPEED_BOOST_ID of EntityInfEnderman:57. */
+    private static final net.minecraft.resources.ResourceLocation ATTACKING_SPEED_BOOST_ID =
+            net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(alku.csrp.Csrp.MODID, "attacking_speed_boost");
+
     private static final EntityDataAccessor<Integer> TEXTURE_VARIANT = SynchedEntityData.defineId(
             AssimilatedEndermanEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Boolean> SCREAMING = SynchedEntityData.defineId(
@@ -139,6 +143,16 @@ public final class AssimilatedEndermanEntity extends Monster
         boolean hasTarget = target != null;
         entityData.set(SCREAMING, hasTarget);
         setAggressive(hasTarget);
+        // Legacy EntityInfEnderman:57 ATTACKING_SPEED_BOOST: +0.15 movement speed while attacking.
+        var attackSpeed = getAttribute(net.minecraft.world.entity.ai.attributes.Attributes.MOVEMENT_SPEED);
+        if (attackSpeed != null) {
+            attackSpeed.removeModifier(ATTACKING_SPEED_BOOST_ID);
+            if (hasTarget) {
+                attackSpeed.addTransientModifier(new net.minecraft.world.entity.ai.attributes.AttributeModifier(
+                        ATTACKING_SPEED_BOOST_ID, 0.15D,
+                        net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_VALUE));
+            }
+        }
 
         if (!hasTarget) {
             setParasiteStatus(0);

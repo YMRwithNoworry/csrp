@@ -2375,3 +2375,22 @@ ParasiteSummon.spawn(parasite, ParasiteSummon.specFor(parasite));
 **实施计划（下一批）**：在端口"攻击态"切换处（`setAggressive` 或目标变更处）对 `MOVEMENT_SPEED` 挂/摘该修饰符，
 id 用固定 `ResourceLocation`，值 `0.15`、运算 `ADD_VALUE`（1.21 语义对应 1.12 的 `0` 号运算）；
 断言（修饰符定义存在 + 攻击态切换处调用）后可收敛审计中对应条款。
+
+## 批次 154：`sim_enderman` 攻击态移速加成落地（+0.15）（2026-09-25 续）
+
+按批次 153 的核实结论实现：在 tick 中的 `setAggressive(hasTarget)`（`:141`）之后对 `MOVEMENT_SPEED` 挂/摘修饰符：
+
+```java
+attackSpeed.removeModifier(ATTACKING_SPEED_BOOST_ID);
+if (hasTarget) {
+    attackSpeed.addTransientModifier(new AttributeModifier(
+            ATTACKING_SPEED_BOOST_ID, 0.15D, AttributeModifier.Operation.ADD_VALUE));
+}
+```
+
+对应原版 `EntityInfEnderman:57` 的 `ATTACKING_SPEED_BOOST`（0.15F，1.12 的 0 号运算 ⇒ 1.21 的 `ADD_VALUE`）；
+id 用固定 `ResourceLocation`（`csrp:attacking_speed_boost`）以便可靠摘除。编译验证了 1.21 的 `addTransientModifier` 与
+`AttributeModifier(ResourceLocation, double, Operation)` 构造均存在 ✔。`build` 通过、套件维持既有 20 失败。
+
+**`sim_enderman` 六项进度**：1 ✅ WITHER→BLEED、2 ✅ 传送音、6 ✅ 移除 follow 任务、3 ✅ 本轮攻速加成、
+5 ⛔ 贴图随机（源头未复现，不实施）、4 ⏳ head hitbox（唯一剩余）。
