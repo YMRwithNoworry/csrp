@@ -1288,3 +1288,21 @@ EntityDod / EntityLeem / EntityVenkrol : XP_INFECTED * 2
 （说明原版其余注册写法不同，如无点号前缀或多行链式），**不足以支撑"一律 64/3"的结论**——
 尤其弹体（间隔 1 属合理特例）与大体积重载（128 格可能是刻意为之）两类，盲目统一反而可能造成新的偏差。
 故按纪律留手，待取得原版逐类参数后再定（可考虑先查原版大体积实体如 kirin/draconite 的实际 tracker 值）。
+
+## 批次 89：生成合法性条款是**功能缺口**而非数值偏差（2026-09-25 续，记录未改）
+
+条款原文：**「生成合法性 func_70601_bi：亮度 isValidLightLevelOne/Two + SRPConfig.ignoreL + 难度非 PEACEFUL + spawnDays 天数门控」**（7 条 partial）。
+
+核查端口：`grep -rn "isValidLightLevel|ignoreL|spawnDays" --include=*.java src/main/java` → **0 命中**。
+即三要素**在端口完全不存在**（连配置键都没有），因此这 7 条不是"改个数值"能收敛的，而是**需要实现的功能**：
+
+| 子项 | 原版语义（待按源码确认细节） | 端口现状 |
+| --- | --- | --- |
+| `isValidLightLevelOne/Two` | 两级光照判定（对应 1.12 的 `isValidLightLevel` 变体） | ❌ 无 |
+| `SRPConfig.ignoreL` | 忽略光照的开关 | ❌ 无（配置键也没有） |
+| `spawnDays` 天数门控 | 世界天数（`worldTime/2400`）未达阈值则不生成 | ❌ 无 |
+| 难度非 PEACEFUL | 和平难度不生成 | ❓ 待查现有生成路径 |
+
+**下一批做法**（需按顺序）：① 读原版 `func_70601_bi` 全文与其调用点，确定两级光照的具体阈值与 `ignoreL` 分支；
+② 在端口查现有生成路径（`SRPSpawning` / `SpawnPlacements` / `checkSpawnRules`）决定挂载点；
+③ 补配置键（`ignoreL`、`spawnDays`）→ 实现判定 → 断言 → 记账。属多轮任务，不宜与数值对齐混做。
