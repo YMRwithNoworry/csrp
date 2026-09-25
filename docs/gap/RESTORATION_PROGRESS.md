@@ -3702,3 +3702,27 @@ public void func_70636_d() {                      // = 每 tick
 
 **本会话的"接线 vs 建机制"判别已用过 4 次**（killcount、attackSpeedT、命中盒、本项），每次都据"端口是否已有前置"作出结论——
 这避免了把机制级工作当成一行改动来做（那会产生"看起来完成、实际永不触发"的假实现）。
+
+## 批次 228：头部节奏第 2 步的风险评估（2026-09-25 续，未改代码）
+
+**端口现状**（实读）：
+
+```java
+private final class HeadMeleeGoal extends MeleeAttackGoal {          // 继承 vanilla
+    start(): super.start(); updateMeleeStatus();
+    tick():  super.tick();  updateMeleeStatus();                     // 近战中把寄生体状态置 1
+    stop():  super.stop();  … 若状态非 10 则置 0
+}
+private void updateMeleeStatus() { if (getParasiteStatus() != 10) setParasiteStatus(1); }
+```
+
+**第 2 步（把节奏从 20 改成 15）的风险**：方案是"换成参数化的 `GeneMeleeGoal(…, 15)`"，
+但 `GeneMeleeGoal` 是**独立实现**（自带冲刺距离/倍率、视线判定等语义 ✗），而 `HeadMeleeGoal` 继承 vanilla。
+⇒ **直接替换会同时改变"节奏"与"整个近战行为"** ✗（冲刺、寻路速度、视线要求都可能变），
+这远超"把 15 填进去"的范围。
+
+**因此第 2 步需先做语义比对**：逐项对比 `GeneMeleeGoal` 与 vanilla `MeleeAttackGoal` 的行为差异，
+确认替换后**只有节奏变化**（或明确接受并记录其他变化）；否则应改为"给头部单独写一个 15 tick 的轻量近战目标"。
+
+**本轮结论（如实）**：第 2 步**不是一步小改**，需要一次语义比对才能安全落地 ⇒ 推迟，不硬做。
+（这正是"一次只动一层"的实践：第 1 步已参数化 ✔ 且**行为零变更** ✔，第 2 步涉及行为等价性，必须单独论证。）
