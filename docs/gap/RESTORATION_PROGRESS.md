@@ -2006,3 +2006,22 @@ goalSelector.addGoal(2, new WaterLeapAtTargetGoal(this, () -> level() instanceof
 
 ⇒ 修正为 **8**（一次修正覆盖全部八种头部：cow/enderman/horse/human/pig/sheep/villager/wolf 的头）。
 `build` 通过、套件维持既有 20 失败。
+
+## 批次 134：SELFE 引信时长（`fuseTime`）全表查清（2026-09-25 续，未改代码）
+
+子代理审计指出 `sim_horse` 的 `fuseTime` 原版 70、端口 40。为**避免只修一处的碎片化**，本轮一次查全原版覆写表：
+
+```
+EntityParasiteBase.java:141   protected int fuseTime = 40;      ← 基类默认（端口已一致）
+EntityInfHorse.java:53        this.fuseTime = 70;               ← 同化马（本批靶点）
+EntityPPreeminent.java:85     70        EntityPPure.java:92      70
+EntityCruxB.java:83           70        EntityLesh.java:61       70
+EntityGothol.java:75          70        EntityRathol.java:75     70
+EntityButhol.java:93          30        EntityGothol/Rathol:125  从 NBT "Fuse" 读回（存档保持）
+```
+
+**结论**：端口的 `ParasiteFuseState` 目前是**全局 40**（共享常量），而原版是**可覆写字段**且多族取 70（含两个族还支持从 NBT 恢复）。
+因此正确做法不是逐个硬改常量，而是**引入覆写点**：基类/状态类暴露 `fuseTicks()`，各族按上表覆写（horse/preeminent/pure/CruxB/Lesh/Gothol/Rathol = 70、Buthol = 30）。
+
+**下一批实施顺序**：① 读 `ParasiteFuseState` 与 `AssimilatedVariantEntity` 的引信接线，确认覆写点位置；
+② 加覆写点 + horse=70（本批靶点，证据 `EntityInfHorse.java:53`）；③ 断言 + 记账；④ 再逐族补其余覆写值。
