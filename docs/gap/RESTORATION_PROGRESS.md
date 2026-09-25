@@ -3726,3 +3726,24 @@ private void updateMeleeStatus() { if (getParasiteStatus() != 10) setParasiteSta
 
 **本轮结论（如实）**：第 2 步**不是一步小改**，需要一次语义比对才能安全落地 ⇒ 推迟，不硬做。
 （这正是"一次只动一层"的实践：第 1 步已参数化 ✔ 且**行为零变更** ✔，第 2 步涉及行为等价性，必须单独论证。）
+
+## 批次 229：human 头属性来源链解出（2026-09-25 续，未改代码）
+
+```
+原版 EntityInfHumanHead:89-93   func_110147_ax() {                      // = 属性初始化
+                                    HEALTH    = SRPAttributes.INFHUMAN_HEADHEALTH;
+                                    MOVEMENT  = 0.3;
+                                    ATTACK    = SRPAttributes.INFHUMAN_HEADDAMAGE;
+                                }
+原版 SRPAttributes:1082-1083    INFHUMAN_HEADHEALTH  = INFHUMAN_HEALTH       * SRPConfigMobs.infhumanHealthHead;
+                                INFHUMAN_HEADDAMAGE  = INFHUMAN_ATTACK_DAMAGE * SRPConfigMobs.infhumanDamageHead;
+端口 AssimilatedHeadEntity      Kind.HUMAN("sim_humanhead", 4.5D, 2.7D, 0.30D, 16.0D)   ← 待核对
+```
+
+⇒ human 头属性 = **基值 × 逐类倍率**（与头部族其它 kind 同构 ✔）。**待核**：`INFHUMAN_HEALTH`、`INFHUMAN_ATTACK_DAMAGE`
+与两个倍率的**默认值**（下一批读取后与端口的 4.5/2.7 对比）。
+
+**顺带确认**：移速 0.3 ✔ 与端口一致；followRange 未在该方法设置（端口 16.0 ✗ 需另找来源）。
+
+**方法论**：属性"来源链"（常量 → 基值 × 倍率）在本会话已多次出现（如 `OVERSEER_*`、头部倍率），
+**逐层读到基值再算**，比"看到端口写 4.5 就以为对"可靠——本会话的 8 处倍率双重乘算错误正是"只看一层"造成的。
