@@ -1151,3 +1151,10 @@ SRPConfig: infectedXPValue = 8 / feralXPValue = 16 / primitiveXPValue = 30
 同批次 75/76 的取值链：原始族统一为 `SRPConfig.primitiveXPValue = 30`。`LongarmsEntity`（pri_longarms，已审计）
 原为 `xpReward = 18` ⇒ 改为 **30**。
 其余原始族生物（Pri... 各族）与野化族剩余 7 种的经验值仍待批量对齐，证据（30 / 16）已在文档中备好。
+
+## 批次 78：野化族九种经验全部对齐 16（2026-09-25 续）
+
+批次 76 先落了 VILLAGER/WOLF，本轮补齐余下七种（BEAR/COW/ENDERMAN/HORSE/HUMAN/PIG/SHEEP）⇒
+`FeralParasiteEntity.Kind` 九种经验**全部为 16**，与原版 `SRPConfig.feralXPValue = 16` 一致（一次 edit 完成，
+未再尝试正则批量——批次 76 的失败已说明该手段在此文件上不可靠）。
+`build` 通过、套件维持既有 20 失败。
