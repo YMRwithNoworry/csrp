@@ -3194,3 +3194,22 @@ startSeenByPlayer/stopSeenByPlayer → bossEvent.addPlayer/removePlayer       //
 | `cothSpread` 掷点 | **未找到**该名称 | ⛔ 保持现状 |
 | 头部 `killcount = -10` | **找到**（`:47`） | ✅ 待实现 |
 ⇒ **同样是审计主张，复核后结论相反**——这正是"逐条复核"不可省略的原因。
+
+## 批次 201：头部 `killcount = -10` 的写路径勘察（2026-09-25 续，未改代码）
+
+```
+端口 PrimitiveParasiteEntity:107   private double legacyKillCount;        ← 【私有，无 setter】
+端口 :875   legacyKillCount = Math.max(legacyKillCount, parasiteKills);   ← 只增不减的取大
+端口 :948   legacyKillCount = Math.max(0.0D, legacyKillCount - 1.0D);     ← 减一（下界 0）
+端口 :977   读档：tag 有则取 tag，否则取 parasiteKills
+```
+
+**结论**：要实现原版头部的 `-10` 初始值，必须先给该字段开一条**可写途径**。两个方案：
+1. **最小改动**：在 `PrimitiveParasiteEntity` 增加 `protected void setLegacyKillCount(double)`，头部构造体调用 `setLegacyKillCount(-10.0D)`；
+2. **更贴合"逐类默认值"语义**：增加 `protected double initialKillCount() { return 0.0D; }`，在初始化处使用该方法，
+   头部覆写为返回 `-10.0D`（无需外部 setter，语义更清晰）。
+
+**倾向方案 2**（把"逐类初始值"表达为可覆写方法，而不是从外部硬塞一个数），但需先确认初始化发生在何处（构造体还是读档回退路径），
+以免与 `:977` 的读档回退逻辑冲突（**读档时应以存档值为准，不能覆盖为 -10** ✗）。
+
+**下一批**：读该类的初始化与读档顺序 → 选定方案 → 实现 + 断言（断言应校验"新生成的头 killcount = -10、读档后等于存档值"两条语义）。
