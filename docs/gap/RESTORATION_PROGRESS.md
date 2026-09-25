@@ -4039,3 +4039,28 @@ tozoon↔Wymo、arachnida↔Ranrac、devourer↔Lum、vermin↔Iki、viscera↔G
 
 **方法论**：面对"大面积不一致"，**先怀疑自己的计算链**而不是立即宣称回归——本会话已多次验证这个顺序是对的
 （如"工具没匹配上"被误判为"代码组织不同"）。**9 项同时错**的概率远低于"我的公式漏了一个因子"。
+
+## 批次 243：**假设 B 被证实**——adapted 值是"**附加**"而非"总量"（2026-09-25 续）
+
+```
+原版 SRPConfigMobs:24     public static float shycoadaptedhealth = 50.0F;
+原版 SRPConfigMobs:1315   shycoadaptedhealth = cfg.getFloat(
+                             "Stage Adapted additional Health", "srparasites:longarms", shycoadaptedhealth, 0.01F, 100.0F,
+                             "【Additional health for Adapted Longarms.】");     ← 注释明说是【附加】
+```
+
+**⇒ 公式应为 `基值 + 附加`（而不是"附加 × 全局倍率"）** ✔。**验证（决定性）**：
+
+```
+primitive Shyco 生命 45（批次 232 提取） + adapted 附加 50 = 95   ⇔   端口 LONGARMS hp = 95   ✔【精确吻合】
+```
+
+⇒ 批次 242 的"9/12 不一致"**全部源于我的公式错误**（漏了"基值"这一项），**端口值很可能是对的** ✔ ——
+**假设 B 成立，假设 A（端口错）被排除** ✔✔。
+
+**遗留 1 处小差**：伤害 `SHYCO_ATTACK_DAMAGE 15 + 12 = 27` ✗ vs 端口 LONGARMS dmg **26** ✗（差 1）。
+需确认伤害是否用**另一个基值**（如 primitive 的 `SHYCO_ATTACK_DAMAGE` 与我提取的 15 是否一致 ✗）或另有系数 ✗ —— 下一批查。
+
+**方法论（本会话最重要的一次"先怀疑自己"）**：
+面对 9/12 不一致，我**没有**宣称"端口有 9 项回归"，而是先怀疑自己的计算链 ⇒ 结果证明确实是**我的公式漏了基值项** ✔。
+**若当时直接"按计算值去改端口"，就会把 9 项正确的数值全部改错** ✗✗ —— 这正是"先核对、后修改"纪律的最大一次回报。
