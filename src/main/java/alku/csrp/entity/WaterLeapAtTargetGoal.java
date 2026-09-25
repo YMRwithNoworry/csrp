@@ -1,6 +1,7 @@
 package alku.csrp.entity;
 
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.phys.Vec3;
 
@@ -16,7 +17,8 @@ import net.minecraft.world.phys.Vec3;
  * onto the shared special-leap animation state instead, so mobs keep their own status semantics.
  */
 public final class WaterLeapAtTargetGoal extends Goal {
-    private final PrimitiveParasiteEntity leaper;
+    private final Mob leaper;
+    private final java.util.function.BooleanSupplier geneEnabled;
     private final float leapMotionY;
     private final double jumpSpeed;
     private final int cooldown;
@@ -29,7 +31,17 @@ public final class WaterLeapAtTargetGoal extends Goal {
 
     public WaterLeapAtTargetGoal(PrimitiveParasiteEntity leaper, float leapMotionY, double jumpSpeed,
                                  int cooldown, double damageRange) {
+        this(leaper, leaper::waterLeapEnabled, leapMotionY, jumpSpeed, cooldown, damageRange);
+    }
+
+    /**
+     * @param geneEnabled the legacy geneWaterleap gate of the owning family; families outside the
+     *                    primitive chain cannot use {@code PrimitiveParasiteEntity.waterLeapEnabled}
+     */
+    public WaterLeapAtTargetGoal(Mob leaper, java.util.function.BooleanSupplier geneEnabled,
+                                 float leapMotionY, double jumpSpeed, int cooldown, double damageRange) {
         this.leaper = leaper;
+        this.geneEnabled = geneEnabled;
         this.leapMotionY = leapMotionY;
         this.jumpSpeed = jumpSpeed;
         this.cooldown = cooldown;
@@ -39,15 +51,14 @@ public final class WaterLeapAtTargetGoal extends Goal {
     @Override
     public boolean canUse() {
         // Legacy geneWaterleap gate, then the original's wet-or-mid-leap condition.
-        return leaper.waterLeapEnabled()
+        return geneEnabled.getAsBoolean()
                 && (leaper.isInWaterOrBubble() || leaper.isInLava() || attacking >= 1);
     }
 
     @Override
     public void tick() {
         LivingEntity target = leaper.getTarget();
-        if (target != null && !target.isRemoved() && !leaper.isSpecialLeapAnimating()
-                && target.isAlive()) {
+        if (target != null && !target.isRemoved() && !leapAnimating() && target.isAlive()) {
             attackTimer++;
             if (attackTimer >= cooldown && attacking == 0) {
                 attacking = 1;
@@ -63,7 +74,7 @@ public final class WaterLeapAtTargetGoal extends Goal {
         }
         attacking++;
         if (attacking == 2 && leaper.onGround()) {
-            leaper.startSpecialLeapAnimation(leapAnimationTicks());
+            startLeapAnimation();
             leaper.getNavigation().stop();
             double dx = targetX - leaper.getX();
             double dz = targetZ - leaper.getZ();
@@ -97,8 +108,15 @@ public final class WaterLeapAtTargetGoal extends Goal {
         }
     }
 
+    /** Families outside the primitive chain have no shared leap animation state yet. */
+    private boolean leapAnimating() {
+        return leaper instanceof PrimitiveParasiteEntity primitive && primitive.isSpecialLeapAnimating();
+    }
+
     /** The original ran a ten tick leap animation for status 10. */
-    private int leapAnimationTicks() {
-        return 10;
+    private void startLeapAnimation() {
+        if (leaper instanceof PrimitiveParasiteEntity primitive) {
+            primitive.startSpecialLeapAnimation(10);
+        }
     }
 }

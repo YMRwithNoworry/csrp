@@ -308,6 +308,20 @@ const BATCHES = {
         detail: "参数化复刻：瞄准 cooldown tick → 记录目标位置与 0.07 高度补偿 → 起跳（speed*0.9 + 现速*0.3，垂直 0.7）→ 落地按 damageRange 击退/攻击；由 generationProfile.waterLeap 门控"
       }
     ]
+  },
+  // 批次 12：野化族与 sim_human 的水跃任务（原版 EntityFer*/EntityInfHuman 构造表）
+  "water-leap-feral-simhuman": {
+    note: "批次：野化族与 sim_human 的水跃任务（EntityFerVillager:53 / EntityInfHuman:119）",
+    projectClasses: ["FeralParasiteEntity", "SimHumanEntity"],
+    clauses: [
+      {
+        // handleWater/liquidLeap is a separate mechanism and stays missing.
+        match: /^(?!.*handleWater)(?=.*EntityAIWaterLeapAtTargetStatus).*$/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/FeralParasiteEntity.java",
+        detail: "野化族按 EntityFer*.java:53 全族在优先级 2 注册 WaterLeapAtTargetGoal(this, 0.7F, 1.5, 20, 0)；sim_human 按 EntityInfHuman:119 同参数注册；两者均以 generationProfile.waterLeap 为门"
+      }
+    ]
   }
 };
 

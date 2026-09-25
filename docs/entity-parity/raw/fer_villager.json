@@ -329,12 +329,12 @@
         },
         {
           "clause": "EntityFerVillager 构造：tasks.addTask(2, EntityAIWaterLeapAtTargetStatus(this, 0.7F, 1.5, 3, 20, 0))",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/feral/EntityFerVillager.java:53",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/FeralParasiteEntity.java"
           },
-          "note": "project 无水跃扑击（含水/岩浆触发、20 tick 冷却、jumpR 范围伤害）"
+          "note": "野化族按 EntityFer*.java:53 全族在优先级 2 注册 WaterLeapAtTargetGoal(this, 0.7F, 1.5, 20, 0)；sim_human 按 EntityInfHuman:119 同参数注册；两者均以 generationProfile.waterLeap 为门；批次：野化族与 sim_human 的水跃任务（EntityFerVillager:53 / EntityInfHuman:119）"
         },
         {
           "clause": "EntityFerVillager 构造：tasks.addTask(3, EntityAIAttackMeleeStatus(this, 1.5, false, 0.0))",

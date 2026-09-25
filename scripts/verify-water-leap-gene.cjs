@@ -64,20 +64,30 @@ for (const [pattern, message] of [
     "the water leap goal is missing"],
   [/public WaterLeapAtTargetGoal\(PrimitiveParasiteEntity leaper, float leapMotionY, double jumpSpeed,\s*\r?\n\s*int cooldown, double damageRange\)/,
     "the goal must keep the legacy constructor shape"],
-  [/leaper\.waterLeapEnabled\(\)/, "the goal must consult the gene flag"],
+  [/geneEnabled\.getAsBoolean\(\)/, "the goal must consult the gene flag"],
   [/isInWaterOrBubble\(\) \|\| leaper\.isInLava\(\) \|\| attacking >= 1/,
     "the goal must trigger from water, lava or an ongoing leap"],
   [/targetY = Math\.max\(0\.0D, \(target\.getY\(\) - leaper\.getY\(\)\) \* 0\.07D\)/,
     "the legacy vertical aim bonus (0.07) is missing"],
   [/motion\.x \+ \(dx \/ length \* jumpSpeed \* 0\.9D \+ motion\.x \* 0\.3D\)/,
     "the legacy launch formula (speed * 0.9 + motion * 0.3) is missing"],
-  [/leaper\.startSpecialLeapAnimation\(/, "the launch must play the leap animation"],
+  [/startLeapAnimation\(\);/, "the launch must play the leap animation"],
+  [/public WaterLeapAtTargetGoal\(Mob leaper, java\.util\.function\.BooleanSupplier geneEnabled,/,
+    "families outside the primitive chain need the explicit gene gate constructor"],
   [/leaper\.getNavigation\(\)\.stop\(\)/, "the launch must stop navigation"]
 ]) expect(goal, pattern, message);
 
 // pri_longarms registers it with the legacy parameters at priority 2
 expect(longarms, /goalSelector\.addGoal\(2, new WaterLeapAtTargetGoal\(this, 0\.7F, 1\.5D, 20, 0\.0D\)\)/,
   "LongarmsEntity must register the legacy water leap at priority 2 with (0.7F, 1.5, 20, 0)");
+
+// the feral family and sim_human register the same legacy task
+for (const [file, message] of [["FeralParasiteEntity.java", "the feral family"], ["SimHumanEntity.java", "sim_human"]]) {
+  const source = read("src/main/java/alku/csrp/entity/" + file);
+  if (!/addGoal\(2, new WaterLeapAtTargetGoal\(this, \(\) -> level\(\) instanceof ServerLevel serverLevel[\s\S]{0,120}?\.waterLeap\(\), 0\.7F, 1\.5D, 20, 0\.0D\)\)/.test(source)) {
+    failures.push(message + " must register the legacy water leap at priority 2 with (0.7F, 1.5, 20, 0)");
+  }
+}
 
 if (failures.length) {
   console.error("Water leap gene verification failed:");

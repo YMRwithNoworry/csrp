@@ -272,3 +272,16 @@ Sprinting/**WaterLeap**/SpecialM/Adaptation/BlockSearch/**Residue**/Orbbox，端
 **`attackSpeed`（全局未接：`GenerationProfile.attackSpeedMultiplier` 目前 0 个消费点）**、`waterleap`（野化/同化/掠夺化族无对应目标）、
 `specialmove`（同上）三项。按记账诚实原则不翻转。
 校验：`scripts/verify-parasite-combat-rules.cjs` 增加 10 条断言（两个 helper、破块门控、冲刺目标语义与三族注册顺序）。
+
+## 批次 12：野化族与 sim_human 的水跃任务（2026-09-25 续）
+
+侦察（按原版构造表逐类核对）得到关键结论：**已审计生物里只有 `fer_villager`（`EntityFerVillager:53`）
+与 `sim_human`（`EntityInfHuman:119`）原版有水跃**，`sim_cow/sheep/wolf/squid/bear`（0 处）与
+`mar_cow`（0 处）原版本就没有——之前把它们的水跃缺口当成待补能力是误判。野化族则是**全族**都有
+（`EntityFerBear/Cow/Enderman/Horse/Human/Pig/Sheep/Villager/Wolf` 均注册）。
+
+实现：把 `WaterLeapAtTargetGoal` 从「仅限 primitive 链」推广为任意 `Mob` + 显式 gene 门（新增 6 参构造，
+跳跃动画钩子用 `instanceof PrimitiveParasiteEntity` 兜底），然后在 `FeralParasiteEntity`（全族）与
+`SimHumanEntity` 按原版参数 `(0.7F, 1.5, 3, 20, 0)` 于优先级 2 注册。
+未做：同一只的 `handleWater`/`liquidLeap` 液体命中累积突进（另一套机制），该条款仍记缺失。
+校验：`scripts/verify-water-leap-gene.cjs` 更新为通用构造 + 两族注册断言；审计记账 3 条，满足 644 → **647**。

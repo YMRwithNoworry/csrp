@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.world.EvolutionSystem;
 import alku.csrp.event.ParasiteCombatRules;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.nbt.CompoundTag;
@@ -80,6 +81,9 @@ public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntit
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
+        // Legacy EntityFerVillager:53 (and every EntityFer*): tasks.addTask(2, EntityAIWaterLeapAtTargetStatus(this, 0.7F, 1.5, 3, 20, 0)).
+        goalSelector.addGoal(2, new WaterLeapAtTargetGoal(this, () -> level() instanceof ServerLevel serverLevel
+                && EvolutionSystem.generationProfile(serverLevel).waterLeap(), 0.7F, 1.5D, 20, 0.0D));
         goalSelector.addGoal(2, new GeneSprintGoal(this, 1.5D));
         goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.5D, false));
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));

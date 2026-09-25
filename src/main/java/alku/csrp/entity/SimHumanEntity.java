@@ -172,6 +172,9 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
                 return generationAllowsSpecialMoves() && super.canUse();
             }
         });
+        // Legacy EntityInfHuman:119: tasks.addTask(2, EntityAIWaterLeapAtTargetStatus(this, 0.7F, 1.5, 3, 20, 0)).
+        goalSelector.addGoal(2, new WaterLeapAtTargetGoal(this, () -> level() instanceof ServerLevel serverLevel
+                && EvolutionSystem.generationProfile(serverLevel).waterLeap(), 0.7F, 1.5D, 20, 0.0D));
         goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));

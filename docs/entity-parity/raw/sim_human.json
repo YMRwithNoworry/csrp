@@ -424,12 +424,12 @@
         },
         {
           "clause": "tasks.addTask(2, EntityAIWaterLeapAtTargetStatus(this, 0.7F, 1.5, 3, 20, 0))",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHuman.java:119",
-            "project": "src/main/java/alku/csrp/entity/SimHumanEntity.java:114"
+            "project": "src/main/java/alku/csrp/entity/FeralParasiteEntity.java"
           },
-          "note": "project 为陆地 LeapAtTargetGoal(0.4F)，非水域跃击、无 20 tick 冷却与跳跃伤害范围",
+          "note": "野化族按 EntityFer*.java:53 全族在优先级 2 注册 WaterLeapAtTargetGoal(this, 0.7F, 1.5, 20, 0)；sim_human 按 EntityInfHuman:119 同参数注册；两者均以 generationProfile.waterLeap 为门；批次：野化族与 sim_human 的水跃任务（EntityFerVillager:53 / EntityInfHuman:119）",
           "groundTruth": {
             "verified": true,
             "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHuman.java",
@@ -697,12 +697,12 @@
         },
         {
           "clause": "EntityAIWaterLeapAtTargetStatus(0.7F,1.5,3,20,0)：水中跃击目标",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHuman.java:119",
-            "project": "src/main/java/alku/csrp/entity/SimHumanEntity.java:114"
+            "project": "src/main/java/alku/csrp/entity/FeralParasiteEntity.java"
           },
-          "note": "project 用陆地 LeapAtTargetGoal(0.4F)，无“仅水中/20 tick 冷却/跳跃伤害范围 3”语义"
+          "note": "野化族按 EntityFer*.java:53 全族在优先级 2 注册 WaterLeapAtTargetGoal(this, 0.7F, 1.5, 20, 0)；sim_human 按 EntityInfHuman:119 同参数注册；两者均以 generationProfile.waterLeap 为门；批次：野化族与 sim_human 的水跃任务（EntityFerVillager:53 / EntityInfHuman:119）"
         },
         {
           "clause": "EntityAICircleGroup(1.15, 8, 4.0, 10.0, 16, e->e instanceof EntityInfHuman)：同类群体绕行",

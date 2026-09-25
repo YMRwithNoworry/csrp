@@ -1,11 +1,11 @@
 # 生物还原矩阵（SRParasites 1.10.9 → csrp）
 
-> 生成时间：2026-09-25T02:35:38.139Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
+> 生成时间：2026-09-25T02:45:07.321Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
 > 判定：✅ 全部条款满足；🟠 有部分实现但无缺失；❌ 存在缺失；· 未审计。
 
 - 注册生物总数：**127**；已审计：**13**；未审计：**114**
-- 条款总计：满足 644 / 部分 382 / 缺失 296（不计入 57 条不适用）
-- **加权完成度：63.2%**（partial 计 0.5）
+- 条款总计：满足 647 / 部分 380 / 缺失 295（不计入 57 条不适用）
+- **加权完成度：63.3%**（partial 计 0.5）
 
 ## 分面完成度
 
@@ -13,8 +13,8 @@
 | --- | ---: | ---: | ---: | ---: |
 | 注册 `registration` | 61 | 40 | 30 | 61.8% |
 | 属性 `attributes` | 66 | 29 | 30 | 64.4% |
-| AI `ai` | 75 | 76 | 38 | 59.8% |
-| 行为 `behaviors` | 150 | 77 | 73 | 62.8% |
+| AI `ai` | 77 | 75 | 37 | 60.6% |
+| 行为 `behaviors` | 151 | 76 | 73 | 63% |
 | 伤害/效果 `damage_and_effects` | 102 | 16 | 20 | 79.7% |
 | 同步数据 `sync_data` | 26 | 33 | 30 | 47.8% |
 | 动画 `animation` | 53 | 13 | 7 | 81.5% |
@@ -33,11 +33,11 @@
 | pure_and_preeminent | 0/19 | 0 | 0 | 0 | 0% |
 | ancient | 0/4 | 0 | 0 | 0 | 0% |
 | nexus_and_aberrant | 1/15 | 42 | 38 | 33 | 54% |
-| hijacked_and_feral | 2/12 | 95 | 59 | 72 | 55.1% |
+| hijacked_and_feral | 2/12 | 96 | 59 | 71 | 55.5% |
 | marauderized | 1/7 | 53 | 26 | 25 | 63.5% |
 | early_lifecycle | 1/10 | 42 | 25 | 18 | 64.1% |
 | current | 2/13 | 94 | 44 | 37 | 66.3% |
-| assimilated | 6/23 | 318 | 190 | 111 | 66.7% |
+| assimilated | 6/23 | 320 | 188 | 111 | 66.9% |
 
 ## 逐生物矩阵
 
@@ -158,11 +158,11 @@
 | `kirin` | EntityKirin | KirinEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `draconite` | EntityHeblu | DraconiteEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `beckon_siii` | EntityVenkrolSIII | NexusParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 54% |
-| `fer_villager` | EntityFerVillager | FeralParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 54.1% |
+| `fer_villager` | EntityFerVillager | FeralParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 54.9% |
 | `hi_skeleton` | EntityHiSkeleton | HiSkeletonEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | 56.5% |
 | `mar_cow` | EntitySpeCow | MarauderizedCowEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 63.5% |
-| `sim_human` | EntityInfHuman | SimHumanEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 63.6% |
 | `host` | EntityHost | HostEntity | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | 🟠 | 64.1% |
+| `sim_human` | EntityInfHuman | SimHumanEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 64.5% |
 | `pri_longarms` | EntityShyco | LongarmsEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 65.2% |
 | `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 66.1% |
 | `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 66.8% |
@@ -181,7 +181,7 @@
 - 同步缺失：SKIN/SELFE/COLD_L/DISLO15 与 byte 12/50/51/52 广播；冰冻变体贴图与 LayerGlowing/受击染色层
 - 掉落与经验：80%/0-9 个 → 20%/1 个；经验 110 → 64；缺阶段经验门控、死亡钩子与死亡粒子
 
-### `fer_villager`（EntityFerVillager → FeralParasiteEntity，54.1%）
+### `fer_villager`（EntityFerVillager → FeralParasiteEntity，54.9%）
 - 自爆死亡链完全缺失：madeRng 50% → status 6 引信 → dyingBurst/selfExplode（MOBEXPLOSION 音效、ToxicCloud 中毒/COTH、spawnGore 血迹 BIG + EntityRemain(240) + EntityAta + 3 个 EntityGore）以及渲染器引信缩放，fer_villager 的死亡表现与原版差异最大
 - 受击/命中反馈缺失：feralMult 0.3 的 EntityGore 炸弹、10% goreFer 血迹铺陈、最小伤害 0.75（+VIRA 放大）、伤害上限 feralCap 3 与 RAGE、攻击冷却 attackCooldownAni=100、偷袭食物与 infected_drop
 - AI 缺口：EntityAIEvade 闪避、EntityAIWaterLeapAtTargetStatus 水跃、EntityAIJumping 越障、EntityAIWaterLeapAtTargetStatus/EntityAIWaterLeap 与 EntityAISwimmingDiving 潜水、EntityAIGetFollowers 招募、EntityAIParasiteFollow 反被语义相反（原版 Fer 明确移除）
@@ -205,9 +205,6 @@
 - 死亡自爆链（50% madeRng → 40 tick 引信 → 毒云 + gore + MOBEXPLOTION 爆炸音）仅保留 Buglin 召唤
 - COTH 命中传播与 3 格 COTH 光环缺失
 
-### `sim_human`（EntityInfHuman → SimHumanEntity，63.6%）
-- （无缺口摘要，见 raw JSON）
-
 ### `host`（EntityHost → HostEntity，64.1%）
 - 潜地状态下的受伤免疫/击退门控与动态碰撞箱未实现
 - 进伤上限（primitiveCap=6）、火伤倍率 4.0、药水免疫、中毒转治疗均缺失
@@ -215,6 +212,9 @@
 - 钻地传送、脚下 InfestRemain、地面粒子等伴随表现缺失
 - AI：wait/jumpT/AOE 范围切换 GOAL 缺失，跟随 GOAL 未按原版移除
 - 经验 20 < 原版 30，且缺少阶段加成与 per-mob 开关
+
+### `sim_human`（EntityInfHuman → SimHumanEntity，64.5%）
+- （无缺口摘要，见 raw JSON）
 
 ### `pri_longarms`（EntityShyco → LongarmsEntity，65.2%）
 - 碰撞箱 1.0x3.0 vs 0.6x3.2、眼高默认 2.55 vs 2.7、追踪范围 8 vs 64、刷怪蛋颜色不一致
