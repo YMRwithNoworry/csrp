@@ -252,6 +252,10 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
         }
         if (rangedCooldown < WEB_CHARGE_TICKS) {
             rangedCooldown++;
+            // Legacy func_75246_d: while the mob has RAGE the charge timer advances twice per tick.
+            if (hasEffect(ModMobEffects.RAGE)) {
+                rangedCooldown++;
+            }
             return;
         }
         webVolleyShots = WEB_VOLLEY_SHOTS;

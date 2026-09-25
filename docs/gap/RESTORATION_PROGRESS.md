@@ -653,3 +653,10 @@ if (kind == Kind.BIGSPIDER && rangedCooldown <= 0 && getTarget() != null && hasL
 
 **过程记录**：本轮更新断言时先撞上 CRLF 多行锚点失配，继而连续两次行拼接把断言数组改出语法错误；最终处置为
 `git checkout` 还原 + 按**行边界整块替换**（而非拼接）——该手法已稳定，后续更新断言块应直接采用。
+
+## 批次 38：投影蓄力的 RAGE 加速（2026-09-25 续）
+
+补齐批次 37 记录的第一个残留子项：原版 `func_75246_d` 中
+`if (parent.hasEffect(RAGE_E)) attackTimer++;` —— 即 **RAGE 状态下蓄力计时每 tick 前进两次**（60 tick 蓄力缩短为 30 tick）。
+实现于 `tickWebBallVolley()` 的蓄力分支；断言追加至 `verify-parasite-combat-rules.cjs`。
+仍缺：`attackTimer == cooldown - 10` 的投射音（端口无对应音效方法，待确认资源后补）。

@@ -302,6 +302,11 @@ for (const [pattern, message] of [
   [/webVolleyShots--;/, "the volley must consume shots"]
 ]) expect(variant, pattern, message);
 
+// legacy func_75246_d: RAGE doubles the projectile charge rate
+expect(read("src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java"),
+  /hasEffect\(ModMobEffects\.RAGE\)\) \{\s*\r?\n\s*rangedCooldown\+\+;/,
+  "the RAGE charge doubling is missing");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));
