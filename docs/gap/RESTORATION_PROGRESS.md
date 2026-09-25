@@ -3886,3 +3886,29 @@ grep "ARACHNIDA|Arachnida" 原版 util/SRPAttributes.java → 【0 命中】✗
 
 **方法论**：本会话多次遇到"两套命名不对应"（如 `infplayerhead` ↔ 冒险者头、`sim_dragonhead` 兼容别名）。
 **先建映射、再比对**，是跨命名体系核对的必要条件；跳过映射直接按顺序对比，必然产生虚假差异。
+
+## 批次 237：primitive 族 **id ↔ 原版类映射建立完成**（2026-09-25 续）
+
+从 `audit-input.json` 取出的权威映射（**不用数值指纹反推** ✔）：
+
+| 端口 id | 原版类 | 端口实现类 | 端口 kind |
+| --- | --- | --- | --- |
+| pri_longarms | `EntityShyco` | LongarmsEntity | （独立类） |
+| pri_manducater | `EntityHull` | PrimitiveVariantEntity | MANDUCATER |
+| pri_reeker | `EntityNogla` | PrimitiveVariantEntity | REEKER |
+| pri_yelloweye | `EntityEmana` | PrimitiveVariantEntity | YELLOWEYE |
+| pri_summoner | `EntityCanra` | SummonerEntity | （独立类） |
+| pri_bolster | `EntityBano` | PrimitiveVariantEntity | BOLSTER |
+| pri_tozoon | `EntityWymo` | PrimitiveVariantEntity | TOZOON |
+| pri_arachnida | `EntityRanrac` | PrimitiveVariantEntity | ARACHNIDA |
+| pri_devourer | `EntityLum` | PrimitiveVariantEntity | DEVOURER |
+| pri_vermin | `EntityIki` | VerminEntity | （独立类） |
+| pri_viscera | `EntityGim` | VisceraEntity | （独立类） |
+| pri_burrower | `EntityZaa` | PrimitiveVariantEntity | BURROWER |
+
+**速度指纹交叉验证（旁证 ✔，非建映射依据）**：BOLSTER 0.19 ↔ `EntityBano` 0.19 ✔、TOZOON 0.26 ↔ `EntityWymo` 0.26 ✔、
+DEVOURER 0.0 ↔ `EntityLum` 0.0 ✔、BURROWER 0.26 ↔ `EntityZaa` 0.26 ✔、REEKER 0.31234 ↔ `EntityNogla` 0.31234 ✔
+—— **5 项独立吻合**，支持该映射的正确性 ✔（若映射错误，速度不可能同时吻合）。
+
+**下一步（hp/dmg 提取）**：本轮对原版类的 `field_111267_a`（生命）正则**多数未命中** ✗ ⇒ 原版很可能通过
+**配置倍率**（如 `SRPConfigMobs.<name>Health`）或**基值 × 倍率**设置，需先读一个类的属性方法看清写法，再统一提取。
