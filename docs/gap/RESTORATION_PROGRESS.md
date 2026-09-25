@@ -3390,3 +3390,17 @@ public GeneMeleeGoal(Mob mob, double baseSpeed, boolean requireLineOfSight, int 
 **教训**：批量脚本的**筛选规则必须与取证范围严格对齐**（本次取证范围是"同化族 10 种头部"，而筛选条件是"含血肉掉落"，
 两者不等价 ⇒ 多改了一个文件）。若不清查，就会造成一处无证据的行为变更。
 `build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+## 批次 211：enderman 头移速对齐（0.30 → 0.40）（2026-09-25 续）
+
+第六批委派指出"enderman 头速度原版 0.4、端口 0.30"。脚本一次取证并修正（从原版文件直接读取，非人工转录）：
+
+```
+原版 EntityInfEndermanHead   field_111263_d → 0.4
+端口 AssimilatedHeadEntity   Kind.ENDERMAN   → 0.30   ✗
+                            ⇒ 已改为 0.4 ✔
+```
+
+**同类提示**：这是头部族**又一处逐类差异**（此前的眼高：cow/pig/horse/enderman 0.8、villager/human 0.7、sheep 0.6、wolf 0.3）。
+⇒ **头部族的每个数值都应逐类取证**，不能依赖"同族同值"（该做法已在眼高一事上 4/4 被证伪）。
+`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。

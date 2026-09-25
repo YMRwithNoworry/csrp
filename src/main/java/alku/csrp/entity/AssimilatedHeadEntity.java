@@ -448,7 +448,7 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
 
     public enum Kind {
         COW("sim_cowhead", 5.4D, 2.1D, 0.30D, 16.0D),
-        ENDERMAN("sim_endermanhead", 16.5D, 3.3D, 0.30D, 32.0D),
+        ENDERMAN("sim_endermanhead", 16.5D, 3.3D, 0.4D, 32.0D),
         HORSE("sim_horsehead", 7.2D, 2.25D, 0.30D, 16.0D),
         HUMAN("sim_humanhead", 4.5D, 2.7D, 0.30D, 16.0D),
         PIG("sim_pighead", 2.7D, 1.05D, 0.30D, 16.0D),
