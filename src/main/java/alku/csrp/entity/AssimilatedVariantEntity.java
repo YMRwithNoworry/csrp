@@ -94,6 +94,9 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
     private static final int WEB_CHARGE_TICKS = 60;
     private static final int WEB_VOLLEY_INTERVAL_TICKS = 15;
     private static final int WEB_VOLLEY_SHOTS = 3;
+    /** Legacy func_75246_d plays the projectile sound ten ticks before the shot. */
+    private static final int WEB_SOUND_LEAD_TICKS = 10;
+    private boolean webChargeCued;
     private int stillAnimationTicks;
     private int skeletonKills;
 
@@ -256,8 +259,15 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
             if (hasEffect(ModMobEffects.RAGE)) {
                 rangedCooldown++;
             }
+            // Legacy telegraph: the projectile sound plays ten ticks before the shot (the cue flag
+            // keeps it single-shot even when RAGE double-steps past the exact tick).
+            if (!webChargeCued && rangedCooldown >= WEB_CHARGE_TICKS - WEB_SOUND_LEAD_TICKS) {
+                webChargeCued = true;
+                playSound(ModSounds.MOB_SHOOT.get(), getSoundVolume(), getVoicePitch());
+            }
             return;
         }
+        webChargeCued = false;
         webVolleyShots = WEB_VOLLEY_SHOTS;
         webVolleyTimer = 0;
         rangedCooldown = 0;

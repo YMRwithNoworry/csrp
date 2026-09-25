@@ -307,6 +307,15 @@ expect(read("src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java"),
   /hasEffect\(ModMobEffects\.RAGE\)\) \{\s*\r?\n\s*rangedCooldown\+\+;/,
   "the RAGE charge doubling is missing");
 
+// legacy func_75246_d: the projectile sound plays ten ticks before the shot
+for (const [pattern, message] of [
+  [/WEB_SOUND_LEAD_TICKS = 10/, "the legacy sound lead time is missing"],
+  [/playSound\(ModSounds\.MOB_SHOOT\.get\(\), getSoundVolume\(\), getVoicePitch\(\)\)/,
+    "the projectile telegraph sound is missing"],
+  [/!webChargeCued && rangedCooldown >= WEB_CHARGE_TICKS - WEB_SOUND_LEAD_TICKS/,
+    "the telegraph must fire once at the legacy lead time"]
+]) expect(variant, pattern, message);
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

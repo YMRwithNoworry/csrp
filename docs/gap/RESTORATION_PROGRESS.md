@@ -660,3 +660,14 @@ if (kind == Kind.BIGSPIDER && rangedCooldown <= 0 && getTarget() != null && hasL
 `if (parent.hasEffect(RAGE_E)) attackTimer++;` —— 即 **RAGE 状态下蓄力计时每 tick 前进两次**（60 tick 蓄力缩短为 30 tick）。
 实现于 `tickWebBallVolley()` 的蓄力分支；断言追加至 `verify-parasite-combat-rules.cjs`。
 仍缺：`attackTimer == cooldown - 10` 的投射音（端口无对应音效方法，待确认资源后补）。
+
+## 批次 39：投影蓄力电报音（2026-09-25 续）
+
+补齐批次 37/38 记录的最后一个残留子项：原版 `func_75246_d` 在 `attackTimer == cooldown - 10` 时调用
+`((EntityCanShoot) parent).playProjSound()`（开火前 10 tick 的预警音）。
+
+端口无同名方法，改用既有音效资源 `ModSounds.MOB_SHOOT`（`mob.shoot`）作为等价物：
+`WEB_SOUND_LEAD_TICKS = 10` + `webChargeCued` 单次触发标志（RAGE 双步进会跨过精确 tick，用标志而非等值判定保证只响一次）；
+目标失效/离开射程/失去视线时与其余连发状态一并复位。
+校验：`verify-parasite-combat-rules.cjs` 增加 3 条断言。
+至此 `EntityAIAttackProjectile(this, 60, 15, 3)` 的**全部子项**（射程 65 格、视线、60 tick 蓄力、RAGE 翻倍、15 tick × 3 连发、预警音）均已还原。
