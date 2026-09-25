@@ -827,3 +827,10 @@ infsheep/infwolf/infvillager` 系列，默认值全 1.0F）。
 （注释写明"键存在但不可达"），断言 4 条。下一步即可在 `AdaptedVariantEntity` / `PrimitiveVariantEntity` 的
 `case ARACHNIDA` 分支把 `adaptedArachnida*`（基础值）与 `arachnida*Multiplier`（per-mob 倍率）相乘——
 即原版「全局 × per-mob」的第三层（该两族的基础值来自 `MobsConfig.adaptedArachnida*`，与 arachnida* 是两套并存配置面）。
+
+## 批次 54：arachnida per-mob 倍率叠加（Adapted 侧）（2026-09-25 续）
+
+入口打通后立即接线：`AdaptedVariantEntity.applyConfiguredAttributes` 的 `case ARACHNIDA` 由
+「只用 `adaptedArachnida*` 基础值」改为「基础值 × `arachnida*Multiplier`」（击退抗性夹取 1.0），
+即原版 `SRPAttributes` 的「全局 × per-mob」在 arachnida 上的落地；断言 3 条。
+`PrimitiveVariantEntity` 的同类分支（`:342`）留待下一批（其文本尚未核对，避免凭记忆改）。

@@ -428,6 +428,17 @@ for (const key of ["arachnidaHealthMultiplier", "arachnidaDamageMultiplier",
   }
 }
 
+// the arachnida per-mob multipliers now stack on the configured base values
+const adaptedVariant = read("src/main/java/alku/csrp/entity/AdaptedVariantEntity.java");
+for (const [pattern, message] of [
+  [/adaptedArachnidaHealth\(\) \* MobsConfig\.arachnidaHealthMultiplier\(\)/,
+    "the arachnida health multiplier is not stacked"],
+  [/adaptedArachnidaDamage\(\) \* MobsConfig\.arachnidaDamageMultiplier\(\)/,
+    "the arachnida damage multiplier is not stacked"],
+  [/adaptedArachnidaKnockbackResistance\(\)[\s\S]{0,60}?arachnidaKnockbackMultiplier\(\)/,
+    "the arachnida knockback multiplier is not stacked"]
+]) expect(adaptedVariant, pattern, message);
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));
