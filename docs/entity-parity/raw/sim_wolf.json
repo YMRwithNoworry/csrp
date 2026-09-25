@@ -643,12 +643,12 @@
         },
         {
           "clause": "doLast：发现感染点后给目标 SPOT 效果并 alertOthers",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1167",
-            "project": "src/main/java/alku/csrp/entity/ParasiticScentEntity.java:56"
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
-          "note": "project 有 scent/群体警报系统，但 sim_* 未在探测时主动施加上位 SPOT"
+          "note": "markSpottedTarget（LivingChangeTargetEvent）：目标确定且 SrpWorldData.nearestInfectionPosition 存在时给目标 SPOTTED 1200 tick，并由 alertOthers 唤醒 7 格内无目标的寄生体；新增 SrpWorldData.nearestInfectionPosition（节点/殖民地最近点）；批次：doLast SPOT + alertOthers（EntityParasiteBase:1167-1179）"
         },
         {
           "clause": "EntityAISwimmingDiving(0.08)：潜水调整",

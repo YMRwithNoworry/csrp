@@ -399,6 +399,30 @@ public final class SrpWorldData extends SavedData {
         setDirty();
     }
 
+    /**
+     * Legacy nearestInfectionPosition: the closest known infection node or colony, or null when
+     * the world has no infection infrastructure near the queried position.
+     */
+    public BlockPos nearestInfectionPosition(BlockPos origin) {
+        BlockPos nearest = null;
+        double best = Double.MAX_VALUE;
+        for (NodeEntry node : nodes()) {
+            double distance = node.pos().distSqr(origin);
+            if (distance < best) {
+                best = distance;
+                nearest = node.pos();
+            }
+        }
+        for (ColonyEntry colony : colonies()) {
+            double distance = colony.pos().distSqr(origin);
+            if (distance < best) {
+                best = distance;
+                nearest = colony.pos();
+            }
+        }
+        return nearest;
+    }
+
     public List<ColonyEntry> colonies() {
         return Collections.unmodifiableList(colonies);
     }

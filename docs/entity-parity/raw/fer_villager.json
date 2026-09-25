@@ -651,12 +651,12 @@
         },
         {
           "clause": "doLast：发现最近感染点时给目标 SPOT 1200 tick 并按 useOneMind alertOthers",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1167",
-            "project": null
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
-          "note": "project 有 SPOTTED 效果与嗅觉系统，但 fer_villager 不在锁定目标时施加上位 SPOT/群体警报"
+          "note": "markSpottedTarget（LivingChangeTargetEvent）：目标确定且 SrpWorldData.nearestInfectionPosition 存在时给目标 SPOTTED 1200 tick，并由 alertOthers 唤醒 7 格内无目标的寄生体；新增 SrpWorldData.nearestInfectionPosition（节点/殖民地最近点）；批次：doLast SPOT + alertOthers（EntityParasiteBase:1167-1179）"
         },
         {
           "clause": "handleWater：液体命中累积 liquidLeap 后的跳跃突进（geneWaterleap）",

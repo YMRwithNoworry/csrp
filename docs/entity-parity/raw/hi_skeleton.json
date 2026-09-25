@@ -430,12 +430,12 @@
         },
         {
           "clause": "doLast/OneMind：索敌成功时给目标 SPOT 效果并通过 alertOthers 惊醒周围寄生体",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1167",
-            "project": null
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
-          "note": "工程有 SPOTTED 效果与 REPEL 等，但无 \"被寄生体发现即标记\" 与 OneMind 联动"
+          "note": "markSpottedTarget（LivingChangeTargetEvent）：目标确定且 SrpWorldData.nearestInfectionPosition 存在时给目标 SPOTTED 1200 tick，并由 alertOthers 唤醒 7 格内无目标的寄生体；新增 SrpWorldData.nearestInfectionPosition（节点/殖民地最近点）；批次：doLast SPOT + alertOthers（EntityParasiteBase:1167-1179）"
         },
         {
           "clause": "静止判定仍(false→still)：静止 >25 tick 后把 aniticks 作为模型摆动输入",

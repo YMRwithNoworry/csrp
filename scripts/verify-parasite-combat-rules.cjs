@@ -227,6 +227,19 @@ for (const [pattern, message] of [
 expect(config, /defineInRange\("evolutionStatIncreasePhase", 10, 0, 100\)/, "the legacy phase threshold (10) is missing");
 expect(config, /defineInRange\("evolutionStatIncreaseValue", 0\.07D, 0\.0D, 10\.0D\)/, "the legacy +7% value is missing");
 
+// legacy doLast: SPOT on the target plus waking nearby parasites
+for (const [pattern, message] of [
+  [/public static void markSpottedTarget\(LivingChangeTargetEvent event\)/, "the doLast handler is missing"],
+  [/nearestInfectionPosition\(parasite\.blockPosition\(\)\) == null/, "the infection position gate is missing"],
+  [/ModMobEffects\.SPOTTED, SPOT_DURATION_TICKS/, "the legacy 1200 tick SPOT is missing"],
+  [/private static void alertOthers\(ServerLevel level, LivingEntity parasite, LivingEntity target\)/,
+    "the alertOthers helper is missing"],
+  [/ALERT_OTHERS_RADIUS = 7\.0D/, "the legacy 7 block alert radius is missing"]
+]) expect(rules, pattern, message);
+expect(read("src/main/java/alku/csrp/world/SrpWorldData.java"),
+  /public BlockPos nearestInfectionPosition\(BlockPos origin\)/,
+  "SrpWorldData.nearestInfectionPosition is missing");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

@@ -426,6 +426,21 @@ const BATCHES = {
         detail: "applyPhaseStatBonus 于 FinalizeSpawnEvent 中实现：phase >= Config.evolutionStatIncreasePhase(10) 时把 MAX_HEALTH/ARMOR/ATTACK_DAMAGE 基础值 ×(1+0.07)，与原版 finalizeSpawn 同点同公式（原版用 evolutionParasiteStatIncrease/Value 配置）"
       }
     ]
+  },
+  // 批次 29：doLast 的 SPOT 与 alertOthers（原版 EntityParasiteBase:1167-1179）
+  "dolast-spot": {
+    note: "批次：doLast SPOT + alertOthers（EntityParasiteBase:1167-1179）",
+    projectClasses: ["FeralParasiteEntity", "MarauderizedCowEntity", "HiSkeletonEntity", "LongarmsEntity",
+      "HostEntity", "BuglinEntity", "NexusParasiteEntity", "AssimilatedParasiteEntity",
+      "AssimilatedVariantEntity", "SimHumanEntity", "PrimitiveParasiteEntity"],
+    clauses: [
+      {
+        match: /doLast|alertOthers/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/event/ParasiteCombatRules.java",
+        detail: "markSpottedTarget（LivingChangeTargetEvent）：目标确定且 SrpWorldData.nearestInfectionPosition 存在时给目标 SPOTTED 1200 tick，并由 alertOthers 唤醒 7 格内无目标的寄生体；新增 SrpWorldData.nearestInfectionPosition（节点/殖民地最近点）"
+      }
+    ]
   }
 };
 

@@ -18,6 +18,7 @@ import alku.csrp.world.SrpWorldData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -32,6 +33,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent;
+import net.neoforged.neoforge.event.entity.living.LivingChangeTargetEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
@@ -141,6 +143,45 @@ public final class ParasiteCombatRules {
         }
         ParasiteCombatEffects.stealFood(parasite, victim, tier.foodSteal(),
                 Config.parasiteFoodTheftChance());
+    }
+
+    /** Legacy SharedMonitors/OneMind radius for waking allies (ParasiteEventEntity.alertOthers). */
+    private static final double ALERT_OTHERS_RADIUS = 7.0D;
+    /** Legacy SPOT_E duration applied to a spotted target. */
+    private static final int SPOT_DURATION_TICKS = 1200;
+
+    /**
+     * Legacy doLast (EntityParasiteBase:1167-1179): once a parasite picks a target and the world
+     * has an infection position nearby, the target is marked with SPOT and the nearby parasites
+     * are woken up.
+     */
+    @SubscribeEvent
+    public static void markSpottedTarget(LivingChangeTargetEvent event) {
+        if (!(event.getEntity() instanceof LivingEntity parasite) || !(parasite instanceof Parasite)
+                || !(parasite.level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        LivingEntity target = event.getNewAboutToBeSetTarget();
+        if (target == null || target instanceof Parasite) {
+            return;
+        }
+        if (SrpWorldData.get(serverLevel).nearestInfectionPosition(parasite.blockPosition()) == null) {
+            return;
+        }
+        target.addEffect(new MobEffectInstance(ModMobEffects.SPOTTED, SPOT_DURATION_TICKS, 0, false, true),
+                parasite);
+        alertOthers(serverLevel, parasite, target);
+    }
+
+    /** Legacy ParasiteEventEntity.alertOthers(parasite, target, level, 7). */
+    private static void alertOthers(ServerLevel level, LivingEntity parasite, LivingEntity target) {
+        for (LivingEntity ally : level.getEntitiesOfClass(LivingEntity.class,
+                parasite.getBoundingBox().inflate(ALERT_OTHERS_RADIUS),
+                candidate -> candidate instanceof Parasite && candidate != parasite)) {
+            if (ally instanceof Mob mob && mob.getTarget() == null) {
+                mob.setTarget(target);
+            }
+        }
     }
 
     /**

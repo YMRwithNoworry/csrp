@@ -524,3 +524,16 @@ canUse:  dis < distanceC && dis >= distanceL    // → 8 ≤ d < 32 格
 `Config.useEvolutionPhases()` 且 `SrpWorldData.evolutionPhase() >= Config.evolutionStatIncreasePhase()` 时对三项
 基础属性做同公式缩放；新增配置 `evolutionStatIncreasePhase`(10) / `evolutionStatIncreaseValue`(0.07)。
 校验：`verify-parasite-combat-rules.cjs` 增加 7 条断言；审计记账 6 条，满足 658 → **664**，缺失 284 → **278**。
+
+## 批次 29：doLast 的 SPOT 与 alertOthers（2026-09-25 续）
+
+原版 `EntityParasiteBase.doLast:1167-1179`：目标确定后，若 `SRPWorldData.nearestInfectionPosition` 存在，
+则给目标 `SPOT_E` 1200 tick，并在 `useOneMind` 时 `ParasiteEventEntity.alertOthers(this, target, level, 7)`。
+
+| 新增 | 说明 |
+| --- | --- |
+| `SrpWorldData.nearestInfectionPosition(BlockPos)` | 在既有 `nodes()`/`colonies()` 中取最近点，对应原版同名查询 |
+| `ParasiteCombatRules.markSpottedTarget(LivingChangeTargetEvent)` | 目标确定 + 感染点存在 → 给目标 `SPOTTED` 1200 tick，并 `alertOthers` 唤醒 7 格内**尚无目标**的寄生体 |
+| `alertOthers(level, parasite, target)` | 原版 `ParasiteEventEntity.alertOthers(..., 7)` 的等价实现 |
+
+校验：`verify-parasite-combat-rules.cjs` 增加 6 条断言；审计记账 8 条，满足 664 → **672**，缺失 278 → **270**。
