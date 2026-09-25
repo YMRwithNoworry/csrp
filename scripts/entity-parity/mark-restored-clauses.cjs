@@ -765,6 +765,37 @@ const BATCHES = {
         detail: "实现原版 ParasiteSummon.spawnM 的配置串语义（<实体id>;<min>;<max>）：ParasiteSummon.spawn 解析并按随机组大小在尸体处生成；specFor 按注册 id 映射六个真实键（sim_bigspider->dorpamob、sim_cow/sim_bear->infcowmob（原版 EntityInfBear:178 复用 cow 键）、sim_sheep、sim_wolf、sim_pig、sim_adventurer），其余返回 null；已挂到 ParasiteCombatRules.selfExplode。注：原版 infvillagermob/infhorsemob 零调用点，故不接线。"
       }
     ]
+  },
+  // 批次 155：sim_enderman 的四项修复
+  "enderman-fixes": {
+    note: "批次：sim_enderman 攻击效果/传送音/跟随任务/攻速加成",
+    mobs: ["sim_enderman"],
+    clauses: [
+      {
+        match: /BLEED|WITHER|攻击附加|流血/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java",
+        detail: "原版 EntityInfEnderman:594 命中施加 BLEED 100/0；端口原用 WITHER，已改为 ModMobEffects.BLEED 100/0（批次 149）。"
+      },
+      {
+        match: /传送音|INFECTED_ENDERMAN_PORTAL|ENDERMAN_TELEPORT/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java",
+        detail: "原版使用自有传送音；端口两处（:149/:540）原播 SoundEvents.ENDERMAN_TELEPORT，已改用已注册的 ModSounds.INFECTED_ENDERMAN_PORTAL（批次 150）。"
+      },
+      {
+        match: /follow|跟随任务|func_85156_a/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java",
+        detail: "原版 EntityInfEnderman:81 以 func_85156_a(this.folow) 显式移除跟随任务；端口原误加 ParasiteFollowGoal，已移除（批次 151）。"
+      },
+      {
+        match: /攻速|ATTACKING_SPEED_BOOST|speed boost/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java",
+        detail: "原版 EntityInfEnderman:57 定义 ATTACKING_SPEED_BOOST（0.15F）；端口已在攻击态切换处对 MOVEMENT_SPEED 挂/摘同值修饰符（批次 154）。"
+      }
+    ]
   }
 };
 

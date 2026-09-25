@@ -192,12 +192,12 @@
         },
         {
           "clause": "攻击目标时的速度加成 ATTACKING_SPEED_BOOST（AttributeModifier 0.15F，名 \"Attacking speed boost\"）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:65",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java"
           },
-          "note": "project setTarget 只调 setAggressive(hasTarget)（AssimilatedEndermanEntity:141），未对 MOVEMENT_SPEED 施加 0.15 的乘法/加法修正，锁定目标后不会加速"
+          "note": "原版 EntityInfEnderman:57 定义 ATTACKING_SPEED_BOOST（0.15F）；端口已在攻击态切换处对 MOVEMENT_SPEED 挂/摘同值修饰符（批次 154）。；批次：sim_enderman 攻击效果/传送音/跟随任务/攻速加成"
         },
         {
           "clause": "per-mob 属性倍率 SRPConfigMobs.infenderman{Health,Damage,Armor,KDResistance}Multiplier（默认 1.0F，SRPAttributes:1085 参与结算）",
@@ -226,12 +226,12 @@
       "clauses": [
         {
           "clause": "构造中移除 EntityParasiteBase 的跟随任务：field_70714_bg.func_85156_a(this.folow)（EntityInfEnderman:83）",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:83",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:233"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java"
           },
-          "note": "原版 Enderman 显式移除 EntityAIParasiteFollow，代之以自身传送聚怪逻辑；project 反而重新注册 ParasiteFollowGoal(this)（优先级 6），行为与原版相反"
+          "note": "原版 EntityInfEnderman:81 以 func_85156_a(this.folow) 显式移除跟随任务；端口原误加 ParasiteFollowGoal，已移除（批次 151）。；批次：sim_enderman 攻击效果/传送音/跟随任务/攻速加成"
         },
         {
           "clause": "EntityParasiteBase 构造：tasks.addTask(0, EntityAIWait)",
@@ -390,12 +390,12 @@
         },
         {
           "clause": "func_70652_k 覆写：命中后按 infectedBleedingChance(0.2) 施加 BLEED 100/0，并按 1/infendermantelefreq 概率传送",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:577",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:306"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java"
           },
-          "note": "project doHurtTarget 在 0.2 概率下施加的是 MobEffects.WITHER 100/0 而非 ModMobEffects.BLEED（该 0.2 概率保留但效果类型错误），命中后也不再触发传送"
+          "note": "原版 EntityInfEnderman:594 命中施加 BLEED 100/0；端口原用 WITHER，已改为 ModMobEffects.BLEED 100/0（批次 149）。；批次：sim_enderman 攻击效果/传送音/跟随任务/攻速加成"
         },
         {
           "clause": "浸水伤害：SRPConfigMobs.infendermanWaterDamageEnabled 且 func_70090_H() 时每 20 tick 扣 2.0 点并施加 MobEffects 20 tick 等级 1",
@@ -869,12 +869,12 @@
         },
         {
           "clause": "传送音 SRPSounds.INFECTEDENDERMAN_PORTAL（发现目标 0.3F、传送成功 1.0F）",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:158",
-            "project": "src/main/java/alku/csrp/registry/ModSounds.java:111"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java"
           },
-          "note": "project 已注册 ModSounds.INFECTED_ENDERMAN_PORTAL（sounds.json:844 亦有素材），但实体代码全部改用原版 SoundEvents.ENDERMAN_TELEPORT（AssimilatedEndermanEntity:146/407），音效事件名与音量（1.0 vs 原版发现时 0.3）均不一致"
+          "note": "原版使用自有传送音；端口两处（:149/:540）原播 SoundEvents.ENDERMAN_TELEPORT，已改用已注册的 ModSounds.INFECTED_ENDERMAN_PORTAL（批次 150）。；批次：sim_enderman 攻击效果/传送音/跟随任务/攻速加成"
         },
         {
           "clause": "环境音 playEndermanSound：每 400 tick 播一次 SoundEvents.field_187533_aW(2.5F, 1.0F)（EntityInfEnderman:191）",
