@@ -1569,3 +1569,22 @@ addSpawn(0, EntityHull.class,         4, 6, biome, SRPConfigMobs.hullSpawnRate, 
 
 **下一批做法**：把 `NaturalSpawnTables` 的条目与上述 66 条逐项对照（实体、组大小、权重、群系/维度、开关、是否缺适应变体），
 产出差异清单后再逐项对齐（数据对齐型任务，先列清单再改）。
+
+## 批次 104：**架构差异**——端口按阶段分池，原版按实体逐条（2026-09-25 续，未改代码）
+
+对照时发现两边的组织模型根本不同，因此 66 条原版条目**不能逐条照抄**：
+
+| | 原版 | 端口 |
+| --- | --- | --- |
+| 组织 | **扁平表**：每只生物一条 `addSpawn(维度, 类, 组min, 组max, 群系, xSpawnRate, xEnabled)`，**共 66 条**（含每只的适应变体单独一条） | **按进化阶段分池**：`NaturalSpawnTables` 内 `PHASE_MINUS_ONE / PHASE_ZERO / … / PHASE_NINE` 共 11 个 `List<MobSpawnSettings.SpawnerData>` |
+| 生成率来源 | `SRPConfigMobs` 的 **逐实体**配置（`xSpawnRate` / `xASpawnRate` / `xEnabled`） | 池内条目的权重（`SpawnerData` 构造参数），另有 `UBIQUITOUS_TABLE_CHANCE = 0.5D` 之类的全局系数 |
+| 选择时机 | 注册期决定 | 运行期按 `select(level, pos)` 依阶段/维度挑选 |
+
+**这意味着**：6 条 `SRPSpawning.addSpawn` partial 的差距**不是数值偏差，而是架构选择**。要"完整还原"，需要在以下两者中做**明确决策**：
+
+1. **引入原版的逐实体配置面**（`xSpawnRate`/`xASpawnRate`/`xEnabled`，约 60+ 键）并让端口的分池权重由这些配置驱动
+   —— 保留现有阶段池架构，同时获得原版的可配置性（改动中等、风险可控，但配置面很大）；
+2. **完全替换为原版扁平表**（注册期注册、按群系生效）—— 与端口的阶段池/维度解锁机制冲突，改动大且会破坏既有玩法节奏。
+
+**本批不改代码**，因为这是需要用户意图或明确设计决策的分叉点，不宜由我在预算紧张时单方面选边；
+已把两种方案的代价与影响写清，供后续在预算充足的轮次（或用户确认后）执行。
