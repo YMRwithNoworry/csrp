@@ -1964,3 +1964,32 @@ SRPConfigMobs.java:4370  angedEnabled = cfg.getBoolean("Vigilante Enabled", "srp
 `(this, <lambda 谓词>)`（`FeralParasiteEntity:93`、`SimHumanEntity:181`）。同化变体族**不是** `PrimitiveParasiteEntity`，
 故只能用后者；其 lambda 全文本轮未取到（被 `head` 截断），下一轮取全后照抄。
 `build` 通过、套件维持既有 20 失败。
+
+## 批次 131：同化变体族补 `WaterLeapAtTargetGoal`（AI 缺口之三，三个缺口全补）（2026-09-25 续）
+
+照抄端口野化族的 lambda 形式（`FeralParasiteEntity:93-94`）接线，优先级 2 与原版 `addTask(2, …)` 对应：
+
+```java
+goalSelector.addGoal(2, new WaterLeapAtTargetGoal(this, () -> level() instanceof ServerLevel serverLevel
+        && alku.csrp.world.EvolutionSystem.generationProfile(serverLevel).waterLeap(), 0.7F, 1.5D, 20, 0.0D));
+```
+
+**编译拦下一处漏导入**（`EvolutionSystem`）→ 改用**全限定名**修正（不新增 import）。至此三份审计共同指出的
+三个 AI 缺口（Jumping / WaterLeap / GetFollowers）**全部补齐**；`build` 通过、套件维持既有 20 失败。
+
+## 批次 132：子代理完整报告与**高价值发现**（2026-09-25 续）
+
+第二批子代理（`c912cf8a…`）提交了完整报告：交付 `raw/sim_sheephead.json`（8 facet/46 条：18/17/8/3）
+与更详尽的 `raw/sim_pig.json`（9 facet/60 条：30/19/9/2），并**主动报告了文件碰撞**（并行代理先占了 canonical 路径，
+其自身版本另存于 `raw/crosscheck/*.by-agent.json`）——碰撞的另一方即我自己的另一份委派，**非外部干扰**。
+
+**可执行发现（均带 文件:行号 证据）**：
+
+| 生物 | 发现 |
+| --- | --- |
+| `sim_pig` | 蛋色**精确一致**（8611072/16711900 = `ModItems.java:171`）；tracker 64/3 **satisfied**（并指出既有 `sim_cow` 审计里"clientTrackingRange(8)"的说法**是错的**——helper 在 `ModEntities.java:629` 用 4，与批次 87 的修正一致）；`missing`：自爆召唤 `srparasites:buglin;2;2`、`canSpawnByIDData infpigCanSpawnAssimilatedNat=4`、`infpig*` 倍率、`lurecomponent2` 掉落 |
+| `sim_sheephead` | 头部生命/伤害 = `INFSHEEP_* × 0.3` **satisfied**；**XP 端口 4 vs 原版 8** ✗；`missing`：`EntityAISkill(40,100,3,true,14)`、`setskillLeapValues(0.7F,2.5,0)`、坠落伤害 ×0.3、`attackSpeedT=15` 等 |
+| `sim_horse` | **fuseTime 70 vs 端口 40** ✗、`EntityAIAttackSwell` 缺失、自爆音缺失、`ToxicCloud` POISON **300/COTH 3600 vs 端口 200/200** ✗ |
+| `sim_adventurer` | `HELM` 同步位、`helmslot` NBT、`SRPLayerBipedArmor` 渲染层缺失 |
+
+**说明**：子代理声明未触碰 Java 源码 / `scripts/` / 构建 / 提交 ✔；`AGENTS.md` 的改动是**用户自己的**（一贯不提交）。

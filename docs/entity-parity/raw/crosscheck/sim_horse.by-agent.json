@@ -1,0 +1,152 @@
+{
+  "id": "sim_horse",
+  "originalClass": "EntityInfHorse",
+  "projectClass": "AssimilatedVariantEntity",
+  "facets": [
+    {
+      "name": "ai",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "tasks.addTask(3, EntityAIAttackMeleeStatus(this, 1.5, false, 0.0))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:70",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:204"
+          },
+          "note": "project MeleeAttackGoal(this, kind == Kind.HORSE ? 1.5D : 1.2D, false)，HORSE 速度 1.5 与原版一致（优先级 2 vs 原版 3）"
+        },
+        {
+          "clause": "tasks.addTask(2, EntityAIAttackSwell(this, 5.0))：膨胀自爆攻击",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:73",
+            "project": null
+          },
+          "note": "project AssimilatedVariantEntity 无膨胀 goal；EntityAIAttackSwell 的 5.0 格判定 / 7 格（49.0 平方）解除 / 视线判定均未实现"
+        },
+        {
+          "clause": "tasks.addTask(0, EntityAISwimmingDiving(this, 0.08))",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:69",
+            "project": null
+          },
+          "note": "project AssimilatedVariantEntity.registerGoals 无 SwimmingDivingGoal，仅 FloatGoal(0)"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "behaviors",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "引信长度 fuseTime = 70",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:53",
+            "project": "src/main/java/alku/csrp/entity/ParasiteFuseState.java:22"
+          },
+          "note": "project 共享 ParasiteFuseState.FUSE_TICKS = 40 且无 per-kind 引信长度，短 30 tick"
+        },
+        {
+          "clause": "setSelfeState 覆写：生命 > 50% 时忽略膨胀状态",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:184",
+            "project": null
+          },
+          "note": "project 无 50% 生命门控"
+        },
+        {
+          "clause": "selfExplode：3.5 格半径非寄生体伤害 = ATTACK_DAMAGE x infhorseExplotionMult(2.0)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:199",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:599"
+          },
+          "note": "project HORSE 分支半径 3.5F、伤害 15.0F（= 7.5 x 2.0 数值等价），但无 infhorseExplotionMult 配置项"
+        },
+        {
+          "clause": "selfExplode：spawnLingeringCloud（waitTime 10、duration x2、中毒 300、COTH 3600）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:226",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:606"
+          },
+          "note": "project ToxicCloudEntity：radius 3.5、duration 160、POISON 200 tick、COTH 200 tick；原版 waitTime 10、duration x2、POISON 300、COTH 3600，毒云与效果时长差异明显"
+        },
+        {
+          "clause": "死亡时按 SRPAttributes.INFHORSE_HEADCHANCE（默认 0.0）生成 sim_horsehead",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:106",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:54"
+          },
+          "note": "原版 INFHORSE_HEADCHANCE 默认 0.0（SRPAttributes.java:616，可由配置覆盖）；project 用固定 HEAD_SPAWN_CHANCE = 0.5F，概率来源与默认值均不同"
+        },
+        {
+          "clause": "func_180429_a 脚步声（SoundEvents.field_187566_ao 马脚步, 0.15F）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:259",
+            "project": null
+          },
+          "note": "project 未覆写 playStepSound / getStepSound"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "sounds",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "自爆音 SRPSounds.INFECTEDHORSE_SA2（音量 2.0）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:215",
+            "project": null
+          },
+          "note": "project 自爆统一走 MOB_EXPLOSION，未接入 INFECTEDHORSE_SA2"
+        },
+        {
+          "clause": "环境音 SRPSounds.INFECTEDHORSE_GROWL（status != 0 时静音）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:242",
+            "project": "src/main/java/alku/csrp/entity/ParasiteSoundProfiles.java:24"
+          },
+          "note": "project register(\"infectedhorse\", \"sim_horse\", \"fer_horse\") 提供组映射，无静音判定"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "loot",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "主掉落 infhorseLoot[0] = srparasites:assimilated_flesh;80;2;false",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:464",
+            "project": "src/main/resources/data/csrp/loot_table/entities/sim_horse.json:1"
+          },
+          "note": "project 100% 掉落 + uniform(1,3)；原版 80% 概率、固定数量 2"
+        },
+        {
+          "clause": "副掉落 infhorseLoot[1] = srparasites:lurecomponent2;10;1;true",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:464",
+            "project": null
+          },
+          "note": "sim_horse.json 只含 assimilated_flesh 一条"
+        }
+      ],
+      "confidence": "high"
+    }
+  ]
+}
