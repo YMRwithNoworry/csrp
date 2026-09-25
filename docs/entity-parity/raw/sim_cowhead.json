@@ -45,12 +45,12 @@
         },
         {
           "clause": "眼高 func_70047_e() = 0.8F",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfCowHead.java:99",
-            "project": null
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java"
           },
-          "note": "1.21 中 Entity.getEyeHeight(Pose) 为 final，眼高只能作为注册参数给出；project 的 monster(id, factory, w, h) 未调用 eyeHeight(...)，取默认 0.85×0.9≈0.765，与原版 0.8 略有差异"
+          "note": "原版头部眼高为 0.8F（EntityInfCowHead/PigHead/HorseHead/EndermanHead 的 func_70047_e）；1.21 的 Entity.getEyeHeight(Pose) 为 final 不可覆写，故须经注册参数传递——八种头部已改用 4 参 monster() helper 并传 0.8F。；批次：头部眼高改走注册参数 + 步声音效接线"
         },
         {
           "clause": "tracker(64, 3, true)：追踪距离 64 格 / 更新间隔 3 tick",
@@ -477,9 +477,9 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/head/ModelInfCowHead.java:702",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:271"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:258"
           },
-          "note": "project status 1/2 切换 get_parasite_status_1 动画（近战 goal 内 updateMeleeStatus 设 1，见 :436）"
+          "note": "project status 1/2 播放 func_78087_a.age_in_ticks.get_parasite_status_1（age_controller:258）；movement_controller 在同状态改用走动用变体（:271-273）；近战 goal 内 updateMeleeStatus 设 1，见 :436"
         },
         {
           "clause": "status 10 跃击姿势（mainbody.field_78795_f = -0.9F 等）",
@@ -495,7 +495,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/head/ModelInfCowHead.java:716",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:267"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:268"
           },
           "note": "project 用 ParasiteAnimations.isMoving(...) 决定 movement_controller 停止（STOP），对应原版 getStillAni 判定"
         },
@@ -578,12 +578,12 @@
         },
         {
           "clause": "脚步声 SRPSounds.SMALL_STEPS（音量 getSoundVolume、音高 getSoundPitch）",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfCowHead.java:166",
-            "project": "src/main/java/alku/csrp/registry/SoundEventCatalog.java:423"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java"
           },
-          "note": "project 已注册 small.step 事件并在他处使用（例如 ManglerEntity.java:226 playSound(ModSounds.get(\"small.step\"), 0.3F, ...)），但 AssimilatedHeadEntity 未覆写 playStepSound，头颅脚步声未接线"
+          "note": "原版 EntityInf*Head:166/171 覆写 func_180429_a 返回 SRPSounds.SMALL_STEPS；端口该事件早已存在（SoundEventCatalog:423 small.step）但头部从不调用，已在 AssimilatedHeadEntity 覆写 playStepSound 播放该事件（照抄 AbominationEntity/GnatEntity/ManglerEntity 的既有范式）。；批次：头部眼高改走注册参数 + 步声音效接线"
         }
       ],
       "confidence": "high"

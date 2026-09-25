@@ -45,12 +45,12 @@
         },
         {
           "clause": "眼高 func_70047_e = 0.3F",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfWolfHead.java:87",
-            "project": "src/main/java/alku/csrp/registry/ModEntities.java:326"
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java"
           },
-          "note": "project 用不带 eyeHeight 的 monster() 重载，沿用默认眼高（0.85 × 0.6 ≈ 0.51），与原版 0.3 不一致"
+          "note": "原版头部眼高为 0.8F（EntityInfCowHead/PigHead/HorseHead/EndermanHead 的 func_70047_e）；1.21 的 Entity.getEyeHeight(Pose) 为 final 不可覆写，故须经注册参数传递——八种头部已改用 4 参 monster() helper 并传 0.8F。；批次：头部眼高改走注册参数 + 步声音效接线"
         },
         {
           "clause": "tracker 追踪距离 64 格 / 更新间隔 3 tick",
@@ -559,12 +559,12 @@
         },
         {
           "clause": "脚步声 SRPSounds.SMALL_STEPS（音量 func_70599_aP、音高 func_70647_i）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfWolfHead.java:157",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java"
           },
-          "note": "project 未覆写 getStepSound/playStepSound，SMALL_STEPS（原版 small.step）未接线"
+          "note": "原版 EntityInf*Head:166/171 覆写 func_180429_a 返回 SRPSounds.SMALL_STEPS；端口该事件早已存在（SoundEventCatalog:423 small.step）但头部从不调用，已在 AssimilatedHeadEntity 覆写 playStepSound 播放该事件（照抄 AbominationEntity/GnatEntity/ManglerEntity 的既有范式）。；批次：头部眼高改走注册参数 + 步声音效接线"
         }
       ],
       "confidence": "high"

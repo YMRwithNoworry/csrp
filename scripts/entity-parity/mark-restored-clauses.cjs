@@ -847,6 +847,25 @@ const BATCHES = {
         detail: "原版头部在 tasks 优先级 0 注册 EntityAISkill(this, 40, 100, 3, true, 14) 并 setskillLeapValues(0.7F, 2.5, 0)；attackID 14 经 doSpecialSkill(14) 分派到 skillLeap()（EntityParasiteBase:2416/2427：记录目标点，落地时置状态 10、motionY=0.7、水平 jumpSpeed*0.9=2.25 并叠加 30% 现有速度；jumpR=0 故无落点伤害）。端口新增 LeapSkill 实现该语义，并在 AssimilatedHeadEntity 以优先级 0 注册 ParasiteSkillGoal(this, 14, new LeapSkill(this, 0.7F, 2.5D, 0), 40, 100, 3, true)。"
       }
     ]
+  },
+  // 批次 190：头部眼高（0.8F）与步声音效（small.step）
+  "head-eye-and-step": {
+    note: "批次：头部眼高改走注册参数 + 步声音效接线",
+    mobs: ["sim_cowhead", "sim_pighead", "sim_wolfhead", "sim_sheephead"],
+    clauses: [
+      {
+        match: /眼高|eye.?height/i,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/registry/ModEntities.java",
+        detail: "原版头部眼高为 0.8F（EntityInfCowHead/PigHead/HorseHead/EndermanHead 的 func_70047_e）；1.21 的 Entity.getEyeHeight(Pose) 为 final 不可覆写，故须经注册参数传递——八种头部已改用 4 参 monster() helper 并传 0.8F。"
+      },
+      {
+        match: /步声|step.?sound|SMALL_STEPS|脚步声/i,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java",
+        detail: "原版 EntityInf*Head:166/171 覆写 func_180429_a 返回 SRPSounds.SMALL_STEPS；端口该事件早已存在（SoundEventCatalog:423 small.step）但头部从不调用，已在 AssimilatedHeadEntity 覆写 playStepSound 播放该事件（照抄 AbominationEntity/GnatEntity/ManglerEntity 的既有范式）。"
+      }
+    ]
   }
 };
 
