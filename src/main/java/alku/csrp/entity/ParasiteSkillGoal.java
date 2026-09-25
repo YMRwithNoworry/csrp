@@ -34,8 +34,10 @@ public final class ParasiteSkillGoal extends Goal {
     private final int attackId;
     private final ParasiteSkill skill;
     private final int cooldownTicks;
-    private final double minDistanceSqr;
-    private final double maxDistanceSqr;
+    /** Legacy distanceC (from the original is first distance argument) is the upper bound. */
+    private final double upperDistanceSqr;
+    /** Legacy distanceL (optional second distance argument) is the lower bound. */
+    private final double lowerDistanceSqr;
     private final boolean needVisual;
     private final boolean ignoreStatus;
 
@@ -60,8 +62,8 @@ public final class ParasiteSkillGoal extends Goal {
         this.skill = skill;
         this.cooldownTicks = cooldownTicks;
         // The original squared the distances up front.
-        this.minDistanceSqr = (double) minDistance * minDistance;
-        this.maxDistanceSqr = (double) maxDistance * maxDistance;
+        this.upperDistanceSqr = (double) minDistance * minDistance;
+        this.lowerDistanceSqr = (double) maxDistance * maxDistance;
         this.needVisual = needVisual;
         this.ignoreStatus = ignoreStatus;
         setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK));
@@ -80,7 +82,8 @@ public final class ParasiteSkillGoal extends Goal {
             return false;
         }
         double distance = mob.distanceToSqr(target);
-        if (distance < minDistanceSqr || (maxDistanceSqr > 0.0D && distance >= maxDistanceSqr)) {
+        // Legacy check: dis < distanceC && dis >= distanceL.
+        if (distance >= upperDistanceSqr || (lowerDistanceSqr > 0.0D && distance < lowerDistanceSqr)) {
             return false;
         }
         return !needVisual || mob.getSensing().hasLineOfSight(target);

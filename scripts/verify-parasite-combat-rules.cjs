@@ -190,7 +190,8 @@ for (const [pattern, message] of [
   [/interface ParasiteSkill \{/, "the doSpecialSkill contract is missing"],
   [/void tick\(\);/, "the skill contract must expose the per-tick step"],
   [/boolean isFinished\(\);/, "the skill contract must expose the legacy getFinished"],
-  [/minDistanceSqr = \(double\) minDistance \* minDistance/, "distances must be squared like the original"],
+  [/upperDistanceSqr = \(double\) minDistance \* minDistance/, "distances must be squared like the original"],
+  [/if \(distance >= upperDistanceSqr \|\| \(lowerDistanceSqr > 0\.0D && distance < lowerDistanceSqr\)\)/, "the legacy distanceC/distanceL window must be honoured"],
   [/parasite\.specialMovesEnabled\(\)/, "the skill must be gated by geneSpecialmove"],
   [/!needVisual \|\| mob\.getSensing\(\)\.hasLineOfSight\(target\)/, "needVisual must require line of sight"],
   [/if \(attackTimer < cooldownTicks\)/, "the legacy cooldown warm-up is missing"]

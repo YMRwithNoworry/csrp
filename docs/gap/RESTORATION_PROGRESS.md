@@ -439,3 +439,22 @@ EntityInfCow: 0    EntityInfHuman: 0    EntitySpeCow: 0    EntityFerVillager: 0
 
 校验：`verify-parasite-combat-rules.cjs` 增加 3 条断言；审计记账 1 条，满足 649 → **650**。
 下一步（批次 23）：同法为 `sim_cow` 等把 `CowChargeGoal` 适配为 attackID 条目，进而翻转 7 条 gene 捆绑条款。
+
+## 批次 23：修正 EntityAISkill 距离窗口语义（2026-09-25 续）
+
+读 `EntityInfCow.java:75` 时发现原版**参数命名与实际用途相反**，这会直接导致端口把技能窗口算错：
+
+```java
+new EntityAISkill(this, 60, 32, 8, true, 1);      // sim_cow
+// 构造: (para, cooldown, miniDistance, [maxDistance], needVisual, attackID)
+distanceC = miniDistance² = 1024      // 实为【上界】
+distanceL = maxDistance²  = 64        // 实为【下界】
+canUse:  dis < distanceC && dis >= distanceL    // → 8 ≤ d < 32 格
+```
+
+批次 21 我按字面把第一个距离当成了下界，本批订正为忠实语义（`upperDistanceSqr` / `lowerDistanceSqr`），
+并在类注释里写明这个反直觉命名与 `sim_cow` 的实际含义（「8–32 格内」）。
+`pri_longarms` 的 `(80, 4, false, 21)` 在修正后语义为「4 格内」——与原版 `distanceC = 16, distanceL = 0` 一致 ✔。
+`sim_cow` 技能本体对应原版 `doSpecialSkill(1) → charge()`（`attacking < 40` 蓄力，与端口既有
+`CowChargeGoal` 的 `PREPARE_TICKS = 40` 吻合），下一批适配。
+校验：`verify-parasite-combat-rules.cjs` 更新 1 条并新增 1 条窗口断言；全套失败集合仍为既有 20 个。
