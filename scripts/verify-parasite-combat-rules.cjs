@@ -600,6 +600,11 @@ for (const f of ["AssimilatedHeadEntity", "AssimilatedDragonHeadEntity", "SimAdv
   expect(read("src/main/java/alku/csrp/entity/" + f + ".java"), /ModSounds\.get\("small\.step"\)/, f + " does not wire the step sound");
 }
 
+// Legacy EntityInfPlayerHead:60 registers the same leap skill as the sibling head class.
+expect(read("src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java"),
+  /new ParasiteSkillGoal\(this, 14, new LeapSkill\(this, 0\.7F, 2\.5D, 0\), 40, 100, 3, true\)/,
+  "the adventurer head leap skill is not registered");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

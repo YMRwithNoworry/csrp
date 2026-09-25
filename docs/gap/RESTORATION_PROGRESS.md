@@ -3568,3 +3568,18 @@ protected void playStepSound(BlockPos pos, BlockState state) {
 
 **断言设计上的改进**：把"单点断言"改成"**跨同类遍历断言**"——这样若将来新增头部类而未接步声，断言会直接暴露，
 而不是等到下一轮审计才发现（**用断言固化"范围"而不仅是"点"**）。
+
+## 批次 221：`SimAdventurerHeadEntity` 技能目标接线（2026-09-25 续）
+
+第七批委派指出该头部**缺技能目标**（原版 `EntityInfPlayerHead:60` 注册 `EntityAISkill(this, 40, 100, 3, true, 14)`
++ `setskillLeapValues(0.7F, 2.5, 0)`），而兄弟类 `AssimilatedHeadEntity` 已在批次 181 接过。
+
+⇒ 复用**已有资产**（批次 179 写的 `LeapSkill` + `ParasiteSkillGoal`），一行注册：
+
+```java
+goalSelector.addGoal(0, new ParasiteSkillGoal(this, 14, new LeapSkill(this, 0.7F, 2.5D, 0), 40, 100, 3, true));
+```
+
+**复用价值**：批次 179 为兄弟类新写的 `LeapSkill`（含 `skillLeap` 的完整语义）**无需任何修改即可用于本类** ✔
+——这正是当初"追证据链追到底、按原版语义实现"的回报：**实现得越贴近原版语义，跨类复用的成本越低**。
+断言 1 条；`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。

@@ -93,6 +93,8 @@ public final class SimAdventurerHeadEntity extends Monster implements CitadelAni
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
+        // Legacy EntityInfPlayerHead:60 tasks.addTask(0, EntityAISkill(this, 40, 100, 3, true, 14)) -> skillLeap.
+        goalSelector.addGoal(0, new ParasiteSkillGoal(this, 14, new LeapSkill(this, 0.7F, 2.5D, 0), 40, 100, 3, true));
         goalSelector.addGoal(1, new MergeWithIncompleteFormGoal());
         goalSelector.addGoal(1, new AvoidEntityGoal<>(this, LivingEntity.class, 8.0F, 1.0D, 1.3D,
                 this::shouldAvoid));
