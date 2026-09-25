@@ -82,6 +82,11 @@ public abstract class PrimitiveParasiteEntity extends Monster
     private final ParasiteFuseState selfeFuse = new ParasiteFuseState();
     private static final String KILLS_TAG = "parasitekills";
     private static final String LEGACY_KILLCOUNT_TAG = "legacy_killcount";
+
+    /** Legacy per-class killcount start; the hijacked heads start at -10 (EntityInfVillagerHead:47). */
+    protected double initialKillCount() {
+        return 0.0D;
+    }
     private static final String ADAPTATIONS_TAG = "damage_adaptations";
     private static final String COLONY_SPAWNED_TAG = "colony_spawned";
     private static final int MAX_ADAPTATION_HITS = 12;
@@ -104,7 +109,7 @@ public abstract class PrimitiveParasiteEntity extends Monster
     private boolean bypassArmorForDamageCap;
     private float lastDamageAdaptationReduction;
     private int parasiteKills;
-    private double legacyKillCount;
+    private double legacyKillCount = initialKillCount();
     private boolean colonySpawned;
     private boolean adaptedFormSpawned;
     private int adaptationLearningCooldown;

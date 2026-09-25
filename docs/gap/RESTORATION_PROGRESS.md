@@ -3213,3 +3213,25 @@ startSeenByPlayer/stopSeenByPlayer → bossEvent.addPlayer/removePlayer       //
 以免与 `:977` 的读档回退逻辑冲突（**读档时应以存档值为准，不能覆盖为 -10** ✗）。
 
 **下一批**：读该类的初始化与读档顺序 → 选定方案 → 实现 + 断言（断言应校验"新生成的头 killcount = -10、读档后等于存档值"两条语义）。
+
+## 批次 202：头部 `killcount = -10` **升级为功能缺口**（端口头部无 killcount 机制）（2026-09-25 续）
+
+批次 201 我按"字段私有、需开写路径"的思路去实现，本轮**编译直接揭示层级错误**：
+
+```
+错误：AssimilatedHeadEntity:250 方法不会覆盖或实现超类型的方法
+原因：public final class AssimilatedHeadEntity extends Monster implements CitadelAnimatedEntity, Parasite
+      —— 头部【不继承 PrimitiveParasiteEntity】⇒ 端口头部【根本没有 legacyKillCount 字段】
+```
+
+**结论**：这不是"改个初始值"，而是**该族缺少整套 killcount 机制** ✗。原版头部依赖 killcount 做：
+`EntityInfVillagerHead:111-116` 的**合并/融化判定**（比较 `SRPConfig.primitiveKills` / `feralKills` 阈值、`thisMelting` 分支等）。
+
+**处置**：
+1. 已**回滚**头部侧的覆写（编译失败的那段）；
+2. 保留 `PrimitiveParasiteEntity` 中的 `initialKillCount()` 钩子（默认 0.0D，行为与之前完全一致 ✔ **无行为变更**），
+   作为将来需要"逐类初始值"时的现成入口；
+3. 将该条款**改列为功能缺口**（与 SELFE 覆盖面、多部件命中盒、`SRPSpawning` 架构同级），待专项批次实现整机制。
+
+**方法论（第 N 次）**：**编译再次充当事实核查**——我基于"头部继承寄生体基类"的假设去改，编译一秒内证伪；
+若没有编译这一关，我会写出一个"看起来对、实际挂在错误层级"的实现。
