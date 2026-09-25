@@ -3652,3 +3652,35 @@ return target != this && target.isAlive()
 **这类 bug 的特征**：**编译通过、运行不报错、也不会有日志**——只是"某个功能永远不发生"。
 它由审计发现（两次委派都指出），而**修正依据必须来自原版的目标注册**（`:93`），否则就只是"让死代码活过来"而已。
 断言 1 条；`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+## 批次 226：`disloGiveBodies`（头→体）机制**完整解出**（2026-09-25 续，未改代码）
+
+```java
+// 原版 EntityInfPlayerHead:103-112（龙头的对应块在同构位置）
+@Override
+public void func_70636_d() {                      // = 每 tick
+    super.func_70636_d();
+    if (!world.isRemote
+        && SRPConfigSystems.disloGiveBodies        // ① 配置开关
+        && isEntityAlive()                          // ② 头仍存活
+        && this.srpTicks == 10                      // ③ 计时恰好到 10
+        && SRPSaveData.get(world, 44).getCurrentCode(dim, 20) >= 1) {   // ④ 相位码 ≥ 1
+        ParasiteEventEntity.spawnNext(this, new EntityInfPlayer(world), true, false);   // ⑤ 生成对应身体
+    }
+}
+```
+
+**端口实现所需五要素**：
+1. `Config` 增加 `disloGiveBodies` 开关（原版在 `SRPConfigSystems` ✗ 端口需先确认有无同名键）；
+2. 头部需要一个"存活计时到 10"的字段（端口可能已有 `srpTicks` 等价物 ✗ 待查）；
+3. 相位码查询（端口已有相位机制 ✔，需找到等价调用）；
+4. **生成对应身体**：头部 kind → 身体实体（player head → `EntityInfPlayer`/端口 `SimAdventurerEntity` 等）；
+5. 服务端判定（`!level().isClientSide` ✔ 端口惯用写法）。
+
+**与端口既有路径的关系**：端口已有**反向**路径（身体 → 头：`detachHead` / `spawnWalkingHead` ✔），
+本机制是**正向**（头 → 身体）⇒ **不可直接复用**，但可参照其生成/挂载代码 ✔。
+
+**下一批**：先查端口是否已有 `disloGiveBodies` 键与 `srpTicks` 等价物（决定是"补机制"还是"接线"），
+再按上述五要素实现 + 断言（断言应校验：条件齐备时生成身体、任一条件不满足时不生成）。
+
+**这是第 4 项子系统级机制缺口**（另三项：多部件命中盒、SELFE 覆盖面、头部 killcount）——建议合并为一个"机制补齐"专项阶段规划。
