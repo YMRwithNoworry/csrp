@@ -1262,3 +1262,12 @@ EntityDod / EntityLeem / EntityVenkrol : XP_INFECTED * 2
 
 **做法（下一批执行）**：在 `registry/ModEntities.java` 为对应实体的 `EntityType.Builder` 补上这两项；
 需先 grep 现有是否已设置（部分实体可能已有 `clientTrackingRange`），再逐只对齐，避免重复/冲突。
+
+## 批次 87：实体追踪范围对齐原版 tracker(64, 3, true)（2026-09-25 续）
+
+上一批查清语义后落地：`ModEntities` 的 `monster(...)` helper 原为 `.clientTrackingRange(8)`（=128 格）✗，
+改为 **`.clientTrackingRange(4).updateInterval(3)`**（64 格 ÷ 16 = 4 区块；间隔 3）。
+
+**自校验信号**：改动后全文件 `clientTrackingRange(4).updateInterval(3)` 共 **17 处** ⇒ 另有 **16 个实体原本就用**
+这一组合，说明 4/3 正是本项目的既有惯例（与原版 tracker(64,3,true) 一致），而 `monster` helper 的 8 是唯一例外。
+`build` 通过、套件维持既有 20 失败。
