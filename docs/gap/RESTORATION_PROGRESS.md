@@ -3370,3 +3370,23 @@ public GeneMeleeGoal(Mob mob, double baseSpeed, boolean requireLineOfSight, int 
 如果当时不标注，这四处会永久埋在代码里（差异最大的一处是 wolf 头：0.3 vs 0.8，相差 2.7 倍）。
 **结论**：不确定时"先标注、后补证"是可行的；但**不能把标注当成终点**——本轮就把它们全部补成了实证。
 `build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+## 批次 210：头部掉落清空（原版 10 个头部掉落数组全为空）（2026-09-25 续）
+
+第六批委派指出"头部掉落：原版空、端口掉 1-3 血肉"。源头核实：
+
+```
+原版 SRPConfigMobs:352/368/392/406/420/434/450/465/481/495
+   infendermanheadLoot / infhumanheadLoot / infcowheadLoot / infsheepheadLoot / infwolfheadLoot /
+   infpigheadLoot / infvillagerheadLoot / infhorseheadLoot / infadventurerheadLoot / infdragoneheadLoot
+   —— 【10 个全部为 new String[0]】⇒ 原版头部不掉落任何物品
+```
+
+⇒ 已把 **11 个**含 `assimilated_flesh` 的头部掉落表清空为 `"pools": []`。
+
+**过程中自查并纠正一次过度操作**：脚本按"含 assimilated_flesh 即清空"的规则运行时，把 **`abo_head`（憎恶头）** 也清空了 ✗
+—— 而憎恶头**不在**上述 10 个数组之列，其掉落未被取证 ⇒ 已用 `git checkout` **恢复** `abo_head.json` ✔。
+
+**教训**：批量脚本的**筛选规则必须与取证范围严格对齐**（本次取证范围是"同化族 10 种头部"，而筛选条件是"含血肉掉落"，
+两者不等价 ⇒ 多改了一个文件）。若不清查，就会造成一处无证据的行为变更。
+`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
