@@ -231,6 +231,12 @@ public final class MobsConfig {
     public static double burrowerArmorMultiplier() { return BURROWER_ARMOR_MULTIPLIER.get(); }
     public static double burrowerKnockbackMultiplier() { return BURROWER_KNOCKBACK_MULTIPLIER.get(); }
 
+    // Legacy SRPConfigMobs primitive devourer multipliers (constant names verified by the audit).
+    public static double devourerHealthMultiplier() { return DEVOURER_HEALTH_MULTIPLIER.get(); }
+    public static double devourerDamageMultiplier() { return DEVOURER_DAMAGE_MULTIPLIER.get(); }
+    public static double devourerArmorMultiplier() { return DEVOURER_ARMOR_MULTIPLIER.get(); }
+    public static double devourerKnockbackMultiplier() { return DEVOURER_KNOCKBACK_MULTIPLIER.get(); }
+
     public static double infsheepHealthMultiplier() { return INFSHEEP_HEALTH_MULTIPLIER.get(); }
     public static double infsheepDamageMultiplier() { return INFSHEEP_DAMAGE_MULTIPLIER.get(); }
     public static double infsheepArmorMultiplier() { return INFSHEEP_ARMOR_MULTIPLIER.get(); }
