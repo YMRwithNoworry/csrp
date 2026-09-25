@@ -2340,3 +2340,20 @@ ParasiteSummon.spawn(parasite, ParasiteSummon.specFor(parasite));
 **锚点尽量取单行且不带换行符**。
 
 **`sim_enderman` 剩余三项**：0.15 攻速加成修饰符、`EntityHitbox` 头部命中盒、生成时贴图随机。
+
+## 批次 152：`sim_enderman` 贴图随机一说不予实施（源头未复现）（2026-09-25 续，未改代码）
+
+子代理称"`TEXTURE_VARIANT` 生成时从不随机（原版恒掷 0/1）"。本轮按纪律**先到源头复核**，未能复现：
+
+```
+端口 AssimilatedEndermanEntity    TEXTURE_VARIANT 定义(:63)/默认 0(:130)/读取(:168)/写入(:180)/NBT 读回(:355)  ✔ 机制齐备
+原版 EntityInfEnderman            该类内 nextInt 命中均为【传送频率(:243)与传送坐标(:407/416/423)】，无贴图掷点
+原版 EntityPInfected:333           nnn.setSkin((byte)this.getSkin());   ← 仅把皮肤【复制给子体】，非掷点
+```
+
+**结论**：原版该类中**找不到**贴图掷点 ⇒ 子代理该条**证据不足**（掷点可能在别处，如基类 `func_180482_a`，或它把
+"皮肤由父体复制"误读为"生成时随机"）。**故本轮不实施**——按本会话一贯纪律，**未能在源头复现的结论不予落地**
+（此前已有多次"我以为/子代理以为"被源头推翻的先例）。
+
+**待办**：若要继续追，应在 `EntityParasiteBase.func_180482_a`（finalizeSpawn）与 `EntityPInfected.getSkin()` 中查掷点来源；
+查清前 `TEXTURE_VARIANT` 保持现状（默认 0 + NBT 可设）。
