@@ -14,7 +14,7 @@
 ## 当前基线
 
 - `gradlew clean build`：**成功**（GraalVM 25.3.4.1 / Gradle 9.2.1），产物 `build/libs/csrp-1.10.9.jar`。
-- 静态校验套件：**116 / 116 通过**。
+- 静态校验套件：**117 / 117 通过**。
 - 运行期验证：`runGameTestServer` → **171 / 171 GameTests 通过**（170 个实体生成冒烟 + 1 个 NBT 往返），服务器完整启动到测试结束。
 - 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2978 键 / zh_cn 2994 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
