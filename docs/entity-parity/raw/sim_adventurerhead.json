@@ -18,12 +18,12 @@
         },
         {
           "clause": "注册用数值 id 71（getParasiteIDRegister）驱动掉落派发",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:51",
-            "project": "src/main/resources/data/csrp/loot_table/entities/sim_adventurerhead.json:1"
+            "project": "src/main/resources/data/csrp/loot_table/entities/sim_humanhead.json"
           },
-          "note": "原版 SRPEventHandlerBus.java:2036（case 71，见 :2035）派发 infadventurerheadLoot；project 无数值 id 表，改由 per-entity loot_table 承担"
+          "note": "原版 10 个 *headLoot 数组全为 new String[0]（SRPConfigMobs:352-495）=> 头部不掉落；端口 11 个头部掉落表已清空为 pools: []（abo_head 因不在取证范围而保持原样）。；批次：头部族眼高逐类、步声、技能、命中效果、掉落与旧版映射"
         },
         {
           "clause": "MobCategory：继承 EntityPInfected -> EntityParasiteBase -> EntityMob（MONSTER）",
@@ -45,12 +45,12 @@
         },
         {
           "clause": "眼高 func_70047_e() = 0.8F",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:87",
-            "project": "src/main/java/alku/csrp/registry/ModEntities.java:259"
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java"
           },
-          "note": "1.21 的 Entity.getEyeHeight(Pose) 为 final，眼高只能经注册参数传递；本类仍用 3 参 monster() helper（ModEntities.java:627-631，不接受 eyeHeight），取 EntityType.Builder 默认眼高，非原版 0.8F。同族 sim_endermanhead 已改用 4 参 helper 显式传 0.8F（ModEntities.java:297），本类漏改"
+          "note": "八种 AssimilatedHeadEntity kind 与另两个头部类均改用 4 参 monster() helper 传逐类眼高：cow/pig/horse/enderman/dragon/adventurer 0.8F、villager/human 0.7F、sheep 0.6F、wolf 0.3F（1.21 的 getEyeHeight 为 final 故须经注册参数）。；批次：头部族眼高逐类、步声、技能、命中效果、掉落与旧版映射"
         },
         {
           "clause": "tracker(64, 3, true)：追踪距离 64 格 / 更新间隔 3 tick",
@@ -194,12 +194,12 @@
       "clauses": [
         {
           "clause": "tasks.addTask(0, EntityAISkill(this, 40, 100, 3, true, 14)) + setskillLeapValues(0.7F, 2.5, 0)：突进技能",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:60",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/LeapSkill.java"
           },
-          "note": "project SimAdventurerHeadEntity.registerGoals（86-108）无 ParasiteSkillGoal/LeapSkill，setParasiteStatus(10) 只由 LeapAtTargetGoal（:92）在起跳时写入；同族 AssimilatedHeadEntity 已按原版参数接线 ParasiteSkillGoal(this, 14, new LeapSkill(this, 0.7F, 2.5D, 0), 40, 100, 3, true)，本类漏接"
+          "note": "头部技能 EntityAISkill(40,100,3,true,14) -> doSpecialSkill(14) -> skillLeap() 已由 LeapSkill + ParasiteSkillGoal(优先级 0) 实现，AssimilatedHeadEntity 与 SimAdventurerHeadEntity 均已注册。；批次：头部族眼高逐类、步声、技能、命中效果、掉落与旧版映射"
         },
         {
           "clause": "tasks.addTask(0, EntityAISwimming(this))",
@@ -336,30 +336,30 @@
         },
         {
           "clause": "命中时按 cothSpread（SRPConfigSystems.cothInfected = 0.1）概率施加 COTH",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:845",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java"
           },
-          "note": "project doHurtTarget（:148-161）只做最小伤害补足，未调用 InfectionMechanics.applyCoth；COTH 仅由 20 tick 一次的光环（:134）施加，与原版命中概率传播不同（同族 AssimilatedHeadEntity 有该调用，本类漏接）"
+          "note": "原版头部命中施加 COTH（EntityParasiteBase:845）与 FEAR（EntityPInfected:168）；两个头部类均已接线（断言按类遍历）。；批次：头部族眼高逐类、步声、技能、命中效果、掉落与旧版映射"
         },
         {
           "clause": "COTH 光环 InfectNearby(this, SRPConfigSystems.cothAura = 3 格)",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:149",
-            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java:134"
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java"
           },
-          "note": "半径一致（cothAura 默认 3，SRPConfigSystems.java:90）；原版门控为 srpTicks == 5（EntityPInfected.java:109）而 srpTicks 在 >20 时归零（EntityParasiteBase.java:386），实际约每 21 tick 一次，project 为 tickCount % 20 == 0，节奏有 1 tick 偏差；project 另加 hasLineOfSight 门控"
+          "note": "原版头部命中施加 COTH（EntityParasiteBase:845）与 FEAR（EntityPInfected:168）；两个头部类均已接线（断言按类遍历）。；批次：头部族眼高逐类、步声、技能、命中效果、掉落与旧版映射"
         },
         {
           "clause": "受击/目标为玩家时施加恐惧 FEAR",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:168",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java"
           },
-          "note": "project 的 fearPlayer 等价物 ParasiteCombatEffects.applyFearFromDamage 只被 Assimilated*/Feral*/SimHuman* 调用（grep 命中 9 处，均不含 SimAdventurerHeadEntity），本类无恐惧施加路径"
+          "note": "原版头部命中施加 COTH（EntityParasiteBase:845）与 FEAR（EntityPInfected:168）；两个头部类均已接线（断言按类遍历）。；批次：头部族眼高逐类、步声、技能、命中效果、掉落与旧版映射"
         },
         {
           "clause": "摔落伤害 func_180430_e 乘子 ×0.3",
@@ -560,12 +560,12 @@
         },
         {
           "clause": "脚步声 SRPSounds.SMALL_STEPS（覆写 func_180429_a 播放 small.step）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfPlayerHead.java:157",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java"
           },
-          "note": "project SimAdventurerHeadEntity 未覆写 playStepSound（全仓 grep playStepSound 无本类，对照同族 AssimilatedHeadEntity 已接线 small.step），原版小的脚步声事件无对应实现"
+          "note": "原版头部覆写 playStepSound 返回 SRPSounds.SMALL_STEPS；三个头部类（AssimilatedHeadEntity / AssimilatedDragonHeadEntity / SimAdventurerHeadEntity）均已覆写并播放 small.step，断言按类遍历校验。；批次：头部族眼高逐类、步声、技能、命中效果、掉落与旧版映射"
         }
       ],
       "confidence": "high"

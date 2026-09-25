@@ -1,6 +1,6 @@
 # 生物部分还原度基线
 
-> 生成时间：2026-09-25T06:42:05.042Z
+> 生成时间：2026-09-25T07:09:53.716Z
 > 事实来源：`D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites`（SRParasites 1.10.9，生物部分与 1.10.8 一致）
 > 本工程：`D:/code/MC模组/csrp`（MC 26.3 / NeoForge 26.3，分支 `port-26.3`）
 
@@ -14,25 +14,25 @@
 
 ## 总体基线
 
-- 覆盖：**26/127** 只生物已出条款级审计
-- 条款：满足 **1291**、部分 **602**、缺失 **358**（另有 109 条判定为不适用）
-- **加权完成度：70.7%**
+- 覆盖：**30/127** 只生物已出条款级审计
+- 条款：满足 **1472**、部分 **647**、缺失 **395**（另有 130 条判定为不适用）
+- **加权完成度：71.4%**
 
 ## 分面基线
 
 | 面 | 满足 | 部分 | 缺失 | 完成度 |
 | --- | ---: | ---: | ---: | ---: |
-| 注册 | 143 | 67 | 56 | 66.4% |
-| 属性 | 187 | 42 | 13 | 86% |
-| AI | 152 | 143 | 34 | 67.9% |
-| 行为 | 240 | 120 | 72 | 69.4% |
-| 伤害/效果 | 167 | 22 | 21 | 84.8% |
-| 同步数据 | 51 | 49 | 55 | 48.7% |
-| 动画 | 102 | 22 | 9 | 85% |
-| 模型/贴图 | 83 | 6 | 22 | 77.5% |
-| 音效 | 70 | 38 | 26 | 66.4% |
-| 生成 | 74 | 52 | 29 | 64.5% |
-| 掉落 | 22 | 41 | 21 | 50.6% |
+| 注册 | 180 | 64 | 64 | 68.8% |
+| 属性 | 207 | 51 | 15 | 85.2% |
+| AI | 177 | 167 | 34 | 68.9% |
+| 行为 | 261 | 127 | 77 | 69.8% |
+| 伤害/效果 | 190 | 17 | 24 | 85.9% |
+| 同步数据 | 53 | 52 | 65 | 46.5% |
+| 动画 | 114 | 29 | 9 | 84.5% |
+| 模型/贴图 | 95 | 6 | 23 | 79% |
+| 音效 | 77 | 44 | 28 | 66.4% |
+| 生成 | 81 | 54 | 35 | 63.5% |
+| 掉落 | 37 | 36 | 21 | 58.5% |
 
 ## 完成度最低的 20 只（补齐队列起点）
 
@@ -43,21 +43,21 @@
 | `fer_villager` | EntityFerVillager | FeralParasiteEntity | 61.6% | 67/31/36 |
 | `host` | EntityHost | HostEntity | 64.1% | 42/25/18 |
 | `mar_cow` | EntitySpeCow | MarauderizedCowEntity | 67.3% | 58/24/22 |
+| `sim_endermanhead` | EntityInfEndermanHead | AssimilatedHeadEntity | 68.6% | 43/21/14 |
 | `buglin` | EntityLodo | BuglinEntity | 68.6% | 41/14/15 |
 | `pri_longarms` | EntityShyco | LongarmsEntity | 68.6% | 58/28/19 |
 | `sim_pig` | EntityInfPig | AssimilatedParasiteEntity | 68.8% | 29/19/8 |
-| `sim_sheephead` | EntityInfSheepHead | AssimilatedHeadEntity | 69.8% | 22/16/5 |
-| `sim_villagerhead` | EntityInfVillagerHead | AssimilatedHeadEntity | 69.8% | 35/18/10 |
 | `sim_human` | EntityInfHuman | SimHumanEntity | 70.9% | 65/26/19 |
 | `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | 71% | 52/28/13 |
 | `sim_adventurer` | EntityInfPlayer | SimAdventurerEntity | 71.4% | 54/22/15 |
-| `sim_horsehead` | EntityInfHorseHead | AssimilatedHeadEntity | 72.5% | 34/19/7 |
-| `sim_wolfhead` | EntityInfWolfHead | AssimilatedHeadEntity | 74.2% | 36/17/7 |
-| `sim_cowhead` | EntityInfCowHead | AssimilatedHeadEntity | 74.2% | 36/17/7 |
-| `sim_pighead` | EntityInfPigHead | AssimilatedHeadEntity | 74.2% | 36/17/7 |
+| `sim_sheephead` | EntityInfSheepHead | AssimilatedHeadEntity | 72.1% | 24/14/5 |
+| `sim_humanhead` | EntityInfHumanHead | AssimilatedHeadEntity | 73.2% | 44/16/11 |
+| `sim_villagerhead` | EntityInfVillagerHead | AssimilatedHeadEntity | 73.8% | 40/13/10 |
 | `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | 74.3% | 65/29/13 |
 | `sim_bigspider` | EntityDorpa | AssimilatedVariantEntity | 75% | 61/25/12 |
 | `sim_cow` | EntityInfCow | AssimilatedParasiteEntity | 75% | 64/31/11 |
+| `sim_bear` | EntityInfBear | AssimilatedParasiteEntity | 75.3% | 56/19/12 |
+| `sim_dragonehead` | EntityInfDragonEHead | AssimilatedDragonHeadEntity | 75.5% | 35/13/7 |
 
 ## 已知前提与风险
 

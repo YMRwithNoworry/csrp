@@ -18,12 +18,12 @@
         },
         {
           "clause": "注册用数值 id 28（getParasiteIDRegister）驱动掉落/生成派发",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfCowHead.java:51",
-            "project": "src/main/resources/data/csrp/loot_table/entities/sim_cowhead.json:1"
+            "project": "src/main/resources/data/csrp/loot_table/entities/sim_humanhead.json"
           },
-          "note": "project 无数值 id 表；语义改由 per-entity loot_table 与 item/LegacyMobSpawnerItem.java:161（infcowhead→sim_cowhead）等按名映射承担"
+          "note": "原版 10 个 *headLoot 数组全为 new String[0]（SRPConfigMobs:352-495）=> 头部不掉落；端口 11 个头部掉落表已清空为 pools: []（abo_head 因不在取证范围而保持原样）。；批次：头部族眼高逐类、步声、技能、命中效果、掉落与旧版映射"
         },
         {
           "clause": "MobCategory：继承 EntityPInfected -> EntityParasiteBase -> EntityMob（MONSTER）",
@@ -336,12 +336,12 @@
         },
         {
           "clause": "EntityPInfected 通用：周期 COTH 光环 InfectNearby(cothAura)",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:149",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:177"
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java"
           },
-          "note": "project 每 20 tick 对 3 格内合法目标直接 applyCoth（AssimilatedHeadEntity:178-182），另有 HeadCothCloudGoal（:325）生成 ToxicCloudEntity（半径 = bbWidth×4、1200 tick、COTH 3600/1 级）；原版为 5 tick 间隔的 InfectNearby(半径由 SRPConfigSystems.cothAura 配置) + cothSpread 概率，间隔与判定方式不同"
+          "note": "原版头部命中施加 COTH（EntityParasiteBase:845）与 FEAR（EntityPInfected:168）；两个头部类均已接线（断言按类遍历）。；批次：头部族眼高逐类、步声、技能、命中效果、掉落与旧版映射"
         }
       ],
       "confidence": "high"
@@ -388,12 +388,12 @@
         },
         {
           "clause": "命中时按 cothSpread（SRPConfigSystems.cothInfected）概率施加 COTH",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:92",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:226"
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java"
           },
-          "note": "project 命中 100% 施加 COTH（InfectionMechanics.applyCoth），未使用 cothAssimilatedSpreadChance 掷骰"
+          "note": "原版头部命中施加 COTH（EntityParasiteBase:845）与 FEAR（EntityPInfected:168）；两个头部类均已接线（断言按类遍历）。；批次：头部族眼高逐类、步声、技能、命中效果、掉落与旧版映射"
         }
       ],
       "confidence": "high"
@@ -637,12 +637,12 @@
       "clauses": [
         {
           "clause": "头颅掉落表 SRPConfigMobs.infcowheadLoot = new String[0]（头颅无掉落）",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:392",
-            "project": "src/main/resources/data/csrp/loot_table/entities/sim_cowhead.json:1"
+            "project": "src/main/resources/data/csrp/loot_table/entities/sim_humanhead.json"
           },
-          "note": "原版配置为空数组即无掉落；project 为 sim_cowhead 新增了 100% 掉落 1-3 个 csrp:assimilated_flesh 的战利品表（新增行为，非缺失）"
+          "note": "原版 10 个 *headLoot 数组全为 new String[0]（SRPConfigMobs:352-495）=> 头部不掉落；端口 11 个头部掉落表已清空为 pools: []（abo_head 因不在取证范围而保持原样）。；批次：头部族眼高逐类、步声、技能、命中效果、掉落与旧版映射"
         },
         {
           "clause": "经验 8（XP_INFECTED = SRPConfig.infectedXPValue）",

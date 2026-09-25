@@ -18,12 +18,12 @@
         },
         {
           "clause": "注册用数值 id 22（getParasiteIDRegister）驱动掉落/生成派发",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfSheepHead.java:51",
-            "project": "src/main/resources/data/csrp/loot_table/entities/sim_sheephead.json:1"
+            "project": "src/main/resources/data/csrp/loot_table/entities/sim_humanhead.json"
           },
-          "note": "project 未保留数值 id 22 常量；语义改由 per-entity loot_table 驱动"
+          "note": "原版 10 个 *headLoot 数组全为 new String[0]（SRPConfigMobs:352-495）=> 头部不掉落；端口 11 个头部掉落表已清空为 pools: []（abo_head 因不在取证范围而保持原样）。；批次：头部族眼高逐类、步声、技能、命中效果、掉落与旧版映射"
         },
         {
           "clause": "MobCategory：继承 EntityPInfected -> EntityParasiteBase -> EntityMob（MONSTER）",
@@ -308,12 +308,12 @@
         },
         {
           "clause": "SRPConfigSystems.cothAura 光环 / 药水免疫等 EntityPInfected 通用行为",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:354",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:323"
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java"
           },
-          "note": "project 用 HeadCothCloudGoal（8 格回避判定 + 12x3 扫描 + COTH 施加，见 AssimilatedHeadEntity.java:338-350）表达头颅族 COTH 传播，与原版逐 tick 的 InfectNearby 光环机制不同"
+          "note": "原版头部命中施加 COTH（EntityParasiteBase:845）与 FEAR（EntityPInfected:168）；两个头部类均已接线（断言按类遍历）。；批次：头部族眼高逐类、步声、技能、命中效果、掉落与旧版映射"
         }
       ],
       "confidence": "high"

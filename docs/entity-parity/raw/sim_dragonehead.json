@@ -18,12 +18,12 @@
         },
         {
           "clause": "注册用数值 id 70（getParasiteIDRegister）驱动掉落派发",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:40",
-            "project": "src/main/resources/data/csrp/loot_table/entities/sim_dragonehead.json:1"
+            "project": "src/main/resources/data/csrp/loot_table/entities/sim_humanhead.json"
           },
-          "note": "原版 SRPEventHandlerBus.java:2033 的 case 70 → infdragoneheadLoot 派发；project 无数值 id 表，改由 per-entity loot_table 承担"
+          "note": "原版 10 个 *headLoot 数组全为 new String[0]（SRPConfigMobs:352-495）=> 头部不掉落；端口 11 个头部掉落表已清空为 pools: []（abo_head 因不在取证范围而保持原样）。；批次：头部族眼高逐类、步声、技能、命中效果、掉落与旧版映射"
         },
         {
           "clause": "MobCategory：继承 EntityPInfected -> EntityParasiteBase -> EntityMob（MONSTER）",
@@ -45,12 +45,12 @@
         },
         {
           "clause": "眼高 func_70047_e() = 0.8F",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:82",
-            "project": "src/main/java/alku/csrp/registry/ModEntities.java:291"
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java"
           },
-          "note": "1.21 的 Entity.getEyeHeight(Pose) 为 final，眼高只能经注册参数传递；本类仍用 3 参 monster() helper（ModEntities.java:627-631，不接受 eyeHeight），取 EntityType.Builder 默认眼高，非原版 0.8F。同族 sim_endermanhead 已改用 4 参 helper 显式传 0.8F（ModEntities.java:297），本类漏改"
+          "note": "八种 AssimilatedHeadEntity kind 与另两个头部类均改用 4 参 monster() helper 传逐类眼高：cow/pig/horse/enderman/dragon/adventurer 0.8F、villager/human 0.7F、sheep 0.6F、wolf 0.3F（1.21 的 getEyeHeight 为 final 故须经注册参数）。；批次：头部族眼高逐类、步声、技能、命中效果、掉落与旧版映射"
         },
         {
           "clause": "tracker(64, 3, true)：追踪距离 64 格 / 更新间隔 3 tick",
@@ -354,12 +354,12 @@
         },
         {
           "clause": "命中时按 cothSpread（SRPConfigSystems.cothInfected = 0.1）概率施加 COTH",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:845",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonHeadEntity.java:88"
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java"
           },
-          "note": "原版判定 random.nextDouble() < cothSpread，值来自 EntityPInfected.java:92；project applyCoth 命中即 100% 施加，未按概率掷骰"
+          "note": "原版头部命中施加 COTH（EntityParasiteBase:845）与 FEAR（EntityPInfected:168）；两个头部类均已接线（断言按类遍历）。；批次：头部族眼高逐类、步声、技能、命中效果、掉落与旧版映射"
         },
         {
           "clause": "命中并把目标血量打落到阈值以下时施加恐惧 FEAR",
@@ -533,12 +533,12 @@
         },
         {
           "clause": "脚步声 SRPSounds.SMALL_STEPS（覆写 func_180429_a 播放 small.step）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfDragonEHead.java:93",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java"
           },
-          "note": "project AssimilatedDragonHeadEntity 未覆写 playStepSound（全仓 grep playStepSound 无本类，对照同族 AssimilatedHeadEntity 已接线 small.step），原版小的脚步声事件无对应实现"
+          "note": "原版头部覆写 playStepSound 返回 SRPSounds.SMALL_STEPS；三个头部类（AssimilatedHeadEntity / AssimilatedDragonHeadEntity / SimAdventurerHeadEntity）均已覆写并播放 small.step，断言按类遍历校验。；批次：头部族眼高逐类、步声、技能、命中效果、掉落与旧版映射"
         }
       ],
       "confidence": "high"
@@ -601,12 +601,12 @@
       "clauses": [
         {
           "clause": "头颅掉落表 SRPConfigMobs.infdragoneheadLoot = new String[0]（头颅无掉落）",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:495",
-            "project": "src/main/resources/data/csrp/loot_table/entities/sim_dragonehead.json:1"
+            "project": "src/main/resources/data/csrp/loot_table/entities/sim_humanhead.json"
           },
-          "note": "原版由 SRPEventHandlerBus.java:2033（case 70，见 :2032）派发该空表即无掉落；project 为 sim_dragonehead 新增 100% 掉落 1-3 个 csrp:assimilated_flesh 的战利品表（新增行为，非缺失）"
+          "note": "原版 10 个 *headLoot 数组全为 new String[0]（SRPConfigMobs:352-495）=> 头部不掉落；端口 11 个头部掉落表已清空为 pools: []（abo_head 因不在取证范围而保持原样）。；批次：头部族眼高逐类、步声、技能、命中效果、掉落与旧版映射"
         },
         {
           "clause": "经验 8（XP_INFECTED = SRPConfig.infectedXPValue）",

@@ -460,21 +460,21 @@
         },
         {
           "clause": "命中按 cothSpread = SRPConfigSystems.cothInfected(0.1) 概率施加 COTH",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:92",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:226"
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java"
           },
-          "note": "project 命中 100% 施加，未按 0.1 掷骰"
+          "note": "原版头部命中施加 COTH（EntityParasiteBase:845）与 FEAR（EntityPInfected:168）；两个头部类均已接线（断言按类遍历）。；批次：头部族眼高逐类、步声、技能、命中效果、掉落与旧版映射"
         },
         {
           "clause": "每 5 tick 的 COTH 光环 InfectNearby(this, cothAura = 3)",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:149",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:177"
+            "project": "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java"
           },
-          "note": "project 半径 3 格一致，间隔为每 20 tick（原版每 5 tick，cothAura 定义见 SRPConfigSystems.java:90）"
+          "note": "原版头部命中施加 COTH（EntityParasiteBase:845）与 FEAR（EntityPInfected:168）；两个头部类均已接线（断言按类遍历）。；批次：头部族眼高逐类、步声、技能、命中效果、掉落与旧版映射"
         },
         {
           "clause": "受伤后按 infendermanTeleDamage = 2.0 对被传送的同类造成伤害（teleportAlly 内）",
@@ -790,12 +790,12 @@
       "clauses": [
         {
           "clause": "主掉落 SRPConfigMobs.infendermanheadLoot（原版默认 new String[0]：末影头无掉落）",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:352",
-            "project": "src/main/resources/data/csrp/loot_table/entities/sim_endermanhead.json:1"
+            "project": "src/main/resources/data/csrp/loot_table/entities/sim_humanhead.json"
           },
-          "note": "原版默认空数组且 SRPEventHandlerBus.loot()（第 2178-2180 行）对空数组直接返回，故原版不掉落物品；project 无条件掉落 1-3 个 csrp:assimilated_flesh（原版末影头本体 infendermanLoot 里的 srparasites:pearl 不属头部）"
+          "note": "原版 10 个 *headLoot 数组全为 new String[0]（SRPConfigMobs:352-495）=> 头部不掉落；端口 11 个头部掉落表已清空为 pools: []（abo_head 因不在取证范围而保持原样）。；批次：头部族眼高逐类、步声、技能、命中效果、掉落与旧版映射"
         },
         {
           "clause": "联动掉落 srpmeshi:*（原版头部未配置）",

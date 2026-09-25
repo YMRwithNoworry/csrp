@@ -3598,3 +3598,22 @@ if (hit && !level().isClientSide && target instanceof LivingEntity livingTarget)
 ```
 
 断言改为**遍历两个头部类**校验（与批次 220 的"范围化断言"同一思路 ✔）；`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+## 批次 223：头部族整批记账（+42 条，加权 71.4%）（2026-09-25 续）
+
+把近期头部族的修复收敛到 10 个头部审计文件（`sim_cowhead`/`pighead`/`wolfhead`/`sheephead`/`horsehead`/`villagerhead`/`humanhead`/`endermanhead`/`dragonehead`/`adventurerhead`），共 **42 条**：
+
+| 修复 | 证据 |
+| --- | --- |
+| 眼高逐类（0.3–0.8F 六档） | 原版各 `func_70047_e` + 端口 4 参 helper |
+| 步声 `small.step` | 原版 `playStepSound` → `SRPSounds.SMALL_STEPS` |
+| 技能 `EntityAISkill(40,100,3,true,14)` → `skillLeap` | `LeapSkill` + `ParasiteSkillGoal` |
+| 命中 COTH + FEAR | `EntityParasiteBase:845` / `EntityPInfected:168` |
+| 掉落清空 | 原版 10 个 `*headLoot` 全为 `new String[0]` |
+
+账面：满足 1291 → **1472**，部分 602 → **647**，缺失 358 → **395**，加权 **70.7% → 71.4%** ✔。
+套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+**本轮记账规模最大的一批**：因为这十几轮集中修的是**同一族（头部）的横切问题**，
+而每个生物审计文件都独立包含这些条款 ⇒ 一次修复需要同时收敛到 10 个文件（**42 条**）。
+这也解释了为何"按类修复"会漏：**审计按生物切分，修复按类切分**（批次 219 的教训）。

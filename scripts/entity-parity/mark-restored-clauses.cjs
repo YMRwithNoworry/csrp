@@ -903,6 +903,43 @@ const BATCHES = {
         detail: "原版 EntityInfDragonE:360/364/368/373：ambient 与 death 为 MOBSILENCE、hurt 为末影龙受伤音、音量 5.0F；端口按 1.21 惯用法覆写（ambient/death 返回 null、hurt 用 SoundEvents.ENDER_DRAGON_HURT、音量 5.0F），无需新增音效资源（批次 194）。"
       }
     ]
+  },
+  // 批次 223：头部族整批修复（眼高/步声/技能/COTH+FEAR/掉落/旧版映射）
+  "head-family-batch": {
+    note: "批次：头部族眼高逐类、步声、技能、命中效果、掉落与旧版映射",
+    mobs: ["sim_cowhead", "sim_pighead", "sim_wolfhead", "sim_sheephead", "sim_horsehead", "sim_villagerhead", "sim_humanhead", "sim_endermanhead", "sim_dragonehead", "sim_adventurerhead"],
+    clauses: [
+      {
+        match: /眼高|eye.?height/i,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/registry/ModEntities.java",
+        detail: "八种 AssimilatedHeadEntity kind 与另两个头部类均改用 4 参 monster() helper 传逐类眼高：cow/pig/horse/enderman/dragon/adventurer 0.8F、villager/human 0.7F、sheep 0.6F、wolf 0.3F（1.21 的 getEyeHeight 为 final 故须经注册参数）。"
+      },
+      {
+        match: /步声|step.?sound|SMALL_STEPS|脚步声/i,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java",
+        detail: "原版头部覆写 playStepSound 返回 SRPSounds.SMALL_STEPS；三个头部类（AssimilatedHeadEntity / AssimilatedDragonHeadEntity / SimAdventurerHeadEntity）均已覆写并播放 small.step，断言按类遍历校验。"
+      },
+      {
+        match: /EntityAISkill|skillLeap|跳跃技能|setskillLeapValues/i,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/LeapSkill.java",
+        detail: "头部技能 EntityAISkill(40,100,3,true,14) -> doSpecialSkill(14) -> skillLeap() 已由 LeapSkill + ParasiteSkillGoal(优先级 0) 实现，AssimilatedHeadEntity 与 SimAdventurerHeadEntity 均已注册。"
+      },
+      {
+        match: /COTH|FEAR|命中效果/i,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/SimAdventurerHeadEntity.java",
+        detail: "原版头部命中施加 COTH（EntityParasiteBase:845）与 FEAR（EntityPInfected:168）；两个头部类均已接线（断言按类遍历）。"
+      },
+      {
+        match: /掉落|loot/i,
+        verdict: "satisfied",
+        evidence: "src/main/resources/data/csrp/loot_table/entities/sim_humanhead.json",
+        detail: "原版 10 个 *headLoot 数组全为 new String[0]（SRPConfigMobs:352-495）=> 头部不掉落；端口 11 个头部掉落表已清空为 pools: []（abo_head 因不在取证范围而保持原样）。"
+      }
+    ]
   }
 };
 
