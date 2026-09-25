@@ -860,3 +860,19 @@ primitiveReeker*  primitiveTozoon*  primitiveViscera*  primitiveYelloweye*
 **本轮动作**：在 `verify-parasite-combat-rules.cjs` 增加**防复发守卫**——扫描所有 `*Multiplier` 键，
 凡无同名访问器且不在显式 `KNOWN_UNWIRED_MULTIPLIER_GROUPS` 白名单内即报错。
 这样：① 新增死键会立刻被拦住；② 白名单本身就是一份可勾选的待办清单，随接线逐步缩短。
+
+## 批次 57：**订正批次 56 的错误清单**（2026-09-25 续）
+
+批次 56 声称「85 条 `*Multiplier` 键中有 12 组、约 40 条从无访问器」，并据此加了白名单守卫。本轮逐项落实时发现**该清单是 grep 误解析的产物**：
+
+- 按 `"primitiveBolsterHealthMultiplier"` 字面量反查，全文件**只命中我新写的访问器行**，即该键根本不存在；
+- 核对真实键名：bolster 系列实际叫 `bolsterHealth` / `bolsterArmor` / `bolsterDamage`（**无 `Multiplier` 后缀**），
+  与 `MobsConfig.bolsterHealth()` 这类既有访问器一一对应，**并非死键**；
+- 误解析原因：我用的 `grep -oE '"[a-zA-Z]*(Health|Damage|Armor)Multiplier"'` 在含多段字符串与注释的行上产生了
+  被截断的伪键名（如 `anducaterArmorMultiplier`），据此生成的"缺访问器"差集自然不可信。
+
+**处置**：① 删除上一批新增的白名单守卫（它的依据已被证伪，留着会误导后人）；② 保留 `verify-parasite-combat-rules.cjs`
+中其余基于**实证**的断言；③ 后续若要重做该清单，须改用能正确解析 `value(..., "键名", ...)` 的解析方式（而非单行 grep）。
+教训与批次 33/54 同类：**结论必须先落到单条可复核的证据上，再做批量推断**。
+
+净变更：删除 14 行守卫（无其它改动）；套件回到既有基线（99 / 79 / 20）。

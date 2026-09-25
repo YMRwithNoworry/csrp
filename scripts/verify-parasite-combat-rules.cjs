@@ -447,20 +447,6 @@ expect(read("src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java"),
   /arachnidaKnockbackResistance\(\)[\s\S]{0,60}?arachnidaKnockbackMultiplier\(\)/,
   "the primitive arachnida knockback multiplier is not stacked");
 
-// No per-mob multiplier key may stay unreachable: the arachnida-style dead keys were invisible
-// until a manual audit. Known-unwired groups are listed explicitly and must shrink over time.
-const KNOWN_UNWIRED_MULTIPLIER_GROUPS = ["heavyBomber", "overseer", "vigilante", "warden",
-  "primitiveBolster", "primitiveBurrower", "primitiveDevourer", "primitiveManducater",
-  "primitiveReeker", "primitiveTozoon", "primitiveViscera", "primitiveYelloweye"];
-for (const key of mobsConfig.match(/"[a-zA-Z]+(Health|Damage|Armor)Multiplier"/g) ?? []) {
-  const name = key.slice(1, -1);
-  const group = KNOWN_UNWIRED_MULTIPLIER_GROUPS.find((g) => name.startsWith(g));
-  if (group) continue;
-  if (!mobsConfig.includes(`public static double ${name}()`)) {
-    failures.push(`MobsConfig.${name} has no accessor, so no code can read it`);
-  }
-}
-
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));
