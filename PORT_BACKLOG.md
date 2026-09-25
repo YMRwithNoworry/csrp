@@ -14,7 +14,7 @@
 ## 当前基线
 
 - `gradlew clean build`：**成功**（GraalVM 25.3.4.1 / Gradle 9.2.1），产物 `build/libs/csrp-1.10.9.jar`。
-- 静态校验套件：**115 / 115 通过**。
+- 静态校验套件：**116 / 116 通过**。
 - 运行期验证：`runGameTestServer` → **171 / 171 GameTests 通过**（170 个实体生成冒烟 + 1 个 NBT 往返），服务器完整启动到测试结束。
 - 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2978 键 / zh_cn 2994 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
@@ -28,6 +28,7 @@
 - **R5 物品补齐**：机器化 diff 后补齐 20 个 id（唱片、报告、弓镰部件、图标、3 个刷怪蛋）；另修 `LegacyMobSpawnerItem` 32 处实体映射缺失、17 个成就图标统一 `stacksTo(1)`。报告：`docs/gap/R5_ITEMS_REPORT.md`。
 - **R6 实体/AI**：73 个 AI 类逐条判定（已实现 65 / 不一致 3 / 缺失 0 / N/A 5）；**实体 id 级 100% 覆盖**（原件 158 全部命中）；同化门槛接线、SoundEater 潜行、Venkrol 龙卷、NexusProtection 触发、BlockLight / BlockResidue / CircleGroup。报告：`docs/gap/R6_ENTITY_MATRIX.md`。
 - **语言**：33 套 `.lang` → 26.3 JSON，`en_us` 2332/2332、`zh_cn` 2140/2140 全覆盖；剔除 6 个会覆盖原版字幕的 vanilla 键。报告：`docs/gap/LANG_REPORT.md`。
+- **世界创建选项（UI 保真修复）**：原模组的世界选项是「创建世界界面上的 *SRP World Options...* 按钮 → 专用 *SRP World Settings* 界面（5 个选项 + 世界预览面板 + Done）」，由 `SRPConfig.worldGIU` 开关（`client/gui/SRPWorldCreateButtons.java` + `GuiSRPWorldSettings.java` + `GuiSRPWorldPreview.java`）。此前本工程把 5 个 CycleButton 直接硬塞进原版创建世界界面的固定 y 偏移（`height-52 … height-148`），会被原版页脚/标签内容盖住而看不到。现按原件恢复：新增 `client/SrpWorldSettingsScreen.java`（专用界面，原版布局 leftX / topY+0,48,72,96,120 + 160×122 预览 + Done）、`client/SrpWorldPreview.java`（星空 + 行星系统，固定种子 923847、70 星、8 张既有纹理）、`SrpDifficultyScreenEvents` 改为页脚行内单个入口按钮（按位置定位原版页脚，不引用任何 vanilla 语言键），并补 `GeneralConfig.worldCreationUi`（原 `worldGIU`）与 `gui.csrp.worldsettings.star.warm` 标签。校验：`scripts/verify-world-settings-ui.cjs`。
 - **资源**：结构 NBT 55/55、音效 1008/1008、纹理对齐。
 
 ## 待办
