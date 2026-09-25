@@ -1640,3 +1640,16 @@ RenderInfSheep.java:17  0.5F     RenderInfWolf.java:16  0.5F     RenderInfSquid.
 端口六个 `AssimilatedParasiteRenderer` 的实参原为 0.65/0.55/0.45/0.50/0.40/0.45 ⇒ 对齐为
 **Bear 0.70F，Cow/Pig/Sheep/Wolf/Squid 0.50F**（5 行改动；替换限定在 `AssimilatedParasiteRenderer(context,` 行内，
 以免误伤其它渲染器）。断言 2 条；`build` 通过、套件维持既有 20 失败。
+
+## 批次 108：渲染阴影半径条款逐条核对（第一批修正）（2026-09-25 续）
+
+条款文本给出的是**逐生物具体值**（非统一 0.5F），已核对的四组：
+
+| 生物 | 条款值 | 端口原值 | 处置 |
+| --- | --- | --- | --- |
+| sim_cow / sim_pig / sim_sheep / sim_wolf / sim_squid | 0.5F | 0.65/0.45/0.50/0.40/0.45 | ✅ 批次 107 已对齐为 0.5F（sim_bear 例外，原版 0.7F） |
+| **pri_longarms** | **0.7F** | 0.65F | ✅ 本批修正为 0.7F |
+| buglin | 0.2F | 由 `BuglinRenderer` 内部决定 | ⏳ 待读该类 |
+| hi_skeleton | 0.6F | 由 `HiSkeletonRenderer` 之类内部决定 | ⏳ 待读 |
+
+`build` 通过、套件维持既有 20 失败。记账留待上述两条查完（条款是逐条数值，未对齐前不记账）。

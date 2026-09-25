@@ -97,7 +97,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.RUPTER.get(), RupterRenderer::new);
         event.registerEntityRenderer(ModEntities.SCENT.get(), ParasiticScentRenderer::new);
         event.registerEntityRenderer(ModEntities.PRI_LONGARMS.get(), context ->
-                new PrimitiveParasiteRenderer<>(context, "pri_longarms", 0.65F));
+                new PrimitiveParasiteRenderer<>(context, "pri_longarms", 0.7F));
         event.registerEntityRenderer(ModEntities.PRI_SUMMONER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "pri_summoner", 0.7F));
         event.registerEntityRenderer(ModEntities.PRI_VERMIN.get(), context ->
