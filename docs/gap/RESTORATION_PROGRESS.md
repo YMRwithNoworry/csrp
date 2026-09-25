@@ -2930,3 +2930,25 @@ sim_villager 93 / sim_adventurer 95 / sim_horse 94 / sim_bear 92 / sim_enderman 
 
 另：已启动**第五批委派**（`41b17847…`，2 只、逐步落盘），提示词中额外加入"**核验引文确实落在你声称的行**"一条
 （因第四批指出既有审计存在 2–3 行偏移），并汇总了本会话已确立的 1.21 API 事实供其直接使用。
+
+## 批次 185：`sim_dragone` 音效缺口的**完整清单**（2026-09-25 续，未改代码）
+
+审计指出"该生物音效全缺"，本轮盘清缺口范围（**三处都要补**，不是一处）：
+
+```
+端口 ParasiteSoundProfiles   register("infectedcow", "sim_cow", …) 形式存在，但 grep dragon → 0 命中  ✗ 无 profile
+端口 assets/csrp/sounds.json  grep dragon → 0 命中                                            ✗ 无音效资源条目
+端口 registry/ModSounds.java  grep DRAGON → 0 命中                                             ✗ 无音效事件
+原版 SRPSoundTypes.java       本轮 grep 未见 dragon 条目（文件/命名待再查）
+```
+
+**实施清单（下一批，三处一次补全）**：
+1. `ModSounds` 注册事件（原版该生物使用的 hurt 音与 `MOBSILENCE` 映射对应的资源名，需先从原版 `SRPSounds`/`sounds.json` 取实际资源路径）；
+2. `assets/csrp/sounds.json` 增加对应条目（含文件引用）；
+3. `ParasiteSoundProfiles` 增加 `register("<profile>", "sim_dragone")`。
+
+**为何不零敲碎打**：只加 profile 而事件/资源缺失 ⇒ 静默无声（编译通过、运行不报错，但行为为空），
+属"看起来完成实则无效"的典型；**三处必须同批落地**，并加断言校验三者一致。
+
+**审计面的作用再次显现**：这条缺口（音效全缺）是审计发现的，而**缺口的具体范围**（三处）是复核盘清的——
+两者缺一不可。
