@@ -316,6 +316,13 @@ for (const [pattern, message] of [
     "the telegraph must fire once at the legacy lead time"]
 ]) expect(variant, pattern, message);
 
+// legacy SRPConfigMobs per-mob attribute multipliers (default 1.0F in the original)
+const mobsConfig = read("src/main/java/alku/csrp/config/MobsConfig.java");
+for (const key of ["dorpaHealthMultiplier", "dorpaDamageMultiplier", "dorpaArmorMultiplier",
+  "dorpaKDResistanceMultiplier"]) {
+  if (!mobsConfig.includes(key)) failures.push(`MobsConfig is missing ${key}`);
+}
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

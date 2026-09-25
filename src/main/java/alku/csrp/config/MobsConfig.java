@@ -152,6 +152,20 @@ public final class MobsConfig {
                     + "Flesh masses melt into a random Crude/Feral/Assimara/Hijacked/Primitive/"
                     + "Adapted/Pure parasite.", MobsConfig::validMergeMobEntry);
 
+    // Legacy SRPConfigMobs: per-mob attribute multipliers (default 1.0F in the original).
+    private static final ModConfigSpec.DoubleValue DORPA_HEALTH_MULTIPLIER = value(
+            "srparasites:dorpa", "dorpaHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for the assimilated spider (legacy SRPConfigMobs.dorpaHealthMultiplier).");
+    private static final ModConfigSpec.DoubleValue DORPA_DAMAGE_MULTIPLIER = value(
+            "srparasites:dorpa", "dorpaDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Attack-damage multiplier for the assimilated spider.");
+    private static final ModConfigSpec.DoubleValue DORPA_ARMOR_MULTIPLIER = value(
+            "srparasites:dorpa", "dorpaArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for the assimilated spider.");
+    private static final ModConfigSpec.DoubleValue DORPA_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:dorpa", "dorpaKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
+            "Knockback-resistance multiplier for the assimilated spider.");
+
     private static final ModConfigSpec.DoubleValue ARACHNIDA_HEALTH_MULTIPLIER = value(
             "srparasites:arachnida", "arachnidaHealthMultiplier", 1.0D, 0.01D, 100.0D,
             "Health multiplier shared by Primitive and Adapted Arachnida.");

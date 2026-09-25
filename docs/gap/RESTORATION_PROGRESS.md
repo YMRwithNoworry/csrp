@@ -708,3 +708,15 @@ if (kind == Kind.BIGSPIDER && rangedCooldown <= 0 && getTarget() != null && hasL
 1. 按 `SRPConfigMobs` 为已审计生物各补 4 条（默认 1.0，范围与 `arachnida*` 同）；
 2. 在对应族 `createAttributes` 中读取并相乘（`dorpa*` → `AssimilatedVariantEntity` 的 BIGSPIDER 分支等）；
 3. 断言 + 记账（条款为「全局 × per-mob」合取，两侧齐备后方可翻转）。
+
+## 批次 42：per-mob 倍率配置面开工 + 一处重要订正（2026-09-25 续）
+
+**订正批次 40/41 的判断**：端口 `MobsConfig` 里既有的 `arachnida*` 等 29 条 `*Multiplier` **没有被任何代码读取**
+（`grep ARACHNIDA_HEALTH_MULTIPLIER` 在 `MobsConfig` 之外 0 命中）——即 per-mob 倍率此前**只有配置键、没有机制**，
+不能算"机制已存在"。这也解释了审计为何判定该条款缺失。
+
+本批按原版 `SRPConfigMobs` 的命名与默认值（全 1.0F）补齐 `sim_bigspider`（原版类 `EntityDorpa`）的 4 条键：
+`dorpaHealthMultiplier` / `dorpaDamageMultiplier` / `dorpaArmorMultiplier` / `dorpaKDResistanceMultiplier`，
+照抄 `arachnida*` 的 `value(...)` 范式；断言 4 条。
+**下一步（接线）**：在对应实体 `createAttributes` 中读取这些键并相乘，同时把既有的 `arachnida*` 一并接上
+（顺带修掉这个遗留的半成品）；两侧齐备后「全局 × per-mob」合取条款方可翻转。
