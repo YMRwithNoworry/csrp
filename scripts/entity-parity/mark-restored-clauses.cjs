@@ -597,6 +597,19 @@ const BATCHES = {
         detail: "FeralParasiteEntity.createAttributes 在 Kind.VILLAGER 分支读取原版 SRPConfigMobs 的 fervillager 四项（health/damage/armor/KDResistance，默认 1.0）并相乘，与既有全局倍率构成「全局 × per-mob」结算；击退抗性夹取 1.0"
       }
     ]
+  },
+  // 批次 49：pri_longarms（shyco）的 per-mob 属性倍率接线
+  "per-mob-multipliers-shyco": {
+    note: "批次：per-mob 属性倍率接线（原版 SRPConfigMobs.shyco*，默认 1.0F）",
+    mobs: ["pri_longarms"],
+    clauses: [
+      {
+        match: /per-mob|倍率/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/LongarmsEntity.java",
+        detail: "LongarmsEntity.createAttributes 读取原版 SRPConfigMobs 的 shyco 四项（health/damage/armor/KDResistance，默认 1.0）并相乘基础生命 45/护甲 9/攻击 15/击退 0.7（夹取 1.0），与既有全局倍率构成「全局 × per-mob」结算"
+      }
+    ]
   }
 };
 

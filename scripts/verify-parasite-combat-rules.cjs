@@ -381,6 +381,16 @@ for (const [pattern, message] of [
 ]) expect(feralSpawn, pattern, message);
 expect(mobsConfig, /public static double fervillagerDamageMultiplier\(\)/, "the feral villager accessors are missing");
 
+// legacy SRPConfigMobs.shyco* multipliers are read by the primitive longarms
+const longarmsSpawn = read("src/main/java/alku/csrp/entity/LongarmsEntity.java");
+for (const [pattern, message] of [
+  [/45\.0 \* MobsConfig\.shycoHealthMultiplier\(\)/, "the longarms health multiplier is not read"],
+  [/15\.0 \* MobsConfig\.shycoDamageMultiplier\(\)/, "the longarms damage multiplier is not read"],
+  [/9\.0 \* MobsConfig\.shycoArmorMultiplier\(\)/, "the longarms armor multiplier is not read"],
+  [/0\.7 \* MobsConfig\.shycoKnockbackMultiplier\(\)/, "the longarms knockback multiplier is not read"]
+]) expect(longarmsSpawn, pattern, message);
+expect(mobsConfig, /public static double shycoHealthMultiplier\(\)/, "the shyco accessors are missing");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

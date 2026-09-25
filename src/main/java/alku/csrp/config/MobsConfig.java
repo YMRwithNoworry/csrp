@@ -277,6 +277,25 @@ public final class MobsConfig {
     public static double fervillagerArmorMultiplier() { return FERVILLAGER_ARMOR_MULTIPLIER.get(); }
     public static double fervillagerKnockbackMultiplier() { return FERVILLAGER_KNOCKBACK_MULTIPLIER.get(); }
 
+    // Legacy SRPConfigMobs.shyco* (the primitive longarms).
+    private static final ModConfigSpec.DoubleValue SHYCO_HEALTH_MULTIPLIER = value(
+            "srparasites:shyco", "shycoHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for the primitive longarms (legacy SRPConfigMobs.shycoHealthMultiplier).");
+    private static final ModConfigSpec.DoubleValue SHYCO_DAMAGE_MULTIPLIER = value(
+            "srparasites:shyco", "shycoDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Attack-damage multiplier for the primitive longarms.");
+    private static final ModConfigSpec.DoubleValue SHYCO_ARMOR_MULTIPLIER = value(
+            "srparasites:shyco", "shycoArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for the primitive longarms.");
+    private static final ModConfigSpec.DoubleValue SHYCO_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:shyco", "shycoKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
+            "Knockback-resistance multiplier for the primitive longarms.");
+
+    public static double shycoHealthMultiplier() { return SHYCO_HEALTH_MULTIPLIER.get(); }
+    public static double shycoDamageMultiplier() { return SHYCO_DAMAGE_MULTIPLIER.get(); }
+    public static double shycoArmorMultiplier() { return SHYCO_ARMOR_MULTIPLIER.get(); }
+    public static double shycoKnockbackMultiplier() { return SHYCO_KNOCKBACK_MULTIPLIER.get(); }
+
     public static double dorpaHealthMultiplier() { return DORPA_HEALTH_MULTIPLIER.get(); }
     public static double dorpaDamageMultiplier() { return DORPA_DAMAGE_MULTIPLIER.get(); }
     public static double dorpaArmorMultiplier() { return DORPA_ARMOR_MULTIPLIER.get(); }

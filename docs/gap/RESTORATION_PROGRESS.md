@@ -781,3 +781,11 @@ infsheep/infwolf/infvillager` 系列，默认值全 1.0F）。
 （击退抗性夹取 1.0）。
 校验：`verify-parasite-combat-rules.cjs` 增加 6 条断言；审计记账 **3 条**，满足 691 → **694**，缺失 259 → **257**，加权 **66.5%**。
 剩余：野化族其余 8 种（`ferbear` 等）与 `sim_bear`（`infbear*`）。
+
+## 批次 49：pri_longarms（shyco）的 per-mob 倍率接线（2026-09-25 续）
+
+键名 `shyco*`（`SRPConfigMobs:19` 已确认，默认 1.0F）：`MobsConfig` 补 4 项 + 4 个访问器；
+`LongarmsEntity.createAttributes` 把基础 生命 45 / 护甲 9 / 攻击 15 / 击退抗性 0.7（夹取 1.0）各自乘以倍率。
+**账面未变**（该生物审计中的相关条款措辞与匹配式不符，dry-run 0 命中），属行为保真度补全；断言 5 条。
+本线已覆盖 8 只：dorpa / infcow / infsheep / infwolf / infsquid / infhuman / fervillager / shyco。
+剩余候选（键名待核对）：`buglin`、`hiskeleton`、`host`、`speCow`(mar_cow)、`beckon*`。

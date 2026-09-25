@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
@@ -81,9 +82,15 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 45.0).add(Attributes.ARMOR, 9.0)
-                .add(Attributes.ATTACK_DAMAGE, 15.0).add(Attributes.MOVEMENT_SPEED, 0.3)
-                .add(Attributes.KNOCKBACK_RESISTANCE, 0.7).add(Attributes.FOLLOW_RANGE, 32.0);
+        // Legacy SRPConfigMobs.shyco* per-mob multipliers (default 1.0F in the original).
+        return Mob.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 45.0 * MobsConfig.shycoHealthMultiplier())
+                .add(Attributes.ARMOR, 9.0 * MobsConfig.shycoArmorMultiplier())
+                .add(Attributes.ATTACK_DAMAGE, 15.0 * MobsConfig.shycoDamageMultiplier())
+                .add(Attributes.MOVEMENT_SPEED, 0.3)
+                .add(Attributes.KNOCKBACK_RESISTANCE,
+                        Math.min(1.0D, 0.7 * MobsConfig.shycoKnockbackMultiplier()))
+                .add(Attributes.FOLLOW_RANGE, 32.0);
     }
 
     @Override
