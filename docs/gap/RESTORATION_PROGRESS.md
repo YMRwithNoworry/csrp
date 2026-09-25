@@ -2804,3 +2804,28 @@ grep "implements ParasiteSkillGoal.ParasiteSkill|class *Skill implements|Parasit
 
 **结论**：该靶点从"接线"升级为"**补一个技能实现**"（比预期多一层），这也是本会话反复出现的模式——
 **追证据链的过程会改变任务的规模判断**，而提前发现规模变化远好于写到一半才发现。
+
+## 批次 178：`skillLeap` 参数与门控解出（2026-09-25 续，未改代码）
+
+```
+EntityParasiteBase:2410   public void setskillLeapValues(float leapY, double leapSpeed, int jumpRad) {
+                              this.leapMotionY = leapY; this.jumpSpeed = leapSpeed; this.jumpR = jumpRad;
+                          }
+EntityParasiteBase:2416   protected void skillLeap() {
+                              if (leapMotionY != 0.0F) {
+                                  if (有目标 && shouldWorkTask() && !受某效果影响 && getParasiteStatus() <= 2) {
+                                      if (attacking == 0) { attacking++; 记录目标 X/Z; }
+                                  }
+                                  if (attacking >= 1) { attacking++; …（跃迁动作体在其后，未读完） }
+                              }
+                          }
+```
+
+⇒ 头部 `setskillLeapValues(0.7F, 2.5, 0)` 的语义 = **`leapMotionY=0.7`、`jumpSpeed=2.5`、`jumpR=0`** ✔；
+`skillLeap()` 的**门控**为：有目标 + `shouldWorkTask()` + 未受特定效果影响 + `getParasiteStatus() <= 2`，
+并用手写计数 `attacking` 分阶段（先记录目标 X/Z，再执行跃迁）。
+
+**剩余一项**：`attacking >= 1` 之后的**跃迁动作体**（`EntityParasiteBase:2427+` 未读完）——它决定速度如何施加、
+何时置 `SkillLeapFlag`。下一批读完该段即可开始实现 `LeapSkill`（端口可参考 `LiquidLeap` 的既有跃迁写法）。
+
+**进度小结（该靶点）**：参数语义 ✅、门控条件 ✅、动作体 ⏳、端口技能实现 ⏳（需新写）。
