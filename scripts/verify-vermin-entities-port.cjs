@@ -35,7 +35,7 @@ expectPattern(primitive,
   /MAX_HEALTH, 45\.0[\s\S]*?ARMOR, 15\.0[\s\S]*?ATTACK_DAMAGE, 30\.0[\s\S]*?KNOCKBACK_RESISTANCE, 0\.65[\s\S]*?FOLLOW_RANGE, 32\.0/,
   "Primitive Vermin does not use EntityIki's effective original attributes");
 expectPattern(adapted,
-  /case VERMIN -> \{[\s\S]*?health = 70\.0D[\s\S]*?armor = 15\.0D[\s\S]*?damage = 30\.0D[\s\S]*?knockbackResistance = 0\.65D[\s\S]*?followRange = 32\.0D/,
+  /case VERMIN -> \{[\s\S]*?health = 115\.0D[\s\S]*?armor = 15\.0D[\s\S]*?damage = 45\.0D[\s\S]*?knockbackResistance = 0\.65D[\s\S]*?followRange = 32\.0D/,
   "Adapted Vermin original attributes are missing");
 for (const id of ["PRI_VERMIN", "ADA_VERMIN"]) {
   expectPattern(entities, new RegExp(id + "[\\s\\S]*?1\\.1F, 1\\.4F, 0\\.7F"),
