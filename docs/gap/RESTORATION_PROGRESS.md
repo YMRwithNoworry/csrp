@@ -4307,3 +4307,22 @@ grep 断言 mar_* 生成条目的脚本 → 【无】✔（仅 verify-natural-sp
 
 **方法论**：本轮体现了"**主张属实 ≠ 实现路径明确**"——原版在**子类构造函数**里移除父类注册的 goal ✗，
 而端口的注册位置可能不同 ✗ ⇒ **必须按端口的实际结构选择实现方式**（本会话已多次遇到"原版形态与端口形态不同"✗）。
+
+## 批次 256：`mar_enderman` follow 任务主张**未能复现**（2026-09-25 续，未改代码）
+
+```
+原版 EntitySpeEnderman:66                func_85156_a(this.folow)  ⇒ 原版【移除】follow ✔
+端口 MarauderizedEndermanEntity           grep "ParasiteFollowGoal" → 0 命中 ✗
+端口 MarauderizedParasiteEntity           grep "ParasiteFollowGoal" → 0 命中 ✗
+两者 grep "Follow"                        → 0 命中 ✗（【连 follow 类目标都没有】）
+```
+
+⇒ **委派主张"端口保留 `ParasiteFollowGoal(6)`"本轮无法复现** ✗ —— 端口这两个类**根本没有 follow 类目标** ✗，
+**很可能已经与原版一致**（原版是"移除"，端口是"从未添加"⇒ 行为等价 ✔）。
+
+**待确认（下一批，1 步）**：读 `MarauderizedEndermanEntity` 的**继承链**（是否从上层继承了 follow ✗）。
+若上层也没有 ⇒ 该条款应记为 **satisfied/na**（而非缺失 ✗）；若上层有 ⇒ 才需按原版移除 ✔。
+
+**方法论（本会话第 4 次"主张未能复现"）**：前三次是贴图随机、SRG 方法名 `func_70110_aj`、`cothSpread` ✗；
+本次是"端口保留 follow"✗。**四次都按同一原则处理：保持现状 + 记录待查**，绝不按未复现的主张改代码 ✔。
+**但每次都会追到"能否复现"的结论**（而非含糊略过）——这才使账面可信 ✔。
