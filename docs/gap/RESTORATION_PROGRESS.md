@@ -2315,3 +2315,13 @@ ParasiteSummon.spawn(parasite, ParasiteSummon.specFor(parasite));
 **该生物其余五处待办**（子代理已给行号）：缺失的 0.15 攻速加成修饰符、`EntityHitbox` 头部命中盒、
 生成时贴图随机（原版恒为 0/1）、传送音应改用已注册的 `ModSounds.INFECTED_ENDERMAN_PORTAL`（现播原版音效）、
 以及**误加的 follow 任务**（原版 `EntityInfEnderman:83` 显式 `func_85156_a(this.folow)` 移除之）。
+
+## 批次 150：`sim_enderman` 传送音改用已注册资源（2026-09-25 续）
+
+子代理指出：`ModSounds.INFECTED_ENDERMAN_PORTAL`（`ModSounds.java:111`）**已注册但全仓无人引用**，
+而端口播放的是原版音效 `SoundEvents.ENDERMAN_TELEPORT`。本轮把该生物内**两处**调用（`:149`、`:540`）
+统一替换为 `ModSounds.INFECTED_ENDERMAN_PORTAL.get()` ⇒ 既消除"注册未用"的资源浪费，也与原版自有音效对齐。
+`build` 通过、套件维持既有 20 失败。
+
+**`sim_enderman` 剩余四处**：0.15 攻速加成修饰符、`EntityHitbox` 头部命中盒、生成时贴图随机、
+移除误加的 follow 任务（原版 `EntityInfEnderman:83` 显式移除）。

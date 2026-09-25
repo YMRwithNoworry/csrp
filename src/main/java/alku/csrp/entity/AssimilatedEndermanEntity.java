@@ -146,7 +146,7 @@ public final class AssimilatedEndermanEntity extends Monster
 
         if (hasTarget && spotCooldown <= 0) {
             // 发现新目标时播放传送音效
-            playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
+            playSound(alku.csrp.registry.ModSounds.INFECTED_ENDERMAN_PORTAL.get(), 1.0F, 1.0F);
             spotCooldown = 40;
         }
     }
@@ -537,7 +537,7 @@ public final class AssimilatedEndermanEntity extends Monster
         }
         entity.teleportTo(destination.x, destination.y, destination.z);
         entity.resetFallDistance();
-        playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
+        playSound(alku.csrp.registry.ModSounds.INFECTED_ENDERMAN_PORTAL.get(), 1.0F, 1.0F);
 
         return true;
     }
