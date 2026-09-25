@@ -40,7 +40,7 @@ expectPattern(architect, /withEyeHeight\(1\.6F\)[\s\S]*?getSoundVolume\(\)[\s\S]
   "Architect eye height or sound volume differs from EntityTenn");
 expectPattern(architect, /boolean onlySpawnInside\(\)[\s\S]*?return true/,
   "Architect colony-only spawn marker is missing");
-expectPattern(config, /entity instanceof ArchitectEntity\) return PURE_FOLLOW\.get\(\)/,
+expectPattern(config, /entity instanceof ArchitectEntity\) return (?:safe\()?PURE_FOLLOW/,
   "Architect does not use the original pure follow-range configuration");
 expectPattern(originalEvents, /entity instanceof ArchitectEntity architect[\s\S]*?architect\.applyConfiguredAttributes\(\)/,
   "Architect configured attributes are not applied on join");

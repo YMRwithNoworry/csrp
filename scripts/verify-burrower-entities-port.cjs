@@ -44,11 +44,11 @@ for (const [key, value] of [
     failures.push(`missing original Burrower config default: ${key}`);
   }
 }
-expect(config, /burrowerHealth\(\)[\s\S]*?45\.0D \* BURROWER_HEALTH_MULTIPLIER/,
+expect(config, /burrowerHealth\(\)[\s\S]*?45\.0D \* (?:safe\()?BURROWER_HEALTH_MULTIPLIER/,
   "Primitive Burrower health is not connected to its original multiplier");
-expect(config, /burrowerDamage\(\)[\s\S]*?15\.0D \* BURROWER_DAMAGE_MULTIPLIER/,
+expect(config, /burrowerDamage\(\)[\s\S]*?15\.0D \* (?:safe\()?BURROWER_DAMAGE_MULTIPLIER/,
   "Primitive Burrower damage is not connected to its original multiplier");
-expect(config, /burrowerArmor\(\)[\s\S]*?9\.0D \* BURROWER_ARMOR_MULTIPLIER/,
+expect(config, /burrowerArmor\(\)[\s\S]*?9\.0D \* (?:safe\()?BURROWER_ARMOR_MULTIPLIER/,
   "Primitive Burrower armor is not connected to its original multiplier");
 if (/case BURROWER -> \{[\s\S]*?ADAPTED_BURROWER_ADDITIONAL_/.test(adapted)) {
   failures.push("Adapted Burrower incorrectly uses config values ignored by SRP 1.10.7");

@@ -4,6 +4,9 @@ const path = require("node:path");
 // Verifies the legacy self-destruct fuse after it was factored into a shared component:
 // ParasiteFuseState (SELFE sync + madeRng roll + fuseTime) and SelfeFuseOwner, wired into every
 // parasite family, plus the preRenderCallback swell it drives.
+// SELFE is registered per family: SynchedEntityData.defineId hands out ids per class tree, so one
+// accessor shared through LivingEntity can collide with a family's own accessor id and crash with
+// "Duplicate id value".
 // Usage: node scripts/verify-parasite-selfe-fuse.cjs
 
 const root = path.resolve(__dirname, "..");
@@ -30,7 +33,8 @@ const render = read("src/main/java/alku/csrp/client/renderer/SelfeFuseRender.jav
 // the shared component: SELFE sync data, the madeRng roll and the fuseTime budget
 for (const [pattern, message] of [
   [/public static final int FUSE_TICKS = 40;/, "the legacy fuseTime = 40 is missing"],
-  [/public static final EntityDataAccessor<Integer> SELFE =/, "the shared SELFE accessor is missing"],
+  [/private static EntityDataAccessor<Integer> accessorOf\(LivingEntity owner\)/,
+    "ParasiteFuseState must resolve SELFE through SelfeFuseOwner"],
   [/explodesOnDeath = \(byte\) owner\.getRandom\(\)\.nextInt\(2\)/, "the roll must use nextInt(2)"],
   [/owner\.level\(\)\.broadcastEntityEvent\(owner, \(byte\) 40\)/,
     "the legacy event 40 notification is missing"],
@@ -40,11 +44,18 @@ for (const [pattern, message] of [
     "the flash intensity must divide by fuseTime - 2"]
 ]) expect(state, pattern, message);
 
+// the crash guard: a SELFE accessor registered on LivingEntity competes with the families' own
+// accessors for the same class-tree id, and whichever class initialises second crashes
+if (/SynchedEntityData\.defineId\(LivingEntity\.class/.test(state)) {
+  failures.push("SELFE must not be registered on LivingEntity (per class tree id collision)");
+}
+
 for (const [pattern, message] of [
   [/boolean willExplodeOnDeath\(\)/, "SelfeFuseOwner.willExplodeOnDeath is missing"],
   [/void startDyingFuse\(\)/, "SelfeFuseOwner.startDyingFuse is missing"],
   [/float getSelfeFlashIntensity\(float partialTick\)/,
-    "SelfeFuseOwner.getSelfeFlashIntensity is missing"]
+    "SelfeFuseOwner.getSelfeFlashIntensity is missing"],
+  [/EntityDataAccessor<Integer> selfeAccessor\(\);/, "SelfeFuseOwner.selfeAccessor is missing"]
 ]) expect(owner, pattern, message);
 
 // every family wires the fuse: the primitive chain, the three assimilated classes and the feral one
@@ -60,8 +71,11 @@ for (const [file, name] of families) {
   expect(source, /SelfeFuseOwner/, `${name} does not implement SelfeFuseOwner`);
   expect(source, /private final ParasiteFuseState selfeFuse = new ParasiteFuseState\(\);/,
     `${name} is missing the shared fuse state`);
-  expect(source, /builder\.define\(ParasiteFuseState\.SELFE, -1\)/,
-    `${name} does not register the SELFE field`);
+  expect(source, new RegExp(`SynchedEntityData\\.defineId\\(${name}\\.class, EntityDataSerializers\\.INT\\)`),
+    `${name} does not register its own SELFE accessor`);
+  expect(source, /builder\.define\(SELFE, -1\)/, `${name} does not register the SELFE field`);
+  expect(source, /public EntityDataAccessor<Integer> selfeAccessor\(\) \{\s*return SELFE;/,
+    `${name} does not expose its SELFE accessor`);
   expect(source, /protected void tickDeath\(\)/, `${name} is missing the fuse death tick`);
   expect(source, /ParasiteCombatRules\.selfExplode\(serverLevel, this\)/,
     `${name} does not burst at the end of the fuse`);

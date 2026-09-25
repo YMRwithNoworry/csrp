@@ -27,22 +27,31 @@ public final class GeneralConfig {
     }
 
     public static boolean allowMobs() {
-        return ALLOW_MOBS.get();
+        return safe(ALLOW_MOBS);
     }
 
     public static double globalHealthMultiplier() {
-        return GLOBAL_HEALTH_MULTIPLIER.get();
+        return safe(GLOBAL_HEALTH_MULTIPLIER);
     }
 
     public static double globalArmorMultiplier() {
-        return GLOBAL_ARMOR_MULTIPLIER.get();
+        return safe(GLOBAL_ARMOR_MULTIPLIER);
     }
 
     public static double globalDamageMultiplier() {
-        return GLOBAL_DAMAGE_MULTIPLIER.get();
+        return safe(GLOBAL_DAMAGE_MULTIPLIER);
     }
 
     public static double globalKnockbackResistanceMultiplier() {
-        return GLOBAL_KNOCKBACK_RESISTANCE_MULTIPLIER.get();
+        return safe(GLOBAL_KNOCKBACK_RESISTANCE_MULTIPLIER);
+    }
+
+    /**
+     * Reads a config value, falling back to its declared default while the config file has not been
+     * read yet. NeoForge runs EntityAttributeCreationEvent before configs are loaded, and CSRP's
+     * createAttributes() methods read config values, so an unguarded get() there crashes startup.
+     */
+    private static <T> T safe(ModConfigSpec.ConfigValue<T> value) {
+        return SPEC.isLoaded() ? value.get() : value.getDefault();
     }
 }

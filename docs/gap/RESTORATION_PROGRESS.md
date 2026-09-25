@@ -4605,3 +4605,42 @@ dev server 启动到 `Done (3.067s)`，`MobDespawnMixin` 注入未报错（`requ
 `IllegalStateException: Cannot get config value before config is loaded`，端口在 HEAD 上启动即崩。
 复现：`./gradlew.bat runServer`（堆栈终点 `MobsConfig.java:391` `shycoHealthMultiplier`）。
 
+## 批次 269：配置未装载取值崩溃 + SELFE 同步 id 冲突（2026-09-25 续）
+
+用户提交客户端崩溃报告：`IllegalStateException: Cannot get config value before config is loaded`
+（`Config.derivedTextDistortionEnabled` ← `client/DerivedTextDistortion.shouldDistort` ← `csrp.mixins.json:client.FontMixin`，
+在加载界面渲染 SystemToast 时命中）。
+
+**1. 配置取值器缺少「未装载」防护（主因）**
+
+NeoForge 的 `EntityAttributeCreationEvent`（registry init）早于 COMMON 配置装载；客户端渲染期同样可能读到未装载的 spec。
+五个配置类（`Config` / `MobsConfig` / `GeneralConfig` / `WorldConfig` / `BlockConversionsConfig`）的取值器原先全部直接 `.get()`，未装载即抛异常。
+
+修复：每类统一加 `private static <T> T safe(ModConfigSpec.ConfigValue<T> value) { return SPEC.isLoaded() ? value.get() : value.getDefault(); }`，
+所有取值器改走 `safe(...)`（本轮补齐此前遗漏的 8 个 `*MobSummon()`）；全仓已无未防护取值器（脚本核对 0 处）。
+逐行核对配置类 diff：466 处删除行全部可由 `X.get()` → `safe(X)` 一一对应，新增行只有 5 份 `safe` 定义本身。
+
+**取舍（遗留）**：注册期读取的 per-mob 属性倍率此时只能取声明默认值（1.0），
+即 `LongarmsEntity` / `HostEntity` / `SimHumanEntity` / `AssimilatedParasiteEntity` / `AssimilatedVariantEntity` /
+`FeralParasiteEntity` / `HiSkeletonEntity` / `MarauderizedCowEntity` 这 8 类的倍率在注册期拿不到配置文件值。
+后续应按既有 `OriginalConfigEvents.applyConfiguredMobAttributes` 模式改为 join 期施加（本轮未做，避免扩大改动面）。
+
+**2. SELFE 同步字段 id 冲突（运行期随机崩溃）**
+
+`ParasiteFuseState.SELFE` 原以 `defineId(LivingEntity.class, INT)` 注册（NeoForge 会给出
+`defineId called for: class net.minecraft.world.entity.LivingEntity from class alku.csrp.entity.ParasiteFuseState` 警告）。
+`ClassTreeIdRegistry` 按类树分配 id，共享访问器与家族自身访问器会争同一个 16 号，谁先类初始化谁赢
+⇒ 输的一方在 `builder.define` 抛 `IllegalArgumentException: Duplicate id value for 16!`（`PrimitiveParasiteEntity:144`，
+触发路径为 COTH 终末转化生成 Incomplete Form）。
+
+修复：5 个家族各自 `defineId(<Family>.class, INT)` 注册自己的 SELFE，`SelfeFuseOwner` 增加 `selfeAccessor()`，
+`ParasiteFuseState` 改为按 owner 解析；`LivingEntity` 上不再注册任何访问器。
+
+**验证器同步**：`verify-parasite-selfe-fuse.cjs` 改断言新契约并新增「SELFE 不得注册在 `LivingEntity`」负向断言；
+7 个断言 `X.get()` 形状的脚本改为容忍 `safe(...)`；`audit-mob-multipliers.cjs` 同步（unreachable 0）。
+
+**验证**：`build` 通过；`node scripts/run-all-verifications.cjs` 维持基线 **99 / 79 / 20**；
+dev server `Done (2.478s)`，dev client 进入世界连续运行约 3.5 分钟无崩溃，
+`defineId called for` 警告计数 0，无 `Duplicate id value`、无 `Cannot get config value`。
+
+

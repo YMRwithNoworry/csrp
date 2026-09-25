@@ -221,22 +221,22 @@ public final class MobsConfig {
             .comment("Legacy SRPConfigMobs.infadventurermob — self-destruct summon spec <entity id>;<min>;<max>.")
             .define("infadventurermob", "srparasites:buglin;4;3");
 
-    public static double infcowHealthMultiplier() { return INFCOW_HEALTH_MULTIPLIER.get(); }
-    public static double infvillagerHealthMultiplier() { return INFVILLAGER_HEALTH_MULTIPLIER.get(); }
-    public static double infvillagerDamageMultiplier() { return INFVILLAGER_DAMAGE_MULTIPLIER.get(); }
-    public static double infvillagerArmorMultiplier() { return INFVILLAGER_ARMOR_MULTIPLIER.get(); }
-    public static double infvillagerKnockbackMultiplier() { return INFVILLAGER_KNOCKBACK_MULTIPLIER.get(); }
-    public static String dorpaMobSummon() { return _D_O_R_P_A_M_O_B_S_U_M_M_O_N.get(); }
-    public static String infcowMobSummon() { return _I_N_F_C_O_W_M_O_B_S_U_M_M_O_N.get(); }
-    public static String infsheepMobSummon() { return _I_N_F_S_H_E_E_P_M_O_B_S_U_M_M_O_N.get(); }
-    public static String infwolfMobSummon() { return _I_N_F_W_O_L_F_M_O_B_S_U_M_M_O_N.get(); }
-    public static String infpigMobSummon() { return _I_N_F_P_I_G_M_O_B_S_U_M_M_O_N.get(); }
-    public static String infvillagerMobSummon() { return _I_N_F_V_I_L_L_A_G_E_R_M_O_B_S_U_M_M_O_N.get(); }
-    public static String infhorseMobSummon() { return _I_N_F_H_O_R_S_E_M_O_B_S_U_M_M_O_N.get(); }
-    public static String infadventurerMobSummon() { return _I_N_F_A_D_V_E_N_T_U_R_E_R_M_O_B_S_U_M_M_O_N.get(); }
-    public static double infcowDamageMultiplier() { return INFCOW_DAMAGE_MULTIPLIER.get(); }
-    public static double infcowArmorMultiplier() { return INFCOW_ARMOR_MULTIPLIER.get(); }
-    public static double infcowKnockbackMultiplier() { return INFCOW_KNOCKBACK_MULTIPLIER.get(); }
+    public static double infcowHealthMultiplier() { return safe(INFCOW_HEALTH_MULTIPLIER); }
+    public static double infvillagerHealthMultiplier() { return safe(INFVILLAGER_HEALTH_MULTIPLIER); }
+    public static double infvillagerDamageMultiplier() { return safe(INFVILLAGER_DAMAGE_MULTIPLIER); }
+    public static double infvillagerArmorMultiplier() { return safe(INFVILLAGER_ARMOR_MULTIPLIER); }
+    public static double infvillagerKnockbackMultiplier() { return safe(INFVILLAGER_KNOCKBACK_MULTIPLIER); }
+    public static String dorpaMobSummon() { return safe(_D_O_R_P_A_M_O_B_S_U_M_M_O_N); }
+    public static String infcowMobSummon() { return safe(_I_N_F_C_O_W_M_O_B_S_U_M_M_O_N); }
+    public static String infsheepMobSummon() { return safe(_I_N_F_S_H_E_E_P_M_O_B_S_U_M_M_O_N); }
+    public static String infwolfMobSummon() { return safe(_I_N_F_W_O_L_F_M_O_B_S_U_M_M_O_N); }
+    public static String infpigMobSummon() { return safe(_I_N_F_P_I_G_M_O_B_S_U_M_M_O_N); }
+    public static String infvillagerMobSummon() { return safe(_I_N_F_V_I_L_L_A_G_E_R_M_O_B_S_U_M_M_O_N); }
+    public static String infhorseMobSummon() { return safe(_I_N_F_H_O_R_S_E_M_O_B_S_U_M_M_O_N); }
+    public static String infadventurerMobSummon() { return safe(_I_N_F_A_D_V_E_N_T_U_R_E_R_M_O_B_S_U_M_M_O_N); }
+    public static double infcowDamageMultiplier() { return safe(INFCOW_DAMAGE_MULTIPLIER); }
+    public static double infcowArmorMultiplier() { return safe(INFCOW_ARMOR_MULTIPLIER); }
+    public static double infcowKnockbackMultiplier() { return safe(INFCOW_KNOCKBACK_MULTIPLIER); }
 
     // Legacy SRPConfigMobs.infsheep* / infwolf*.
     private static final ModConfigSpec.DoubleValue INFSHEEP_HEALTH_MULTIPLIER = value(
@@ -266,56 +266,56 @@ public final class MobsConfig {
 
     // Legacy SRPConfigMobs.arachnida* accessors: the keys existed but were unreachable, so no code
     // could read the per-mob multipliers they describe.
-    public static double arachnidaHealthMultiplier() { return ARACHNIDA_HEALTH_MULTIPLIER.get(); }
-    public static double arachnidaDamageMultiplier() { return ARACHNIDA_DAMAGE_MULTIPLIER.get(); }
-    public static double arachnidaArmorMultiplier() { return ARACHNIDA_ARMOR_MULTIPLIER.get(); }
-    public static double arachnidaKnockbackMultiplier() { return ARACHNIDA_KNOCKBACK_MULTIPLIER.get(); }
+    public static double arachnidaHealthMultiplier() { return safe(ARACHNIDA_HEALTH_MULTIPLIER); }
+    public static double arachnidaDamageMultiplier() { return safe(ARACHNIDA_DAMAGE_MULTIPLIER); }
+    public static double arachnidaArmorMultiplier() { return safe(ARACHNIDA_ARMOR_MULTIPLIER); }
+    public static double arachnidaKnockbackMultiplier() { return safe(ARACHNIDA_KNOCKBACK_MULTIPLIER); }
 
     // Legacy SRPConfigMobs primitive bolster multipliers (keys had no reachable reader; the constant
     // names below are the ones verified by scripts/audit-mob-multipliers.cjs).
-    public static double bolsterHealthMultiplier() { return BOLSTER_HEALTH_MULTIPLIER.get(); }
-    public static double bolsterDamageMultiplier() { return BOLSTER_DAMAGE_MULTIPLIER.get(); }
-    public static double bolsterArmorMultiplier() { return BOLSTER_ARMOR_MULTIPLIER.get(); }
-    public static double bolsterKnockbackMultiplier() { return BOLSTER_KNOCKBACK_MULTIPLIER.get(); }
+    public static double bolsterHealthMultiplier() { return safe(BOLSTER_HEALTH_MULTIPLIER); }
+    public static double bolsterDamageMultiplier() { return safe(BOLSTER_DAMAGE_MULTIPLIER); }
+    public static double bolsterArmorMultiplier() { return safe(BOLSTER_ARMOR_MULTIPLIER); }
+    public static double bolsterKnockbackMultiplier() { return safe(BOLSTER_KNOCKBACK_MULTIPLIER); }
 
     // Legacy SRPConfigMobs primitive burrower multipliers (constant names verified by the audit).
-    public static double burrowerHealthMultiplier() { return BURROWER_HEALTH_MULTIPLIER.get(); }
-    public static double burrowerDamageMultiplier() { return BURROWER_DAMAGE_MULTIPLIER.get(); }
-    public static double burrowerArmorMultiplier() { return BURROWER_ARMOR_MULTIPLIER.get(); }
-    public static double burrowerKnockbackMultiplier() { return BURROWER_KNOCKBACK_MULTIPLIER.get(); }
+    public static double burrowerHealthMultiplier() { return safe(BURROWER_HEALTH_MULTIPLIER); }
+    public static double burrowerDamageMultiplier() { return safe(BURROWER_DAMAGE_MULTIPLIER); }
+    public static double burrowerArmorMultiplier() { return safe(BURROWER_ARMOR_MULTIPLIER); }
+    public static double burrowerKnockbackMultiplier() { return safe(BURROWER_KNOCKBACK_MULTIPLIER); }
 
     // Legacy SRPConfigMobs primitive devourer multipliers (constant names verified by the audit).
-    public static double devourerHealthMultiplier() { return DEVOURER_HEALTH_MULTIPLIER.get(); }
-    public static double devourerDamageMultiplier() { return DEVOURER_DAMAGE_MULTIPLIER.get(); }
-    public static double devourerArmorMultiplier() { return DEVOURER_ARMOR_MULTIPLIER.get(); }
-    public static double devourerKnockbackMultiplier() { return DEVOURER_KNOCKBACK_MULTIPLIER.get(); }
+    public static double devourerHealthMultiplier() { return safe(DEVOURER_HEALTH_MULTIPLIER); }
+    public static double devourerDamageMultiplier() { return safe(DEVOURER_DAMAGE_MULTIPLIER); }
+    public static double devourerArmorMultiplier() { return safe(DEVOURER_ARMOR_MULTIPLIER); }
+    public static double devourerKnockbackMultiplier() { return safe(DEVOURER_KNOCKBACK_MULTIPLIER); }
 
     // Legacy SRPConfigMobs primitive manducater multipliers (constant names verified by the audit).
-    public static double manducaterHealthMultiplier() { return MANDUCATER_HEALTH_MULTIPLIER.get(); }
-    public static double manducaterDamageMultiplier() { return MANDUCATER_DAMAGE_MULTIPLIER.get(); }
-    public static double manducaterArmorMultiplier() { return MANDUCATER_ARMOR_MULTIPLIER.get(); }
-    public static double manducaterKnockbackMultiplier() { return MANDUCATER_KNOCKBACK_MULTIPLIER.get(); }
+    public static double manducaterHealthMultiplier() { return safe(MANDUCATER_HEALTH_MULTIPLIER); }
+    public static double manducaterDamageMultiplier() { return safe(MANDUCATER_DAMAGE_MULTIPLIER); }
+    public static double manducaterArmorMultiplier() { return safe(MANDUCATER_ARMOR_MULTIPLIER); }
+    public static double manducaterKnockbackMultiplier() { return safe(MANDUCATER_KNOCKBACK_MULTIPLIER); }
 
     // Legacy SRPConfigMobs primitive tozoon multipliers (constant names verified by the audit).
-    public static double tozoonHealthMultiplier() { return TOZOON_HEALTH_MULTIPLIER.get(); }
-    public static double tozoonDamageMultiplier() { return TOZOON_DAMAGE_MULTIPLIER.get(); }
-    public static double tozoonArmorMultiplier() { return TOZOON_ARMOR_MULTIPLIER.get(); }
-    public static double tozoonKnockbackMultiplier() { return TOZOON_KNOCKBACK_MULTIPLIER.get(); }
+    public static double tozoonHealthMultiplier() { return safe(TOZOON_HEALTH_MULTIPLIER); }
+    public static double tozoonDamageMultiplier() { return safe(TOZOON_DAMAGE_MULTIPLIER); }
+    public static double tozoonArmorMultiplier() { return safe(TOZOON_ARMOR_MULTIPLIER); }
+    public static double tozoonKnockbackMultiplier() { return safe(TOZOON_KNOCKBACK_MULTIPLIER); }
 
     // Legacy SRPConfigMobs.jinjo* (port key: heavyBomber*; the JINJO_* constants are what the
     // three-way audit recognised as original-backed).
-    public static double heavyBomberHealthMultiplier() { return JINJO_HEALTH_MULTIPLIER.get(); }
-    public static double heavyBomberDamageMultiplier() { return JINJO_DAMAGE_MULTIPLIER.get(); }
-    public static double heavyBomberArmorMultiplier() { return JINJO_ARMOR_MULTIPLIER.get(); }
+    public static double heavyBomberHealthMultiplier() { return safe(JINJO_HEALTH_MULTIPLIER); }
+    public static double heavyBomberDamageMultiplier() { return safe(JINJO_DAMAGE_MULTIPLIER); }
+    public static double heavyBomberArmorMultiplier() { return safe(JINJO_ARMOR_MULTIPLIER); }
 
-    public static double infsheepHealthMultiplier() { return INFSHEEP_HEALTH_MULTIPLIER.get(); }
-    public static double infsheepDamageMultiplier() { return INFSHEEP_DAMAGE_MULTIPLIER.get(); }
-    public static double infsheepArmorMultiplier() { return INFSHEEP_ARMOR_MULTIPLIER.get(); }
-    public static double infsheepKnockbackMultiplier() { return INFSHEEP_KNOCKBACK_MULTIPLIER.get(); }
-    public static double infwolfHealthMultiplier() { return INFWOLF_HEALTH_MULTIPLIER.get(); }
-    public static double infwolfDamageMultiplier() { return INFWOLF_DAMAGE_MULTIPLIER.get(); }
-    public static double infwolfArmorMultiplier() { return INFWOLF_ARMOR_MULTIPLIER.get(); }
-    public static double infwolfKnockbackMultiplier() { return INFWOLF_KNOCKBACK_MULTIPLIER.get(); }
+    public static double infsheepHealthMultiplier() { return safe(INFSHEEP_HEALTH_MULTIPLIER); }
+    public static double infsheepDamageMultiplier() { return safe(INFSHEEP_DAMAGE_MULTIPLIER); }
+    public static double infsheepArmorMultiplier() { return safe(INFSHEEP_ARMOR_MULTIPLIER); }
+    public static double infsheepKnockbackMultiplier() { return safe(INFSHEEP_KNOCKBACK_MULTIPLIER); }
+    public static double infwolfHealthMultiplier() { return safe(INFWOLF_HEALTH_MULTIPLIER); }
+    public static double infwolfDamageMultiplier() { return safe(INFWOLF_DAMAGE_MULTIPLIER); }
+    public static double infwolfArmorMultiplier() { return safe(INFWOLF_ARMOR_MULTIPLIER); }
+    public static double infwolfKnockbackMultiplier() { return safe(INFWOLF_KNOCKBACK_MULTIPLIER); }
 
     // Legacy SRPConfigMobs.infsquid* (the assimilated squid).
     private static final ModConfigSpec.DoubleValue INFSQUID_HEALTH_MULTIPLIER = value(
@@ -331,10 +331,10 @@ public final class MobsConfig {
             "srparasites:infsquid", "infsquidKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
             "Knockback-resistance multiplier for the assimilated squid.");
 
-    public static double infsquidHealthMultiplier() { return INFSQUID_HEALTH_MULTIPLIER.get(); }
-    public static double infsquidDamageMultiplier() { return INFSQUID_DAMAGE_MULTIPLIER.get(); }
-    public static double infsquidArmorMultiplier() { return INFSQUID_ARMOR_MULTIPLIER.get(); }
-    public static double infsquidKnockbackMultiplier() { return INFSQUID_KNOCKBACK_MULTIPLIER.get(); }
+    public static double infsquidHealthMultiplier() { return safe(INFSQUID_HEALTH_MULTIPLIER); }
+    public static double infsquidDamageMultiplier() { return safe(INFSQUID_DAMAGE_MULTIPLIER); }
+    public static double infsquidArmorMultiplier() { return safe(INFSQUID_ARMOR_MULTIPLIER); }
+    public static double infsquidKnockbackMultiplier() { return safe(INFSQUID_KNOCKBACK_MULTIPLIER); }
 
     // Legacy SRPConfigMobs.infhuman* (the assimilated human).
     private static final ModConfigSpec.DoubleValue INFHUMAN_HEALTH_MULTIPLIER = value(
@@ -350,10 +350,10 @@ public final class MobsConfig {
             "srparasites:infhuman", "infhumanKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
             "Knockback-resistance multiplier for the assimilated human.");
 
-    public static double infhumanHealthMultiplier() { return INFHUMAN_HEALTH_MULTIPLIER.get(); }
-    public static double infhumanDamageMultiplier() { return INFHUMAN_DAMAGE_MULTIPLIER.get(); }
-    public static double infhumanArmorMultiplier() { return INFHUMAN_ARMOR_MULTIPLIER.get(); }
-    public static double infhumanKnockbackMultiplier() { return INFHUMAN_KNOCKBACK_MULTIPLIER.get(); }
+    public static double infhumanHealthMultiplier() { return safe(INFHUMAN_HEALTH_MULTIPLIER); }
+    public static double infhumanDamageMultiplier() { return safe(INFHUMAN_DAMAGE_MULTIPLIER); }
+    public static double infhumanArmorMultiplier() { return safe(INFHUMAN_ARMOR_MULTIPLIER); }
+    public static double infhumanKnockbackMultiplier() { return safe(INFHUMAN_KNOCKBACK_MULTIPLIER); }
 
     // Legacy SRPConfigMobs.fervillager* (the feral villager).
     private static final ModConfigSpec.DoubleValue FERVILLAGER_HEALTH_MULTIPLIER = value(
@@ -369,10 +369,10 @@ public final class MobsConfig {
             "srparasites:fervillager", "fervillagerKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
             "Knockback-resistance multiplier for the feral villager.");
 
-    public static double fervillagerHealthMultiplier() { return FERVILLAGER_HEALTH_MULTIPLIER.get(); }
-    public static double fervillagerDamageMultiplier() { return FERVILLAGER_DAMAGE_MULTIPLIER.get(); }
-    public static double fervillagerArmorMultiplier() { return FERVILLAGER_ARMOR_MULTIPLIER.get(); }
-    public static double fervillagerKnockbackMultiplier() { return FERVILLAGER_KNOCKBACK_MULTIPLIER.get(); }
+    public static double fervillagerHealthMultiplier() { return safe(FERVILLAGER_HEALTH_MULTIPLIER); }
+    public static double fervillagerDamageMultiplier() { return safe(FERVILLAGER_DAMAGE_MULTIPLIER); }
+    public static double fervillagerArmorMultiplier() { return safe(FERVILLAGER_ARMOR_MULTIPLIER); }
+    public static double fervillagerKnockbackMultiplier() { return safe(FERVILLAGER_KNOCKBACK_MULTIPLIER); }
 
     // Legacy SRPConfigMobs.shyco* (the primitive longarms).
     private static final ModConfigSpec.DoubleValue SHYCO_HEALTH_MULTIPLIER = value(
@@ -388,10 +388,10 @@ public final class MobsConfig {
             "srparasites:shyco", "shycoKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
             "Knockback-resistance multiplier for the primitive longarms.");
 
-    public static double shycoHealthMultiplier() { return SHYCO_HEALTH_MULTIPLIER.get(); }
-    public static double shycoDamageMultiplier() { return SHYCO_DAMAGE_MULTIPLIER.get(); }
-    public static double shycoArmorMultiplier() { return SHYCO_ARMOR_MULTIPLIER.get(); }
-    public static double shycoKnockbackMultiplier() { return SHYCO_KNOCKBACK_MULTIPLIER.get(); }
+    public static double shycoHealthMultiplier() { return safe(SHYCO_HEALTH_MULTIPLIER); }
+    public static double shycoDamageMultiplier() { return safe(SHYCO_DAMAGE_MULTIPLIER); }
+    public static double shycoArmorMultiplier() { return safe(SHYCO_ARMOR_MULTIPLIER); }
+    public static double shycoKnockbackMultiplier() { return safe(SHYCO_KNOCKBACK_MULTIPLIER); }
 
     // Legacy SRPConfigMobs.hiskeleton* (the hijacked skeleton).
     private static final ModConfigSpec.DoubleValue HISKELETON_HEALTH_MULTIPLIER = value(
@@ -407,10 +407,10 @@ public final class MobsConfig {
             "srparasites:hiskeleton", "hiskeletonKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
             "Knockback-resistance multiplier for the hijacked skeleton.");
 
-    public static double hiskeletonHealthMultiplier() { return HISKELETON_HEALTH_MULTIPLIER.get(); }
-    public static double hiskeletonDamageMultiplier() { return HISKELETON_DAMAGE_MULTIPLIER.get(); }
-    public static double hiskeletonArmorMultiplier() { return HISKELETON_ARMOR_MULTIPLIER.get(); }
-    public static double hiskeletonKnockbackMultiplier() { return HISKELETON_KNOCKBACK_MULTIPLIER.get(); }
+    public static double hiskeletonHealthMultiplier() { return safe(HISKELETON_HEALTH_MULTIPLIER); }
+    public static double hiskeletonDamageMultiplier() { return safe(HISKELETON_DAMAGE_MULTIPLIER); }
+    public static double hiskeletonArmorMultiplier() { return safe(HISKELETON_ARMOR_MULTIPLIER); }
+    public static double hiskeletonKnockbackMultiplier() { return safe(HISKELETON_KNOCKBACK_MULTIPLIER); }
 
     // Legacy SRPConfigMobs.marcow* (the marauderized cow).
     private static final ModConfigSpec.DoubleValue MARCOW_HEALTH_MULTIPLIER = value(
@@ -426,10 +426,10 @@ public final class MobsConfig {
             "srparasites:marcow", "marcowKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
             "Knockback-resistance multiplier for the marauderized cow.");
 
-    public static double marcowHealthMultiplier() { return MARCOW_HEALTH_MULTIPLIER.get(); }
-    public static double marcowDamageMultiplier() { return MARCOW_DAMAGE_MULTIPLIER.get(); }
-    public static double marcowArmorMultiplier() { return MARCOW_ARMOR_MULTIPLIER.get(); }
-    public static double marcowKnockbackMultiplier() { return MARCOW_KNOCKBACK_MULTIPLIER.get(); }
+    public static double marcowHealthMultiplier() { return safe(MARCOW_HEALTH_MULTIPLIER); }
+    public static double marcowDamageMultiplier() { return safe(MARCOW_DAMAGE_MULTIPLIER); }
+    public static double marcowArmorMultiplier() { return safe(MARCOW_ARMOR_MULTIPLIER); }
+    public static double marcowKnockbackMultiplier() { return safe(MARCOW_KNOCKBACK_MULTIPLIER); }
 
     // Legacy SRPConfigMobs.host* (the assimilated host).
     private static final ModConfigSpec.DoubleValue HOST_HEALTH_MULTIPLIER = value(
@@ -445,15 +445,15 @@ public final class MobsConfig {
             "srparasites:host", "hostKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
             "Knockback-resistance multiplier for the host parasite.");
 
-    public static double hostHealthMultiplier() { return HOST_HEALTH_MULTIPLIER.get(); }
-    public static double hostDamageMultiplier() { return HOST_DAMAGE_MULTIPLIER.get(); }
-    public static double hostArmorMultiplier() { return HOST_ARMOR_MULTIPLIER.get(); }
-    public static double hostKnockbackMultiplier() { return HOST_KNOCKBACK_MULTIPLIER.get(); }
+    public static double hostHealthMultiplier() { return safe(HOST_HEALTH_MULTIPLIER); }
+    public static double hostDamageMultiplier() { return safe(HOST_DAMAGE_MULTIPLIER); }
+    public static double hostArmorMultiplier() { return safe(HOST_ARMOR_MULTIPLIER); }
+    public static double hostKnockbackMultiplier() { return safe(HOST_KNOCKBACK_MULTIPLIER); }
 
-    public static double dorpaHealthMultiplier() { return DORPA_HEALTH_MULTIPLIER.get(); }
-    public static double dorpaDamageMultiplier() { return DORPA_DAMAGE_MULTIPLIER.get(); }
-    public static double dorpaArmorMultiplier() { return DORPA_ARMOR_MULTIPLIER.get(); }
-    public static double dorpaKnockbackMultiplier() { return DORPA_KNOCKBACK_MULTIPLIER.get(); }
+    public static double dorpaHealthMultiplier() { return safe(DORPA_HEALTH_MULTIPLIER); }
+    public static double dorpaDamageMultiplier() { return safe(DORPA_DAMAGE_MULTIPLIER); }
+    public static double dorpaArmorMultiplier() { return safe(DORPA_ARMOR_MULTIPLIER); }
+    public static double dorpaKnockbackMultiplier() { return safe(DORPA_KNOCKBACK_MULTIPLIER); }
 
     private static final ModConfigSpec.DoubleValue ARACHNIDA_HEALTH_MULTIPLIER = value(
             "srparasites:arachnida", "arachnidaHealthMultiplier", 1.0D, 0.01D, 100.0D,
@@ -849,520 +849,520 @@ public final class MobsConfig {
 
     public static double followRange(LivingEntity entity) {
         if (entity instanceof WorkerEntity) return -1.0D;
-        if (entity instanceof ArchitectEntity) return PURE_FOLLOW.get();
-        if (entity instanceof MovingFleshEntity) return ADAPTED_FOLLOW.get();
-        if (entity instanceof PreeminentParasiteEntity) return PREEMINENT_FOLLOW.get();
-        if (entity instanceof AncientParasiteEntity) return ANCIENT_FOLLOW.get();
-        if (entity instanceof PureParasiteEntity) return PURE_FOLLOW.get();
-        if (entity instanceof AdaptedVariantEntity) return ADAPTED_FOLLOW.get();
-        if (entity instanceof AssimilatedParasiteEntity) return INFECTED_FOLLOW.get();
-        if (entity instanceof PrimitiveParasiteEntity) return PRIMITIVE_FOLLOW.get();
+        if (entity instanceof ArchitectEntity) return safe(PURE_FOLLOW);
+        if (entity instanceof MovingFleshEntity) return safe(ADAPTED_FOLLOW);
+        if (entity instanceof PreeminentParasiteEntity) return safe(PREEMINENT_FOLLOW);
+        if (entity instanceof AncientParasiteEntity) return safe(ANCIENT_FOLLOW);
+        if (entity instanceof PureParasiteEntity) return safe(PURE_FOLLOW);
+        if (entity instanceof AdaptedVariantEntity) return safe(ADAPTED_FOLLOW);
+        if (entity instanceof AssimilatedParasiteEntity) return safe(INFECTED_FOLLOW);
+        if (entity instanceof PrimitiveParasiteEntity) return safe(PRIMITIVE_FOLLOW);
         return -1.0D;
     }
 
     public static double pureFollowRange() {
-        return PURE_FOLLOW.get();
+        return safe(PURE_FOLLOW);
     }
 
     public static double preeminentFollowRange() {
-        return PREEMINENT_FOLLOW.get();
+        return safe(PREEMINENT_FOLLOW);
     }
 
     public static double adaptedFollowRange() {
-        return ADAPTED_FOLLOW.get();
+        return safe(ADAPTED_FOLLOW);
     }
 
     public static boolean rupterPassiveMobAttacking() {
-        return RUPTER_ANIMAL_ATTACKING.get();
+        return safe(RUPTER_ANIMAL_ATTACKING);
     }
 
     public static float rupterMinimumDamage() {
-        return RUPTER_MINIMUM_DAMAGE.get().floatValue();
+        return safe(RUPTER_MINIMUM_DAMAGE).floatValue();
     }
 
     public static int rupterTunnelCost() {
-        return RUPTER_TUNNEL_COST.get();
+        return safe(RUPTER_TUNNEL_COST);
     }
 
     public static int rupterTunnelPhase() {
-        return RUPTER_TUNNEL_PHASE.get();
+        return safe(RUPTER_TUNNEL_PHASE);
     }
 
     public static int rupterManglerKills() {
-        return RUPTER_MANGLER_KILLS.get();
+        return safe(RUPTER_MANGLER_KILLS);
     }
 
     public static float manglerMinimumDamage() {
-        return MANGLER_MINIMUM_DAMAGE.get().floatValue();
+        return safe(MANGLER_MINIMUM_DAMAGE).floatValue();
     }
 
     public static float manglerRegeneration() {
-        return MANGLER_REGENERATION.get().floatValue();
+        return safe(MANGLER_REGENERATION).floatValue();
     }
 
     public static int ancientDreadnautMaxY() {
-        return ANCIENT_MAX_Y.get();
+        return safe(ANCIENT_MAX_Y);
     }
 
     public static int ancientDreadnautMinY() {
-        return Math.min(ANCIENT_MIN_Y.get(), ANCIENT_MAX_Y.get());
+        return Math.min(safe(ANCIENT_MIN_Y), safe(ANCIENT_MAX_Y));
     }
 
     public static int ancientDreadnautPodCooldownTicks() {
-        return ANCIENT_POD_COOLDOWN.get() * 20;
+        return safe(ANCIENT_POD_COOLDOWN) * 20;
     }
 
     public static int ancientDreadnautPodNumber() {
-        return ANCIENT_POD_NUMBER.get();
+        return safe(ANCIENT_POD_NUMBER);
     }
 
     public static int ancientDreadnautPodMaxMobs() {
-        return ANCIENT_POD_MAX_MOBS.get();
+        return safe(ANCIENT_POD_MAX_MOBS);
     }
 
     public static boolean carrierHeavyGriefing() {
-        return CARRIER_HEAVY_GRIEFING.get();
+        return safe(CARRIER_HEAVY_GRIEFING);
     }
 
     public static List<? extends String> carrierHeavyMobTable() {
-        return CARRIER_HEAVY_MOBS.get();
+        return safe(CARRIER_HEAVY_MOBS);
     }
 
     public static boolean carrierLightGriefing() {
-        return CARRIER_LIGHT_GRIEFING.get();
+        return safe(CARRIER_LIGHT_GRIEFING);
     }
 
     public static List<? extends String> carrierLightMobTable() {
-        return CARRIER_LIGHT_MOBS.get();
+        return safe(CARRIER_LIGHT_MOBS);
     }
 
     public static boolean carrierFlyingGriefing() {
-        return CARRIER_FLYING_GRIEFING.get();
+        return safe(CARRIER_FLYING_GRIEFING);
     }
 
     public static int carrierFlyingMaxY() {
-        return CARRIER_FLYING_MAX_Y.get();
+        return safe(CARRIER_FLYING_MAX_Y);
     }
 
     public static List<? extends String> carrierFlyingMobTable() {
-        return CARRIER_FLYING_MOBS.get();
+        return safe(CARRIER_FLYING_MOBS);
     }
 
     public static boolean mergeSystemRandom() {
-        return MERGE_RANDOM.get();
+        return safe(MERGE_RANDOM);
     }
 
     public static double mergeSystemMobHealth() {
-        return MERGE_HEALTH.get();
+        return safe(MERGE_HEALTH);
     }
 
     public static List<? extends String> mergeSystemMobList() {
-        return MERGE_MOB_TABLE.get();
+        return safe(MERGE_MOB_TABLE);
     }
 
     public static boolean ancientPodGriefing() {
-        return ANCIENT_POD_GRIEFING.get();
+        return safe(ANCIENT_POD_GRIEFING);
     }
 
     public static List<? extends String> ancientDreadnautMobList() {
-        return ANCIENT_MOB_LIST.get();
+        return safe(ANCIENT_MOB_LIST);
     }
 
     public static List<? extends String> ancientPodEffects() {
-        return ANCIENT_POD_EFFECTS.get();
+        return safe(ANCIENT_POD_EFFECTS);
     }
 
     public static double arachnidaHealth() {
-        return 35.0D * ARACHNIDA_HEALTH_MULTIPLIER.get();
+        return 35.0D * safe(ARACHNIDA_HEALTH_MULTIPLIER);
     }
 
     public static double arachnidaDamage() {
-        return 15.0D * ARACHNIDA_DAMAGE_MULTIPLIER.get();
+        return 15.0D * safe(ARACHNIDA_DAMAGE_MULTIPLIER);
     }
 
     public static double arachnidaArmor() {
-        return 4.0D * ARACHNIDA_ARMOR_MULTIPLIER.get();
+        return 4.0D * safe(ARACHNIDA_ARMOR_MULTIPLIER);
     }
 
     public static double arachnidaKnockbackResistance() {
-        return Math.min(1.0D, 0.2D * ARACHNIDA_KNOCKBACK_MULTIPLIER.get());
+        return Math.min(1.0D, 0.2D * safe(ARACHNIDA_KNOCKBACK_MULTIPLIER));
     }
 
     public static double adaptedArachnidaHealth() {
-        return (35.0D + ADAPTED_ARACHNIDA_ADDITIONAL_HEALTH.get()) * ARACHNIDA_HEALTH_MULTIPLIER.get();
+        return (35.0D + safe(ADAPTED_ARACHNIDA_ADDITIONAL_HEALTH)) * safe(ARACHNIDA_HEALTH_MULTIPLIER);
     }
 
     public static double adaptedArachnidaDamage() {
-        return (15.0D + ADAPTED_ARACHNIDA_ADDITIONAL_DAMAGE.get()) * ARACHNIDA_DAMAGE_MULTIPLIER.get();
+        return (15.0D + safe(ADAPTED_ARACHNIDA_ADDITIONAL_DAMAGE)) * safe(ARACHNIDA_DAMAGE_MULTIPLIER);
     }
 
     public static double adaptedArachnidaArmor() {
-        return (4.0D + ADAPTED_ARACHNIDA_ADDITIONAL_ARMOR.get()) * ARACHNIDA_ARMOR_MULTIPLIER.get();
+        return (4.0D + safe(ADAPTED_ARACHNIDA_ADDITIONAL_ARMOR)) * safe(ARACHNIDA_ARMOR_MULTIPLIER);
     }
 
     public static double adaptedArachnidaKnockbackResistance() {
-        return Math.min(1.0D, (0.8D + ADAPTED_ARACHNIDA_ADDITIONAL_KNOCKBACK.get())
-                * ARACHNIDA_KNOCKBACK_MULTIPLIER.get());
+        return Math.min(1.0D, (0.8D + safe(ADAPTED_ARACHNIDA_ADDITIONAL_KNOCKBACK))
+                * safe(ARACHNIDA_KNOCKBACK_MULTIPLIER));
     }
 
     public static List<? extends String> adaptedArachnidaOrbEffects() {
-        return ADAPTED_ARACHNIDA_ORB_EFFECTS.get();
+        return safe(ADAPTED_ARACHNIDA_ORB_EFFECTS);
     }
 
     public static double visceraHealth() {
-        return 45.0D * VISCERA_HEALTH_MULTIPLIER.get();
+        return 45.0D * safe(VISCERA_HEALTH_MULTIPLIER);
     }
 
     public static double visceraDamage() {
-        return 15.0D * VISCERA_DAMAGE_MULTIPLIER.get();
+        return 15.0D * safe(VISCERA_DAMAGE_MULTIPLIER);
     }
 
     public static double visceraArmor() {
-        return 9.0D * VISCERA_ARMOR_MULTIPLIER.get();
+        return 9.0D * safe(VISCERA_ARMOR_MULTIPLIER);
     }
 
     public static double visceraKnockbackResistance() {
-        return Math.min(1.0D, 0.7D * VISCERA_KNOCKBACK_MULTIPLIER.get());
+        return Math.min(1.0D, 0.7D * safe(VISCERA_KNOCKBACK_MULTIPLIER));
     }
 
     public static List<? extends String> visceraOrbEffects() {
-        return VISCERA_ORB_EFFECTS.get();
+        return safe(VISCERA_ORB_EFFECTS);
     }
 
     public static double bolsterHealth() {
-        return 35.0D * BOLSTER_HEALTH_MULTIPLIER.get();
+        return 35.0D * safe(BOLSTER_HEALTH_MULTIPLIER);
     }
 
     public static double bolsterDamage() {
-        return 6.0D * BOLSTER_DAMAGE_MULTIPLIER.get();
+        return 6.0D * safe(BOLSTER_DAMAGE_MULTIPLIER);
     }
 
     public static double bolsterArmor() {
-        return 4.0D * BOLSTER_ARMOR_MULTIPLIER.get();
+        return 4.0D * safe(BOLSTER_ARMOR_MULTIPLIER);
     }
 
     public static double bolsterKnockbackResistance() {
-        return Math.min(1.0D, 0.35D * BOLSTER_KNOCKBACK_MULTIPLIER.get());
+        return Math.min(1.0D, 0.35D * safe(BOLSTER_KNOCKBACK_MULTIPLIER));
     }
 
     public static int bolsterBuffCooldownTicks() {
-        return BOLSTER_BUFF_COOLDOWN.get() * 20;
+        return safe(BOLSTER_BUFF_COOLDOWN) * 20;
     }
 
     public static int bolsterBuffRange() {
-        return BOLSTER_BUFF_RANGE.get();
+        return safe(BOLSTER_BUFF_RANGE);
     }
 
     public static List<? extends String> bolsterEffects() {
-        return BOLSTER_EFFECTS.get();
+        return safe(BOLSTER_EFFECTS);
     }
 
     public static List<? extends String> bolsterOrbEffects() {
-        return BOLSTER_ORB_EFFECTS.get();
+        return safe(BOLSTER_ORB_EFFECTS);
     }
 
     public static double manducaterHealth() {
-        return 30.0D * MANDUCATER_HEALTH_MULTIPLIER.get();
+        return 30.0D * safe(MANDUCATER_HEALTH_MULTIPLIER);
     }
 
     public static double manducaterDamage() {
-        return 12.0D * MANDUCATER_DAMAGE_MULTIPLIER.get();
+        return 12.0D * safe(MANDUCATER_DAMAGE_MULTIPLIER);
     }
 
     public static double manducaterArmor() {
-        return 4.0D * MANDUCATER_ARMOR_MULTIPLIER.get();
+        return 4.0D * safe(MANDUCATER_ARMOR_MULTIPLIER);
     }
 
     public static double manducaterKnockbackResistance() {
-        return Math.min(1.0D, 0.5D * MANDUCATER_KNOCKBACK_MULTIPLIER.get());
+        return Math.min(1.0D, 0.5D * safe(MANDUCATER_KNOCKBACK_MULTIPLIER));
     }
 
     public static double manducaterNeededHealth() {
-        return MANDUCATER_NEEDED_HEALTH.get();
+        return safe(MANDUCATER_NEEDED_HEALTH);
     }
 
     public static double manducaterNeededTime() {
-        return MANDUCATER_NEEDED_TIME.get();
+        return safe(MANDUCATER_NEEDED_TIME);
     }
 
     public static double manducaterStealthDamageMultiplier() {
-        return MANDUCATER_STEALTH_DAMAGE.get();
+        return safe(MANDUCATER_STEALTH_DAMAGE);
     }
 
     public static List<? extends String> manducaterOrbEffects() {
-        return MANDUCATER_ORB_EFFECTS.get();
+        return safe(MANDUCATER_ORB_EFFECTS);
     }
 
     public static double devourerHealth() {
-        return 60.0D * DEVOURER_HEALTH_MULTIPLIER.get();
+        return 60.0D * safe(DEVOURER_HEALTH_MULTIPLIER);
     }
 
     public static double devourerDamage() {
-        return 20.0D * DEVOURER_DAMAGE_MULTIPLIER.get();
+        return 20.0D * safe(DEVOURER_DAMAGE_MULTIPLIER);
     }
 
     public static double devourerArmor() {
-        return 4.0D * DEVOURER_ARMOR_MULTIPLIER.get();
+        return 4.0D * safe(DEVOURER_ARMOR_MULTIPLIER);
     }
 
     public static double devourerKnockbackResistance() {
-        return Math.min(1.0D, DEVOURER_KNOCKBACK_MULTIPLIER.get());
+        return Math.min(1.0D, safe(DEVOURER_KNOCKBACK_MULTIPLIER));
     }
 
     public static boolean devourerWaterPlacement() {
-        return DEVOURER_WATER_PLACEMENT.get();
+        return safe(DEVOURER_WATER_PLACEMENT);
     }
 
     public static double burrowerHealth() {
-        return 45.0D * BURROWER_HEALTH_MULTIPLIER.get();
+        return 45.0D * safe(BURROWER_HEALTH_MULTIPLIER);
     }
 
     public static double burrowerDamage() {
-        return 15.0D * BURROWER_DAMAGE_MULTIPLIER.get();
+        return 15.0D * safe(BURROWER_DAMAGE_MULTIPLIER);
     }
 
     public static double burrowerArmor() {
-        return 9.0D * BURROWER_ARMOR_MULTIPLIER.get();
+        return 9.0D * safe(BURROWER_ARMOR_MULTIPLIER);
     }
 
     public static double burrowerKnockbackResistance() {
-        return Math.min(1.0D, 0.7D * BURROWER_KNOCKBACK_MULTIPLIER.get());
+        return Math.min(1.0D, 0.7D * safe(BURROWER_KNOCKBACK_MULTIPLIER));
     }
 
     public static double tozoonHealth() {
-        return 45.0D * TOZOON_HEALTH_MULTIPLIER.get();
+        return 45.0D * safe(TOZOON_HEALTH_MULTIPLIER);
     }
 
     public static double tozoonDamage() {
-        return 15.0D * TOZOON_DAMAGE_MULTIPLIER.get();
+        return 15.0D * safe(TOZOON_DAMAGE_MULTIPLIER);
     }
 
     public static double tozoonArmor() {
-        return 9.0D * TOZOON_ARMOR_MULTIPLIER.get();
+        return 9.0D * safe(TOZOON_ARMOR_MULTIPLIER);
     }
 
     public static double tozoonKnockbackResistance() {
-        return Math.min(1.0D, TOZOON_KNOCKBACK_MULTIPLIER.get());
+        return Math.min(1.0D, safe(TOZOON_KNOCKBACK_MULTIPLIER));
     }
 
     public static double adaptedTozoonHealth() {
-        return (45.0D + ADAPTED_TOZOON_ADDITIONAL_HEALTH.get()) * TOZOON_HEALTH_MULTIPLIER.get();
+        return (45.0D + safe(ADAPTED_TOZOON_ADDITIONAL_HEALTH)) * safe(TOZOON_HEALTH_MULTIPLIER);
     }
 
     public static double adaptedTozoonDamage() {
-        return (15.0D + ADAPTED_TOZOON_ADDITIONAL_DAMAGE.get()) * TOZOON_DAMAGE_MULTIPLIER.get();
+        return (15.0D + safe(ADAPTED_TOZOON_ADDITIONAL_DAMAGE)) * safe(TOZOON_DAMAGE_MULTIPLIER);
     }
 
     public static double adaptedTozoonArmor() {
-        return (9.0D + ADAPTED_TOZOON_ADDITIONAL_ARMOR.get()) * TOZOON_ARMOR_MULTIPLIER.get();
+        return (9.0D + safe(ADAPTED_TOZOON_ADDITIONAL_ARMOR)) * safe(TOZOON_ARMOR_MULTIPLIER);
     }
 
     public static double adaptedTozoonConfiguredKnockbackResistance() {
-        return (0.7D + ADAPTED_TOZOON_ADDITIONAL_KNOCKBACK.get()) * TOZOON_KNOCKBACK_MULTIPLIER.get();
+        return (0.7D + safe(ADAPTED_TOZOON_ADDITIONAL_KNOCKBACK)) * safe(TOZOON_KNOCKBACK_MULTIPLIER);
     }
 
     public static double reekerHealth() {
-        return 40.0D * REEKER_HEALTH_MULTIPLIER.get();
+        return 40.0D * safe(REEKER_HEALTH_MULTIPLIER);
     }
 
     public static double reekerDamage() {
-        return 12.0D * REEKER_DAMAGE_MULTIPLIER.get();
+        return 12.0D * safe(REEKER_DAMAGE_MULTIPLIER);
     }
 
     public static double reekerArmor() {
-        return 12.0D * REEKER_ARMOR_MULTIPLIER.get();
+        return 12.0D * safe(REEKER_ARMOR_MULTIPLIER);
     }
 
     public static double reekerKnockbackResistance() {
-        return 0.6D * REEKER_KNOCKBACK_MULTIPLIER.get();
+        return 0.6D * safe(REEKER_KNOCKBACK_MULTIPLIER);
     }
 
     public static boolean reekerRicardoVariantEnabled() {
-        return REEKER_RICARDO_ENABLED.get();
+        return safe(REEKER_RICARDO_ENABLED);
     }
 
     public static List<? extends String> reekerOrbEffects() {
-        return REEKER_ORB_EFFECTS.get();
+        return safe(REEKER_ORB_EFFECTS);
     }
 
     public static double yelloweyeHealth() {
-        return 30.0D * YELLOWEYE_HEALTH_MULTIPLIER.get();
+        return 30.0D * safe(YELLOWEYE_HEALTH_MULTIPLIER);
     }
 
     public static double yelloweyeArmor() {
-        return 3.5D * YELLOWEYE_ARMOR_MULTIPLIER.get();
+        return 3.5D * safe(YELLOWEYE_ARMOR_MULTIPLIER);
     }
 
     public static double yelloweyeNadeDamage() {
-        return 3.5D * YELLOWEYE_ARMOR_MULTIPLIER.get();
+        return 3.5D * safe(YELLOWEYE_ARMOR_MULTIPLIER);
     }
 
     public static float yelloweyeRangedDamage() {
-        return (float) (5.0D * YELLOWEYE_DAMAGE_MULTIPLIER.get());
+        return (float) (5.0D * safe(YELLOWEYE_DAMAGE_MULTIPLIER));
     }
 
     public static double yelloweyeKnockbackResistance() {
-        return 0.2D * YELLOWEYE_KNOCKBACK_MULTIPLIER.get();
+        return 0.2D * safe(YELLOWEYE_KNOCKBACK_MULTIPLIER);
     }
 
     public static int yelloweyePoisonDurationTicks() {
-        return YELLOWEYE_POISON_DURATION.get() * 20;
+        return safe(YELLOWEYE_POISON_DURATION) * 20;
     }
 
     public static int yelloweyePoisonAmplifier() {
-        return YELLOWEYE_POISON_AMPLIFIER.get() - 1;
+        return safe(YELLOWEYE_POISON_AMPLIFIER) - 1;
     }
 
     public static double yelloweyeGearDamage() {
-        return YELLOWEYE_GEAR_DAMAGE.get();
+        return safe(YELLOWEYE_GEAR_DAMAGE);
     }
 
     public static int yelloweyeMaxFlightHeight() {
-        return YELLOWEYE_MAX_FLIGHT_HEIGHT.get();
+        return safe(YELLOWEYE_MAX_FLIGHT_HEIGHT);
     }
 
     public static float hostBombDamage() {
-        return HOST_BOMB_DAMAGE.get().floatValue();
+        return safe(HOST_BOMB_DAMAGE).floatValue();
     }
 
     public static float herdBombDamage() {
-        return HERD_BOMB_DAMAGE.get().floatValue();
+        return safe(HERD_BOMB_DAMAGE).floatValue();
     }
 
     public static float ombooBombDamage() {
-        return OMBOO_BOMB_DAMAGE.get().floatValue();
+        return safe(OMBOO_BOMB_DAMAGE).floatValue();
     }
 
     public static int ombooMaxY() {
-        return OMBOO_MAX_Y.get();
+        return safe(OMBOO_MAX_Y);
     }
 
     public static boolean ombooGriefing() {
-        return OMBOO_GRIEFING.get();
+        return safe(OMBOO_GRIEFING);
     }
 
     public static double overseerHealth() {
-        return 80.0D * OVERSEER_HEALTH_MULTIPLIER.get();
+        return 80.0D * safe(OVERSEER_HEALTH_MULTIPLIER);
     }
 
     public static double overseerArmor() {
-        return 20.0D * OVERSEER_ARMOR_MULTIPLIER.get();
+        return 20.0D * safe(OVERSEER_ARMOR_MULTIPLIER);
     }
 
     public static double overseerMeleeDamage() {
-        return 22.0D * OVERSEER_DAMAGE_MULTIPLIER.get();
+        return 22.0D * safe(OVERSEER_DAMAGE_MULTIPLIER);
     }
 
     public static float overseerProjectileDamage() {
-        return (float) (30.0D * OVERSEER_DAMAGE_MULTIPLIER.get());
+        return (float) (30.0D * safe(OVERSEER_DAMAGE_MULTIPLIER));
     }
 
     public static double overseerKnockbackResistance() {
-        return 0.4D * OVERSEER_KNOCKBACK_MULTIPLIER.get();
+        return 0.4D * safe(OVERSEER_KNOCKBACK_MULTIPLIER);
     }
 
     public static int overseerSummonCooldownTicks() {
-        return OVERSEER_SUMMON_COOLDOWN.get();
+        return safe(OVERSEER_SUMMON_COOLDOWN);
     }
 
     public static int overseerTotalActiveMobs() {
-        return OVERSEER_TOTAL_ACTIVE_MOBS.get();
+        return safe(OVERSEER_TOTAL_ACTIVE_MOBS);
     }
 
     public static int overseerSummonLimit() {
-        return OVERSEER_SUMMON_LIMIT.get();
+        return safe(OVERSEER_SUMMON_LIMIT);
     }
 
     public static List<? extends String> overseerSummonMobs() {
-        return OVERSEER_SUMMON_MOBS.get();
+        return safe(OVERSEER_SUMMON_MOBS);
     }
 
     public static int overseerMaxY() {
-        return OVERSEER_MAX_Y.get();
+        return safe(OVERSEER_MAX_Y);
     }
 
     public static double vigilanteHealth() {
-        return 70.0D * VIGILANTE_HEALTH_MULTIPLIER.get();
+        return 70.0D * safe(VIGILANTE_HEALTH_MULTIPLIER);
     }
 
     public static double vigilanteArmor() {
-        return 25.0D * VIGILANTE_ARMOR_MULTIPLIER.get();
+        return 25.0D * safe(VIGILANTE_ARMOR_MULTIPLIER);
     }
 
     public static double vigilanteMeleeDamage() {
-        return 23.0D * VIGILANTE_DAMAGE_MULTIPLIER.get();
+        return 23.0D * safe(VIGILANTE_DAMAGE_MULTIPLIER);
     }
 
     public static float vigilanteRangedDamage() {
-        return (float) (27.0D * VIGILANTE_RANGED_DAMAGE_MULTIPLIER.get());
+        return (float) (27.0D * safe(VIGILANTE_RANGED_DAMAGE_MULTIPLIER));
     }
 
     public static double vigilanteKnockbackResistance() {
-        return Math.min(1.0D, VIGILANTE_KNOCKBACK_MULTIPLIER.get());
+        return Math.min(1.0D, safe(VIGILANTE_KNOCKBACK_MULTIPLIER));
     }
 
     public static List<? extends String> vigilanteOrbEffects() {
-        return VIGILANTE_ORB_EFFECTS.get();
+        return safe(VIGILANTE_ORB_EFFECTS);
     }
 
     public static double wardenHealth() {
-        return 80.0D * WARDEN_HEALTH_MULTIPLIER.get();
+        return 80.0D * safe(WARDEN_HEALTH_MULTIPLIER);
     }
 
     public static double wardenArmor() {
-        return 15.0D * WARDEN_ARMOR_MULTIPLIER.get();
+        return 15.0D * safe(WARDEN_ARMOR_MULTIPLIER);
     }
 
     public static double wardenDamage() {
-        return 25.0D * WARDEN_DAMAGE_MULTIPLIER.get();
+        return 25.0D * safe(WARDEN_DAMAGE_MULTIPLIER);
     }
 
     public static double wardenKnockbackResistance() {
-        return Math.min(1.0D, WARDEN_KNOCKBACK_MULTIPLIER.get());
+        return Math.min(1.0D, safe(WARDEN_KNOCKBACK_MULTIPLIER));
     }
 
     public static List<? extends String> wardenOrbEffects() {
-        return WARDEN_ORB_EFFECTS.get();
+        return safe(WARDEN_ORB_EFFECTS);
     }
 
     public static List<? extends String> monarchOrbEffects() {
-        return MONARCH_ORB_EFFECTS.get();
+        return safe(MONARCH_ORB_EFFECTS);
     }
 
     public static float jinjoExplosionMultiplier() {
-        return JINJO_EXPLOSION_MULTIPLIER.get().floatValue();
+        return safe(JINJO_EXPLOSION_MULTIPLIER).floatValue();
     }
 
     public static double jinjoHealth() {
-        return 420.0D * JINJO_HEALTH_MULTIPLIER.get();
+        return 420.0D * safe(JINJO_HEALTH_MULTIPLIER);
     }
 
     public static double jinjoArmor() {
-        return 15.5D * JINJO_ARMOR_MULTIPLIER.get();
+        return 15.5D * safe(JINJO_ARMOR_MULTIPLIER);
     }
 
     public static double jinjoDamage() {
-        return 33.0D * JINJO_DAMAGE_MULTIPLIER.get();
+        return 33.0D * safe(JINJO_DAMAGE_MULTIPLIER);
     }
 
     public static double jinjoKnockbackResistance() {
-        return Math.min(1.0D, 0.15D * JINJO_KNOCKBACK_MULTIPLIER.get());
+        return Math.min(1.0D, 0.15D * safe(JINJO_KNOCKBACK_MULTIPLIER));
     }
 
     public static int jinjoMaxY() {
-        return JINJO_MAX_Y.get();
+        return safe(JINJO_MAX_Y);
     }
 
     public static List<? extends String> jinjoOrbEffects() {
-        return JINJO_ORB_EFFECTS.get();
+        return safe(JINJO_ORB_EFFECTS);
     }
 
     public static boolean jinjoGriefing() {
-        return JINJO_GRIEFING.get();
+        return safe(JINJO_GRIEFING);
     }
 
     public static List<? extends String> jinjoMobs() {
-        return JINJO_MOBS.get();
+        return safe(JINJO_MOBS);
     }
 
     private static boolean validOrbEffect(Object value) {
@@ -1466,5 +1466,14 @@ public final class MobsConfig {
         } catch (NumberFormatException ignored) {
             return false;
         }
+    }
+
+    /**
+     * Reads a config value, falling back to its declared default while the config file has not been
+     * read yet. NeoForge runs EntityAttributeCreationEvent before configs are loaded, and CSRP's
+     * createAttributes() methods read config values, so an unguarded get() there crashes startup.
+     */
+    private static <T> T safe(ModConfigSpec.ConfigValue<T> value) {
+        return SPEC.isLoaded() ? value.get() : value.getDefault();
     }
 }

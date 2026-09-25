@@ -46,7 +46,7 @@ for (const [method, base, additional] of [
   ["adaptedArachnidaArmor", "4.0D", "ADAPTED_ARACHNIDA_ADDITIONAL_ARMOR"],
   ["adaptedArachnidaKnockbackResistance", "0.8D", "ADAPTED_ARACHNIDA_ADDITIONAL_KNOCKBACK"]
 ]) {
-  expect(config, new RegExp(`${method}\\(\\)[\\s\\S]*?${base.replaceAll(".", "\\.")} \\+ ${additional}`),
+  expect(config, new RegExp(`${method}\\(\\)[\\s\\S]*?${base.replaceAll(".", "\\.")} \\+ (?:safe\\()?${additional}`),
     `${method} does not combine the original primitive and adapted values`);
 }
 for (const [key, value] of [

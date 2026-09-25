@@ -68,7 +68,7 @@ expect(config, /srparasites:pri_summoner;0/, "Original nine-entry merge table is
 expect(config, /validMergeMobEntry/, "Moving Flesh table validator is missing");
 expect(config, /entity instanceof WorkerEntity\) return -1\.0D/,
   "Worker follow range is incorrectly overridden by generic primitive config");
-expect(config, /entity instanceof MovingFleshEntity\) return ADAPTED_FOLLOW\.get\(\)/,
+expect(config, /entity instanceof MovingFleshEntity\) return (?:safe\()?ADAPTED_FOLLOW/,
   "Moving Flesh follow range does not use the adapted config");
 
 if (failures.length) {

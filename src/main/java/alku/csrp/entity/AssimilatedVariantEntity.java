@@ -178,10 +178,20 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
         }
     }
 
+    /** Legacy {@code DataManager.register SELFE (int)}; registered on this class so its id cannot
+     * collide with another family's accessor id (see {@link SelfeFuseOwner#selfeAccessor()}). */
+    private static final EntityDataAccessor<Integer> SELFE =
+            SynchedEntityData.defineId(AssimilatedVariantEntity.class, EntityDataSerializers.INT);
+
+    @Override
+    public EntityDataAccessor<Integer> selfeAccessor() {
+        return SELFE;
+    }
+
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(ParasiteFuseState.SELFE, -1);
+        builder.define(SELFE, -1);
         builder.define(ANIMATION_STATUS, 0);
         builder.define(MELTING, false);
         builder.define(MELT_TICKS, 0);

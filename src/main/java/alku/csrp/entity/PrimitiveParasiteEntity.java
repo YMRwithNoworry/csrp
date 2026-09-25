@@ -136,12 +136,22 @@ public abstract class PrimitiveParasiteEntity extends Monster
         return ParasiteSoundProfiles.death(this);
     }
 
+    /** Legacy {@code DataManager.register SELFE (int)}; registered on this class so its id cannot
+     * collide with another family's accessor id (see {@link SelfeFuseOwner#selfeAccessor()}). */
+    private static final EntityDataAccessor<Integer> SELFE =
+            SynchedEntityData.defineId(PrimitiveParasiteEntity.class, EntityDataSerializers.INT);
+
+    @Override
+    public EntityDataAccessor<Integer> selfeAccessor() {
+        return SELFE;
+    }
+
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(ADAPTATION_HIT_STATUS, (byte) 0);
         builder.define(SPECIAL_LEAP_TICKS, 0);
-        builder.define(ParasiteFuseState.SELFE, -1);
+        builder.define(SELFE, -1);
     }
 
     @Override

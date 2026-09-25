@@ -20,11 +20,13 @@ for (const match of source.matchAll(declaration)) {
 
 // constant name -> accessor name(s)
 const accessors = new Map();
-const accessor = /public static (?:double|float)\s+(\w+)\(\)\s*\{[^}]*?([A-Z0-9_]+)\.get\(\)/g;
+// the accessors read their constant either directly or through the safe(...) not-loaded guard
+const accessor = /public static (?:double|float)\s+(\w+)\(\)\s*\{[^}]*?(?:([A-Z0-9_]+)\.get\(\)|safe\(([A-Z0-9_]+)\))/g;
 for (const match of source.matchAll(accessor)) {
-  const list = accessors.get(match[2]) ?? [];
+  const constant = match[2] ?? match[3];
+  const list = accessors.get(constant) ?? [];
   list.push(match[1]);
-  accessors.set(match[2], list);
+  accessors.set(constant, list);
 }
 
 const multiplierKeys = [];

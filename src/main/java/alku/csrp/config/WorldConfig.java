@@ -58,50 +58,59 @@ public final class WorldConfig {
     }
 
     public static int naturalMobCap(ServerLevel level) {
-        int base = WORLD_SPAWNING_MOB_CAP.get();
-        return base == 0 ? 0 : base + level.players().size() * WORLD_MOB_CAP_PLUS_PLAYER.get();
+        int base = safe(WORLD_SPAWNING_MOB_CAP);
+        return base == 0 ? 0 : base + level.players().size() * safe(WORLD_MOB_CAP_PLUS_PLAYER);
     }
 
     public static boolean mobCleanerEnabled() {
-        return MOB_CLEANER_ENABLED.get();
+        return safe(MOB_CLEANER_ENABLED);
     }
 
     /** Legacy {@code SRPConfig.rsDespawn} ("Nexus Versions Despawn"); default false. */
     public static boolean nexusDespawn() {
-        return NEXUS_DESPAWN.get();
+        return safe(NEXUS_DESPAWN);
     }
 
     public static int beckonInfestationBlockLimit() {
-        return BECKON_INFESTATION_BLOCK_LIMIT.get();
+        return safe(BECKON_INFESTATION_BLOCK_LIMIT);
     }
 
     public static int biomeInfestationBlockLimit() {
-        return BIOME_INFESTATION_BLOCK_LIMIT.get();
+        return safe(BIOME_INFESTATION_BLOCK_LIMIT);
     }
 
     public static int beckonInfestationCooldown() {
-        return BECKON_INFESTATION_COOLDOWN.get();
+        return safe(BECKON_INFESTATION_COOLDOWN);
     }
 
     public static int biomeInfestationCooldown() {
-        return BIOME_INFESTATION_COOLDOWN.get();
+        return safe(BIOME_INFESTATION_COOLDOWN);
     }
 
     public static boolean starWorldShadersEnabled() {
-        return ENABLE_STAR_WORLD_SHADERS.get();
+        return safe(ENABLE_STAR_WORLD_SHADERS);
     }
 
     public static boolean coldStarShaderEnabled() {
-        return ENABLE_COLD_STAR_SHADER.get();
+        return safe(ENABLE_COLD_STAR_SHADER);
     }
 
     public static boolean warmStarShaderEnabled() {
-        return ENABLE_WARM_STAR_SHADER.get();
+        return safe(ENABLE_WARM_STAR_SHADER);
     }
 
     public static boolean dimensionAllowsNaturalSpawning(ServerLevel level) {
         String dimension = level.dimension().location().toString();
-        boolean listed = DIMENSION_LIST.get().contains(dimension);
-        return DIMENSION_LIST_IS_BLACKLIST.get() != listed;
+        boolean listed = safe(DIMENSION_LIST).contains(dimension);
+        return safe(DIMENSION_LIST_IS_BLACKLIST) != listed;
+    }
+
+    /**
+     * Reads a config value, falling back to its declared default while the config file has not been
+     * read yet. NeoForge runs EntityAttributeCreationEvent before configs are loaded, and CSRP's
+     * createAttributes() methods read config values, so an unguarded get() there crashes startup.
+     */
+    private static <T> T safe(ModConfigSpec.ConfigValue<T> value) {
+        return SPEC.isLoaded() ? value.get() : value.getDefault();
     }
 }

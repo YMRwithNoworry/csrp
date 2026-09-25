@@ -174,7 +174,7 @@ expect(projectile, /owner instanceof DraconiteEntity[\s\S]{0,400}?setRadius\(5\.
   "Draconite Alafha-ball branch was not preserved");
 expect(config, /"srparasites:rupter;1;1", "srparasites:grunt;0\.5;1"/,
   "Overseer default summon table is missing");
-expect(config, /return OVERSEER_SUMMON_COOLDOWN\.get\(\);/,
+expect(config, /return (?:safe\()?OVERSEER_SUMMON_COOLDOWN/,
   "Overseer summon cooldown no longer matches the 1.10.8 raw-tick runtime");
 expect(pure, /OVERSEER_SKIN[\s\S]*EntityDataSerializers\.BYTE/, "Overseer skin is not synchronized");
 expect(model, /getOverseerSkin\(\) == 7 \? OVERSEER_HEAVY_TEXTURE : OVERSEER_TEXTURE/,

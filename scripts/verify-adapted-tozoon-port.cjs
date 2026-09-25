@@ -34,11 +34,11 @@ for (const [key, value] of [
     failures.push(`missing Adapted Tozoon config default: ${key}`);
   }
 }
-expect(config, /adaptedTozoonHealth\(\)[\s\S]*?45\.0D \+ ADAPTED_TOZOON_ADDITIONAL_HEALTH[\s\S]*?TOZOON_HEALTH_MULTIPLIER/,
+expect(config, /adaptedTozoonHealth\(\)[\s\S]*?45\.0D \+ (?:safe\()?ADAPTED_TOZOON_ADDITIONAL_HEALTH[\s\S]*?TOZOON_HEALTH_MULTIPLIER/,
   "Adapted Tozoon health does not combine primitive and adapted values");
-expect(config, /adaptedTozoonDamage\(\)[\s\S]*?15\.0D \+ ADAPTED_TOZOON_ADDITIONAL_DAMAGE[\s\S]*?TOZOON_DAMAGE_MULTIPLIER/,
+expect(config, /adaptedTozoonDamage\(\)[\s\S]*?15\.0D \+ (?:safe\()?ADAPTED_TOZOON_ADDITIONAL_DAMAGE[\s\S]*?TOZOON_DAMAGE_MULTIPLIER/,
   "Adapted Tozoon damage does not combine primitive and adapted values");
-expect(config, /adaptedTozoonArmor\(\)[\s\S]*?9\.0D \+ ADAPTED_TOZOON_ADDITIONAL_ARMOR[\s\S]*?TOZOON_ARMOR_MULTIPLIER/,
+expect(config, /adaptedTozoonArmor\(\)[\s\S]*?9\.0D \+ (?:safe\()?ADAPTED_TOZOON_ADDITIONAL_ARMOR[\s\S]*?TOZOON_ARMOR_MULTIPLIER/,
   "Adapted Tozoon armor does not combine primitive and adapted values");
 
 expect(entity, /case TOZOON -> \{[\s\S]*?goalSelector\.addGoal\(1, createBurrowMovementGoal\(\)\)[\s\S]*?goalSelector\.addGoal\(2, new TozoonAoeAttackGoal\(\)\)/,

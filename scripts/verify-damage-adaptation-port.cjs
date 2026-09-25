@@ -25,7 +25,7 @@ const sounds = read("src/main/java/alku/csrp/registry/ModSounds.java");
 
 expect(config, /define\("generationEnabled", true\)/,
   "original-default generationEnabled config is missing");
-expect(config, /boolean generationEnabled\(\).*GENERATION_ENABLED\.get\(\)/,
+expect(config, /boolean generationEnabled\(\).*GENERATION_ENABLED/,
   "generationEnabled accessor is missing");
 expect(system, /GENERATION_ADAPTATION\s*=\s*\{false, false, false, true, true, true\}/,
   "adaptation must unlock at generation 3");

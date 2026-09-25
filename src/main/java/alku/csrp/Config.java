@@ -644,7 +644,7 @@ public final class Config {
     }
 
     public static int evolutionPhase() {
-        return EVOLUTION_PHASE.get();
+        return safe(EVOLUTION_PHASE);
     }
 
     public static int evolutionPhase(Level level) {
@@ -653,261 +653,270 @@ public final class Config {
                 : evolutionPhase();
     }
 
-    public static boolean scentEnabled() { return SCENT_ENABLED.get(); }
-    public static int scentCap() { return SCENT_CAP.get(); }
-    public static int scentDevelopmentLevel() { return SCENT_DEVELOPMENT_LEVEL.get(); }
-    public static boolean rageEnabled() { return RAGE_ENABLED.get(); }
-    public static boolean mobAttackingEnabled() { return MOB_ATTACKING_ENABLED.get(); }
-    public static boolean derivedTextDistortionEnabled() { return DERIVED_TEXT_DISTORTION_ENABLED.get(); }
-    public static List<? extends String> mobAttackingBlacklist() { return MOB_ATTACKING_BLACKLIST.get(); }
-    public static boolean mobAttackingBlacklistInverted() { return MOB_ATTACKING_BLACKLIST_INVERTED.get(); }
-    public static boolean collectiveConsciousnessEnabled() { return COLLECTIVE_CONSCIOUSNESS_ENABLED.get(); }
-    public static int worldGnatCap() { return WORLD_GNAT_CAP.get(); }
+    public static boolean scentEnabled() { return safe(SCENT_ENABLED); }
+    public static int scentCap() { return safe(SCENT_CAP); }
+    public static int scentDevelopmentLevel() { return safe(SCENT_DEVELOPMENT_LEVEL); }
+    public static boolean rageEnabled() { return safe(RAGE_ENABLED); }
+    public static boolean mobAttackingEnabled() { return safe(MOB_ATTACKING_ENABLED); }
+    public static boolean derivedTextDistortionEnabled() { return safe(DERIVED_TEXT_DISTORTION_ENABLED); }
+    public static List<? extends String> mobAttackingBlacklist() { return safe(MOB_ATTACKING_BLACKLIST); }
+    public static boolean mobAttackingBlacklistInverted() { return safe(MOB_ATTACKING_BLACKLIST_INVERTED); }
+    public static boolean collectiveConsciousnessEnabled() { return safe(COLLECTIVE_CONSCIOUSNESS_ENABLED); }
+    public static int worldGnatCap() { return safe(WORLD_GNAT_CAP); }
 
-    public static double variantSpawnChance() { return VARIANT_SPAWN_CHANCE.get(); }
-    public static int alwaysVariantPhase() { return ALWAYS_VARIANT_PHASE.get(); }
-    public static double tendrilHealth() { return TENDRIL_HEALTH.get(); }
-    public static int purePointDamageCap() { return PURE_POINT_DAMAGE_CAP.get(); }
+    public static double variantSpawnChance() { return safe(VARIANT_SPAWN_CHANCE); }
+    public static int alwaysVariantPhase() { return safe(ALWAYS_VARIANT_PHASE); }
+    public static double tendrilHealth() { return safe(TENDRIL_HEALTH); }
+    public static int purePointDamageCap() { return safe(PURE_POINT_DAMAGE_CAP); }
 
     public static double adaptationChance() {
-        return ADAPTATION_CHANCE.get();
+        return safe(ADAPTATION_CHANCE);
     }
 
-    public static double parasiteKillingReduction() { return PARASITE_KILLING_REDUCTION.get(); }
+    public static double parasiteKillingReduction() { return safe(PARASITE_KILLING_REDUCTION); }
 
-    public static double killcountPlus() { return KILLCOUNT_PLUS.get(); }
-    public static float primitiveMinimumDamage() { return PRIMITIVE_MINIMUM_DAMAGE.get().floatValue(); }
-    public static List<? extends String> parasiteCombatTable() { return PARASITE_COMBAT_TABLE.get(); }
-    public static float parasitePoisonHealing() { return PARASITE_POISON_HEALING.get().floatValue(); }
-    public static float parasiteFoodTheftChance() { return PARASITE_FOOD_THEFT_CHANCE.get().floatValue(); }
-    public static float parasiteFireMultiplier() { return PARASITE_FIRE_MULTIPLIER.get().floatValue(); }
-    public static boolean parasiteGoreEnabled() { return PARASITE_GORE_ENABLED.get(); }
-    public static int parasiteRemainValue() { return PARASITE_REMAIN_VALUE.get(); }
-    public static double parasiteSelfExplodeChance() { return PARASITE_SELF_EXPLODE_CHANCE.get(); }
-    public static float parasiteRegen() { return PARASITE_REGEN.get().floatValue(); }
-    public static int evolutionStatIncreasePhase() { return EVOLUTION_STAT_INCREASE_PHASE.get(); }
-    public static double evolutionStatIncreaseValue() { return EVOLUTION_STAT_INCREASE_VALUE.get(); }
-    public static int spawnDays() { return SPAWN_DAYS.get(); }
-    public static int evolutionSpawningIgnoreSunlight() { return EVOLUTION_SPAWN_IGNORE_SUNLIGHT.get(); }
-    public static boolean phaseLightlessMinusOne() { return PHASE_LIGHTLESS_MINUS_ONE.get(); }
-    public static boolean ignoreLightLevel() { return IGNORE_LIGHT.get(); }
-    public static boolean useEvolutionPhases() { return USE_EVOLUTION_PHASES.get(); }
-    public static boolean generationEnabled() { return GENERATION_ENABLED.get(); }
-    public static boolean pearlDestroyedOnBeholderKill() { return PEARL_DESTROYED_ON_BEHOLDER_KILL.get(); }
-    public static double overlastNaturalEvolutionScale() { return OVERLAST_NATURAL_EVOLUTION_SCALE.get(); }
-    public static boolean overlastHudRequiresClock() { return OVERLAST_HUD_REQUIRES_CLOCK.get(); }
-    public static String overlastHudPosition() { return OVERLAST_HUD_POSITION.get(); }
-    public static List<? extends String> cothVictimParasites() { return COTH_VICTIM_PARASITES.get(); }
-    public static List<? extends String> cothImmuneEntities() { return COTH_IMMUNE_ENTITIES.get(); }
-    public static boolean cothImmuneListInverted() { return COTH_IMMUNE_LIST_INVERTED.get(); }
-    public static double cothConvertAtKillChance() { return COTH_CONVERT_AT_KILL_CHANCE.get(); }
-    public static double cothAssimilatedSpreadChance() { return COTH_ASSIMILATED_SPREAD_CHANCE.get(); }
-    public static double cothHijackedSpreadChance() { return COTH_HIJACKED_SPREAD_CHANCE.get(); }
-    public static double cothFeralSpreadChance() { return COTH_FERAL_SPREAD_CHANCE.get(); }
-    public static double cothCrudeSpreadChance() { return COTH_CRUDE_SPREAD_CHANCE.get(); }
-    public static double cothPrimitiveSpreadChance() { return COTH_PRIMITIVE_SPREAD_CHANCE.get(); }
-    public static double cothAdaptedSpreadChance() { return COTH_ADAPTED_SPREAD_CHANCE.get(); }
-    public static double cothPureSpreadChance() { return COTH_PURE_SPREAD_CHANCE.get(); }
+    public static double killcountPlus() { return safe(KILLCOUNT_PLUS); }
+    public static float primitiveMinimumDamage() { return safe(PRIMITIVE_MINIMUM_DAMAGE).floatValue(); }
+    public static List<? extends String> parasiteCombatTable() { return safe(PARASITE_COMBAT_TABLE); }
+    public static float parasitePoisonHealing() { return safe(PARASITE_POISON_HEALING).floatValue(); }
+    public static float parasiteFoodTheftChance() { return safe(PARASITE_FOOD_THEFT_CHANCE).floatValue(); }
+    public static float parasiteFireMultiplier() { return safe(PARASITE_FIRE_MULTIPLIER).floatValue(); }
+    public static boolean parasiteGoreEnabled() { return safe(PARASITE_GORE_ENABLED); }
+    public static int parasiteRemainValue() { return safe(PARASITE_REMAIN_VALUE); }
+    public static double parasiteSelfExplodeChance() { return safe(PARASITE_SELF_EXPLODE_CHANCE); }
+    public static float parasiteRegen() { return safe(PARASITE_REGEN).floatValue(); }
+    public static int evolutionStatIncreasePhase() { return safe(EVOLUTION_STAT_INCREASE_PHASE); }
+    public static double evolutionStatIncreaseValue() { return safe(EVOLUTION_STAT_INCREASE_VALUE); }
+    public static int spawnDays() { return safe(SPAWN_DAYS); }
+    public static int evolutionSpawningIgnoreSunlight() { return safe(EVOLUTION_SPAWN_IGNORE_SUNLIGHT); }
+    public static boolean phaseLightlessMinusOne() { return safe(PHASE_LIGHTLESS_MINUS_ONE); }
+    public static boolean ignoreLightLevel() { return safe(IGNORE_LIGHT); }
+    public static boolean useEvolutionPhases() { return safe(USE_EVOLUTION_PHASES); }
+    public static boolean generationEnabled() { return safe(GENERATION_ENABLED); }
+    public static boolean pearlDestroyedOnBeholderKill() { return safe(PEARL_DESTROYED_ON_BEHOLDER_KILL); }
+    public static double overlastNaturalEvolutionScale() { return safe(OVERLAST_NATURAL_EVOLUTION_SCALE); }
+    public static boolean overlastHudRequiresClock() { return safe(OVERLAST_HUD_REQUIRES_CLOCK); }
+    public static String overlastHudPosition() { return safe(OVERLAST_HUD_POSITION); }
+    public static List<? extends String> cothVictimParasites() { return safe(COTH_VICTIM_PARASITES); }
+    public static List<? extends String> cothImmuneEntities() { return safe(COTH_IMMUNE_ENTITIES); }
+    public static boolean cothImmuneListInverted() { return safe(COTH_IMMUNE_LIST_INVERTED); }
+    public static double cothConvertAtKillChance() { return safe(COTH_CONVERT_AT_KILL_CHANCE); }
+    public static double cothAssimilatedSpreadChance() { return safe(COTH_ASSIMILATED_SPREAD_CHANCE); }
+    public static double cothHijackedSpreadChance() { return safe(COTH_HIJACKED_SPREAD_CHANCE); }
+    public static double cothFeralSpreadChance() { return safe(COTH_FERAL_SPREAD_CHANCE); }
+    public static double cothCrudeSpreadChance() { return safe(COTH_CRUDE_SPREAD_CHANCE); }
+    public static double cothPrimitiveSpreadChance() { return safe(COTH_PRIMITIVE_SPREAD_CHANCE); }
+    public static double cothAdaptedSpreadChance() { return safe(COTH_ADAPTED_SPREAD_CHANCE); }
+    public static double cothPureSpreadChance() { return safe(COTH_PURE_SPREAD_CHANCE); }
 
-    public static int colonyExtraHealthPoint() { return COLONY_EXTRA_HEALTH_POINT.get(); }
-    public static double colonyExtraHealthValue() { return COLONY_EXTRA_HEALTH_VALUE.get(); }
-    public static int colonyExtraArmorPoint() { return COLONY_EXTRA_ARMOR_POINT.get(); }
-    public static double colonyExtraArmorValue() { return COLONY_EXTRA_ARMOR_VALUE.get(); }
-    public static int colonyExtraDamagePoint() { return COLONY_EXTRA_DAMAGE_POINT.get(); }
-    public static double colonyExtraDamageValue() { return COLONY_EXTRA_DAMAGE_VALUE.get(); }
-    public static int colonyExtraKDPoint() { return COLONY_EXTRA_KD_POINT.get(); }
-    public static double colonyExtraKDValue() { return COLONY_EXTRA_KD_VALUE.get(); }
-    public static int colonyDamageCapPoint() { return COLONY_DAMAGE_CAP_POINT.get(); }
-    public static double colonyDamageCapValue() { return COLONY_DAMAGE_CAP_VALUE.get(); }
-    public static int colonyPointCap() { return COLONY_POINT_CAP.get(); }
-    public static int colonyTotalPointCap() { return COLONY_TOTAL_POINT_CAP.get(); }
-    public static int colonyMaximumNumber() { return COLONY_MAXIMUM_NUMBER.get(); }
-    public static int colonyMinimumDistance() { return COLONY_MINIMUM_DISTANCE.get(); }
-    public static int colonySpreadPoint() { return COLONY_SPREAD_POINT.get(); }
-    public static int colonySpreadValue() { return COLONY_SPREAD_VALUE.get(); }
-    public static int colonyBaseRadius() { return COLONY_BASE_RADIUS.get(); }
-    public static int colonyEffectSpreadPoint() { return COLONY_EFFECT_SPREAD_POINT.get(); }
-    public static int colonyEffectSpreadValue() { return COLONY_EFFECT_SPREAD_VALUE.get(); }
-    public static int colonyBaseEffectRadius() { return COLONY_BASE_EFFECT_RADIUS.get(); }
-    public static boolean useDislodgment() { return USE_DISLODGMENT.get(); }
-    public static double dislodgmentDeathTriggerChance() { return DISLODGMENT_DEATH_TRIGGER_CHANCE.get(); }
-    public static int dislodgmentGlobalCooldown() { return DISLODGMENT_GLOBAL_COOLDOWN.get(); }
-    public static int dislodgmentCothSpy() { return DISLODGMENT_COTH_SPY.get(); }
+    public static int colonyExtraHealthPoint() { return safe(COLONY_EXTRA_HEALTH_POINT); }
+    public static double colonyExtraHealthValue() { return safe(COLONY_EXTRA_HEALTH_VALUE); }
+    public static int colonyExtraArmorPoint() { return safe(COLONY_EXTRA_ARMOR_POINT); }
+    public static double colonyExtraArmorValue() { return safe(COLONY_EXTRA_ARMOR_VALUE); }
+    public static int colonyExtraDamagePoint() { return safe(COLONY_EXTRA_DAMAGE_POINT); }
+    public static double colonyExtraDamageValue() { return safe(COLONY_EXTRA_DAMAGE_VALUE); }
+    public static int colonyExtraKDPoint() { return safe(COLONY_EXTRA_KD_POINT); }
+    public static double colonyExtraKDValue() { return safe(COLONY_EXTRA_KD_VALUE); }
+    public static int colonyDamageCapPoint() { return safe(COLONY_DAMAGE_CAP_POINT); }
+    public static double colonyDamageCapValue() { return safe(COLONY_DAMAGE_CAP_VALUE); }
+    public static int colonyPointCap() { return safe(COLONY_POINT_CAP); }
+    public static int colonyTotalPointCap() { return safe(COLONY_TOTAL_POINT_CAP); }
+    public static int colonyMaximumNumber() { return safe(COLONY_MAXIMUM_NUMBER); }
+    public static int colonyMinimumDistance() { return safe(COLONY_MINIMUM_DISTANCE); }
+    public static int colonySpreadPoint() { return safe(COLONY_SPREAD_POINT); }
+    public static int colonySpreadValue() { return safe(COLONY_SPREAD_VALUE); }
+    public static int colonyBaseRadius() { return safe(COLONY_BASE_RADIUS); }
+    public static int colonyEffectSpreadPoint() { return safe(COLONY_EFFECT_SPREAD_POINT); }
+    public static int colonyEffectSpreadValue() { return safe(COLONY_EFFECT_SPREAD_VALUE); }
+    public static int colonyBaseEffectRadius() { return safe(COLONY_BASE_EFFECT_RADIUS); }
+    public static boolean useDislodgment() { return safe(USE_DISLODGMENT); }
+    public static double dislodgmentDeathTriggerChance() { return safe(DISLODGMENT_DEATH_TRIGGER_CHANCE); }
+    public static int dislodgmentGlobalCooldown() { return safe(DISLODGMENT_GLOBAL_COOLDOWN); }
+    public static int dislodgmentCothSpy() { return safe(DISLODGMENT_COTH_SPY); }
     public static List<? extends Integer> dislodgmentPhaseCodes(int phase) {
         return switch (phase) {
-            case 1 -> DISLODGMENT_PHASE_ONE_CODES.get();
-            case 2 -> DISLODGMENT_PHASE_TWO_CODES.get();
-            case 3 -> DISLODGMENT_PHASE_THREE_CODES.get();
-            case 4 -> DISLODGMENT_PHASE_FOUR_CODES.get();
-            case 5 -> DISLODGMENT_PHASE_FIVE_CODES.get();
-            case 6 -> DISLODGMENT_PHASE_SIX_CODES.get();
-            case 7 -> DISLODGMENT_PHASE_SEVEN_CODES.get();
-            case 8 -> DISLODGMENT_PHASE_EIGHT_CODES.get();
-            case 9 -> DISLODGMENT_PHASE_NINE_CODES.get();
-            case 10 -> DISLODGMENT_PHASE_TEN_CODES.get();
+            case 1 -> safe(DISLODGMENT_PHASE_ONE_CODES);
+            case 2 -> safe(DISLODGMENT_PHASE_TWO_CODES);
+            case 3 -> safe(DISLODGMENT_PHASE_THREE_CODES);
+            case 4 -> safe(DISLODGMENT_PHASE_FOUR_CODES);
+            case 5 -> safe(DISLODGMENT_PHASE_FIVE_CODES);
+            case 6 -> safe(DISLODGMENT_PHASE_SIX_CODES);
+            case 7 -> safe(DISLODGMENT_PHASE_SEVEN_CODES);
+            case 8 -> safe(DISLODGMENT_PHASE_EIGHT_CODES);
+            case 9 -> safe(DISLODGMENT_PHASE_NINE_CODES);
+            case 10 -> safe(DISLODGMENT_PHASE_TEN_CODES);
             default -> List.of();
         };
     }
-    public static double dislodgmentRightClickTriggerChance() { return DISLODGMENT_RIGHT_CLICK_TRIGGER_CHANCE.get(); }
-    public static double dislodgmentXpPickupTriggerChance() { return DISLODGMENT_XP_PICKUP_TRIGGER_CHANCE.get(); }
-    public static double dislodgmentItemPickupTriggerChance() { return DISLODGMENT_ITEM_PICKUP_TRIGGER_CHANCE.get(); }
-    public static double dislodgmentHealingTriggerChance() { return DISLODGMENT_HEALING_TRIGGER_CHANCE.get(); }
-    public static double dislodgmentUseItemTriggerChance() { return DISLODGMENT_USE_ITEM_TRIGGER_CHANCE.get(); }
-    public static double dislodgmentMenuCloseTriggerChance() { return DISLODGMENT_MENU_CLOSE_TRIGGER_CHANCE.get(); }
-    public static double dislodgmentBlockBreakTriggerChance() { return DISLODGMENT_BLOCK_BREAK_TRIGGER_CHANCE.get(); }
+    public static double dislodgmentRightClickTriggerChance() { return safe(DISLODGMENT_RIGHT_CLICK_TRIGGER_CHANCE); }
+    public static double dislodgmentXpPickupTriggerChance() { return safe(DISLODGMENT_XP_PICKUP_TRIGGER_CHANCE); }
+    public static double dislodgmentItemPickupTriggerChance() { return safe(DISLODGMENT_ITEM_PICKUP_TRIGGER_CHANCE); }
+    public static double dislodgmentHealingTriggerChance() { return safe(DISLODGMENT_HEALING_TRIGGER_CHANCE); }
+    public static double dislodgmentUseItemTriggerChance() { return safe(DISLODGMENT_USE_ITEM_TRIGGER_CHANCE); }
+    public static double dislodgmentMenuCloseTriggerChance() { return safe(DISLODGMENT_MENU_CLOSE_TRIGGER_CHANCE); }
+    public static double dislodgmentBlockBreakTriggerChance() { return safe(DISLODGMENT_BLOCK_BREAK_TRIGGER_CHANCE); }
     public static double dislodgmentNexusTriggerChance(int stage) {
         return switch (stage) {
-            case 1 -> DISLODGMENT_NEXUS_ONE_TRIGGER_CHANCE.get();
-            case 2 -> DISLODGMENT_NEXUS_TWO_TRIGGER_CHANCE.get();
-            case 3 -> DISLODGMENT_NEXUS_THREE_TRIGGER_CHANCE.get();
-            case 4 -> DISLODGMENT_NEXUS_FOUR_TRIGGER_CHANCE.get();
+            case 1 -> safe(DISLODGMENT_NEXUS_ONE_TRIGGER_CHANCE);
+            case 2 -> safe(DISLODGMENT_NEXUS_TWO_TRIGGER_CHANCE);
+            case 3 -> safe(DISLODGMENT_NEXUS_THREE_TRIGGER_CHANCE);
+            case 4 -> safe(DISLODGMENT_NEXUS_FOUR_TRIGGER_CHANCE);
             default -> 0.0D;
         };
     }
-    public static boolean disloCothIgnoreAmplifier() { return DISLO_COTH_IGNORE_AMPLIFIER.get(); }
-    public static int disloCothIgnoreAmplifierPointCost() { return DISLO_COTH_IGNORE_AMPLIFIER_POINT_COST.get(); }
-    public static int disloCothIgnoreAmplifierDuration() { return DISLO_COTH_IGNORE_AMPLIFIER_DURATION.get(); }
-    public static boolean disloCothTiers() { return DISLO_COTH_TIERS.get(); }
-    public static int disloCothTiersPointCost() { return DISLO_COTH_TIERS_POINT_COST.get(); }
-    public static int disloCothTiersValue() { return DISLO_COTH_TIERS_VALUE.get(); }
-    public static int disloCothTiersDuration() { return DISLO_COTH_TIERS_DURATION.get(); }
-    public static int disloCothTiersPrimitive() { return DISLO_COTH_TIERS_PRIMITIVE.get(); }
-    public static int disloCothTiersAdapted() { return DISLO_COTH_TIERS_ADAPTED.get(); }
-    public static int disloCothTiersPure() { return DISLO_COTH_TIERS_PURE.get(); }
-    public static boolean disloSummonByDeath() { return DISLO_SUMMON_BY_DEATH.get(); }
-    public static int disloSummonByDeathPointCost() { return DISLO_SUMMON_BY_DEATH_POINT_COST.get(); }
-    public static int disloSummonByDeathValue() { return DISLO_SUMMON_BY_DEATH_VALUE.get(); }
-    public static int disloSummonByDeathDuration() { return DISLO_SUMMON_BY_DEATH_DURATION.get(); }
-    public static int disloSummonByDeathKilling() { return DISLO_SUMMON_BY_DEATH_KILLING.get(); }
-    public static List<? extends String> disloSummonByDeathMobs() { return DISLO_SUMMON_BY_DEATH_MOBS.get(); }
-    public static boolean disloPotionEffect() { return DISLO_POTION_EFFECT.get(); }
-    public static int disloPotionEffectPointCost() { return DISLO_POTION_EFFECT_POINT_COST.get(); }
-    public static int disloPotionEffectValue() { return DISLO_POTION_EFFECT_VALUE.get(); }
-    public static int disloPotionEffectDuration() { return DISLO_POTION_EFFECT_DURATION.get(); }
-    public static List<? extends String> disloPotionEffects() { return DISLO_POTION_EFFECTS.get(); }
-    public static boolean disloStats() { return DISLO_STATS.get(); }
-    public static int disloStatsPointCost() { return DISLO_STATS_POINT_COST.get(); }
-    public static int disloStatsValue() { return DISLO_STATS_VALUE.get(); }
-    public static int disloStatsDuration() { return DISLO_STATS_DURATION.get(); }
-    public static boolean disloDeathRaid() { return DISLO_DEATH_RAID.get(); }
-    public static int disloDeathRaidPointCost() { return DISLO_DEATH_RAID_POINT_COST.get(); }
-    public static int disloDeathRaidValue() { return DISLO_DEATH_RAID_VALUE.get(); }
-    public static int disloDeathRaidDuration() { return DISLO_DEATH_RAID_DURATION.get(); }
-    public static boolean disloItemDurability() { return DISLO_ITEM_DURABILITY.get(); }
-    public static int disloItemDurabilityPointCost() { return DISLO_ITEM_DURABILITY_POINT_COST.get(); }
-    public static int disloItemDurabilityValue() { return DISLO_ITEM_DURABILITY_VALUE.get(); }
-    public static int disloItemDurabilityDuration() { return DISLO_ITEM_DURABILITY_DURATION.get(); }
-    public static boolean disloHealingDeath() { return DISLO_HEALING_DEATH.get(); }
-    public static int disloHealingDeathPointCost() { return DISLO_HEALING_DEATH_POINT_COST.get(); }
-    public static int disloHealingDeathValue() { return DISLO_HEALING_DEATH_VALUE.get(); }
-    public static int disloHealingDeathDuration() { return DISLO_HEALING_DEATH_DURATION.get(); }
-    public static boolean disloDamageDeath() { return DISLO_DAMAGE_DEATH.get(); }
-    public static int disloDamageDeathPointCost() { return DISLO_DAMAGE_DEATH_POINT_COST.get(); }
-    public static int disloDamageDeathValue() { return DISLO_DAMAGE_DEATH_VALUE.get(); }
-    public static int disloDamageDeathDuration() { return DISLO_DAMAGE_DEATH_DURATION.get(); }
-    public static boolean disloFoodDeath() { return DISLO_FOOD_DEATH.get(); }
-    public static int disloFoodDeathPointCost() { return DISLO_FOOD_DEATH_POINT_COST.get(); }
-    public static int disloFoodDeathValue() { return DISLO_FOOD_DEATH_VALUE.get(); }
-    public static int disloFoodDeathDuration() { return DISLO_FOOD_DEATH_DURATION.get(); }
-    public static boolean disloDeathHighVersions() { return DISLO_DEATH_HIGH_VERSIONS.get(); }
-    public static int disloDeathHighVersionsPointCost() { return DISLO_DEATH_HIGH_VERSIONS_POINT_COST.get(); }
-    public static int disloDeathHighVersionsValue() { return DISLO_DEATH_HIGH_VERSIONS_VALUE.get(); }
-    public static int disloDeathHighVersionsAdapted() { return DISLO_DEATH_HIGH_VERSIONS_ADAPTED.get(); }
-    public static int disloDeathHighVersionsPure() { return DISLO_DEATH_HIGH_VERSIONS_PURE.get(); }
-    public static int disloDeathHighVersionsDuration() { return DISLO_DEATH_HIGH_VERSIONS_DURATION.get(); }
-    public static double disloDeathHighVersionsChance() { return DISLO_DEATH_HIGH_VERSIONS_CHANCE.get(); }
-    public static boolean disloParasiteNoPotion() { return DISLO_PARASITE_NO_POTION.get(); }
-    public static int disloParasiteNoPotionPointCost() { return DISLO_PARASITE_NO_POTION_POINT_COST.get(); }
-    public static int disloParasiteNoPotionDuration() { return DISLO_PARASITE_NO_POTION_DURATION.get(); }
-    public static boolean disloHealthDraining() { return DISLO_HEALTH_DRAINING.get(); }
-    public static int disloHealthDrainingPointCost() { return DISLO_HEALTH_DRAINING_POINT_COST.get(); }
-    public static int disloHealthDrainingValue() { return DISLO_HEALTH_DRAINING_VALUE.get(); }
-    public static int disloHealthDrainingDuration() { return DISLO_HEALTH_DRAINING_DURATION.get(); }
-    public static boolean disloFoodDraining() { return DISLO_FOOD_DRAINING.get(); }
-    public static int disloFoodDrainingPointCost() { return DISLO_FOOD_DRAINING_POINT_COST.get(); }
-    public static int disloFoodDrainingValue() { return DISLO_FOOD_DRAINING_VALUE.get(); }
-    public static int disloFoodDrainingDuration() { return DISLO_FOOD_DRAINING_DURATION.get(); }
-    public static boolean disloNextPhaseList() { return DISLO_NEXT_PHASE_LIST.get(); }
-    public static int disloNextPhaseListPointCost() { return DISLO_NEXT_PHASE_LIST_POINT_COST.get(); }
-    public static int disloNextPhaseListValue() { return DISLO_NEXT_PHASE_LIST_VALUE.get(); }
-    public static int disloNextPhaseListDuration() { return DISLO_NEXT_PHASE_LIST_DURATION.get(); }
-    public static boolean disloGrowlNoise() { return DISLO_GROWL_NOISE.get(); }
-    public static int disloGrowlNoisePointCost() { return DISLO_GROWL_NOISE_POINT_COST.get(); }
-    public static int disloGrowlNoiseDuration() { return DISLO_GROWL_NOISE_DURATION.get(); }
-    public static boolean disloWalkNoise() { return DISLO_WALK_NOISE.get(); }
-    public static int disloWalkNoisePointCost() { return DISLO_WALK_NOISE_POINT_COST.get(); }
-    public static int disloWalkNoiseDuration() { return DISLO_WALK_NOISE_DURATION.get(); }
-    public static boolean disloShieldFood() { return DISLO_SHIELD_FOOD.get(); }
-    public static int disloShieldFoodPointCost() { return DISLO_SHIELD_FOOD_POINT_COST.get(); }
-    public static int disloShieldFoodDuration() { return DISLO_SHIELD_FOOD_DURATION.get(); }
-    public static boolean disloLootXpCancel() { return DISLO_LOOT_XP_CANCEL.get(); }
-    public static int disloLootXpCancelPointCost() { return DISLO_LOOT_XP_CANCEL_POINT_COST.get(); }
-    public static int disloLootXpCancelDuration() { return DISLO_LOOT_XP_CANCEL_DURATION.get(); }
-    public static boolean disloBurningDeath() { return DISLO_BURNING_DEATH.get(); }
-    public static int disloBurningDeathPointCost() { return DISLO_BURNING_DEATH_POINT_COST.get(); }
-    public static int disloBurningDeathDuration() { return DISLO_BURNING_DEATH_DURATION.get(); }
+    public static boolean disloCothIgnoreAmplifier() { return safe(DISLO_COTH_IGNORE_AMPLIFIER); }
+    public static int disloCothIgnoreAmplifierPointCost() { return safe(DISLO_COTH_IGNORE_AMPLIFIER_POINT_COST); }
+    public static int disloCothIgnoreAmplifierDuration() { return safe(DISLO_COTH_IGNORE_AMPLIFIER_DURATION); }
+    public static boolean disloCothTiers() { return safe(DISLO_COTH_TIERS); }
+    public static int disloCothTiersPointCost() { return safe(DISLO_COTH_TIERS_POINT_COST); }
+    public static int disloCothTiersValue() { return safe(DISLO_COTH_TIERS_VALUE); }
+    public static int disloCothTiersDuration() { return safe(DISLO_COTH_TIERS_DURATION); }
+    public static int disloCothTiersPrimitive() { return safe(DISLO_COTH_TIERS_PRIMITIVE); }
+    public static int disloCothTiersAdapted() { return safe(DISLO_COTH_TIERS_ADAPTED); }
+    public static int disloCothTiersPure() { return safe(DISLO_COTH_TIERS_PURE); }
+    public static boolean disloSummonByDeath() { return safe(DISLO_SUMMON_BY_DEATH); }
+    public static int disloSummonByDeathPointCost() { return safe(DISLO_SUMMON_BY_DEATH_POINT_COST); }
+    public static int disloSummonByDeathValue() { return safe(DISLO_SUMMON_BY_DEATH_VALUE); }
+    public static int disloSummonByDeathDuration() { return safe(DISLO_SUMMON_BY_DEATH_DURATION); }
+    public static int disloSummonByDeathKilling() { return safe(DISLO_SUMMON_BY_DEATH_KILLING); }
+    public static List<? extends String> disloSummonByDeathMobs() { return safe(DISLO_SUMMON_BY_DEATH_MOBS); }
+    public static boolean disloPotionEffect() { return safe(DISLO_POTION_EFFECT); }
+    public static int disloPotionEffectPointCost() { return safe(DISLO_POTION_EFFECT_POINT_COST); }
+    public static int disloPotionEffectValue() { return safe(DISLO_POTION_EFFECT_VALUE); }
+    public static int disloPotionEffectDuration() { return safe(DISLO_POTION_EFFECT_DURATION); }
+    public static List<? extends String> disloPotionEffects() { return safe(DISLO_POTION_EFFECTS); }
+    public static boolean disloStats() { return safe(DISLO_STATS); }
+    public static int disloStatsPointCost() { return safe(DISLO_STATS_POINT_COST); }
+    public static int disloStatsValue() { return safe(DISLO_STATS_VALUE); }
+    public static int disloStatsDuration() { return safe(DISLO_STATS_DURATION); }
+    public static boolean disloDeathRaid() { return safe(DISLO_DEATH_RAID); }
+    public static int disloDeathRaidPointCost() { return safe(DISLO_DEATH_RAID_POINT_COST); }
+    public static int disloDeathRaidValue() { return safe(DISLO_DEATH_RAID_VALUE); }
+    public static int disloDeathRaidDuration() { return safe(DISLO_DEATH_RAID_DURATION); }
+    public static boolean disloItemDurability() { return safe(DISLO_ITEM_DURABILITY); }
+    public static int disloItemDurabilityPointCost() { return safe(DISLO_ITEM_DURABILITY_POINT_COST); }
+    public static int disloItemDurabilityValue() { return safe(DISLO_ITEM_DURABILITY_VALUE); }
+    public static int disloItemDurabilityDuration() { return safe(DISLO_ITEM_DURABILITY_DURATION); }
+    public static boolean disloHealingDeath() { return safe(DISLO_HEALING_DEATH); }
+    public static int disloHealingDeathPointCost() { return safe(DISLO_HEALING_DEATH_POINT_COST); }
+    public static int disloHealingDeathValue() { return safe(DISLO_HEALING_DEATH_VALUE); }
+    public static int disloHealingDeathDuration() { return safe(DISLO_HEALING_DEATH_DURATION); }
+    public static boolean disloDamageDeath() { return safe(DISLO_DAMAGE_DEATH); }
+    public static int disloDamageDeathPointCost() { return safe(DISLO_DAMAGE_DEATH_POINT_COST); }
+    public static int disloDamageDeathValue() { return safe(DISLO_DAMAGE_DEATH_VALUE); }
+    public static int disloDamageDeathDuration() { return safe(DISLO_DAMAGE_DEATH_DURATION); }
+    public static boolean disloFoodDeath() { return safe(DISLO_FOOD_DEATH); }
+    public static int disloFoodDeathPointCost() { return safe(DISLO_FOOD_DEATH_POINT_COST); }
+    public static int disloFoodDeathValue() { return safe(DISLO_FOOD_DEATH_VALUE); }
+    public static int disloFoodDeathDuration() { return safe(DISLO_FOOD_DEATH_DURATION); }
+    public static boolean disloDeathHighVersions() { return safe(DISLO_DEATH_HIGH_VERSIONS); }
+    public static int disloDeathHighVersionsPointCost() { return safe(DISLO_DEATH_HIGH_VERSIONS_POINT_COST); }
+    public static int disloDeathHighVersionsValue() { return safe(DISLO_DEATH_HIGH_VERSIONS_VALUE); }
+    public static int disloDeathHighVersionsAdapted() { return safe(DISLO_DEATH_HIGH_VERSIONS_ADAPTED); }
+    public static int disloDeathHighVersionsPure() { return safe(DISLO_DEATH_HIGH_VERSIONS_PURE); }
+    public static int disloDeathHighVersionsDuration() { return safe(DISLO_DEATH_HIGH_VERSIONS_DURATION); }
+    public static double disloDeathHighVersionsChance() { return safe(DISLO_DEATH_HIGH_VERSIONS_CHANCE); }
+    public static boolean disloParasiteNoPotion() { return safe(DISLO_PARASITE_NO_POTION); }
+    public static int disloParasiteNoPotionPointCost() { return safe(DISLO_PARASITE_NO_POTION_POINT_COST); }
+    public static int disloParasiteNoPotionDuration() { return safe(DISLO_PARASITE_NO_POTION_DURATION); }
+    public static boolean disloHealthDraining() { return safe(DISLO_HEALTH_DRAINING); }
+    public static int disloHealthDrainingPointCost() { return safe(DISLO_HEALTH_DRAINING_POINT_COST); }
+    public static int disloHealthDrainingValue() { return safe(DISLO_HEALTH_DRAINING_VALUE); }
+    public static int disloHealthDrainingDuration() { return safe(DISLO_HEALTH_DRAINING_DURATION); }
+    public static boolean disloFoodDraining() { return safe(DISLO_FOOD_DRAINING); }
+    public static int disloFoodDrainingPointCost() { return safe(DISLO_FOOD_DRAINING_POINT_COST); }
+    public static int disloFoodDrainingValue() { return safe(DISLO_FOOD_DRAINING_VALUE); }
+    public static int disloFoodDrainingDuration() { return safe(DISLO_FOOD_DRAINING_DURATION); }
+    public static boolean disloNextPhaseList() { return safe(DISLO_NEXT_PHASE_LIST); }
+    public static int disloNextPhaseListPointCost() { return safe(DISLO_NEXT_PHASE_LIST_POINT_COST); }
+    public static int disloNextPhaseListValue() { return safe(DISLO_NEXT_PHASE_LIST_VALUE); }
+    public static int disloNextPhaseListDuration() { return safe(DISLO_NEXT_PHASE_LIST_DURATION); }
+    public static boolean disloGrowlNoise() { return safe(DISLO_GROWL_NOISE); }
+    public static int disloGrowlNoisePointCost() { return safe(DISLO_GROWL_NOISE_POINT_COST); }
+    public static int disloGrowlNoiseDuration() { return safe(DISLO_GROWL_NOISE_DURATION); }
+    public static boolean disloWalkNoise() { return safe(DISLO_WALK_NOISE); }
+    public static int disloWalkNoisePointCost() { return safe(DISLO_WALK_NOISE_POINT_COST); }
+    public static int disloWalkNoiseDuration() { return safe(DISLO_WALK_NOISE_DURATION); }
+    public static boolean disloShieldFood() { return safe(DISLO_SHIELD_FOOD); }
+    public static int disloShieldFoodPointCost() { return safe(DISLO_SHIELD_FOOD_POINT_COST); }
+    public static int disloShieldFoodDuration() { return safe(DISLO_SHIELD_FOOD_DURATION); }
+    public static boolean disloLootXpCancel() { return safe(DISLO_LOOT_XP_CANCEL); }
+    public static int disloLootXpCancelPointCost() { return safe(DISLO_LOOT_XP_CANCEL_POINT_COST); }
+    public static int disloLootXpCancelDuration() { return safe(DISLO_LOOT_XP_CANCEL_DURATION); }
+    public static boolean disloBurningDeath() { return safe(DISLO_BURNING_DEATH); }
+    public static int disloBurningDeathPointCost() { return safe(DISLO_BURNING_DEATH_POINT_COST); }
+    public static int disloBurningDeathDuration() { return safe(DISLO_BURNING_DEATH_DURATION); }
 
     public static List<? extends Integer> dislodgmentTriggers(int code) {
         return switch (code) {
-            case 0 -> DISLO_COTH_IGNORE_AMPLIFIER_TRIGGERS.get();
-            case 1 -> DISLO_COTH_TIERS_TRIGGERS.get();
-            case 2 -> DISLO_SUMMON_BY_DEATH_TRIGGERS.get();
-            case 3 -> DISLO_POTION_EFFECT_TRIGGERS.get();
-            case 4 -> DISLO_STATS_TRIGGERS.get();
-            case 5 -> DISLO_DEATH_RAID_TRIGGERS.get();
-            case 6 -> DISLO_ITEM_DURABILITY_TRIGGERS.get();
-            case 7 -> DISLO_HEALING_DEATH_TRIGGERS.get();
-            case 8 -> DISLO_DAMAGE_DEATH_TRIGGERS.get();
-            case 9 -> DISLO_FOOD_DEATH_TRIGGERS.get();
-            case 10 -> DISLO_DEATH_HIGH_VERSIONS_TRIGGERS.get();
-            case 11 -> DISLO_PARASITE_NO_POTION_TRIGGERS.get();
-            case 12 -> DISLO_HEALTH_DRAINING_TRIGGERS.get();
-            case 13 -> DISLO_FOOD_DRAINING_TRIGGERS.get();
-            case 14 -> DISLO_NEXT_PHASE_LIST_TRIGGERS.get();
-            case 15 -> DISLO_GROWL_NOISE_TRIGGERS.get();
-            case 16 -> DISLO_WALK_NOISE_TRIGGERS.get();
-            case 17 -> DISLO_SHIELD_FOOD_TRIGGERS.get();
-            case 18 -> DISLO_LOOT_XP_CANCEL_TRIGGERS.get();
-            case 21 -> DISLO_BURNING_DEATH_TRIGGERS.get();
+            case 0 -> safe(DISLO_COTH_IGNORE_AMPLIFIER_TRIGGERS);
+            case 1 -> safe(DISLO_COTH_TIERS_TRIGGERS);
+            case 2 -> safe(DISLO_SUMMON_BY_DEATH_TRIGGERS);
+            case 3 -> safe(DISLO_POTION_EFFECT_TRIGGERS);
+            case 4 -> safe(DISLO_STATS_TRIGGERS);
+            case 5 -> safe(DISLO_DEATH_RAID_TRIGGERS);
+            case 6 -> safe(DISLO_ITEM_DURABILITY_TRIGGERS);
+            case 7 -> safe(DISLO_HEALING_DEATH_TRIGGERS);
+            case 8 -> safe(DISLO_DAMAGE_DEATH_TRIGGERS);
+            case 9 -> safe(DISLO_FOOD_DEATH_TRIGGERS);
+            case 10 -> safe(DISLO_DEATH_HIGH_VERSIONS_TRIGGERS);
+            case 11 -> safe(DISLO_PARASITE_NO_POTION_TRIGGERS);
+            case 12 -> safe(DISLO_HEALTH_DRAINING_TRIGGERS);
+            case 13 -> safe(DISLO_FOOD_DRAINING_TRIGGERS);
+            case 14 -> safe(DISLO_NEXT_PHASE_LIST_TRIGGERS);
+            case 15 -> safe(DISLO_GROWL_NOISE_TRIGGERS);
+            case 16 -> safe(DISLO_WALK_NOISE_TRIGGERS);
+            case 17 -> safe(DISLO_SHIELD_FOOD_TRIGGERS);
+            case 18 -> safe(DISLO_LOOT_XP_CANCEL_TRIGGERS);
+            case 21 -> safe(DISLO_BURNING_DEATH_TRIGGERS);
             default -> List.of();
         };
     }
 
     public static int dislodgmentCodeCooldown(int code) {
         return switch (code) {
-            case 0 -> DISLO_COTH_IGNORE_AMPLIFIER_COOLDOWN.get();
-            case 1 -> DISLO_COTH_TIERS_COOLDOWN.get();
-            case 2 -> DISLO_SUMMON_BY_DEATH_COOLDOWN.get();
-            case 3 -> DISLO_POTION_EFFECT_COOLDOWN.get();
-            case 4 -> DISLO_STATS_COOLDOWN.get();
-            case 5 -> DISLO_DEATH_RAID_COOLDOWN.get();
-            case 6 -> DISLO_ITEM_DURABILITY_COOLDOWN.get();
-            case 7 -> DISLO_HEALING_DEATH_COOLDOWN.get();
-            case 8 -> DISLO_DAMAGE_DEATH_COOLDOWN.get();
-            case 9 -> DISLO_FOOD_DEATH_COOLDOWN.get();
-            case 10 -> DISLO_DEATH_HIGH_VERSIONS_COOLDOWN.get();
-            case 11 -> DISLO_PARASITE_NO_POTION_COOLDOWN.get();
-            case 12 -> DISLO_HEALTH_DRAINING_COOLDOWN.get();
-            case 13 -> DISLO_FOOD_DRAINING_COOLDOWN.get();
-            case 14 -> DISLO_NEXT_PHASE_LIST_COOLDOWN.get();
-            case 15 -> DISLO_GROWL_NOISE_COOLDOWN.get();
-            case 16 -> DISLO_WALK_NOISE_COOLDOWN.get();
-            case 17 -> DISLO_SHIELD_FOOD_COOLDOWN.get();
-            case 18 -> DISLO_LOOT_XP_CANCEL_COOLDOWN.get();
-            case 21 -> DISLO_BURNING_DEATH_COOLDOWN.get();
+            case 0 -> safe(DISLO_COTH_IGNORE_AMPLIFIER_COOLDOWN);
+            case 1 -> safe(DISLO_COTH_TIERS_COOLDOWN);
+            case 2 -> safe(DISLO_SUMMON_BY_DEATH_COOLDOWN);
+            case 3 -> safe(DISLO_POTION_EFFECT_COOLDOWN);
+            case 4 -> safe(DISLO_STATS_COOLDOWN);
+            case 5 -> safe(DISLO_DEATH_RAID_COOLDOWN);
+            case 6 -> safe(DISLO_ITEM_DURABILITY_COOLDOWN);
+            case 7 -> safe(DISLO_HEALING_DEATH_COOLDOWN);
+            case 8 -> safe(DISLO_DAMAGE_DEATH_COOLDOWN);
+            case 9 -> safe(DISLO_FOOD_DEATH_COOLDOWN);
+            case 10 -> safe(DISLO_DEATH_HIGH_VERSIONS_COOLDOWN);
+            case 11 -> safe(DISLO_PARASITE_NO_POTION_COOLDOWN);
+            case 12 -> safe(DISLO_HEALTH_DRAINING_COOLDOWN);
+            case 13 -> safe(DISLO_FOOD_DRAINING_COOLDOWN);
+            case 14 -> safe(DISLO_NEXT_PHASE_LIST_COOLDOWN);
+            case 15 -> safe(DISLO_GROWL_NOISE_COOLDOWN);
+            case 16 -> safe(DISLO_WALK_NOISE_COOLDOWN);
+            case 17 -> safe(DISLO_SHIELD_FOOD_COOLDOWN);
+            case 18 -> safe(DISLO_LOOT_XP_CANCEL_COOLDOWN);
+            case 21 -> safe(DISLO_BURNING_DEATH_COOLDOWN);
             default -> 0;
         };
     }
 
-    public static boolean meteorEnabled() { return METEOR_ENABLED.get(); }
-    public static int meteorCheckTicks() { return METEOR_CHECK_TICKS.get(); }
-    public static double meteorChance() { return METEOR_CHANCE.get(); }
-    public static int meteorStartTicks() { return METEOR_START_TICKS.get(); }
-    public static int meteorDamageRadius() { return METEOR_DAMAGE_RADIUS.get(); }
-    public static int meteorRadius() { return METEOR_MAX_RADIUS.get(); }
-    public static int meteorMinimumRadius() { return METEOR_MIN_RADIUS.get(); }
-    public static boolean meteorVectorless() { return METEOR_VECTORLESS.get(); }
-    public static boolean meteorCreatesVector() { return METEOR_CREATES_VECTOR.get(); }
-    public static List<? extends String> meteorDimensionBlacklist() { return METEOR_DIMENSION_BLACKLIST.get(); }
+    public static boolean meteorEnabled() { return safe(METEOR_ENABLED); }
+    public static int meteorCheckTicks() { return safe(METEOR_CHECK_TICKS); }
+    public static double meteorChance() { return safe(METEOR_CHANCE); }
+    public static int meteorStartTicks() { return safe(METEOR_START_TICKS); }
+    public static int meteorDamageRadius() { return safe(METEOR_DAMAGE_RADIUS); }
+    public static int meteorRadius() { return safe(METEOR_MAX_RADIUS); }
+    public static int meteorMinimumRadius() { return safe(METEOR_MIN_RADIUS); }
+    public static boolean meteorVectorless() { return safe(METEOR_VECTORLESS); }
+    public static boolean meteorCreatesVector() { return safe(METEOR_CREATES_VECTOR); }
+    public static List<? extends String> meteorDimensionBlacklist() { return safe(METEOR_DIMENSION_BLACKLIST); }
 
+
+    /**
+     * Reads a config value, falling back to its declared default while the config file has not been
+     * read yet. NeoForge runs EntityAttributeCreationEvent before configs are loaded, and CSRP's
+     * createAttributes() methods read config values, so an unguarded get() there crashes startup.
+     */
+    private static <T> T safe(ModConfigSpec.ConfigValue<T> value) {
+        return SPEC.isLoaded() ? value.get() : value.getDefault();
+    }
 }

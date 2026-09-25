@@ -1,8 +1,6 @@
 package alku.csrp.entity;
 
 import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializers;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -14,17 +12,23 @@ import net.minecraft.world.entity.LivingEntity;
  * fuse before {@code selfExplode} ran. The synced {@code SELFE} field tells the client how far the
  * fuse has burned so the renderer can swell the model.
  *
- * <p>{@code defineId} only fixes the accessor's value type, so one shared accessor can be
- * registered by every family from its own {@code defineSynchedData}.
+ * <p>{@code defineId} hands out ids per class tree, so every family registers its own SELFE
+ * accessor ({@link SelfeFuseOwner#selfeAccessor()}) instead of sharing one — a shared accessor
+ * registered on {@code LivingEntity} races the families' own accessors for the same id, and the
+ * loser crashes with {@code IllegalArgumentException: Duplicate id value}.
  */
 public final class ParasiteFuseState {
     /** Legacy fuseTime. */
     public static final int FUSE_TICKS = 40;
     /** Death animation length: the corpse stops advancing past it while the fuse burns. */
     public static final int DEATH_ANIMATION_TICKS = 20;
-    /** Legacy {@code DataManager.register SELFE (int)}; -1 means no fuse is burning. */
-    public static final EntityDataAccessor<Integer> SELFE =
-            SynchedEntityData.defineId(LivingEntity.class, EntityDataSerializers.INT);
+    /** The owning family's legacy {@code DataManager.register SELFE (int)} accessor. */
+    private static EntityDataAccessor<Integer> accessorOf(LivingEntity owner) {
+        if (owner instanceof SelfeFuseOwner fuseOwner) {
+            return fuseOwner.selfeAccessor();
+        }
+        throw new IllegalStateException("SELFE requested for a non fuse owner: " + owner.getType());
+    }
 
     private byte explodesOnDeath = -1;
     /** Per-owner fuse length; the legacy base is 40 but several mobs override it (e.g. the horse: 70). */
@@ -62,19 +66,19 @@ public final class ParasiteFuseState {
 
     /** Static accessors so AI goals can drive the synced SELFE state without owning the instance. */
     public static int getStateOf(LivingEntity owner) {
-        return owner.getEntityData().get(SELFE);
+        return owner.getEntityData().get(accessorOf(owner));
     }
 
     public static void setStateOf(LivingEntity owner, int state) {
-        owner.getEntityData().set(SELFE, state);
+        owner.getEntityData().set(accessorOf(owner), state);
     }
 
     public int getState(LivingEntity owner) {
-        return owner.getEntityData().get(SELFE);
+        return owner.getEntityData().get(accessorOf(owner));
     }
 
     public void setState(LivingEntity owner, int state) {
-        owner.getEntityData().set(SELFE, state);
+        owner.getEntityData().set(accessorOf(owner), state);
     }
 
     /** @return true once the fuse reached {@link #FUSE_TICKS} and the burst should run */

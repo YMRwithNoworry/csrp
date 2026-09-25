@@ -370,10 +370,20 @@ public final class AssimilatedParasiteEntity extends Monster
         }
     }
 
+    /** Legacy {@code DataManager.register SELFE (int)}; registered on this class so its id cannot
+     * collide with another family's accessor id (see {@link SelfeFuseOwner#selfeAccessor()}). */
+    private static final EntityDataAccessor<Integer> SELFE =
+            SynchedEntityData.defineId(AssimilatedParasiteEntity.class, EntityDataSerializers.INT);
+
+    @Override
+    public EntityDataAccessor<Integer> selfeAccessor() {
+        return SELFE;
+    }
+
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(ParasiteFuseState.SELFE, -1);
+        builder.define(SELFE, -1);
         builder.define(SHEEP_TEXTURE_VARIANT, 0);
         builder.define(TAMED_WOLF_TEXTURE, false);
         builder.define(MELTING, false);

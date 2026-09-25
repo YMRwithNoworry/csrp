@@ -34,9 +34,9 @@ expect(config, /defineList\("cothImmuneEntities",\s*List\.of\([\s\S]*"minecraft:
         "default COTH immunity list is incomplete");
 expect(config, /define\("cothImmuneListInverted", false\)/,
         "COTH immunity list inversion option is missing");
-expect(config, /cothImmuneEntities\(\)[\s\S]*COTH_IMMUNE_ENTITIES\.get\(\)/,
+expect(config, /cothImmuneEntities\(\)[\s\S]*COTH_IMMUNE_ENTITIES/,
         "COTH immunity list is not exposed");
-expect(config, /cothImmuneListInverted\(\)[\s\S]*COTH_IMMUNE_LIST_INVERTED\.get\(\)/,
+expect(config, /cothImmuneListInverted\(\)[\s\S]*COTH_IMMUNE_LIST_INVERTED/, 
         "COTH immunity inversion setting is not exposed");
 expect(immunity, /BuiltInRegistries\.ENTITY_TYPE\.getKey\(entity\.getType\(\)\)[\s\S]*anyMatch\(entityId::contains\)[\s\S]*listed != Config\.cothImmuneListInverted\(\)/,
         "entity id and namespace immunity matching is incomplete");
