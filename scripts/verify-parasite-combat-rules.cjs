@@ -138,16 +138,6 @@ for (const [pattern, message] of [
     "PrimitiveParasiteEntity.sprintingEnabled() is missing"]
 ]) expect(primitive, pattern, message);
 
-const sprintGoal = read("src/main/java/alku/csrp/entity/GeneSprintGoal.java");
-for (const [pattern, message] of [
-  [/public final class GeneSprintGoal extends Goal/, "the sprint goal is missing"],
-  [/SPRINT_MULTIPLIER = 1\.3D/, "the legacy 1.3 sprint multiplier is missing"],
-  [/SPRINT_DISTANCE_SQR = 16\.0D/, "the sprint must only apply while the target is far"],
-  [/setFlags\(EnumSet\.of\(Flag\.MOVE\)\)/, "the sprint goal must claim the MOVE flag"],
-  [/EvolutionSystem\.generationProfile\(serverLevel\)\.sprinting\(\)/,
-    "the sprint goal must consult the geneSprinting flag"]
-]) expect(sprintGoal, pattern, message);
-
 // the three families register the sprint goal just before their melee goal, same priority
 for (const [file, pattern, message] of [
   ["MarauderizedParasiteEntity.java",

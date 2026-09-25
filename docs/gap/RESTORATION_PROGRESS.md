@@ -334,3 +334,26 @@ gene 门分别用 `waterLeapEnabled()` 与 `generationProfile(...).waterLeap()`�
 
 接线：`LongarmsEntity` 优先级 5（原版 `tasks.addTask(5, this.jumpT)`）。
 校验：`verify-parasite-combat-rules.cjs` 增 6 条断言；审计记账 1 条，满足 648 → **649**。
+
+## 批次 17：清理死代码 + gene 覆盖证据表（2026-09-25 续）
+
+`GeneSprintGoal`（批次 11 引入）在三族陆续改用 `GeneMeleeGoal`（批次 14/15）后**已无任何调用点**，
+本批删除该类与其 5 条断言，并删除已消费的一次性 codemod `scripts/port263/extend-combat-verify.cjs`。
+
+### applyGene 子项覆盖证据表（供下一轮据此翻转 8 条捆绑条款）
+
+| 子项 | 原版出处 | fer_* | sim_* | mar_* | 说明 |
+| --- | --- | --- | --- | --- | --- |
+| 最小伤害 geneMindam | `EntityParasiteBase:858` | ✔ | ✔ | ✔ | `ParasiteCombatRules` 全局门控（批次 9） |
+| 伤害上限 geneDamcap | `:706` | ✔ | ✔ | ✔ | 同上 |
+| 击杀治疗 geneMobHealing | `:1046+` | ✔ | ✔ | ✔ | `healOnKill` 用 `GenerationProfile.mobHealing` |
+| 毒伤治疗 genePoisonHealing | `applyGene` | ✔ | ✔ | ✔ | `convertPoisonToHealing` |
+| 疾跑 geneSprinting | `kool[3]` | ✔ | ✔ | ✔ | `GeneMeleeGoal`（批次 12-15） |
+| 攻击速度 geneAttackSpeed | `:233` | ✔ | ✔ | ✔ | 同上（间隔 = 20 × 生成倍率） |
+| 水跃 geneWaterleap | `kool[4]` | ✔ | ✔(sim_human) | ✗ | 原版 sim_cow 等与 mar_cow **本就无水跃任务**，非缺口 |
+| 穿墙/破块 geneLookwall+blockSearch | `kool[2]` | ✗ | ✗ | ✔(mar_cow 有破块表) | 野化/同化族继承 `Monster`，需自持破块逻辑 |
+| 技能 geneSpecialmove | `kool[5]` | ✗ | 部分(sim_human 跳跃) | ✗ | 缺技能本体 |
+
+结论：`sim_cow/sheep/wolf/squid/bigspider` 一族当前只差 `blockSearch` 与 `specialmove`；
+补齐这两项即可一次翻转 7 条（`sim_*`×6 + `fer_villager`；`mar_cow` 另需 specialmove）。
+校验：全套 99 脚本失败集合仍为既有 20 个；`build` 通过。
