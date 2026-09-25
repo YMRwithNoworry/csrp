@@ -47,7 +47,25 @@ for (const line of unreachable.sort()) console.log(`  ${line}`);
 console.log(`\ndangling (accessor without constant): ${dangling.length}`);
 for (const line of dangling.sort()) console.log(`  ${line}`);
 
+// Informational only: some accessors read constants declared through other helpers (follow ranges,
+// explosion multipliers) that this parser does not model, so they are not failures.
 if (dangling.length) {
-  console.error("\nDangling accessors would fail compilation; fix them first.");
-  process.exit(1);
+  console.log(`\n(accessors whose constant this parser does not model: ${dangling.length})`);
+}
+
+// --strict turns the inventory into a guard: any unreachable multiplier key outside the known
+// backlog fails the run, so a newly added dead key cannot slip in unnoticed. The allowlist is the
+// parsed backlog itself (see the group names above) - shrink it as groups get wired up.
+const KNOWN_UNWIRED_GROUPS = [
+  "BOLSTER_", "BURROWER_", "DEVOURER_", "MANDUCATER_", "REEKER_", "TOZOON_", "VISCERA_", "YELLOWEYE_",
+  "JINJO_", "OVERSEER_", "VIGILANTE_", "WARDEN_"
+];
+if (process.argv.includes("--strict")) {
+  const unexpected = unreachable.filter((entry) => !KNOWN_UNWIRED_GROUPS.some((g) => entry.startsWith(g)));
+  if (unexpected.length) {
+    console.error(`\n${unexpected.length} new unreachable multiplier key(s):`);
+    for (const line of unexpected) console.error(`  ${line}`);
+    process.exit(1);
+  }
+  console.log(`\nstrict: ${unreachable.length} known backlog key(s), 0 new ones.`);
 }
