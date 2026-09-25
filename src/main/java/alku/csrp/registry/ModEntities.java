@@ -321,7 +321,7 @@ public final class ModEntities {
                     AssimilatedVariantEntity.Kind.VILLAGER), 0.6F, 1.95F);
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedHeadEntity>> SIM_VILLAGER_HEAD =
             monster("sim_villagerhead", (type, level) -> new AssimilatedHeadEntity(type, level,
-                    AssimilatedHeadEntity.Kind.VILLAGER), 0.7F, 0.8F, 0.8F);
+                    AssimilatedHeadEntity.Kind.VILLAGER), 0.7F, 0.8F, 0.7F);
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedHeadEntity>> SIM_WOLF_HEAD =
             monster("sim_wolfhead", (type, level) -> new AssimilatedHeadEntity(type, level,
                     AssimilatedHeadEntity.Kind.WOLF), 0.7F, 0.6F, 0.8F);
