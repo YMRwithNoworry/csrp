@@ -2904,3 +2904,17 @@ goalSelector.addGoal(0, new ParasiteSkillGoal(this, 14, new LeapSkill(this, 0.7F
 
 **里程碑说明**：加权完成度是本会话持续跟踪的核心指标（起点 66.5% 左右），本轮达到 **70.1%**；
 期间经历了一次自我引入的回退（双重乘算）与多次"审计文本过时"的纠正，账面数字的每一次上升都有代码或证据支撑。
+
+## 批次 183：验收第四批第二份产出 `sim_pighead`（2026-09-25 续）
+
+`raw/sim_pighead.json`：**11 facet / 64 条**（33 satisfied / 20 partial / 7 missing / 4 na），结构与前三份一致。
+抽查 3 条 satisfied 并**实测 2 条引文**：
+
+```
+✔ 原版 SRPEntities.java 确含 CreateEntityMob("sim_pighead"…
+✔ 端口 ModEntities.java 确含 sim_pighead
+```
+
+⇒ 予以采纳。**第四批委派（2 只）全部交付并验收**：`sim_cowhead`(64) + `sim_pighead`(64)，累计验收子代理产出 **7 份**（
+sim_villager 93 / sim_adventurer 95 / sim_horse 94 / sim_bear 92 / sim_enderman 103 / sim_dragone 77 / sim_wolfhead 62 / sim_cowhead 64 / sim_pighead 64
+——其中前五份来自第一份委派）。
