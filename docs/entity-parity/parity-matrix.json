@@ -1,130 +1,130 @@
 {
-  "generatedAt": "2026-09-25T07:36:32.864Z",
+  "generatedAt": "2026-09-25T07:49:41.910Z",
   "protocol": "docs/entity-parity/AUDIT_PROTOCOL.md",
   "input": "docs/entity-parity/audit-input.json",
   "counts": {
     "expected": 127,
-    "audited": 32,
-    "missing": 95
+    "audited": 34,
+    "missing": 93
   },
   "overall": {
-    "satisfied": 1579,
-    "partial": 694,
-    "missing": 419,
-    "na": 145,
-    "denominator": 2692,
-    "completion": 71.5
+    "satisfied": 1676,
+    "partial": 733,
+    "missing": 458,
+    "na": 160,
+    "denominator": 2867,
+    "completion": 71.2
   },
   "facets": [
     {
       "facet": "registration",
       "label": "注册",
-      "satisfied": 194,
-      "partial": 72,
-      "missing": 66,
+      "satisfied": 208,
+      "partial": 75,
+      "missing": 76,
       "na": 0,
-      "denominator": 332,
-      "completion": 69.3
+      "denominator": 359,
+      "completion": 68.4
     },
     {
       "facet": "attributes",
       "label": "属性",
-      "satisfied": 221,
-      "partial": 55,
-      "missing": 16,
+      "satisfied": 234,
+      "partial": 60,
+      "missing": 18,
       "na": 9,
-      "denominator": 292,
-      "completion": 85.1
+      "denominator": 312,
+      "completion": 84.6
     },
     {
       "facet": "ai",
       "label": "AI",
-      "satisfied": 188,
-      "partial": 175,
-      "missing": 39,
-      "na": 47,
-      "denominator": 402,
-      "completion": 68.5
+      "satisfied": 198,
+      "partial": 185,
+      "missing": 46,
+      "na": 51,
+      "denominator": 429,
+      "completion": 67.7
     },
     {
       "facet": "behaviors",
       "label": "行为",
-      "satisfied": 272,
-      "partial": 140,
-      "missing": 81,
-      "na": 19,
-      "denominator": 493,
+      "satisfied": 286,
+      "partial": 148,
+      "missing": 85,
+      "na": 25,
+      "denominator": 519,
       "completion": 69.4
     },
     {
       "facet": "damage_and_effects",
       "label": "伤害/效果",
-      "satisfied": 212,
-      "partial": 23,
+      "satisfied": 232,
+      "partial": 25,
       "missing": 24,
       "na": 5,
-      "denominator": 259,
-      "completion": 86.3
+      "denominator": 281,
+      "completion": 87
     },
     {
       "facet": "sync_data",
       "label": "同步数据",
-      "satisfied": 57,
-      "partial": 55,
-      "missing": 71,
-      "na": 19,
-      "denominator": 183,
-      "completion": 46.2
+      "satisfied": 59,
+      "partial": 57,
+      "missing": 78,
+      "na": 21,
+      "denominator": 194,
+      "completion": 45.1
     },
     {
       "facet": "animation",
       "label": "动画",
-      "satisfied": 123,
-      "partial": 29,
-      "missing": 11,
-      "na": 7,
-      "denominator": 163,
-      "completion": 84.4
+      "satisfied": 131,
+      "partial": 30,
+      "missing": 13,
+      "na": 8,
+      "denominator": 174,
+      "completion": 83.9
     },
     {
       "facet": "model_texture",
       "label": "模型/贴图",
-      "satisfied": 105,
+      "satisfied": 111,
       "partial": 6,
-      "missing": 23,
+      "missing": 25,
       "na": 6,
-      "denominator": 134,
-      "completion": 80.6
+      "denominator": 142,
+      "completion": 80.3
     },
     {
       "facet": "sounds",
       "label": "音效",
-      "satisfied": 81,
-      "partial": 47,
-      "missing": 32,
+      "satisfied": 87,
+      "partial": 49,
+      "missing": 35,
       "na": 3,
-      "denominator": 160,
-      "completion": 65.3
+      "denominator": 171,
+      "completion": 65.2
     },
     {
       "facet": "spawning",
       "label": "生成",
-      "satisfied": 87,
-      "partial": 54,
-      "missing": 35,
+      "satisfied": 91,
+      "partial": 56,
+      "missing": 37,
       "na": 17,
-      "denominator": 176,
-      "completion": 64.8
+      "denominator": 184,
+      "completion": 64.7
     },
     {
       "facet": "loot",
       "label": "掉落",
       "satisfied": 39,
-      "partial": 38,
+      "partial": 42,
       "missing": 21,
-      "na": 13,
-      "denominator": 98,
-      "completion": 59.2
+      "na": 15,
+      "denominator": 102,
+      "completion": 58.8
     }
   ],
   "groups": [
@@ -229,14 +229,14 @@
     },
     {
       "group": "marauderized",
-      "audited": 3,
+      "audited": 5,
       "expected": 7,
-      "satisfied": 165,
-      "partial": 71,
-      "missing": 46,
-      "na": 22,
-      "denominator": 282,
-      "completion": 71.1
+      "satisfied": 262,
+      "partial": 110,
+      "missing": 85,
+      "na": 37,
+      "denominator": 457,
+      "completion": 69.4
     },
     {
       "group": "assimilated",
@@ -4106,8 +4106,109 @@
       ],
       "variantKind": null,
       "registration": "monster",
-      "audit": null,
-      "missing": true
+      "group": "marauderized",
+      "missing": false,
+      "totals": {
+        "satisfied": 51,
+        "partial": 19,
+        "missing": 20,
+        "na": 6
+      },
+      "denominator": 90,
+      "completion": 67.2,
+      "facets": {
+        "registration": {
+          "satisfied": 7,
+          "partial": 1,
+          "missing": 5,
+          "na": 0,
+          "clauses": 13
+        },
+        "attributes": {
+          "satisfied": 7,
+          "partial": 2,
+          "missing": 1,
+          "na": 0,
+          "clauses": 10
+        },
+        "ai": {
+          "satisfied": 5,
+          "partial": 5,
+          "missing": 4,
+          "na": 2,
+          "clauses": 16
+        },
+        "behaviors": {
+          "satisfied": 8,
+          "partial": 5,
+          "missing": 2,
+          "na": 2,
+          "clauses": 17
+        },
+        "damage_and_effects": {
+          "satisfied": 10,
+          "partial": 1,
+          "missing": 0,
+          "na": 0,
+          "clauses": 11
+        },
+        "sync_data": {
+          "satisfied": 1,
+          "partial": 1,
+          "missing": 4,
+          "na": 1,
+          "clauses": 7
+        },
+        "animation": {
+          "satisfied": 5,
+          "partial": 0,
+          "missing": 1,
+          "na": 0,
+          "clauses": 6
+        },
+        "model_texture": {
+          "satisfied": 3,
+          "partial": 0,
+          "missing": 1,
+          "na": 0,
+          "clauses": 4
+        },
+        "sounds": {
+          "satisfied": 3,
+          "partial": 1,
+          "missing": 1,
+          "na": 0,
+          "clauses": 5
+        },
+        "spawning": {
+          "satisfied": 2,
+          "partial": 1,
+          "missing": 1,
+          "na": 0,
+          "clauses": 4
+        },
+        "loot": {
+          "satisfied": 0,
+          "partial": 2,
+          "missing": 0,
+          "na": 1,
+          "clauses": 3
+        }
+      },
+      "missingSummary": [
+        "眼高 1.73F 未作为注册参数（走 4 参 monster()，实际 ≈1.6575）",
+        "刷怪蛋开关 SRPConfig.vanillaEggs 与 per-mob 开关 marhumanEnabled 均缺失",
+        "this.type / getIDSpawn / canSpawnByIDData 的数值身份与同化配额体系整体缺失",
+        "缺少 marhuman* 全局×per-mob 属性倍率接线（同族 mar_cow 已接线 marcow*，MobsConfig 中无 marhuman* 项）",
+        "AI 缺口：EntityAISwimmingDiving(0.08)、EntityAIWaterLeapAtTargetStatus(0.7F/1.5/3/20/0)、EntityAIEvade、EntityAIJumping；EntityAIGetFollowers 未注册",
+        "行为缺口：COTH 光环 InfectNearby（3 格/4800 tick）、骑乘震动 MsgQlipShake(250,4.0F)",
+        "命中 COTH 无 cothSpread(0.1) 概率掷骰（恒定 100%）",
+        "同步数据缺口：SKIN（含 func_180482_a 的 1..3 变体掷骰）、COLD_L、DISLO15",
+        "动画缺口：underground 埋地姿态；模型/贴图缺口：变体贴图切换",
+        "音效缺口：脚步音 getStepSound(0.15F)、环境音 status!=0 静音门控",
+        "掉落反向差异：原版默认 marhumanLoot 为空表，project 额外给出 assimilated_flesh 1~3 + 30% hijacked_drop；经验 10 ≠ 原版 8"
+      ],
+      "confidence": "high"
     },
     {
       "id": "mar_sheep",
@@ -4187,8 +4288,110 @@
       ],
       "variantKind": null,
       "registration": "monster",
-      "audit": null,
-      "missing": true
+      "group": "marauderized",
+      "missing": false,
+      "totals": {
+        "satisfied": 46,
+        "partial": 20,
+        "missing": 19,
+        "na": 9
+      },
+      "denominator": 85,
+      "completion": 65.9,
+      "facets": {
+        "registration": {
+          "satisfied": 7,
+          "partial": 2,
+          "missing": 5,
+          "na": 0,
+          "clauses": 14
+        },
+        "attributes": {
+          "satisfied": 6,
+          "partial": 3,
+          "missing": 1,
+          "na": 0,
+          "clauses": 10
+        },
+        "ai": {
+          "satisfied": 5,
+          "partial": 5,
+          "missing": 3,
+          "na": 2,
+          "clauses": 15
+        },
+        "behaviors": {
+          "satisfied": 6,
+          "partial": 3,
+          "missing": 2,
+          "na": 4,
+          "clauses": 15
+        },
+        "damage_and_effects": {
+          "satisfied": 10,
+          "partial": 1,
+          "missing": 0,
+          "na": 0,
+          "clauses": 11
+        },
+        "sync_data": {
+          "satisfied": 1,
+          "partial": 1,
+          "missing": 3,
+          "na": 1,
+          "clauses": 6
+        },
+        "animation": {
+          "satisfied": 3,
+          "partial": 1,
+          "missing": 1,
+          "na": 1,
+          "clauses": 6
+        },
+        "model_texture": {
+          "satisfied": 3,
+          "partial": 0,
+          "missing": 1,
+          "na": 0,
+          "clauses": 4
+        },
+        "sounds": {
+          "satisfied": 3,
+          "partial": 1,
+          "missing": 2,
+          "na": 0,
+          "clauses": 6
+        },
+        "spawning": {
+          "satisfied": 2,
+          "partial": 1,
+          "missing": 1,
+          "na": 0,
+          "clauses": 4
+        },
+        "loot": {
+          "satisfied": 0,
+          "partial": 2,
+          "missing": 0,
+          "na": 1,
+          "clauses": 3
+        }
+      },
+      "missingSummary": [
+        "眼高 2.73F 未作为注册参数（走 4 参 monster()，实际 ≈2.4225）",
+        "刷怪蛋开关 SRPConfig.vanillaEggs 与 per-mob 开关 marsheepEnabled 均缺失",
+        "this.type / getIDSpawn / canSpawnByIDData 的数值身份与同化配额体系整体缺失",
+        "击退抗性 0.7 ≠ 原版 MARVILLAGER_KD_RESISTANCE 0.9；未接线 marvillager 全局×per-mob 倍率（同族 mar_cow 已接线 marcow*）",
+        "AI 缺口：EntityAISwimmingDiving(0.08)、EntityAIAttackMeleeRangeSwitch(0.0F)、EntityAIJumping；EntityAIGetFollowers 未注册；远程 goal 射程 16 格 ≠ 原版 12 格且无 moveSpeed 1.2/pullAway",
+        "行为缺口：COTH 光环 InfectNearby（3 格/4800 tick）、变体掷骰 setSkin(1)",
+        "命中 COTH 无 cothSpread(0.1) 概率掷骰（恒定 100%）",
+        "同步数据缺口：SKIN（含 func_180482_a 变体判定）、COLD_L、DISLO15",
+        "动画缺口：status 0/1/2 的 getStillAni 静止变体未路由且素材未导出 get_still_ani_1 键；underground 埋地姿态缺失",
+        "模型/贴图缺口：getSkin()==1 变体贴图切换缺失",
+        "音效缺口：脚步音 getStepSound(0.15F)、投掷时的 emana.shooting(2.0F)、环境音 status!=0 静音门控",
+        "远程弹体引信语义差异（原版 EntityNade fuse=3，project ELVIA_NADE 起始延迟 3 + 引信 4）；掉落反向差异（原版默认空表，project 给 flesh 1~3 + 20% lurecomponent2）；经验 9 ≠ 原版 8"
+      ],
+      "confidence": "high"
     },
     {
       "id": "mar_bear",

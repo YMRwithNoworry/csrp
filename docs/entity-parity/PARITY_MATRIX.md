@@ -1,27 +1,27 @@
 # 生物还原矩阵（SRParasites 1.10.9 → csrp）
 
-> 生成时间：2026-09-25T07:36:32.864Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
+> 生成时间：2026-09-25T07:49:41.910Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
 > 判定：✅ 全部条款满足；🟠 有部分实现但无缺失；❌ 存在缺失；· 未审计。
 
-- 注册生物总数：**127**；已审计：**32**；未审计：**95**
-- 条款总计：满足 1579 / 部分 694 / 缺失 419（不计入 145 条不适用）
-- **加权完成度：71.5%**（partial 计 0.5）
+- 注册生物总数：**127**；已审计：**34**；未审计：**93**
+- 条款总计：满足 1676 / 部分 733 / 缺失 458（不计入 160 条不适用）
+- **加权完成度：71.2%**（partial 计 0.5）
 
 ## 分面完成度
 
 | 面 | 满足 | 部分 | 缺失 | 完成度 |
 | --- | ---: | ---: | ---: | ---: |
-| 注册 `registration` | 194 | 72 | 66 | 69.3% |
-| 属性 `attributes` | 221 | 55 | 16 | 85.1% |
-| AI `ai` | 188 | 175 | 39 | 68.5% |
-| 行为 `behaviors` | 272 | 140 | 81 | 69.4% |
-| 伤害/效果 `damage_and_effects` | 212 | 23 | 24 | 86.3% |
-| 同步数据 `sync_data` | 57 | 55 | 71 | 46.2% |
-| 动画 `animation` | 123 | 29 | 11 | 84.4% |
-| 模型/贴图 `model_texture` | 105 | 6 | 23 | 80.6% |
-| 音效 `sounds` | 81 | 47 | 32 | 65.3% |
-| 生成 `spawning` | 87 | 54 | 35 | 64.8% |
-| 掉落 `loot` | 39 | 38 | 21 | 59.2% |
+| 注册 `registration` | 208 | 75 | 76 | 68.4% |
+| 属性 `attributes` | 234 | 60 | 18 | 84.6% |
+| AI `ai` | 198 | 185 | 46 | 67.7% |
+| 行为 `behaviors` | 286 | 148 | 85 | 69.4% |
+| 伤害/效果 `damage_and_effects` | 232 | 25 | 24 | 87% |
+| 同步数据 `sync_data` | 59 | 57 | 78 | 45.1% |
+| 动画 `animation` | 131 | 30 | 13 | 83.9% |
+| 模型/贴图 `model_texture` | 111 | 6 | 25 | 80.3% |
+| 音效 `sounds` | 87 | 49 | 35 | 65.2% |
+| 生成 `spawning` | 91 | 56 | 37 | 64.7% |
+| 掉落 `loot` | 39 | 42 | 21 | 58.8% |
 
 ## 分组完成度
 
@@ -36,15 +36,13 @@
 | hijacked_and_feral | 2/12 | 111 | 56 | 59 | 61.5% |
 | early_lifecycle | 1/10 | 42 | 25 | 18 | 64.1% |
 | current | 2/13 | 99 | 42 | 34 | 68.6% |
-| marauderized | 3/7 | 165 | 71 | 46 | 71.1% |
+| marauderized | 5/7 | 262 | 110 | 85 | 69.4% |
 | assimilated | 23/23 | 1119 | 462 | 230 | 74.5% |
 
 ## 逐生物矩阵
 
 | id | 原版类 | 工程类 | 注册 | 属性 | AI | 行为 | 伤害/效果 | 同步数据 | 动画 | 模型/贴图 | 音效 | 生成 | 掉落 | 完成度 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | ---: |
-| `mar_human` | EntitySpeHuman | MarauderizedHumanEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
-| `mar_sheep` | EntitySpeSheep | MarauderizedSheepEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `mar_bear` | EntitySpeBear | MarauderizedBearEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `fer_bear` | EntityFerBear | FeralParasiteEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `fer_cow` | EntityFerCow | FeralParasiteEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
@@ -142,6 +140,8 @@
 | `hi_skeleton` | EntityHiSkeleton | HiSkeletonEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | 61.4% |
 | `fer_villager` | EntityFerVillager | FeralParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 61.6% |
 | `host` | EntityHost | HostEntity | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | 🟠 | 64.1% |
+| `mar_sheep` | EntitySpeSheep | MarauderizedSheepEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | 65.9% |
+| `mar_human` | EntitySpeHuman | MarauderizedHumanEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | 67.2% |
 | `mar_cow` | EntitySpeCow | MarauderizedCowEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 67.3% |
 | `sim_endermanhead` | EntityInfEndermanHead | AssimilatedHeadEntity | ❌ | 🟠 | 🟠 | ❌ | ❌ | ❌ | 🟠 | ✅ | ❌ | ❌ | ✅ | 68.6% |
 | `buglin` | EntityLodo | BuglinEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 68.6% |
@@ -204,6 +204,22 @@
 - 钻地传送、脚下 InfestRemain、地面粒子等伴随表现缺失
 - AI：wait/jumpT/AOE 范围切换 GOAL 缺失，跟随 GOAL 未按原版移除
 - 经验 20 < 原版 30，且缺少阶段加成与 per-mob 开关
+
+### `mar_sheep`（EntitySpeSheep → MarauderizedSheepEntity，65.9%）
+- 眼高 2.73F 未作为注册参数（走 4 参 monster()，实际 ≈2.4225）
+- 刷怪蛋开关 SRPConfig.vanillaEggs 与 per-mob 开关 marsheepEnabled 均缺失
+- this.type / getIDSpawn / canSpawnByIDData 的数值身份与同化配额体系整体缺失
+- 击退抗性 0.7 ≠ 原版 MARVILLAGER_KD_RESISTANCE 0.9；未接线 marvillager 全局×per-mob 倍率（同族 mar_cow 已接线 marcow*）
+- AI 缺口：EntityAISwimmingDiving(0.08)、EntityAIAttackMeleeRangeSwitch(0.0F)、EntityAIJumping；EntityAIGetFollowers 未注册；远程 goal 射程 16 格 ≠ 原版 12 格且无 moveSpeed 1.2/pullAway
+- 行为缺口：COTH 光环 InfectNearby（3 格/4800 tick）、变体掷骰 setSkin(1)
+
+### `mar_human`（EntitySpeHuman → MarauderizedHumanEntity，67.2%）
+- 眼高 1.73F 未作为注册参数（走 4 参 monster()，实际 ≈1.6575）
+- 刷怪蛋开关 SRPConfig.vanillaEggs 与 per-mob 开关 marhumanEnabled 均缺失
+- this.type / getIDSpawn / canSpawnByIDData 的数值身份与同化配额体系整体缺失
+- 缺少 marhuman* 全局×per-mob 属性倍率接线（同族 mar_cow 已接线 marcow*，MobsConfig 中无 marhuman* 项）
+- AI 缺口：EntityAISwimmingDiving(0.08)、EntityAIWaterLeapAtTargetStatus(0.7F/1.5/3/20/0)、EntityAIEvade、EntityAIJumping；EntityAIGetFollowers 未注册
+- 行为缺口：COTH 光环 InfectNearby（3 格/4800 tick）、骑乘震动 MsgQlipShake(250,4.0F)
 
 ### `mar_cow`（EntitySpeCow → MarauderizedCowEntity，67.3%）
 - 眼高 1.3 未实现（用默认值）

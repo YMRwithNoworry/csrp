@@ -49,7 +49,7 @@
           "verdict": "partial",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:191",
-            "project": "src/main/java/alku/csrp/registry/ModEntities.java:653"
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:630"
           },
           "note": "project clientTrackingRange(8) 表示 8 区块=128 格，追踪距离被放大；更新间隔沿用默认 3"
         },
@@ -268,7 +268,7 @@
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeCow.java:72",
             "project": "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java:72"
           },
-          "note": "project MeleeAttackGoal(this, 1.5D, false) 速度一致；优先级 3（MarauderizedParasiteEntity.java:111）与原版 2 不同"
+          "note": "project MeleeAttackGoal(this, 1.5D, false) 速度一致；优先级 3（MarauderizedParasiteEntity.java:107）与原版 2 不同"
         },
         {
           "clause": "tasks.addTask(4, EntityAIAttackRangedStatus(this, 1.0, 200, 7.0F, false))：冷却 200 tick、半径 7 格",
@@ -533,7 +533,7 @@
           "clause": "getStillAni/stillTicks：静止超过 25 tick 切换站桩姿态",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:444",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:446",
             "project": "src/main/java/alku/csrp/entity/MarauderizedParasiteEntity.java:153"
           },
           "note": "project stillTicks > 25 置 STILL_ANI，等价"
@@ -622,7 +622,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:790",
-            "project": "src/main/java/alku/csrp/entity/MarauderizedParasiteEntity.java:273"
+            "project": "src/main/java/alku/csrp/entity/MarauderizedParasiteEntity.java:240"
           },
           "note": "project hurt() 对 IS_FIRE 伤害 ×4.0"
         },
@@ -666,7 +666,7 @@
           "clause": "击杀后用 PARATE 强化生命/护甲/伤害（EntityParasiteBase:1046-1074）",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1046",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1052",
             "project": "src/main/java/alku/csrp/event/StatusEffectEvents.java"
           },
           "note": "absorbParateAttributes：击杀时若击杀者带 PARATE，则按 0.5×(amp+1)（原版 parateMuch=0.5 × bonuss）把受害者基础生命/护甲/攻击加到自身；台账修正：PARATE 击杀强化（EntityParasiteBase:1046-1074，parateMuch = 0.5）——实现早已存在，审计陈旧"
@@ -703,7 +703,7 @@
           "verdict": "partial",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:831",
-            "project": "src/main/java/alku/csrp/entity/MarauderizedParasiteEntity.java:137"
+            "project": "src/main/java/alku/csrp/entity/MarauderizedParasiteEntity.java:78"
           },
           "note": "project 只有 12 tick 攻击动画（ATTACK_ANIMATION_TICKS=12），无 100 tick 冷却概念"
         }
@@ -719,7 +719,7 @@
           "verdict": "partial",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:134",
-            "project": "src/main/java/alku/csrp/entity/MarauderizedParasiteEntity.java:58"
+            "project": "src/main/java/alku/csrp/entity/MarauderizedParasiteEntity.java:82"
           },
           "note": "project PARASITE_STATUS 为 INT 且只表达 0..3（0 待机 / 1 攻击 / 2 追击 / 3 特殊），原版为 byte 0..11"
         },
@@ -1067,7 +1067,7 @@
           "clause": "经验 8（XP_INFECTED）",
           "verdict": "partial",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:146",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPConfig.java:146",
             "project": "src/main/java/alku/csrp/entity/MarauderizedCowEntity.java:38"
           },
           "note": "project xpReward=12"

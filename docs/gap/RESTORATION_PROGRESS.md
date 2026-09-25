@@ -4503,3 +4503,36 @@ grep "shycoadaptedmelee|SHYCO_A_MELLE" 原版 → 【0 命中】✗
 - 开放数值项与 `mar_villager` 四项未处理 ✗。
 
 ⇒ **不以"轮次用尽"作为完成依据** ✔；后续轮次应沿批次 262/263 的交接摘要继续推进 ✔。
+
+## 批次 265：验收第九批（`mar_human`/`mar_sheep`）+ 漂移修正 + 新缺口登记（2026-09-25 续）
+
+**（一）验收**：`mar_human`（96 条：51/19/20/6）、`mar_sheep`（94 条：46/20/19/9），
+含 **166+160 条引用逐条核对**（0 未解析、0 越界 ✔）与"**先 grep 端口机制再判定**"的严谨处置 ✔（无阻塞 ✔）。
+
+**（二）漂移修正（已核实清单，11 处 / 2 文件）**：
+
+| 原引用 | 实际 |
+| --- | --- |
+| `ModEntities:653` | `:630` |
+| `MarauderizedParasiteEntity:58/273/111/137` | `:82-86/240/107/78` |
+| `SRPAttributes:146`（XP） | `SRPConfig:146` |
+| `SRPEntities:189`（vanillaEggs） | `:193` |
+| `EntityParasiteBase:1046`（PARATE） | `:1052` |
+| `EntityParasiteBase:444`（getStillAni） | `:446` |
+
+**（三）其指出的"过时判定"**：`mar_cow`/`sim_cow` 的"tracker = 8 格 / 128 blocks"**已过时** ✗ ——
+`ModEntities:630` 现为 `clientTrackingRange(4).updateInterval(3)` = `tracker(64,3,true)` ⇒ 该条款应为 **satisfied** ✔
+（本会话早前已把 tracker 统一改为 4 ✔，此处是**旧判定未同步** ✗）。
+
+**（四）新登记缺口（机制已确认，非"缺一行"✗）**：
+- **眼高未走注册参数**（`mar_*` 仍用 3 参 helper ✗，而 5 参带 eyeHeight 的重载就在 `ModEntities:668` 未被使用 ✗）；
+- **`mar_human` 缺逐类倍率接线**（用常量 ✗，而同族 `MarauderizedCowEntity:43-47` **有** `marcow*` 接线 ✔，且 `MobsConfig` **无** `marhuman*` 键 ✗）；
+- `mar_sheep` 击退抗性 0.7 vs 原版 `MARVILLAGER_KD_RESISTANCE` 0.9 ✗（原版**复用村民常量**的怪写法 ✔ 已如实记录 ✔）；
+- **AI 五项缺失**（SwimmingDiving / WaterLeap / Evade / JumpAtHigherTarget / RecruitFollowers ✗ —— 端口**有这些类**、只是没给 `mar_*` 注册 ✔）；
+- COTH 光环缺失 ✗、命中 COTH 100% vs `cothSpread 0.1` ✗、流血 0.15 vs 0.2 ✗；
+- SKIN/COLD_L/DISLO15 缺 ✗、地下姿态缺 ✗、步声缺 ✗；
+- **反向差异**：自然生成条目与掉落（原版皆无 ✗）—— 与批次 249/254 同类 ✔；
+- XP 10/9 vs 原版 8 ✗；`mar_sheep` 射程 16 vs 12 格、缺射击音效 ✗、榴弹引信语义差异 ✗。
+
+**方法论**：第九批在**引用核对**上做到了本会话最严（逐行 dump 内容 ✔），并**主动发现兄弟审计的漂移与过时判定** ✔ ——
+**审计之间互相纠错**已成为常态 ✔，这正是"9 批 17 份审计"规模下维持账面可信的关键机制 ✔。

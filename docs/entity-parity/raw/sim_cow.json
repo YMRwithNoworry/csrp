@@ -158,7 +158,7 @@
           "clause": "经验 field_70728_aV = SRPAttributes.XP_INFECTED = 8",
           "verdict": "partial",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:146",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPConfig.java:146",
             "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:114"
           },
           "note": "project xpReward=6"
@@ -601,7 +601,7 @@
           "clause": "getStillAni / stillTicks：长时间静止时切换站桩动画",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:444",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:446",
             "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:157"
           },
           "note": "project stillAnimationTicks（>25 tick 切换 still 动画）"
@@ -787,7 +787,7 @@
           "clause": "击杀后用 PARATE 强化生命/护甲/伤害",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1046",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1052",
             "project": "src/main/java/alku/csrp/event/StatusEffectEvents.java"
           },
           "note": "absorbParateAttributes：击杀时若击杀者带 PARATE，则按 0.5×(amp+1)（原版 parateMuch=0.5 × bonuss）把受害者基础生命/护甲/攻击加到自身；台账修正：PARATE 击杀强化（EntityParasiteBase:1046-1074，parateMuch = 0.5）——实现早已存在，审计陈旧"
@@ -1148,7 +1148,7 @@
           "clause": "经验 8（XP_INFECTED）",
           "verdict": "partial",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:146",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPConfig.java:146",
             "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:114"
           },
           "note": "project xpReward=6"
