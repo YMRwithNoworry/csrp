@@ -145,9 +145,9 @@ public class KirinSlashRenderer extends EntityRenderer<KirinSlashEntity, KirinSl
                 .setColor(red, green, blue, Mth.clamp(alpha, 0.0F, 1.0F));
     }
 
-    public Identifier getTextureLocation(KirinSlashEntity entity) {
-        return Identifier.withDefaultNamespace("textures/entity/kirin_slash.png");
-    }
+    // The original RenderKirinSlash draws its blades purely from coloured geometry and binds no texture;
+    // the leftover getTextureLocation() that pointed at a non-existent minecraft:textures/entity/kirin_slash.png
+    // was dead code and has been removed.
 
     @Override
     public boolean shouldRender(KirinSlashEntity entity, net.minecraft.client.renderer.culling.Frustum frustum,

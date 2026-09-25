@@ -18,8 +18,14 @@ import net.minecraft.util.Mth;
 
 public final class ParasiteProjectileRenderer
         extends EntityRenderer<ParasiteProjectileEntity, ParasiteProjectileRenderer.State> {
+    /**
+     * Fallback for every projectile mode without a dedicated texture.  The original's scary-orb ball uses
+     * {@code srparasites:textures/entity/monster/orbscary.png}; the previous value referenced a
+     * {@code scary_orb.png} that was never shipped, so those projectiles drew the missing-texture
+     * checkerboard.
+     */
     private static final Identifier DEFAULT_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
-            "textures/entity/scary_orb.png");
+            "textures/entity/orbscary.png");
     private static final Identifier LENCIA_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/projectile/lencia.png");
     private static final Identifier ELVIA_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,

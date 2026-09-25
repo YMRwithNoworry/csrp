@@ -27,8 +27,13 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity>
         extends ParasiteGeoRenderer<T, PrimitiveParasiteModel<T>> {
     private static final Identifier COSMIC_HACKING_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/layer/cosmichasking.png");
+    /**
+     * Vanilla moved the guardian beam texture into a per-mob folder in 26.3
+     * ({@code textures/entity/guardian/guardian_beam.png}).  The pre-26.3 path resolves to nothing, which
+     * made the Kirin's target beam render as the missing-texture checkerboard.
+     */
     private static final Identifier GUARDIAN_BEAM_TEXTURE = Identifier.withDefaultNamespace(
-            "textures/entity/guardian_beam.png");
+            "textures/entity/guardian/guardian_beam.png");
     private static final RenderType GUARDIAN_BEAM_RENDER_TYPE = RenderTypes.entityTranslucentEmissive(
             GUARDIAN_BEAM_TEXTURE);
     private static final int BEAM_SIDES = 8;

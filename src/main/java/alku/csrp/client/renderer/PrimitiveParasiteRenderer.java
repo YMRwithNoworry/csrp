@@ -31,8 +31,9 @@ public final class PrimitiveParasiteRenderer<T extends Mob & CitadelAnimatedEnti
             "textures/entity/pri_yelloweye_glow.png");
     private static final Identifier YELLOWEYE_HEAVY_GLOW_TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
             "textures/entity/pri_yelloweye_heavy_glow.png");
+    /** Vanilla relocated this texture to {@code textures/entity/guardian/guardian_beam.png} in 26.3. */
     private static final Identifier GUARDIAN_BEAM_TEXTURE = Identifier.withDefaultNamespace(
-            "textures/entity/guardian_beam.png");
+            "textures/entity/guardian/guardian_beam.png");
     private static final RenderType GUARDIAN_BEAM_RENDER_TYPE = RenderTypes.entityTranslucentEmissive(
             GUARDIAN_BEAM_TEXTURE);
     private static final float BEAM_RADIUS = 0.2F;

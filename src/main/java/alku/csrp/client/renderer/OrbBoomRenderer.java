@@ -16,8 +16,13 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.Identifier;
 
 public final class OrbBoomRenderer extends EntityRenderer<OrbBoomEntity, EntityRenderState> {
+    /**
+     * Original {@code RenderOrbBoom.TEXTURES} points at {@code srparasites:textures/entity/monster/orbboom.png};
+     * this renderer used to reference a {@code scary_orb.png} that was never shipped, so the Kirin's orb
+     * detonation drew the missing-texture checkerboard.
+     */
     private static final Identifier TEXTURE = Identifier.fromNamespaceAndPath(Csrp.MODID,
-            "textures/entity/scary_orb.png");
+            "textures/entity/orbboom.png");
     private static final RenderType RENDER_TYPE = RenderTypes.entityTranslucent(TEXTURE);
 
     public OrbBoomRenderer(EntityRendererProvider.Context context) {

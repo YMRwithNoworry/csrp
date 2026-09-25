@@ -144,7 +144,9 @@ expect(entity, /xpReward = 55/,
 
 expect(model, /case 5 -> ARACHNIDA_VIRULENT_TEXTURE[\s\S]*?case 6 -> ARACHNIDA_BLEEDING_TEXTURE[\s\S]*?case 7 -> ARACHNIDA_HEAVY_TEXTURE/,
   "Adapted Arachnida variant textures are not selected by skin");
-expect(renderer, /textures\/entity\/guardian_beam\.png[\s\S]*?getArachnidaStatus\(\) != 3[\s\S]*?getArachnidaTetherTarget\(\)[\s\S]*?renderArachnidaBeam/,
+// Vanilla relocated this texture to textures/entity/guardian/guardian_beam.png in 26.3; the pre-26.3
+// path resolved to nothing and made the tether render as the missing-texture checkerboard.
+expect(renderer, /textures\/entity\/guardian\/guardian_beam\.png[\s\S]*?getArachnidaStatus\(\) != 3[\s\S]*?getArachnidaTetherTarget\(\)[\s\S]*?renderArachnidaBeam/,
   "Adapted Arachnida Guardian-beam tether rendering is missing");
 expect(client, /ADA_ARACHNIDA[\s\S]*?"ada_arachnida", 1\.0F/,
   "Adapted Arachnida shadow radius is not the original 1.0");
