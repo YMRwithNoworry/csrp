@@ -203,6 +203,8 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
         goalSelector.addGoal(0, new FloatGoal(this));
         goalSelector.addGoal(2, new MeleeAttackGoal(this, kind == Kind.HORSE ? 1.5D : 1.2D, false));
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        // Legacy tasks.addTask(5, EntityAIJumping) of the assimilated family.
+        goalSelector.addGoal(5, new JumpAtHigherTargetGoal(this));
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         // Legacy EntityAIGetFollowers(this, 1, 16) of the assimilated family.
         goalSelector.addGoal(6, new RecruitFollowersGoal(this, 16));

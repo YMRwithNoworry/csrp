@@ -1953,3 +1953,14 @@ SRPConfigMobs.java:4370  angedEnabled = cfg.getBoolean("Vigilante Enabled", "srp
 
 **留待下一轮**：`JumpAtHigherTargetGoal`（需先取端口既有构造形式，本轮 grep 被 `head` 截断）与
 `WaterLeapAtTargetGoal`（野化族用 lambda 谓词形式，需照抄其形态）。`build` 通过、套件维持既有 20 失败。
+
+## 批次 130：同化变体族补 `JumpAtHigherTargetGoal`（AI 缺口之二）（2026-09-25 续）
+
+在 `WaterAvoidingRandomStrollGoal`（优先级 5）之后追加 `JumpAtHigherTargetGoal(this)`，对应原版
+`tasks.addTask(5, EntityAIJumping)`；构造形式取自端口 `LongarmsEntity:120` 的**同一写法**（`JumpAtHigherTargetGoal(Mob)`），非猜测。
+
+**第三个缺口（WaterLeap）的阻塞点已查明**：`WaterLeapAtTargetGoal` 有两个构造——
+`(PrimitiveParasiteEntity, float, double, int, double)`（`LongarmsEntity:113`）与
+`(this, <lambda 谓词>)`（`FeralParasiteEntity:93`、`SimHumanEntity:181`）。同化变体族**不是** `PrimitiveParasiteEntity`，
+故只能用后者；其 lambda 全文本轮未取到（被 `head` 截断），下一轮取全后照抄。
+`build` 通过、套件维持既有 20 失败。
