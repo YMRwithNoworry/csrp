@@ -357,3 +357,25 @@ gene 门分别用 `waterLeapEnabled()` 与 `generationProfile(...).waterLeap()`�
 结论：`sim_cow/sheep/wolf/squid/bigspider` 一族当前只差 `blockSearch` 与 `specialmove`；
 补齐这两项即可一次翻转 7 条（`sim_*`×6 + `fer_villager`；`mar_cow` 另需 specialmove）。
 校验：全套 99 脚本失败集合仍为既有 20 个；`build` 通过。
+
+## 批次 18：gene 捆绑条款的真实阻塞项定位（2026-09-25 续，侦察+记账无代码）
+
+按原版逐类核对 `EntityAIBlockLight` / `canLookWall` / `geneLookwall` 的出现次数：
+
+```
+EntityInfCow: 0    EntityInfHuman: 0    EntitySpeCow: 0    EntityFerVillager: 0
+```
+
+即**「穿墙/破块」子项对这些族不适用**（原版就没这个任务），与之前水跃的结论同类——属于此前审计把通用 gene
+描述当成了逐项义务。据此，gene 覆盖表的实际阻塞项收敛为：
+
+| 生物 | 原版任务表（`ORIGINAL_AI_TASKS.md`） | 唯一缺口 |
+| --- | --- | --- |
+| `sim_cow` | `EntityAISwimmingDiving`(0)、**`EntityAISkill`(2)**、`EntityAIAttackMeleeStatus`(3)、`EntityAIInfectedSearch`(3,cond)、`EntityAIGetFollowers`(6)、`EntityAILookIdle`(8) | `EntityAISkill`（技能本体） |
+| `sim_human` | 同上结构 | `EntityAISkill` |
+| `fer_villager` / `mar_cow` | 同族结构 | `EntityAISkill` |
+
+结论：**补齐 `EntityAISkill` 即可一次翻转 7 条 gene 捆绑条款**（`sim_*`×6 + `fer_villager`）。
+下一轮实施顺序建议：先读原版 `EntityAISkill`（`entity/ai/EntityAISkill.java`）与其在各 `EntityInf*` 的构造参数，
+再决定是复用端口既有的技能/冲锋实现（如 `AssimilatedParasiteEntity` 的 `CowChargeGoal`）还是新建共享技能目标。
+本轮为侦察与证据落账，未改代码，账面不变（满足 649 / 缺失 293）。
