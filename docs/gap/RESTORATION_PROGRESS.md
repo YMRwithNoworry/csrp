@@ -1758,3 +1758,26 @@ SRPConfigMobs.java:4370  angedEnabled = cfg.getBoolean("Vigilante Enabled", "srp
 **结清小项（豁免一致性）**：批次 98 的生成合法性接线中，我对 `SPAWNER` / `SPAWN_EGG` / `COMMAND` 三种 `MobSpawnType`
 做了豁免（理由：原版这些场景本就不经过 `func_70601_bi`）。该豁免的正确性**由构造保证**——
 三种常量均经编译验证存在于 1.21.1，且判定分支显式列举、无默认放行；故此项无需额外核对，结清。
+
+## 批次 117：自审前置——模板结构与候选已就绪（2026-09-25 续）
+
+**模板结构**（`raw/sim_cow.json`，11 个 facet）：
+
+```json
+{ "id", "originalClass", "projectClass",
+  "facets": [ { "name", "status", "clauses": [
+      { "clause": "…", "verdict": "satisfied|partial|missing|na",
+        "evidence": { "original": "<abs path>:<line>", "project": "<repo path>:<line>" },
+        "note": "…" } ], "confidence": … } ] }
+```
+
+**关键便利**：`docs/entity-parity/audit-input.json` 的每个条目**已经给出** `id` / `originalClass` / `originalFile` / `originalChain`
+⇒ 自审时**无需再搜索原版类**（此前委派提示词里让子代理自己找类，属无谓开销）。
+
+**待审清单（114 只，前 6 只）**：`sim_pig, sim_villager, sim_adventurer, sim_horse, sim_bear, sim_enderman`。
+
+**下一轮自审方案（第 1 只：`sim_pig`）**：
+1. 取 `audit-input.json` 中 `sim_pig` 条目（原版类/文件/链）；
+2. 端口侧取 `AssimilatedParasiteEntity.Kind.PIG`（属性）、渲染器实参、蛋色、音效、AI 注册；
+3. 逐项对照并给出 `evidence.original` / `evidence.project`（**路径:行号**），找不到的写 partial/missing；
+4. 落盘 `raw/sim_pig.json` → 自查引文 → 提交。
