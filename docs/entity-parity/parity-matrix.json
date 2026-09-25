@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-25T03:49:58.072Z",
+  "generatedAt": "2026-09-25T03:52:12.780Z",
   "protocol": "docs/entity-parity/AUDIT_PROTOCOL.md",
   "input": "docs/entity-parity/audit-input.json",
   "counts": {
@@ -8,33 +8,33 @@
     "missing": 114
   },
   "overall": {
-    "satisfied": 691,
-    "partial": 372,
-    "missing": 259,
+    "satisfied": 694,
+    "partial": 371,
+    "missing": 257,
     "na": 57,
     "denominator": 1322,
-    "completion": 66.3
+    "completion": 66.5
   },
   "facets": [
     {
       "facet": "registration",
       "label": "注册",
-      "satisfied": 61,
+      "satisfied": 62,
       "partial": 40,
-      "missing": 30,
+      "missing": 29,
       "na": 0,
       "denominator": 131,
-      "completion": 61.8
+      "completion": 62.6
     },
     {
       "facet": "attributes",
       "label": "属性",
-      "satisfied": 86,
-      "partial": 29,
-      "missing": 10,
+      "satisfied": 88,
+      "partial": 28,
+      "missing": 9,
       "na": 0,
       "denominator": 125,
-      "completion": 80.4
+      "completion": 81.6
     },
     {
       "facet": "ai",
@@ -198,12 +198,12 @@
       "group": "hijacked_and_feral",
       "audited": 2,
       "expected": 12,
-      "satisfied": 104,
-      "partial": 59,
-      "missing": 63,
+      "satisfied": 107,
+      "partial": 58,
+      "missing": 61,
       "na": 3,
       "denominator": 226,
-      "completion": 59.1
+      "completion": 60.2
     },
     {
       "group": "early_lifecycle",
@@ -3004,25 +3004,25 @@
       "group": "hijacked_and_feral",
       "missing": false,
       "totals": {
-        "satisfied": 63,
-        "partial": 33,
-        "missing": 38,
+        "satisfied": 66,
+        "partial": 32,
+        "missing": 36,
         "na": 1
       },
       "denominator": 134,
-      "completion": 59.3,
+      "completion": 61.2,
       "facets": {
         "registration": {
-          "satisfied": 6,
+          "satisfied": 7,
           "partial": 2,
-          "missing": 3,
+          "missing": 2,
           "na": 0,
           "clauses": 11
         },
         "attributes": {
-          "satisfied": 7,
-          "partial": 3,
-          "missing": 2,
+          "satisfied": 9,
+          "partial": 2,
+          "missing": 1,
           "na": 0,
           "clauses": 12
         },

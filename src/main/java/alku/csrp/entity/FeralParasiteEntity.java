@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.config.MobsConfig;
 import alku.csrp.world.EvolutionSystem;
 import alku.csrp.event.ParasiteCombatRules;
 import alku.csrp.registry.ModMobEffects;
@@ -68,11 +69,17 @@ public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntit
     }
 
     public static AttributeSupplier.Builder createAttributes(Kind kind) {
+        // Legacy SRPConfigMobs per-mob multipliers (default 1.0F in the original).
+        boolean villager = kind == Kind.VILLAGER;
+        double health = villager ? MobsConfig.fervillagerHealthMultiplier() : 1.0D;
+        double damage = villager ? MobsConfig.fervillagerDamageMultiplier() : 1.0D;
+        double armor = villager ? MobsConfig.fervillagerArmorMultiplier() : 1.0D;
+        double knockback = villager ? MobsConfig.fervillagerKnockbackMultiplier() : 1.0D;
         return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, kind.maxHealth)
-                .add(Attributes.ATTACK_DAMAGE, kind.attackDamage)
-                .add(Attributes.ARMOR, kind.armor)
-                .add(Attributes.KNOCKBACK_RESISTANCE, kind.knockbackResistance)
+                .add(Attributes.MAX_HEALTH, kind.maxHealth * health)
+                .add(Attributes.ATTACK_DAMAGE, kind.attackDamage * damage)
+                .add(Attributes.ARMOR, kind.armor * armor)
+                .add(Attributes.KNOCKBACK_RESISTANCE, Math.min(1.0D, kind.knockbackResistance * knockback))
                 .add(Attributes.MOVEMENT_SPEED, kind.movementSpeed)
                 .add(Attributes.FOLLOW_RANGE, kind.followRange);
     }

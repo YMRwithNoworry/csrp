@@ -370,6 +370,17 @@ for (const [pattern, message] of [
 ]) expect(simHumanSpawn, pattern, message);
 expect(mobsConfig, /public static double infhumanHealthMultiplier\(\)/, "the human accessors are missing");
 
+// legacy SRPConfigMobs.fervillager* multipliers are read by the feral family
+const feralSpawn = read("src/main/java/alku/csrp/entity/FeralParasiteEntity.java");
+for (const [pattern, message] of [
+  [/boolean villager = kind == Kind\.VILLAGER;/, "the feral villager branch is missing"],
+  [/MobsConfig\.fervillagerHealthMultiplier\(\)/, "the feral villager health multiplier is not read"],
+  [/MobsConfig\.fervillagerDamageMultiplier\(\)/, "the feral villager damage multiplier is not read"],
+  [/MobsConfig\.fervillagerArmorMultiplier\(\)/, "the feral villager armor multiplier is not read"],
+  [/MobsConfig\.fervillagerKnockbackMultiplier\(\)/, "the feral villager knockback multiplier is not read"]
+]) expect(feralSpawn, pattern, message);
+expect(mobsConfig, /public static double fervillagerDamageMultiplier\(\)/, "the feral villager accessors are missing");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

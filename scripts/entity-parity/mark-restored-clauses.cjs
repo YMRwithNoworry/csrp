@@ -584,6 +584,19 @@ const BATCHES = {
         detail: "SimHumanEntity.createAttributes 读取原版 SRPConfigMobs 的 infhuman 四项（health/damage/armor/KDResistance，默认 1.0）并相乘基础生命 40/攻击 12/护甲 6，与既有全局倍率构成「全局 × per-mob」结算；击退抗性夹取 1.0"
       }
     ]
+  },
+  // 批次 48：fer_villager 的 per-mob 属性倍率接线
+  "per-mob-multipliers-fervillager": {
+    note: "批次：per-mob 属性倍率接线（原版 SRPConfigMobs.fervillager*，默认 1.0F）",
+    mobs: ["fer_villager"],
+    clauses: [
+      {
+        match: /per-mob|倍率/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/FeralParasiteEntity.java",
+        detail: "FeralParasiteEntity.createAttributes 在 Kind.VILLAGER 分支读取原版 SRPConfigMobs 的 fervillager 四项（health/damage/armor/KDResistance，默认 1.0）并相乘，与既有全局倍率构成「全局 × per-mob」结算；击退抗性夹取 1.0"
+      }
+    ]
   }
 };
 

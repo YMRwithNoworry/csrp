@@ -773,3 +773,11 @@ infsheep/infwolf/infvillager` 系列，默认值全 1.0F）。
 
 至此本线覆盖：`dorpa`(sim_bigspider)、`infcow`、`infsheep`、`infwolf`、`infsquid`、`infhuman`。
 剩余：`sim_bear`（`infbear*`，未审计）与野化族 `fer*` 系列（`ferbear` 已确认存在，`fervillager` 待核对）。
+
+## 批次 48：fer_villager 的 per-mob 倍率接线（2026-09-25 续）
+
+野化族首只（原版键名 `fervillager*`，默认 1.0F；同族 `ferbear/fercow/ferenderman/ferhorse/ferhuman` 均已确认存在）：
+`MobsConfig` 补 4 项 + 4 个访问器；`FeralParasiteEntity.createAttributes` 在 `Kind.VILLAGER` 分支按四项相乘
+（击退抗性夹取 1.0）。
+校验：`verify-parasite-combat-rules.cjs` 增加 6 条断言；审计记账 **3 条**，满足 691 → **694**，缺失 259 → **257**，加权 **66.5%**。
+剩余：野化族其余 8 种（`ferbear` 等）与 `sim_bear`（`infbear*`）。
