@@ -1348,3 +1348,12 @@ isValidLightLevelTwo() {                       // :1654
 ② `spawnDays` 名为"天数"实为 **tick 门槛**，默认 0 ⇒ 端口若按"天数"实现会偏离；
 ③ 两级光照都含**随机门控**（`nextInt(32)` / `nextInt(1000) && <=7` / `nextInt(8)==0`），必须照抄随机形态而非化简为纯阈值比较；
 ④ 端口挂载点已查明：`CommonModEvents:318 registerSpawnPlacements`（REPLACE）与 `UntamedPriLasherEntity:89 checkSpawnRules`。
+
+## 批次 91：落地 `isValidLightLevelTwo`（生成合法性实现第 1 步）（2026-09-25 续）
+
+新增 `world/SpawnLightChecks`：只实现**证据完整**的那一级——`isValidLightLevelTwo`
+（`blockLight <= random.nextInt(1000) && <= 7 ? random.nextInt(8) == 0 : false`，随机门控照抄，未化简为阈值比较），
+并提供"按实体位置"与"按显式位置+随机源"两个入口，便于挂到生成谓词上。
+
+**未实现的部分**（有意）：`isValidLightLevelOne` 的尾部（`SKY > nextInt(32)` 之后的判定）在批次 90 的摘录中被截断，
+在补全前不写猜测代码；类注释里已注明该限制。断言 2 条（锁定随机形态）。`build` 通过、套件维持既有 20 失败。

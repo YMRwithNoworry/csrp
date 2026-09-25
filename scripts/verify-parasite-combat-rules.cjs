@@ -468,6 +468,11 @@ for (const kind of ["sim_bear", "sim_cow", "sim_pig", "sim_sheep", "sim_wolf", "
   }
 }
 
+// Legacy spawn-validity light check: the randomised two-check must keep its exact random shape.
+const lightChecks = read("src/main/java/alku/csrp/world/SpawnLightChecks.java");
+expect(lightChecks, /light <= random\.nextInt\(1000\) && light <= 7/, "the two-check threshold is not ported");
+expect(lightChecks, /\? random\.nextInt\(8\) == 0 : false/, "the two-check random gate is not ported");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));
