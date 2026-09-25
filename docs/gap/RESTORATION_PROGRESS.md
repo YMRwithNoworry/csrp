@@ -1008,3 +1008,19 @@ backlog port-only (no restoration gap):        27
 结论与后续：① **3 条该接线**（heavyBomber 的健康/伤害/护甲）→ 按既有流程处理；
 ② **27 条属端口自造**，对还原**不构成缺口**，应择机删除或明确标注为端口扩展；
 ③ 在此之前不再把它们计入"待补"。
+
+## 批次 69：heavyBomber 三条接线的现场勘查（2026-09-25 续，未改代码）
+
+批次 68 判定"3 条原版背书、该接线"后，本轮去落实，查明三件事（供下一轮直接使用）：
+
+1. **常量名确认**：`MobsConfig` 中确实存在 `JINJO_HEALTH_MULTIPLIER` / `JINJO_DAMAGE_MULTIPLIER` /
+   `JINJO_ARMOR_MULTIPLIER`（grep 命中，与批次 68 的三路匹配一致），因此访问器应写成
+   `return JINJO_*_MULTIPLIER.get();`——这正是第 57 轮踩坑处（当时误按 `PRIMITIVE_*` 找常量）。
+2. **属性创建点尚未定位**：`grep 'bomber_heavy'` 在 entity 包只命中 `ParasiteSoundProfiles`（音效映射）与
+   `PrimitiveParasiteEntity` 的破块表，**没有属性站点**；说明 bomber_heavy 的属性不按实体 id 拼装，
+   而在其所属类（`PreeminentParasiteEntity` 的 `Kind` 分支或专用类）里，需要先读该类再决定插入点。
+3. 本轮对 `MobsConfig` 的一次访问器改动因文件版本陈旧被编辑器拒绝（未写入），**工作树保持干净**，
+   未留下半成品——与批次 65 的处置一致：定位不清时不硬改。
+
+下一步（无待调研项的部分已完成）：读 `PreeminentParasiteEntity`（或其 bomber 专用类）的 `createAttributes`/`Kind`
+分支 → 加 3 个访问器 → 对应偏移处叠加 → `--strict` 白名单划掉这 3 条。
