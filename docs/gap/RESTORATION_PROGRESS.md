@@ -600,3 +600,22 @@ canUse:  dis < distanceC && dis >= distanceL    // → 8 ≤ d < 32 格
 应在补齐该族的跟随模型后再接线（已在条目中注明）。
 
 校验：`verify-parasite-combat-rules.cjs` 增加 1 条断言；审计记账 1 条，满足 682 → **683**。
+
+## 批次 35：EntityAIAttackProjectile 侦察（2026-09-25 续，未改代码）
+
+`sim_bigspider` 审计有两条相邻条款：
+- `tasks.addTask(6, EntityAIAttackProjectile(this, 60, 15, 3))`
+- `远程攻击 EntityAIAttackProjectile(this, 60, 15, 3)：每 60 tick 发射蛛网弹`
+
+侦察结论（关键，可直接开工）：
+
+1. **端口已有对应弹体**：`ModEntities.WEB_BALL`（`ParasiteProjectileEntity` + `Mode.WEB`，`webball`，0.3×0.3，权重 4/3）——
+   即条款所说的"蛛网弹"，无需新建实体类型。
+2. **该弹体目前无任何使用点**（全仓 `WEB_BALL` 仅出现在注册处），属"有弹无枪"状态。
+3. 端口 `AssimilatedVariantEntity`（sim_bigspider 所属类）`Projectile|shoot|Ranged` 计数为 **0** —— 远程攻击整体缺失。
+4. 仍需补的两项前置阅读：`ParasiteProjectileEntity` 的生成/发射 API（构造或静态工厂），以及原版
+   `EntityAIAttackProjectile` 的冷却/射程/连发语义（参数已由审计给出：60 tick、15 格、3 连发或 3 号弹种待核）。
+5. 注册点：`AssimilatedVariantEntity.registerGoals` 的 goals 按 kind 分支，需定位 `DORPA/BIGSPIDER` 分支锚点
+   （用 edit 工具按字节匹配，避免 CRLF 多行锚点失配——见批次 33 的教训）。
+
+本轮不动代码，账面不变（满足 683 / 缺失 265 / 加权 65.8%）。
