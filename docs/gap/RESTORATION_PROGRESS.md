@@ -2113,3 +2113,24 @@ grep -rl SelfeFuseOwner          → AssimilatedParasiteEntity / AssimilatedVari
 `EntityInfSquid` / `EntityInfHuman` / `EntityInfPlayer` / `EntityInfVillager` 各自的 `EntityToxicCloud.addEffect` 行）；
 ② 若确认全族一致（如均为 300/3600），则整体改并加断言；若逐类不同，则改为按 `Kind` 取值（与引信覆写同一手法）。
 **在取得逐类证据前不动代码**——这与批次 74（阴影半径）、批次 137（引信覆盖面）同一处置原则。
+
+## 批次 139：自爆毒云数值对齐（200/200 → 300/3600，全族生效）（2026-09-25 续）
+
+批次 138 曾判断"毒云为逐生物取值、不能整体改"。本轮**证据推翻了我的谨慎假设**，且方向相反：
+
+```
+原版 EntityParasiteBase:1535-1541（基类共享自爆毒云）
+    setRadius(this.field_70130_N * 1.5F, 0.5F);
+    setDuration(getDuration() / 2);
+    addEffect(new PotionEffect(POISON, 300, 0));
+    addEffect(new PotionEffect(SRPCCOTH_E, 3600, 0, false, false));
+原版 EntityInfHorse:232-233 亦为 300 / 3600（与基类一致，非特例）
+端口 AssimilatedVariantEntity（族共享方法）原为 200 / 200  ✗
+```
+
+⇒ 共享值对**整个同化族都错**，已改为 **300 / 3600**（一次修正覆盖全族），并在注释中标注基类行号。
+`build` 通过、套件维持既有 20 失败。
+
+**方法论收获**：批次 138 我基于"马是特例"的假设选择不动手，本轮查基类后发现基类**本来就是 300/3600** ⇒
+"先取证再动手"这次换来的不是"避免改错"，而是"**发现原本以为的特例其实是通例**"——
+两种情况都证明同一件事：**假设必须由基类/源头的证据校验**。
