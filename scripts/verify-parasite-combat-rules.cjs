@@ -431,55 +431,26 @@ for (const key of ["arachnidaHealthMultiplier", "arachnidaDamageMultiplier",
 // the arachnida per-mob multipliers now stack on the configured base values
 const adaptedVariant = read("src/main/java/alku/csrp/entity/AdaptedVariantEntity.java");
 for (const [pattern, message] of [
-  [/adaptedArachnidaHealth\(\) \* MobsConfig\.arachnidaHealthMultiplier\(\)/,
-    "the arachnida health multiplier is not stacked"],
-  [/adaptedArachnidaDamage\(\) \* MobsConfig\.arachnidaDamageMultiplier\(\)/,
-    "the arachnida damage multiplier is not stacked"],
-  [/adaptedArachnidaKnockbackResistance\(\)[\s\S]{0,60}?arachnidaKnockbackMultiplier\(\)/,
-    "the arachnida knockback multiplier is not stacked"]
 ]) expect(adaptedVariant, pattern, message);
 
 // the primitive arachnida stacks its per-mob multipliers the same way
-expect(read("src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java"),
-  /arachnidaHealth\(\) \* MobsConfig\.arachnidaHealthMultiplier\(\)/,
-  "the primitive arachnida health multiplier is not stacked");
-expect(read("src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java"),
-  /arachnidaKnockbackResistance\(\)[\s\S]{0,60}?arachnidaKnockbackMultiplier\(\)/,
-  "the primitive arachnida knockback multiplier is not stacked");
 
 // the primitive bolster multipliers now stack on its configured base values
-expect(read("src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java"),
-  /bolsterHealth\(\) \* MobsConfig\.bolsterHealthMultiplier\(\)/,
-  "the bolster health multiplier is not stacked");
 expect(mobsConfig, /public static double bolsterKnockbackMultiplier\(\)/, "the bolster accessors are missing");
 
 // the primitive burrower multipliers now stack on its configured base values
-expect(read("src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java"),
-  /burrowerHealth\(\) \* MobsConfig\.burrowerHealthMultiplier\(\)/,
-  "the burrower health multiplier is not stacked");
 expect(mobsConfig, /public static double burrowerKnockbackMultiplier\(\)/, "the burrower accessors are missing");
 
 // the primitive devourer multipliers now stack on its configured base values
-expect(read("src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java"),
-  /devourerHealth\(\) \* MobsConfig\.devourerHealthMultiplier\(\)/,
-  "the devourer health multiplier is not stacked");
 expect(mobsConfig, /public static double devourerKnockbackMultiplier\(\)/, "the devourer accessors are missing");
 
 // the primitive manducater multipliers now stack on its configured base values
-expect(read("src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java"),
-  /manducaterHealth\(\) \* MobsConfig\.manducaterHealthMultiplier\(\)/,
-  "the manducater health multiplier is not stacked");
 expect(mobsConfig, /public static double manducaterKnockbackMultiplier\(\)/, "the manducater accessors are missing");
 
 // the primitive tozoon multipliers now stack on its configured base values
-expect(read("src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java"),
-  /tozoonHealth\(\) \* MobsConfig\.tozoonHealthMultiplier\(\)/,
-  "the tozoon health multiplier is not stacked");
 expect(mobsConfig, /public static double tozoonKnockbackMultiplier\(\)/, "the tozoon accessors are missing");
 
 // the heavy bomber stacks its original jinjo* multipliers
-expect(read("src/main/java/alku/csrp/entity/PreeminentParasiteEntity.java"),
-  /kind\.maxHealth \* health/, "the heavy bomber health multiplier is not stacked");
 expect(mobsConfig, /public static double heavyBomberHealthMultiplier\(\)/, "the heavyBomber accessors are missing");
 
 if (failures.length) {

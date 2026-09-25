@@ -20,7 +20,7 @@ for (const match of source.matchAll(declaration)) {
 
 // constant name -> accessor name(s)
 const accessors = new Map();
-const accessor = /public static double\s+(\w+)\(\)\s*\{\s*return\s+([A-Z0-9_]+)\.get\(\)/g;
+const accessor = /public static (?:double|float)\s+(\w+)\(\)\s*\{[^}]*?([A-Z0-9_]+)\.get\(\)/g;
 for (const match of source.matchAll(accessor)) {
   const list = accessors.get(match[2]) ?? [];
   list.push(match[1]);

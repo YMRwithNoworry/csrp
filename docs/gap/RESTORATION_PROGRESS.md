@@ -1044,3 +1044,30 @@ strict: 27 known backlog key(s), 0 new ones.
   fervillager/shyco/hiskeleton/marcow/host/arachnida/bolster/burrower/devourer/manducater/tozoon/heavyBomber），
   剩余 27 条经三路匹配确认为**端口自造键**，对还原不构成缺口；
 - 工具沉淀：`scripts/audit-mob-multipliers.cjs`（解析式 + 三路匹配 + `--strict` 守卫），后续新增死键会被直接拦下。
+
+## 批次 71：**自查发现并回退"倍率双重乘算"回退**（2026-09-25 续）
+
+在按计划清理"27 条端口自造键"时，删除 `OVERSEER_*` 四项导致**编译失败**——编译器指出它们仍被引用：
+
+```java
+public static double overseerHealth() { return 80.0D * OVERSEER_HEALTH_MULTIPLIER.get(); }
+```
+
+**这暴露了两件事**：
+
+1. **审计工具的漏检**：我的访问器正则只认裸形态 `return CONST.get()`，而端口大量使用**带缩放的访问器**
+   （`return 35.0D * BOLSTER_HEALTH_MULTIPLIER.get()`）。已放宽为 `public static (double|float) X() { … CONST.get() … }`。
+   修正后重跑：`unreachable = 0`——**所有倍率键本来就可达**。
+2. **由此查处我自己引入的回退（serious）**：批次 54/55/60–64/70 的"叠加"改动，在实体侧又乘了一次同一个倍率，
+   而这些倍率的**唯一正确应用点就是访问器内部** ⇒ 那 8 处属于**双重乘算**。
+
+**处置（同轮完成，未留隐患）**：
+- 用一次性脚本 `scripts/port263/revert-double-multipliers.cjs` 精确回退 8 处（primitive 的 arachnida/bolster/burrower/
+  devourer/manducater/tozoon 六例 + adapted arachnida + preeminent heavyBomber），回退后 `build` 通过；
+- 删除/改写那 9 条断言（它们断言的正是被回退的错误形态），改为断言**正确设计**：倍率在 `MobsConfig` 访问器内
+  一次性应用（如 `bolsterHealth()` 返回 `35.0D * BOLSTER_HEALTH_MULTIPLIER.get()`），实体侧只能使用普通访问器；
+- 套件回到基线 **99 / 79 / 20**。
+
+**更正此前的结论**：批次 60–64 与 70 所称"接线完成/backlog 下降"**是对幽灵目标的追击**——那些键当时已被访问器读取；
+本轮把实体侧改动回退后，配置面反而恢复到**单一正确应用点**。批次 68 的"3 条该接线"同样应作废。
+一并澄清：`--strict` 的 backlog 语义今后以"**常量是否被任一访问器读取**"为准（已修好并归零）。

@@ -340,42 +340,24 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     public void applyConfiguredAttributes() {
         switch (activeKind()) {
             case ARACHNIDA -> applyConfiguredAttributes(
-                    MobsConfig.arachnidaHealth() * MobsConfig.arachnidaHealthMultiplier(),
-                    MobsConfig.arachnidaArmor() * MobsConfig.arachnidaArmorMultiplier(),
-                    MobsConfig.arachnidaDamage() * MobsConfig.arachnidaDamageMultiplier(),
-                    Math.min(1.0D, MobsConfig.arachnidaKnockbackResistance()
-                            * MobsConfig.arachnidaKnockbackMultiplier()));
+                    MobsConfig.arachnidaHealth(), MobsConfig.arachnidaArmor(),
+                    MobsConfig.arachnidaDamage(), MobsConfig.arachnidaKnockbackResistance());
             case BOLSTER -> applyConfiguredAttributes(
-                    MobsConfig.bolsterHealth() * MobsConfig.bolsterHealthMultiplier(),
-                    MobsConfig.bolsterArmor() * MobsConfig.bolsterArmorMultiplier(),
-                    MobsConfig.bolsterDamage() * MobsConfig.bolsterDamageMultiplier(),
-                    Math.min(1.0D, MobsConfig.bolsterKnockbackResistance()
-                            * MobsConfig.bolsterKnockbackMultiplier()));
+                    MobsConfig.bolsterHealth(), MobsConfig.bolsterArmor(),
+                    MobsConfig.bolsterDamage(), MobsConfig.bolsterKnockbackResistance());
             case BURROWER -> applyConfiguredAttributes(
-                    MobsConfig.burrowerHealth() * MobsConfig.burrowerHealthMultiplier(),
-                    MobsConfig.burrowerArmor() * MobsConfig.burrowerArmorMultiplier(),
-                    MobsConfig.burrowerDamage() * MobsConfig.burrowerDamageMultiplier(),
-                    Math.min(1.0D, MobsConfig.burrowerKnockbackResistance()
-                            * MobsConfig.burrowerKnockbackMultiplier()));
+                    MobsConfig.burrowerHealth(), MobsConfig.burrowerArmor(),
+                    MobsConfig.burrowerDamage(), MobsConfig.burrowerKnockbackResistance());
             case DEVOURER -> applyConfiguredAttributes(
-                    MobsConfig.devourerHealth() * MobsConfig.devourerHealthMultiplier(),
-                    MobsConfig.devourerArmor() * MobsConfig.devourerArmorMultiplier(),
-                    MobsConfig.devourerDamage() * MobsConfig.devourerDamageMultiplier(),
-                    Math.min(1.0D, MobsConfig.devourerKnockbackResistance()
-                            * MobsConfig.devourerKnockbackMultiplier()));
+                    MobsConfig.devourerHealth(), MobsConfig.devourerArmor(),
+                    MobsConfig.devourerDamage(), MobsConfig.devourerKnockbackResistance());
             case MANDUCATER -> applyConfiguredAttributes(
-                    MobsConfig.manducaterHealth() * MobsConfig.manducaterHealthMultiplier(),
-                    MobsConfig.manducaterArmor() * MobsConfig.manducaterArmorMultiplier(),
-                    MobsConfig.manducaterDamage() * MobsConfig.manducaterDamageMultiplier(),
-                    Math.min(1.0D, MobsConfig.manducaterKnockbackResistance()
-                            * MobsConfig.manducaterKnockbackMultiplier()));
+                    MobsConfig.manducaterHealth(), MobsConfig.manducaterArmor(),
+                    MobsConfig.manducaterDamage(), MobsConfig.manducaterKnockbackResistance());
             case REEKER -> applyReekerAttributes(false);
             case TOZOON -> applyConfiguredAttributes(
-                    MobsConfig.tozoonHealth() * MobsConfig.tozoonHealthMultiplier(),
-                    MobsConfig.tozoonArmor() * MobsConfig.tozoonArmorMultiplier(),
-                    MobsConfig.tozoonDamage() * MobsConfig.tozoonDamageMultiplier(),
-                    Math.min(1.0D, MobsConfig.tozoonKnockbackResistance()
-                            * MobsConfig.tozoonKnockbackMultiplier()));
+                    MobsConfig.tozoonHealth(), MobsConfig.tozoonArmor(),
+                    MobsConfig.tozoonDamage(), MobsConfig.tozoonKnockbackResistance());
             case YELLOWEYE -> applyConfiguredAttributes(
                     MobsConfig.yelloweyeHealth(), MobsConfig.yelloweyeArmor(),
                     MobsConfig.yelloweyeNadeDamage(), MobsConfig.yelloweyeKnockbackResistance());

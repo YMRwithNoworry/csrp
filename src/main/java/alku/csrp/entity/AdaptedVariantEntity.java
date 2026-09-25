@@ -435,11 +435,8 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     public void applyConfiguredAttributes() {
         switch (activeKind()) {
             case ARACHNIDA -> applyConfiguredAttributes(
-                    MobsConfig.adaptedArachnidaHealth() * MobsConfig.arachnidaHealthMultiplier(),
-                    MobsConfig.adaptedArachnidaArmor() * MobsConfig.arachnidaArmorMultiplier(),
-                    MobsConfig.adaptedArachnidaDamage() * MobsConfig.arachnidaDamageMultiplier(),
-                    Math.min(1.0D, MobsConfig.adaptedArachnidaKnockbackResistance()
-                            * MobsConfig.arachnidaKnockbackMultiplier()));
+                    MobsConfig.adaptedArachnidaHealth(), MobsConfig.adaptedArachnidaArmor(),
+                    MobsConfig.adaptedArachnidaDamage(), MobsConfig.adaptedArachnidaKnockbackResistance());
             case BURROWER, TOZOON -> applyConfiguredAttributes(
                     MobsConfig.adaptedTozoonHealth(), MobsConfig.adaptedTozoonArmor(),
                     MobsConfig.adaptedTozoonDamage(),
