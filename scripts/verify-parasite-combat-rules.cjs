@@ -240,6 +240,22 @@ expect(read("src/main/java/alku/csrp/world/SrpWorldData.java"),
   /public BlockPos nearestInfectionPosition\(BlockPos origin\)/,
   "SrpWorldData.nearestInfectionPosition is missing");
 
+// legacy EntityAISwimmingDiving: dive after a submerged target, otherwise keep stroking
+const diving = read("src/main/java/alku/csrp/entity/SwimmingDivingGoal.java");
+for (const [pattern, message] of [
+  [/public final class SwimmingDivingGoal extends Goal/, "the swimming diving goal is missing"],
+  [/DIVE_RANGE_SQR = 25\.0D/, "the legacy squared range gate is missing"],
+  [/target\.getY\(\) - mob\.getY\(\) < -DIVE_HEIGHT_DIFFERENCE/, "the diving height gate is missing"],
+  [/subtract\(0\.0D, diveMotion, 0\.0D\)/, "the dive must sink by yMotion"],
+  [/STROKE_CHANCE = 0\.8F/, "the legacy 80% stroke chance is missing"],
+  [/mob\.getJumpControl\(\)\.jump\(\)/, "the stroke must use the jump control"]
+]) expect(diving, pattern, message);
+for (const file of ["AssimilatedParasiteEntity.java", "FeralParasiteEntity.java", "SimHumanEntity.java"]) {
+  if (!/addGoal\(0, new SwimmingDivingGoal\(this, 0\.08D\)\)/.test(read("src/main/java/alku/csrp/entity/" + file))) {
+    failures.push(file + " must register the legacy diving task at priority 0 with 0.08");
+  }
+}
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

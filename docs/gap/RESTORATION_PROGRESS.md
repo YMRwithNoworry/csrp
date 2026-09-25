@@ -537,3 +537,17 @@ canUse:  dis < distanceC && dis >= distanceL    // → 8 ≤ d < 32 格
 | `alertOthers(level, parasite, target)` | 原版 `ParasiteEventEntity.alertOthers(..., 7)` 的等价实现 |
 
 校验：`verify-parasite-combat-rules.cjs` 增加 6 条断言；审计记账 8 条，满足 664 → **672**，缺失 278 → **270**。
+
+## 批次 30：EntityAISwimmingDiving 潜水任务（2026-09-25 续）
+
+原版 `entity/ai/EntityAISwimmingDiving.java`（`func_75248_a(4)` 互斥 JUMP，各 `EntityInf*`/`EntityFer*` 均以
+`new EntityAISwimmingDiving(this, 0.08)` 注册在**优先级 0**）：
+
+| 原版 | 实现 `entity/SwimmingDivingGoal` |
+| --- | --- |
+| `canUse`：不在水/岩浆 → false；目标在液体内、`distanceToSqr(x, target.y, z) < 25.0` 且低 1 格以上 → `motionY -= yMotion` 后返回 false（本 tick 让位） | 同（`DIVE_RANGE_SQR = 25.0`、`DIVE_HEIGHT_DIFFERENCE = 1.0`） |
+| 其余情形返回 true（任务持续） | `canContinueToUse` = 仍在液体中 |
+| `updateTask`：80% 概率划水跳跃 | `STROKE_CHANCE = 0.8F` → `getJumpControl().jump()` |
+
+注册：`AssimilatedParasiteEntity`（同化全族）、`FeralParasiteEntity`（野化全族）、`SimHumanEntity`，均为优先级 0、参数 0.08。
+校验：`verify-parasite-combat-rules.cjs` 增加 9 条断言；审计记账 9 条，满足 672 → **681**，缺失 276 → **267**。

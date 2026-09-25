@@ -397,12 +397,12 @@
         },
         {
           "clause": "tasks.addTask(0, EntityAISwimmingDiving(this, 0.08))",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHuman.java:117",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/SwimmingDivingGoal.java"
           },
-          "note": "project 只有 FloatGoal，无俯冲下潜",
+          "note": "复刻原版：水中/岩浆中且在目标于液体内、平方距离 <25 且低 1 格以上时按 yMotion 下潜；否则 80% 概率划水（jump）；三族按原版优先级 0 与 0.08 参数注册；批次：EntityAISwimmingDiving 潜水任务（yMotion 0.08，优先级 0）",
           "groundTruth": {
             "verified": true,
             "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHuman.java",
@@ -679,12 +679,12 @@
         },
         {
           "clause": "EntityAISwimmingDiving(0.08)：潜水/上浮调整",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHuman.java:117",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/SwimmingDivingGoal.java"
           },
-          "note": "project 只有 FloatGoal，没有俯冲/下潜行为"
+          "note": "复刻原版：水中/岩浆中且在目标于液体内、平方距离 <25 且低 1 格以上时按 yMotion 下潜；否则 80% 概率划水（jump）；三族按原版优先级 0 与 0.08 参数注册；批次：EntityAISwimmingDiving 潜水任务（yMotion 0.08，优先级 0）"
         },
         {
           "clause": "EntityAIOpenDoor(true) 开门 + WalkNodeProcessor 允许穿过木门/铁门代价设置",

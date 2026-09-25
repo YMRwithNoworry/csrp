@@ -80,6 +80,8 @@ public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntit
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
+        // Legacy EntityFerVillager:52 and every other feral class: tasks.addTask(0, EntityAISwimmingDiving(this, 0.08)).
+        goalSelector.addGoal(0, new SwimmingDivingGoal(this, 0.08D));
         // Legacy EntityFerVillager:53 (and every EntityFer*): tasks.addTask(2, EntityAIWaterLeapAtTargetStatus(this, 0.7F, 1.5, 3, 20, 0)).
         goalSelector.addGoal(2, new WaterLeapAtTargetGoal(this, () -> level() instanceof ServerLevel serverLevel
                 && EvolutionSystem.generationProfile(serverLevel).waterLeap(), 0.7F, 1.5D, 20, 0.0D));

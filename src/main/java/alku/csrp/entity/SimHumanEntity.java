@@ -165,6 +165,8 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
+        // Legacy EntityInfHuman:117: tasks.addTask(0, EntityAISwimmingDiving(this, 0.08)).
+        goalSelector.addGoal(0, new SwimmingDivingGoal(this, 0.08D));
         // Legacy geneSpecialmove: the generation decides whether special moves exist at all.
         goalSelector.addGoal(1, new LeapAtTargetGoal(this, 0.4F) {
             @Override

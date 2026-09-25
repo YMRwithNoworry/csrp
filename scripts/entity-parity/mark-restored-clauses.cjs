@@ -441,6 +441,19 @@ const BATCHES = {
         detail: "markSpottedTarget（LivingChangeTargetEvent）：目标确定且 SrpWorldData.nearestInfectionPosition 存在时给目标 SPOTTED 1200 tick，并由 alertOthers 唤醒 7 格内无目标的寄生体；新增 SrpWorldData.nearestInfectionPosition（节点/殖民地最近点）"
       }
     ]
+  },
+  // 批次 30：EntityAISwimmingDiving（原版 entity/ai/EntityAISwimmingDiving.java）
+  "swimming-diving": {
+    note: "批次：EntityAISwimmingDiving 潜水任务（yMotion 0.08，优先级 0）",
+    projectClasses: ["AssimilatedParasiteEntity", "FeralParasiteEntity", "SimHumanEntity"],
+    clauses: [
+      {
+        match: /EntityAISwimmingDiving/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/SwimmingDivingGoal.java",
+        detail: "复刻原版：水中/岩浆中且在目标于液体内、平方距离 <25 且低 1 格以上时按 yMotion 下潜；否则 80% 概率划水（jump）；三族按原版优先级 0 与 0.08 参数注册"
+      }
+    ]
   }
 };
 

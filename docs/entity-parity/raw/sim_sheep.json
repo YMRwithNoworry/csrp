@@ -398,16 +398,17 @@
         },
         {
           "clause": "tasks.addTask(0, EntityAISwimmingDiving(this, 0.08))",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfSheep.java:70",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/SwimmingDivingGoal.java"
           },
           "groundTruth": {
             "verified": true,
             "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfSheep.java",
             "line": 70
-          }
+          },
+          "note": "复刻原版：水中/岩浆中且在目标于液体内、平方距离 <25 且低 1 格以上时按 yMotion 下潜；否则 80% 概率划水（jump）；三族按原版优先级 0 与 0.08 参数注册；批次：EntityAISwimmingDiving 潜水任务（yMotion 0.08，优先级 0）"
         },
         {
           "clause": "tasks.addTask(3, EntityAIAttackMeleeStatus(this, 1.5, false, 0.0))",
@@ -638,12 +639,12 @@
         },
         {
           "clause": "EntityAISwimmingDiving(0.08)：潜水调整",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfSheep.java:70",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/SwimmingDivingGoal.java"
           },
-          "note": "project 只有 FloatGoal"
+          "note": "复刻原版：水中/岩浆中且在目标于液体内、平方距离 <25 且低 1 格以上时按 yMotion 下潜；否则 80% 概率划水（jump）；三族按原版优先级 0 与 0.08 参数注册；批次：EntityAISwimmingDiving 潜水任务（yMotion 0.08，优先级 0）"
         },
         {
           "clause": "贴图变体加权随机（黑 10% / 灰 30% / 白 60%，异常钳制）",

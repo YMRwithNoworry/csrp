@@ -320,12 +320,12 @@
         },
         {
           "clause": "EntityFerVillager 构造：tasks.addTask(0, EntityAISwimmingDiving(this, 0.08))",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/feral/EntityFerVillager.java:52",
-            "project": "src/main/java/alku/csrp/entity/FeralParasiteEntity.java:81"
+            "project": "src/main/java/alku/csrp/entity/SwimmingDivingGoal.java"
           },
-          "note": "project 只有 FloatGoal(0)，无下潜/水下追敌逻辑"
+          "note": "复刻原版：水中/岩浆中且在目标于液体内、平方距离 <25 且低 1 格以上时按 yMotion 下潜；否则 80% 概率划水（jump）；三族按原版优先级 0 与 0.08 参数注册；批次：EntityAISwimmingDiving 潜水任务（yMotion 0.08，优先级 0）"
         },
         {
           "clause": "EntityFerVillager 构造：tasks.addTask(2, EntityAIWaterLeapAtTargetStatus(this, 0.7F, 1.5, 3, 20, 0))",

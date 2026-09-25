@@ -129,6 +129,8 @@ public final class AssimilatedParasiteEntity extends Monster
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
+        // Legacy EntityInfCow:71 and every other assimilated class: tasks.addTask(0, EntityAISwimmingDiving(this, 0.08)).
+        goalSelector.addGoal(0, new SwimmingDivingGoal(this, 0.08D));
         if (kind == Kind.COW) {
             goalSelector.addGoal(1, new CowChargeGoal());
         }
