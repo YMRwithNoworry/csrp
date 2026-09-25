@@ -154,12 +154,25 @@ for (const [file, pattern, message] of [
     /addGoal\(3, new GeneSprintGoal\(this, meleeSpeed\(\)\)\);\s*\r?\n\s*goalSelector\.addGoal\(3, new MeleeAttackGoal/,
     "MarauderizedParasiteEntity must register the sprint goal before its melee goal"],
   ["FeralParasiteEntity.java",
-    /addGoal\(2, new GeneSprintGoal\(this, 1\.5D\)\);\s*\r?\n\s*goalSelector\.addGoal\(2, new MeleeAttackGoal/,
-    "FeralParasiteEntity must register the sprint goal before its melee goal"],
+    /addGoal\(2, new GeneMeleeGoal\(this, 1\.5D, false\)\)/,
+    "FeralParasiteEntity must drive melee through the gene-aware goal"],
   ["AssimilatedParasiteEntity.java",
     /addGoal\(2, new GeneSprintGoal\(this, meleeSpeed\)\);\s*\r?\n\s*goalSelector\.addGoal\(2, new MeleeAttackGoal/,
     "AssimilatedParasiteEntity must register the sprint goal before its melee goal"]
 ]) expect(read("src/main/java/alku/csrp/entity/" + file), pattern, message);
+
+// legacy geneAttackSpeed: the interval scales with the generation and the sprint gene folds in
+const geneMelee = read("src/main/java/alku/csrp/entity/GeneMeleeGoal.java");
+for (const [pattern, message] of [
+  [/public final class GeneMeleeGoal extends Goal/, "the gene-aware melee goal is missing"],
+  [/BASE_ATTACK_INTERVAL_TICKS = 20/, "the base attack interval is missing"],
+  [/attackSpeedMultiplier\(\)/, "the attack cadence must follow the generation"],
+  [/Math\.max\(1, Math\.round\(BASE_ATTACK_INTERVAL_TICKS \* multiplier\)\)/,
+    "the interval must be scaled by the multiplier"],
+  [/setFlags\(EnumSet\.of\(Flag\.MOVE, Flag\.LOOK\)\)/, "the goal must claim move and look"],
+  [/mob\.isWithinMeleeAttackRange\(target\) && attackCooldown <= 0/, "attacks must respect the cadence"],
+  [/sprinting && mob\.distanceToSqr\(target\) > SPRINT_DISTANCE_SQR/, "the sprint gene must still apply while the target is far"],
+]) expect(geneMelee, pattern, message);
 
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");

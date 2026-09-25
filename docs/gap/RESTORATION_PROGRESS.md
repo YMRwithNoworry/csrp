@@ -298,3 +298,16 @@ Sprinting/**WaterLeap**/SpecialM/Adaptation/BlockSearch/**Residue**/Orbbox，端
 接线：`PrimitiveParasiteEntity`（primitive/劫持/掠夺化链）与 `FeralParasiteEntity`（野化族）各持一份并在 `tick` 中驱动；
 gene 门分别用 `waterLeapEnabled()` 与 `generationProfile(...).waterLeap()`。
 校验：`scripts/verify-water-leap-gene.cjs` 增加 8 条断言；审计记账 1 条，满足 647 → **648**。
+
+## 批次 14：geneAttackSpeed + geneSprinting 合并的近战目标（2026-09-25 续）
+
+原版 `getAttackSpeed() = (int)(attackSpeedT * geneAttackSpeed)`（`EntityParasiteBase:233`）。端口的
+`GENERATION_ATTACK_SPEED = {1.0,1.0,1.0,0.9,0.7,0.5}` 此前**零消费点**；而这三族的近战走原版
+`MeleeAttackGoal`，其 `speedModifier` 与攻击计时字段在 1.21.1 **均为 private**，无注入点。
+
+实现 `entity/GeneMeleeGoal`：把「追击 + 到范围攻击 + 间隔」自持一份——基础间隔 20 tick × 生成倍率
+（`Math.max(1, round(20 * multiplier))`），并把疾跑 gene（>4 格时 1.3×）收编进同一个目标，
+因此野化族的 `GeneSprintGoal` + `MeleeAttackGoal` 两个注册被它一个取代。
+接线：`FeralParasiteEntity`（野化族，含已审计的 `fer_villager`）。
+待接线：`MarauderizedParasiteEntity`、`AssimilatedParasiteEntity`（仍用 `GeneSprintGoal` + 原版近战）。
+校验：`scripts/verify-parasite-combat-rules.cjs` 增 7 条断言（间隔缩放、旗标、攻击门槛、疾跑并入）。

@@ -84,8 +84,9 @@ public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntit
         // Legacy EntityFerVillager:53 (and every EntityFer*): tasks.addTask(2, EntityAIWaterLeapAtTargetStatus(this, 0.7F, 1.5, 3, 20, 0)).
         goalSelector.addGoal(2, new WaterLeapAtTargetGoal(this, () -> level() instanceof ServerLevel serverLevel
                 && EvolutionSystem.generationProfile(serverLevel).waterLeap(), 0.7F, 1.5D, 20, 0.0D));
-        goalSelector.addGoal(2, new GeneSprintGoal(this, 1.5D));
-        goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.5D, false));
+        // Legacy geneAttackSpeed + geneSprinting: the feral family drives its melee loop through the
+        // gene-aware goal (vanilla MeleeAttackGoal keeps its speed and attack timer private).
+        goalSelector.addGoal(2, new GeneMeleeGoal(this, 1.5D, false));
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
