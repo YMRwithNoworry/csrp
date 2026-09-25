@@ -40,6 +40,8 @@ public final class ParasiteBallPlacer {
     private static final int CLEARANCE_HEIGHT = 12;
     /** 1.10.9 净空检测半径（水平）。 */
     private static final int CLEARANCE_RADIUS = 4;
+    /** Conservative half-extent assumed for the NBT structure, used for the loaded-chunk check. */
+    private static final int STRUCTURE_MARGIN = 16;
 
     /** 1.10.9 {@code WorldGenParasiteBall}: 结构锚点偏移 (3,0,3)，附加高度 2 + rand(4)。 */
     private static final String BALL_STRUCTURE = "ball";
@@ -242,19 +244,35 @@ public final class ParasiteBallPlacer {
 
         if (random.nextInt(24) == 0) {
             BlockPos surface = surfaceAt(level, baseX + random.nextInt(9) - 4, baseZ + random.nextInt(9) - 4);
-            if (surface != null) {
+            if (surface != null && hasLoadedFootprint(level, surface, BALL_ANCHOR)) {
                 placeBall(level, surface, random);
             }
         }
         if (random.nextInt(96) == 0) {
             BlockPos surface = surfaceAt(level, baseX + random.nextInt(9) - 4, baseZ + random.nextInt(9) - 4);
-            if (surface != null) {
+            if (surface != null && hasLoadedFootprint(level, surface, BIG_BALL_ANCHOR)) {
                 placeBigBall(level, surface, random);
             }
         }
     }
 
+    /**
+     * The clearance scan ({@link #CLEARANCE_RADIUS} around the surface) and the placed structure both
+     * reach past the chunk border. Touching an unloaded chunk here would synchronously load it from
+     * inside a {@code ChunkEvent.Load} dispatch and re-enter the decoration pass until the stack
+     * overflows (see {@link GenerationChunkGuard}), so the attempt is skipped instead.
+     */
+    private static boolean hasLoadedFootprint(ServerLevel level, BlockPos surface, BlockPos anchor) {
+        BlockPos min = surface.offset(-CLEARANCE_RADIUS, 0, -CLEARANCE_RADIUS);
+        BlockPos max = surface.offset(anchor.getX() + STRUCTURE_MARGIN,
+                CLEARANCE_HEIGHT + STRUCTURE_MARGIN, anchor.getZ() + STRUCTURE_MARGIN);
+        return GenerationChunkGuard.isLoadedArea(level, min, max);
+    }
+
     private static BlockPos surfaceAt(ServerLevel level, int x, int z) {
+        if (!GenerationChunkGuard.isLoaded(level, x, z)) {
+            return null;
+        }
         BlockPos probe = new BlockPos(x, 0, z);
         BlockPos surface = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, probe);
         if (surface.getY() <= level.getMinBuildHeight() + 1) {

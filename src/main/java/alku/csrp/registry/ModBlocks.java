@@ -614,6 +614,27 @@ public final class ModBlocks {
     public static final RegistryObject<Block> PARASITERUBBLEDENSE_COLONY = BLOCKS.register(
             "parasiterubbledense_colony", () -> new Block(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
+    /**
+     * 原模组 {@code BlockParasiteStain} 的基础变体（{@code VARIANT} 的默认值）。
+     *
+     * <p>此前 {@code declaredBlockNames()} 已列出 {@code parasitestain}、{@code parasitestain_red}
+     * 与 {@code parasitestain_spore}，但三者都没有显式注册：占位注册被「已声明」判重跳过，于是方块
+     * 根本不存在，而 {@code data/csrp/loot_tables/blocks/parasitestain.json} 仍按
+     * {@code "name": "csrp:parasitestain"} 取物品，整张掉落表加载失败
+     * （{@code Expected name to be an item, was unknown string 'csrp:parasitestain'}）。
+     * 方块状态、模型与纹理均已就位，这里补齐注册。
+     */
+    public static final RegistryObject<Block> PARASITESTAIN = BLOCKS.register(
+            "parasitestain", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
+    /** 原模组 {@code BlockParasiteStain} 的 {@code RED} 变体；见 {@link #PARASITESTAIN}。 */
+    public static final RegistryObject<Block> PARASITESTAIN_RED = BLOCKS.register(
+            "parasitestain_red", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
+    /** 原模组 {@code BlockParasiteStain} 的 {@code SPORE} 变体；见 {@link #PARASITESTAIN}。 */
+    public static final RegistryObject<Block> PARASITESTAIN_SPORE = BLOCKS.register(
+            "parasitestain_spore", () -> new Block(BlockBehaviour.Properties.of()
+                    .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));
     public static final RegistryObject<Block> PARASITESTAIN_FLESH = BLOCKS.register(
             "parasitestain_flesh", () -> new Block(BlockBehaviour.Properties.of()
                     .mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.STONE)));

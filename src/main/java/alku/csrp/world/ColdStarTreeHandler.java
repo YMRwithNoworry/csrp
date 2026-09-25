@@ -77,6 +77,16 @@ public final class ColdStarTreeHandler {
         for (int i = 0; i < treeCount; i++) {
             int x = random.nextInt(16) + 8;
             int z = random.nextInt(16) + 8;
+            // 1.12.2 decorated the 16x16 area starting at chunkOrigin + 8, which reaches into the
+            // neighbouring chunk. Reading or writing there from inside a ChunkEvent.Load dispatch
+            // would synchronously load that chunk and re-enter this pass until the stack overflows
+            // (see GenerationChunkGuard), so a sample that lands in a chunk which is not loaded is
+            // wrapped back into the chunk being decorated. Tree count and the uniform distribution
+            // are preserved; only the half-chunk offset is given up for those samples.
+            if (!GenerationChunkGuard.isLoaded(level, chunkOrigin.getX() + x, chunkOrigin.getZ() + z)) {
+                x &= 15;
+                z &= 15;
+            }
             BlockPos column = chunkOrigin.offset(x, 0, z);
             if (mushroomTrees) {
                 BlockPos treePos = level.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, column);
@@ -119,6 +129,10 @@ public final class ColdStarTreeHandler {
         for (int dx = -TREE_SNOW_RADIUS; dx <= TREE_SNOW_RADIUS; dx++) {
             for (int dz = -TREE_SNOW_RADIUS; dz <= TREE_SNOW_RADIUS; dz++) {
                 if (dx * dx + dz * dz > TREE_SNOW_RADIUS * TREE_SNOW_RADIUS) {
+                    continue;
+                }
+                // The radius crosses the chunk border; never force-load the neighbour (GenerationChunkGuard).
+                if (!GenerationChunkGuard.isLoaded(level, centerX + dx, centerZ + dz)) {
                     continue;
                 }
                 BlockPos ground = findGroundForSnow(level, centerX + dx, centerZ + dz, expectedGroundY);

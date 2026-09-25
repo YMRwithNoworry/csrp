@@ -544,6 +544,13 @@ public final class ModItems {
             "parasiterubbledense_biome", ModBlocks.PARASITERUBBLEDENSE_BIOME);
     public static final RegistryObject<BlockItem> PARASITERUBBLEDENSE_COLONY = ITEMS.registerSimpleBlockItem(
             "parasiterubbledense_colony", ModBlocks.PARASITERUBBLEDENSE_COLONY);
+    public static final RegistryObject<BlockItem> PARASITESTAIN = ITEMS.registerSimpleBlockItem(
+            "parasitestain", ModBlocks.PARASITESTAIN);
+    public static final RegistryObject<BlockItem> PARASITESTAIN_RED = ITEMS.registerSimpleBlockItem(
+            "parasitestain_red", ModBlocks.PARASITESTAIN_RED);
+    public static final RegistryObject<BlockItem> PARASITESTAIN_SPORE = ITEMS.registerSimpleBlockItem(
+            "parasitestain_spore", ModBlocks.PARASITESTAIN_SPORE);
+
     public static final RegistryObject<BlockItem> PARASITESTAIN_FLESH = ITEMS.registerSimpleBlockItem(
             "parasitestain_flesh", ModBlocks.PARASITESTAIN_FLESH);
     public static final RegistryObject<BlockItem> PARASITESTAIN_DIRT = ITEMS.registerSimpleBlockItem(
@@ -564,6 +571,14 @@ public final class ModItems {
             "parasitethin", ModBlocks.PARASITETHIN);
     public static final RegistryObject<BlockItem> GOTH_STEM = ITEMS.registerSimpleBlockItem(
             "goth_stem", ModBlocks.GOTH_STEM);
+
+    /**
+     * 原模组 {@code BlockWorkbenchConsumed}。此前只注册了方块、漏了物品，导致
+     * {@code data/csrp/loot_tables/blocks/consumed_workbench.json} 加载失败
+     * （{@code Expected name to be an item, was unknown string 'csrp:consumed_workbench'}）。
+     */
+    public static final RegistryObject<BlockItem> CONSUMED_WORKBENCH = ITEMS.registerSimpleBlockItem(
+            "consumed_workbench", ModBlocks.CONSUMED_WORKBENCH);
     public static final RegistryObject<BlockItem> INFESTED_WORKBENCH = ITEMS.registerSimpleBlockItem(
             "infested_workbench", ModBlocks.INFESTED_WORKBENCH);
     public static final RegistryObject<BlockItem> GOTH_DOOR = ITEMS.registerSimpleBlockItem(

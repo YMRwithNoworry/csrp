@@ -16,6 +16,11 @@ public final class ColdStarVillageGenerator {
     private static final int DISTANCE = 20;
     private static final int SEPARATION = 5;
     private static final int SALT = 10_387_312;
+    /** Half extents of the perimeter wall, matching the 1.10.9 village layout. */
+    private static final int WALL_HALF_X = 25;
+    private static final int WALL_HALF_Z = 20;
+    /** Extra blocks added to the footprint check so houses and the wall are never clipped by a border. */
+    private static final int FOOTPRINT_MARGIN = 4;
 
     private ColdStarVillageGenerator() {
     }
@@ -39,6 +44,17 @@ public final class ColdStarVillageGenerator {
         }
         int centerX = (chunkX << 4) + 8;
         int centerZ = (chunkZ << 4) + 8;
+        // The well, the four houses and the 25x20 wall all reach past the chunk border. Reading or
+        // writing an unloaded chunk here would synchronously load it from inside a ChunkEvent.Load
+        // dispatch and re-enter the decoration pass until the stack overflows (GenerationChunkGuard),
+        // so the village is only built once its whole footprint is loaded.
+        BlockPos footprintMin = new BlockPos(centerX - WALL_HALF_X - FOOTPRINT_MARGIN, level.getMinBuildHeight(),
+                centerZ - WALL_HALF_Z - FOOTPRINT_MARGIN);
+        BlockPos footprintMax = new BlockPos(centerX + WALL_HALF_X + FOOTPRINT_MARGIN,
+                level.getMaxBuildHeight(), centerZ + WALL_HALF_Z + FOOTPRINT_MARGIN);
+        if (!GenerationChunkGuard.isLoadedArea(level, footprintMin, footprintMax)) {
+            return;
+        }
         BlockPos center = surface(level, centerX, centerZ);
         if (!validSite(level, center)) {
             return;
@@ -54,7 +70,7 @@ public final class ColdStarVillageGenerator {
                 houses++;
             }
         }
-        buildWall(level, center, 25, 20);
+        buildWall(level, center, WALL_HALF_X, WALL_HALF_Z);
         spawnVillagers(level, center, Math.max(2, houses + 1));
     }
 
