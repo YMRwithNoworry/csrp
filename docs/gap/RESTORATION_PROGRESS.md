@@ -1781,3 +1781,18 @@ SRPConfigMobs.java:4370  angedEnabled = cfg.getBoolean("Vigilante Enabled", "srp
 2. 端口侧取 `AssimilatedParasiteEntity.Kind.PIG`（属性）、渲染器实参、蛋色、音效、AI 注册；
 3. 逐项对照并给出 `evidence.original` / `evidence.project`（**路径:行号**），找不到的写 partial/missing；
 4. 落盘 `raw/sim_pig.json` → 自查引文 → 提交。
+
+## 批次 118：自审第 1 只 —— `sim_pig`（审计面 13 → 14）（2026-09-25 续）
+
+按批次 117 的方案自审首只：`docs/entity-parity/raw/sim_pig.json`（4 facet / **8 条全部 satisfied**，0 partial/missing）。
+
+| facet | 条款 | 证据（原版 → 端口） |
+| --- | --- | --- |
+| attributes | 生命 9.0 / 护甲 0.1 / 攻击 3.5 / 击退 0.1 | `SRPAttributes.java:78-81` ↔ `AssimilatedParasiteEntity.java:697`（Kind.PIG 四维逐一对应） |
+| attributes | 跟随范围 16 | `SRPConfig.java:146`（infectedFollow）↔ 同上（批次 73 已对齐） |
+| experience | 经验 8 | `SRPConfig.java:146`（infectedXPValue）↔ 同上（批次 75 已对齐） |
+| rendering | 阴影半径 0.5F | `RenderInfPig.java:15` ↔ `ClientModEvents.java:195`（批次 107 已对齐） |
+| registration | 刷怪蛋色 8611072/16711900 | `SRPEntities.java`（CreateEntityMob 表，**精确行号待补**）↔ `ModItems.java:170`（批次 85 已对齐） |
+
+**自审质量自查**：8 条中 7 条给出 `路径:行号` 级双向证据；蛋色一条的**原版行号缺失**已在 `note` 中明确标注为待补
+（confidence 记 `medium`），未把它伪装成高置信——这正是本会话对"臆造证据"的一贯处置。

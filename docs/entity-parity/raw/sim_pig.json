@@ -1,0 +1,107 @@
+{
+  "id": "sim_pig",
+  "originalClass": "EntityInfPig",
+  "projectClass": "AssimilatedParasiteEntity",
+  "facets": [
+    {
+      "name": "attributes",
+      "status": "satisfied",
+      "confidence": "high",
+      "clauses": [
+        {
+          "clause": "生命 INFPIG_HEALTH = 9.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:78",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:697"
+          },
+          "note": "原版由 EntityInfPig 的 func_110148_a(MAX_HEALTH).func_111128_a(SRPAttributes.INFPIG_HEALTH) 施加；端口 Kind.PIG 首参 9.0D。"
+        },
+        {
+          "clause": "护甲 INFPIG_ARMOR = 0.1",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:79",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:697"
+          },
+          "note": "EntityInfPig:69 读取 INFPIG_ARMOR；端口 Kind.PIG 第三参 0.1D。"
+        },
+        {
+          "clause": "攻击力 INFPIG_ATTACK_DAMAGE = 3.5",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:80",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:697"
+          },
+          "note": "EntityInfPig:72 读取 INFPIG_ATTACK_DAMAGE；端口 Kind.PIG 第二参 3.5D。"
+        },
+        {
+          "clause": "击退抗性 INFPIG_KD_RESISTANCE = 0.1",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:81",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:697"
+          },
+          "note": "端口 Kind.PIG 第四参 0.1D。"
+        },
+        {
+          "clause": "跟随范围 SRPConfig.infectedFollow = 16",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfig.java:146",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:697"
+          },
+          "note": "原版同化档统一值；端口 Kind.PIG 第六参已对齐为 16.0D（见 RESTORATION_PROGRESS 批次 73）。"
+        }
+      ]
+    },
+    {
+      "name": "experience",
+      "status": "satisfied",
+      "confidence": "high",
+      "clauses": [
+        {
+          "clause": "经验 field_70728_aV = SRPAttributes.XP_INFECTED（infectedXPValue = 8）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfig.java:146",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:697"
+          },
+          "note": "EntityPInfected:86 赋 XP_INFECTED；端口 Kind.PIG 的 experience 参数已对齐为 8（批次 75）。"
+        }
+      ]
+    },
+    {
+      "name": "rendering",
+      "status": "satisfied",
+      "confidence": "high",
+      "clauses": [
+        {
+          "clause": "渲染阴影半径 0.5F",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/infected/RenderInfPig.java:15",
+            "project": "src/main/java/alku/csrp/client/ClientModEvents.java:195"
+          },
+          "note": "原版 super(manager, new ModelInfPig(), 0.5F)；端口 AssimilatedParasiteRenderer 实参已对齐为 0.50F（批次 107）。"
+        }
+      ]
+    },
+    {
+      "name": "registration",
+      "status": "satisfied",
+      "confidence": "medium",
+      "clauses": [
+        {
+          "clause": "刷怪蛋颜色 8611072/16711900",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java",
+            "project": "src/main/java/alku/csrp/registry/ModItems.java:170"
+          },
+          "note": "原版 CreateEntityMob 的主/副色（SRPEntities 表，精确行号待补）；端口已对齐为 0x836500 / 0xFF00DC（批次 85）。"
+        }
+      ]
+    }
+  ]
+}

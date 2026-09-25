@@ -1,18 +1,18 @@
 # 生物还原矩阵（SRParasites 1.10.9 → csrp）
 
-> 生成时间：2026-09-25T05:21:44.237Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
+> 生成时间：2026-09-25T05:30:25.348Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
 > 判定：✅ 全部条款满足；🟠 有部分实现但无缺失；❌ 存在缺失；· 未审计。
 
-- 注册生物总数：**127**；已审计：**13**；未审计：**114**
-- 条款总计：满足 711 / 部分 356 / 缺失 255（不计入 57 条不适用）
-- **加权完成度：67.2%**（partial 计 0.5）
+- 注册生物总数：**127**；已审计：**14**；未审计：**113**
+- 条款总计：满足 717 / 部分 356 / 缺失 255（不计入 57 条不适用）
+- **加权完成度：67.4%**（partial 计 0.5）
 
 ## 分面完成度
 
 | 面 | 满足 | 部分 | 缺失 | 完成度 |
 | --- | ---: | ---: | ---: | ---: |
-| 注册 `registration` | 62 | 40 | 29 | 62.6% |
-| 属性 `attributes` | 90 | 28 | 7 | 83.2% |
+| 注册 `registration` | 63 | 40 | 29 | 62.9% |
+| 属性 `attributes` | 95 | 28 | 7 | 83.8% |
 | AI `ai` | 87 | 74 | 28 | 65.6% |
 | 行为 `behaviors` | 165 | 69 | 66 | 66.5% |
 | 伤害/效果 `damage_and_effects` | 102 | 16 | 20 | 79.7% |
@@ -37,13 +37,12 @@
 | early_lifecycle | 1/10 | 42 | 25 | 18 | 64.1% |
 | marauderized | 1/7 | 57 | 24 | 23 | 66.3% |
 | current | 2/13 | 98 | 42 | 35 | 68% |
-| assimilated | 6/23 | 361 | 171 | 87 | 72.1% |
+| assimilated | 7/23 | 367 | 171 | 87 | 72.4% |
 
 ## 逐生物矩阵
 
 | id | 原版类 | 工程类 | 注册 | 属性 | AI | 行为 | 伤害/效果 | 同步数据 | 动画 | 模型/贴图 | 音效 | 生成 | 掉落 | 完成度 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | ---: |
-| `sim_pig` | EntityInfPig | AssimilatedParasiteEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `sim_villager` | EntityInfVillager | AssimilatedVariantEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `sim_adventurer` | EntityInfPlayer | SimAdventurerEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `sim_horse` | EntityInfHorse | AssimilatedVariantEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
@@ -170,6 +169,7 @@
 | `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | ❌ | 🟠 | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 72.4% |
 | `sim_cow` | EntityInfCow | AssimilatedParasiteEntity | ❌ | 🟠 | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 73.1% |
 | `sim_sheep` | EntityInfSheep | AssimilatedParasiteEntity | ❌ | 🟠 | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 75.2% |
+| `sim_pig` | EntityInfPig | AssimilatedParasiteEntity | ✅ | ✅ | · | · | · | · | · | · | · | · | · | 100% |
 
 ## 缺口清单（按完成度升序）
 
@@ -245,4 +245,7 @@
 - （无缺口摘要，见 raw JSON）
 
 ### `sim_sheep`（EntityInfSheep → AssimilatedParasiteEntity，75.2%）
+- （无缺口摘要，见 raw JSON）
+
+### `sim_pig`（EntityInfPig → AssimilatedParasiteEntity，100%）
 - （无缺口摘要，见 raw JSON）
