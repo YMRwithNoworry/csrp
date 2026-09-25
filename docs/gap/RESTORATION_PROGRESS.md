@@ -2203,3 +2203,14 @@ SRPConfigMobs.java:94    dorpamob        = "srparasites:buglin;5;5"     ← 同�
    在指定位置按随机组大小生成；解析失败静默返回（与原版一致：配置串非法时不生成）；
 3. 挂载：两族各自的自爆/死亡路径按 `Kind` 取键调用（同化族用 5 个键、变体族用 3 个键）；
 4. 断言（工具解析的确定性校验 + 两族挂载点存在性）+ 记账。
+
+## 批次 143：自爆召唤配置键落地（8 个 String + 访问器）（2026-09-25 续）
+
+按批次 142 的四步方案，本轮完成第 1 步：`MobsConfig` 新增 8 个 String 键（默认值照抄原版，注释标注 `SRPConfigMobs.<key>` 来源）
+与 8 个访问器：`dorpaMobSummon / infcowMobSummon / infsheepMobSummon / infwolfMobSummon / infpigMobSummon /
+infvillagerMobSummon / infhorseMobSummon / infadventurerMobSummon`。`build` 通过、套件维持既有 20 失败。
+
+**如实标注**：本批只落了**配置面**，尚未接线 ⇒ 这 8 个键在下一批之前**属于未接线状态**。
+之所以允许这个一轮窗口，是因为本轮上下文余量已不足以安全完成"键 + 解析工具 + 挂载"三件套，
+而**分批落地优于半途而废**（半改状态更危险）。下一批将一次完成第 2、3 步（解析工具 + `ParasiteCombatRules.selfExplode`
+挂载，该钩子**两族共用** ⇒ 一处挂载即可覆盖 8 个键），随后立即记账。

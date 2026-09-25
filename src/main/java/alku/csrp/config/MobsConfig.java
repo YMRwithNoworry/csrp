@@ -195,11 +195,45 @@ public final class MobsConfig {
             "srparasites:infvillager", "infvillagerKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
             "Knockback-resistance multiplier for the assimilated villager.");
 
+    // Legacy self-destruct summons (SRPConfigMobs.*mob, all summoning buglin).
+    private static final ModConfigSpec.ConfigValue<String> _D_O_R_P_A_M_O_B_S_U_M_M_O_N = BUILDER
+            .comment("Legacy SRPConfigMobs.dorpamob — self-destruct summon spec <entity id>;<min>;<max>.")
+            .define("dorpamob", "srparasites:buglin;5;5");
+    private static final ModConfigSpec.ConfigValue<String> _I_N_F_C_O_W_M_O_B_S_U_M_M_O_N = BUILDER
+            .comment("Legacy SRPConfigMobs.infcowmob — self-destruct summon spec <entity id>;<min>;<max>.")
+            .define("infcowmob", "srparasites:buglin;4;3");
+    private static final ModConfigSpec.ConfigValue<String> _I_N_F_S_H_E_E_P_M_O_B_S_U_M_M_O_N = BUILDER
+            .comment("Legacy SRPConfigMobs.infsheepmob — self-destruct summon spec <entity id>;<min>;<max>.")
+            .define("infsheepmob", "srparasites:buglin;3;3");
+    private static final ModConfigSpec.ConfigValue<String> _I_N_F_W_O_L_F_M_O_B_S_U_M_M_O_N = BUILDER
+            .comment("Legacy SRPConfigMobs.infwolfmob — self-destruct summon spec <entity id>;<min>;<max>.")
+            .define("infwolfmob", "srparasites:buglin;2;2");
+    private static final ModConfigSpec.ConfigValue<String> _I_N_F_P_I_G_M_O_B_S_U_M_M_O_N = BUILDER
+            .comment("Legacy SRPConfigMobs.infpigmob — self-destruct summon spec <entity id>;<min>;<max>.")
+            .define("infpigmob", "srparasites:buglin;2;2");
+    private static final ModConfigSpec.ConfigValue<String> _I_N_F_V_I_L_L_A_G_E_R_M_O_B_S_U_M_M_O_N = BUILDER
+            .comment("Legacy SRPConfigMobs.infvillagermob — self-destruct summon spec <entity id>;<min>;<max>.")
+            .define("infvillagermob", "srparasites:buglin;2;2");
+    private static final ModConfigSpec.ConfigValue<String> _I_N_F_H_O_R_S_E_M_O_B_S_U_M_M_O_N = BUILDER
+            .comment("Legacy SRPConfigMobs.infhorsemob — self-destruct summon spec <entity id>;<min>;<max>.")
+            .define("infhorsemob", "srparasites:buglin;2;2");
+    private static final ModConfigSpec.ConfigValue<String> _I_N_F_A_D_V_E_N_T_U_R_E_R_M_O_B_S_U_M_M_O_N = BUILDER
+            .comment("Legacy SRPConfigMobs.infadventurermob — self-destruct summon spec <entity id>;<min>;<max>.")
+            .define("infadventurermob", "srparasites:buglin;4;3");
+
     public static double infcowHealthMultiplier() { return INFCOW_HEALTH_MULTIPLIER.get(); }
     public static double infvillagerHealthMultiplier() { return INFVILLAGER_HEALTH_MULTIPLIER.get(); }
     public static double infvillagerDamageMultiplier() { return INFVILLAGER_DAMAGE_MULTIPLIER.get(); }
     public static double infvillagerArmorMultiplier() { return INFVILLAGER_ARMOR_MULTIPLIER.get(); }
     public static double infvillagerKnockbackMultiplier() { return INFVILLAGER_KNOCKBACK_MULTIPLIER.get(); }
+    public static String dorpaMobSummon() { return _D_O_R_P_A_M_O_B_S_U_M_M_O_N.get(); }
+    public static String infcowMobSummon() { return _I_N_F_C_O_W_M_O_B_S_U_M_M_O_N.get(); }
+    public static String infsheepMobSummon() { return _I_N_F_S_H_E_E_P_M_O_B_S_U_M_M_O_N.get(); }
+    public static String infwolfMobSummon() { return _I_N_F_W_O_L_F_M_O_B_S_U_M_M_O_N.get(); }
+    public static String infpigMobSummon() { return _I_N_F_P_I_G_M_O_B_S_U_M_M_O_N.get(); }
+    public static String infvillagerMobSummon() { return _I_N_F_V_I_L_L_A_G_E_R_M_O_B_S_U_M_M_O_N.get(); }
+    public static String infhorseMobSummon() { return _I_N_F_H_O_R_S_E_M_O_B_S_U_M_M_O_N.get(); }
+    public static String infadventurerMobSummon() { return _I_N_F_A_D_V_E_N_T_U_R_E_R_M_O_B_S_U_M_M_O_N.get(); }
     public static double infcowDamageMultiplier() { return INFCOW_DAMAGE_MULTIPLIER.get(); }
     public static double infcowArmorMultiplier() { return INFCOW_ARMOR_MULTIPLIER.get(); }
     public static double infcowKnockbackMultiplier() { return INFCOW_KNOCKBACK_MULTIPLIER.get(); }
