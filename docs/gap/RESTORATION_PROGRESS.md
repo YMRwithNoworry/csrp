@@ -1306,3 +1306,45 @@ EntityDod / EntityLeem / EntityVenkrol : XP_INFECTED * 2
 **下一批做法**（需按顺序）：① 读原版 `func_70601_bi` 全文与其调用点，确定两级光照的具体阈值与 `ignoreL` 分支；
 ② 在端口查现有生成路径（`SRPSpawning` / `SpawnPlacements` / `checkSpawnRules`）决定挂载点；
 ③ 补配置键（`ignoreL`、`spawnDays`）→ 实现判定 → 断言 → 记账。属多轮任务，不宜与数值对齐混做。
+
+## 批次 90：生成合法性（`func_70601_bi`）**实现蓝图**查全（2026-09-25 续）
+
+原版 `EntityParasiteBase:1553` 全文语义：
+
+```java
+if (SRPConfigSystems.useEvolution) {
+    if (phaseCreated >= SRPConfigSystems.evolutionSpawningIgnoreSunlight   // 默认 1
+        || (phaseCreated == -1 && SRPConfigSystems.phaseLightlessMinusOne)) { // 默认 true
+        return 下方方块.canSpawnMob(this)          // func_189884_a
+            && world.getDifficulty() != PEACEFUL
+            && isValidLightLevelTwo()
+            && SRPConfig.spawnDays <= (int) world.getTotalWorldTime();   // 默认 0，单位是【tick】不是天数
+    } else {
+        return 下方方块.canSpawnMob(this)
+            && world.getDifficulty() != PEACEFUL
+            && isValidLightLevelOne()
+            && SRPConfig.spawnDays <= (int) world.getTotalWorldTime();
+    }
+}
+```
+
+两级光照（同文件）：
+
+```java
+isValidLightLevelOne() {                       // :1632
+    if (所在群系 instanceof BiomeParasiteBase) return isValidLightLevelTwo();
+    if (world.getLightFor(SKY, pos) > random.nextInt(32)) { ... 后续方块光判定 ... }
+}
+isValidLightLevelTwo() {                       // :1654
+    int light = world.getLightFor(BLOCK, pos);
+    return light <= random.nextInt(1000) && light <= 7 ? random.nextInt(8) == 0 : false;
+}
+```
+
+配置默认值：`ignoreL = false`、`spawnDays = 0`（配置注释写明是 **ticks**："Mobs ticks required"）、
+`evolutionSpawningIgnoreSunlight = 1`（byte）、`phaseLightlessMinusOne = true`。
+
+**实现要点（下一批照此做）**：① 语义是"高阶段/阶段 -1 的寄生体放宽到两级光照中的 Two（更宽松），否则用 One"；
+② `spawnDays` 名为"天数"实为 **tick 门槛**，默认 0 ⇒ 端口若按"天数"实现会偏离；
+③ 两级光照都含**随机门控**（`nextInt(32)` / `nextInt(1000) && <=7` / `nextInt(8)==0`），必须照抄随机形态而非化简为纯阈值比较；
+④ 端口挂载点已查明：`CommonModEvents:318 registerSpawnPlacements`（REPLACE）与 `UntamedPriLasherEntity:89 checkSpawnRules`。
