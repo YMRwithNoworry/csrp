@@ -123,6 +123,18 @@ public final class Config {
             .comment("Fraction added to max health, armor and attack damage"
                     + " (SRPConfigSystems.evolutionParasiteStatIncreaseValue = 0.07).")
             .defineInRange("evolutionStatIncreaseValue", 0.07D, 0.0D, 10.0D);
+    private static final ModConfigSpec.IntValue SPAWN_DAYS = BUILDER
+            .comment("Ticks the world must have run before parasites may spawn naturally"
+                    + " (SRPConfig.spawnDays = 0; the legacy name says days but the unit is ticks).")
+            .defineInRange("spawnDays", 0, 0, Integer.MAX_VALUE);
+    private static final ModConfigSpec.IntValue EVOLUTION_SPAWN_IGNORE_SUNLIGHT = BUILDER
+            .comment("Phase from which parasites use the looser light-level spawn check"
+                    + " (SRPConfigSystems.evolutionSpawningIgnoreSunlight = 1).")
+            .defineInRange("evolutionSpawningIgnoreSunlight", 1, -1, 100);
+    private static final ModConfigSpec.BooleanValue PHASE_LIGHTLESS_MINUS_ONE = BUILDER
+            .comment("Treat phase -1 parasites as lightless, i.e. use the looser light check"
+                    + " (SRPConfigSystems.phaseLightlessMinusOne = true).")
+            .define("phaseLightlessMinusOne", true);
     private static final ModConfigSpec.DoubleValue PARASITE_REGEN = BUILDER
             .comment("Health a parasite regains per regeneration tick while it has killcount left"
                     + " (legacy primitiveRegen, consumed one killcount per 5 heals).")
@@ -671,6 +683,9 @@ public final class Config {
     public static float parasiteRegen() { return PARASITE_REGEN.get().floatValue(); }
     public static int evolutionStatIncreasePhase() { return EVOLUTION_STAT_INCREASE_PHASE.get(); }
     public static double evolutionStatIncreaseValue() { return EVOLUTION_STAT_INCREASE_VALUE.get(); }
+    public static int spawnDays() { return SPAWN_DAYS.get(); }
+    public static int evolutionSpawningIgnoreSunlight() { return EVOLUTION_SPAWN_IGNORE_SUNLIGHT.get(); }
+    public static boolean phaseLightlessMinusOne() { return PHASE_LIGHTLESS_MINUS_ONE.get(); }
     public static boolean useEvolutionPhases() { return USE_EVOLUTION_PHASES.get(); }
     public static boolean generationEnabled() { return GENERATION_ENABLED.get(); }
     public static boolean pearlDestroyedOnBeholderKill() { return PEARL_DESTROYED_ON_BEHOLDER_KILL.get(); }

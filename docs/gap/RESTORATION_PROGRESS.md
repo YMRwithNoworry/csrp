@@ -1438,3 +1438,17 @@ NexusParasiteEntity:222     if (activeKind.family == Family.BECKON && activeKind
 
 **编译过程本身提供了两条校验**：① 缺 `Mob` 导入被当场拦下；② `getWalkTargetValue` 在 1.21 属 `PathfinderMob`
 而非 `Mob` —— 与批次 92 记录的"实体侧方法"判断一致，签名已改为 `PathfinderMob`。
+
+## 批次 96：补三个生成合法性配置键（生成合法性第 3 步）（2026-09-25 续）
+
+按 `Config.java` 既有写法（`BUILDER.comment(... defineInRange(...))` + 访问器）新增三键，**默认值与原版逐一对齐**：
+
+| 键 | 默认 | 原版来源 |
+| --- | --- | --- |
+| `spawnDays` | 0（范围 0..MAX，单位 **tick**，注释已写明"legacy name says days but the unit is ticks"） | `SRPConfig.spawnDays` |
+| `evolutionSpawningIgnoreSunlight` | 1（范围 -1..100） | `SRPConfigSystems.evolutionSpawningIgnoreSunlight = 1` |
+| `phaseLightlessMinusOne` | true | `SRPConfigSystems.phaseLightlessMinusOne = true` |
+
+**有意不加 `ignoreL`**：原版 `SRPConfig.ignoreL = false` 虽已查到默认值，但它在 `func_70601_bi` 摘录中**并未出现**，
+其实际使用点尚未证实——若现在加键就会造出一个"声明了却没人读"的死键（正是本会话第 52–57 轮反复处理的问题）。
+待其使用点查清后再补。`build` 通过、套件维持既有 20 失败。
