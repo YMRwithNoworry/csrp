@@ -3101,3 +3101,21 @@ EntityInfDragonE:373  func_184615_bR (getDeathSound)       → SRPSounds.MOBSILE
 
 **该生物的战果小结**：从第三批委派发现它（批次 163）起，累计落地 **5 类修复 / 10 条条款**，
 并经历一次"高估→订正"（音效范围，批次 185→193）——**审计发现 + 自我复核**的组合在这只生物上体现得最完整。
+
+## 批次 196：`sim_dragone` Boss 栏——原版形态与端口范式均已定位（2026-09-25 续，未改代码）
+
+```
+原版 EntityInfDragonE:59   private final BossInfoServer bossInfo =
+                              (BossInfoServer) new BossInfoServer(this.func_145748_c_(), Color.RED, Overlay.PROGRESS)
+                                                 .func_186741_a(false);       // 红色、进度条样式、并关闭"变暗天空"
+端口既有范式（可照抄）      ServerBossEvent 已在 AncientParasiteEntity / ParasiticScentEntity / SourceEntity 中使用
+```
+
+**实施要点（下一批）**：
+1. 在 `AssimilatedDragonEntity` 增加 `ServerBossEvent`（`BossBarColor.RED`、`BossBarOverlay.PROGRESS` ✔ 与原版一致）；
+2. **生命周期接线**：`startSeenByPlayer`/`stopSeenByPlayer` 增删玩家（照抄端口既有范式），死亡时移除；
+3. **进度同步**：每 tick 用 `setProgress(getHealth() / getMaxHealth())`（原版由 BossInfoServer 自动按血量更新 ✔）；
+4. 原版 `func_186741_a(false)` 关掉的是"变暗天空"效果 ⇒ 端口对应 `setDarkenScreen(false)`（**需在实现时核对 1.21 的对应 API**）。
+
+**为何不在本轮硬写**：端口范式的具体写法（事件注册时机、玩家增删钩子）需**先读一处现成实现**再照抄——
+本会话已多次证明"照抄既有范式"比"凭记忆写"可靠（步声、召唤、膨胀渲染皆如此）。
