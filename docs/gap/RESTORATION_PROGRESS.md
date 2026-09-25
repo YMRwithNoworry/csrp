@@ -1796,3 +1796,19 @@ SRPConfigMobs.java:4370  angedEnabled = cfg.getBoolean("Vigilante Enabled", "srp
 
 **自审质量自查**：8 条中 7 条给出 `路径:行号` 级双向证据；蛋色一条的**原版行号缺失**已在 `note` 中明确标注为待补
 （confidence 记 `medium`），未把它伪装成高置信——这正是本会话对"臆造证据"的一贯处置。
+
+## 批次 119：自审第 2 只暴露并修正 2 处真实偏差（`sim_villager`）（2026-09-25 续）
+
+自审 `sim_villager`（原版 `EntityInfVillager` ↔ 端口 `AssimilatedVariantEntity.Kind.VILLAGER`）时**当轮抓到 2 处偏差**：
+
+| 项 | 原版 | 端口原值 | 处置 |
+| --- | --- | --- | --- |
+| 生命/护甲/攻击/击退 | 16.0 / 5.0 / 10.0 / 0.2（`SRPAttributes.java:86-89`） | 16.0/5.0/10.0/0.2 | ✅ 一致 |
+| **跟随范围** | `infectedFollow = 16`（`SRPConfig.java:146`） | **32.0D** ✗ | ✅ 修正为 16.0D |
+| **经验** | `infectedXPValue = 8` | **10** ✗ | ✅ 修正为 8 |
+| 阴影半径 | `RenderInfVillager.java:16` = 0.5F | 0.5F | ✅ 一致 |
+
+即批次 73/75 的同化档对齐**漏掉了 `AssimilatedVariantEntity`**（当时只处理了 `AssimilatedParasiteEntity`）——
+这正是"扩大审计面"的价值：**覆盖面本身就是一种检查手段**，遗漏会随覆盖面扩大而暴露。
+
+`build` 通过、套件维持既有 20 失败（无耦合断言被触发）。`sim_villager` 的审计 JSON 将于下一轮随修正后的证据一并落盘。

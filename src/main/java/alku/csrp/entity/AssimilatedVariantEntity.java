@@ -618,7 +618,7 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
                 1.75F, 1.6F, 73, 1),
         HUMAN("sim_human", 15.0D, 5.0D, 9.0D, 0.1D, 0.23D, 32.0D, 10,
                 1.95F, 1.95F, 127, 1),
-        VILLAGER("sim_villager", 16.0D, 5.0D, 10.0D, 0.2D, 0.23D, 32.0D, 10,
+        VILLAGER("sim_villager", 16.0D, 5.0D, 10.0D, 0.2D, 0.23D, 16.0D, 8,
                 1.95F, 1.95F, 127, 1);
 
         private final String id;
