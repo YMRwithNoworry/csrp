@@ -3248,3 +3248,21 @@ startSeenByPlayer/stopSeenByPlayer → bossEvent.addPlayer/removePlayer       //
 可让审计产出的 `missing` 与 `partial` 区分得更准确。）
 
 主树基线复核：套件 99 / 79 通过 / 20 失败 ✔ 未受影响。
+
+## 批次 204：头部 `attackSpeedT = 15` 定性为**节奏机制差异**（2026-09-25 续，未改代码）
+
+```
+原版 EntityInfVillagerHead:48   this.attackSpeedT = 15;         ← 逐类设置的近战节奏（tick）
+端口 AssimilatedHeadEntity      grep attackSpeedT|attackSpeed → 【0 命中】⇒ 无该字段
+端口现有近战                    走 vanilla MeleeAttackGoal（固定 20 tick 节奏）
+```
+
+**定性（按批次 203 新增的判别）**：这**不是"把 15 填进去"**——端口头部**没有**"可配置近战节奏"这一机制，
+其近战由 vanilla goal 以 20 tick 驱动 ⇒ 属**节奏机制差异**（与 `killcount` 同类）。
+
+**实现路径（下一批评估）**：端口已有 `GeneMeleeGoal`（带 interval 参数，用于基因攻速）⇒ 可评估
+"让头部使用带 15 tick interval 的近战目标"（复用既有 goal，而非新造机制）。**评估前先读 `GeneMeleeGoal` 的构造与语义**，
+确认其 interval 语义与原版 `attackSpeedT` 一致（原版是"每 N tick 攻击一次"还是"攻击冷却 N tick"需核对）。
+
+**方法论沿用**：本轮**没有**因为"审计说缺 15"就直接塞一个 15——先确认机制在不在、语义对不对，
+再决定是"复用既有 goal"还是"新建机制"（批次 202 的教训）。
