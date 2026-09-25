@@ -246,6 +246,12 @@ public final class AssimilatedHeadEntity extends Monster implements CitadelAnima
         return hurt;
     }
 
+    /** Legacy EntityInf*Head:166/171 override playStepSound with SRPSounds.SMALL_STEPS. */
+    @Override
+    protected void playStepSound(net.minecraft.core.BlockPos pos, net.minecraft.world.level.block.state.BlockState state) {
+        playSound(alku.csrp.registry.ModSounds.get("small.step"), getSoundVolume(), getVoicePitch());
+    }
+
     @Override
     public boolean causeFallDamage(float distance, float damageMultiplier, DamageSource source) {
         return super.causeFallDamage(distance, damageMultiplier * 0.3F, source);

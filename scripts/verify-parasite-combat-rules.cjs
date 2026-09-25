@@ -553,6 +553,11 @@ expect(read("src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java"),
 expect(read("src/main/java/alku/csrp/entity/LeapSkill.java"),
   /mob\.setDeltaMovement\(/, "the leap skill does not apply the legacy leap velocity");
 
+// Legacy EntityInf*Head:166/171: heads use SRPSounds.SMALL_STEPS as their step sound.
+expect(read("src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java"),
+  /protected void playStepSound\([^)]*\)[\s\S]{0,160}?ModSounds\.get\("small\.step"\)/,
+  "the head step sound is not wired");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

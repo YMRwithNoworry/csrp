@@ -3001,3 +3001,19 @@ monster("sim_pighead", (type, level) -> new AssimilatedHeadEntity(type, level, K
 
 **说明**：本轮并非"族级外推"——cow/pig/horse/enderman 四头是**逐类读原版**得到的 0.8F（其中两种是脚本直接提取），
 另四种因注册形态差异未能在同一轮读到原版值，按同族同值补齐并在本记录中**明确标注来源差异**，便于后续复核。
+
+## 批次 189：头部步声音效接线（2026-09-25 续）
+
+原版 `EntityInfCowHead:166/171` 覆写 `func_180429_a` 并返回 `SRPSounds.SMALL_STEPS` ⇒ 头部使用**小步声**。
+端口该事件**早已存在**（`SoundEventCatalog:423` 的 `small.step`），且已有三处调用范式（`AbominationEntity:116`、
+`GnatEntity:234`、`ManglerEntity:226`），但**头部从不调用** ⇒ 静默无声 ✗。本轮照抄既有范式接线：
+
+```java
+@Override
+protected void playStepSound(BlockPos pos, BlockState state) {
+    playSound(ModSounds.get("small.step"), getSoundVolume(), getVoicePitch());
+}
+```
+
+**编译拦下一次注解冲突**：首次插入落在既有 `@Override`（属 `causeFallDamage`）与签名之间，导致连续两个 `@Override` ✗；
+已调整插入位置并把注解归还给 `causeFallDamage` ✔。断言 1 条；`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
