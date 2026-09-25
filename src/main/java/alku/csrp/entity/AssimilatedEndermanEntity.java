@@ -230,7 +230,8 @@ public final class AssimilatedEndermanEntity extends Monster
         goalSelector.addGoal(0, new FloatGoal(this));
         goalSelector.addGoal(2, new EndermanMeleeGoal());
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
-        goalSelector.addGoal(6, new ParasiteFollowGoal(this));
+        // Legacy EntityInfEnderman:81 removes the follow task (func_85156_a(this.folow)); the
+        // assimilated enderman deliberately does not follow, so no follow goal is registered.
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,

@@ -2325,3 +2325,18 @@ ParasiteSummon.spawn(parasite, ParasiteSummon.specFor(parasite));
 
 **`sim_enderman` 剩余四处**：0.15 攻速加成修饰符、`EntityHitbox` 头部命中盒、生成时贴图随机、
 移除误加的 follow 任务（原版 `EntityInfEnderman:83` 显式移除）。
+
+## 批次 151：`sim_enderman` 移除误加的跟随任务（2026-09-25 续）
+
+```
+原版 EntityInfEnderman:81   this.field_70714_bg.func_85156_a(this.folow);   ← 显式【移除】跟随任务
+端口 AssimilatedEndermanEntity:233   goalSelector.addGoal(6, new ParasiteFollowGoal(this));   ✗ 反而注册了
+```
+
+已移除该注册并以注释记录原版行号与理由（该生物**刻意不跟随**）。`build` 通过、套件维持既有 20 失败。
+
+**工具教训（本会话第 N 次）**：首次改动因锚点带 `\n` 而**静默失配**——该文件是 **CRLF**（`sed -n … | cat -A` 显示 `^M$`）。
+改用**不含换行的锚点**后一次成功。CRLF 陷阱在本会话已出现多次，此处再次验证了规避手法：
+**锚点尽量取单行且不带换行符**。
+
+**`sim_enderman` 剩余三项**：0.15 攻速加成修饰符、`EntityHitbox` 头部命中盒、生成时贴图随机。
