@@ -3962,3 +3962,26 @@ DEVOURER 0.0 ↔ `EntityLum` 0.0 ✔、BURROWER 0.26 ↔ `EntityZaa` 0.26 ✔、
 却把"这两族的属性表是否正确"从**未知**变成了**有据可查的已知** ✔。
 后续应对 adapted / assimilated / feral 等族沿用同一流程（映射 → 代号 → 常量 → 比对），
 **在决定"改什么"之前先确认"什么是对的"**。
+
+## 批次 240：adapted 族核对**进度**（映射 + 端口表已完成，原版为计算式）（2026-09-25 续）
+
+**映射（audit-input.json）**：`ada_*` ↔ `Entity*Adapted`（12 条，均实现于端口 `AdaptedVariantEntity` ✔）：
+longarms↔Shyco、manducater↔Hull、reeker↔Nogla、yelloweye↔Emana、summoner↔Canra、bolster↔Bano、
+tozoon↔Wymo、arachnida↔Ranrac、devourer↔Lum、vermin↔Iki、viscera↔Gim、burrower↔Zaa ✔
+
+**端口 adapted 表（脚本提取 ✔）**：
+
+| kind | hp | dmg | | kind | hp | dmg |
+| --- | --- | --- | --- | --- | --- | --- |
+| ARACHNIDA | 80 | 30 | | REEKER | 90 | 32 |
+| BOLSTER | 105 | 36 | | SUMMONER | 100 | 30 |
+| BURROWER | 115 | 45 | | TOZOON | 115 | 45 |
+| DEVOURER | 60 | 20 | | VERMIN | 70 | 30 |
+| LONGARMS | 95 | 26 | | VISCERA | 95 | 27 |
+| MANDUCATER | 45 | 24 | | YELLOWEYE | 55 | 17 |
+
+**原版侧遇阻**：`Entity*Adapted` 的属性常量是**计算式**（如 `IKI_A_HEALTH`，初值 0.0，后由基值 × 倍率赋值 ✗），
+本轮的简单正则取到了**初值 0.0** ✗ ⇒ 需按"**基值 × 倍率**"链读取（与 human 头同型 ✔，已有成熟做法 ✔）。
+
+**下一批**：读 `SRPAttributes` 中 `*_A_HEALTH` / `*_A_ATTACK_DAMAGE` 的赋值行（`X = 基值 * 倍率`），
+再用批次 230 的方式计算并与端口表逐项比对。
