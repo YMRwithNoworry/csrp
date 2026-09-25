@@ -461,6 +461,13 @@ for (const kind of ["sim_bear", "sim_cow", "sim_pig", "sim_sheep", "sim_wolf", "
   }
 }
 
+// Legacy SRPConfig.infectedXPValue = 8: the whole assimilated tier shares one XP reward
+for (const kind of ["sim_bear", "sim_cow", "sim_pig", "sim_sheep", "sim_wolf", "sim_squid"]) {
+  if (!new RegExp(kind + "\", [0-9.]+D, [0-9.]+D, [0-9.]+D, [0-9.]+D, [0-9.]+D, 16\\.0D, 8,").test(assimilatedKinds)) {
+    failures.push(`${kind} must grant the legacy 8 XP`);
+  }
+}
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

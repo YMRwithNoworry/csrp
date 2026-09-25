@@ -1118,3 +1118,18 @@ HOST_HEALTH_MULTIPLIER        : 382 声明 / 395 我的直通访问器
 **处置**：本轮**不改数值**。理由：现有证据只覆盖头部渲染器（0.6/0.5），不足以推出身体渲染器一律 0.5F；
 若照 0.5F 统一改，可能与原版按体型分档的做法相悖（正如批次 73 的 followRange 是"族统一 16"、而阴影半径未必如此）。
 下一步：先定位原版身体渲染器类名（或改从 `RenderManager`/注册处反查），取得每只的实参后再对齐。
+
+## 批次 75：同化族经验对齐原版 `infectedXPValue = 8`（2026-09-25 续）
+
+条款「经验 field_70728_aV = SRPAttributes.XP_INFECTE…」的取值链已查清：
+
+```
+SRPAttributes.XP_INFECTED = SRPConfig.infectedXPValue     // 按【档次】统一，而非逐生物
+SRPConfig: infectedXPValue = 8 / feralXPValue = 16 / primitiveXPValue = 30
+```
+
+端口 `AssimilatedParasiteEntity.Kind` 原先逐生物自定为 8/6/3/4/5/5（仅 sim_bear 恰好等于 8）⇒
+六种全部对齐为 **8**（`Kind.experience` 即 `xpReward` 的来源），并加 6 条断言。
+
+**顺手获得的同线信息**（后续可复用）：feral 族应为 **16**、primitive 族应为 **30**——如果这两族的
+`Kind.experience` 也偏离，可照本批一次性对齐。
