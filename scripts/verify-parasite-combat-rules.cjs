@@ -257,6 +257,10 @@ for (const file of ["AssimilatedParasiteEntity.java", "FeralParasiteEntity.java"
 }
 
 // legacy EntityAIGetFollowers(this, 1, 16): recruit one leaderless parasite nearby
+// (EntityInfHuman registers the same task one priority lower)
+expect(read("src/main/java/alku/csrp/entity/SimHumanEntity.java"),
+  /addGoal\(5, new RecruitFollowersGoal\(this, 16\)\)/,
+  "SimHumanEntity must register the legacy recruit task at priority 5");
 const recruit = read("src/main/java/alku/csrp/entity/RecruitFollowersGoal.java");
 for (const [pattern, message] of [
   [/public final class RecruitFollowersGoal extends Goal/, "the recruit goal is missing"],

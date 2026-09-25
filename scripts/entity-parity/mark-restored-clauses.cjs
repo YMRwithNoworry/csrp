@@ -467,6 +467,19 @@ const BATCHES = {
         detail: "复刻原版：每 20 tick、自身无 leader 且无目标时，在 (range,2,range) 盒内找第一个有视线、存活、尚无 leader 的寄生体并令其跟随（ParasiteFollowGoal.setLeader）；同化与野化族按原版优先级 6 / range 16 注册（EntityInfCow:74 等）"
       }
     ]
+  },
+  // 批次 32：sim_human 的招募任务优先级订正（原版 EntityInfHuman:122 为优先级 5）
+  "recruit-followers-simhuman": {
+    note: "批次：EntityAIGetFollowers 招募跟随（sim_human 优先级 5 形态，EntityInfHuman:122）",
+    mobs: ["sim_human"],
+    clauses: [
+      {
+        match: /EntityAIGetFollowers/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/RecruitFollowersGoal.java",
+        detail: "同化族招募任务已实现（RecruitFollowersGoal 复刻 EntityAIGetFollowers version 1/range 16）；sim_human 按原版 EntityInfHuman:122 在优先级 5 注册"
+      }
+    ]
   }
 };
 

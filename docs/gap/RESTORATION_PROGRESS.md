@@ -566,3 +566,11 @@ canUse:  dis < distanceC && dis >= distanceL    // → 8 ≤ d < 32 格
 注册：`AssimilatedParasiteEntity`（同化族）、`FeralParasiteEntity`（野化族），优先级 6、range 16。
 未接线：`EntityInfHuman` 的优先级 5 形态与 adapted 系的 version 3 / range 32（后续批次）。
 校验：`verify-parasite-combat-rules.cjs` 增加 8 条断言；审计记账 1 条，满足 681 → **682**。
+
+## 批次 32：sim_human 的招募任务优先级订正（2026-09-25 续）
+
+原版 `EntityInfHuman:122` 把同一个 `EntityAIGetFollowers(this, 1, 16)` 注册在**优先级 5**（其余同化/野化类为 6）。
+端口 `RecruitFollowersGoal` 已复刻 version 1/range 16 语义（批次 31），本轮按原版优先级补注册到 `SimHumanEntity`。
+
+审计记账：该生物审计中无独立 `EntityAIGetFollowers` 条款（其 AI 条款为更粗的 `tasks.addTask` 形态），
+故本轮**账面不变**，属行为保真度补全；对应断言已加入 `verify-parasite-combat-rules.cjs`。

@@ -179,6 +179,8 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
                 && EvolutionSystem.generationProfile(serverLevel).waterLeap(), 0.7F, 1.5D, 20, 0.0D));
         goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
+        // Legacy EntityInfHuman:122 registers the recruit task at priority 5 (range 16).
+        goalSelector.addGoal(5, new RecruitFollowersGoal(this, 16));
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
