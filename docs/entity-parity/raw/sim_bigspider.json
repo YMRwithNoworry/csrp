@@ -1032,12 +1032,12 @@
         },
         {
           "clause": "光照/难度/天数规则 func_70601_bi（SRPConfig.spawnDays、isValidLightLevelOne/Two）",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1553",
-            "project": "src/main/java/alku/csrp/registry/CommonModEvents.java:328"
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
-          "note": "project 使用 Monster.checkMonsterSpawnRules（光照 ≤7 等），未接入 spawnDays 与寄生群系光照放宽规则"
+          "note": "已实现原版 func_70601_bi 语义：ParasiteCombatRules.enforceLegacySpawnValidity 在 FinalizeSpawnEvent 上判定，未通过则 setSpawnCancelled(true)（刷怪笼/刷怪蛋/指令豁免）；world/SpawnLightChecks 提供两级光照（isValidLightLevelTwo 的随机门控照抄、isValidLightLevelOne 含 SKY>nextInt(32)、getMaxLocalRawBrightness<=nextInt(8)、getWalkTargetValue>=0）与 canSpawnNaturally（和平难度拒、Config.spawnDays() > getGameTime() 拒、按 phase>=evolutionSpawningIgnoreSunlight || phase==-1&&phaseLightlessMinusOne 选档）；配置键 spawnDays/evolutionSpawningIgnoreSunlight/phaseLightlessMinusOne 已补。已知偏差（文档批次 94）：寄生区以脚下方块为 InfestedBlock 近似、不模拟雷暴临时减光。；批次：生成合法性 func_70601_bi 接线（FinalizeSpawnEvent 上套用）"
         },
         {
           "clause": "同化生成数据门控 getIDSpawn/canSpawnByIDData（每个生物一个阈值）",

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-25T04:00:05.120Z",
+  "generatedAt": "2026-09-25T05:05:24.427Z",
   "protocol": "docs/entity-parity/AUDIT_PROTOCOL.md",
   "input": "docs/entity-parity/audit-input.json",
   "counts": {
@@ -8,12 +8,12 @@
     "missing": 114
   },
   "overall": {
-    "satisfied": 696,
-    "partial": 371,
+    "satisfied": 702,
+    "partial": 365,
     "missing": 255,
     "na": 57,
     "denominator": 1322,
-    "completion": 66.7
+    "completion": 66.9
   },
   "facets": [
     {
@@ -109,12 +109,12 @@
     {
       "facet": "spawning",
       "label": "生成",
-      "satisfied": 32,
-      "partial": 39,
+      "satisfied": 38,
+      "partial": 33,
       "missing": 16,
       "na": 2,
       "denominator": 87,
-      "completion": 59.2
+      "completion": 62.6
     },
     {
       "facet": "loot",
@@ -220,12 +220,12 @@
       "group": "marauderized",
       "audited": 1,
       "expected": 7,
-      "satisfied": 55,
-      "partial": 26,
+      "satisfied": 56,
+      "partial": 25,
       "missing": 23,
       "na": 7,
       "denominator": 104,
-      "completion": 65.4
+      "completion": 65.9
     },
     {
       "group": "current",
@@ -242,12 +242,12 @@
       "group": "assimilated",
       "audited": 6,
       "expected": 23,
-      "satisfied": 352,
-      "partial": 180,
+      "satisfied": 357,
+      "partial": 175,
       "missing": 87,
       "na": 33,
       "denominator": 619,
-      "completion": 71.4
+      "completion": 71.8
     }
   ],
   "creatures": [
@@ -305,13 +305,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 56,
-        "partial": 28,
+        "satisfied": 57,
+        "partial": 27,
         "missing": 14,
         "na": 5
       },
       "denominator": 98,
-      "completion": 71.4,
+      "completion": 71.9,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -377,8 +377,8 @@
           "clauses": 5
         },
         "spawning": {
-          "satisfied": 2,
-          "partial": 4,
+          "satisfied": 3,
+          "partial": 3,
           "missing": 1,
           "na": 0,
           "clauses": 7
@@ -450,13 +450,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 50,
-        "partial": 30,
+        "satisfied": 51,
+        "partial": 29,
         "missing": 13,
         "na": 7
       },
       "denominator": 93,
-      "completion": 69.9,
+      "completion": 70.4,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -522,8 +522,8 @@
           "clauses": 4
         },
         "spawning": {
-          "satisfied": 3,
-          "partial": 1,
+          "satisfied": 4,
+          "partial": 0,
           "missing": 1,
           "na": 1,
           "clauses": 6
@@ -593,13 +593,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 61,
-        "partial": 29,
+        "satisfied": 62,
+        "partial": 28,
         "missing": 20,
         "na": 6
       },
       "denominator": 110,
-      "completion": 68.6,
+      "completion": 69.1,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -665,8 +665,8 @@
           "clauses": 5
         },
         "spawning": {
-          "satisfied": 2,
-          "partial": 4,
+          "satisfied": 3,
+          "partial": 3,
           "missing": 1,
           "na": 0,
           "clauses": 7
@@ -737,13 +737,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 60,
-        "partial": 33,
+        "satisfied": 61,
+        "partial": 32,
         "missing": 13,
         "na": 5
       },
       "denominator": 106,
-      "completion": 72.2,
+      "completion": 72.6,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -809,8 +809,8 @@
           "clauses": 5
         },
         "spawning": {
-          "satisfied": 2,
-          "partial": 4,
+          "satisfied": 3,
+          "partial": 3,
           "missing": 1,
           "na": 0,
           "clauses": 7
@@ -881,13 +881,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 63,
-        "partial": 30,
+        "satisfied": 64,
+        "partial": 29,
         "missing": 12,
         "na": 5
       },
       "denominator": 105,
-      "completion": 74.3,
+      "completion": 74.8,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -953,8 +953,8 @@
           "clauses": 5
         },
         "spawning": {
-          "satisfied": 2,
-          "partial": 4,
+          "satisfied": 3,
+          "partial": 3,
           "missing": 1,
           "na": 0,
           "clauses": 7
@@ -2160,13 +2160,13 @@
       "group": "marauderized",
       "missing": false,
       "totals": {
-        "satisfied": 55,
-        "partial": 26,
+        "satisfied": 56,
+        "partial": 25,
         "missing": 23,
         "na": 7
       },
       "denominator": 104,
-      "completion": 65.4,
+      "completion": 65.9,
       "facets": {
         "registration": {
           "satisfied": 6,
@@ -2232,8 +2232,8 @@
           "clauses": 6
         },
         "spawning": {
-          "satisfied": 0,
-          "partial": 4,
+          "satisfied": 1,
+          "partial": 3,
           "missing": 2,
           "na": 0,
           "clauses": 6

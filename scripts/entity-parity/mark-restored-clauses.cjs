@@ -649,6 +649,19 @@ const BATCHES = {
         detail: "HostEntity.createAttributes 读取原版 SRPConfigMobs 的 host 三项（health/damage/armor，默认 1.0）并乘基础生命 50/护甲 7/攻击 10；击退抗性由 helper 固定为 1.0（已在上限，倍率等价），与既有全局倍率构成「全局 × per-mob」结算"
       }
     ]
+  },
+  // 批次 100：生成合法性 func_70601_bi（两级光照 + spawnDays + 非和平）
+  "spawn-validity-func-70601-bi": {
+    note: "批次：生成合法性 func_70601_bi 接线（FinalizeSpawnEvent 上套用）",
+    mobs: ["sim_cow", "sim_sheep", "sim_squid", "sim_human", "sim_bigspider", "mar_cow"],
+    clauses: [
+      {
+        match: /func_70601_bi|光照\/难度\/天数/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/event/ParasiteCombatRules.java",
+        detail: "已实现原版 func_70601_bi 语义：ParasiteCombatRules.enforceLegacySpawnValidity 在 FinalizeSpawnEvent 上判定，未通过则 setSpawnCancelled(true)（刷怪笼/刷怪蛋/指令豁免）；world/SpawnLightChecks 提供两级光照（isValidLightLevelTwo 的随机门控照抄、isValidLightLevelOne 含 SKY>nextInt(32)、getMaxLocalRawBrightness<=nextInt(8)、getWalkTargetValue>=0）与 canSpawnNaturally（和平难度拒、Config.spawnDays() > getGameTime() 拒、按 phase>=evolutionSpawningIgnoreSunlight || phase==-1&&phaseLightlessMinusOne 选档）；配置键 spawnDays/evolutionSpawningIgnoreSunlight/phaseLightlessMinusOne 已补。已知偏差（文档批次 94）：寄生区以脚下方块为 InfestedBlock 近似、不模拟雷暴临时减光。"
+      }
+    ]
   }
 };
 

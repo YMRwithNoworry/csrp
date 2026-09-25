@@ -1,6 +1,6 @@
 # 生物部分还原度基线
 
-> 生成时间：2026-09-25T04:00:05.120Z
+> 生成时间：2026-09-25T05:05:24.427Z
 > 事实来源：`D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites`（SRParasites 1.10.9，生物部分与 1.10.8 一致）
 > 本工程：`D:/code/MC模组/csrp`（MC 26.3 / NeoForge 26.3，分支 `port-26.3`）
 
@@ -15,8 +15,8 @@
 ## 总体基线
 
 - 覆盖：**13/127** 只生物已出条款级审计
-- 条款：满足 **696**、部分 **371**、缺失 **255**（另有 57 条判定为不适用）
-- **加权完成度：66.7%**
+- 条款：满足 **702**、部分 **365**、缺失 **255**（另有 57 条判定为不适用）
+- **加权完成度：66.9%**
 
 ## 分面基线
 
@@ -31,7 +31,7 @@
 | 动画 | 53 | 13 | 7 | 81.5% |
 | 模型/贴图 | 37 | 12 | 19 | 63.2% |
 | 音效 | 33 | 21 | 18 | 60.4% |
-| 生成 | 32 | 39 | 16 | 59.2% |
+| 生成 | 38 | 33 | 16 | 62.6% |
 | 掉落 | 9 | 26 | 15 | 44% |
 
 ## 完成度最低的 20 只（补齐队列起点）
@@ -42,15 +42,15 @@
 | `hi_skeleton` | EntityHiSkeleton | HiSkeletonEntity | 59.8% | 42/26/24 |
 | `fer_villager` | EntityFerVillager | FeralParasiteEntity | 61.2% | 66/32/36 |
 | `host` | EntityHost | HostEntity | 64.1% | 42/25/18 |
-| `mar_cow` | EntitySpeCow | MarauderizedCowEntity | 65.4% | 55/26/23 |
+| `mar_cow` | EntitySpeCow | MarauderizedCowEntity | 65.9% | 56/25/23 |
 | `pri_longarms` | EntityShyco | LongarmsEntity | 67.1% | 56/29/20 |
 | `buglin` | EntityLodo | BuglinEntity | 67.9% | 40/15/15 |
-| `sim_human` | EntityInfHuman | SimHumanEntity | 68.6% | 61/29/20 |
-| `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | 69.9% | 50/30/13 |
-| `sim_bigspider` | EntityDorpa | AssimilatedVariantEntity | 71.4% | 56/28/14 |
+| `sim_human` | EntityInfHuman | SimHumanEntity | 69.1% | 62/28/20 |
+| `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | 70.4% | 51/29/13 |
+| `sim_bigspider` | EntityDorpa | AssimilatedVariantEntity | 71.9% | 57/27/14 |
 | `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | 72% | 62/30/15 |
-| `sim_cow` | EntityInfCow | AssimilatedParasiteEntity | 72.2% | 60/33/13 |
-| `sim_sheep` | EntityInfSheep | AssimilatedParasiteEntity | 74.3% | 63/30/12 |
+| `sim_cow` | EntityInfCow | AssimilatedParasiteEntity | 72.6% | 61/32/13 |
+| `sim_sheep` | EntityInfSheep | AssimilatedParasiteEntity | 74.8% | 64/29/12 |
 
 ## 已知前提与风险
 

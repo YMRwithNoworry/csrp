@@ -1500,3 +1500,15 @@ NexusParasiteEntity:222     if (activeKind.family == Family.BECKON && activeKind
 **编译再次拦下一处真实错误**：`getBlockState(...)` 返回 `BlockState`，需先 `.getBlock()` 才能 `instanceof InfestedBlock`——
 若只靠肉眼，这处会被我当成"写得没错"（这与本会话多次"以为对"的情形同类，编译器是最便宜的对手）。
 `build` 通过、套件维持既有 20 失败。
+
+## 批次 100：生成合法性条款记账（+6 条）（2026-09-25 续）
+
+逐条核对 7 条 partial 的**完整条款文本**后再记账（避免又一次过度记账）：
+
+| 生物 | 条款要点 | 处置 |
+| --- | --- | --- |
+| sim_cow / sim_sheep / sim_squid / sim_human / sim_bigspider | `SRPConfig.spawnDays、isValidLightLevelOne/Two` | ✅ 满足（本次实现覆盖） |
+| mar_cow | `isValidLightLevelTwo + spawnDays + 非和平` | ✅ 满足 |
+| fer_villager | 额外要求 **`SRPConfig.ignoreL`** | ⏸ **保持 partial**——该键的使用点尚未查清，我刻意未加（不造死键），故不能记账 |
+
+账面：满足 696 → **702**，部分 371 → **365**，加权 **66.7% → 66.9%**。`beckon_siii` 的同类条款原为 `na`（不适用）。
