@@ -2651,3 +2651,21 @@ leftWingHealth = legacyPartHealth;
 
 **说明**：端口生成表按阶段分池（批次 104 的架构差异），本轮只对齐**该条目自身的参数**（组大小与权重），
 不触碰分池架构——架构级决策仍待专项批次。
+
+## 批次 170：`sim_dragone` 眼高——**是覆写方法而非注册参数**（2026-09-25 续，未改代码）
+
+第三批委派审计把"眼高 1.75"列为缺失项，本轮核实后发现**实现位置与审计措辞不同**：
+
+```
+原版 EntityInfDragonE:338-340   public float func_70047_e() { return 1.75F; }   ← 【覆写方法】getEyeHeight()
+端口 ModEntities:284            monster("sim_dragone", AssimilatedDragonEntity::new, 1.9F, 3.8F);   ← 走 3 参 helper，无眼高
+```
+
+**结论**：眼高在原版是**实体方法覆写**（不是 `EntityType.Builder` 的注册参数），因此端口的正确做法是
+**在 `AssimilatedDragonEntity` 中覆写 `getEyeHeight()` 返回 1.75F**（而不是往注册处加参数——那样也加不进去）。
+
+**下一批实施**：在 `AssimilatedDragonEntity` 加 `@Override public float getEyeHeight(Pose pose) { return 1.75F; }`
+（1.21 的签名带 `Pose` 参数，需按端口其它类的既有覆写形式照抄），断言后记账。
+
+**方法论**：这是本会话又一处"**审计指出的缺口为真，但实现位置需自行确认**"——审计给的是"缺什么"，
+而"该加在哪里"仍要按原版形态判断（方法覆写 vs 注册参数 vs 属性）。
