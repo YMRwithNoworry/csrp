@@ -206,6 +206,16 @@ expect(longarmsSource, /applyScaryOrbEffect\(target, 0\)/,
 expect(longarmsSource, /implements ParasiteSkillGoal\.ParasiteSkill/,
   "the skill must implement the dispatch contract");
 
+// legacy EntityInfCow:75 EntityAISkill(this, 60, 32, 8, true, 1): the cow charge is gene gated
+const assimilated = read("src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java");
+for (const [pattern, message] of [
+  [/private boolean specialMovesEnabled\(\) \{[\s\S]{0,200}?\.specialMoves\(\)/,
+    "the assimilated family needs the geneSpecialmove gate"],
+  [/&& specialMovesEnabled\(\)/, "the cow charge must be gated by geneSpecialmove"],
+  [/distance >= 64\.0D && distance < 1024\.0D/, "the legacy 8-32 block window is missing"],
+  [/chargeCooldown = 60;/, "the legacy 60 tick cooldown is missing"]
+]) expect(assimilated, pattern, message);
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

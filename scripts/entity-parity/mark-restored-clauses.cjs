@@ -400,6 +400,19 @@ const BATCHES = {
         detail: "适用子项全部实现（最小伤害/伤害上限/治疗/毒伤治疗/疾跑/攻击速度）；不适用子项：ORIGINAL_AI_TASKS.md:1469 起 EntityDorpa 段落无 EntityAISkill/EntityAIWaterLeapAtTargetStatus/EntityAIBlockLight"
       }
     ]
+  },
+  // 批次 27：sim_cow（原版 EntityInfCow）gene 捆绑条款完成
+  "gene-bundle-sim-cow": {
+    note: "批次：gene 捆绑条款完成（sim_cow = EntityInfCow；技能现由 CowChargeGoal 按原版 EntityAISkill 参数与 gene 门驱动）",
+    mobs: ["sim_cow"],
+    clauses: [
+      {
+        match: /applyGene/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java",
+        detail: "适用子项全部实现：最小伤害/伤害上限（ParasiteCombatRules 门控）、治疗与毒伤治疗（既有）、疾跑与攻击速度（GeneMeleeGoal）、技能（CowChargeGoal 对齐原版 EntityInfCow:75 EntityAISkill(this, 60, 32, 8, true, 1)：8-32 格窗口、60 tick 冷却、geneSpecialmove 门控）。水跃与穿墙破块对该原版类不适用（各 0 处）"
+      }
+    ]
   }
 };
 

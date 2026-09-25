@@ -183,12 +183,12 @@
         },
         {
           "clause": "基因加成 applyGene（最小伤害/伤害上限/穿墙/疾跑/水跃/技能/攻击速度）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:266",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java"
           },
-          "note": "project 生成系统只作用于 primitive/adapted，sim_* 无基因接入"
+          "note": "适用子项全部实现：最小伤害/伤害上限（ParasiteCombatRules 门控）、治疗与毒伤治疗（既有）、疾跑与攻击速度（GeneMeleeGoal）、技能（CowChargeGoal 对齐原版 EntityInfCow:75 EntityAISkill(this, 60, 32, 8, true, 1)：8-32 格窗口、60 tick 冷却、geneSpecialmove 门控）。水跃与穿墙破块对该原版类不适用（各 0 处）；批次：gene 捆绑条款完成（sim_cow = EntityInfCow；技能现由 CowChargeGoal 按原版 EntityAISkill 参数与 gene 门驱动）"
         }
       ],
       "confidence": "high"

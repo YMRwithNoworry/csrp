@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.world.EvolutionSystem;
 import alku.csrp.Csrp;
 import alku.csrp.event.ParasiteCombatRules;
 import alku.csrp.infection.InfectionMechanics;
@@ -636,6 +637,12 @@ public final class AssimilatedParasiteEntity extends Monster
         return target != this && target.isAlive() && !(target instanceof Parasite);
     }
 
+    /** Legacy geneSpecialmove: EntityInfCow gates its charge skill on the same gene. */
+    private boolean specialMovesEnabled() {
+        return level() instanceof ServerLevel serverLevel
+                && EvolutionSystem.generationProfile(serverLevel).specialMoves();
+    }
+
     private void infectNearby() {
         for (LivingEntity nearby : level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(COTH_AURA_RADIUS), this::isValidParasiteTarget)) {
@@ -709,8 +716,12 @@ public final class AssimilatedParasiteEntity extends Monster
         @Override
         public boolean canUse() {
             LivingEntity target = getTarget();
+            // Legacy EntityInfCow:75 EntityAISkill(this, 60, 32, 8, true, 1): the window is
+            // 8 <= d < 32 blocks and the skill needs the geneSpecialmove flag.
+            double distance = target == null ? 0.0D : distanceToSqr(target);
             return chargeCooldown == 0 && target != null && target.isAlive() && onGround()
-                    && !isInWaterOrBubble() && distanceToSqr(target) >= 16.0D;
+                    && !isInWaterOrBubble() && specialMovesEnabled()
+                    && distance >= 64.0D && distance < 1024.0D;
         }
 
         @Override
@@ -763,7 +774,7 @@ public final class AssimilatedParasiteEntity extends Monster
         @Override
         public void stop() {
             navigation.stop();
-            chargeCooldown = 100;
+            chargeCooldown = 60;
             ticks = 0;
             chargeDestination = null;
             entityData.set(COW_CHARGE_STATE, 0);

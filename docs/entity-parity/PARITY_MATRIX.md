@@ -1,10 +1,10 @@
 # 生物还原矩阵（SRParasites 1.10.9 → csrp）
 
-> 生成时间：2026-09-25T03:16:43.256Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
+> 生成时间：2026-09-25T03:19:09.046Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
 > 判定：✅ 全部条款满足；🟠 有部分实现但无缺失；❌ 存在缺失；· 未审计。
 
 - 注册生物总数：**127**；已审计：**13**；未审计：**114**
-- 条款总计：满足 657 / 部分 380 / 缺失 285（不计入 57 条不适用）
+- 条款总计：满足 658 / 部分 380 / 缺失 284（不计入 57 条不适用）
 - **加权完成度：64.1%**（partial 计 0.5）
 
 ## 分面完成度
@@ -12,7 +12,7 @@
 | 面 | 满足 | 部分 | 缺失 | 完成度 |
 | --- | ---: | ---: | ---: | ---: |
 | 注册 `registration` | 61 | 40 | 30 | 61.8% |
-| 属性 `attributes` | 73 | 29 | 23 | 70% |
+| 属性 `attributes` | 74 | 29 | 22 | 70.8% |
 | AI `ai` | 79 | 75 | 35 | 61.6% |
 | 行为 `behaviors` | 152 | 76 | 72 | 63.3% |
 | 伤害/效果 `damage_and_effects` | 102 | 16 | 20 | 79.7% |
@@ -37,7 +37,7 @@
 | early_lifecycle | 1/10 | 42 | 25 | 18 | 64.1% |
 | marauderized | 1/7 | 54 | 26 | 24 | 64.4% |
 | current | 2/13 | 96 | 44 | 35 | 67.4% |
-| assimilated | 6/23 | 325 | 188 | 106 | 67.7% |
+| assimilated | 6/23 | 326 | 188 | 105 | 67.9% |
 
 ## 逐生物矩阵
 
@@ -163,10 +163,10 @@
 | `host` | EntityHost | HostEntity | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | 🟠 | 64.1% |
 | `mar_cow` | EntitySpeCow | MarauderizedCowEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 64.4% |
 | `sim_human` | EntityInfHuman | SimHumanEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 65.5% |
-| `sim_cow` | EntityInfCow | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 67% |
 | `pri_longarms` | EntityShyco | LongarmsEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 67.1% |
 | `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 67.2% |
 | `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 67.8% |
+| `sim_cow` | EntityInfCow | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 67.9% |
 | `buglin` | EntityLodo | BuglinEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 67.9% |
 | `sim_bigspider` | EntityDorpa | AssimilatedVariantEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 68.9% |
 | `sim_sheep` | EntityInfSheep | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 70% |
@@ -216,9 +216,6 @@
 ### `sim_human`（EntityInfHuman → SimHumanEntity，65.5%）
 - （无缺口摘要，见 raw JSON）
 
-### `sim_cow`（EntityInfCow → AssimilatedParasiteEntity，67%）
-- （无缺口摘要，见 raw JSON）
-
 ### `pri_longarms`（EntityShyco → LongarmsEntity，67.1%）
 - 碰撞箱 1.0x3.0 vs 0.6x3.2、眼高默认 2.55 vs 2.7、追踪范围 8 vs 64、刷怪蛋颜色不一致
 - 缺少 per-mob 启用开关（shycoEnabled）与 shyco 专属属性乘数，无数字寄生虫 id
@@ -231,6 +228,9 @@
 - （无缺口摘要，见 raw JSON）
 
 ### `sim_wolf`（EntityInfWolf → AssimilatedParasiteEntity，67.8%）
+- （无缺口摘要，见 raw JSON）
+
+### `sim_cow`（EntityInfCow → AssimilatedParasiteEntity，67.9%）
 - （无缺口摘要，见 raw JSON）
 
 ### `buglin`（EntityLodo → BuglinEntity，67.9%）

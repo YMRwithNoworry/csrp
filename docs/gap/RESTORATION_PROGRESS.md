@@ -500,3 +500,17 @@ canUse:  dis < distanceC && dis >= distanceL    // → 8 ≤ d < 32 格
 审计：满足 656 → **657**，缺失 286 → **285**，加权完成度 64.0% → **64.1%**。
 至此已审计 13 只生物中，gene 捆绑条款仅剩 `sim_cow` 一只未完成（其原版 `EntityInfCow:75` 有
 `EntityAISkill(this, 60, 32, 8, true, 1)` → charge 技能，下一批实施）。
+
+## 批次 27：sim_cow 技能对齐与 gene 捆绑条款结清（2026-09-25 续）
+
+读端口 `AssimilatedParasiteEntity` 后发现 charge 本体**早已存在**（`CowChargeGoal`：`PREPARE_TICKS=40`
+与 `MAX_CHARGE_TICKS=80`，起手后锁定 15 格外冲刺并沿途伤害），缺的只是**原版 `EntityAISkill` 的门控与参数**：
+
+| 原版 `EntityInfCow:75 EntityAISkill(this, 60, 32, 8, true, 1)` | 修改前 | 修改后 |
+| --- | --- | --- |
+| `geneSpecialmove` 门控（`getGeneMod(5)`） | 无 | `canUse` 增加 `specialMovesEnabled()`（本类继承 `Monster`，故自持同名 helper） |
+| 距离窗口 `8 ≤ d < 32` 格 | `d ≥ 4` 格 | `distance >= 64.0D && distance < 1024.0D` |
+| 冷却 60 tick | 100 tick | 60 tick |
+
+审计：满足 657 → **658**，缺失 285 → **284**。
+**里程碑**：13 只已审计生物的 gene 捆绑条款（8 条）**全部结清**。
