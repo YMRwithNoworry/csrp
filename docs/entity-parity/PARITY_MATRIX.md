@@ -1,27 +1,27 @@
 # 生物还原矩阵（SRParasites 1.10.9 → csrp）
 
-> 生成时间：2026-09-25T05:38:32.704Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
+> 生成时间：2026-09-25T05:39:39.387Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
 > 判定：✅ 全部条款满足；🟠 有部分实现但无缺失；❌ 存在缺失；· 未审计。
 
-- 注册生物总数：**127**；已审计：**16**；未审计：**111**
-- 条款总计：满足 853 / 部分 419 / 缺失 287（不计入 66 条不适用）
+- 注册生物总数：**127**；已审计：**17**；未审计：**110**
+- 条款总计：满足 903 / 部分 443 / 缺失 302（不计入 71 条不适用）
 - **加权完成度：68.2%**（partial 计 0.5）
 
 ## 分面完成度
 
 | 面 | 满足 | 部分 | 缺失 | 完成度 |
 | --- | ---: | ---: | ---: | ---: |
-| 注册 `registration` | 81 | 46 | 35 | 64.2% |
-| 属性 `attributes` | 119 | 33 | 4 | 86.9% |
-| AI `ai` | 100 | 91 | 34 | 64.7% |
-| 行为 `behaviors` | 189 | 78 | 71 | 67.5% |
-| 伤害/效果 `damage_and_effects` | 118 | 16 | 20 | 81.8% |
-| 同步数据 `sync_data` | 31 | 37 | 37 | 47.1% |
-| 动画 `animation` | 61 | 15 | 8 | 81.5% |
-| 模型/贴图 `model_texture` | 52 | 6 | 20 | 70.5% |
-| 音效 `sounds` | 40 | 27 | 21 | 60.8% |
-| 生成 `spawning` | 51 | 40 | 19 | 64.5% |
-| 掉落 `loot` | 11 | 30 | 18 | 44.1% |
+| 注册 `registration` | 87 | 48 | 37 | 64.5% |
+| 属性 `attributes` | 125 | 36 | 5 | 86.1% |
+| AI `ai` | 105 | 96 | 37 | 64.3% |
+| 行为 `behaviors` | 197 | 83 | 74 | 67.4% |
+| 伤害/效果 `damage_and_effects` | 126 | 16 | 20 | 82.7% |
+| 同步数据 `sync_data` | 33 | 39 | 39 | 47.3% |
+| 动画 `animation` | 65 | 16 | 8 | 82% |
+| 模型/贴图 `model_texture` | 56 | 6 | 20 | 72% |
+| 音效 `sounds` | 42 | 29 | 23 | 60.1% |
+| 生成 `spawning` | 56 | 42 | 20 | 65.3% |
+| 掉落 `loot` | 11 | 32 | 19 | 43.5% |
 
 ## 分组完成度
 
@@ -37,13 +37,12 @@
 | early_lifecycle | 1/10 | 42 | 25 | 18 | 64.1% |
 | marauderized | 1/7 | 58 | 24 | 22 | 67.3% |
 | current | 2/13 | 99 | 42 | 34 | 68.6% |
-| assimilated | 9/23 | 500 | 234 | 122 | 72.1% |
+| assimilated | 10/23 | 550 | 258 | 137 | 71.9% |
 
 ## 逐生物矩阵
 
 | id | 原版类 | 工程类 | 注册 | 属性 | AI | 行为 | 伤害/效果 | 同步数据 | 动画 | 模型/贴图 | 音效 | 生成 | 掉落 | 完成度 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | ---: |
-| `sim_horse` | EntityInfHorse | AssimilatedVariantEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `sim_bear` | EntityInfBear | AssimilatedParasiteEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `sim_enderman` | EntityInfEnderman | AssimilatedEndermanEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
 | `sim_dragone` | EntityInfDragonE | AssimilatedDragonEntity | · | · | · | · | · | · | · | · | · | · | · | 未审计 |
@@ -162,6 +161,7 @@
 | `mar_cow` | EntitySpeCow | MarauderizedCowEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 67.3% |
 | `buglin` | EntityLodo | BuglinEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 68.6% |
 | `pri_longarms` | EntityShyco | LongarmsEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 68.6% |
+| `sim_horse` | EntityInfHorse | AssimilatedVariantEntity | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | 🟠 | ✅ | ❌ | ❌ | ❌ | 69.7% |
 | `sim_human` | EntityInfHuman | SimHumanEntity | ❌ | ✅ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 70.9% |
 | `sim_adventurer` | EntityInfPlayer | SimAdventurerEntity | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | 70.9% |
 | `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | ❌ | 🟠 | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 71% |
@@ -231,6 +231,9 @@
 - 冲击波波体伤害为 1.0x（原版 0.3x）、每目标仅命中一次、寿命与破坏硬度不匹配；AOE 缺少“命中寄生虫清除目标”分支
 - 变体皮肤 5/6/7 与冰冻变体 120 全链路缺失（同步数据、finalizeSpawn、贴图、粒子、附加效果）
 - 伤害侧缺失：单次伤害上限(damageCap=6)+RAGE、生命恢复、吞噬食物、击杀治疗、FEAR、毒治愈、效果免疫、PIVOT 转移
+
+### `sim_horse`（EntityInfHorse → AssimilatedVariantEntity，69.7%）
+- （无缺口摘要，见 raw JSON）
 
 ### `sim_human`（EntityInfHuman → SimHumanEntity，70.9%）
 - （无缺口摘要，见 raw JSON）

@@ -1918,3 +1918,7 @@ SRPConfigMobs.java:4370  angedEnabled = cfg.getBoolean("Vigilante Enabled", "srp
 
 ⇒ 证据真实，予以采纳。**累积验收**：2 份子代理产出（sim_villager 93 条、sim_adventurer 95 条）均通过抽查；
 两者的 `missing`/`partial` 清单已作为后续实现靶点（其中 `infvillager*` 已在批次 125 落地）。
+
+批次 127 补记：提交时同批纳入 **`raw/sim_horse.json`** 与 **`raw/crosscheck/sim_adventurer.by-agent.json`**
+（后者为子代理自建的交叉核对副本）。矩阵刷新后：**已审计 17/127**（未审计 110），
+条款 满足 **903** / 部分 443 / 缺失 302，加权 **68.2%**。`sim_horse` 的产出同样需按既有标准验收（下一轮）。
