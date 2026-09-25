@@ -96,7 +96,12 @@ dependencies {
     implementation fg.deobf("maven.modrinth:citadel:${citadel_version}")
 
     // Mixin AP is intentionally disabled; legacy targets are compatible at runtime
-    // but are not compatible with ForgeGradle's AP mappings.
+    // but are not compatible with ForgeGradle's AP mappings. Because no refmap is
+    // generated, src/main/resources/csrp.mixins.json must never reference one
+    // (a dangling refmap is what kills a production client: Mixin cannot remap the
+    // selector and fails the whole config). Every client selector therefore carries
+    // the official name for the development runtime and the SRG name for Forge
+    // production, guarded by scripts/verify-mixin-targets.cjs.
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

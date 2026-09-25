@@ -18,8 +18,10 @@ import java.util.List;
 
 @Mixin(ChatComponent.class)
 public abstract class ChatComponentMixin {
+    // Forge's production runtime exposes ChatComponent#trimmedMessages as f_93761_;
+    // the alias keeps the shadow resolvable in an official-mapped development runtime.
     @Final
-    @Shadow
+    @Shadow(aliases = "trimmedMessages")
     private List<GuiMessage.Line> f_93761_;
 
     @Inject(method = {"render", "m_280165_"}, at = @At("HEAD"), require = 0)

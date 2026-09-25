@@ -16,7 +16,7 @@ public abstract class FontMixin {
                     "m_271880_(Ljava/lang/String;FFIZLorg/joml/Matrix4f;"
                     + "Lnet/minecraft/client/renderer/MultiBufferSource;"
                     + "Lnet/minecraft/client/gui/Font$DisplayMode;IIZ)I"},
-            at = @At("HEAD"), argsOnly = true, ordinal = 0)
+            at = @At("HEAD"), argsOnly = true, ordinal = 0, require = 0)
     private String csrp$distortString(String text) {
         return DerivedTextDistortion.distort(text);
     }
@@ -28,7 +28,7 @@ public abstract class FontMixin {
                     "m_272085_(Lnet/minecraft/util/FormattedCharSequence;FFIZLorg/joml/Matrix4f;"
                     + "Lnet/minecraft/client/renderer/MultiBufferSource;"
                     + "Lnet/minecraft/client/gui/Font$DisplayMode;II)I"},
-            at = @At("HEAD"), argsOnly = true, ordinal = 0)
+            at = @At("HEAD"), argsOnly = true, ordinal = 0, require = 0)
     private FormattedCharSequence csrp$distortSequence(FormattedCharSequence text) {
         return DerivedTextDistortion.distort(text);
     }
@@ -38,7 +38,7 @@ public abstract class FontMixin {
                     + "Lorg/joml/Matrix4f;Lnet/minecraft/client/renderer/MultiBufferSource;I)V",
                     "m_168645_(Lnet/minecraft/util/FormattedCharSequence;FFII"
                     + "Lorg/joml/Matrix4f;Lnet/minecraft/client/renderer/MultiBufferSource;I)V"},
-            at = @At("HEAD"), argsOnly = true, ordinal = 0)
+            at = @At("HEAD"), argsOnly = true, ordinal = 0, require = 0)
     private FormattedCharSequence csrp$distortOutlinedSequence(FormattedCharSequence text) {
         return DerivedTextDistortion.distort(text);
     }
