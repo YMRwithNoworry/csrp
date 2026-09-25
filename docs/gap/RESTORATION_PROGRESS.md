@@ -2357,3 +2357,21 @@ ParasiteSummon.spawn(parasite, ParasiteSummon.specFor(parasite));
 
 **待办**：若要继续追，应在 `EntityParasiteBase.func_180482_a`（finalizeSpawn）与 `EntityPInfected.getSkin()` 中查掷点来源；
 查清前 `TEXTURE_VARIANT` 保持现状（默认 0 + NBT 可设）。
+
+## 批次 153：`sim_enderman` 攻速加成修饰符——**主张属实，行号订正**（2026-09-25 续）
+
+子代理称"缺失的 `ATTACKING_SPEED_BOOST` 修饰符（0.15F，`EntityInfEnderman:65`）"。复核结果：
+
+```
+原版 EntityInfEnderman:57   private static final AttributeModifier ATTACKING_SPEED_BOOST =
+                                new AttributeModifier(ATTACKING_SPEED_BOOST_ID, "Attacking speed boost", 0.15F, 0);
+端口 AssimilatedEndermanEntity:141   setAggressive(hasTarget);   ← 有"攻击态"开关，但无该修饰符
+```
+
+**结论**：主张**成立**（原版确有"攻击时移速 +0.15"的修饰符，等同原版僵尸的 attacking boost），
+只是**引用行号不准**（`:65` 实为字段声明，真实定义在 `:57`）。这与批次 152 的"贴图随机"形成对照：
+那条**源头找不到**（故不实施），本条**源头确实存在**（故应实施）——**同样的复核流程，两种不同结论**。
+
+**实施计划（下一批）**：在端口"攻击态"切换处（`setAggressive` 或目标变更处）对 `MOVEMENT_SPEED` 挂/摘该修饰符，
+id 用固定 `ResourceLocation`，值 `0.15`、运算 `ADD_VALUE`（1.21 语义对应 1.12 的 `0` 号运算）；
+断言（修饰符定义存在 + 攻击态切换处调用）后可收敛审计中对应条款。
