@@ -1864,3 +1864,23 @@ SRPConfigMobs.java:4370  angedEnabled = cfg.getBoolean("Vigilante Enabled", "srp
 14 missing / 3 na），结构符合模板。**抽查 4 条 satisfied 的引文**并**实测两条**：
 `ModEntities.java` 确含 `sim_villager` ✔；原版 `SRPEntities.java` 确含 `CreateEntityMob("sim_villager", EntityInfVillager.class, 8…` ✔
 ⇒ 证据真实、格式规范（原版/端口双侧 路径:行号）。该文件按产出采纳，但**其余 89 条仍需后续轮次抽查**（本轮只验了 2 条）。
+
+## 批次 124：子代理审计抽查 → 确认一处**真实缺口**（`infvillager*`）（2026-09-25 续）
+
+抽查 `raw/sim_villager.json` 的 14 条 `missing` 中的 8 条，其中一条**经双侧核实为真缺口**：
+
+```
+原版 SRPConfigMobs.java:440-443   infvillagerHealthMultiplier / DamageMultiplier / ArmorMultiplier / KDResistanceMultiplier = 1.0F
+原版 SRPConfigMobs.java:446       infvillagerEnabled = true
+端口 MobsConfig                    grep -c invvillager = 0    ← 完全没有
+```
+
+即批次 43–51 的"per-mob 倍率"接线覆盖了 dorpa/infcow/infsheep/infwolf/infsquid/infhuman/fervillager 等 11 只，
+**唯独漏了同化变体村民**（`sim_villager` 属 `AssimilatedVariantEntity.Kind.VILLAGER`，与 `AssimilatedParasiteEntity` 不同类）。
+
+**实施计划（下一轮）**：① 先定位 `AssimilatedVariantEntity` 的属性构建处（确认 Kind 值是硬编码字面量 ⇒ 单次应用安全，
+避免重演批次 71 的双重乘算）；② 一次性加 4 个访问器**并**在构建处相乘（**只加键不接线 = 死键，禁止**）；
+③ 断言 + 记账。`infvillagerEnabled`（生物启用开关）涉及生成选择路径，另行评估。
+
+**其余抽查项**（同样可操作，留待后续）：`tasks.addTask(5, EntityAIJumping)`、`EntityAIWaterLeapAtTargetStatus(0.7F,1.5,3,20,0)`、
+`EntityAIGetFollowers(this, 1, 16)`、`variantChance` 行为、`SKIN` 同步。
