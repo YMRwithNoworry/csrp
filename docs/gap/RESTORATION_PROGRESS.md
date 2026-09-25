@@ -2094,3 +2094,22 @@ grep -rl SelfeFuseOwner          → AssimilatedParasiteEntity / AssimilatedVari
 ② 端口 `PreeminentParasiteEntity` / `PureParasiteEntity` 的死亡流程挂载点；
 ③ 渲染器是否已有膨胀支持（`SelfeFuseRender` 已被渲染器引用 ⇒ 需确认其判定依赖的接口是否要求实体实现）。
 ④ 另记：`EntityCruxB/Lesh/Gothol/Rathol = 70`、`EntityButhol = 30` 对应的端口类尚需按名映射确认。
+
+## 批次 138：毒云参数是**逐生物**取值，不能整体改（2026-09-25 续，未改代码）
+
+子代理审计指出 `sim_horse` 的毒云为 POISON 300 / COTH 3600，端口 200/200。双侧核实：
+
+```
+原版 EntityInfHorse.java:232-233   addEffect(new PotionEffect(POISON, 300, 0));
+                                   addEffect(new PotionEffect(SRPCCOTH_E, 3600, 0, false, false));
+端口 AssimilatedVariantEntity.java:617-624   ToxicCloudEntity.create(...) 共享方法：
+                                   cloud.setDuration(160); addEffect(POISON, 200, …); addEffect(COTH, 200, …)
+```
+
+**关键判断**：端口这段毒云代码位于**该族共享方法**内（所有 kind 共用），而原版的数值是**逐生物写死**的
+（马为 300/3600）。因此**不能**按马的值整体改——那会把其它 kind 一并改错。
+
+**下一批做法**：① 逐类取原版毒云参数（`EntityInfPig` / `EntityInfCow` / `EntityInfSheep` / `EntityInfWolf` /
+`EntityInfSquid` / `EntityInfHuman` / `EntityInfPlayer` / `EntityInfVillager` 各自的 `EntityToxicCloud.addEffect` 行）；
+② 若确认全族一致（如均为 300/3600），则整体改并加断言；若逐类不同，则改为按 `Kind` 取值（与引信覆写同一手法）。
+**在取得逐类证据前不动代码**——这与批次 74（阴影半径）、批次 137（引信覆盖面）同一处置原则。
