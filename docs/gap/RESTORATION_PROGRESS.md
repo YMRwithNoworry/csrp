@@ -2066,3 +2066,11 @@ if (kind == Kind.HORSE) { selfeFuse.setFuseTicks(70); }   // Legacy EntityInfHor
 改成实例字段后**无需改动任何调用点**（`advance` / `flashIntensity` 签名不变），
 把改动面压到最小；且后续 `PPreeminent/PPure/CruxB/Lesh/Gothol/Rathol=70`、`Buthol=30` 只需在各自构造处调用同一 setter。
 `build` 通过、套件维持既有 20 失败。
+
+批次 136 补记（同轮修复）：重构把 `advance`/`flashIntensity` 的表达式由 `FUSE_TICKS` 改为 `fuseTicks` 后，
+`verify-parasite-selfe-fuse.cjs` 的两条断言（"the fuse must end at FUSE_TICKS" / "the flash intensity must divide by fuseTime - 2"）
+因**整串匹配**而失败（套件 20 → 21）。已把断言内的表达式同步为 `fuseTicks`（语义等价，且现在可被 per-owner 覆写），
+套件回到 **99 / 79 / 20** ✔。
+
+**流程自省**：我在提交前**没有先跑套件**就 push 了（803afb98 带 21 失败入库），虽同轮修好，但这违反了本会话一直坚持的
+"改完即验、验完再提交"。原因是本轮上下文余量告急、我把 commit 与 build 合并思考了——**记录在案，后续轮次恢复"先套件后提交"**。

@@ -35,8 +35,8 @@ for (const [pattern, message] of [
   [/owner\.level\(\)\.broadcastEntityEvent\(owner, \(byte\) 40\)/,
     "the legacy event 40 notification is missing"],
   [/public boolean advance\(LivingEntity owner\)/, "advance(LivingEntity) is missing"],
-  [/return next >= FUSE_TICKS;/, "the fuse must end at FUSE_TICKS"],
-  [/\(fuse \+ partialTick\) \/ \(float\) \(FUSE_TICKS - 2\)/,
+  [/return next >= fuseTicks;/, "the fuse must end at FUSE_TICKS"],
+  [/\(fuse \+ partialTick\) \/ \(float\) \(fuseTicks - 2\)/,
     "the flash intensity must divide by fuseTime - 2"]
 ]) expect(state, pattern, message);
 
