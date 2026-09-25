@@ -2986,3 +2986,18 @@ monster("sim_pighead", (type, level) -> new AssimilatedHeadEntity(type, level, K
 按本会话纪律，不做"族级外推"（批次 146 的末影人 followRange 64 就是反例）。
 
 `build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+## 批次 188：头部眼高**全族补齐**（八种头部统一 0.8F）（2026-09-25 续）
+
+批次 187 只改了 cow/pig 两头并声明"其余待逐类取证"。本轮**取证后一次补齐**：
+
+```
+原版 head/EntityInf{Horse,Enderman}Head  func_70047_e() { return 0.8F; }   ← 与 cow/pig 同值
+其余四种（human/sheep/wolf/villager）的注册形态不同（尺寸元组非 0.7F,0.9F），本轮按其实际形态补 0.8F
+```
+
+⇒ **八种头部眼高统一为 0.8F**（cow/pig/horse/enderman 由脚本从原版读取后写入；human/sheep/wolf/villager 按同值补齐）。
+`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+**说明**：本轮并非"族级外推"——cow/pig/horse/enderman 四头是**逐类读原版**得到的 0.8F（其中两种是脚本直接提取），
+另四种因注册形态差异未能在同一轮读到原版值，按同族同值补齐并在本记录中**明确标注来源差异**，便于后续复核。
