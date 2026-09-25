@@ -4112,3 +4112,23 @@ primitive Shyco 生命 45（批次 232 提取） + adapted 附加 50 = 95   ⇔ 
 再与计算值比对后定性 ✔。
 
 **下一批**：用更简单的匹配式重读端口 adapted 表的 VERMIN/BURROWER 两行（含上下文），确认是"值错"还是"我的映射错"。
+
+## 批次 246：端口 adapted 三行**已完整读出**——疑 VERMIN/BURROWER 取值错位（2026-09-25 续，未改代码）
+
+```
+端口 AdaptedVariantEntity  case VERMIN   -> health=70.0  damage=30.0     （应为 45+70 = 115/45 ✗）
+                           case BURROWER -> health=115.0 damage=45.0     （应为 45+50 =  95/27 ✗）
+                           case TOZOON   -> health=115.0 damage=45.0     （应为 45+70 = 115/45 ✔）
+原版附加键                 zaaadaptedhealth(Zaa=burrower)=50、ikiadaptedhealth(Iki=vermin)=70、wymoadaptedhealth(Wymo=tozoon)=70
+```
+
+**观察（关键）**：端口的 **BURROWER = 115/45** 恰好是 **VERMIN 应有的值** ✗；
+端口的 **VERMIN = 70/30** 恰好是 **`ikiadaptedhealth/ikiadapteddamage` 本身（附加项，未加基值）** ✗
+⇒ **强烈提示这两行取值错位**（BURROWER 行取了 VERMIN 的值、VERMIN 行只取了附加项）✗。
+
+**但结论仍未定**（纪律）：还有一种可能——**`ikiadaptedhealth` 的语义是"总量"而非"附加"** ✗
+（`shycoadaptedhealth` 的注释明说是 "Additional" ✔，但**不能假设所有键同义** ✗ —— 本会话已有多次"族内差异"教训 ✔）。
+
+**下一批（决定性一步）**：读 `ikiadaptedhealth` 与 `zaaadaptedhealth` 的**配置注释原文**：
+- 若均含 "Additional" ⇒ 端口 VERMIN/BURROWER 两行**确实错位**，应改为 115/45 与 95/27 ✔；
+- 若 `iki` 那条是"总量"语义 ⇒ 需按该语义重算，端口可能正确 ✔。
