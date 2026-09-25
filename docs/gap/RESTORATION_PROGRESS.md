@@ -1189,3 +1189,16 @@ ancient 5000 pure 75    preeminent 200 derived 350   turret 75
 `PreeminentParasiteEntity:131` 原为 `xpReward = 75`（实为 pure/turret 档值）⇒ 改为 **200**。
 判据：该类的 5 个 kind（BOGLE / CARRIER_COLONY / HAUNTER / BOMBER_HEAVY / WRAITH）**均属 preeminent 档**，
 原版 turret 档（75）在此类中不存在，故不存在"按 kind 分档"的需要。
+
+## 批次 82：derived / pure / turret 三档核对（2026-09-25 续，仅记录未改）
+
+按批次 79 的档次表逐档核对端口现状，结论如下：
+
+| 档 | 原版值 | 端口 | 判定 |
+| --- | --- | --- | --- |
+| derived | 350 | `KirinEntity:139 xpReward = 350` | ✅ 一致 |
+| pure | 75 | `PureParasiteEntity:223`、`ArchitectEntity:82`、`ManglerEntity:85` 均 75 | ✅ 一致 |
+| turret | 75 | 未找到明确的"turret 类"；`DeterrentParasiteEntity.Kind` 为 0/36/0/36/0（DISPATCHER_TENTACLE / KYPHOSIS / SEIZER / SENTRY / WORM） | ⚠️ **无法判定**：sentry/kyphosis 并不等同于原版 turret，映射关系缺证据，故不改 |
+
+至此 XP 线只剩"同化族特例"（`AssimilatedDragon 300` / `AssimilatedDragonHead 40` / `AssimilatedEnderman 24`）未核对——
+需查原版 `EntityInfDragonE` 等的 XP 来源（可能来自 `infectedXPValue` 或另有专门常量）。
