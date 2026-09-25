@@ -1452,3 +1452,25 @@ NexusParasiteEntity:222     if (activeKind.family == Family.BECKON && activeKind
 **有意不加 `ignoreL`**：原版 `SRPConfig.ignoreL = false` 虽已查到默认值，但它在 `func_70601_bi` 摘录中**并未出现**，
 其实际使用点尚未证实——若现在加键就会造出一个"声明了却没人读"的死键（正是本会话第 52–57 轮反复处理的问题）。
 待其使用点查清后再补。`build` 通过、套件维持既有 20 失败。
+
+## 批次 97：接线设计上的关键发现——`checkSpawnRules` 与 `func_70601_bi` **形态不兼容**（2026-09-25 续）
+
+本轮试图把生成判定接到 `UntamedPriLasherEntity.checkSpawnRules`（其现有实现用的是原版**没有**的
+`Monster.checkAnyLightMonsterSpawnRules`，正是缺口所在），接线时发现一个必须先解决的结构问题：
+
+| | 原版 `func_70601_bi()` | 端口生成谓词 |
+| --- | --- | --- |
+| 形态 | **实体实例方法**（`this.phaseCreated`、`this.boundingBox`、`this.field_70146_Z`） | **静态谓词** `(type, level, spawnType, pos, random)`，**此时还没有实体实例** |
+| 依赖 | 实体位置/包围盒、`getBlockPathWeight`（实例方法）、实体随机源 | 仅有 `BlockPos` 与 `RandomSource` |
+
+因此**不能**把 `isValidLightLevelOne`（依赖 `PathfinderMob.getWalkTargetValue`）直接塞进静态谓词 ✗。
+本轮已回滚那处尝试性接线（工作树干净、`build` 通过），并把结论落档。
+
+**下一轮的正确做法（两条路，择一）**：
+1. **位置化改写**：为静态谓词另写 `isValidLightLevelOneAt(level, pos, random)`，其中 `getWalkTargetValue`
+   一项在无实体时**省略并声明为第三处偏差**（原版该方法的末项确实依赖实体）；
+2. **实例化时机**：改用"生成后事件"（如 `FinalizeSpawn`/`EntityJoinLevel`）在实体已存在时判定，更贴近原版，
+   但需确认能否在 NeoForge 的生成流程中可靠地"否决"该次生成。
+
+倾向方案 1（改动小、语义清晰、偏差可声明），但其偏差会使判定略**宽松**（少了路径权重一票），
+需在实现时权衡是否改用"路径权重一项在 pos 版中以 `level.getBlockState(pos).isAir()` 之类的近似"——**留待下一批决策**。
