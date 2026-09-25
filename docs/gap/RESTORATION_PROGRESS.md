@@ -636,3 +636,20 @@ if (kind == Kind.BIGSPIDER && rangedCooldown <= 0 && getTarget() != null && hasL
 顺带为该既有行为补上 3 条**此前没有的断言**（BIGSPIDER 门 / `fireWebBall` / 60 tick 冷却），防止它在重构中被悄悄改坏。
 
 校验：`verify-parasite-combat-rules.cjs` 增加 3 条断言；审计记账 1 条，满足 683 → **684**，缺失 265 → **264**。
+
+## 批次 37：EntityAIAttackProjectile 连发实现（2026-09-25 续）
+
+读原版 `func_75246_d` 确认参数含义后实现（此前端口只有"每 60 tick 单发"）：
+
+| 原版 | 实现 |
+| --- | --- |
+| 射程 `distanceToSqr < 4225.0`（**65 格**）且需视线，否则 `attackTimer = 0` | `WEB_RANGE_SQR = 4225.0D` + `hasLineOfSight`，失效即复位 |
+| 蓄力：每 tick `attackTimer++`（RAGE 时翻倍），到 `cooldown` 后开始放 | `WEB_CHARGE_TICKS = 60`（RAGE 翻倍未做，见下） |
+| 放：`shootingTimes(3) > shootingUpdate` 且 `attackTimer % tickInterval(15) == 0` → 一发 | `WEB_VOLLEY_SHOTS = 3`、`WEB_VOLLEY_INTERVAL_TICKS = 15` 逐发 `fireWebBall` |
+| `attackTimer == cooldown - 10` 播放投射音 | **未实现**（端口无对应 `playProjSound`；记录待补） |
+
+新实现集中在 `tickWebBallVolley()`，`tick()` 的 BIGSPIDER 分支只做 `if (kind == Kind.BIGSPIDER) tickWebBallVolley();`。
+校验：`verify-parasite-combat-rules.cjs` 断言块重写为 7 条（覆盖门控/常量/连发消耗）；审计记账 1 条，满足 684 → **685**。
+
+**过程记录**：本轮更新断言时先撞上 CRLF 多行锚点失配，继而连续两次行拼接把断言数组改出语法错误；最终处置为
+`git checkout` 还原 + 按**行边界整块替换**（而非拼接）——该手法已稳定，后续更新断言块应直接采用。

@@ -436,12 +436,12 @@
         },
         {
           "clause": "tasks.addTask(6, EntityAIAttackProjectile(this, 60, 15, 3))",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java:60",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:171"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java"
           },
-          "note": "project 以 tick 内联实现 60 tick 冷却的远程攻击，无 EntityCanShoot/投射物",
+          "note": "tickWebBallVolley：目标存活、65 格内且可见时先蓄力 WEB_CHARGE_TICKS(60)，随后 WEB_VOLLEY_SHOTS(3) 发、每 WEB_VOLLEY_INTERVAL_TICKS(15) 一发 fireWebBall；目标失效/超距/失去视线即重置，与原版 func_75246_d 的 attackTimer/shootingTimes/tickInterval 语义一致；批次：EntityAIAttackProjectile(this, 60, 15, 3)（原版 func_75246_d：蓄力 60 tick，随后每 15 tick 一发共 3 发，射程 65 格）",
           "groundTruth": {
             "verified": true,
             "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityDorpa.java",

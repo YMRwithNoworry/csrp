@@ -289,13 +289,17 @@ expect(read("src/main/java/alku/csrp/entity/HiSkeletonEntity.java"),
   /addGoal\(6, new RecruitFollowersGoal\(this, 16\)\)/,
   "HiSkeletonEntity must register the legacy recruit task at priority 6");
 
-// legacy EntityAIAttackProjectile(this, 60, 15, 3): the assimilated spider spits a web ball
+// legacy EntityAIAttackProjectile(this, 60, 15, 3): charge sixty ticks then three web balls
 const variant = read("src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java");
 for (const [pattern, message] of [
-  [/kind == Kind\.BIGSPIDER && rangedCooldown <= 0 && getTarget\(\) != null && hasLineOfSight\(getTarget\(\)\)/,
-    "the spider ranged gate is missing"],
-  [/fireWebBall\(getTarget\(\)\);/, "the web ball shot is missing"],
-  [/rangedCooldown = 60;/, "the legacy 60 tick cooldown is missing"]
+  [/if \(kind == Kind\.BIGSPIDER\) \{/, "the spider must drive the legacy projectile task"],
+  [/private void tickWebBallVolley\(\)/, "the legacy projectile task body is missing"],
+  [/WEB_CHARGE_TICKS = 60/, "the legacy 60 tick charge is missing"],
+  [/WEB_VOLLEY_INTERVAL_TICKS = 15/, "the legacy 15 tick volley interval is missing"],
+  [/WEB_VOLLEY_SHOTS = 3/, "the legacy three shot volley is missing"],
+  [/WEB_RANGE_SQR = 4225\.0D/, "the legacy 65 block range gate is missing"],
+  [/fireWebBall\(target\);/, "the web ball shot is missing"],
+  [/webVolleyShots--;/, "the volley must consume shots"]
 ]) expect(variant, pattern, message);
 
 if (failures.length) {

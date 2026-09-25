@@ -506,6 +506,19 @@ const BATCHES = {
         detail: "AssimilatedVariantEntity tick 中 BIGSPIDER 分支：rangedCooldown <= 0 且有目标与视线时 fireWebBall(target) 并置 rangedCooldown = 60，与原版 EntityAIAttackProjectile(this, 60, …) 的冷却一致"
       }
     ]
+  },
+  // 批次 37：im_bigspider 的 EntityAIAttackProjectile 注册形态（60 tick 蓄力 + 15 tick 间隔 3 连发）
+  "web-ball-volley": {
+    note: "批次：EntityAIAttackProjectile(this, 60, 15, 3)（原版 func_75246_d：蓄力 60 tick，随后每 15 tick 一发共 3 发，射程 65 格）",
+    mobs: ["sim_bigspider"],
+    clauses: [
+      {
+        match: /EntityAIAttackProjectile/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java",
+        detail: "tickWebBallVolley：目标存活、65 格内且可见时先蓄力 WEB_CHARGE_TICKS(60)，随后 WEB_VOLLEY_SHOTS(3) 发、每 WEB_VOLLEY_INTERVAL_TICKS(15) 一发 fireWebBall；目标失效/超距/失去视线即重置，与原版 func_75246_d 的 attackTimer/shootingTimes/tickInterval 语义一致"
+      }
+    ]
   }
 };
 

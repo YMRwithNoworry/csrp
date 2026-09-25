@@ -86,6 +86,14 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
     private final Kind kind;
     private int parasiteKills;
     private int rangedCooldown;
+    /** Legacy EntityAIAttackProjectile(this, 60, 15, 3): charge, then three shots 15 ticks apart. */
+    private int webVolleyShots;
+    private int webVolleyTimer;
+    /** Legacy squared range gate of the projectile task (4225.0 = 65 blocks). */
+    private static final double WEB_RANGE_SQR = 4225.0D;
+    private static final int WEB_CHARGE_TICKS = 60;
+    private static final int WEB_VOLLEY_INTERVAL_TICKS = 15;
+    private static final int WEB_VOLLEY_SHOTS = 3;
     private int stillAnimationTicks;
     private int skeletonKills;
 
@@ -215,10 +223,40 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
                 parasiteKills = 0;
             }
         }
-        if (kind == Kind.BIGSPIDER && rangedCooldown <= 0 && getTarget() != null && hasLineOfSight(getTarget())) {
-            fireWebBall(getTarget());
-            rangedCooldown = 60;
+        if (kind == Kind.BIGSPIDER) {
+            tickWebBallVolley();
         }
+    }
+
+    /**
+     * Legacy {@code EntityAIAttackProjectile(this, 60, 15, 3)}: the spider charges for sixty ticks,
+     * then spits three web balls fifteen ticks apart while its target stays alive, within 65 blocks
+     * and visible.
+     */
+    private void tickWebBallVolley() {
+        LivingEntity target = getTarget();
+        if (target == null || !target.isAlive() || distanceToSqr(target) >= WEB_RANGE_SQR
+                || !hasLineOfSight(target)) {
+            rangedCooldown = 0;
+            webVolleyShots = 0;
+            webVolleyTimer = 0;
+            return;
+        }
+        if (webVolleyShots > 0) {
+            if (++webVolleyTimer >= WEB_VOLLEY_INTERVAL_TICKS) {
+                webVolleyTimer = 0;
+                webVolleyShots--;
+                fireWebBall(target);
+            }
+            return;
+        }
+        if (rangedCooldown < WEB_CHARGE_TICKS) {
+            rangedCooldown++;
+            return;
+        }
+        webVolleyShots = WEB_VOLLEY_SHOTS;
+        webVolleyTimer = 0;
+        rangedCooldown = 0;
     }
 
     @Override
