@@ -108,12 +108,12 @@
         },
         {
           "clause": "ItemMobSpawner(\"marenderman\") 生成物品入口",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/item/ItemMobSpawner.java:507",
-            "project": "src/main/java/alku/csrp/registry/ModItems.java:238"
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java"
           },
-          "note": "原版用可命名生物的 spawner 物品；project 以专用刷怪蛋替代（语义等价、实现不同）"
+          "note": "原版 SRPSpawning 中 mar_* 零命中（该族只能由转化/召唤产生）；端口原有 8 处生成条目，已全部移除（批次 254），并以负向断言固化。；批次：marauderized 族反向差异清理与等价确认"
         }
       ],
       "confidence": "high"
@@ -233,12 +233,12 @@
         },
         {
           "clause": "EntityParasiteBase 构造：tasks.addTask(6, EntityAIParasiteFollow(1.3, 16.0, 6.0, true))，但 EntitySpeEnderman 在构造中显式移除该任务（func_85156_a(this.folow)）",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeEnderman.java:66",
-            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:452"
+            "project": "src/main/java/alku/csrp/entity/MarauderizedEndermanEntity.java"
           },
-          "note": "反向差异：原版 mar_enderman 没有跟随任务，project 的 Marauderized 分支继承了 ParasiteFollowGoal(6) 跟随"
+          "note": "原版 EntitySpeEnderman:66 移除父类注册的 follow（func_85156_a）；端口该继承链（MarauderizedEndermanEntity→TetheredMarauderizedEntity→MarauderizedParasiteEntity→HijackedParasiteEntity）全链无 follow 目标 => 行为等价（批次 257 复核，原审计记为反向差异实为等价）。；批次：marauderized 族反向差异清理与等价确认"
         },
         {
           "clause": "EntityParasiteBase 构造：tasks.addTask(5, EntityAIJumping this.jumpT)",
@@ -934,12 +934,12 @@
         },
         {
           "clause": "SRPConfigMobs.infendermanCanSpawnAssimilatedNat = 9：同化生成数据门控（canSpawnByIDData）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeEnderman.java:86",
-            "project": null
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java"
           },
-          "note": "project 无 per-mob 同化配额检查"
+          "note": "原版 SRPSpawning 中 mar_* 零命中（该族只能由转化/召唤产生）；端口原有 8 处生成条目，已全部移除（批次 254），并以负向断言固化。；批次：marauderized 族反向差异清理与等价确认"
         },
         {
           "clause": "COTH 宿主转化（EntityPAssimara 关闭 setHost）",
@@ -961,12 +961,12 @@
         },
         {
           "clause": "可命名生成物品 ItemMobSpawner(\"marenderman\")",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/item/ItemMobSpawner.java:507",
-            "project": "src/main/java/alku/csrp/registry/ModItems.java:238"
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java"
           },
-          "note": "project 用刷怪蛋替代 spawner 物品；另外原版该物品为 mar_enderman 提供了唯一的手动入口"
+          "note": "原版 SRPSpawning 中 mar_* 零命中（该族只能由转化/召唤产生）；端口原有 8 处生成条目，已全部移除（批次 254），并以负向断言固化。；批次：marauderized 族反向差异清理与等价确认"
         }
       ],
       "confidence": "high"
@@ -977,12 +977,12 @@
       "clauses": [
         {
           "clause": "SRPConfigMobs.marendermanLoot = new String[0]：原版无任何主掉落",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:599",
-            "project": "src/main/resources/data/csrp/loot_table/entities/mar_enderman.json:1"
+            "project": "src/main/resources/data/csrp/loot_table/entities/mar_enderman.json"
           },
-          "note": "原版按 id 321 派发空掉落表（SRPEventHandlerBus.java:2126）；project 的战利品表给出了 assimilated_flesh 1-3（100%）、hijacked_drop 40%、csrp:pearl 40%，是额外掉落"
+          "note": "原版 marendermanLoot 为空数组（SRPConfigMobs:599）=> 无掉落；端口原掉 assimilated_flesh/hijacked_drop/pearl，已清空为 pools: []（批次 249）。；批次：marauderized 族反向差异清理与等价确认"
         },
         {
           "clause": "头颅掉落 SRPConfigMobs.infendermanheadLoot 为空且 headchance 用于 sim_enderman（不适用于 mar_*）",

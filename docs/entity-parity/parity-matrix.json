@@ -1,130 +1,130 @@
 {
-  "generatedAt": "2026-09-25T07:09:53.716Z",
+  "generatedAt": "2026-09-25T07:35:40.729Z",
   "protocol": "docs/entity-parity/AUDIT_PROTOCOL.md",
   "input": "docs/entity-parity/audit-input.json",
   "counts": {
     "expected": 127,
-    "audited": 30,
-    "missing": 97
+    "audited": 32,
+    "missing": 95
   },
   "overall": {
-    "satisfied": 1472,
-    "partial": 647,
-    "missing": 395,
-    "na": 130,
-    "denominator": 2514,
-    "completion": 71.4
+    "satisfied": 1579,
+    "partial": 694,
+    "missing": 419,
+    "na": 145,
+    "denominator": 2692,
+    "completion": 71.5
   },
   "facets": [
     {
       "facet": "registration",
       "label": "注册",
-      "satisfied": 180,
-      "partial": 64,
-      "missing": 64,
+      "satisfied": 194,
+      "partial": 72,
+      "missing": 66,
       "na": 0,
-      "denominator": 308,
-      "completion": 68.8
+      "denominator": 332,
+      "completion": 69.3
     },
     {
       "facet": "attributes",
       "label": "属性",
-      "satisfied": 207,
-      "partial": 51,
-      "missing": 15,
+      "satisfied": 221,
+      "partial": 55,
+      "missing": 16,
       "na": 9,
-      "denominator": 273,
-      "completion": 85.2
+      "denominator": 292,
+      "completion": 85.1
     },
     {
       "facet": "ai",
       "label": "AI",
-      "satisfied": 177,
-      "partial": 167,
-      "missing": 34,
-      "na": 45,
-      "denominator": 378,
-      "completion": 68.9
+      "satisfied": 188,
+      "partial": 175,
+      "missing": 39,
+      "na": 47,
+      "denominator": 402,
+      "completion": 68.5
     },
     {
       "facet": "behaviors",
       "label": "行为",
-      "satisfied": 261,
-      "partial": 127,
-      "missing": 77,
-      "na": 14,
-      "denominator": 465,
-      "completion": 69.8
+      "satisfied": 272,
+      "partial": 140,
+      "missing": 81,
+      "na": 19,
+      "denominator": 493,
+      "completion": 69.4
     },
     {
       "facet": "damage_and_effects",
       "label": "伤害/效果",
-      "satisfied": 190,
-      "partial": 17,
+      "satisfied": 212,
+      "partial": 23,
       "missing": 24,
       "na": 5,
-      "denominator": 231,
-      "completion": 85.9
+      "denominator": 259,
+      "completion": 86.3
     },
     {
       "facet": "sync_data",
       "label": "同步数据",
-      "satisfied": 53,
-      "partial": 52,
-      "missing": 65,
-      "na": 17,
-      "denominator": 170,
-      "completion": 46.5
+      "satisfied": 57,
+      "partial": 55,
+      "missing": 71,
+      "na": 19,
+      "denominator": 183,
+      "completion": 46.2
     },
     {
       "facet": "animation",
       "label": "动画",
-      "satisfied": 114,
+      "satisfied": 123,
       "partial": 29,
-      "missing": 9,
+      "missing": 11,
       "na": 7,
-      "denominator": 152,
-      "completion": 84.5
+      "denominator": 163,
+      "completion": 84.4
     },
     {
       "facet": "model_texture",
       "label": "模型/贴图",
-      "satisfied": 95,
+      "satisfied": 105,
       "partial": 6,
       "missing": 23,
       "na": 6,
-      "denominator": 124,
-      "completion": 79
+      "denominator": 134,
+      "completion": 80.6
     },
     {
       "facet": "sounds",
       "label": "音效",
-      "satisfied": 77,
-      "partial": 44,
-      "missing": 28,
+      "satisfied": 81,
+      "partial": 47,
+      "missing": 32,
       "na": 3,
-      "denominator": 149,
-      "completion": 66.4
+      "denominator": 160,
+      "completion": 65.3
     },
     {
       "facet": "spawning",
       "label": "生成",
-      "satisfied": 81,
+      "satisfied": 87,
       "partial": 54,
       "missing": 35,
-      "na": 13,
-      "denominator": 170,
-      "completion": 63.5
+      "na": 17,
+      "denominator": 176,
+      "completion": 64.8
     },
     {
       "facet": "loot",
       "label": "掉落",
-      "satisfied": 37,
-      "partial": 36,
+      "satisfied": 39,
+      "partial": 38,
       "missing": 21,
-      "na": 11,
-      "denominator": 94,
-      "completion": 58.5
+      "na": 13,
+      "denominator": 98,
+      "completion": 59.2
     }
   ],
   "groups": [
@@ -217,17 +217,6 @@
       "completion": 64.1
     },
     {
-      "group": "marauderized",
-      "audited": 1,
-      "expected": 7,
-      "satisfied": 58,
-      "partial": 24,
-      "missing": 22,
-      "na": 7,
-      "denominator": 104,
-      "completion": 67.3
-    },
-    {
       "group": "current",
       "audited": 2,
       "expected": 13,
@@ -237,6 +226,17 @@
       "na": 8,
       "denominator": 175,
       "completion": 68.6
+    },
+    {
+      "group": "marauderized",
+      "audited": 3,
+      "expected": 7,
+      "satisfied": 165,
+      "partial": 71,
+      "missing": 46,
+      "na": 22,
+      "denominator": 282,
+      "completion": 71.1
     },
     {
       "group": "assimilated",
@@ -3587,8 +3587,97 @@
       ],
       "variantKind": null,
       "registration": "monster",
-      "audit": null,
-      "missing": true
+      "group": "marauderized",
+      "missing": false,
+      "totals": {
+        "satisfied": 57,
+        "partial": 25,
+        "missing": 16,
+        "na": 6
+      },
+      "denominator": 98,
+      "completion": 70.9,
+      "facets": {
+        "registration": {
+          "satisfied": 7,
+          "partial": 4,
+          "missing": 1,
+          "na": 0,
+          "clauses": 12
+        },
+        "attributes": {
+          "satisfied": 7,
+          "partial": 2,
+          "missing": 1,
+          "na": 0,
+          "clauses": 10
+        },
+        "ai": {
+          "satisfied": 5,
+          "partial": 3,
+          "missing": 3,
+          "na": 1,
+          "clauses": 12
+        },
+        "behaviors": {
+          "satisfied": 8,
+          "partial": 8,
+          "missing": 4,
+          "na": 2,
+          "clauses": 22
+        },
+        "damage_and_effects": {
+          "satisfied": 11,
+          "partial": 3,
+          "missing": 0,
+          "na": 0,
+          "clauses": 14
+        },
+        "sync_data": {
+          "satisfied": 2,
+          "partial": 2,
+          "missing": 4,
+          "na": 0,
+          "clauses": 8
+        },
+        "animation": {
+          "satisfied": 5,
+          "partial": 0,
+          "missing": 1,
+          "na": 0,
+          "clauses": 6
+        },
+        "model_texture": {
+          "satisfied": 6,
+          "partial": 0,
+          "missing": 0,
+          "na": 0,
+          "clauses": 6
+        },
+        "sounds": {
+          "satisfied": 2,
+          "partial": 2,
+          "missing": 2,
+          "na": 0,
+          "clauses": 6
+        },
+        "spawning": {
+          "satisfied": 3,
+          "partial": 0,
+          "missing": 0,
+          "na": 2,
+          "clauses": 5
+        },
+        "loot": {
+          "satisfied": 1,
+          "partial": 1,
+          "missing": 0,
+          "na": 1,
+          "clauses": 3
+        }
+      },
+      "missingSummary": [],
+      "confidence": null
     },
     {
       "id": "mar_cow",
@@ -3849,8 +3938,97 @@
       ],
       "variantKind": null,
       "registration": "monster",
-      "audit": null,
-      "missing": true
+      "group": "marauderized",
+      "missing": false,
+      "totals": {
+        "satisfied": 50,
+        "partial": 22,
+        "missing": 8,
+        "na": 9
+      },
+      "denominator": 80,
+      "completion": 76.3,
+      "facets": {
+        "registration": {
+          "satisfied": 7,
+          "partial": 4,
+          "missing": 1,
+          "na": 0,
+          "clauses": 12
+        },
+        "attributes": {
+          "satisfied": 7,
+          "partial": 2,
+          "missing": 0,
+          "na": 0,
+          "clauses": 9
+        },
+        "ai": {
+          "satisfied": 6,
+          "partial": 5,
+          "missing": 2,
+          "na": 1,
+          "clauses": 14
+        },
+        "behaviors": {
+          "satisfied": 3,
+          "partial": 5,
+          "missing": 0,
+          "na": 3,
+          "clauses": 11
+        },
+        "damage_and_effects": {
+          "satisfied": 11,
+          "partial": 3,
+          "missing": 0,
+          "na": 0,
+          "clauses": 14
+        },
+        "sync_data": {
+          "satisfied": 2,
+          "partial": 1,
+          "missing": 2,
+          "na": 2,
+          "clauses": 7
+        },
+        "animation": {
+          "satisfied": 4,
+          "partial": 0,
+          "missing": 1,
+          "na": 0,
+          "clauses": 5
+        },
+        "model_texture": {
+          "satisfied": 4,
+          "partial": 0,
+          "missing": 0,
+          "na": 0,
+          "clauses": 4
+        },
+        "sounds": {
+          "satisfied": 2,
+          "partial": 1,
+          "missing": 2,
+          "na": 0,
+          "clauses": 5
+        },
+        "spawning": {
+          "satisfied": 3,
+          "partial": 0,
+          "missing": 0,
+          "na": 2,
+          "clauses": 5
+        },
+        "loot": {
+          "satisfied": 1,
+          "partial": 1,
+          "missing": 0,
+          "na": 1,
+          "clauses": 3
+        }
+      },
+      "missingSummary": [],
+      "confidence": null
     },
     {
       "id": "mar_human",

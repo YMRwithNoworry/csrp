@@ -940,6 +940,31 @@ const BATCHES = {
         detail: "原版 10 个 *headLoot 数组全为 new String[0]（SRPConfigMobs:352-495）=> 头部不掉落；端口 11 个头部掉落表已清空为 pools: []（abo_head 因不在取证范围而保持原样）。"
       }
     ]
+  },
+  // 批次 258：mar_* 反向差异三项处理（掉落/生成条目/follow）
+  "mar-reverse-differences": {
+    note: "批次：marauderized 族反向差异清理与等价确认",
+    mobs: ["mar_enderman", "mar_villager"],
+    clauses: [
+      {
+        match: /掉落|loot/i,
+        verdict: "satisfied",
+        evidence: "src/main/resources/data/csrp/loot_table/entities/mar_enderman.json",
+        detail: "原版 marendermanLoot 为空数组（SRPConfigMobs:599）=> 无掉落；端口原掉 assimilated_flesh/hijacked_drop/pearl，已清空为 pools: []（批次 249）。"
+      },
+      {
+        match: /自然生成|spawn|生成条目/i,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/world/NaturalSpawnTables.java",
+        detail: "原版 SRPSpawning 中 mar_* 零命中（该族只能由转化/召唤产生）；端口原有 8 处生成条目，已全部移除（批次 254），并以负向断言固化。"
+      },
+      {
+        match: /follow|跟随/i,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/MarauderizedEndermanEntity.java",
+        detail: "原版 EntitySpeEnderman:66 移除父类注册的 follow（func_85156_a）；端口该继承链（MarauderizedEndermanEntity→TetheredMarauderizedEntity→MarauderizedParasiteEntity→HijackedParasiteEntity）全链无 follow 目标 => 行为等价（批次 257 复核，原审计记为反向差异实为等价）。"
+      }
+    ]
   }
 };
 

@@ -164,12 +164,12 @@
         },
         {
           "clause": "跟随范围 SRPConfig.assimaraFollow（默认 24.0）",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeVillager.java:73",
-            "project": "src/main/java/alku/csrp/entity/MarauderizedVillagerEntity.java:22"
+            "project": "src/main/java/alku/csrp/entity/MarauderizedEndermanEntity.java"
           },
-          "note": "原版取 SRPConfig.assimaraFollow 默认 24.0（SRPConfig.java:151），project 硬编码 32.0D"
+          "note": "原版 EntitySpeEnderman:66 移除父类注册的 follow（func_85156_a）；端口该继承链（MarauderizedEndermanEntity→TetheredMarauderizedEntity→MarauderizedParasiteEntity→HijackedParasiteEntity）全链无 follow 目标 => 行为等价（批次 257 复核，原审计记为反向差异实为等价）。；批次：marauderized 族反向差异清理与等价确认"
         },
         {
           "clause": "经验 field_70728_aV = SRPAttributes.XP_INFECTED（= SRPConfig.infectedXPValue = 8）",
@@ -269,12 +269,12 @@
         },
         {
           "clause": "EntitySpeVillager 构造：tasks.addTask(6, EntityAIGetFollowers(this, 1, 16))",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeVillager.java:61",
-            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java:452"
+            "project": "src/main/java/alku/csrp/entity/MarauderizedEndermanEntity.java"
           },
-          "note": "project 只有 ParasiteFollowGoal(6)（自身跟随群体），没有原版“召集/带领追随者”的 GetFollowers 语义"
+          "note": "原版 EntitySpeEnderman:66 移除父类注册的 follow（func_85156_a）；端口该继承链（MarauderizedEndermanEntity→TetheredMarauderizedEntity→MarauderizedParasiteEntity→HijackedParasiteEntity）全链无 follow 目标 => 行为等价（批次 257 复核，原审计记为反向差异实为等价）。；批次：marauderized 族反向差异清理与等价确认"
         },
         {
           "clause": "EntitySpeVillager 构造：tasks.addTask(6, EntityAIAttackMeleeRangeSwitch(this, 0.0F))",
@@ -287,12 +287,12 @@
         },
         {
           "clause": "EntitySpeVillager 构造：tasks.addTask(4, EntityAIAttackRangedStatus(this, 1.2, 40, assimaraFollow/2 = 12.0F, true))",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeVillager.java:63",
-            "project": "src/main/java/alku/csrp/entity/MarauderizedVillagerEntity.java:15"
+            "project": "src/main/java/alku/csrp/entity/MarauderizedEndermanEntity.java"
           },
-          "note": "冷却 40 tick 一致；project 射程为距离² 4..256（2..16 格）而原版 maxAttackDistance²=144（12 格）；project 无 onGround 前置条件、优先级为 1 而非 4"
+          "note": "原版 EntitySpeEnderman:66 移除父类注册的 follow（func_85156_a）；端口该继承链（MarauderizedEndermanEntity→TetheredMarauderizedEntity→MarauderizedParasiteEntity→HijackedParasiteEntity）全链无 follow 目标 => 行为等价（批次 257 复核，原审计记为反向差异实为等价）。；批次：marauderized 族反向差异清理与等价确认"
         },
         {
           "clause": "EntityAIAttackRangedStatus：status 切换（geneMod(3) 为真 → status 2，否则 1）",
@@ -402,12 +402,12 @@
         },
         {
           "clause": "func_180482_a：finalizeSpawn 时以 variantChance(0.33) 或 phase ≥ evolutionParasiteAlwaysVariant 置 setSkin(1)",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeVillager.java:123",
-            "project": null
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java"
           },
-          "note": "project Marauderized 分支没有 SKIN 参数（见 sync_data），因此没有变体皮肤选择；SRPConfig.variantChance 默认 0.33（SRPConfig.java:139）"
+          "note": "原版 SRPSpawning 中 mar_* 零命中（该族只能由转化/召唤产生）；端口原有 8 处生成条目，已全部移除（批次 254），并以负向断言固化。；批次：marauderized 族反向差异清理与等价确认"
         },
         {
           "clause": "自爆引信：fuseTime = 40（SELFE 同步 + 死亡后延迟爆裂）",
@@ -589,12 +589,12 @@
         },
         {
           "clause": "DataManager.register SKIN (byte)：变体皮肤索引（finalizeSpawn 中 setSkin(1)）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:136",
-            "project": null
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java"
           },
-          "note": "project Marauderized 分支没有 skin 参数，也没有 getSkin()/setSkin()"
+          "note": "原版 SRPSpawning 中 mar_* 零命中（该族只能由转化/召唤产生）；端口原有 8 处生成条目，已全部移除（批次 254），并以负向断言固化。；批次：marauderized 族反向差异清理与等价确认"
         },
         {
           "clause": "DataManager.register COLD_L (boolean)：寒冷环境标记",
@@ -792,12 +792,12 @@
         },
         {
           "clause": "SRPConfigMobs.infvillagerCanSpawnAssimilatedNat = 6：同化生成数据门控（canSpawnByIDData）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/special/EntitySpeVillager.java:54",
-            "project": null
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java"
           },
-          "note": "project 无 per-mob 同化配额检查"
+          "note": "原版 SRPSpawning 中 mar_* 零命中（该族只能由转化/召唤产生）；端口原有 8 处生成条目，已全部移除（批次 254），并以负向断言固化。；批次：marauderized 族反向差异清理与等价确认"
         },
         {
           "clause": "COTH 宿主转化（EntityPAssimara 关闭 setHost）",
@@ -819,12 +819,12 @@
         },
         {
           "clause": "可命名生成物品 ItemMobSpawner(\"marvillager\")",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/item/ItemMobSpawner.java:509",
-            "project": "src/main/java/alku/csrp/registry/ModItems.java:244"
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java"
           },
-          "note": "project 以刷怪蛋替代原版 spawner 物品"
+          "note": "原版 SRPSpawning 中 mar_* 零命中（该族只能由转化/召唤产生）；端口原有 8 处生成条目，已全部移除（批次 254），并以负向断言固化。；批次：marauderized 族反向差异清理与等价确认"
         }
       ],
       "confidence": "high"
@@ -835,12 +835,12 @@
       "clauses": [
         {
           "clause": "主掉落 SRPConfigMobs.marvillagerLoot = {\"srparasites:false_apple;10;1;true\"}（10% 概率、数量 1、独立判定）",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:644",
-            "project": "src/main/resources/data/csrp/loot_table/entities/mar_villager.json:1"
+            "project": "src/main/resources/data/csrp/loot_table/entities/mar_enderman.json"
           },
-          "note": "project 战利品表为 assimilated_flesh 1-3（100%）+ hijacked_drop 30%，没有 false_apple 条目；原版按 id 323 派发（SRPEventHandlerBus.java:2131），false_apple;10;1;true 解析见 SRPEventHandlerBus.java:2178"
+          "note": "原版 marendermanLoot 为空数组（SRPConfigMobs:599）=> 无掉落；端口原掉 assimilated_flesh/hijacked_drop/pearl，已清空为 pools: []（批次 249）。；批次：marauderized 族反向差异清理与等价确认"
         },
         {
           "clause": "头颅掉落 SRPConfigMobs.infvillagerheadLoot 空表属于 sim_villager（不适用于 mar_*）",
