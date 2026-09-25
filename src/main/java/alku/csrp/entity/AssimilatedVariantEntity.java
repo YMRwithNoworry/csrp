@@ -231,6 +231,14 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
             AssimilatedMeltSystem.freeze(this);
         }
         super.tick();
+        // Legacy EntityInfHorse:190 dyingBurst(false, 1): the swell burns down while the mob is alive
+        // and explodes without dying first (fromDeath=false skips the death-only follow-up).
+        if (!level().isClientSide && isAlive() && selfeFuse.isActive(this) && selfeFuse.advance(this)) {
+            if (level() instanceof ServerLevel serverLevel) {
+                ParasiteCombatRules.selfExplode(serverLevel, this);
+            }
+            selfeFuse.clear(this);
+        }
         if (ParasiteAnimations.isMoving(this, true)) {
             stillAnimationTicks = 0;
         } else {

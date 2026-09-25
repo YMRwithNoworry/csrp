@@ -2521,3 +2521,20 @@ EntityParasiteBase:1492  protected void dyingBurst(boolean fromDeath, int value)
 `if (!level().isClientSide && isAlive() && selfeFuse.isActive(this) && selfeFuse.advance(this)) { selfExplode(...); selfeFuse.clear(this); }`
 ——与 `tickDeath` 路径**天然互斥**（存活时不会进 tickDeath；自爆后 `clear` 使死亡路径走 `super` 分支）。
 第 3 步（渲染膨胀）已由 `SelfeFuseOwner.flashIntensity`（:156）承载 ✔，只需实测确认。
+
+## 批次 162：`sim_horse` 膨胀自爆第 2 步落地（存活期推进）（2026-09-25 续）
+
+在 `AssimilatedVariantEntity.tick()` 的 `super.tick()` 之后新增（对应原版 `EntityInfHorse:190` 的 `dyingBurst(false, 1)`）：
+
+```java
+if (!level().isClientSide && isAlive() && selfeFuse.isActive(this) && selfeFuse.advance(this)) {
+    if (level() instanceof ServerLevel serverLevel) ParasiteCombatRules.selfExplode(serverLevel, this);
+    selfeFuse.clear(this);
+}
+```
+
+- **互斥性由构造保证**：存活时不会进 `tickDeath`；自爆后 `clear` 使死亡路径走 `super` 分支 ✔；
+- `fromDeath=false` 的语义（**不做死后处理**）也自然满足——此处不调用 `super.tickDeath()` ✔；
+- 自爆流程复用 `ParasiteCombatRules.selfExplode`，因此**批次 148 的自爆召唤**在存活期自爆时同样生效 ✔（与原版一致）。
+
+断言 2 条；`build` 通过、套件维持既有 20 失败。**第 3 步（渲染膨胀）** 由 `SelfeFuseOwner.flashIntensity`（`:156`）承载，下一轮实测确认。
