@@ -3328,3 +3328,19 @@ public GeneMeleeGoal(Mob mob, double baseSpeed, boolean requireLineOfSight, int 
 **编译拦下一处真实错误**：我用 `split/join` 批量替换常量时，把**构造委托行**里的常量也换成了字段
 ⇒ `无法在调用超类型构造函数之前引用 attackIntervalTicks` ✗（Java 的构造前引用限制）；已单独修正该行 ✔。
 断言 2 条；`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+## 批次 208：修复上轮断言的耦合 + 订正 human 头眼高（2026-09-25 续）
+
+**（一）修复我上一轮造成的套件失败**：批次 207 把 `BASE_ATTACK_INTERVAL_TICKS` 的使用点改为字段后，
+`verify-parasite-combat-rules.cjs:160` 的**整串断言** `Math.max(1, Math.round(BASE_ATTACK_INTERVAL_TICKS * multiplier))` 失效
+（套件 20 → 21）✗。已把断言同步为 `attackIntervalTicks * multiplier`（**代码语义不变**：节奏仍按基因倍率缩放 ✔）。
+套件回到 **99 / 79 / 20** ✔。
+
+**（二）订正 human 头眼高**：第六批委派指出 **human 头原版是 0.7F**（`EntityInfHumanHead:100`），而我在批次 188
+按"同族同值"填了 0.8F ✗ ⇒ 已改为 **0.7F**。
+
+**"同族同值补齐"已被证伪两次**（villager 头、human 头都是 0.7 而 horse/enderman/cow/pig 是 0.8）⇒ **头部眼高确实逐类不同**，
+我此前的"补齐"做法错误，**剩余 sheep/wolf 两头仍待逐类取证**（当前值 0.8，需核对原版）。
+
+**（三）流程自省（第三次同类）**：我又一次"先提交、后复检"（`45911e0c` 带 21 失败入库）。三次的共性依旧是
+"上下文余量告急时把 build 通过当作验完"。**已把"先跑套件再提交"写进每轮提交命令的固定前缀**，以流程约束代替自律。

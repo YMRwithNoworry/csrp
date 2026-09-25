@@ -157,7 +157,7 @@ for (const [pattern, message] of [
   [/public final class GeneMeleeGoal extends Goal/, "the gene-aware melee goal is missing"],
   [/BASE_ATTACK_INTERVAL_TICKS = 20/, "the base attack interval is missing"],
   [/attackSpeedMultiplier\(\)/, "the attack cadence must follow the generation"],
-  [/Math\.max\(1, Math\.round\(BASE_ATTACK_INTERVAL_TICKS \* multiplier\)\)/,
+  [/Math\.max\(1, Math\.round\(attackIntervalTicks \* multiplier\)\)/,
     "the interval must be scaled by the multiplier"],
   [/setFlags\(EnumSet\.of\(Flag\.MOVE, Flag\.LOOK\)\)/, "the goal must claim move and look"],
   [/mob\.isWithinMeleeAttackRange\(target\) && attackCooldown <= 0/, "attacks must respect the cadence"],

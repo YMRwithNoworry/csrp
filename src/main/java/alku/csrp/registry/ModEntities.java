@@ -306,7 +306,7 @@ public final class ModEntities {
             monster("sim_human", SimHumanEntity::new, 0.6F, 1.95F);
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedHeadEntity>> SIM_HUMAN_HEAD =
             monster("sim_humanhead", (type, level) -> new AssimilatedHeadEntity(type, level,
-                    AssimilatedHeadEntity.Kind.HUMAN), 0.7F, 0.8F, 0.8F);
+                    AssimilatedHeadEntity.Kind.HUMAN), 0.7F, 0.8F, 0.7F);
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedHeadEntity>> SIM_COW_HEAD =
             monster("sim_cowhead", (type, level) -> new AssimilatedHeadEntity(type, level,
                     AssimilatedHeadEntity.Kind.COW), 0.7F, 0.9F, 0.8F);
