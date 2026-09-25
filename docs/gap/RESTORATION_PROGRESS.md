@@ -932,3 +932,7 @@ strict: 46 known backlog key(s), 0 new ones.      # 由 50 降至 46
 ## 批次 62：primitive devourer 倍率接线（backlog 42 → 38）（2026-09-25 续）
 
 同固化流程：`DEVOURER_` 四键下线（访问器 + `case DEVOURER` 叠加 + 白名单划掉），`--strict` 由 42 降至 **38**。
+
+## 批次 63：primitive manducater 倍率接线（backlog 38 → 34）（2026-09-25 续）
+
+同固化流程：`MANDUCATER_` 四键下线，`--strict` 由 38 降至 **34**。

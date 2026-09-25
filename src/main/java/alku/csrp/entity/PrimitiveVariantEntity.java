@@ -364,8 +364,11 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
                     Math.min(1.0D, MobsConfig.devourerKnockbackResistance()
                             * MobsConfig.devourerKnockbackMultiplier()));
             case MANDUCATER -> applyConfiguredAttributes(
-                    MobsConfig.manducaterHealth(), MobsConfig.manducaterArmor(),
-                    MobsConfig.manducaterDamage(), MobsConfig.manducaterKnockbackResistance());
+                    MobsConfig.manducaterHealth() * MobsConfig.manducaterHealthMultiplier(),
+                    MobsConfig.manducaterArmor() * MobsConfig.manducaterArmorMultiplier(),
+                    MobsConfig.manducaterDamage() * MobsConfig.manducaterDamageMultiplier(),
+                    Math.min(1.0D, MobsConfig.manducaterKnockbackResistance()
+                            * MobsConfig.manducaterKnockbackMultiplier()));
             case REEKER -> applyReekerAttributes(false);
             case TOZOON -> applyConfiguredAttributes(
                     MobsConfig.tozoonHealth(), MobsConfig.tozoonArmor(),

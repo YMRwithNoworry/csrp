@@ -465,6 +465,12 @@ expect(read("src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java"),
   "the devourer health multiplier is not stacked");
 expect(mobsConfig, /public static double devourerKnockbackMultiplier\(\)/, "the devourer accessors are missing");
 
+// the primitive manducater multipliers now stack on its configured base values
+expect(read("src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java"),
+  /manducaterHealth\(\) \* MobsConfig\.manducaterHealthMultiplier\(\)/,
+  "the manducater health multiplier is not stacked");
+expect(mobsConfig, /public static double manducaterKnockbackMultiplier\(\)/, "the manducater accessors are missing");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));
