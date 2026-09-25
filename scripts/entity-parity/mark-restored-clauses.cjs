@@ -413,6 +413,19 @@ const BATCHES = {
         detail: "适用子项全部实现：最小伤害/伤害上限（ParasiteCombatRules 门控）、治疗与毒伤治疗（既有）、疾跑与攻击速度（GeneMeleeGoal）、技能（CowChargeGoal 对齐原版 EntityInfCow:75 EntityAISkill(this, 60, 32, 8, true, 1)：8-32 格窗口、60 tick 冷却、geneSpecialmove 门控）。水跃与穿墙破块对该原版类不适用（各 0 处）"
       }
     ]
+  },
+  // 批次 28：阶段属性加成（原版 finalizeSpawn:1682-1696，+7%）
+  "phase-stat-bonus": {
+    note: "批次：阶段属性加成（EntityParasiteBase:1682-1696）",
+    projectClasses: ["FeralParasiteEntity", "NexusParasiteEntity", "PrimitiveParasiteEntity", "AssimilatedParasiteEntity"],
+    clauses: [
+      {
+        match: /阶段属性加成/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/event/ParasiteCombatRules.java",
+        detail: "applyPhaseStatBonus 于 FinalizeSpawnEvent 中实现：phase >= Config.evolutionStatIncreasePhase(10) 时把 MAX_HEALTH/ARMOR/ATTACK_DAMAGE 基础值 ×(1+0.07)，与原版 finalizeSpawn 同点同公式（原版用 evolutionParasiteStatIncrease/Value 配置）"
+      }
+    ]
   }
 };
 

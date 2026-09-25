@@ -14,7 +14,12 @@ import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
+import alku.csrp.world.SrpWorldData;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -26,6 +31,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.living.FinalizeSpawnEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
@@ -135,6 +141,33 @@ public final class ParasiteCombatRules {
         }
         ParasiteCombatEffects.stealFood(parasite, victim, tier.foodSteal(),
                 Config.parasiteFoodTheftChance());
+    }
+
+    /**
+     * Legacy finalizeSpawn (EntityParasiteBase:1682-1696): once the world phase reaches
+     * evolutionParasiteStatIncrease, fresh parasites get +7% max health, armor and attack
+     * damage on their base attributes.
+     */
+    @SubscribeEvent
+    public static void applyPhaseStatBonus(FinalizeSpawnEvent event) {
+        if (!(event.getEntity() instanceof LivingEntity parasite) || !(parasite instanceof Parasite)
+                || !(event.getLevel() instanceof ServerLevel serverLevel)
+                || !Config.useEvolutionPhases()
+                || SrpWorldData.get(serverLevel).evolutionPhase() < Config.evolutionStatIncreasePhase()) {
+            return;
+        }
+        double multiplier = 1.0D + Config.evolutionStatIncreaseValue();
+        scaleBaseAttribute(parasite, Attributes.MAX_HEALTH, multiplier);
+        scaleBaseAttribute(parasite, Attributes.ARMOR, multiplier);
+        scaleBaseAttribute(parasite, Attributes.ATTACK_DAMAGE, multiplier);
+    }
+
+    private static void scaleBaseAttribute(LivingEntity entity, Holder<Attribute> attribute,
+                                           double multiplier) {
+        AttributeInstance instance = entity.getAttribute(attribute);
+        if (instance != null) {
+            instance.setBaseValue(instance.getBaseValue() * multiplier);
+        }
     }
 
     /**

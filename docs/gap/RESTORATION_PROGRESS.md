@@ -514,3 +514,13 @@ canUse:  dis < distanceC && dis >= distanceL    // → 8 ≤ d < 32 格
 
 审计：满足 657 → **658**，缺失 285 → **284**。
 **里程碑**：13 只已审计生物的 gene 捆绑条款（8 条）**全部结清**。
+
+## 批次 28：阶段属性加成（2026-09-25 续）
+
+原版 `EntityParasiteBase.finalizeSpawn:1682-1696`：`useEvolution` 且 `phaseCreated >= evolutionParasiteStatIncrease（10）`
+时，把 **MAX_HEALTH / ARMOR / ATTACK_DAMAGE** 的基础值 ×`(1 + evolutionParasiteStatIncreaseValue（0.07））`。
+
+端口实现：`ParasiteCombatRules.applyPhaseStatBonus(FinalizeSpawnEvent)`（全局，覆盖所有寄生体）——
+`Config.useEvolutionPhases()` 且 `SrpWorldData.evolutionPhase() >= Config.evolutionStatIncreasePhase()` 时对三项
+基础属性做同公式缩放；新增配置 `evolutionStatIncreasePhase`(10) / `evolutionStatIncreaseValue`(0.07)。
+校验：`verify-parasite-combat-rules.cjs` 增加 7 条断言；审计记账 6 条，满足 658 → **664**，缺失 284 → **278**。

@@ -216,6 +216,17 @@ for (const [pattern, message] of [
   [/chargeCooldown = 60;/, "the legacy 60 tick cooldown is missing"]
 ]) expect(assimilated, pattern, message);
 
+// legacy finalizeSpawn stat bonus: phase >= threshold scales health, armor and attack
+for (const [pattern, message] of [
+  [/public static void applyPhaseStatBonus\(FinalizeSpawnEvent event\)/, "the phase stat bonus handler is missing"],
+  [/\.evolutionPhase\(\) < Config\.evolutionStatIncreasePhase\(\)/, "the phase threshold must gate the bonus"],
+  [/scaleBaseAttribute\(parasite, Attributes\.MAX_HEALTH, multiplier\)/, "max health must be scaled"],
+  [/scaleBaseAttribute\(parasite, Attributes\.ARMOR, multiplier\)/, "armor must be scaled"],
+  [/scaleBaseAttribute\(parasite, Attributes\.ATTACK_DAMAGE, multiplier\)/, "attack damage must be scaled"]
+]) expect(rules, pattern, message);
+expect(config, /defineInRange\("evolutionStatIncreasePhase", 10, 0, 100\)/, "the legacy phase threshold (10) is missing");
+expect(config, /defineInRange\("evolutionStatIncreaseValue", 0\.07D, 0\.0D, 10\.0D\)/, "the legacy +7% value is missing");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

@@ -192,12 +192,12 @@
         },
         {
           "clause": "阶段属性加成：phaseCreated>=evolutionParasiteStatIncrease 时生命/护甲/攻击 *(1+value)",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1683",
-            "project": null
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
-          "note": "NexusParasiteEntity/PrimitiveParasiteEntity 均未覆写 finalizeSpawn 做阶段加成"
+          "note": "applyPhaseStatBonus 于 FinalizeSpawnEvent 中实现：phase >= Config.evolutionStatIncreasePhase(10) 时把 MAX_HEALTH/ARMOR/ATTACK_DAMAGE 基础值 ×(1+0.07)，与原版 finalizeSpawn 同点同公式（原版用 evolutionParasiteStatIncrease/Value 配置）；批次：阶段属性加成（EntityParasiteBase:1682-1696）"
         }
       ]
     },
