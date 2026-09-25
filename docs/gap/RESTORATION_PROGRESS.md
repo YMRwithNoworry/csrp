@@ -1183,3 +1183,9 @@ ancient 5000 pure 75    preeminent 200 derived 350   turret 75
 
 - ✗ `HiSkeletonEntity` 30 / `HiBlazeEntity` 36 / `HiGolemEntity` 60 → **全部对齐为 11**（含已审计的 `hi_skeleton`）；
 - ✗ `PreeminentParasiteEntity:131 xpReward = 75` → 应为 **200**（原版 preeminent 档；75 实为 pure/turret 档值），**留待下一轮**（本轮先落劫持三只，控制单轮改动面）。
+
+## 批次 81：preeminent 族经验对齐 preeminentXPValue = 200（2026-09-25 续）
+
+`PreeminentParasiteEntity:131` 原为 `xpReward = 75`（实为 pure/turret 档值）⇒ 改为 **200**。
+判据：该类的 5 个 kind（BOGLE / CARRIER_COLONY / HAUNTER / BOMBER_HEAVY / WRAITH）**均属 preeminent 档**，
+原版 turret 档（75）在此类中不存在，故不存在"按 kind 分档"的需要。

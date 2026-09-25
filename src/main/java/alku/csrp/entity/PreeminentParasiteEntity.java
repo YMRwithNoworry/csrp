@@ -128,7 +128,8 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
         parts = carrierHeadPart != null ? new PartEntity<?>[]{carrierHeadPart}
                 : haunterHeadPart != null ? new PartEntity<?>[]{haunterHeadPart, haunterMiddlePart}
                 : new PartEntity<?>[0];
-        xpReward = 75;
+        // Legacy SRPConfig.preeminentXPValue = 200 (this class holds no turret kind, which uses 75).
+        xpReward = 200;
         if (kind.flying) {
             moveControl = kind == Kind.BOGLE || kind == Kind.WRAITH || kind == Kind.BOMBER_HEAVY
                     ? new PreeminentFlyingMoveControl(this)
