@@ -989,3 +989,22 @@ backlog port-only (no restoration gap):        30
 原版字段名三者并不总一致——例如 `heavyBomber*` 这组的端口常量名是 `JINJO_*`，原版对应字段名很可能也是 `jinjo*`。
 因此"0 条原版背书"**只能视为初步结论**；下一步应把**常量名**（`JINJO_HEALTH_MULTIPLIER` → `jinjoHealthMultiplier`）
 也纳入候选拼写一并探测，再据三路结果（键名/去前缀/常量名）给出定论。
+
+## 批次 68：三路匹配得出定论——backlog 拆成「3 条该接线 + 27 条端口自造」（2026-09-25 续）
+
+给审计脚本补上第三路拼写（端口**常量名**转 camelCase，如 `JINJO_HEALTH_MULTIPLIER` → `jinjoHealthMultiplier`）后重跑：
+
+```
+backlog backed by the original (must be wired): 3
+  heavyBomberHealthMultiplier / heavyBomberDamageMultiplier / heavyBomberArmorMultiplier
+backlog port-only (no restoration gap):        27
+  heavyBomberExplosionMultiplier / heavyBomberKnockbackResistanceMultiplier
+  overseer* / primitiveReeker* / primitiveViscera* / primitiveYelloweye* / vigilante* / warden*
+```
+
+**上一轮的命名疑点被证实**：`heavyBomber*` 这组在原版**确有**对应（原版按常量名 `jinjo*` 命名），
+若只用"键名/去前缀"两路匹配就会误判为端口自造——这正是我上轮标注可靠性边界的原因，三路匹配后结论才可信。
+
+结论与后续：① **3 条该接线**（heavyBomber 的健康/伤害/护甲）→ 按既有流程处理；
+② **27 条属端口自造**，对还原**不构成缺口**，应择机删除或明确标注为端口扩展；
+③ 在此之前不再把它们计入"待补"。

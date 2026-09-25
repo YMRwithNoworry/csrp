@@ -59,7 +59,11 @@ if (fs.existsSync(originalConfig)) {
   const portOnly = [];
   for (const entry of unreachable) {
     const key = entry.slice(entry.indexOf("(") + 1, -1);
-    const candidates = [key, key.replace(/^primitive/, "")];
+    // third spelling: the port constant name in camelCase (JINJO_HEALTH_MULTIPLIER ->
+    // jinjoHealthMultiplier), which is how the original names the same knob for that mob.
+    const constant = entry.slice(0, entry.indexOf(" ")).toLowerCase()
+      .replace(/_([a-z0-9])/g, (_, c) => c.toUpperCase());
+    const candidates = [key, key.replace(/^primitive/, ""), constant];
     (candidates.some((name) => original.includes("float " + name)) ? originalBacked : portOnly).push(key);
   }
   console.log(`\nbacklog backed by the original (must be wired): ${originalBacked.length}`);
