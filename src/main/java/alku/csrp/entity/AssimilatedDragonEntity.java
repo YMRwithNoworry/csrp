@@ -49,8 +49,22 @@ import java.util.EnumSet;
 public final class AssimilatedDragonEntity extends Monster implements CitadelAnimatedEntity, Parasite {
     private static final float PART_HEALTH = 52.0F;
 
+    /** Legacy EntityInfDragonE:59 BossInfoServer(name, RED, PROGRESS). */
+    private final net.minecraft.server.level.ServerBossEvent bossEvent;
+
     // Legacy EntityInfDragonE:361/373: ambient and death are MOBSILENCE, the hurt sound is the
     // vanilla ender-dragon one and the sound volume is 5.0F.
+    @Override
+    public void startSeenByPlayer(net.minecraft.server.level.ServerPlayer player) {
+        super.startSeenByPlayer(player);
+        bossEvent.addPlayer(player);
+    }
+
+    @Override
+    public void stopSeenByPlayer(net.minecraft.server.level.ServerPlayer player) {
+        super.stopSeenByPlayer(player);
+        bossEvent.removePlayer(player);
+    }
     @Override
     protected net.minecraft.sounds.SoundEvent getAmbientSound() {
         return null;
@@ -117,6 +131,7 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
 
     public AssimilatedDragonEntity(EntityType<? extends AssimilatedDragonEntity> type, Level level) {
         super(type, level);
+        bossEvent = new net.minecraft.server.level.ServerBossEvent(getDisplayName(), net.minecraft.world.BossEvent.BossBarColor.RED, net.minecraft.world.BossEvent.BossBarOverlay.PROGRESS);
         // Legacy: part health is maxHealth * SRPConfig.tendrilHealth (260 * 0.4 = 104).
         float legacyPartHealth = (float) (getMaxHealth() * alku.csrp.Config.tendrilHealth());
         headHealth = legacyPartHealth;
@@ -172,6 +187,7 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
     @Override
     public void tick() {
         super.tick();
+        bossEvent.setProgress(Math.max(0.0F, getHealth() / getMaxHealth()));
         boolean flying = isFlying();
         if (flying != lastFlyingState) {
             lastFlyingState = flying;

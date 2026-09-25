@@ -566,6 +566,14 @@ expect(read("src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java"),
 expect(read("src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java"),
   /getSoundVolume\(\) \{\s*return 5\.0F;/, "the dragon sound volume must be 5.0F");
 
+// Legacy EntityInfDragonE:59: the assimilated dragon carries a red progress boss bar.
+expect(read("src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java"),
+  /new net\.minecraft\.server\.level\.ServerBossEvent\(getDisplayName\(\), net\.minecraft\.world\.BossEvent\.BossBarColor\.RED/,
+  "the dragon boss bar is not created");
+expect(read("src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java"),
+  /bossEvent\.setProgress\(Math\.max\(0\.0F, getHealth\(\) \/ getMaxHealth\(\)\)\)/,
+  "the dragon boss bar does not track health");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

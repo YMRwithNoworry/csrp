@@ -3119,3 +3119,19 @@ EntityInfDragonE:373  func_184615_bR (getDeathSound)       → SRPSounds.MOBSILE
 
 **为何不在本轮硬写**：端口范式的具体写法（事件注册时机、玩家增删钩子）需**先读一处现成实现**再照抄——
 本会话已多次证明"照抄既有范式"比"凭记忆写"可靠（步声、召唤、膨胀渲染皆如此）。
+
+## 批次 197：`sim_dragone` Boss 栏落地（2026-09-25 续）
+
+照抄端口既有范式（`AncientParasiteEntity:76/88/158/188/193`）一次落地四段：
+
+```java
+private final ServerBossEvent bossEvent;                                   // 字段
+bossEvent = new ServerBossEvent(getDisplayName(), BossBarColor.RED, BossBarOverlay.PROGRESS);   // 构造体
+bossEvent.setProgress(Math.max(0.0F, getHealth() / getMaxHealth()));       // tick 中同步
+startSeenByPlayer/stopSeenByPlayer → bossEvent.addPlayer/removePlayer       // 玩家增删
+```
+
+颜色与样式（RED / PROGRESS）与原版 `EntityInfDragonE:59` 一致；断言 2 条；`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+**仍未做**：原版 `.func_186741_a(false)`（关闭"变暗天空"）在 1.21 的对应调用——**未确认前不加**，
+避免写入一个语义不明的调用（已记入待办）。
