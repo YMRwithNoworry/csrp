@@ -108,7 +108,7 @@ expect(entity, /tickArachnidaTether\(\)[\s\S]*?MOVEMENT_SLOWDOWN, 20, 5[\s\S]*?W
   "Adapted Arachnida sustained tether debuffs, pull strength, or duration are wrong");
 expect(entity, /ARACHNIDA_TARGET\) == 0[\s\S]*?!arachnidaCanPull[\s\S]*?arachnidaCanPull = true[\s\S]*?arachnidaPullingTicks = 0/,
   "Adapted Arachnida post-timeout pull lock lasts longer than the original AI tick");
-expect(entity, /ArachnidaWaterLeapGoal[\s\S]*?return leaping \|\| isInWaterOrBubble\(\)[\s\S]*?chargeTicks >= 20[\s\S]*?airborneTicks = 1[\s\S]*?airborneTicks == 2 && onGround\(\)[\s\S]*?motion\.x \+ deltaX \/ horizontal \* 1\.35D \+ motion\.x \* 0\.3D[\s\S]*?0\.7D \+ targetYOffset/,
+expect(entity, /ArachnidaWaterLeapGoal[\s\S]*?return waterLeapAllowed\(\) && \(leaping \|\| isInWaterOrBubble\(\)\)[\s\S]*?chargeTicks >= 20[\s\S]*?airborneTicks = 1[\s\S]*?airborneTicks == 2 && onGround\(\)[\s\S]*?motion\.x \+ deltaX \/ horizontal \* 1\.35D \+ motion\.x \* 0\.3D[\s\S]*?0\.7D \+ targetYOffset/,
   "Adapted Arachnida water leap does not charge and launch at original velocity");
 expect(entity, /ArachnidaMeleeGoal[\s\S]*?distance > 64\.0D \|\| arachnidaAttackAnimationCooldown == 0[\s\S]*?fast \? 2 : 1[\s\S]*?fast \? 1\.3D : 1\.0D/,
   "Adapted Arachnida fast and slow melee states are wrong");

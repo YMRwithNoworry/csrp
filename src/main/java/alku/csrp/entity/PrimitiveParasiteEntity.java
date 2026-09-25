@@ -5,6 +5,7 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
+import alku.csrp.entity.ai.BlockLightSearchGoal;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
@@ -250,6 +251,32 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         return baseHardness;
     }
 
+    /**
+     * Legacy {@code EntityParasiteBase#getGeneMod(2)}: this generation notices targets through walls,
+     * which is what {@code EntityAINearestAttackableTargetStatus} uses as {@code shouldCheckSight || !getGeneMod(2)}.
+     */
+    protected boolean seesThroughWalls() {
+        return level() instanceof ServerLevel serverLevel
+                && EvolutionSystem.generationProfile(serverLevel).lookWalls();
+    }
+
+    /** Legacy {@code EntityParasiteBase#getGeneMod(4)}: the generation unlocks the liquid leap of {@code handleWater}. */
+    protected boolean waterLeapAllowed() {
+        return level() instanceof ServerLevel serverLevel
+                && EvolutionSystem.generationProfile(serverLevel).waterLeap();
+    }
+
+    /**
+     * Legacy {@code EntityParasiteBase#getAttackSpeed()}: {@code (int) (attackSpeedT * geneAttackSpeed)},
+     * so the stored base interval is truncated exactly like the original and never drops below one tick.
+     */
+    protected int generationAttackInterval(int baseTicks) {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return Math.max(1, baseTicks);
+        }
+        return Math.max(1, (int) (baseTicks * EvolutionSystem.generationProfile(serverLevel).attackSpeedMultiplier()));
+    }
+
     private static void addBlockBreakProfiles(Map<String, BlockBreakProfile> profiles, float hardness,
                                                int cooldown, int range, String... ids) {
         for (String id : ids) {
@@ -291,6 +318,14 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
                 goalSelector.addGoal(6, new ParasiteFollowGoal(this));
             }
             goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 1.0));
+        }
+        // Legacy EntityPMalleable constructor goal: EntityAIBlockLight(this, 20, 5) at priority 7, guarded by
+        // SRPConfig.canTargetBlock. The original only installs it on the malleable tiers (adapted, ancient,
+        // cosmical, preeminent, primitive, pure, stationary) - crude, feral, hijacked and infected extend
+        // EntityParasiteBase directly and never get it. This port flattened that hierarchy, so the malleable
+        // tier predicate already used by the adaptation port stands in for the class check.
+        if (supportsDamageAdaptation()) {
+            goalSelector.addGoal(7, new BlockLightSearchGoal(this));
         }
         goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         if (usesDefaultTargetGoals()) {

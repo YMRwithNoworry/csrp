@@ -45,25 +45,20 @@ public final class EvolutionSystem {
     private static final float[] CROP_BLOCK_CHANCE = {
             0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.10F, 0.30F, 0.60F, 1.0F, 1.0F
     };
-    private static final int[] GENERATION_TIME_TICKS = {25_000, 45_000, 72_000, 72_000, 72_000};
-    private static final int[][] GENERATION_PHASES = {
-            {1, 2, 3, 4, 5, 6, 7, 8, 9, 10},
-            {3, 4, 5, 6, 7, 8, 9, 10},
-            {5, 6, 7, 8, 9, 10},
-            {7, 8, 9, 10},
-            {9, 10}
-    };
-    private static final float[] GENERATION_COTH_CHANCE = {0.2F, 0.3F, 0.65F, 1.0F, 1.0F, 1.0F};
-    private static final boolean[] GENERATION_SPRINTING = {false, false, true, true, true, true};
-    private static final boolean[] GENERATION_ADAPTATION = {false, false, false, true, true, true};
-    private static final boolean[] GENERATION_SPECIAL_MOVES = {false, false, false, false, true, true};
-    private static final boolean[] GENERATION_DAMAGE_CAP = {false, false, false, true, true, true};
-    private static final boolean[] GENERATION_MINIMUM_DAMAGE = {false, false, true, true, true, true};
-    private static final boolean[] GENERATION_BLOCK_SEARCH = {false, false, false, false, false, true};
-    private static final boolean[] GENERATION_ORDINARY_ORB = {false, false, false, false, false, true};
-    private static final float[] GENERATION_POISON_HEALING = {0.0F, 0.3F, 1.0F, 1.5F, 2.0F, 2.5F};
-    private static final float[] GENERATION_MOB_HEALING = {0.0F, 0.0F, 0.5F, 1.0F, 2.0F, 3.0F};
-    private static final float[] GENERATION_ATTACK_SPEED = {1.0F, 1.0F, 1.0F, 0.9F, 0.7F, 0.5F};
+    /**
+     * Original SRP divisor applied to the needed generation time for each SRP difficulty
+     * ({@code SRPSaveData#getGenerationNeededTime(byte)}, switch over {@code choice}).
+     * Easy stretches a generation, Impossible shortens it tenfold.
+     */
+    public static double generationDifficultyBonus(SrpDifficulty difficulty) {
+        return switch (difficulty) {
+            case EASY -> 0.5D;
+            case HARD -> 3.0D;
+            case IMPOSSIBLE -> 10.0D;
+            default -> 1.0D;
+        };
+    }
+
     private EvolutionSystem() {
     }
 
@@ -105,13 +100,35 @@ public final class EvolutionSystem {
         return phase < 0 ? 0 : PHASE_DELAY_SECONDS[Math.min(10, phase)];
     }
 
-    public static int generationNeededTicks(int generation, int phase) {
-        if (generation < 0 || generation >= GENERATION_TIME_TICKS.length) {
+    /** True when the current evolution phase needs no extra generation time (original {@code generationPhaseNeeded}). */
+    public static boolean generationPhaseAllowed(int generation, int phase) {
+        if (generation < 0 || generation > 4) {
+            return true;
+        }
+        for (Integer allowed : Config.generationPhases(generation)) {
+            if (allowed != null && allowed == phase) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Original {@code SRPSaveData#getGenerationNeededTime(World, int)}: the difficulty scaled base time,
+     * multiplied by the phase penalty when the evolution phase is outside the generation's phase list.
+     */
+    public static int generationNeededTicks(int generation, int phase, SrpDifficulty difficulty) {
+        return generationNeededTicks(generation, phase, generationDifficultyBonus(difficulty));
+    }
+
+    static int generationNeededTicks(int generation, int phase, double difficultyBonus) {
+        if (generation < 0 || generation > 4) {
             return 0;
         }
-        int needed = GENERATION_TIME_TICKS[generation];
-        if (!contains(GENERATION_PHASES[generation], phase)) {
-            needed = Math.round(needed * 1.5F);
+        double bonus = difficultyBonus <= 0.0D ? 1.0D : difficultyBonus;
+        int needed = (int) Math.max(1L, Math.round(Config.generationTime(generation) / bonus));
+        if (!generationPhaseAllowed(generation, phase)) {
+            needed = (int) (needed * Config.generationPhasePenalty());
         }
         return needed;
     }
@@ -124,17 +141,174 @@ public final class EvolutionSystem {
     static GenerationProfile generationProfile(int requestedGeneration) {
         int generation = Math.max(0, Math.min(5, requestedGeneration));
         return new GenerationProfile(
-                GENERATION_COTH_CHANCE[generation],
-                GENERATION_SPRINTING[generation],
-                GENERATION_ADAPTATION[generation],
-                GENERATION_SPECIAL_MOVES[generation],
-                GENERATION_DAMAGE_CAP[generation],
-                GENERATION_MINIMUM_DAMAGE[generation],
-                GENERATION_BLOCK_SEARCH[generation],
-                GENERATION_ORDINARY_ORB[generation],
-                GENERATION_POISON_HEALING[generation],
-                GENERATION_MOB_HEALING[generation],
-                GENERATION_ATTACK_SPEED[generation]);
+                geneMinimumDamage(generation),
+                geneDamageCap(generation),
+                geneLookWalls(generation),
+                geneSprinting(generation),
+                geneWaterLeap(generation),
+                geneSpecialMoves(generation),
+                geneAdaptation(generation),
+                geneBlockSearch(generation),
+                geneResidue(generation),
+                geneOrb(generation),
+                geneCoth(generation),
+                genePoisonHealing(generation),
+                geneMobHealing(generation),
+                geneAttackSpeed(generation));
+    }
+
+    private static boolean geneMinimumDamage(int g) {
+        return switch (g) {
+            case 0 -> Config.generation0MinimumDamage();
+            case 1 -> Config.generation1MinimumDamage();
+            case 2 -> Config.generation2MinimumDamage();
+            case 3 -> Config.generation3MinimumDamage();
+            case 4 -> Config.generation4MinimumDamage();
+            default -> Config.generation5MinimumDamage();
+        };
+    }
+
+    private static boolean geneDamageCap(int g) {
+        return switch (g) {
+            case 0 -> Config.generation0DamageCap();
+            case 1 -> Config.generation1DamageCap();
+            case 2 -> Config.generation2DamageCap();
+            case 3 -> Config.generation3DamageCap();
+            case 4 -> Config.generation4DamageCap();
+            default -> Config.generation5DamageCap();
+        };
+    }
+
+    private static boolean geneLookWalls(int g) {
+        return switch (g) {
+            case 0 -> Config.generation0LookWalls();
+            case 1 -> Config.generation1LookWalls();
+            case 2 -> Config.generation2LookWalls();
+            case 3 -> Config.generation3LookWalls();
+            case 4 -> Config.generation4LookWalls();
+            default -> Config.generation5LookWalls();
+        };
+    }
+
+    private static boolean geneSprinting(int g) {
+        return switch (g) {
+            case 0 -> Config.generation0Sprinting();
+            case 1 -> Config.generation1Sprinting();
+            case 2 -> Config.generation2Sprinting();
+            case 3 -> Config.generation3Sprinting();
+            case 4 -> Config.generation4Sprinting();
+            default -> Config.generation5Sprinting();
+        };
+    }
+
+    private static boolean geneWaterLeap(int g) {
+        return switch (g) {
+            case 0 -> Config.generation0WaterLeap();
+            case 1 -> Config.generation1WaterLeap();
+            case 2 -> Config.generation2WaterLeap();
+            case 3 -> Config.generation3WaterLeap();
+            case 4 -> Config.generation4WaterLeap();
+            default -> Config.generation5WaterLeap();
+        };
+    }
+
+    private static boolean geneSpecialMoves(int g) {
+        return switch (g) {
+            case 0 -> Config.generation0SpecialMoves();
+            case 1 -> Config.generation1SpecialMoves();
+            case 2 -> Config.generation2SpecialMoves();
+            case 3 -> Config.generation3SpecialMoves();
+            case 4 -> Config.generation4SpecialMoves();
+            default -> Config.generation5SpecialMoves();
+        };
+    }
+
+    private static boolean geneAdaptation(int g) {
+        return switch (g) {
+            case 0 -> Config.generation0Adaptation();
+            case 1 -> Config.generation1Adaptation();
+            case 2 -> Config.generation2Adaptation();
+            case 3 -> Config.generation3Adaptation();
+            case 4 -> Config.generation4Adaptation();
+            default -> Config.generation5Adaptation();
+        };
+    }
+
+    private static boolean geneBlockSearch(int g) {
+        return switch (g) {
+            case 0 -> Config.generation0BlockSearch();
+            case 1 -> Config.generation1BlockSearch();
+            case 2 -> Config.generation2BlockSearch();
+            case 3 -> Config.generation3BlockSearch();
+            case 4 -> Config.generation4BlockSearch();
+            default -> Config.generation5BlockSearch();
+        };
+    }
+
+    private static boolean geneResidue(int g) {
+        return switch (g) {
+            case 0 -> Config.generation0Residue();
+            case 1 -> Config.generation1Residue();
+            case 2 -> Config.generation2Residue();
+            case 3 -> Config.generation3Residue();
+            case 4 -> Config.generation4Residue();
+            default -> Config.generation5Residue();
+        };
+    }
+
+    private static boolean geneOrb(int g) {
+        return switch (g) {
+            case 0 -> Config.generation0Orb();
+            case 1 -> Config.generation1Orb();
+            case 2 -> Config.generation2Orb();
+            case 3 -> Config.generation3Orb();
+            case 4 -> Config.generation4Orb();
+            default -> Config.generation5Orb();
+        };
+    }
+
+    private static float geneCoth(int g) {
+        return (float) switch (g) {
+            case 0 -> Config.generation0Coth();
+            case 1 -> Config.generation1Coth();
+            case 2 -> Config.generation2Coth();
+            case 3 -> Config.generation3Coth();
+            case 4 -> Config.generation4Coth();
+            default -> Config.generation5Coth();
+        };
+    }
+
+    private static float genePoisonHealing(int g) {
+        return (float) switch (g) {
+            case 0 -> Config.generation0PoisonHeal();
+            case 1 -> Config.generation1PoisonHeal();
+            case 2 -> Config.generation2PoisonHeal();
+            case 3 -> Config.generation3PoisonHeal();
+            case 4 -> Config.generation4PoisonHeal();
+            default -> Config.generation5PoisonHeal();
+        };
+    }
+
+    private static float geneMobHealing(int g) {
+        return (float) switch (g) {
+            case 0 -> Config.generation0MobHealing();
+            case 1 -> Config.generation1MobHealing();
+            case 2 -> Config.generation2MobHealing();
+            case 3 -> Config.generation3MobHealing();
+            case 4 -> Config.generation4MobHealing();
+            default -> Config.generation5MobHealing();
+        };
+    }
+
+    private static float geneAttackSpeed(int g) {
+        return (float) switch (g) {
+            case 0 -> Config.generation0AttackSpeed();
+            case 1 -> Config.generation1AttackSpeed();
+            case 2 -> Config.generation2AttackSpeed();
+            case 3 -> Config.generation3AttackSpeed();
+            case 4 -> Config.generation4AttackSpeed();
+            default -> Config.generation5AttackSpeed();
+        };
     }
 
     public static boolean addPoints(ServerLevel level, int points, PointSource source) {
@@ -263,15 +437,6 @@ public final class EvolutionSystem {
         }
     }
 
-    private static boolean contains(int[] values, int target) {
-        for (int value : values) {
-            if (value == target) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public enum PointSource {
         KILL,
         COTH,
@@ -293,9 +458,24 @@ public final class EvolutionSystem {
     public record InitialProgress(int phase, int points) {
     }
 
-    public record GenerationProfile(float cothChance, boolean sprinting, boolean adaptation,
-            boolean specialMoves, boolean damageCap, boolean minimumDamage,
-            boolean blockSearch, boolean ordinaryOrb,
-            float poisonHealing, float mobHealing, float attackSpeedMultiplier) {
+    /**
+     * Per-generation gene flags and multipliers, in the exact order of the original
+     * {@code SRPSaveData#getGeneModi(int)} / {@code getGeneModi2(int)} arrays.
+     */
+    public record GenerationProfile(
+            boolean minimumDamage,
+            boolean damageCap,
+            boolean lookWalls,
+            boolean sprinting,
+            boolean waterLeap,
+            boolean specialMoves,
+            boolean adaptation,
+            boolean blockSearch,
+            boolean residue,
+            boolean ordinaryOrb,
+            float cothChance,
+            float poisonHealing,
+            float mobHealing,
+            float attackSpeedMultiplier) {
     }
 }

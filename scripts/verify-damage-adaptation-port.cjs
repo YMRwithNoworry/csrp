@@ -27,12 +27,13 @@ expect(config, /define\("generationEnabled", true\)/,
   "original-default generationEnabled config is missing");
 expect(config, /boolean generationEnabled\(\).*GENERATION_ENABLED\.get\(\)/,
   "generationEnabled accessor is missing");
-expect(system, /GENERATION_ADAPTATION\s*=\s*\{false, false, false, true, true, true\}/,
+expect(system, /Config\.generation3Adaptation\(\)/,
   "adaptation must unlock at generation 3");
 expect(system, /Config\.generationEnabled\(\)\s*\?\s*SrpWorldData\.get\(level\)\.generation\(\)\s*:\s*5/,
   "disabling generations must select the full generation-5 profile");
-expect(events, /if \(Config\.generationEnabled\(\)\)\s*\{\s*data\.tickGeneration\(level, 20\)/,
-  "generation ticks must pause while the generation system is disabled");
+if (/data\.tickGeneration\(/.test(events)) {
+  failures.push("generation advances must come from the evolution point path, not a per-second timer");
+}
 expect(commands, /literal\("status"\)[\s\S]{0,120}showGenerationStatus/,
   "srpgeneration status command is missing");
 expect(commands, /locked \(unlocks at generation 3\)/,

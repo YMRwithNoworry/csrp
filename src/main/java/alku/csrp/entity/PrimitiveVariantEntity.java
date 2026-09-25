@@ -1490,7 +1490,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
             }
             getNavigation().stop();
             if (attackCooldown <= 0) {
-                attackCooldown = ATTACK_INTERVAL_TICKS;
+                attackCooldown = generationAttackInterval(ATTACK_INTERVAL_TICKS);
                 performTozoonAoeAttack(target);
             }
         }
@@ -1555,7 +1555,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
 
             double attackDistance = distanceToSqr(target.getX(), target.getBoundingBox().minY, target.getZ());
             if (attackDistance <= ATTACK_DISTANCE_SQR && attackCooldown <= 0) {
-                attackCooldown = 20;
+                attackCooldown = generationAttackInterval(20);
                 doHurtTarget(target);
             }
             if (movementCycle > 140) {
@@ -1766,7 +1766,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         protected void checkAndPerformAttack(LivingEntity target) {
             if (attackCooldown <= 0 && mob.isWithinMeleeAttackRange(target)
                     && mob.getSensing().hasLineOfSight(target)) {
-                attackCooldown = getAttackInterval();
+                attackCooldown = generationAttackInterval(getAttackInterval());
                 mob.swing(InteractionHand.MAIN_HAND);
                 mob.doHurtTarget(target);
             }
@@ -1787,7 +1787,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
 
         @Override
         public boolean canUse() {
-            return isInWaterOrBubble() || attacking >= 1;
+            // Legacy handleWater liquid leap is gated by the water leap gene: getGeneMod(4).
+            return waterLeapAllowed() && (isInWaterOrBubble() || attacking >= 1);
         }
 
         @Override
@@ -1933,7 +1934,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         protected void checkAndPerformAttack(LivingEntity target) {
             if (attackCooldown <= 0 && mob.isWithinMeleeAttackRange(target)
                     && mob.getSensing().hasLineOfSight(target)) {
-                attackCooldown = getAttackInterval();
+                attackCooldown = generationAttackInterval(getAttackInterval());
                 mob.swing(InteractionHand.MAIN_HAND);
                 mob.doHurtTarget(target);
             }
@@ -1954,7 +1955,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
 
         @Override
         public boolean canUse() {
-            return isInWaterOrBubble() || attacking >= 1;
+            // Legacy handleWater liquid leap is gated by the water leap gene: getGeneMod(4).
+            return waterLeapAllowed() && (isInWaterOrBubble() || attacking >= 1);
         }
 
         @Override

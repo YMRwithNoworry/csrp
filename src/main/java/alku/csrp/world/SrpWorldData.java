@@ -18,8 +18,12 @@ import net.minecraft.world.level.saveddata.SavedData;
 
 public final class SrpWorldData extends SavedData {
     private static final String DATA_NAME = "csrp_world_data";
-    private static final int DATA_VERSION = 6;
+    // 7: the generation timer moved from the per-second counter "generation_ticks" to the absolute
+    // world total time "generation_started_at" at which the current generation started.
+    private static final int DATA_VERSION = 7;
     private static final int[] DISLODGMENT_PHASE_COOLDOWN_MULTIPLIER = {1, 4, 3, 3, 4, 5, 6, 7, 8, 9, 10};
+    /** Upper bound kept on the stored generation start time so the command math cannot overflow. */
+    private static final long MAX_GENERATION_CLOCK = Long.MAX_VALUE / 2L;
 
     private boolean initialized;
     private int dataVersion = DATA_VERSION;
@@ -37,7 +41,15 @@ public final class SrpWorldData extends SavedData {
     private boolean canGain = true;
     private boolean canLose = true;
     private int generation;
-    private int generationTicks;
+    /** World total time at which the current generation started (1.10.9 {@code dimGenerationTime}). */
+    private long generationStartedAt;
+    /**
+     * Elapsed ticks carried over from a pre-v7 save key "generation_ticks", or -1 once consumed.
+     * Converted into {@link #generationStartedAt} the first time the data is read with a level.
+     */
+    private long legacyGenerationTicks = -1L;
+    /** Latest world total time seen with a level in hand; the level-less accessors measure against it. */
+    private long lastObservedGameTime;
     private int assimilatedEndermen;
     private double passivePointRemainder;
     private int ubiquitousDevelopment;
@@ -58,7 +70,9 @@ public final class SrpWorldData extends SavedData {
         if (!data.initialized) {
             data.initialize(level);
         }
+        data.lastObservedGameTime = level.getGameTime();
         data.migrateRemovedPhaseCooldown();
+        data.migrateGenerationStartTime(level);
         if (level.dimension() != Level.OVERWORLD) {
             ServerLevel overworld = level.getServer().getLevel(Level.OVERWORLD);
             if (overworld != null) {
@@ -88,7 +102,13 @@ public final class SrpWorldData extends SavedData {
         data.canGain = !tag.contains("can_gain") || tag.getBoolean("can_gain");
         data.canLose = !tag.contains("can_lose") || tag.getBoolean("can_lose");
         data.generation = tag.getInt("generation");
-        data.generationTicks = tag.getInt("generation_ticks");
+        if (tag.contains("generation_started_at")) {
+            data.generationStartedAt = tag.getLong("generation_started_at");
+        } else {
+            // Pre-v7 saves only carry the elapsed tick counter. Keep it around until a level is
+            // available; a missing key means "no progress" so an ancient save is never overdue.
+            data.legacyGenerationTicks = Math.max(0L, tag.getInt("generation_ticks"));
+        }
         data.assimilatedEndermen = tag.getInt("assimilated_endermen");
         data.passivePointRemainder = tag.getDouble("passive_point_remainder");
         data.ubiquitousDevelopment = tag.getInt("ubiquitous_development");
@@ -126,7 +146,7 @@ public final class SrpWorldData extends SavedData {
         tag.putBoolean("can_gain", canGain);
         tag.putBoolean("can_lose", canLose);
         tag.putInt("generation", generation);
-        tag.putInt("generation_ticks", generationTicks);
+        tag.putLong("generation_started_at", generationStartedAt);
         tag.putInt("assimilated_endermen", assimilatedEndermen);
         tag.putDouble("passive_point_remainder", passivePointRemainder);
         tag.putInt("ubiquitous_development", ubiquitousDevelopment);
@@ -237,6 +257,8 @@ public final class SrpWorldData extends SavedData {
         if (!canAddEvolutionPoints(points) || (!bypassCooldown && cooldown(level) > 0)) {
             return false;
         }
+        // The original only ever advanced generations from here, after every rejection check passed.
+        checkGeneration(level);
 
         long changed = (long) evolutionPoints + points;
         if (evolutionPhase >= 0) {
@@ -305,14 +327,31 @@ public final class SrpWorldData extends SavedData {
         return eveMode ? 5 : generation;
     }
 
-    public void setGeneration(int value) {
+    /**
+     * Clamps the stored counter to 0..5 and returns it. The stored start time goes back to 0, mirroring
+     * the original commands, which call {@code setGeneration(gen, dim)} and then
+     * {@code setGenerationTime(0, dim)} back to back (SRPCommandGeneration:74-75,
+     * SRPCommandRoot:71-72, SRPCommandEvolution:353-354, SRPCommandUDevelopment:172-173). A dimension
+     * whose start time is 0 is overdue as soon as the world is older than the needed time, so the next
+     * accepted point change advances it by one generation - exactly as in the original.
+     */
+    public int setGeneration(int value) {
         generation = Math.max(0, Math.min(5, value));
-        generationTicks = 0;
+        generationStartedAt = 0L;
         setDirty();
+        return generation;
     }
 
+    /**
+     * Ticks left until the next generation, i.e. the original {@code getGenerationNeededTime(World, int)};
+     * 0 once generation 5 is reached.
+     */
     public int generationTicks() {
-        return generationTicks;
+        if (generation >= 5) {
+            return 0;
+        }
+        long remaining = neededGenerationTicks() - (lastObservedGameTime - generationStartedAt);
+        return (int) Math.max(0L, Math.min(Integer.MAX_VALUE, remaining));
     }
 
     public int assimilatedEndermen() {
@@ -326,23 +365,40 @@ public final class SrpWorldData extends SavedData {
         }
     }
 
+    /**
+     * Original {@code /srpgeneration addticks}: {@code setGenerationTime(getGenerationTime(id) + n, id)}.
+     * Adding to the stored start time shrinks the elapsed time, so a positive value <em>delays</em> the
+     * next generation by {@code ticks} ticks - exactly like the original.
+     */
     public void addGenerationTicks(int ticks) {
-        long next = (long) generationTicks + ticks;
-        generationTicks = (int) Math.max(0L, Math.min(Integer.MAX_VALUE, next));
+        long base = Math.max(0L, Math.min(MAX_GENERATION_CLOCK, generationStartedAt));
+        generationStartedAt = Math.max(0L, Math.min(MAX_GENERATION_CLOCK, base + (long) ticks));
         setDirty();
     }
 
-    public void tickGeneration(ServerLevel level, int ticks) {
+    /**
+     * Ticks the current generation still needs, recomputed from the live evolution phase and difficulty
+     * the way the original {@code getGenerationNeededTime(byte)} does on every check.
+     */
+    private int neededGenerationTicks() {
+        return EvolutionSystem.generationNeededTicks(generation, evolutionPhase, difficulty);
+    }
+
+    /**
+     * Original {@code SRPSaveData#checkGeneration(int, World)}: advance one generation when more time has
+     * passed since the stored start time than the current generation needs.
+     */
+    private void checkGeneration(ServerLevel level) {
         if (generation >= 5) {
             return;
         }
-        generationTicks = Math.max(0, generationTicks + ticks);
-        int needed = EvolutionSystem.generationNeededTicks(generation, evolutionPhase);
-        if (needed > 0 && generationTicks >= needed) {
+        long now = level.getGameTime();
+        lastObservedGameTime = now;
+        if (now - generationStartedAt > neededGenerationTicks()) {
             generation++;
-            generationTicks = 0;
+            generationStartedAt = now;
+            setDirty();
         }
-        setDirty();
     }
 
     public void tickPassivePoints(ServerLevel level) {
@@ -668,8 +724,7 @@ public final class SrpWorldData extends SavedData {
         cooldownEnd = 0L;
         canGain = true;
         canLose = true;
-        generation = 0;
-        generationTicks = 0;
+        applyConfiguredGeneration(level);
         assimilatedEndermen = 0;
         passivePointRemainder = 0.0D;
         ubiquitousDevelopment = 0;
@@ -715,11 +770,76 @@ public final class SrpWorldData extends SavedData {
             fracturedTerrain = false;
         }
         difficultyPointRemainder = 0.0D;
-        generation = 0;
-        generationTicks = 0;
+        applyConfiguredGeneration(level);
         assimilatedEndermen = 0;
         passivePointRemainder = 0.0D;
         cooldownEnd = 0L;
+        setDirty();
+    }
+
+    /**
+     * Original world-creation defaults: {@code SRPConfigSystems.generationDefa} for every dimension,
+     * overridden by the matching entries of {@code SRPConfigSystems.generationDimStart}
+     * ("Generation Dimension Starting List", formatted {@code "<dimension_id>;<generation>"}).
+     * Malformed entries are skipped silently, exactly like the original.
+     */
+    private void applyConfiguredGeneration(ServerLevel level) {
+        int configured = Math.max(0, Math.min(5, Config.generationDefaultValue()));
+        String location = level.dimension().location().toString();
+        String path = level.dimension().location().getPath();
+        String legacyId = legacyDimensionId(level);
+        for (String entry : Config.generationDimensionStartingList()) {
+            int separator = entry == null ? -1 : entry.indexOf(';');
+            if (separator <= 0) {
+                continue;
+            }
+            String dimension = entry.substring(0, separator).trim();
+            if (!dimension.equals(location) && !dimension.equals(path)
+                    && (legacyId == null || !dimension.equals(legacyId))) {
+                continue;
+            }
+            try {
+                configured = Math.max(0, Math.min(5, Integer.parseInt(entry.substring(separator + 1).trim())));
+            } catch (NumberFormatException ignored) {
+                // Malformed "Generation Dimension Starting List" entry: keep the previous value.
+            }
+        }
+        generation = configured;
+        // The original stores 0 for a brand new dimension (SRPSaveData.addDim: dimGenerationTime.add(0)),
+        // so the timer runs from the world time origin, not from the moment the dimension appeared.
+        generationStartedAt = 0L;
+    }
+
+    /**
+     * The original "Generation Dimension Starting List" keys dimensions by their legacy numeric id
+     * ({@code int dim = Integer.parseInt(split[0].trim())}). Those ids no longer exist in 1.20.1, so the
+     * three vanilla ones are still accepted for configuration compatibility.
+     */
+    private static String legacyDimensionId(ServerLevel level) {
+        if (level.dimension() == Level.OVERWORLD) {
+            return "0";
+        }
+        if (level.dimension() == Level.NETHER) {
+            return "-1";
+        }
+        if (level.dimension() == Level.END) {
+            return "1";
+        }
+        return null;
+    }
+
+    /**
+     * Data version 7 turned the elapsed-tick counter "generation_ticks" into the absolute start time
+     * "generation_started_at". Convert a carried-over counter without losing progress: at most one
+     * full generation may count as elapsed, so the dimension is never dumped straight into the next one.
+     */
+    private void migrateGenerationStartTime(ServerLevel level) {
+        if (legacyGenerationTicks < 0L) {
+            return;
+        }
+        long elapsed = Math.max(0L, Math.min(legacyGenerationTicks, neededGenerationTicks()));
+        legacyGenerationTicks = -1L;
+        generationStartedAt = level.getGameTime() - elapsed;
         setDirty();
     }
 

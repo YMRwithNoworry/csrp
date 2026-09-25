@@ -1,6 +1,5 @@
 package alku.csrp.world;
 
-import alku.csrp.Config;
 import alku.csrp.Csrp;
 import alku.csrp.config.GeneralConfig;
 import alku.csrp.config.WorldConfig;
@@ -69,9 +68,8 @@ public final class EvolutionEvents {
         if (event.phase == TickEvent.Phase.START) {return;}
         if (event.level instanceof ServerLevel level && level.getGameTime() % 20L == 0L) {
             SrpWorldData data = SrpWorldData.get(level);
-            if (Config.generationEnabled()) {
-                data.tickGeneration(level, 20);
-            }
+            // Generations advance on the evolution-point path (SrpWorldData#addEvolutionPoints), like the
+            // original, so this tick no longer pushes a per-second counter.
             data.tickPassivePoints(level);
             removeExcessParasites(level);
         }

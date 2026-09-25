@@ -7,6 +7,7 @@ import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
+import alku.csrp.world.EvolutionSystem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -432,6 +433,12 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
         }
     }
 
+    /** Legacy {@code EntityParasiteBase#getGeneMod(4)}: the generation unlocks the liquid leap. */
+    private boolean waterLeapAllowed() {
+        return level() instanceof ServerLevel serverLevel
+                && EvolutionSystem.generationProfile(serverLevel).waterLeap();
+    }
+
     /** Legacy EntityAIWaterLeapAtTargetStatus: leap from water or lava toward the target. */
     private final class WaterLeapGoal extends Goal {
         private static final int COOLDOWN_TICKS = 20;
@@ -449,7 +456,8 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
 
         @Override
         public boolean canUse() {
-            return isInWaterOrBubble() || isInLava() || attacking >= 1;
+            // Legacy handleWater liquid leap is gated by the water leap gene: getGeneMod(4).
+            return waterLeapAllowed() && (isInWaterOrBubble() || isInLava() || attacking >= 1);
         }
 
         @Override

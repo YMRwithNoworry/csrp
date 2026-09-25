@@ -1412,7 +1412,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             if (attackCooldown <= 0 && distanceToSqr(target) <= LONGARMS_MELEE_RANGE_SQR
                     && hasLineOfSight(target)) {
                 doHurtTarget(target);
-                attackCooldown = LONGARMS_ATTACK_INTERVAL_TICKS;
+                attackCooldown = generationAttackInterval(LONGARMS_ATTACK_INTERVAL_TICKS);
             }
         }
 
@@ -2250,7 +2250,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             }
             getNavigation().stop();
             if (attackCooldown <= 0) {
-                attackCooldown = ATTACK_INTERVAL_TICKS;
+                attackCooldown = generationAttackInterval(ATTACK_INTERVAL_TICKS);
                 performTozoonAoeAttack(target);
             }
         }
@@ -2380,7 +2380,8 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
         @Override
         public boolean canUse() {
-            return leaping || isInWaterOrBubble();
+            // Legacy handleWater liquid leap is gated by the water leap gene: getGeneMod(4).
+            return waterLeapAllowed() && (leaping || isInWaterOrBubble());
         }
 
         @Override

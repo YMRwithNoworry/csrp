@@ -1776,7 +1776,8 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         @Override
         public boolean canUse() {
             LivingEntity target = getTarget();
-            if (target == null || !target.isAlive() || (!isInWaterOrBubble() && !isInLava())) {
+            if (!waterLeapAllowed() || target == null || !target.isAlive()
+                    || (!isInWaterOrBubble() && !isInLava())) {
                 return false;
             }
             if (cooldown < 20) {
@@ -1883,7 +1884,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                 getNavigation().stop();
                 if (attackCooldown == 0) {
                     performAreaMelee(target);
-                    attackCooldown = 20;
+                    attackCooldown = generationAttackInterval(20);
                 }
             } else {
                 getNavigation().moveTo(target, 1.5D);
@@ -2025,7 +2026,9 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
 
         @Override
         public boolean canUse() {
-            return attacking >= 1 || !monarchSkillLeapActive && (isInWaterOrBubble() || isInLava());
+            // Legacy handleWater liquid leap is gated by the water leap gene: getGeneMod(4).
+            return waterLeapAllowed()
+                    && (attacking >= 1 || !monarchSkillLeapActive && (isInWaterOrBubble() || isInLava()));
         }
 
         @Override
@@ -2117,7 +2120,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             if (distance <= 4.0D && hasLineOfSight(target)) {
                 getNavigation().stop();
                 if (attackCooldown <= 0) {
-                    attackCooldown = 10;
+                    attackCooldown = generationAttackInterval(10);
                     performAreaMelee(target);
                 }
                 return;
@@ -2791,7 +2794,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                 }
                 attackCooldown = Math.max(attackCooldown - 1, 0);
                 if (attackDistance <= 20.25D && attackCooldown <= 0) {
-                    attackCooldown = 20;
+                    attackCooldown = generationAttackInterval(20);
                     doHurtTarget(target);
                 }
                 if (chargeTicks > 140) {
@@ -3114,7 +3117,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                 getNavigation().moveTo(target, 0.0D);
                 setWardenStatus(1);
                 if (attackCooldown <= 0) {
-                    attackCooldown = 20;
+                    attackCooldown = generationAttackInterval(20);
                     performAreaMelee(target);
                 }
                 return;

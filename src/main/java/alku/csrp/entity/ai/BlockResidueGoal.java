@@ -4,6 +4,7 @@ import alku.csrp.Config;
 import alku.csrp.entity.AdaptedVariantEntity;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModSounds;
+import alku.csrp.world.EvolutionSystem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
@@ -73,9 +74,13 @@ public final class BlockResidueGoal extends Goal {
     }
 
     private boolean eligible() {
+        if (!(parent.level() instanceof ServerLevel level)) {
+            return false;
+        }
         LivingEntity target = parent.getTarget();
-        return Config.parasiteGenResidue() && parent.isAlive() && target == null
-                && !parent.isInWaterOrBubble();
+        // Legacy EntityAIBlockResidue also requires the residue gene: getGeneMod(8).
+        return Config.parasiteGenResidue() && EvolutionSystem.generationProfile(level).residue()
+                && parent.isAlive() && target == null && !parent.isInWaterOrBubble();
     }
 
     private void placeResidue() {

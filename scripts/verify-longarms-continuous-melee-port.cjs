@@ -15,7 +15,7 @@ expect(/goalSelector\.addGoal\(2, new LongarmsMeleeGoal\(\)\)/,
   "Primitive Longarms continuous melee goal is missing");
 expect(/LongarmsMeleeGoal[\s\S]{0,500}?canContinueToUse\(\)[\s\S]{0,100}?return canUse\(\)/,
   "Primitive Longarms does not keep its melee goal while the target remains alive");
-expect(/LongarmsMeleeGoal[\s\S]{0,1200}?distanceToSqr\(target\) <= 8\.0D && cooldown == 0[\s\S]{0,180}?performAoeAttack\(target\)[\s\S]{0,180}?cooldown = ATTACK_INTERVAL_TICKS/,
+expect(/LongarmsMeleeGoal[\s\S]{0,1200}?distanceToSqr\(target\) <= 8\.0D && cooldown == 0[\s\S]{0,180}?performAoeAttack\(target\)[\s\S]{0,180}?cooldown = generationAttackInterval\(ATTACK_INTERVAL_TICKS\)/,
   "Primitive Longarms no longer repeats its AOE melee attack on cooldown at close range");
 expect(/ATTACK_INTERVAL_TICKS = 10/,
   "Primitive Longarms original fast melee interval is missing");

@@ -373,7 +373,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
             if (cooldown > 0) cooldown--;
             if (distanceToSqr(target) <= 8.0D && cooldown == 0) {
                 performAoeAttack(target);
-                cooldown = ATTACK_INTERVAL_TICKS;
+                cooldown = generationAttackInterval(ATTACK_INTERVAL_TICKS);
                 attackAnimationCooldown = ATTACK_ANIMATION_COOLDOWN_TICKS;
             }
         }

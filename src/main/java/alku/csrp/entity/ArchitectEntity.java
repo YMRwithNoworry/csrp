@@ -110,8 +110,10 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
         targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, 0,
                 false, false, this::isValidPlayerTarget));
         if (Config.mobAttackingEnabled()) {
+            // Legacy EntityAINearestAttackableTargetStatus: shouldCheckSight || !getGeneMod(2).
+            boolean checkSight = !Config.collectiveConsciousnessEnabled() || !seesThroughWalls();
             targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Mob.class, 0,
-                    !Config.collectiveConsciousnessEnabled(), false, this::isValidMobTarget));
+                    checkSight, false, this::isValidMobTarget));
         }
     }
 
@@ -408,7 +410,7 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
             double reach = getBbWidth() * 2.0D + target.getBbWidth();
             if (attackCooldown <= 0 && distanceToSqr(target) <= reach * reach && hasLineOfSight(target)) {
                 doHurtTarget(target);
-                attackCooldown = MELEE_COOLDOWN;
+                attackCooldown = generationAttackInterval(MELEE_COOLDOWN);
             }
         }
     }

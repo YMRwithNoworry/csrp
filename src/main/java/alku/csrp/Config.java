@@ -78,6 +78,328 @@ public final class Config {
     private static final ForgeConfigSpec.BooleanValue PARASITE_GEN_RESIDUE = BUILDER
             .comment("Allow adapted parasites to place infested remains while idle.")
             .define("parasiteGenResidue", true);
+
+    // ------------------------------------------------------------------
+    // Parasite Generations - original SRP "parasite_generation" category.
+    // ------------------------------------------------------------------
+    private static final ForgeConfigSpec.IntValue GENERATION_DEFAULT_VALUE = BUILDER
+            .comment("Generation value when starting a world (original SRP \"Generation Value\").")
+            .defineInRange("generationDefaultValue", 0, 0, 5);
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> GENERATION_DIMENSION_STARTING_LIST =
+            BUILDER
+                    .comment("Dimensions that start at a specific generation, formatted as"
+                            + " \"dimension_id;generation\" (original SRP"
+                            + " \"Generation Dimension Starting List\").")
+                    .defineList("generationDimensionStartingList", List.of(),
+                            value -> value instanceof String entry && entry.contains(";")
+                                    && entry.indexOf(';') > 0);
+    private static final ForgeConfigSpec.IntValue GENERATION_TIME_1 = BUILDER
+            .comment("Ticks needed to leave generation 0 (original SRP \"Generation 1 Time Needed\").")
+            .defineInRange("generationTime1", 25000, 0, 2147483640);
+    private static final ForgeConfigSpec.IntValue GENERATION_TIME_2 = BUILDER
+            .comment("Ticks needed to leave generation 1 (original SRP \"Generation 2 Time Needed\").")
+            .defineInRange("generationTime2", 45000, 0, 2147483640);
+    private static final ForgeConfigSpec.IntValue GENERATION_TIME_3 = BUILDER
+            .comment("Ticks needed to leave generation 2 (original SRP \"Generation 3 Time Needed\").")
+            .defineInRange("generationTime3", 72000, 0, 2147483640);
+    private static final ForgeConfigSpec.IntValue GENERATION_TIME_4 = BUILDER
+            .comment("Ticks needed to leave generation 3 (original SRP \"Generation 4 Time Needed\").")
+            .defineInRange("generationTime4", 72000, 0, 2147483640);
+    private static final ForgeConfigSpec.IntValue GENERATION_TIME_5 = BUILDER
+            .comment("Ticks needed to leave generation 4 (original SRP \"Generation 5 Time Needed\").")
+            .defineInRange("generationTime5", 72000, 0, 2147483640);
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> GENERATION_PHASES_1 =
+            BUILDER
+                    .comment("Evolution phases without an extra time penalty for generation 0"
+                            + " (original SRP \"Generation 1 Phases\").")
+                    .defineList("generationPhases1", List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+                            value -> value instanceof Integer phase && phase >= -2 && phase <= 10);
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> GENERATION_PHASES_2 =
+            BUILDER
+                    .comment("Evolution phases without an extra time penalty for generation 1"
+                            + " (original SRP \"Generation 2 Phases\").")
+                    .defineList("generationPhases2", List.of(3, 4, 5, 6, 7, 8, 9, 10),
+                            value -> value instanceof Integer phase && phase >= -2 && phase <= 10);
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> GENERATION_PHASES_3 =
+            BUILDER
+                    .comment("Evolution phases without an extra time penalty for generation 2"
+                            + " (original SRP \"Generation 3 Phases\").")
+                    .defineList("generationPhases3", List.of(5, 6, 7, 8, 9, 10),
+                            value -> value instanceof Integer phase && phase >= -2 && phase <= 10);
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> GENERATION_PHASES_4 =
+            BUILDER
+                    .comment("Evolution phases without an extra time penalty for generation 3"
+                            + " (original SRP \"Generation 4 Phases\").")
+                    .defineList("generationPhases4", List.of(7, 8, 9, 10),
+                            value -> value instanceof Integer phase && phase >= -2 && phase <= 10);
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> GENERATION_PHASES_5 =
+            BUILDER
+                    .comment("Evolution phases without an extra time penalty for generation 4"
+                            + " (original SRP \"Generation 5 Phases\").")
+                    .defineList("generationPhases5", List.of(9, 10),
+                            value -> value instanceof Integer phase && phase >= -2 && phase <= 10);
+    private static final ForgeConfigSpec.DoubleValue GENERATION_PHASE_PENALTY = BUILDER
+            .comment("Multiplier applied to the needed time when the evolution phase is outside the generation"
+                    + " phase list (original SRP \"Generation 0th\").")
+            .defineInRange("generationPhasePenalty", 1.5D, 0.0D, 10.0D);
+    // ---- original SRP "parasite_generation_00" ----
+    private static final ForgeConfigSpec.DoubleValue GENERATION_0_COTH = BUILDER
+            .comment("\"Generation 0 COTH Spawning Stats\" (original SRP).")
+            .defineInRange("generation0Coth", 0.2D, 0D, 6D);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_0_SPECIAL_MOVES = BUILDER
+            .comment("\"Generation 0 Special Moves\" (original SRP).")
+            .define("generation0SpecialMoves", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_0_SPRINTING = BUILDER
+            .comment("\"Generation 0 Sprinting\" (original SRP).")
+            .define("generation0Sprinting", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_0_LOOK_WALLS = BUILDER
+            .comment("\"Generation 0 X Ray\" (original SRP).")
+            .define("generation0LookWalls", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_0_ADAPTATION = BUILDER
+            .comment("\"Generation 0 Adaptation\" (original SRP).")
+            .define("generation0Adaptation", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_0_DAMAGE_CAP = BUILDER
+            .comment("\"Generation 0 Damage Cap\" (original SRP).")
+            .define("generation0DamageCap", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_0_MINIMUM_DAMAGE = BUILDER
+            .comment("\"Generation 0 Minimum Damage\" (original SRP).")
+            .define("generation0MinimumDamage", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_0_WATER_LEAP = BUILDER
+            .comment("\"Generation 0 Water Leap\" (original SRP).")
+            .define("generation0WaterLeap", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_0_BLOCK_SEARCH = BUILDER
+            .comment("\"Generation 0 Block Searching\" (original SRP).")
+            .define("generation0BlockSearch", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_0_RESIDUE = BUILDER
+            .comment("\"Generation 0 Residue\" (original SRP).")
+            .define("generation0Residue", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_0_ORB = BUILDER
+            .comment("\"Generation 0 Orb\" (original SRP).")
+            .define("generation0Orb", false);
+    private static final ForgeConfigSpec.DoubleValue GENERATION_0_POISON_HEAL = BUILDER
+            .comment("\"Generation 0 Poison\" (original SRP).")
+            .defineInRange("generation0PoisonHeal", 0D, 0D, 10D);
+    private static final ForgeConfigSpec.DoubleValue GENERATION_0_MOB_HEALING = BUILDER
+            .comment("\"Generation 0 Mob Healing\" (original SRP).")
+            .defineInRange("generation0MobHealing", 0D, 0D, 100D);
+    private static final ForgeConfigSpec.DoubleValue GENERATION_0_ATTACK_SPEED = BUILDER
+            .comment("\"Generation 0 Attack Speed\" (original SRP).")
+            .defineInRange("generation0AttackSpeed", 1D, 0D, 1D);
+    // ---- original SRP "parasite_generation_01" ----
+    private static final ForgeConfigSpec.DoubleValue GENERATION_1_COTH = BUILDER
+            .comment("\"Generation 1 COTH Spawning Stats\" (original SRP).")
+            .defineInRange("generation1Coth", 0.3D, 0D, 6D);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_1_SPECIAL_MOVES = BUILDER
+            .comment("\"Generation 1 Special Moves\" (original SRP).")
+            .define("generation1SpecialMoves", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_1_SPRINTING = BUILDER
+            .comment("\"Generation 1 Sprinting\" (original SRP).")
+            .define("generation1Sprinting", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_1_LOOK_WALLS = BUILDER
+            .comment("\"Generation 1 X Ray\" (original SRP).")
+            .define("generation1LookWalls", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_1_ADAPTATION = BUILDER
+            .comment("\"Generation 1 Adaptation\" (original SRP).")
+            .define("generation1Adaptation", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_1_DAMAGE_CAP = BUILDER
+            .comment("\"Generation 1 Damage Cap\" (original SRP).")
+            .define("generation1DamageCap", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_1_MINIMUM_DAMAGE = BUILDER
+            .comment("\"Generation 1 Minimum Damage\" (original SRP).")
+            .define("generation1MinimumDamage", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_1_WATER_LEAP = BUILDER
+            .comment("\"Generation 1 Water Leap\" (original SRP).")
+            .define("generation1WaterLeap", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_1_BLOCK_SEARCH = BUILDER
+            .comment("\"Generation 1 Block Searching\" (original SRP).")
+            .define("generation1BlockSearch", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_1_RESIDUE = BUILDER
+            .comment("\"Generation 1 Residue\" (original SRP).")
+            .define("generation1Residue", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_1_ORB = BUILDER
+            .comment("\"Generation 1 Orb\" (original SRP).")
+            .define("generation1Orb", false);
+    private static final ForgeConfigSpec.DoubleValue GENERATION_1_POISON_HEAL = BUILDER
+            .comment("\"Generation 1 Poison\" (original SRP).")
+            .defineInRange("generation1PoisonHeal", 0.3D, 0D, 10D);
+    private static final ForgeConfigSpec.DoubleValue GENERATION_1_MOB_HEALING = BUILDER
+            .comment("\"Generation 1 Mob Healing\" (original SRP).")
+            .defineInRange("generation1MobHealing", 0D, 0D, 100D);
+    private static final ForgeConfigSpec.DoubleValue GENERATION_1_ATTACK_SPEED = BUILDER
+            .comment("\"Generation 1 Attack Speed\" (original SRP).")
+            .defineInRange("generation1AttackSpeed", 1D, 0D, 1D);
+    // ---- original SRP "parasite_generation_02" ----
+    private static final ForgeConfigSpec.DoubleValue GENERATION_2_COTH = BUILDER
+            .comment("\"Generation 2 COTH Spawning Stats\" (original SRP).")
+            .defineInRange("generation2Coth", 0.65D, 0D, 6D);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_2_SPECIAL_MOVES = BUILDER
+            .comment("\"Generation 2 Special Moves\" (original SRP).")
+            .define("generation2SpecialMoves", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_2_SPRINTING = BUILDER
+            .comment("\"Generation 2 Sprinting\" (original SRP).")
+            .define("generation2Sprinting", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_2_LOOK_WALLS = BUILDER
+            .comment("\"Generation 2 X Ray\" (original SRP).")
+            .define("generation2LookWalls", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_2_ADAPTATION = BUILDER
+            .comment("\"Generation 2 Adaptation\" (original SRP).")
+            .define("generation2Adaptation", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_2_DAMAGE_CAP = BUILDER
+            .comment("\"Generation 2 Damage Cap\" (original SRP).")
+            .define("generation2DamageCap", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_2_MINIMUM_DAMAGE = BUILDER
+            .comment("\"Generation 2 Minimum Damage\" (original SRP).")
+            .define("generation2MinimumDamage", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_2_WATER_LEAP = BUILDER
+            .comment("\"Generation 2 Water Leap\" (original SRP).")
+            .define("generation2WaterLeap", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_2_BLOCK_SEARCH = BUILDER
+            .comment("\"Generation 2 Block Searching\" (original SRP).")
+            .define("generation2BlockSearch", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_2_RESIDUE = BUILDER
+            .comment("\"Generation 2 Residue\" (original SRP).")
+            .define("generation2Residue", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_2_ORB = BUILDER
+            .comment("\"Generation 2 Orb\" (original SRP).")
+            .define("generation2Orb", false);
+    private static final ForgeConfigSpec.DoubleValue GENERATION_2_POISON_HEAL = BUILDER
+            .comment("\"Generation 2 Poison\" (original SRP).")
+            .defineInRange("generation2PoisonHeal", 1D, 0D, 10D);
+    private static final ForgeConfigSpec.DoubleValue GENERATION_2_MOB_HEALING = BUILDER
+            .comment("\"Generation 2 Mob Healing\" (original SRP).")
+            .defineInRange("generation2MobHealing", 0.5D, 0D, 100D);
+    private static final ForgeConfigSpec.DoubleValue GENERATION_2_ATTACK_SPEED = BUILDER
+            .comment("\"Generation 2 Attack Speed\" (original SRP).")
+            .defineInRange("generation2AttackSpeed", 1D, 0D, 1D);
+    // ---- original SRP "parasite_generation_03" ----
+    private static final ForgeConfigSpec.DoubleValue GENERATION_3_COTH = BUILDER
+            .comment("\"Generation 3 COTH Spawning Stats\" (original SRP).")
+            .defineInRange("generation3Coth", 1D, 0D, 6D);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_3_SPECIAL_MOVES = BUILDER
+            .comment("\"Generation 3 Special Moves\" (original SRP).")
+            .define("generation3SpecialMoves", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_3_SPRINTING = BUILDER
+            .comment("\"Generation 3 Sprinting\" (original SRP).")
+            .define("generation3Sprinting", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_3_LOOK_WALLS = BUILDER
+            .comment("\"Generation 3 X Ray\" (original SRP).")
+            .define("generation3LookWalls", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_3_ADAPTATION = BUILDER
+            .comment("\"Generation 3 Adaptation\" (original SRP).")
+            .define("generation3Adaptation", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_3_DAMAGE_CAP = BUILDER
+            .comment("\"Generation 3 Damage Cap\" (original SRP).")
+            .define("generation3DamageCap", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_3_MINIMUM_DAMAGE = BUILDER
+            .comment("\"Generation 3 Minimum Damage\" (original SRP).")
+            .define("generation3MinimumDamage", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_3_WATER_LEAP = BUILDER
+            .comment("\"Generation 3 Water Leap\" (original SRP).")
+            .define("generation3WaterLeap", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_3_BLOCK_SEARCH = BUILDER
+            .comment("\"Generation 3 Block Searching\" (original SRP).")
+            .define("generation3BlockSearch", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_3_RESIDUE = BUILDER
+            .comment("\"Generation 3 Residue\" (original SRP).")
+            .define("generation3Residue", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_3_ORB = BUILDER
+            .comment("\"Generation 3 Orb\" (original SRP).")
+            .define("generation3Orb", false);
+    private static final ForgeConfigSpec.DoubleValue GENERATION_3_POISON_HEAL = BUILDER
+            .comment("\"Generation 3 Poison\" (original SRP).")
+            .defineInRange("generation3PoisonHeal", 1.5D, 0D, 10D);
+    private static final ForgeConfigSpec.DoubleValue GENERATION_3_MOB_HEALING = BUILDER
+            .comment("\"Generation 3 Mob Healing\" (original SRP).")
+            .defineInRange("generation3MobHealing", 1D, 0D, 100D);
+    private static final ForgeConfigSpec.DoubleValue GENERATION_3_ATTACK_SPEED = BUILDER
+            .comment("\"Generation 3 Attack Speed\" (original SRP).")
+            .defineInRange("generation3AttackSpeed", 0.9D, 0D, 1D);
+    // ---- original SRP "parasite_generation_04" ----
+    private static final ForgeConfigSpec.DoubleValue GENERATION_4_COTH = BUILDER
+            .comment("\"Generation 4 COTH Spawning Stats\" (original SRP).")
+            .defineInRange("generation4Coth", 1D, 0D, 6D);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_4_SPECIAL_MOVES = BUILDER
+            .comment("\"Generation 4 Special Moves\" (original SRP).")
+            .define("generation4SpecialMoves", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_4_SPRINTING = BUILDER
+            .comment("\"Generation 4 Sprinting\" (original SRP).")
+            .define("generation4Sprinting", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_4_LOOK_WALLS = BUILDER
+            .comment("\"Generation 4 X Ray\" (original SRP).")
+            .define("generation4LookWalls", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_4_ADAPTATION = BUILDER
+            .comment("\"Generation 4 Adaptation\" (original SRP).")
+            .define("generation4Adaptation", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_4_DAMAGE_CAP = BUILDER
+            .comment("\"Generation 4 Damage Cap\" (original SRP).")
+            .define("generation4DamageCap", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_4_MINIMUM_DAMAGE = BUILDER
+            .comment("\"Generation 4 Minimum Damage\" (original SRP).")
+            .define("generation4MinimumDamage", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_4_WATER_LEAP = BUILDER
+            .comment("\"Generation 4 Water Leap\" (original SRP).")
+            .define("generation4WaterLeap", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_4_BLOCK_SEARCH = BUILDER
+            .comment("\"Generation 4 Block Searching\" (original SRP).")
+            .define("generation4BlockSearch", false);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_4_RESIDUE = BUILDER
+            .comment("\"Generation 4 Residue\" (original SRP).")
+            .define("generation4Residue", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_4_ORB = BUILDER
+            .comment("\"Generation 4 Orb\" (original SRP).")
+            .define("generation4Orb", false);
+    private static final ForgeConfigSpec.DoubleValue GENERATION_4_POISON_HEAL = BUILDER
+            .comment("\"Generation 4 Poison\" (original SRP).")
+            .defineInRange("generation4PoisonHeal", 2D, 0D, 10D);
+    private static final ForgeConfigSpec.DoubleValue GENERATION_4_MOB_HEALING = BUILDER
+            .comment("\"Generation 4 Mob Healing\" (original SRP).")
+            .defineInRange("generation4MobHealing", 2D, 0D, 100D);
+    private static final ForgeConfigSpec.DoubleValue GENERATION_4_ATTACK_SPEED = BUILDER
+            .comment("\"Generation 4 Attack Speed\" (original SRP).")
+            .defineInRange("generation4AttackSpeed", 0.7D, 0D, 1D);
+    // ---- original SRP "parasite_generation_05" ----
+    private static final ForgeConfigSpec.DoubleValue GENERATION_5_COTH = BUILDER
+            .comment("\"Generation 5 COTH Spawning Stats\" (original SRP).")
+            .defineInRange("generation5Coth", 1D, 0D, 6D);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_5_SPECIAL_MOVES = BUILDER
+            .comment("\"Generation 5 Special Moves\" (original SRP).")
+            .define("generation5SpecialMoves", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_5_SPRINTING = BUILDER
+            .comment("\"Generation 5 Sprinting\" (original SRP).")
+            .define("generation5Sprinting", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_5_LOOK_WALLS = BUILDER
+            .comment("\"Generation 5 X Ray\" (original SRP).")
+            .define("generation5LookWalls", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_5_ADAPTATION = BUILDER
+            .comment("\"Generation 5 Adaptation\" (original SRP).")
+            .define("generation5Adaptation", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_5_DAMAGE_CAP = BUILDER
+            .comment("\"Generation 5 Damage Cap\" (original SRP).")
+            .define("generation5DamageCap", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_5_MINIMUM_DAMAGE = BUILDER
+            .comment("\"Generation 5 Minimum Damage\" (original SRP).")
+            .define("generation5MinimumDamage", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_5_WATER_LEAP = BUILDER
+            .comment("\"Generation 5 Water Leap\" (original SRP).")
+            .define("generation5WaterLeap", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_5_BLOCK_SEARCH = BUILDER
+            .comment("\"Generation 5 Block Searching\" (original SRP).")
+            .define("generation5BlockSearch", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_5_RESIDUE = BUILDER
+            .comment("\"Generation 5 Residue\" (original SRP).")
+            .define("generation5Residue", true);
+    private static final ForgeConfigSpec.BooleanValue GENERATION_5_ORB = BUILDER
+            .comment("\"Generation 5 Orb\" (original SRP).")
+            .define("generation5Orb", true);
+    private static final ForgeConfigSpec.DoubleValue GENERATION_5_POISON_HEAL = BUILDER
+            .comment("\"Generation 5 Poison\" (original SRP).")
+            .defineInRange("generation5PoisonHeal", 2.5D, 0D, 10D);
+    private static final ForgeConfigSpec.DoubleValue GENERATION_5_MOB_HEALING = BUILDER
+            .comment("\"Generation 5 Mob Healing\" (original SRP).")
+            .defineInRange("generation5MobHealing", 3D, 0D, 100D);
+    private static final ForgeConfigSpec.DoubleValue GENERATION_5_ATTACK_SPEED = BUILDER
+            .comment("\"Generation 5 Attack Speed\" (original SRP).")
+            .defineInRange("generation5AttackSpeed", 0.5D, 0D, 1D);
     private static final ForgeConfigSpec.BooleanValue PEARL_DESTROYED_ON_BEHOLDER_KILL = BUILDER
             .comment("Destroy dropped Eyes of the Beholder when their owner is slain by a beholder.")
             .define("pearlDestroyedOnBeholderKill", true);
@@ -555,6 +877,115 @@ public final class Config {
     public static float primitiveMinimumDamage() { return PRIMITIVE_MINIMUM_DAMAGE.get().floatValue(); }
     public static boolean useEvolutionPhases() { return USE_EVOLUTION_PHASES.get(); }
     public static boolean generationEnabled() { return GENERATION_ENABLED.get(); }
+    public static int generationDefaultValue() { return GENERATION_DEFAULT_VALUE.get(); }
+    public static List<? extends String> generationDimensionStartingList() {
+        return GENERATION_DIMENSION_STARTING_LIST.get();
+    }
+    public static int generationTime(int generation) {
+        return switch (generation) {
+            case 0 -> GENERATION_TIME_1.get();
+            case 1 -> GENERATION_TIME_2.get();
+            case 2 -> GENERATION_TIME_3.get();
+            case 3 -> GENERATION_TIME_4.get();
+            case 4 -> GENERATION_TIME_5.get();
+            default -> 0;
+        };
+    }
+    public static List<? extends Integer> generationPhases(int generation) {
+        return switch (generation) {
+            case 0 -> GENERATION_PHASES_1.get();
+            case 1 -> GENERATION_PHASES_2.get();
+            case 2 -> GENERATION_PHASES_3.get();
+            case 3 -> GENERATION_PHASES_4.get();
+            case 4 -> GENERATION_PHASES_5.get();
+            default -> List.of();
+        };
+    }
+    public static double generationPhasePenalty() { return GENERATION_PHASE_PENALTY.get(); }
+    public static double generation0Coth() { return GENERATION_0_COTH.get(); }
+    public static boolean generation0SpecialMoves() { return GENERATION_0_SPECIAL_MOVES.get(); }
+    public static boolean generation0Sprinting() { return GENERATION_0_SPRINTING.get(); }
+    public static boolean generation0LookWalls() { return GENERATION_0_LOOK_WALLS.get(); }
+    public static boolean generation0Adaptation() { return GENERATION_0_ADAPTATION.get(); }
+    public static boolean generation0DamageCap() { return GENERATION_0_DAMAGE_CAP.get(); }
+    public static boolean generation0MinimumDamage() { return GENERATION_0_MINIMUM_DAMAGE.get(); }
+    public static boolean generation0WaterLeap() { return GENERATION_0_WATER_LEAP.get(); }
+    public static boolean generation0BlockSearch() { return GENERATION_0_BLOCK_SEARCH.get(); }
+    public static boolean generation0Residue() { return GENERATION_0_RESIDUE.get(); }
+    public static boolean generation0Orb() { return GENERATION_0_ORB.get(); }
+    public static double generation0PoisonHeal() { return GENERATION_0_POISON_HEAL.get(); }
+    public static double generation0MobHealing() { return GENERATION_0_MOB_HEALING.get(); }
+    public static double generation0AttackSpeed() { return GENERATION_0_ATTACK_SPEED.get(); }
+    public static double generation1Coth() { return GENERATION_1_COTH.get(); }
+    public static boolean generation1SpecialMoves() { return GENERATION_1_SPECIAL_MOVES.get(); }
+    public static boolean generation1Sprinting() { return GENERATION_1_SPRINTING.get(); }
+    public static boolean generation1LookWalls() { return GENERATION_1_LOOK_WALLS.get(); }
+    public static boolean generation1Adaptation() { return GENERATION_1_ADAPTATION.get(); }
+    public static boolean generation1DamageCap() { return GENERATION_1_DAMAGE_CAP.get(); }
+    public static boolean generation1MinimumDamage() { return GENERATION_1_MINIMUM_DAMAGE.get(); }
+    public static boolean generation1WaterLeap() { return GENERATION_1_WATER_LEAP.get(); }
+    public static boolean generation1BlockSearch() { return GENERATION_1_BLOCK_SEARCH.get(); }
+    public static boolean generation1Residue() { return GENERATION_1_RESIDUE.get(); }
+    public static boolean generation1Orb() { return GENERATION_1_ORB.get(); }
+    public static double generation1PoisonHeal() { return GENERATION_1_POISON_HEAL.get(); }
+    public static double generation1MobHealing() { return GENERATION_1_MOB_HEALING.get(); }
+    public static double generation1AttackSpeed() { return GENERATION_1_ATTACK_SPEED.get(); }
+    public static double generation2Coth() { return GENERATION_2_COTH.get(); }
+    public static boolean generation2SpecialMoves() { return GENERATION_2_SPECIAL_MOVES.get(); }
+    public static boolean generation2Sprinting() { return GENERATION_2_SPRINTING.get(); }
+    public static boolean generation2LookWalls() { return GENERATION_2_LOOK_WALLS.get(); }
+    public static boolean generation2Adaptation() { return GENERATION_2_ADAPTATION.get(); }
+    public static boolean generation2DamageCap() { return GENERATION_2_DAMAGE_CAP.get(); }
+    public static boolean generation2MinimumDamage() { return GENERATION_2_MINIMUM_DAMAGE.get(); }
+    public static boolean generation2WaterLeap() { return GENERATION_2_WATER_LEAP.get(); }
+    public static boolean generation2BlockSearch() { return GENERATION_2_BLOCK_SEARCH.get(); }
+    public static boolean generation2Residue() { return GENERATION_2_RESIDUE.get(); }
+    public static boolean generation2Orb() { return GENERATION_2_ORB.get(); }
+    public static double generation2PoisonHeal() { return GENERATION_2_POISON_HEAL.get(); }
+    public static double generation2MobHealing() { return GENERATION_2_MOB_HEALING.get(); }
+    public static double generation2AttackSpeed() { return GENERATION_2_ATTACK_SPEED.get(); }
+    public static double generation3Coth() { return GENERATION_3_COTH.get(); }
+    public static boolean generation3SpecialMoves() { return GENERATION_3_SPECIAL_MOVES.get(); }
+    public static boolean generation3Sprinting() { return GENERATION_3_SPRINTING.get(); }
+    public static boolean generation3LookWalls() { return GENERATION_3_LOOK_WALLS.get(); }
+    public static boolean generation3Adaptation() { return GENERATION_3_ADAPTATION.get(); }
+    public static boolean generation3DamageCap() { return GENERATION_3_DAMAGE_CAP.get(); }
+    public static boolean generation3MinimumDamage() { return GENERATION_3_MINIMUM_DAMAGE.get(); }
+    public static boolean generation3WaterLeap() { return GENERATION_3_WATER_LEAP.get(); }
+    public static boolean generation3BlockSearch() { return GENERATION_3_BLOCK_SEARCH.get(); }
+    public static boolean generation3Residue() { return GENERATION_3_RESIDUE.get(); }
+    public static boolean generation3Orb() { return GENERATION_3_ORB.get(); }
+    public static double generation3PoisonHeal() { return GENERATION_3_POISON_HEAL.get(); }
+    public static double generation3MobHealing() { return GENERATION_3_MOB_HEALING.get(); }
+    public static double generation3AttackSpeed() { return GENERATION_3_ATTACK_SPEED.get(); }
+    public static double generation4Coth() { return GENERATION_4_COTH.get(); }
+    public static boolean generation4SpecialMoves() { return GENERATION_4_SPECIAL_MOVES.get(); }
+    public static boolean generation4Sprinting() { return GENERATION_4_SPRINTING.get(); }
+    public static boolean generation4LookWalls() { return GENERATION_4_LOOK_WALLS.get(); }
+    public static boolean generation4Adaptation() { return GENERATION_4_ADAPTATION.get(); }
+    public static boolean generation4DamageCap() { return GENERATION_4_DAMAGE_CAP.get(); }
+    public static boolean generation4MinimumDamage() { return GENERATION_4_MINIMUM_DAMAGE.get(); }
+    public static boolean generation4WaterLeap() { return GENERATION_4_WATER_LEAP.get(); }
+    public static boolean generation4BlockSearch() { return GENERATION_4_BLOCK_SEARCH.get(); }
+    public static boolean generation4Residue() { return GENERATION_4_RESIDUE.get(); }
+    public static boolean generation4Orb() { return GENERATION_4_ORB.get(); }
+    public static double generation4PoisonHeal() { return GENERATION_4_POISON_HEAL.get(); }
+    public static double generation4MobHealing() { return GENERATION_4_MOB_HEALING.get(); }
+    public static double generation4AttackSpeed() { return GENERATION_4_ATTACK_SPEED.get(); }
+    public static double generation5Coth() { return GENERATION_5_COTH.get(); }
+    public static boolean generation5SpecialMoves() { return GENERATION_5_SPECIAL_MOVES.get(); }
+    public static boolean generation5Sprinting() { return GENERATION_5_SPRINTING.get(); }
+    public static boolean generation5LookWalls() { return GENERATION_5_LOOK_WALLS.get(); }
+    public static boolean generation5Adaptation() { return GENERATION_5_ADAPTATION.get(); }
+    public static boolean generation5DamageCap() { return GENERATION_5_DAMAGE_CAP.get(); }
+    public static boolean generation5MinimumDamage() { return GENERATION_5_MINIMUM_DAMAGE.get(); }
+    public static boolean generation5WaterLeap() { return GENERATION_5_WATER_LEAP.get(); }
+    public static boolean generation5BlockSearch() { return GENERATION_5_BLOCK_SEARCH.get(); }
+    public static boolean generation5Residue() { return GENERATION_5_RESIDUE.get(); }
+    public static boolean generation5Orb() { return GENERATION_5_ORB.get(); }
+    public static double generation5PoisonHeal() { return GENERATION_5_POISON_HEAL.get(); }
+    public static double generation5MobHealing() { return GENERATION_5_MOB_HEALING.get(); }
+    public static double generation5AttackSpeed() { return GENERATION_5_ATTACK_SPEED.get(); }
     public static boolean parasiteGenResidue() { return PARASITE_GEN_RESIDUE.get(); }
     public static boolean pearlDestroyedOnBeholderKill() { return PEARL_DESTROYED_ON_BEHOLDER_KILL.get(); }
     public static double overlastNaturalEvolutionScale() { return OVERLAST_NATURAL_EVOLUTION_SCALE.get(); }

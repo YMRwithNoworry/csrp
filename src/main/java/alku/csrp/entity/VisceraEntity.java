@@ -261,7 +261,8 @@ public final class VisceraEntity extends PrimitiveParasiteEntity implements Manu
 
         @Override
         public boolean canUse() {
-            return isInWaterOrBubble() || isInLava() || attacking >= 1;
+            // Legacy handleWater liquid leap is gated by the water leap gene: getGeneMod(4).
+            return waterLeapAllowed() && (isInWaterOrBubble() || isInLava() || attacking >= 1);
         }
 
         @Override
@@ -354,7 +355,7 @@ public final class VisceraEntity extends PrimitiveParasiteEntity implements Manu
             getNavigation().moveTo(target, distance > MELEE_SPRINT_DISTANCE_SQR ? MELEE_SPEED : 1.0D);
             updateMovementStatus();
             if (isWithinMeleeAttackRange(target) && attackTick <= 0 && getSensing().hasLineOfSight(target)) {
-                attackTick = MELEE_ATTACK_INTERVAL;
+                attackTick = generationAttackInterval(MELEE_ATTACK_INTERVAL);
                 swing(net.minecraft.world.InteractionHand.MAIN_HAND);
                 doHurtTarget(target);
                 setParasiteStatus(STATUS_WALK);

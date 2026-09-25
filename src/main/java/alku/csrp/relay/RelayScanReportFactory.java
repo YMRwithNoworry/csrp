@@ -104,8 +104,8 @@ public final class RelayScanReportFactory {
         int points = data.evolutionPoints();
         int nextPoints = phase >= 10 ? EvolutionSystem.MAX_EVOLUTION_POINTS
                 : EvolutionSystem.thresholdForPhase(phase + 1);
-        int neededGenerationTicks = Math.max(0,
-                EvolutionSystem.generationNeededTicks(data.generation(), phase) - data.generationTicks());
+        // generationTicks() mirrors the original getGenerationNeededTime(World, int): ticks left, 0 at generation 5.
+        int neededGenerationTicks = data.generationTicks();
 
         CompoundTag tag = metadata(level);
         tag.putString("Dimension", dimensionName(level));

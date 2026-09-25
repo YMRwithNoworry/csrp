@@ -51,7 +51,7 @@ expect(entity, /class DevourerAttackGoal extends Goal[\s\S]*?TRACKING_FACTOR = 0
   "Primitive Devourer original tracking and swim acceleration are missing");
 expect(entity, /target\.getY\(\) >= getY\(\) \+ 3\.0D \? 0\.52D : -0\.2D[\s\S]*?target\.getY\(\) >= getY\(\) \+ 1\.0D[\s\S]*?verticalMotion -= 0\.2D/,
   "Primitive Devourer original vertical attack steering is missing");
-expect(entity, /ATTACK_DISTANCE_SQR = 16\.0D[\s\S]*?attackCooldown = 20[\s\S]*?doHurtTarget\(target\)/,
+expect(entity, /ATTACK_DISTANCE_SQR = 16\.0D[\s\S]*?attackCooldown = generationAttackInterval\(20\)[\s\S]*?doHurtTarget\(target\)/,
   "Primitive Devourer original melee reach or cadence is missing");
 expect(entity, /case DEVOURER -> target\.setDeltaMovement\(target\.getDeltaMovement\(\)\.add\(0\.0D, -0\.5645D, 0\.0D\)\)/,
   "Primitive Devourer attack no longer drags its victim downward");

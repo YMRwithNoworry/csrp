@@ -153,8 +153,11 @@ public final class SrpCommands {
                         .then(Commands.argument("ticks", IntegerArgumentType.integer())
                                 .executes(context -> {
                                     int ticks = IntegerArgumentType.getInteger(context, "ticks");
-                                    data(context.getSource()).addGenerationTicks(ticks);
-                                    return success(context.getSource(), "Added " + ticks + " generation ticks");
+                                    SrpWorldData levelData = data(context.getSource());
+                                    levelData.addGenerationTicks(ticks);
+                                    return success(context.getSource(), "Added " + ticks
+                                            + " to the generation timer; ticks until next generation: "
+                                            + levelData.generationTicks());
                                 })));
     }
 
@@ -407,7 +410,9 @@ public final class SrpCommands {
                 : Math.max(0, Math.min(100, (int) ((long) (data.evolutionPoints() - currentThreshold) * 100L / span)));
         success(source, "Next phase points: " + nextThreshold + ", progress: " + progress + "%");
         success(source, "Gaining: " + data.canGain() + ", loss: " + data.canLose()
-                + ", generation: " + data.generation() + ", generation ticks: " + data.generationTicks()
+                + ", generation: " + data.generation()
+                + ", ticks until next generation: " + data.generationTicks()
+                + ", mob cap: " + (40 + level.players().size() * 5)
                 + ", difficulty: " + data.difficulty().id()
                 + ", generation system: " + (Config.generationEnabled() ? "enabled" : "disabled")
                 + ", adaptation: " + adaptationStatus(level)
@@ -483,9 +488,22 @@ public final class SrpCommands {
                     + ", generation ticks: " + data.generationTicks()
                     + ", effective profile: full (generation 5), adaptation: active");
         }
-        return success(source, "Generation system: enabled, generation: " + data.generation()
+        success(source, "Generation system: enabled, generation: " + data.generation()
                 + ", generation ticks: " + data.generationTicks()
                 + ", adaptation: " + adaptationStatus(level));
+        int generation = data.generation();
+        int phase = data.evolutionPhase();
+        if (generation >= 5) {
+            return success(source, "Generation 5 is the final generation; no further time is required");
+        }
+        int needed = EvolutionSystem.generationNeededTicks(generation, phase, data.difficulty());
+        boolean inPhase = EvolutionSystem.generationPhaseAllowed(generation, phase);
+        return success(source, "Needed ticks: " + needed + " (base " + Config.generationTime(generation)
+                + " / difficulty " + data.difficulty().id() + " x"
+                + EvolutionSystem.generationDifficultyBonus(data.difficulty())
+                + (inPhase ? "" : ", phase " + phase + " outside the list x"
+                        + Config.generationPhasePenalty())
+                + "), remaining: " + data.generationTicks());
     }
 
     private static String adaptationStatus(ServerLevel level) {

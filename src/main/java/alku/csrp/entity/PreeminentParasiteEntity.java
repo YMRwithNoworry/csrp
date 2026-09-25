@@ -1161,7 +1161,8 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
 
         @Override
         public boolean canUse() {
-            return isInWaterOrBubble() || isInLava() || attacking >= 1;
+            // Legacy handleWater liquid leap is gated by the water leap gene: getGeneMod(4).
+            return waterLeapAllowed() && (isInWaterOrBubble() || isInLava() || attacking >= 1);
         }
 
         @Override
@@ -1243,7 +1244,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
             }
             double reach = Mth.square(getBbWidth() * 2.0F) + target.getBbWidth();
             if (distance <= reach && attackCooldown <= 0 && hasLineOfSight(target)) {
-                attackCooldown = CARRIER_MELEE_INTERVAL_TICKS;
+                attackCooldown = generationAttackInterval(CARRIER_MELEE_INTERVAL_TICKS);
                 doHurtTarget(target);
             }
         }
@@ -1585,7 +1586,7 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
                 getNavigation().stop();
                 if (attackCooldown == 0) {
                     performHaunterAoeAttack(target);
-                    attackCooldown = 10;
+                    attackCooldown = generationAttackInterval(10);
                 }
             } else {
                 getNavigation().moveTo(target, 1.0D);

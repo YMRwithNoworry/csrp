@@ -129,8 +129,10 @@ public final class DredgeEntity extends CrudeParasiteEntity {
         targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, 0,
                 false, false, this::isValidParasiteTarget));
         if (Config.mobAttackingEnabled()) {
+            // Legacy EntityAINearestAttackableTargetStatus: shouldCheckSight || !getGeneMod(2).
+            boolean checkSight = !Config.collectiveConsciousnessEnabled() || !seesThroughWalls();
             targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Mob.class, 0,
-                    !Config.collectiveConsciousnessEnabled(), false, this::isValidDredgeMobTarget));
+                    checkSight, false, this::isValidDredgeMobTarget));
         }
     }
 
@@ -206,6 +208,11 @@ public final class DredgeEntity extends CrudeParasiteEntity {
             liquidLeap = Math.min(MAX_LIQUID_LEAPS, liquidLeap + 1);
         }
         if (liquidLeap < 1 || target == null || !target.isAlive()) {
+            return;
+        }
+        if (!waterLeapAllowed()) {
+            // Legacy handleWater consumes the charge without leaping when the gene is missing.
+            liquidLeap--;
             return;
         }
         liquidLeap--;
@@ -434,7 +441,7 @@ public final class DredgeEntity extends CrudeParasiteEntity {
                     && EvolutionSystem.generationProfile(serverLevel).sprinting() ? 1.3D : 1.0D;
             getNavigation().moveTo(target, speed);
             if (isWithinMeleeAttackRange(target) && attackTick <= 0 && getSensing().hasLineOfSight(target)) {
-                attackTick = MELEE_ATTACK_INTERVAL_TICKS;
+                attackTick = generationAttackInterval(MELEE_ATTACK_INTERVAL_TICKS);
                 doHurtTarget(target);
             }
         }

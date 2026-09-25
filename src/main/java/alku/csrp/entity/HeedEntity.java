@@ -110,8 +110,10 @@ public final class HeedEntity extends CrudeParasiteEntity {
         targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, 0,
                 false, false, this::isValidParasiteTarget));
         if (Config.mobAttackingEnabled()) {
+            // Legacy EntityAINearestAttackableTargetStatus: shouldCheckSight || !getGeneMod(2).
+            boolean checkSight = !Config.collectiveConsciousnessEnabled() || !seesThroughWalls();
             targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Mob.class, 0,
-                    !Config.collectiveConsciousnessEnabled(), false, this::isValidHeedMobTarget));
+                    checkSight, false, this::isValidHeedMobTarget));
         }
     }
 
@@ -286,7 +288,8 @@ public final class HeedEntity extends CrudeParasiteEntity {
 
         @Override
         public boolean canUse() {
-            return isInWaterOrBubble() || isInLava() || attacking >= 1;
+            // Legacy handleWater liquid leap is gated by the water leap gene: getGeneMod(4).
+            return waterLeapAllowed() && (isInWaterOrBubble() || isInLava() || attacking >= 1);
         }
 
         @Override
@@ -374,7 +377,7 @@ public final class HeedEntity extends CrudeParasiteEntity {
                     && EvolutionSystem.generationProfile(serverLevel).sprinting() ? 1.3D : 1.0D;
             getNavigation().moveTo(target, speed);
             if (isWithinMeleeAttackRange(target) && attackTick <= 0 && getSensing().hasLineOfSight(target)) {
-                attackTick = MELEE_ATTACK_INTERVAL_TICKS;
+                attackTick = generationAttackInterval(MELEE_ATTACK_INTERVAL_TICKS);
                 doHurtTarget(target);
             }
         }

@@ -6,6 +6,7 @@ import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
+import alku.csrp.world.EvolutionSystem;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.nbt.CompoundTag;
@@ -427,6 +428,12 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
         return ModSounds.SIM_ADVENTURER_DEATH.get();
     }
 
+    /** Legacy {@code EntityParasiteBase#getGeneMod(4)}: the generation unlocks the liquid leap. */
+    private boolean waterLeapAllowed() {
+        return level() instanceof ServerLevel serverLevel
+                && EvolutionSystem.generationProfile(serverLevel).waterLeap();
+    }
+
     private final class WaterPursuitLeapGoal extends Goal {
         private WaterPursuitLeapGoal() {
             setFlags(EnumSet.of(Flag.JUMP, Flag.MOVE));
@@ -434,7 +441,8 @@ public final class SimAdventurerEntity extends Monster implements GeoEntity, Par
 
         @Override
         public boolean canUse() {
-            return isInWaterOrBubble() && getTarget() != null && random.nextInt(12) == 0;
+            // Legacy handleWater liquid leap is gated by the water leap gene: getGeneMod(4).
+            return waterLeapAllowed() && isInWaterOrBubble() && getTarget() != null && random.nextInt(12) == 0;
         }
 
         @Override

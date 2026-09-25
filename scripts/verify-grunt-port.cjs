@@ -108,7 +108,7 @@ expect(model, /textures\/entity\/monster\/flogv\.png[\s\S]*textures\/entity\/mon
   "Grunt variant textures point outside the extracted texture directory");
 
 expect(pure, /new GruntAreaMeleeGoal\(\)/, "Grunt AOE melee goal is missing");
-expect(pure, /distanceToSqr\(target\) <= 9\.0D[\s\S]{0,300}?performAreaMelee\(target\)[\s\S]{0,100}?attackCooldown = 20/,
+expect(pure, /distanceToSqr\(target\) <= 9\.0D[\s\S]{0,300}?performAreaMelee\(target\)[\s\S]{0,100}?attackCooldown = generationAttackInterval\(20\)/,
   "Grunt three-block AOE melee or attack cadence is missing");
 expect(pure, /center\.getBoundingBox\(\)\.inflate\(radius\)[\s\S]{0,180}?hasLineOfSight\(target\) \|\| !super\.doHurtTarget\(target\)/,
   "Grunt AOE melee no longer requires line of sight for every victim");

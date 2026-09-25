@@ -127,7 +127,7 @@ expect(meleeGoal, /deltaX \/ horizontal \* 0\.045D[\s\S]*deltaZ \/ horizontal \*
   "Overseer horizontal melee-rush impulse is missing");
 expect(meleeGoal, /target\.getY\(\) >= getY\(\) \+ 4\.0D \? 0\.52D : -0\.2D/,
   "Overseer vertical melee-rush impulse is missing");
-expect(meleeGoal, /attackDistance <= 20\.25D[\s\S]*attackCooldown = 20/,
+expect(meleeGoal, /attackDistance <= 20\.25D[\s\S]*attackCooldown = generationAttackInterval\(20\)/,
   "Overseer melee reach or cadence is missing");
 expect(meleeGoal, /chargeTicks > 140[\s\S]*chargeTicks = 0/, "Overseer melee reset is missing");
 

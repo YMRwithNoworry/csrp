@@ -149,7 +149,7 @@ if (/MOVEMENT_SLOWDOWN|POISON|hurt\(/.test(webImpactCase)) {
   failures.push("webball impact still applies damage, slowness, or poison");
 }
 
-expect(pure, /distance <= 4\.0D && hasLineOfSight\(target\)[\s\S]{0,160}?attackCooldown = 10[\s\S]{0,100}?performAreaMelee\(target\)/,
+expect(pure, /distance <= 4\.0D && hasLineOfSight\(target\)[\s\S]{0,160}?attackCooldown = generationAttackInterval\(10\)[\s\S]{0,100}?performAreaMelee\(target\)/,
   "Monarch two-block AOE melee range or cadence is missing");
 expect(pure, /getNavigation\(\)\.moveTo\(target, distance > 64\.0D \? 1\.3D : 1\.0D\)/,
   "Monarch running-distance pursuit speed is missing");
