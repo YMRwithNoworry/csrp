@@ -3459,3 +3459,27 @@ grep -c "func_184639_G|func_184601_bQ|func_184615_bR" EntityInfEndermanHead.java
 需读 `ParasiteSoundProfiles` 的回退逻辑，确认其等价于原版的"继承父链默认"，而不是"完全静音"或"另一个错误音效"。
 **在确认回退语义前，本改动方向正确但结果待验**（已如实标注）。
 `build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
+
+## 批次 215：音效回退语义查明——上轮改动**方向对但未完全等价**（2026-09-25 续，未改代码）
+
+```
+端口 ParasiteSoundProfiles:95/101/107   return profile == null ? null : ModSounds.get(profile.xxx());
+                                        ⇒ 【未映射的实体返回 null = 静音】
+原版 EntityInfEndermanHead + EntityPInfected + EntityParasiteBase
+                                        ⇒ 三个音效方法【都不覆写】⇒ 继承 EntityMob/vanilla 的默认
+                                          （1.12 下即 ambient 无、hurt/death 用通用音效）
+```
+
+**结论（如实标注）**：批次 214 把该头部从 profile 移除后，它变成**静音** ✗——
+这比"播放原版从未播放的 infectedhead 音效"**更接近**原版，但**并不完全等价**（原版会播放 **vanilla 通用** hurt/death）。
+
+**三条候选路径（下一批择一，需先定方案）**：
+1. **保持静音**（现状）：最简，但与原版差一处"通用受伤/死亡音"；
+2. **按 kind 覆写返回 vanilla 通用音效**（`SoundEvents.GENERIC_HURT` / `GENERIC_DEATH`，ambient 返回 null）：
+   最贴近原版形态，但需在头部类按 kind 分支；
+3. **改 profile 系统的回退**（`null → vanilla 通用`）：会影响**所有未映射实体** ✗ 面太大，**不建议**。
+
+**倾向路径 2**（与"逐类取证"的结论一致：音效同样逐类不同，不宜用全局回退表达）。
+
+**方法论**：本轮**没有**把"移除了错误映射"直接记成"音效已对齐"——**回退语义的差别是真实存在的**，
+而把它写清楚（"更接近但不完全等价"）比含糊过去更有价值。
