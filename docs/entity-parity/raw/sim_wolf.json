@@ -698,21 +698,21 @@
         },
         {
           "clause": "selfExplode 额外召唤 SRPConfigMobs.infwolfmob = \"srparasites:buglin;2;2\"",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfWolf.java:214",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/ParasiteSummon.java"
           },
-          "note": "project 死亡爆发不召唤 Buglin（2 只）"
+          "note": "实现原版 ParasiteSummon.spawnM 的配置串语义（<实体id>;<min>;<max>）：ParasiteSummon.spawn 解析并按随机组大小在尸体处生成；specFor 按注册 id 映射六个真实键（sim_bigspider->dorpamob、sim_cow/sim_bear->infcowmob（原版 EntityInfBear:178 复用 cow 键）、sim_sheep、sim_wolf、sim_pig、sim_adventurer），其余返回 null；已挂到 ParasiteCombatRules.selfExplode。注：原版 infvillagermob/infhorsemob 零调用点，故不接线。；批次：实现自爆召唤（<id>;<min>;<max> 配置串）"
         },
         {
           "clause": "死亡时 50% 概率召唤 \"srparasites:sim_wolfhead;1;1\"",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfWolf.java:137",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/ParasiteSummon.java"
           },
-          "note": "project 未接线头颅生成"
+          "note": "实现原版 ParasiteSummon.spawnM 的配置串语义（<实体id>;<min>;<max>）：ParasiteSummon.spawn 解析并按随机组大小在尸体处生成；specFor 按注册 id 映射六个真实键（sim_bigspider->dorpamob、sim_cow/sim_bear->infcowmob（原版 EntityInfBear:178 复用 cow 键）、sim_sheep、sim_wolf、sim_pig、sim_adventurer），其余返回 null；已挂到 ParasiteCombatRules.selfExplode。注：原版 infvillagermob/infhorsemob 零调用点，故不接线。；批次：实现自爆召唤（<id>;<min>;<max> 配置串）"
         },
         {
           "clause": "融化（EntityCanMelt）→ EntityLesh（19 tick）",

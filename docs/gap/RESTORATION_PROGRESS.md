@@ -2280,3 +2280,22 @@ infvillagerMobSummon / infhorseMobSummon / infadventurerMobSummon`。`build` 通
 
 至此"同型漏项"这条线收束：三次出现（`AssimilatedVariantEntity` 四 kind、`SimAdventurerEntity`、`AssimilatedHeadEntity` 经验）
 均已修正并复核，其余独立类经逐项核对无偏差。
+
+## 批次 148：自爆召唤实现（键 + 解析工具 + 挂载，一次落全）（2026-09-25 续）
+
+按批次 142–143 的方案完成第 2、3 步，**键与接线不再分离**：
+
+```java
+// 新工具 entity/ParasiteSummon（对应原版 ParasiteSummon.spawnM）
+public static void spawn(LivingEntity owner, String spec)      // 解析 "<实体id>;<min>;<max>"，按随机组大小在尸体处生成
+public static String specFor(LivingEntity parasite)            // 按注册 id 映射六个真实键
+// 挂载：ParasiteCombatRules.selfExplode 末尾（两族共用钩子 ⇒ 一处覆盖全部）
+ParasiteSummon.spawn(parasite, ParasiteSummon.specFor(parasite));
+```
+
+**按子代理纠正执行**：`specFor` 只映射**六个真实键**（`sim_bigspider→dorpamob`、`sim_cow`/`sim_bear→infcowmob`
+（原版 `EntityInfBear:178` 复用 cow 键）、`sim_sheep`、`sim_wolf`、`sim_pig`、`sim_adventurer`），
+**`infvillagermob`/`infhorsemob` 不接线**（原版零调用点）；其余返回 `null`（不召唤，与原版一致）。
+
+断言 6 条；记账 **10 条**（跨 7 个生物）；账面 满足 976→**1053**、部分 502、缺失 321，加权 **68.4% → 69.5%**；
+审计面 **20/127**；`build` 通过、套件维持既有 20 失败。

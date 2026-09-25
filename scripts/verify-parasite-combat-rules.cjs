@@ -519,6 +519,16 @@ expect(read("src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java"),
   /villager \? MobsConfig\.infvillagerHealthMultiplier\(\)/,
   "the invvillager health multiplier is not stacked");
 
+// Legacy ParasiteSummon.spawnM: "<id>;<min>;<max>" reinforcements on self-destruct.
+const summon = read("src/main/java/alku/csrp/entity/ParasiteSummon.java");
+expect(summon, /public static void spawn\(LivingEntity owner, String spec\)/, "the summon helper is missing");
+expect(summon, /spec\.split\(";"\)/, "the summon spec is not parsed");
+expect(summon, /case "sim_cow", "sim_bear" -> MobsConfig\.infcowMobSummon\(\)/,
+  "the bear must reuse the cow summon spec, as in the original");
+expect(summon, /default -> null;/, "mobs without a legacy spec must not summon");
+expect(combatRules, /ParasiteSummon\.spawn\(parasite, alku\.csrp\.entity\.ParasiteSummon\.specFor\(parasite\)\)/,
+  "selfExplode does not summon the legacy reinforcements");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

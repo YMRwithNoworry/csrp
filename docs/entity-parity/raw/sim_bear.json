@@ -345,12 +345,12 @@
         },
         {
           "clause": "selfExplode 额外召唤 SRPConfigMobs.infcowmob = \"srparasites:buglin;4;3\"",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfBear.java:178",
-            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java:355"
+            "project": "src/main/java/alku/csrp/entity/ParasiteSummon.java"
           },
-          "note": "原版 EntityInfBear.selfExplode 复用 infcowmob（SRPConfigMobs.java:396 = \"srparasites:buglin;4;3\"，4 只 3 级 Buglin）；project ParasiteCombatRules.selfExplode 只播 MOB_EXPLOSION、生成毒云与血迹，不召唤任何生物"
+          "note": "实现原版 ParasiteSummon.spawnM 的配置串语义（<实体id>;<min>;<max>）：ParasiteSummon.spawn 解析并按随机组大小在尸体处生成；specFor 按注册 id 映射六个真实键（sim_bigspider->dorpamob、sim_cow/sim_bear->infcowmob（原版 EntityInfBear:178 复用 cow 键）、sim_sheep、sim_wolf、sim_pig、sim_adventurer），其余返回 null；已挂到 ParasiteCombatRules.selfExplode。注：原版 infvillagermob/infhorsemob 零调用点，故不接线。；批次：实现自爆召唤（<id>;<min>;<max> 配置串）"
         },
         {
           "clause": "无头颅召唤：EntityInfBear.func_70609_aI 只做 setTHeigh(0.17F)，不生成 sim_bearhead",

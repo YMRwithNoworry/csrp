@@ -354,12 +354,12 @@
         },
         {
           "clause": "selfExplode 额外召唤 SRPConfigMobs.infadventurermob = \"srparasites:buglin;4;3\"（固定 4 只）",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfPlayer.java:214",
-            "project": "src/main/java/alku/csrp/entity/SimAdventurerEntity.java:386"
+            "project": "src/main/java/alku/csrp/entity/ParasiteSummon.java"
           },
-          "note": "project spawnDeathBurst 生成 3 + random.nextInt(2) = 3~4 只 Buglin（原版固定 4 只），且数量与配置项 infadventurermob 无关联；project 触发概率 0.25（EXPLOSION_CHANCE）而非原版 madeRng 掷骰"
+          "note": "实现原版 ParasiteSummon.spawnM 的配置串语义（<实体id>;<min>;<max>）：ParasiteSummon.spawn 解析并按随机组大小在尸体处生成；specFor 按注册 id 映射六个真实键（sim_bigspider->dorpamob、sim_cow/sim_bear->infcowmob（原版 EntityInfBear:178 复用 cow 键）、sim_sheep、sim_wolf、sim_pig、sim_adventurer），其余返回 null；已挂到 ParasiteCombatRules.selfExplode。注：原版 infvillagermob/infhorsemob 零调用点，故不接线。；批次：实现自爆召唤（<id>;<min>;<max> 配置串）"
         },
         {
           "clause": "selfExplode 毒云：半径 width*1.5、waitTime 10、时长减半、POISON 300/0、COTH 3600/0",

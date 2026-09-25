@@ -752,6 +752,19 @@ const BATCHES = {
         detail: "原版 SRPConfigMobs.java:440-443 定义 invvillagerHealth/Damage/Armor/KDResistanceMultiplier（默认 1.0F）；端口 MobsConfig 新增同名四键与访问器，并在 AssimilatedVariantEntity.createAttributes(Kind) 的 villager 分支对四维各乘一次（Kind 值为硬编码字面量，单次应用）。"
       }
     ]
+  },
+  // 批次 148：自爆召唤（ParasiteSummon.spawnM）实现
+  "self-explode-summon": {
+    note: "批次：实现自爆召唤（<id>;<min>;<max> 配置串）",
+    mobs: ["sim_pig", "sim_bear", "sim_adventurer", "sim_cow", "sim_sheep", "sim_wolf", "sim_bigspider"],
+    clauses: [
+      {
+        match: /召唤|summon|buglin/i,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/ParasiteSummon.java",
+        detail: "实现原版 ParasiteSummon.spawnM 的配置串语义（<实体id>;<min>;<max>）：ParasiteSummon.spawn 解析并按随机组大小在尸体处生成；specFor 按注册 id 映射六个真实键（sim_bigspider->dorpamob、sim_cow/sim_bear->infcowmob（原版 EntityInfBear:178 复用 cow 键）、sim_sheep、sim_wolf、sim_pig、sim_adventurer），其余返回 null；已挂到 ParasiteCombatRules.selfExplode。注：原版 infvillagermob/infhorsemob 零调用点，故不接线。"
+      }
+    ]
   }
 };
 

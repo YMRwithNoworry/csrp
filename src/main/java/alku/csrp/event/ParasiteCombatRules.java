@@ -366,6 +366,8 @@ public final class ParasiteCombatRules {
         // (enforced by scripts/verify-coth-visibility.cjs), so the icon stays on.
         cloud.addEffect(new MobEffectInstance(ModMobEffects.COTH, 3600, 0, false, true));
         level.addFreshEntity(cloud);
+        // Legacy ParasiteSummon.spawnM: the mob-specific "<id>;<min>;<max>" reinforcements.
+        alku.csrp.entity.ParasiteSummon.spawn(parasite, alku.csrp.entity.ParasiteSummon.specFor(parasite));
     }
 
     /**
