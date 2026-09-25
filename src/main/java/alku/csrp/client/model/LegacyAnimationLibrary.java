@@ -83,19 +83,67 @@ final class LegacyAnimationLibrary {
     /**
      * Resolves a requested clip name against the loaded resource.
      *
-     * <p>Besides the exact key and the plain last-segment key, two compatibility passes are needed
+     * <p>Besides the exact key and the plain last-segment key, compatibility passes are needed
      * because the requested spelling and the transcribed resource do not always agree:
      * <ul>
      *   <li>a bare request such as {@code func_78087_a.limb_swing} must find the fully qualified
      *       resource key {@code animation.<id>.func_78087_a.limb_swing};</li>
      *   <li>a state clip that was never transcribed ({@code ...limb_swing.get_parasite_status_3})
      *       must degrade to the closest transcribed ancestor
-     *       ({@code ...limb_swing}) instead of leaving the mob frozen.</li>
+     *       ({@code ...limb_swing}) instead of leaving the mob frozen;</li>
+     *   <li>a locomotion clip may legitimately not exist, because several original models never
+     *       use limb swing: their {@code func_78087_a} output depends on {@code ageInTicks} only
+     *       (ModelEmana, ModelInfSquid, ModelElvia), and ModelLeemB has an empty body. Those mobs
+     *       played their age pose while moving in the original too, so a missing walk clip falls
+     *       back to the same entity's age clip.</li>
      * </ul>
      * Without this, a missing key silently meant "no animation at all" (reported for the Primitive
      * Summoner and several other mobs).
      */
     private AnimationClip findClip(String animationName) {
+        AnimationClip clip = findClipByKey(animationName);
+        if (clip != null) {
+            return clip;
+        }
+        if (animationName.contains("limb_swing")) {
+            AnimationClip ageClip = findClipByKey(animationName.replace("limb_swing", "age_in_ticks"));
+            if (ageClip != null) {
+                return ageClip;
+            }
+        }
+        // Alias-based requests (idle./walk./fly./run.) only exist for resources that publish those
+        // clip names. Resources whose clips are keyed by the legacy function can still satisfy them
+        // with the entity's age pose, keeping any trailing status/still suffix when it exists.
+        if (animationName.contains(".idle.") || animationName.contains(".walk.")
+                || animationName.contains(".fly.") || animationName.contains(".run.")) {
+            return findAgePoseFallback(animationName);
+        }
+        return null;
+    }
+
+    /** {@code animation.<id>.<alias>...} → {@code animation.<id>.func_78087_a.age_in_ticks<suffix>}. */
+    private AnimationClip findAgePoseFallback(String animationName) {
+        String prefix = "animation.";
+        if (!animationName.startsWith(prefix)) {
+            return null;
+        }
+        int idEnd = animationName.indexOf('.', prefix.length());
+        if (idEnd < 0) {
+            return null;
+        }
+        String entity = animationName.substring(0, idEnd);
+        String suffix = "";
+        for (String marker : new String[] {".get_parasite_status_", ".is_screaming_", ".get_still_ani_"}) {
+            int at = animationName.indexOf(marker, idEnd);
+            if (at >= 0) {
+                suffix = animationName.substring(at);
+                break;
+            }
+        }
+        return findClipByKey(entity + ".func_78087_a.age_in_ticks" + suffix);
+    }
+
+    private AnimationClip findClipByKey(String animationName) {
         AnimationClip exact = clips.get(animationName);
         if (exact != null) {
             return exact;

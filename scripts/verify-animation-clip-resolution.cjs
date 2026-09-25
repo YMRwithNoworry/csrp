@@ -56,7 +56,12 @@ for (const [pattern, message] of [
   [/AnimationClip degraded = clips\.get\(candidate\);/, "findClip must try the degraded key directly"],
   [/key\.length\(\) > candidate\.length\(\) && key\.endsWith\(candidate\)/,
     "findClip must accept a resource key that the request is a suffix of"],
-  [/candidate = candidate\.substring\(0, dot\);/, "findClip must strip one segment per pass"]
+  [/candidate = candidate\.substring\(0, dot\);/, "findClip must strip one segment per pass"],
+  [/animationName\.replace\("limb_swing", "age_in_ticks"\)/,
+    "a missing locomotion clip must fall back to the entity's age clip"],
+  [/private AnimationClip findAgePoseFallback\(String animationName\)/,
+    "alias requests (idle./walk./fly./run.) need an age-pose fallback"],
+  [/\.func_78087_a\.age_in_ticks" \+ suffix/, "the age-pose fallback must keep the status suffix"]
 ]) expect(library, pattern, message);
 
 if (failures.length) {

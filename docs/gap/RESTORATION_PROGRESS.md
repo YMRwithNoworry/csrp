@@ -113,3 +113,25 @@ applyGene/阶段属性加成、同步数据（SELFE/COLD_L/DISLO15）、AI 任�
 补法：从 `_srp-orig/decomp-1.10.9` 的对应模型类（`client/model/Model*.java` 的
 `setRotationAngles` 肢体摆动公式）补转 `.tbl` 内嵌 `animations.json` 的缺失剪辑，
 与现有转写管线（`scripts/modelrenderer-to-gecko.cjs` / `convert-geo-to-tabula.cjs`）保持一致。
+
+### 批次 3 收尾：剩余 5 只经原版源码证实「原版就没有该动画」（2026-09-25 续）
+
+用原版反编译模型类逐只核对 `func_78087_a`（`setRotationAngles`）方法体：
+
+| 实体 | 原版模型 | 方法体事实 | 结论 |
+| --- | --- | --- | --- |
+| `pri_yelloweye` | `ModelEmana` | 只有 `ageInTicks` 驱动触须；`limbSwing` 仅出现在签名 | 原版无行走循环 |
+| `ada_yelloweye` | `ModelEmanaAdapted` | 同上（触须 + 关节归零后按年龄摆动），无 attack/dig 姿态 | 原版无行走/攻击/掘地姿态 |
+| `sim_squid` | `ModelInfSquid` | 只有 `ageInTicks` | 原版无行走循环 |
+| `wraith` | `ModelElvia` | 只有 `ageInTicks` | 原版无行走循环 |
+| `rooterball` | `ModelLeemB` | `func_78087_a` **空方法** | 原版完全无动画 |
+
+因此不再补写剪辑（补写等于凭空捏造），改为让解析器按原版语义降级：
+- `findClip`：行走请求缺剪辑时回退到同实体的 `func_78087_a.age_in_ticks`；
+- 新增 `findAgePoseFallback`：`idle./walk./fly./run.` 这类别名请求回退到该实体的 age 姿态，并保留
+  `get_parasite_status_N` / `is_screaming_N` / `get_still_ani_N` 后缀。
+
+**动画章结项证据**：`scripts/audit-animation-clips.cjs` 扫描全部已注册实体 → 257 条请求
+**0 条真实缺口**，其中 27 条经原版模型源码判定为「原版从未动画该姿态」。
+审计脚本现在自带原版证据（`Model<内部名>.java` 的 `func_78087_a` 方法体 + 姿态输入判定），
+不再把这类请求误报为缺失。

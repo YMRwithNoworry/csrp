@@ -70,6 +70,29 @@ function resolveAction(entityId, requested) {
 
 // --- legacy findClip --------------------------------------------------------------------------
 function findClip(keys, name) {
+  const direct = findClipByKey(keys, name);
+  if (direct) return direct;
+  // Mirrors the age-clip fallbacks in LegacyAnimationLibrary.findClip.
+  if (name.includes("limb_swing")) {
+    const age = findClipByKey(keys, name.replace("limb_swing", "age_in_ticks"));
+    if (age) return age;
+  }
+  if ([".idle.", ".walk.", ".fly.", ".run."].some((alias) => name.includes(alias))) {
+    const idEnd = name.indexOf(".", "animation.".length);
+    if (idEnd > 0) {
+      const entity = name.slice(0, idEnd);
+      let suffix = "";
+      for (const marker of [".get_parasite_status_", ".is_screaming_", ".get_still_ani_"]) {
+        const at = name.indexOf(marker, idEnd);
+        if (at >= 0) { suffix = name.slice(at); break; }
+      }
+      return findClipByKey(keys, entity + ".func_78087_a.age_in_ticks" + suffix);
+    }
+  }
+  return null;
+}
+
+function findClipByKey(keys, name) {
   if (keys.has(name)) return name;
   const sep = name.lastIndexOf(".");
   if (sep >= 0 && keys.has(name.slice(sep + 1))) return name.slice(sep + 1);
@@ -118,8 +141,59 @@ for (const m of modEntities.matchAll(/monster\("([a-z0-9_]+)",\s*\(type, level\)
   classToId.set(m[2], m[1]);
 }
 
+const DECOMP = "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites";
+const auditInput = JSON.parse(fs.readFileSync(path.join(root, "docs/entity-parity/audit-input.json"), "utf8"));
+const auditList = Array.isArray(auditInput) ? auditInput
+  : Object.values(auditInput).find(Array.isArray) ?? [];
+
+/** Locates Model<InternalName>.java for an entity id and inspects its setRotationAngles body. */
+function originalModelInfo(entityId) {
+  const entry = auditList.find((e) => e.id === entityId);
+  if (!entry || !entry.originalClass) return null;
+  const modelName = "Model" + entry.originalClass.replace(/^Entity/, "");
+  const stack = [path.join(DECOMP, "client/model")];
+  let file = null;
+  while (stack.length && !file) {
+    const dir = stack.pop();
+    for (const item of fs.readdirSync(dir, { withFileTypes: true })) {
+      const full = path.join(dir, item.name);
+      if (item.isDirectory()) stack.push(full);
+      else if (item.name === modelName + ".java") { file = full; break; }
+    }
+  }
+  if (!file) return null;
+  const source = fs.readFileSync(file, "utf8");
+  const at = source.indexOf("void func_78087_a(");
+  if (at < 0) return { model: modelName, usesLimb: false, empty: true };
+  const open = source.indexOf("{", at);
+  let depth = 0;
+  let end = open;
+  for (let i = open; i < source.length; i++) {
+    if (source[i] === "{") depth++;
+    else if (source[i] === "}") { depth--; if (depth === 0) { end = i; break; } }
+  }
+  const body = source.slice(open + 1, end);
+  const code = body.replace(/\/\*[\s\S]*?\*\//g, "").replace(/\/\/.*$/gm, "").trim();
+  return {
+    model: modelName,
+    empty: code.length === 0,
+    usesLimb: /swing[XYZ]\s*\(|moveY\s*\(|limbSwingAmount/.test(code),
+    // Which pose inputs the original setRotationAngles actually reads. A request for a pose the
+    // original never produced is not a transcription gap.
+    inputs: {
+      limb: /swing[XYZ]\s*\(|moveY\s*\(|limbSwing/.test(code),
+      age: /ageInTicks/.test(code),
+      attack: /attack|shoot|Shoot/.test(code),
+      dig: /dig|Dig/.test(code),
+      still: /still|Still/.test(code),
+      status: /ParasiteStatus|parasiteStatus/.test(code)
+    }
+  };
+}
+
 let totalRequests = 0;
 let brokenTotal = 0;
+let intendedAbsent = 0;
 const brokenEntities = [];
 
 for (const file of fs.readdirSync(entityDir)) {
@@ -134,15 +208,30 @@ for (const file of fs.readdirSync(entityDir)) {
   const keys = clipKeys.get(entityId);
   if (!keys) continue;
   const broken = [];
+  const model = originalModelInfo(entityId);
   for (const requested of new Set(requests)) {
     totalRequests++;
     const resolved = resolveAction(entityId, requested);
-    if (!findClip(keys, resolved)) {
-      broken.push(`${requested} -> ${resolved}`);
-      brokenTotal++;
-    } else if (verbose) {
-      console.log(`  ok ${entityId}: ${requested} -> ${resolved}`);
+    if (findClip(keys, resolved)) {
+      if (verbose) console.log(`  ok ${entityId}: ${requested} -> ${resolved}`);
+      continue;
     }
+    // A locomotion request on a model whose setRotationAngles never reads limb swing (and an
+    // entirely empty body) is not a transcription gap: the original had no such clip either.
+    const concept = requested.includes("limb_swing") ? "limb"
+      : requested.includes("get_attack_timer") || requested.includes("attack") ? "attack"
+        : requested.includes("get_dig_model") || requested.includes("digging") ? "dig"
+          : requested.includes("still") ? "still"
+            : requested.includes("parasite_status") ? "status" : "age";
+    if (model && (model.empty || !model.inputs[concept])) {
+      intendedAbsent++;
+      if (verbose) {
+        console.log(`  n/a ${entityId}: ${requested} (original ${model.model} never animates the ${concept} pose)`);
+      }
+      continue;
+    }
+    broken.push(`${requested} -> ${resolved}${model ? ` [original ${model.model} inputs=${JSON.stringify(model.inputs)}]` : ""}`);
+    brokenTotal++;
   }
   if (broken.length) {
     brokenEntities.push({ entityId, className, broken, clips: keys.size });
@@ -154,5 +243,6 @@ for (const entry of brokenEntities) {
   console.log(`${entry.entityId} (${entry.className}, ${entry.clips} clips): ${entry.broken.length} unresolved`);
   for (const line of entry.broken) console.log(`    ${line}`);
 }
-console.log(`\n${brokenTotal} unresolved of ${totalRequests} requests in ${brokenEntities.length} entities`);
+console.log(`\n${brokenTotal} real gap(s) of ${totalRequests} requests in ${brokenEntities.length} entities`
+  + ` (${intendedAbsent} request(s) intentionally absent: the original model never animates that pose)`);
 process.exit(brokenTotal === 0 ? 0 : 1);
