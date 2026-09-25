@@ -1071,3 +1071,26 @@ public static double overseerHealth() { return 80.0D * OVERSEER_HEALTH_MULTIPLIE
 **更正此前的结论**：批次 60–64 与 70 所称"接线完成/backlog 下降"**是对幽灵目标的追击**——那些键当时已被访问器读取；
 本轮把实体侧改动回退后，配置面反而恢复到**单一正确应用点**。批次 68 的"3 条该接线"同样应作废。
 一并澄清：`--strict` 的 backlog 语义今后以"**常量是否被任一访问器读取**"为准（已修好并归零）。
+
+## 批次 72：自查第 43–51 轮接线是否存在同类双重乘算（2026-09-25 续）
+
+批次 71 的教训必须外推到**同一条线上的其它改动**。用一次针对性核查（每个常量的全部引用点）：
+
+```
+INFCOW_HEALTH_MULTIPLIER      : 170 声明 / 183 我的直通访问器      ← 仅此两处
+DORPA_HEALTH_MULTIPLIER       : 156 声明 / 400 我的直通访问器
+FERVILLAGER_HEALTH_MULTIPLIER : 306 声明 / 319 我的直通访问器
+SHYCO_HEALTH_MULTIPLIER       : 325 声明 / 338 我的直通访问器
+HISKELETON_HEALTH_MULTIPLIER  : 344 声明 / 357 我的直通访问器
+MARCOW_HEALTH_MULTIPLIER      : 363 声明 / 376 我的直通访问器
+HOST_HEALTH_MULTIPLIER        : 382 声明 / 395 我的直通访问器
+```
+
+**结论**：这些常量的**唯一读者是我新增的直通访问器**（`return CONST.get();`），不存在"既有访问器已乘一次"的情况，
+而实体侧的基值是硬编码字面量（如 `Kind.COW.maxHealth = 18.0D`、`LongarmsEntity` 的 45.0）⇒
+**第 43–51 轮的接线只应用一次，正确无误**；双重乘算问题**仅限**批次 71 已回退的那 8 处（它们是"访问器内已乘一次 + 实体侧再乘一次"）。
+
+至此该线状态明确：
+- ✅ 正确且单次应用：dorpa / infcow / infsheep / infwolf / infsquid / infhuman / fervillager / shyco / hiskeleton / marcow / host（11 只）；
+- ✅ 已回退双重乘算：primitive 六例 + adapted arachnida + preeminent heavyBomber；
+- ✅ 配置面所有倍率键均可达（`audit --strict` = 0）。
