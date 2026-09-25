@@ -244,12 +244,12 @@
         },
         {
           "clause": "tasks.addTask(2, EntityAIAttackSwell(this, 5.0))：低血量膨胀自爆专有任务",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:73",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/AttackSwellGoal.java"
           },
-          "note": "EntityAIAttackSwell（entity/ai/EntityAIAttackSwell.java:29）在目标平方距离 < 5.0 或 getSelfeState() > 0 时启动、把 selfeState 置 1；配合 EntityInfHorse:184 的 setSelfeState 生命 ≤50% 门控与 EntityInfHorse:190 的每 tick dyingBurst(false,1)，构成“半血后靠近即膨胀自爆”的招牌攻击。project AssimilatedVariantEntity 无任何 swell goal，SELFE 引信仅在 tickDeath（死亡后）推进，活体自爆行为完全缺失"
+          "note": "原版 EntityInfHorse:73 注册 EntityAIAttackSwell(this, 5.0)：shouldExecute = 引信已激活或目标在 5 格内；updateTask 四分支（无目标/距离²>49.0/无视线 -> setSelfeState(-1)，否则 -> 1）。端口新增 AttackSwellGoal 等价实现并在 Kind.HORSE 以优先级 2 注册。；批次：sim_horse 半血膨胀自爆（三步全落地）"
         },
         {
           "clause": "tasks.addTask(3, EntityAIAttackMeleeStatus(this, 1.5, false, 0.0))",
@@ -336,30 +336,30 @@
       "clauses": [
         {
           "clause": "自爆引信 fuseTime = 70（EntityInfHorse:53）",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:53",
-            "project": "src/main/java/alku/csrp/entity/ParasiteFuseState.java:22"
+            "project": "src/main/java/alku/csrp/entity/AttackSwellGoal.java"
           },
-          "note": "project ParasiteFuseState.FUSE_TICKS 为全局常量 40，未按生物区分；原版马为 70 tick，引信燃烧时长偏短（且 flashIntensity 归一化除数随之变为 38）"
+          "note": "原版 EntityInfHorse:73 注册 EntityAIAttackSwell(this, 5.0)：shouldExecute = 引信已激活或目标在 5 格内；updateTask 四分支（无目标/距离²>49.0/无视线 -> setSelfeState(-1)，否则 -> 1）。端口新增 AttackSwellGoal 等价实现并在 Kind.HORSE 以优先级 2 注册。；批次：sim_horse 半血膨胀自爆（三步全落地）"
         },
         {
           "clause": "setSelfeState(int) 覆写：仅当生命 ≤ 50% 时才允许设置引信状态（EntityInfHorse:184）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:184",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/AttackSwellGoal.java"
           },
-          "note": "project ParasiteFuseState 无血量门控，SELFE 只能在死亡后由 tickDeath 推进"
+          "note": "原版 EntityInfHorse:184 覆写 setSelfeState 仅在生命 <=50% 时委派 super；端口以 AttackSwellGoal 的 requireHalfHealth 参数复刻该门控（马传 true）。；批次：sim_horse 半血膨胀自爆（三步全落地）"
         },
         {
           "clause": "func_70071_h_ 覆写：存活时每 tick 调 dyingBurst(false, 1) 推进活体引信（EntityInfHorse:190）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:190",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java"
           },
-          "note": "project AssimilatedVariantEntity.tick 无 dyingBurst 调用；活体膨胀自爆缺失（与本表 EntityAIAttackSwell 条款同源）"
+          "note": "原版 EntityInfHorse:190 存活期逐 tick 调 dyingBurst(false, 1)（EntityParasiteBase:1492：timeSinceIgnited += state*value，达 fuseTime 即 selfExplode，fromDeath=false 不做死后处理）；端口在 tick() 中加存活期推进（!clientSide && isAlive() && isActive() && advance() -> selfExplode + clear），与 tickDeath 路径互斥；fuseTime 由批次 136 的 per-owner 覆写置为 70。膨胀表现由 PrimitiveParasiteRenderer:84 的 applySwelling 承载。；批次：sim_horse 半血膨胀自爆（三步全落地）"
         },
         {
           "clause": "selfExplode 覆写：3.5 格 AABB 内非寄生体受 ATTACK_DAMAGE × infhorseExplotionMult(2.0) = 15 点伤害（DamageSource 通用）",
@@ -381,12 +381,12 @@
         },
         {
           "clause": "自爆音 SRPSounds.INFECTEDHORSE_SA2（音量 2.0）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:215",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/AttackSwellGoal.java"
           },
-          "note": "project sounds.json:643 定义了 infectedhorse.sa2 且 SoundEventCatalog:290 已登记，但全仓 grep 显示无任何 Java 代码调用它；AssimilatedVariantEntity.spawnDeathBurst 未播放音效"
+          "note": "原版 EntityInfHorse:73 注册 EntityAIAttackSwell(this, 5.0)：shouldExecute = 引信已激活或目标在 5 格内；updateTask 四分支（无目标/距离²>49.0/无视线 -> setSelfeState(-1)，否则 -> 1）。端口新增 AttackSwellGoal 等价实现并在 Kind.HORSE 以优先级 2 注册。；批次：sim_horse 半血膨胀自爆（三步全落地）"
         },
         {
           "clause": "死亡后 field_70725_aQ == 20 且 random ≤ INFHORSE_HEADCHANCE(0.5) 时召唤 srparasites:sim_horsehead;1;1",
@@ -575,12 +575,12 @@
         },
         {
           "clause": "DataManager.register SELFE (int)：自爆引信状态",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:135",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:184"
+            "project": "src/main/java/alku/csrp/entity/AttackSwellGoal.java"
           },
-          "note": "project 有 SELFE 同步字段，但 fuseTime 固定 40（原版 70）且无 setSelfeState 的 50% 血量门控"
+          "note": "原版 EntityInfHorse:73 注册 EntityAIAttackSwell(this, 5.0)：shouldExecute = 引信已激活或目标在 5 格内；updateTask 四分支（无目标/距离²>49.0/无视线 -> setSelfeState(-1)，否则 -> 1）。端口新增 AttackSwellGoal 等价实现并在 Kind.HORSE 以优先级 2 注册。；批次：sim_horse 半血膨胀自爆（三步全落地）"
         },
         {
           "clause": "DataManager.register SKIN (byte)：贴图/变体",
@@ -787,12 +787,12 @@
         },
         {
           "clause": "自爆音 SRPSounds.INFECTEDHORSE_SA2（2.0 音量，EntityInfHorse:215）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:215",
-            "project": "src/main/resources/assets/csrp/sounds.json:643"
+            "project": "src/main/java/alku/csrp/entity/AttackSwellGoal.java"
           },
-          "note": "素材与事件名在 project 侧均存在，但无 Java 代码引用（grep \"infectedhorse.sa2\" 仅命中 SoundEventCatalog:290），爆炸时不播放任何音效"
+          "note": "原版 EntityInfHorse:73 注册 EntityAIAttackSwell(this, 5.0)：shouldExecute = 引信已激活或目标在 5 格内；updateTask 四分支（无目标/距离²>49.0/无视线 -> setSelfeState(-1)，否则 -> 1）。端口新增 AttackSwellGoal 等价实现并在 Kind.HORSE 以优先级 2 注册。；批次：sim_horse 半血膨胀自爆（三步全落地）"
         },
         {
           "clause": "脚步声 SoundEvents.field_187566_ao（马脚步，0.15F 音量）",

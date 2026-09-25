@@ -1,6 +1,6 @@
 # 生物部分还原度基线
 
-> 生成时间：2026-09-25T06:12:24.552Z
+> 生成时间：2026-09-25T06:13:50.847Z
 > 事实来源：`D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites`（SRParasites 1.10.9，生物部分与 1.10.8 一致）
 > 本工程：`D:/code/MC模组/csrp`（MC 26.3 / NeoForge 26.3，分支 `port-26.3`）
 
@@ -15,8 +15,8 @@
 ## 总体基线
 
 - 覆盖：**22/127** 只生物已出条款级审计
-- 条款：满足 **1126**、部分 **541**、缺失 **341**（另有 92 条判定为不适用）
-- **加权完成度：69.5%**
+- 条款：满足 **1133**、部分 **539**、缺失 **336**（另有 92 条判定为不适用）
+- **加权完成度：69.8%**
 
 ## 分面基线
 
@@ -24,13 +24,13 @@
 | --- | ---: | ---: | ---: | ---: |
 | 注册 | 117 | 60 | 49 | 65% |
 | 属性 | 162 | 39 | 9 | 86.4% |
-| AI | 129 | 123 | 37 | 65.9% |
-| 行为 | 231 | 105 | 71 | 69.7% |
+| AI | 130 | 123 | 36 | 66.3% |
+| 行为 | 235 | 104 | 68 | 70.5% |
 | 伤害/效果 | 151 | 18 | 21 | 84.2% |
-| 同步数据 | 41 | 47 | 46 | 48.1% |
+| 同步数据 | 42 | 46 | 46 | 48.5% |
 | 动画 | 83 | 21 | 9 | 82.7% |
 | 模型/贴图 | 75 | 6 | 21 | 76.5% |
-| 音效 | 51 | 36 | 31 | 58.5% |
+| 音效 | 52 | 36 | 30 | 59.3% |
 | 生成 | 68 | 49 | 26 | 64.7% |
 | 掉落 | 18 | 37 | 21 | 48% |
 
@@ -52,12 +52,12 @@
 | `sim_human` | EntityInfHuman | SimHumanEntity | 70.9% | 65/26/19 |
 | `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | 71% | 52/28/13 |
 | `sim_adventurer` | EntityInfPlayer | SimAdventurerEntity | 71.4% | 54/22/15 |
-| `sim_horse` | EntityInfHorse | AssimilatedVariantEntity | 73% | 54/22/13 |
 | `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | 74.3% | 65/29/13 |
 | `sim_bigspider` | EntityDorpa | AssimilatedVariantEntity | 75% | 61/25/12 |
 | `sim_cow` | EntityInfCow | AssimilatedParasiteEntity | 75% | 64/31/11 |
 | `sim_bear` | EntityInfBear | AssimilatedParasiteEntity | 75.3% | 56/19/12 |
 | `sim_enderman` | EntityInfEnderman | AssimilatedEndermanEntity | 76% | 62/25/11 |
+| `sim_villager` | EntityInfVillager | AssimilatedVariantEntity | 76.1% | 57/23/10 |
 
 ## 已知前提与风险
 

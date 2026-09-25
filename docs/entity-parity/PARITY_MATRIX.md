@@ -1,11 +1,11 @@
 # 生物还原矩阵（SRParasites 1.10.9 → csrp）
 
-> 生成时间：2026-09-25T06:12:24.552Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
+> 生成时间：2026-09-25T06:13:50.847Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
 > 判定：✅ 全部条款满足；🟠 有部分实现但无缺失；❌ 存在缺失；· 未审计。
 
 - 注册生物总数：**127**；已审计：**22**；未审计：**105**
-- 条款总计：满足 1126 / 部分 541 / 缺失 341（不计入 92 条不适用）
-- **加权完成度：69.5%**（partial 计 0.5）
+- 条款总计：满足 1133 / 部分 539 / 缺失 336（不计入 92 条不适用）
+- **加权完成度：69.8%**（partial 计 0.5）
 
 ## 分面完成度
 
@@ -13,13 +13,13 @@
 | --- | ---: | ---: | ---: | ---: |
 | 注册 `registration` | 117 | 60 | 49 | 65% |
 | 属性 `attributes` | 162 | 39 | 9 | 86.4% |
-| AI `ai` | 129 | 123 | 37 | 65.9% |
-| 行为 `behaviors` | 231 | 105 | 71 | 69.7% |
+| AI `ai` | 130 | 123 | 36 | 66.3% |
+| 行为 `behaviors` | 235 | 104 | 68 | 70.5% |
 | 伤害/效果 `damage_and_effects` | 151 | 18 | 21 | 84.2% |
-| 同步数据 `sync_data` | 41 | 47 | 46 | 48.1% |
+| 同步数据 `sync_data` | 42 | 46 | 46 | 48.5% |
 | 动画 `animation` | 83 | 21 | 9 | 82.7% |
 | 模型/贴图 `model_texture` | 75 | 6 | 21 | 76.5% |
-| 音效 `sounds` | 51 | 36 | 31 | 58.5% |
+| 音效 `sounds` | 52 | 36 | 30 | 59.3% |
 | 生成 `spawning` | 68 | 49 | 26 | 64.7% |
 | 掉落 `loot` | 18 | 37 | 21 | 48% |
 
@@ -37,7 +37,7 @@
 | early_lifecycle | 1/10 | 42 | 25 | 18 | 64.1% |
 | marauderized | 1/7 | 58 | 24 | 22 | 67.3% |
 | current | 2/13 | 99 | 42 | 34 | 68.6% |
-| assimilated | 15/23 | 773 | 356 | 176 | 72.9% |
+| assimilated | 15/23 | 780 | 354 | 171 | 73.3% |
 
 ## 逐生物矩阵
 
@@ -162,7 +162,6 @@
 | `sim_human` | EntityInfHuman | SimHumanEntity | ❌ | ✅ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 70.9% |
 | `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | ❌ | 🟠 | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 71% |
 | `sim_adventurer` | EntityInfPlayer | SimAdventurerEntity | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | 71.4% |
-| `sim_horse` | EntityInfHorse | AssimilatedVariantEntity | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | 🟠 | ✅ | ❌ | ❌ | ❌ | 73% |
 | `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | ❌ | 🟠 | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 74.3% |
 | `sim_bigspider` | EntityDorpa | AssimilatedVariantEntity | ❌ | ✅ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 75% |
 | `sim_cow` | EntityInfCow | AssimilatedParasiteEntity | ❌ | 🟠 | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 75% |
@@ -170,6 +169,7 @@
 | `sim_enderman` | EntityInfEnderman | AssimilatedEndermanEntity | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | 🟠 | ✅ | ❌ | ❌ | 🟠 | 76% |
 | `sim_villager` | EntityInfVillager | AssimilatedVariantEntity | ❌ | 🟠 | 🟠 | ❌ | ✅ | ❌ | 🟠 | 🟠 | ❌ | ❌ | ❌ | 76.1% |
 | `sim_sheep` | EntityInfSheep | AssimilatedParasiteEntity | ❌ | 🟠 | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 77.1% |
+| `sim_horse` | EntityInfHorse | AssimilatedVariantEntity | ❌ | ❌ | 🟠 | 🟠 | ✅ | ❌ | 🟠 | ✅ | ❌ | ❌ | ❌ | 79.8% |
 
 ## 缺口清单（按完成度升序）
 
@@ -250,9 +250,6 @@
 ### `sim_adventurer`（EntityInfPlayer → SimAdventurerEntity，71.4%）
 - （无缺口摘要，见 raw JSON）
 
-### `sim_horse`（EntityInfHorse → AssimilatedVariantEntity，73%）
-- （无缺口摘要，见 raw JSON）
-
 ### `sim_wolf`（EntityInfWolf → AssimilatedParasiteEntity，74.3%）
 - （无缺口摘要，见 raw JSON）
 
@@ -272,4 +269,7 @@
 - （无缺口摘要，见 raw JSON）
 
 ### `sim_sheep`（EntityInfSheep → AssimilatedParasiteEntity，77.1%）
+- （无缺口摘要，见 raw JSON）
+
+### `sim_horse`（EntityInfHorse → AssimilatedVariantEntity，79.8%）
 - （无缺口摘要，见 raw JSON）

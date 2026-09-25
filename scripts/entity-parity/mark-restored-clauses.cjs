@@ -796,6 +796,31 @@ const BATCHES = {
         detail: "原版 EntityInfEnderman:57 定义 ATTACKING_SPEED_BOOST（0.15F）；端口已在攻击态切换处对 MOVEMENT_SPEED 挂/摘同值修饰符（批次 154）。"
       }
     ]
+  },
+  // 批次 165：sim_horse 膨胀自爆（AttackSwell + 半血门控 + 存活期推进 + fuseTime 70）
+  "horse-attack-swell": {
+    note: "批次：sim_horse 半血膨胀自爆（三步全落地）",
+    mobs: ["sim_horse"],
+    clauses: [
+      {
+        match: /AttackSwell|膨胀|selfExplode|自爆/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AttackSwellGoal.java",
+        detail: "原版 EntityInfHorse:73 注册 EntityAIAttackSwell(this, 5.0)：shouldExecute = 引信已激活或目标在 5 格内；updateTask 四分支（无目标/距离²>49.0/无视线 -> setSelfeState(-1)，否则 -> 1）。端口新增 AttackSwellGoal 等价实现并在 Kind.HORSE 以优先级 2 注册。"
+      },
+      {
+        match: /setSelfeState|半血|50%/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AttackSwellGoal.java",
+        detail: "原版 EntityInfHorse:184 覆写 setSelfeState 仅在生命 <=50% 时委派 super；端口以 AttackSwellGoal 的 requireHalfHealth 参数复刻该门控（马传 true）。"
+      },
+      {
+        match: /dyingBurst|存活期|fuseTime|引信/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java",
+        detail: "原版 EntityInfHorse:190 存活期逐 tick 调 dyingBurst(false, 1)（EntityParasiteBase:1492：timeSinceIgnited += state*value，达 fuseTime 即 selfExplode，fromDeath=false 不做死后处理）；端口在 tick() 中加存活期推进（!clientSide && isAlive() && isActive() && advance() -> selfExplode + clear），与 tickDeath 路径互斥；fuseTime 由批次 136 的 per-owner 覆写置为 70。膨胀表现由 PrimitiveParasiteRenderer:84 的 applySwelling 承载。"
+      }
+    ]
   }
 };
 
