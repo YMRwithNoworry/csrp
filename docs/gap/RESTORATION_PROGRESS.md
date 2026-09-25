@@ -744,3 +744,13 @@ infsheep/infwolf/infvillager` 系列，默认值全 1.0F）。
 **同族剩余**（键名已知，照抄即可）：`infsheep`、`infwolf`、`infsquid`、`infhuman`（`sim_human` 为独立类）、
 `infbear`；野化族对应 `fer*` 系列（`ferbear` 已确认存在，`fervillager` 待逐项核对）。
 校验：`verify-parasite-combat-rules.cjs` 增加 5 条断言；审计记账 1 条，满足 686 → **687**，缺失 264 → **263**。
+
+## 批次 45：sim_sheep / sim_wolf 的 per-mob 倍率接线（2026-09-25 续）
+
+沿用批次 43/44 的范式（原版键名 `infsheep*` / `infwolf*`，默认 1.0F）：
+`MobsConfig` 各补 4 项 + 4 个访问器；`AssimilatedParasiteEntity.createAttributes` 扩展为
+`cow / sheep / wolf` 三分支按 kind 取值（击退抗性仍夹取 1.0）。
+
+同族剩余键名（已知，照抄即可）：`infsquid`、`infbear`、`infhuman`（`sim_human` 为独立类）、
+野化族 `fer*` 系列（`ferbear` 已确认存在，`fervillager` 待逐项核对）。
+校验：`verify-parasite-combat-rules.cjs` 增加 6 条断言；审计记账 2 条，满足 687 → **689**，缺失 263 → **261**，加权 **66.2%**。

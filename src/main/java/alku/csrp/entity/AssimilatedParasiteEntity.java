@@ -120,10 +120,20 @@ public final class AssimilatedParasiteEntity extends Monster
     public static AttributeSupplier.Builder createAttributes(Kind kind) {
         // Legacy SRPConfigMobs per-mob multipliers (default 1.0F in the original).
         boolean cow = kind == Kind.COW;
-        double health = cow ? MobsConfig.infcowHealthMultiplier() : 1.0D;
-        double damage = cow ? MobsConfig.infcowDamageMultiplier() : 1.0D;
-        double armor = cow ? MobsConfig.infcowArmorMultiplier() : 1.0D;
-        double knockback = cow ? MobsConfig.infcowKnockbackMultiplier() : 1.0D;
+        boolean sheep = kind == Kind.SHEEP;
+        boolean wolf = kind == Kind.WOLF;
+        double health = cow ? MobsConfig.infcowHealthMultiplier()
+                : sheep ? MobsConfig.infsheepHealthMultiplier()
+                : wolf ? MobsConfig.infwolfHealthMultiplier() : 1.0D;
+        double damage = cow ? MobsConfig.infcowDamageMultiplier()
+                : sheep ? MobsConfig.infsheepDamageMultiplier()
+                : wolf ? MobsConfig.infwolfDamageMultiplier() : 1.0D;
+        double armor = cow ? MobsConfig.infcowArmorMultiplier()
+                : sheep ? MobsConfig.infsheepArmorMultiplier()
+                : wolf ? MobsConfig.infwolfArmorMultiplier() : 1.0D;
+        double knockback = cow ? MobsConfig.infcowKnockbackMultiplier()
+                : sheep ? MobsConfig.infsheepKnockbackMultiplier()
+                : wolf ? MobsConfig.infwolfKnockbackMultiplier() : 1.0D;
         return Monster.createMonsterAttributes()
                 .add(Attributes.MAX_HEALTH, kind.maxHealth * health)
                 .add(Attributes.ATTACK_DAMAGE, kind.attackDamage * damage)

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-25T03:46:03.923Z",
+  "generatedAt": "2026-09-25T03:47:16.777Z",
   "protocol": "docs/entity-parity/AUDIT_PROTOCOL.md",
   "input": "docs/entity-parity/audit-input.json",
   "counts": {
@@ -8,12 +8,12 @@
     "missing": 114
   },
   "overall": {
-    "satisfied": 687,
+    "satisfied": 689,
     "partial": 372,
-    "missing": 263,
+    "missing": 261,
     "na": 57,
     "denominator": 1322,
-    "completion": 66
+    "completion": 66.2
   },
   "facets": [
     {
@@ -29,12 +29,12 @@
     {
       "facet": "attributes",
       "label": "属性",
-      "satisfied": 82,
+      "satisfied": 84,
       "partial": 29,
-      "missing": 14,
+      "missing": 12,
       "na": 0,
       "denominator": 125,
-      "completion": 77.2
+      "completion": 78.8
     },
     {
       "facet": "ai",
@@ -242,12 +242,12 @@
       "group": "assimilated",
       "audited": 6,
       "expected": 23,
-      "satisfied": 348,
+      "satisfied": 350,
       "partial": 180,
-      "missing": 91,
+      "missing": 89,
       "na": 33,
       "denominator": 619,
-      "completion": 70.8
+      "completion": 71.1
     }
   ],
   "creatures": [
@@ -881,13 +881,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 62,
+        "satisfied": 63,
         "partial": 30,
-        "missing": 13,
+        "missing": 12,
         "na": 5
       },
       "denominator": 105,
-      "completion": 73.3,
+      "completion": 74.3,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -897,9 +897,9 @@
           "clauses": 10
         },
         "attributes": {
-          "satisfied": 6,
+          "satisfied": 7,
           "partial": 3,
-          "missing": 1,
+          "missing": 0,
           "na": 0,
           "clauses": 10
         },
@@ -1025,13 +1025,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 61,
+        "satisfied": 62,
         "partial": 30,
-        "missing": 16,
+        "missing": 15,
         "na": 5
       },
       "denominator": 107,
-      "completion": 71,
+      "completion": 72,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -1041,9 +1041,9 @@
           "clauses": 10
         },
         "attributes": {
-          "satisfied": 6,
+          "satisfied": 7,
           "partial": 3,
-          "missing": 1,
+          "missing": 0,
           "na": 0,
           "clauses": 10
         },

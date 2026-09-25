@@ -185,6 +185,41 @@ public final class MobsConfig {
     public static double infcowArmorMultiplier() { return INFCOW_ARMOR_MULTIPLIER.get(); }
     public static double infcowKnockbackMultiplier() { return INFCOW_KNOCKBACK_MULTIPLIER.get(); }
 
+    // Legacy SRPConfigMobs.infsheep* / infwolf*.
+    private static final ModConfigSpec.DoubleValue INFSHEEP_HEALTH_MULTIPLIER = value(
+            "srparasites:infsheep", "infsheepHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for the assimilated sheep.");
+    private static final ModConfigSpec.DoubleValue INFSHEEP_DAMAGE_MULTIPLIER = value(
+            "srparasites:infsheep", "infsheepDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Attack-damage multiplier for the assimilated sheep.");
+    private static final ModConfigSpec.DoubleValue INFSHEEP_ARMOR_MULTIPLIER = value(
+            "srparasites:infsheep", "infsheepArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for the assimilated sheep.");
+    private static final ModConfigSpec.DoubleValue INFSHEEP_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:infsheep", "infsheepKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
+            "Knockback-resistance multiplier for the assimilated sheep.");
+    private static final ModConfigSpec.DoubleValue INFWOLF_HEALTH_MULTIPLIER = value(
+            "srparasites:infwolf", "infwolfHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for the assimilated wolf.");
+    private static final ModConfigSpec.DoubleValue INFWOLF_DAMAGE_MULTIPLIER = value(
+            "srparasites:infwolf", "infwolfDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Attack-damage multiplier for the assimilated wolf.");
+    private static final ModConfigSpec.DoubleValue INFWOLF_ARMOR_MULTIPLIER = value(
+            "srparasites:infwolf", "infwolfArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for the assimilated wolf.");
+    private static final ModConfigSpec.DoubleValue INFWOLF_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:infwolf", "infwolfKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
+            "Knockback-resistance multiplier for the assimilated wolf.");
+
+    public static double infsheepHealthMultiplier() { return INFSHEEP_HEALTH_MULTIPLIER.get(); }
+    public static double infsheepDamageMultiplier() { return INFSHEEP_DAMAGE_MULTIPLIER.get(); }
+    public static double infsheepArmorMultiplier() { return INFSHEEP_ARMOR_MULTIPLIER.get(); }
+    public static double infsheepKnockbackMultiplier() { return INFSHEEP_KNOCKBACK_MULTIPLIER.get(); }
+    public static double infwolfHealthMultiplier() { return INFWOLF_HEALTH_MULTIPLIER.get(); }
+    public static double infwolfDamageMultiplier() { return INFWOLF_DAMAGE_MULTIPLIER.get(); }
+    public static double infwolfArmorMultiplier() { return INFWOLF_ARMOR_MULTIPLIER.get(); }
+    public static double infwolfKnockbackMultiplier() { return INFWOLF_KNOCKBACK_MULTIPLIER.get(); }
+
     public static double dorpaHealthMultiplier() { return DORPA_HEALTH_MULTIPLIER.get(); }
     public static double dorpaDamageMultiplier() { return DORPA_DAMAGE_MULTIPLIER.get(); }
     public static double dorpaArmorMultiplier() { return DORPA_ARMOR_MULTIPLIER.get(); }

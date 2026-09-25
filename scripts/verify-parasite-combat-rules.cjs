@@ -344,6 +344,16 @@ for (const [pattern, message] of [
   [/MobsConfig\.infcowKnockbackMultiplier\(\)/, "the cow knockback multiplier is not read"]
 ]) expect(assimilatedSpawn, pattern, message);
 
+// legacy SRPConfigMobs.infsheep* / infwolf* multipliers are read too
+for (const [pattern, message] of [
+  [/boolean sheep = kind == Kind\.SHEEP;/, "the sheep multiplier branch is missing"],
+  [/boolean wolf = kind == Kind\.WOLF;/, "the wolf multiplier branch is missing"],
+  [/MobsConfig\.infsheepHealthMultiplier\(\)/, "the sheep health multiplier is not read"],
+  [/MobsConfig\.infwolfDamageMultiplier\(\)/, "the wolf damage multiplier is not read"]
+]) expect(assimilatedSpawn, pattern, message);
+expect(mobsConfig, /public static double infsheepArmorMultiplier\(\)/, "the sheep accessors are missing");
+expect(mobsConfig, /public static double infwolfKnockbackMultiplier\(\)/, "the wolf accessors are missing");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));
