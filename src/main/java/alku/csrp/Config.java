@@ -80,6 +80,21 @@ public final class Config {
             .define("parasiteGenResidue", true);
 
     // ------------------------------------------------------------------
+    // Evolution Phases - original SRP "Phase # Delay" options.
+    // ------------------------------------------------------------------
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> PHASE_DELAY_SECONDS = BUILDER
+            .comment("Point gain lock, in seconds, applied when a dimension enters a new evolution phase",
+                    "(original SRP \"Phase # Delay\"). Index 0 is phase 0, index 10 is phase 10; an",
+                    "index beyond the end of the list means no lock for that phase.",
+                    "Every entry defaults to 0, so reaching a new phase never stops the dimension from",
+                    "gaining points - the phase cooldown is disabled unless a value is set here.",
+                    "For the original 1.10.9 values use:",
+                    "[0, 4000, 4800, 4700, 4500, 4200, 3800, 3700, 3700, 3800, 6000].",
+                    "默认全部为 0：阶段冷却关闭，进化到下一阶段后可以立即正常获得点数。")
+            .defineList("phaseDelaySeconds", List.of(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+                    value -> value instanceof Integer seconds && seconds >= 0);
+
+    // ------------------------------------------------------------------
     // Parasite Generations - original SRP "parasite_generation" category.
     // ------------------------------------------------------------------
     private static final ForgeConfigSpec.IntValue GENERATION_DEFAULT_VALUE = BUILDER
@@ -876,6 +891,25 @@ public final class Config {
     public static double killcountPlus() { return KILLCOUNT_PLUS.get(); }
     public static float primitiveMinimumDamage() { return PRIMITIVE_MINIMUM_DAMAGE.get().floatValue(); }
     public static boolean useEvolutionPhases() { return USE_EVOLUTION_PHASES.get(); }
+
+    /**
+     * Phase cooldown, in seconds, for the phase a dimension just entered: the original
+     * {@code SRPConfigSystems} "Phase # Delay" option. Returns 0 when the phase has no configured
+     * lock, when the index is past the end of the list, or for the pre-phase-0 start states, which
+     * is also the default for every phase.
+     */
+    public static int phaseDelaySeconds(int phase) {
+        if (phase < 0) {
+            return 0;
+        }
+        List<? extends Integer> delays = PHASE_DELAY_SECONDS.get();
+        if (phase >= delays.size()) {
+            return 0;
+        }
+        Integer seconds = delays.get(phase);
+        return seconds == null ? 0 : Math.max(0, seconds);
+    }
+
     public static boolean generationEnabled() { return GENERATION_ENABLED.get(); }
     public static int generationDefaultValue() { return GENERATION_DEFAULT_VALUE.get(); }
     public static List<? extends String> generationDimensionStartingList() {

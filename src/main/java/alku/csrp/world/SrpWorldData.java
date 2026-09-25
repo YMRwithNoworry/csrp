@@ -270,7 +270,12 @@ public final class SrpWorldData extends SavedData {
         int previous = evolutionPhase;
         evolutionPhase = EvolutionSystem.phaseForPoints(evolutionPoints);
         if (previous != evolutionPhase) {
-            setCooldown(level, EvolutionSystem.phaseDelaySeconds(evolutionPhase));
+            // "phaseDelaySeconds" defaults to 0 for every phase: a phase change must then leave the
+            // dimension free to keep gaining points, and must not wipe an active Lure cooldown either.
+            int phaseDelay = EvolutionSystem.phaseDelaySeconds(evolutionPhase);
+            if (phaseDelay > 0) {
+                setCooldown(level, phaseDelay);
+            }
             EvolutionSystem.announcePhaseChange(level, previous, evolutionPhase);
         }
         setDirty();

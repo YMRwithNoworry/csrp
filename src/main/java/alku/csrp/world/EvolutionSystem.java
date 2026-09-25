@@ -32,9 +32,6 @@ public final class EvolutionSystem {
             0, 800, 1_600, 5_000, 30_000, 200_000,
             5_000_000, 25_000_000, 500_000_000, 1_000_000_000, 1_800_000_000
     };
-    private static final int[] PHASE_DELAY_SECONDS = {
-            0, 4_000, 4_800, 4_700, 4_500, 4_200, 3_800, 3_700, 3_700, 3_800, 6_000
-    };
     private static final int[] SLEEP_POINTS = {3, 10, 25, 50, 100, 2_500, 8_500, 12_500, 15_000, 18_000, 1};
     private static final double[] PASSIVE_POINTS_PER_SECOND = {
             0.0D, 0.0D, 0.0D, 0.05D, 0.075D, 0.1D, 0.15D, 0.25D, 0.35D, 0.45D, 0.55D
@@ -96,8 +93,13 @@ public final class EvolutionSystem {
         return phase;
     }
 
+    /**
+     * Point gain lock in seconds applied after a dimension enters {@code phase}, from the configurable
+     * "phaseDelaySeconds" list (original SRP {@code SRPConfigSystems} "Phase # Delay"). The port ships
+     * every phase at 0 seconds, so a phase change never blocks point gain unless a value is configured.
+     */
     public static int phaseDelaySeconds(int phase) {
-        return phase < 0 ? 0 : PHASE_DELAY_SECONDS[Math.min(10, phase)];
+        return Config.phaseDelaySeconds(phase);
     }
 
     /** True when the current evolution phase needs no extra generation time (original {@code generationPhaseNeeded}). */
