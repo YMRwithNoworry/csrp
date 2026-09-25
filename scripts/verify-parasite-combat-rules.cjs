@@ -625,6 +625,10 @@ expect(read("src/main/java/alku/csrp/entity/MarauderizedParasiteEntity.java"),
 expect(read("src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java"),
   /COTH_AURA_RADIUS = 3;/, "the COTH aura radius must match the legacy cothAura default");
 
+// Legacy SRPSpawning has no mar_* entries: the marauderized family never spawns naturally.
+expect(read("src/main/java/alku/csrp/world/NaturalSpawnTables.java"),
+  /^(?!.*spawn\("mar_(?:villager|enderman)")/s, "the marauderized family must not have natural spawn entries");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));
