@@ -65,7 +65,7 @@
           "clause": "tracker(64, 3, true)：追踪距离 64 格 / 更新间隔 3 tick",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:188",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:191",
             "project": "src/main/java/alku/csrp/registry/ModEntities.java:630"
           },
           "note": "project monster() helper 为 clientTrackingRange(4) = 4 区块 = 64 格，updateInterval(3)，与原版 tracker(64, 3, true) 一致（helper 见 ModEntities.java:629-632）"
@@ -101,7 +101,7 @@
           "clause": "语言键 srparasites.sim_pig",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:186",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:189",
             "project": "src/main/resources/assets/csrp/lang/en_us.json:80"
           },
           "note": "project 键为 entity.csrp.sim_pig = Assimilated Pig"
