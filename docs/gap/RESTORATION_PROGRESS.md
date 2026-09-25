@@ -3288,3 +3288,23 @@ GeneMeleeGoal.java:32      public GeneMeleeGoal(Mob mob, double baseSpeed, boole
 
 **方法论**：本轮的价值在于**又一次订正自己的记述**（"带 interval 参数"→"硬编码 20"）——本会话已多次出现
 "我的笔记比事实乐观"的情形，因此**动手前重读代码**是必需步骤，而不是可选项。
+
+## 批次 206：头部节奏的根因与方案（vanilla 计时器私有）（2026-09-25 续，未改代码）
+
+```
+端口 AssimilatedHeadEntity:417-419   private final class HeadMeleeGoal extends MeleeAttackGoal {
+                                         private HeadMeleeGoal() { super(AssimilatedHeadEntity.this, 1.3D, false); }
+```
+
+⇒ 头部近战**继承 vanilla `MeleeAttackGoal`**，其攻击节奏 = vanilla 的 **20 tick** ✗，而原版头部为 **15** ✗。
+**根因与本会话早前同一处限制**：`MeleeAttackGoal` 的攻击计时器在 1.21 中是 **private** ⇒ **无法通过子类化改节奏**
+（这正是当初为基因攻速另写 `GeneMeleeGoal` 的原因 ✔）。
+
+**方案（下一批实施）**：
+1. 给 `GeneMeleeGoal` **加一个节奏参数**（默认 20，头部传 15）——它已是"独立实现、不依赖 vanilla 私有计时器"的形态 ✔；
+2. 头部把 `HeadMeleeGoal` 替换为带 15 的 `GeneMeleeGoal`，但**必须保留 `HeadMeleeGoal` 现有的 `updateMeleeStatus()` 行为**
+   （其在 `start()`/`tick()` 中调用，属端口自有语义）⇒ 需要把该行为一并带过去（或在 `GeneMeleeGoal` 留一个钩子）；
+3. 断言（头部近战节奏 = 15 tick + `updateMeleeStatus` 仍被调用）。
+
+**为何不在本轮硬改**：这次替换涉及"**换 goal 实现 + 迁移自有行为**"两件事，属中等改动；
+本会话的教训是**一次只动一层**（先参数化 `GeneMeleeGoal` 并验证，再切换头部的 goal 注册），避免又出现"半改"状态。
