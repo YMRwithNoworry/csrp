@@ -56,7 +56,7 @@
           "clause": "tracker(64, 3, true)：追踪距离 64 格 / 更新间隔 3 tick",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:188",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:191",
             "project": "src/main/java/alku/csrp/registry/ModEntities.java:630"
           },
           "note": "project monster() helper 用 clientTrackingRange(4)（4 区块 = 64 格）+ updateInterval(3)，与原版一致"
@@ -92,7 +92,7 @@
           "clause": "语言键 srparasites.sim_horse",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:186",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:189",
             "project": "src/main/resources/assets/csrp/lang/en_us.json:90"
           },
           "note": "键名空间由 srparasites.* 映射为 entity.csrp.*，值 \"Assimilated Horse\""
@@ -109,7 +109,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:94",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:617"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:634"
           }
         },
         {
@@ -117,7 +117,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:95",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:617"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:634"
           }
         },
         {
@@ -125,7 +125,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:96",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:617"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:634"
           }
         },
         {
@@ -133,7 +133,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:97",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:617"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:634"
           }
         },
         {
@@ -141,34 +141,34 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:80",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:617"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:634"
           },
           "note": "project Kind.HORSE movementSpeed = 0.27，与原版 0.26999999701976773 等值"
         },
         {
           "clause": "跟随范围 SRPConfig.infectedFollow = 16.0",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:83",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:617"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:634"
           },
-          "note": "原版读取 SRPConfig.infectedFollow（SRPConfig.java:140 默认 16.0）；project Kind.HORSE followRange = 32.0D，被放大一倍"
+          "note": "project Kind.HORSE followRange = 16.0D，与原版 SRPConfig.infectedFollow 默认 16.0（SRPConfig.java:140）一致（HEAD a0e81bba 已对齐）"
         },
         {
           "clause": "经验 field_70728_aV = SRPAttributes.XP_INFECTED = 8",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:86",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:617"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:634"
           },
-          "note": "原版 infectedXPValue = 8（SRPConfig.java:146）；project Kind.HORSE experience = 12"
+          "note": "原版 XP_INFECTED = 8（SRPConfig.java:146）；project Kind.HORSE experience = 8，数值一致（HEAD a0e81bba 已对齐）"
         },
         {
           "clause": "per-mob 属性倍率 SRPConfigMobs.infhorse{Health,Damage,Armor,KDResistance}Multiplier（默认 1.0F）",
           "verdict": "missing",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:456",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:113"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:117"
           },
           "note": "project createAttributes 只为 BIGSPIDER（dorpa）接线倍率，HORSE 恒为 1.0D（MobsConfig 无 infhorse* 项）；原版默认 1.0F，运行期无差异但配置项缺失"
         },
@@ -176,7 +176,7 @@
           "clause": "阶段属性加成 evolutionParasiteStatIncrease（phase ≥ 阈值时生命/护甲/攻击 ×(1+v)）",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1676",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1683",
             "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
           "note": "applyPhaseStatBonus 于 FinalizeSpawnEvent 中实现（phase ≥ Config.evolutionStatIncreasePhase 时 ×(1+0.07)）；sim_horse 走同一事件"
@@ -186,7 +186,7 @@
           "verdict": "partial",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:266",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:199"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:208"
           },
           "note": "最小伤害/伤害上限（ParasiteCombatRules）与击杀回血已实现；近战用原生 MeleeAttackGoal 而非 GeneMeleeGoal，geneSprinting/geneAttackSpeed 未接线；原版 EntityInfHorse 亦无 EntityAISkill，技能子项不适用"
         }
@@ -211,7 +211,7 @@
           "verdict": "partial",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:190",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:200"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:212"
           },
           "note": "project WaterAvoidingRandomStrollGoal(1.0D) 速度一致，无 120 tick 触发概率/状态门控"
         },
@@ -220,25 +220,25 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:191",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:201"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:215"
           },
           "note": "project ParasiteFollowGoal(this) 注册于优先级 6"
         },
         {
           "clause": "EntityParasiteBase 构造：tasks.addTask(5, EntityAIJumping)",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:192",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:214"
           },
-          "note": "project 无跳跃/越障 goal"
+          "note": "project AssimilatedVariantEntity:210 注册 JumpAtHigherTargetGoal(this) 于优先级 5"
         },
         {
           "clause": "tasks.addTask(0, EntityAISwimmingDiving(this, 0.08))",
           "verdict": "partial",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:69",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:198"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:207"
           },
           "note": "project 只注册 FloatGoal(0)，未接入 SwimmingDivingGoal；浮水有但原版下潜逻辑（yMotion 0.08）缺失"
         },
@@ -256,7 +256,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:70",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:199"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:208"
           },
           "note": "project MeleeAttackGoal(this, 1.5D, false) 速度与原版 1.5 一致（优先级 project 2 vs 原版 3）"
         },
@@ -265,25 +265,25 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:71",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:202"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:218"
           },
           "note": "project RandomLookAroundGoal(this)"
         },
         {
           "clause": "tasks.addTask(6, EntityAIGetFollowers(this, 1, 16))",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:72",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:217"
           },
-          "note": "project AssimilatedVariantEntity 未注册 RecruitFollowersGoal（只存在于 AssimilatedParasiteEntity:169）"
+          "note": "project AssimilatedVariantEntity:213 注册 RecruitFollowersGoal(this, 16)，半径 16 与原版一致"
         },
         {
           "clause": "targetTasks.addTask(1, EntityAIHurtByTarget(this, true))",
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:68",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:203"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:219"
           },
           "note": "project HurtByTargetGoal(this).setAlertOthers()"
         },
@@ -292,7 +292,7 @@
           "verdict": "partial",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:52",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:204"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:220"
           },
           "note": "project NearestAttackableTargetGoal 不实现潜行/隐身察觉惩罚"
         },
@@ -301,7 +301,7 @@
           "verdict": "partial",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:57",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:481"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:496"
           },
           "note": "project isValidParasiteTarget 仅排除 Parasite 自身与死亡目标，未排除动物/水栖/黑名单"
         },
@@ -310,9 +310,22 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:242",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:204"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:220"
           },
           "note": "project 的 LivingEntity 目标选择已包含村民（无条件超集）"
+        },
+        {
+          "clause": "EntityInfHorse 无 EntityAIWaterLeapAtTargetStatus（原版仅 6 条 tasks）",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:67"
+          },
+          "note": "原版 EntityInfHorse.func_184651_r 注册 HurtByTarget/SwimmingDiving/AttackMeleeStatus/LookIdle/GetFollowers/AttackSwell 六条，无水中跃击任务（该任务只被 EntityInfVillager 等使用）；project 却在 AssimilatedVariantEntity:206 无条件注册 WaterLeapAtTargetGoal，属端口新增行为，故本条款不成立",
+          "groundTruth": {
+            "verified": false,
+            "file": null,
+            "line": null
+          }
         }
       ],
       "confidence": "high"
@@ -353,7 +366,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:199",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:594"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:610"
           },
           "note": "project spawnDeathBurst 在 kind == HORSE 时半径 3.5F、伤害 15.0F（= 7.5 × 2.0 已内联），对非 Parasite 目标造成伤害，与 EntityInfHorse:206-213 等价；但 project 触发概率为 0.25（EXPLOSION_CHANCE）而非原版引信必然引爆"
         },
@@ -362,7 +375,7 @@
           "verdict": "partial",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:226",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:601"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:619"
           },
           "note": "原版半径 1.3964844×1.5 = 2.0947、时长 ×2、POISON 300、COTH 3600；project 半径 3.5、时长 160、POISON 200、COTH 200，四项数值均不同"
         },
@@ -380,7 +393,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:106",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:405"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:421"
           },
           "note": "project die() 以 HEAD_SPAWN_CHANCE(0.5F) 生成 ModEntities.SIM_HORSE_HEAD（spawnWalkingHead case HORSE，AssimilatedVariantEntity:516）；原版 headchance 默认 0.5F（SRPConfigMobs.java:468）"
         },
@@ -389,7 +402,7 @@
           "verdict": "partial",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:113",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:617"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:634"
           },
           "note": "project meltStartHeight 1.6F 与 meltDuration 73（Kind.HORSE）对齐原版（原版 HEIGH 1.6F、sound >= 73）；但 project 生成 MovingFleshEntity 而非 EntityLesh，且未还原 out.setLegs(INFHORSE_V)"
         },
@@ -398,7 +411,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:255",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:537"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:553"
           },
           "note": "project killedEntity 中 parasiteKills > FERAL_KILL_THRESHOLD(60) → transformToFeral → case HORSE → ModEntities.FER_HORSE"
         },
@@ -415,8 +428,8 @@
           "clause": "命中时按 cothSpread 概率施加 COTH（SRPConfigSystems.cothInfected）",
           "verdict": "partial",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:91",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:294"
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:92",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:310"
           },
           "note": "project 命中 100% 施加（未按 cothAssimilatedSpreadChance 掷骰）"
         },
@@ -425,7 +438,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:149",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:484"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:500"
           },
           "note": "project infectNearby：每 20 tick、inflate(3.0D)、hasLineOfSight 门控，与原版半径 3 一致"
         },
@@ -451,7 +464,7 @@
           "clause": "spawnGore：goreSim 大方块 + EntityRemain（生命 20×infectedRemainValue）",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:319",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:320",
             "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java:297"
           },
           "note": "leaveGore：BIG 血迹方块 + RemainEntity（goal = 20 × parasiteRemainValue）+ 摊铺 flat 血迹 + 3 个 type 1 血肉弹；原版 EntityInfHorse.selfExplode:219 亦调用 spawnGore"
@@ -485,8 +498,8 @@
           "clause": "火焰倍率 SRPConfig.firemultyplier = 4.0（火伤 ×4）",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:790",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:310"
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:801",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:326"
           },
           "note": "project hurt() 对 IS_FIRE 伤害 ×4.0F"
         },
@@ -503,7 +516,7 @@
           "clause": "VIRA 病毒叠加放大最小伤害",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:878",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:893",
             "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
           },
           "note": "applyMinimumMeleeDamage：VIRA 等级 +2 倍率"
@@ -513,7 +526,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:168",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:293"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:309"
           },
           "note": "project doHurtTarget 调 ParasiteCombatEffects.applyFearFromDamage，数值一致"
         },
@@ -521,7 +534,7 @@
           "clause": "击杀后按 victim 最大生命 × geneMobHealing(3.0) 回血",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1040",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1079",
             "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
           },
           "note": "healOnKill：按 generationProfile.mobHealing 基因 × victim 最大生命回血"
@@ -530,7 +543,7 @@
           "clause": "击杀后用 PARATE 强化生命/护甲/伤害",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1046",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1058",
             "project": "src/main/java/alku/csrp/event/StatusEffectEvents.java"
           },
           "note": "absorbParateAttributes：按 0.5×(amp+1) 把受害者基础生命/护甲/攻击加到自身"
@@ -565,7 +578,7 @@
           "verdict": "partial",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:135",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:175"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:184"
           },
           "note": "project 有 SELFE 同步字段，但 fuseTime 固定 40（原版 70）且无 setSelfeState 的 50% 血量门控"
         },
@@ -621,9 +634,9 @@
           "clause": "EntityInfHorse 无专属 NBT 字段（沿用 EntityParasiteBase）",
           "verdict": "na",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:256"
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:41"
           },
-          "note": "EntityInfHorse 未覆写 func_70014_b / func_70037_a，无专属存档字段；project 虽多存 parasite_kills/skeleton_kills/melt_ticks，但不属于“原版字段丢失”的差异，故本条款不成立",
+          "note": "EntityInfHorse 未覆写 func_70014_b / func_70037_a：全文件 grep 该两方法名 0 命中，无专属存档字段；project 虽多存 parasite_kills/skeleton_kills/melt_ticks，但不属于“原版字段丢失”的差异，故本条款不成立",
           "groundTruth": {
             "verified": false,
             "file": null,
@@ -635,14 +648,14 @@
     },
     {
       "name": "animation",
-      "status": "satisfied",
+      "status": "partial",
       "clauses": [
         {
           "clause": "status 0 行走/待机动画（age_in_ticks + limb_swing）",
           "verdict": "satisfied",
           "evidence": {
-            "original": "client/model/entity/infected/ModelInfHorse.java:1",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:447"
+            "original": "client/model/entity/infected/ModelInfHorse.java:9",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:463"
           },
           "note": "project age_controller + movement_controller 播放 AGE / LIMB"
         },
@@ -650,8 +663,8 @@
           "clause": "status 2 追击姿势（HORSE 分支）",
           "verdict": "satisfied",
           "evidence": {
-            "original": "client/model/entity/infected/ModelInfHorse.java:1",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:447"
+            "original": "client/model/entity/infected/ModelInfHorse.java:9",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:463"
           },
           "note": "project ageAnimation case HORSE：status == 2 → AGE_STATUS_2，否则 AGE_STATUS 0 走 AGE；与原版 func_78087_a 的状态分支一致"
         },
@@ -669,7 +682,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:127",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:371"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:387"
           },
           "note": "project getMeltRenderScale = max(0.01, 1 - ticks*0.005) 与原版 setaSize(-0.005F) 等值；碰撞箱高度缩放分母为 kind.baseHeight 1.75 而实际注册高度 1.6，起始压缩比 0.914 而非 1.0（轻微偏差）"
         },
@@ -677,8 +690,8 @@
           "clause": "controller 注册：ModelSRP.func_78087_a 每帧姿势计算（含 underground 起跳/埋地）",
           "verdict": "partial",
           "evidence": {
-            "original": "client/model/entity/infected/ModelInfHorse.java:1",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:414"
+            "original": "client/model/entity/infected/ModelInfHorse.java:9",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:430"
           },
           "note": "project 使用 Citadel 控制器，缺 underground/埋地姿态"
         }
@@ -687,13 +700,13 @@
     },
     {
       "name": "model_texture",
-      "status": "partial",
+      "status": "satisfied",
       "clauses": [
         {
           "clause": "模型 ModelInfHorse（1.12 Java 模型）",
           "verdict": "satisfied",
           "evidence": {
-            "original": "client/model/entity/infected/ModelInfHorse.java:1",
+            "original": "client/model/entity/infected/ModelInfHorse.java:9",
             "project": "src/main/resources/assets/csrp/geo/sim_horse.geo.json:1"
           },
           "note": "project 使用等价几何体 geo + PrimitiveParasiteRenderer 实参 \"sim_horse\""
@@ -702,7 +715,7 @@
           "clause": "实体贴图 srparasites:textures/entity/monster/infhorse.png",
           "verdict": "satisfied",
           "evidence": {
-            "original": "client/renderer/entity/infected/RenderInfHorse.java:10",
+            "original": "client/renderer/entity/infected/RenderInfHorse.java:12",
             "project": "src/main/resources/assets/csrp/textures/entity/sim_horse.png"
           },
           "note": "贴图命名空间/文件名按 project 规范改写为 csrp:textures/entity/sim_horse.png"
@@ -711,7 +724,7 @@
           "clause": "渲染阴影半径 0.75F",
           "verdict": "satisfied",
           "evidence": {
-            "original": "client/renderer/entity/infected/RenderInfHorse.java:13",
+            "original": "client/renderer/entity/infected/RenderInfHorse.java:14",
             "project": "src/main/java/alku/csrp/client/ClientModEvents.java:218"
           },
           "note": "project new PrimitiveParasiteRenderer<>(context, \"sim_horse\", 0.75F) 与原版 0.75F 一致"
@@ -720,7 +733,7 @@
           "clause": "preRenderCallback：按引信强度缩放模型（1±0.4/0.1）",
           "verdict": "satisfied",
           "evidence": {
-            "original": "client/renderer/entity/infected/RenderInfHorse.java:15",
+            "original": "client/renderer/entity/infected/RenderInfHorse.java:18",
             "project": "src/main/java/alku/csrp/client/renderer/SelfeFuseRender.java:18"
           },
           "note": "project 在 PrimitiveParasiteRenderer 的 scale 中实现同一 f1/f2/f3 公式"
@@ -729,7 +742,7 @@
           "clause": "EntityInfBear 式额外 1.2F 放大（该类专有，马不适用）",
           "verdict": "na",
           "evidence": {
-            "original": "client/renderer/entity/infected/RenderInfHorse.java:15"
+            "original": "client/renderer/entity/infected/RenderInfHorse.java:18"
           },
           "note": "RenderInfHorse.preRenderCallback 无 1.2F 额外缩放（该写法仅见 RenderInfBear:26），故本条款对 sim_horse 不成立",
           "groundTruth": {
@@ -794,7 +807,7 @@
           "verdict": "partial",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfHorse.java:122",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:579"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:595"
           },
           "note": "project 每 20 tick 播放 ModSounds.SIM_ADVENTURER_MELT（素材复用），事件名与原版 INFECTED_MELT 不同"
         }
@@ -837,7 +850,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:556",
-            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:18"
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:295"
           },
           "note": "project 按进化阶段选择生成表，等价实现"
         },
@@ -933,7 +946,7 @@
           "verdict": "partial",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:146",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:617"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java:634"
           },
           "note": "原版 infectedXPValue = 8，project Kind.HORSE experience = 12"
         }

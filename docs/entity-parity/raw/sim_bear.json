@@ -65,7 +65,7 @@
           "clause": "tracker(64, 3, true)：追踪距离 64 格 / 更新间隔 3 tick",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:188",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:191",
             "project": "src/main/java/alku/csrp/registry/ModEntities.java:630"
           },
           "note": "project monster() helper 用 clientTrackingRange(4)（4 区块 = 64 格）+ updateInterval(3)，与原版一致"
@@ -101,7 +101,7 @@
           "clause": "语言键 srparasites.sim_bear",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:186",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:189",
             "project": "src/main/resources/assets/csrp/lang/en_us.json:78"
           },
           "note": "键名空间由 srparasites.* 映射为 entity.csrp.*，值 \"Assimilated Bear\""
@@ -185,7 +185,7 @@
           "clause": "阶段属性加成 evolutionParasiteStatIncrease（phase ≥ 阈值时生命/护甲/攻击 ×(1+v)）",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1676",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1683",
             "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
           "note": "applyPhaseStatBonus 于 FinalizeSpawnEvent 中实现（phase ≥ Config.evolutionStatIncreasePhase 时 ×(1+0.07)）；sim_bear 走同一事件"
@@ -419,7 +419,7 @@
           "clause": "命中时按 cothSpread 概率施加 COTH（SRPConfigSystems.cothInfected）",
           "verdict": "partial",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:91",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:92",
             "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
           },
           "note": "project 使用 cothAssimilatedSpreadChance 档位，未逐项核对与 cothInfected 默认值一致，故标 partial"
@@ -428,7 +428,7 @@
           "clause": "spawnGore：goreSim 大方块 + EntityRemain（生命 20×infectedRemainValue）",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:319",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:320",
             "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java:297"
           },
           "note": "leaveGore：BIG 血迹方块 + RemainEntity（goal = 20 × parasiteRemainValue）+ 摊铺 flat 血迹 + 3 个 type 1 血肉弹"
@@ -471,7 +471,7 @@
           "clause": "火焰倍率 SRPConfig.firemultyplier = 4.0（火伤 ×4）",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:790",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:801",
             "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:246"
           },
           "note": "project hurt() 对 IS_FIRE 伤害 ×4.0F"
@@ -489,7 +489,7 @@
           "clause": "VIRA 病毒叠加放大最小伤害",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:878",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:893",
             "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
           },
           "note": "applyMinimumMeleeDamage：VIRA 等级 +2 倍率"
@@ -507,7 +507,7 @@
           "clause": "击杀后按 victim 最大生命 × geneMobHealing(3.0) 回血",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1040",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1079",
             "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
           },
           "note": "healOnKill：按 generationProfile.mobHealing 基因 × victim 最大生命回血"
@@ -516,7 +516,7 @@
           "clause": "击杀后用 PARATE 强化生命/护甲/伤害",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1046",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1058",
             "project": "src/main/java/alku/csrp/event/StatusEffectEvents.java"
           },
           "note": "absorbParateAttributes：按 0.5×(amp+1) 把受害者基础生命/护甲/攻击加到自身"
@@ -526,7 +526,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1324",
-            "project": "src/main/java/alku/csrp/world/EvolutionSystem.java:191"
+            "project": "src/main/java/alku/csrp/world/EvolutionSystem.java:198"
           },
           "note": "project parasiteDeathPenalty 检查 ModMobEffects.DEBAR"
         }
@@ -627,7 +627,7 @@
           "clause": "status 0 行走/待机动画（age_in_ticks + limb_swing）",
           "verdict": "satisfied",
           "evidence": {
-            "original": "client/model/entity/infected/ModelInfBear.java:1",
+            "original": "client/model/entity/infected/ModelInfBear.java:9",
             "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:523"
           },
           "note": "project case BEAR：status == 0 → AGE / LIMB"
@@ -636,7 +636,7 @@
           "clause": "status 1 攻击姿势（BEAR 分支使用 AGE_STATUS_1 / LIMB_STATUS_1，无静止变体切换）",
           "verdict": "satisfied",
           "evidence": {
-            "original": "client/model/entity/infected/ModelInfBear.java:1",
+            "original": "client/model/entity/infected/ModelInfBear.java:9",
             "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:541"
           },
           "note": "project case BEAR：status != 0 → AGE_STATUS_1 与 LIMB_STATUS_1"
@@ -676,7 +676,7 @@
           "clause": "控制器注册：ModelSRP.func_78087_a 每帧姿势计算（含 underground 起跳/埋地）",
           "verdict": "partial",
           "evidence": {
-            "original": "client/model/entity/infected/ModelInfBear.java:1",
+            "original": "client/model/entity/infected/ModelInfBear.java:9",
             "project": "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java:484"
           },
           "note": "project 使用 Citadel 控制器，缺 underground/埋地姿态"
@@ -692,7 +692,7 @@
           "clause": "模型 ModelInfBear（1.12 Java 模型）",
           "verdict": "satisfied",
           "evidence": {
-            "original": "client/model/entity/infected/ModelInfBear.java:1",
+            "original": "client/model/entity/infected/ModelInfBear.java:9",
             "project": "src/main/resources/assets/csrp/geo/sim_bear.geo.json:1"
           },
           "note": "project 使用等价几何体 geo 文件（88 根骨骼，geometry.csrp.sim_bear）+ AssimilatedParasiteModel:11 映射 \"sim_bear\""
@@ -701,7 +701,7 @@
           "clause": "实体贴图 srparasites:textures/entity/monster/infbear.png",
           "verdict": "satisfied",
           "evidence": {
-            "original": "client/renderer/entity/infected/RenderInfBear.java:10",
+            "original": "client/renderer/entity/infected/RenderInfBear.java:12",
             "project": "src/main/resources/assets/csrp/textures/entity/sim_bear.png"
           },
           "note": "贴图命名空间/文件名按 project 规范改写为 csrp:textures/entity/sim_bear.png"
@@ -710,7 +710,7 @@
           "clause": "渲染阴影半径 0.7F",
           "verdict": "satisfied",
           "evidence": {
-            "original": "client/renderer/entity/infected/RenderInfBear.java:13",
+            "original": "client/renderer/entity/infected/RenderInfBear.java:14",
             "project": "src/main/java/alku/csrp/client/ClientModEvents.java:191"
           },
           "note": "project new AssimilatedParasiteRenderer(context, 0.7F) 与原版 0.7F 一致（该 0.7F 是全部同化动物中唯一的例外值）"
@@ -719,7 +719,7 @@
           "clause": "preRenderCallback：模型整体额外 1.2F 放大（RenderInfBear:26 的 1.2F * f2 / 1.2F * ff * f3）",
           "verdict": "missing",
           "evidence": {
-            "original": "client/renderer/entity/infected/RenderInfBear.java:17",
+            "original": "client/renderer/entity/infected/RenderInfBear.java:18",
             "project": null
           },
           "note": "project AssimilatedParasiteModel 的 ModelSpec 只有 (geometry, animation) 两个字段、无 scale 参数，AssimilatedParasiteRenderer.scale 亦无 1.2F 因子，熊的模型比原版小 20%"
@@ -729,7 +729,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfBear.java:116",
-            "project": "src/main/java/alku/csrp/client/renderer/AssimilatedParasiteRenderer.java:19"
+            "project": "src/main/java/alku/csrp/client/renderer/AssimilatedParasiteRenderer.java:18"
           }
         }
       ],
@@ -822,7 +822,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:556",
-            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:18"
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:295"
           },
           "note": "project 按进化阶段选择生成表（sim_bear 出现在 6 张阶段表中），等价实现"
         },

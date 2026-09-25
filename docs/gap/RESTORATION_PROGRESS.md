@@ -2214,3 +2214,24 @@ infvillagerMobSummon / infhorseMobSummon / infadventurerMobSummon`。`build` 通
 之所以允许这个一轮窗口，是因为本轮上下文余量已不足以安全完成"键 + 解析工具 + 挂载"三件套，
 而**分批落地优于半途而废**（半改状态更危险）。下一批将一次完成第 2、3 步（解析工具 + `ParasiteCombatRules.selfExplode`
 挂载，该钩子**两族共用** ⇒ 一处挂载即可覆盖 8 个键），随后立即记账。
+
+## 批次 144：第一份子代理交付 5 只审计（478 条）+ **两处关键纠正**（2026-09-25 续）
+
+子代理 `40ebdea6…` 交付：`sim_villager(93) / sim_adventurer(95) / sim_horse(95) / sim_bear(92) / sim_enderman(103)`，
+合计 **478 条**（277 satisfied / 115 partial / 63 missing / 23 na），结构同 `raw/sim_cow.json`；
+其 `sim_pig` 因与我另一份委派碰撞而**主动让出**（并指出对方那份偏薄：4 facet/5 clause），改审 `sim_enderman` ✔ 处置得当。
+它还把自身判定**重基到我的提交上**（把我新增的 WaterLeap/Jumping/GetFollowers、followRange 16、XP 8 等翻为 satisfied ✔ 与我的修复一致）。
+
+### ⚠️ 两处必须采纳的纠正（直接影响我已做/将做的改动）
+
+1. **`infvillagermob` / `infhorsemob` 在原版中【零调用点】** ⇒ 我在批次 143 落的 8 个键里，这 2 个**不应接线**
+   （原版从未使用它们）；而 `infcowmob` 被 `EntityInfBear:178` **复用**（熊没有独立键）⇒ 接线时熊用 `infcowmob`。
+   真实需接线的只有 **6 个**：`dorpamob / infcowmob（含熊）/ infsheepmob / infwolfmob / infpigmob / infadventurermob`。
+2. **`SimAdventurerEntity` 仍偏离**：`FOLLOW_RANGE 32`（应为 16）、`xpReward 10`（应为 8）——
+   批次 120 只修了 `AssimilatedVariantEntity`，**`SimAdventurerEntity` 是独立类、被漏掉**（与批次 119/120 的漏项同型）。
+
+### 其报告与当前树的差异（避免误判为未修）
+
+它列出的"`sim_horse` fuseTime 仍是全局 40"与"毒云 POISON 200/COTH 200"两条**已过时**——
+我已在批次 136（引信 per-owner 覆写、HORSE=70）与批次 139（毒云 300/3600）修掉 ✔。
+其余条目（`EntityAIAttackSwell` 未移植、`INFECTEDHORSE_SA2` 已注册但无人引用、sim_enderman 的 6 处偏差等）**仍然成立**，列为后续靶点。

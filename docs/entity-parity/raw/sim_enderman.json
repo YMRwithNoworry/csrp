@@ -1,0 +1,1026 @@
+{
+  "id": "sim_enderman",
+  "originalClass": "EntityInfEnderman",
+  "projectClass": "AssimilatedEndermanEntity",
+  "facets": [
+    {
+      "name": "registration",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "SRPEntities.CreateEntityMob(\"sim_enderman\", EntityInfEnderman.class, 8611072, 16711900, 59, SRPConfigMobs.infendermanEnabled) 注册 id",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:260",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:294"
+          },
+          "note": "API 映射：EntityEntry ↔ DeferredRegister + EntityType，注册 id 字面量 \"sim_enderman\" 一致；project 使用专属类 AssimilatedEndermanEntity"
+        },
+        {
+          "clause": "数值 id 59（getParasiteIDRegister）驱动掉落/生成派发",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:91",
+            "project": "src/main/resources/data/csrp/loot_table/entities/sim_enderman.json:1"
+          },
+          "note": "数值 id 语义改由 per-entity loot_table + NaturalSpawnTables 表驱动，行为等价；原版 id 59 亦用于 teleportAlly 中「59/69 免伤」判定（EntityInfEnderman:352）"
+        },
+        {
+          "clause": "MobCategory：继承 EntityMob（MONSTER）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:95",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:629"
+          },
+          "note": "project monster() helper 固定 MobCategory.MONSTER"
+        },
+        {
+          "clause": "碰撞箱 func_70105_a(0.6F, 2.3F)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:80",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:294"
+          },
+          "note": "project sized(0.6FF, 2.3FF) 与之一致"
+        },
+        {
+          "clause": "爬行形态碰撞箱切换为 0.95F × 1.25F（EntityInfEnderman:210）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:210",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:201"
+          },
+          "note": "project getDefaultDimensions 在 isCrawling() 时返回 EntityDimensions.scalable(0.95F, 1.25F)，与原版 func_70105_a(0.95F, 1.25F) 数值一致"
+        },
+        {
+          "clause": "眼高 func_70047_e() = field_70131_O * 0.88F（2.3 × 0.88 = 2.024）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:623",
+            "project": null
+          },
+          "note": "project 未覆写 getEyeHeight，monster() helper 不传 eyeHeight，沿用默认 ≈0.85×2.3=1.955，与原版 2.024 不一致"
+        },
+        {
+          "clause": "步高 field_70138_W = 1.0F（EntityInfEnderman:85）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:85",
+            "project": null
+          },
+          "note": "project AssimilatedEndermanEntity.createAttributes 未设 Attributes.STEP_HEIGHT（沿用默认 0.6），未还原 1.0F 步高"
+        },
+        {
+          "clause": "头部独立命中盒 EntityHitbox(this, 0.0F, 0.0F, 2.3F, 0.6F, 0.6F, 1.25F) 与 updateHitboxes 随爬行下移 1.625F",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:86",
+            "project": null
+          },
+          "note": "project AssimilatedEndermanEntity 无 hitboxes 字段、无 EntityHitbox、无 updateHitboxes 覆写（全仓 grep EntityHitbox 无命中）；原版头部可被独立命中（半径 0 / 角度 0，爬行时 0.9 / 1.6 并下移 1.625）"
+        },
+        {
+          "clause": "tracker(64, 3, true)：追踪距离 64 格 / 更新间隔 3 tick",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:191",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:630"
+          },
+          "note": "project monster() helper 用 clientTrackingRange(4)（4 区块 = 64 格）+ updateInterval(3)，与原版一致"
+        },
+        {
+          "clause": "刷怪蛋颜色 8611072/16711900（全部 sim_* 共用同一颜色）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:260",
+            "project": "src/main/java/alku/csrp/registry/ModItems.java:187"
+          },
+          "note": "project 逐生物配色（sim_enderman = 0x20182B/0x7A355D），不再是统一颜色"
+        },
+        {
+          "clause": "刷怪蛋开关 SRPConfig.vanillaEggs",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:189",
+            "project": null
+          },
+          "note": "project 无该开关（grep vanillaEggs 无命中），刷怪蛋恒注册"
+        },
+        {
+          "clause": "SRPConfigMobs.infendermanEnabled 生物启用开关",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:348",
+            "project": null
+          },
+          "note": "project 无 per-mob 启用开关（grep infendermanEnabled 无命中）"
+        },
+        {
+          "clause": "语言键 srparasites.sim_enderman",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:189",
+            "project": "src/main/resources/assets/csrp/lang/en_us.json:88"
+          },
+          "note": "键名空间由 srparasites.* 映射为 entity.csrp.*，值 \"Assimilated Enderman\""
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "attributes",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "生命 SRPAttributes.INFENDERMAN_HEALTH = 55.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:37",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:118"
+          }
+        },
+        {
+          "clause": "护甲 SRPAttributes.INFENDERMAN_ARMOR = 5.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:38",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:119"
+          }
+        },
+        {
+          "clause": "攻击力 SRPAttributes.INFENDERMAN_ATTACK_DAMAGE = 11.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:40",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:120"
+          }
+        },
+        {
+          "clause": "击退抗性 SRPAttributes.INFENDERMAN_KD_RESISTANCE = 0.1",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:41",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:121"
+          }
+        },
+        {
+          "clause": "移动速度 0.3F（EntityInfEnderman:126）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:126",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:122"
+          },
+          "note": "project MOVEMENT_SPEED = 0.30D，与原版 0.3F 等值"
+        },
+        {
+          "clause": "跟随范围 64.0（EntityInfEnderman:128 直接写死 64.0，非 SRPConfig.infectedFollow）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:128",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:123"
+          },
+          "note": "末影人是同化体中唯一不读 infectedFollow 的生物，原版写死 64.0；project FOLLOW_RANGE = 64.0D 数值一致"
+        },
+        {
+          "clause": "经验 field_70728_aV = SRPAttributes.XP_INFECTED = 8",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:86",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:113"
+          },
+          "note": "原版 infectedXPValue = 8（SRPConfig.java:146）；project 构造函数 xpReward = 8（注释亦标注 XP_INFECTED）"
+        },
+        {
+          "clause": "攻击目标时的速度加成 ATTACKING_SPEED_BOOST（AttributeModifier 0.15F，名 \"Attacking speed boost\"）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:65",
+            "project": null
+          },
+          "note": "project setTarget 只调 setAggressive(hasTarget)（AssimilatedEndermanEntity:141），未对 MOVEMENT_SPEED 施加 0.15 的乘法/加法修正，锁定目标后不会加速"
+        },
+        {
+          "clause": "per-mob 属性倍率 SRPConfigMobs.infenderman{Health,Damage,Armor,KDResistance}Multiplier（默认 1.0F，SRPAttributes:1085 参与结算）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:341",
+            "project": null
+          },
+          "note": "project createAttributes 直接写死数值，无 MobsConfig 倍率入口（MobsConfig 中无 infenderman* 项）；原版默认 1.0F，运行期无差异但配置项缺失"
+        },
+        {
+          "clause": "阶段属性加成 evolutionParasiteStatIncrease（phase ≥ 阈值时生命/护甲/攻击 ×(1+v)）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1683",
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
+          },
+          "note": "applyPhaseStatBonus 于 FinalizeSpawnEvent 中实现（phase ≥ Config.evolutionStatIncreasePhase 时 ×(1+0.07)）；sim_enderman 走同一事件"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "ai",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "构造中移除 EntityParasiteBase 的跟随任务：field_70714_bg.func_85156_a(this.folow)（EntityInfEnderman:83）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:83",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:233"
+          },
+          "note": "原版 Enderman 显式移除 EntityAIParasiteFollow，代之以自身传送聚怪逻辑；project 反而重新注册 ParasiteFollowGoal(this)（优先级 6），行为与原版相反"
+        },
+        {
+          "clause": "EntityParasiteBase 构造：tasks.addTask(0, EntityAIWait)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:189",
+            "project": null
+          },
+          "note": "project 无 wait goal；Enderman 也没有系泊/定格语义的替代实现"
+        },
+        {
+          "clause": "EntityParasiteBase 构造：tasks.addTask(5, EntityAIWanderStatus(1.0, 120, 0.001F, true))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:190",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:232"
+          },
+          "note": "project WaterAvoidingRandomStrollGoal(1.0D) 速度一致，无 120 tick 触发概率/状态门控"
+        },
+        {
+          "clause": "EntityParasiteBase 构造：tasks.addTask(5, EntityAIJumping)",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:192",
+            "project": null
+          },
+          "note": "project 无跳跃/越障 goal；原版另有 EntityInfEnderman:268 的 this.field_70703_bu = false 抑制跳跃，project 亦未还原该抑制"
+        },
+        {
+          "clause": "tasks.addTask(0, EntityAISwimmingDiving(this, 0.08))",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:109",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:230"
+          },
+          "note": "project 只注册 FloatGoal(0)，未接入 SwimmingDivingGoal；浮水有但原版下潜逻辑（yMotion 0.08）缺失"
+        },
+        {
+          "clause": "tasks.addTask(3, EntityAIAttackMeleeStatus(this, 1.2, false, 0.0))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:110",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:231"
+          },
+          "note": "project EndermanMeleeGoal 继承 MeleeAttackGoal(speed 1.2D, false)，速度与原版 1.2 一致，并额外维护 PARASITE_STATUS 1/2（对应原版状态机驱动动画）"
+        },
+        {
+          "clause": "tasks.addTask(8, EntityAILookIdle(this))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:111",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:235"
+          },
+          "note": "project RandomLookAroundGoal(this)"
+        },
+        {
+          "clause": "targetTasks.addTask(1, EntityAIHurtByTarget(this, true))",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:108",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:236"
+          },
+          "note": "project HurtByTargetGoal(this).setAlertOthers()"
+        },
+        {
+          "clause": "EntityPInfected 构造：target 4 NearestAttackableTargetStatus(EntityPlayer, sneakPen 0.8, inviPen 0.7)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:52",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:237"
+          },
+          "note": "project NearestAttackableTargetGoal 不实现潜行/隐身察觉惩罚"
+        },
+        {
+          "clause": "EntityPInfected 构造：SRPConfig.mobattacking 时 target 4 EntityLiving（排除水栖/动物/村民+黑名单）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:57",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:475"
+          },
+          "note": "project isValidParasiteTarget 仅排除 Parasite 自身与死亡目标，未排除动物/水栖/黑名单"
+        },
+        {
+          "clause": "applyBonuses：phase ≥ evolutionAssimilatedDehiding 时 target 5 村民",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:242",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:237"
+          },
+          "note": "project 的 LivingEntity 目标选择已包含村民（无条件超集）"
+        },
+        {
+          "clause": "EntityInfEnderman 无 EntityAIGetFollowers / EntityAISkill（原版仅注册 4 条 tasks）",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:107"
+          },
+          "note": "原版 func_184651_r 只注册 HurtByTarget/SwimmingDiving/AttackMeleeStatus/LookIdle 四条，无追随/技能任务；project 亦无 CowChargeGoal 类技能，故本条款不成立（聚怪由 teleportAllies 自行实现）",
+          "groundTruth": {
+            "verified": true,
+            "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java",
+            "line": 107
+          }
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "behaviors",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "func_70624_b 覆写：锁定目标时 SCREAMING = true、施加攻击速度加成，并在首次锁定玩家时于玩家位置播 INFECTEDENDERMAN_PORTAL(0.3F)，同时 spotCool = SRPConfigMobs.infendermansaw(80)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:133",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:137"
+          },
+          "note": "project setTarget 设置 SCREAMING 与 setAggressive，并播放 SoundEvents.ENDERMAN_TELEPORT（原声 1.0F）而非 ModSounds.INFECTED_ENDERMAN_PORTAL（ModSounds.java:111 已注册但未被调用）；冷却取 40 而非 infendermansaw 的 80；无速度加成"
+        },
+        {
+          "clause": "Tick 中的随机传送：tickCount % 20 == 0 且目标平方距离 > (INFENDERMAN_TP_DIST/2)² = 16 且 random.nextInt(infendermantelefreq=2) == 0 且 teleportAllies 未接管 → teleportRandomly",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:243",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:290"
+          },
+          "note": "project 条件为 targetTicks > 80（TARGET_GRACE_TICKS）、tickCount % 20 == 0、selfTeleportCooldown <= 0、distanceToSqr > 100；距离门限 100（10²）≠ 原版 16（(8/2)²），且缺少 1/infendermantelefreq 掷骰与 RAGE 时冷却归零（EntityInfEnderman:262）"
+        },
+        {
+          "clause": "teleportRandomly：±32 格 X/Z、±32 格 Y，且新位置与目标距离 < INFENDERMAN_TP_DIST²(64) 时放弃",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:373",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:506"
+          },
+          "note": "project teleportAwayFromTarget：偏移量 (rand-0.5)*64 与 randInt(64)-32 与原版一致，但拒绝阈值改为 MIN_TARGET_DISTANCE_SQR(100) 而非 64，且尝试上限 8 次（原版由调用方 64 次/单次决定），另加 selfTeleportCooldown(20) 节流"
+        },
+        {
+          "clause": "teleportAllies：64 格 AABB 内寻找无目标的 EntityPInfected（parasiteType ≤ 15、未融化、剩余生命 - infendermanTeleDamage ≥ 2）或 EntityMudo，先定位 ally=1 再累计 8 tick 后把队友拉到自己身边、造成 infendermanTeleDamage(2.0) 伤害并点燃，冷却 infendermanallyCool = 40",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:287",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:479"
+          },
+          "note": "project teleportAllyToTarget：inflate(64.0D) 搜索范围与冷却 40（ALLY_TELEPORT_COOLDOWN）一致，队友获 2.0 魔法伤害并 setTarget；但 (a) 筛选条件放宽为「任意 instanceof Parasite 且无目标」（未限 parasiteType ≤ 15 / EntityMudo / 生命下限），(b) 缺少原版 ally 计数与 8 tick 蓄力阶段（原版先把队友传到自己身边、8 tick 后再一起传送到目标旁），(c) 未处理目标已死亡时的回退传送"
+        },
+        {
+          "clause": "func_70097_a 覆写：任意伤害先把 spotCool 归零；间接伤害（EntityDamageSourceIndirect）尝试 64 次 teleportRandomly 并直接返回 true；否则走 super，且当 source.func_76363_c()（不可格挡）时按 1/infendermantelefreq 概率传送",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:551",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:360"
+          },
+          "note": "project 以 source.getDirectEntity() != null && != getEntity() 近似判定投射物并做 64 次尝试（返回 true），其余走 super（含火焰 ×4）；但缺少 spotCool 归零与不可格挡伤害的 1/infendermantelefreq 掷骰，改以 allyTeleportCooldown=0 + 50% 概率传送替代"
+        },
+        {
+          "clause": "func_70652_k 覆写：命中后按 infectedBleedingChance(0.2) 施加 BLEED 100/0，并按 1/infendermantelefreq 概率传送",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:577",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:306"
+          },
+          "note": "project doHurtTarget 在 0.2 概率下施加的是 MobEffects.WITHER 100/0 而非 ModMobEffects.BLEED（该 0.2 概率保留但效果类型错误），命中后也不再触发传送"
+        },
+        {
+          "clause": "浸水伤害：SRPConfigMobs.infendermanWaterDamageEnabled 且 func_70090_H() 时每 20 tick 扣 2.0 点并施加 MobEffects 20 tick 等级 1",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:233",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:284"
+          },
+          "note": "project 每 20 tick 造成 damageSources().drown() 2.0F（数值一致），但：(a) 判定用 isInWaterRainOrBubble() 而非仅浸水（雨中也会受伤）；(b) 未施加 MobEffects 20 tick 的伴随效果；(c) 无 infendermanWaterDamageEnabled 开关"
+        },
+        {
+          "clause": "func_70636_d：覆写末尾 this.field_70703_bu = false（禁止跳跃）与客户端 portal 粒子",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:269",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:544"
+          },
+          "note": "client 侧 spawnPortalParticles 完全对齐（2 个 ParticleTypes.PORTAL、偏移与速度公式一致）；但 field_70703_bu = false 的跳跃抑制未还原"
+        },
+        {
+          "clause": "killcount 初值 -10.0（EntityInfEnderman:84，推迟狂化/融化判定）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:84",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:315"
+          },
+          "note": "project parasiteKills 从 0 开始，且用 >= 60 判定（AssimilatedEndermanEntity:301）；原版 killcount 初值 -10、判定 killcount > feralKills(60)，实际所需击杀数比端口多 10"
+        },
+        {
+          "clause": "getFeral 覆写：击杀数超阈值转化为 EntityFerEnderman",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:644",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:316"
+          },
+          "note": "project killedEntity 复用 ModEntities.FER_ENDERMAN 并复制目标/名称/持久化；阈值差异见上一条"
+        },
+        {
+          "clause": "死亡后 field_70725_aQ == 20 且 random ≤ INFENDERMAN_HEADCHANCE(0.5) 时召唤 srparasites:sim_endermanhead;1;1",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:543",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:380"
+          },
+          "note": "project die() 以 0.5F 概率生成 ModEntities.SIM_ENDERMAN_HEAD；原版 headchance 默认 SRPConfigMobs.infendermanheadchance = 0.5F（SRPConfigMobs.java:355）"
+        },
+        {
+          "clause": "无自爆引信：构造中 canModRender = 0（EntityInfEnderman:81），死亡走 onDeathUpdateOG 而非 dyingBurst/selfExplode",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:81",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:61"
+          },
+          "note": "project AssimilatedEndermanEntity 未实现 SelfeFuseOwner、无 SELFE 同步字段、无 selfExplode 调用，与原版 canModRender=0 的「不引爆」语义一致"
+        },
+        {
+          "clause": "固化变体切换 cycleManualVariant()：ARIRAL → (0, ariral=false) → (1, ariral=false) → (0, ariral=true) 三态循环",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:576",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:177"
+          },
+          "note": "project 以 ManualVariantProvider 提供 3 个变体（getMaxManualVariants = 3；变体 2 = isShrimpFed 对应 ariral 贴图，变体 1 = TEXTURE_VARIANT 1），与 PrimitiveParasiteModel:128-133 的贴图选择连通；但三态的驱动方式不同——project 用虾肉喂食 mobInteract 触发（AssimilatedEndermanEntity:228），且缺少原版 ARIRAL 独立同步字段"
+        },
+        {
+          "clause": "func_180482_a：始终随机 setTextureVariant(random.nextBoolean() ? 1 : 0)；再按 variantChance / evolutionParasiteAlwaysVariant 概率 setCrawling(true)",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:673",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:155"
+          },
+          "note": "project finalizeSpawn 复刻了爬行掷骰（Config.variantSpawnChance / alwaysVariantPhase），但完全没有贴图变体的随机初始化（TEXTURE_VARIANT 恒为 0），原版每个末影人出生即随机 0/1 贴图"
+        },
+        {
+          "clause": "func_70074_a 覆写：击杀后清空 tpPlayerName",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:606",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:313"
+          },
+          "note": "project killedEntity 于击杀路径处理狂化与计数，tpPlayerName 版的身份记录改由 setTarget 的冷却计时等价承担"
+        },
+        {
+          "clause": "融化（EntityCanMelt）：EntityInfEnderman 未实现该接口",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:64"
+          },
+          "note": "类声明为 `extends EntityPInfected`（未 implements EntityCanMelt，对比 EntityInfPig/Bear/Horse/Villager/Player 均声明该接口），全文无 melt()/melting()/isMelting()，故融化条款对该生物不成立",
+          "groundTruth": {
+            "verified": false,
+            "file": null,
+            "line": null
+          }
+        },
+        {
+          "clause": "近战附加最小伤害 attackEntityAsMobMinimum(MiniDamage = SRPConfig.infectedMinDamage 0.5)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:858",
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
+          },
+          "note": "applyMinimumDamage：按科 minimumDamage 穿甲扣血，并随 VIRA 等级 +2 放大"
+        },
+        {
+          "clause": "命中玩家时偷取食物 foodSteal = 0.1 并转化为感染掉落",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:958",
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
+          },
+          "note": "stealFoodFromPlayer：按 infectedFoodSteal 概率偷取一份食物并以 assimilated_flesh 掉落"
+        },
+        {
+          "clause": "命中时按概率施加 COTH（EntityPInfected:91 cothSpread）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:91",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:304"
+          },
+          "note": "project doHurtTarget 命中即 100% 调 InfectionMechanics.applyCoth（未按 cothAssimilatedSpreadChance 掷骰）"
+        },
+        {
+          "clause": "spawnGore：goreSim 大方块 + EntityRemain（生命 20×infectedRemainValue）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:320",
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java:297"
+          },
+          "note": "leaveGore：BIG 血迹方块 + RemainEntity（goal = 20 × parasiteRemainValue）+ 摊铺 flat 血迹 + 3 个 type 1 血肉弹"
+        },
+        {
+          "clause": "doLast：发现感染点后给目标 SPOT 效果并 alertOthers",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1167",
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
+          },
+          "note": "markSpottedTarget（LivingChangeTargetEvent）：目标确定且 SrpWorldData.nearestInfectionPosition 存在时给目标 SPOTTED 1200 tick，并由 alertOthers 唤醒 7 格内无目标的寄生体"
+        },
+        {
+          "clause": "SPOTTED 影响下的环境音抑制（含 sim_enderman）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1167",
+            "project": "src/main/java/alku/csrp/effect/SpottedMobEffect.java:33"
+          },
+          "note": "project SpottedMobEffect 名单显式包含 \"sim_enderman\""
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "damage_and_effects",
+      "status": "satisfied",
+      "clauses": [
+        {
+          "clause": "伤害上限 SRPConfig.infectedCap = 2（超过即削减并施加 RAGE 200/1）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:87",
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
+          },
+          "note": "damageAfterIncomingCap：maxHealth/cap + 余数*0.5 上限 + RAGE 200/1，火焰/虚空不设限，基因门控"
+        },
+        {
+          "clause": "火焰倍率 SRPConfig.firemultyplier = 4.0（火伤 ×4）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:801",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:369"
+          },
+          "note": "project hurt() 对 IS_FIRE 伤害 ×4.0F"
+        },
+        {
+          "clause": "药水免疫：COTH/VIRA/CORRO/DLER 不可被施加（func_70687_e）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1084",
+            "project": "src/main/java/alku/csrp/event/StatusEffectEvents.java"
+          },
+          "note": "preventParasiteStatusApplication：寄生体拒绝 COTH/VIRA/CORRO/DLER"
+        },
+        {
+          "clause": "VIRA 病毒叠加放大最小伤害",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:893",
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
+          },
+          "note": "applyMinimumMeleeDamage：VIRA 等级 +2 倍率"
+        },
+        {
+          "clause": "受击后对玩家施加恐惧 FEAR（伤害 > 8 时 1..3 级，200~500 tick）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:168",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:303"
+          },
+          "note": "project doHurtTarget 调 ParasiteCombatEffects.applyFearFromDamage，数值一致"
+        },
+        {
+          "clause": "击杀后按 victim 最大生命 × geneMobHealing(3.0) 回血",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1079",
+            "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
+          },
+          "note": "healOnKill：按 generationProfile.mobHealing 基因 × victim 最大生命回血"
+        },
+        {
+          "clause": "击杀后用 PARATE 强化生命/护甲/伤害",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1058",
+            "project": "src/main/java/alku/csrp/event/StatusEffectEvents.java"
+          },
+          "note": "absorbParateAttributes：按 0.5×(amp+1) 把受害者基础生命/护甲/攻击加到自身"
+        },
+        {
+          "clause": "DEBAR 时击杀不掉进化点",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1324",
+            "project": "src/main/java/alku/csrp/world/EvolutionSystem.java:198"
+          },
+          "note": "project parasiteDeathPenalty 检查 ModMobEffects.DEBAR"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "sync_data",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "DataManager.register SCREAMING (boolean)（EntityInfEnderman:66 / 196）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:66",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:65"
+          },
+          "note": "project 同名 SCREAMING 同步字段，setTarget 时写 true/false，并驱动 is_screaming_1 动画分支"
+        },
+        {
+          "clause": "DataManager.register CRAWLING (boolean)（EntityInfEnderman:67 / 197）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:67",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:67"
+          },
+          "note": "project CRAWLING 同步字段 + onSyncedDataUpdated 触发 refreshDimensions（对应原版 func_70636_d 的尺寸切换）"
+        },
+        {
+          "clause": "DataManager.register TEXTURE_VARIANT (int)（EntityInfEnderman:68 / 195，0/1）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:68",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:63"
+          },
+          "note": "project TEXTURE_VARIANT (INT) 同名同步；贴图选择见 PrimitiveParasiteModel:131"
+        },
+        {
+          "clause": "DataManager.register ARIRAL (boolean)（EntityInfEnderman:69 / 198，第三种贴图）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:69",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:61"
+          },
+          "note": "原版 ARIRAL 是独立的布尔同步字段（渲染器 isAriral() → infenderman_ariral.png）；project 改以 SHRIMP_FED 布尔字段承担同一贴图分支（PrimitiveParasiteModel:128-129 → sim_enderman_ariral.png），字段语义与触发方式不同"
+        },
+        {
+          "clause": "DataManager.register SPECIAL (byte)：parasiteStatus 状态机 0..6",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:134",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:69"
+          },
+          "note": "project PARASITE_STATUS 只由 EndermanMeleeGoal 与 setTarget 写 0/1/2（并额外约束「非爬行时 2 降为 1」），无 wait/leap/breakblock 等状态；与 AssimilatedParasiteEntity 的 ANIMATION_STATUS 亦非同一 accessor"
+        },
+        {
+          "clause": "DataManager.register SELFE (int)：自爆引信状态",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:81"
+          },
+          "note": "原版构造把 canModRender 置 0，onDeathUpdate 永久走 onDeathUpdateOG 分支，SELFE 引信对末影人不会启动（EntityParasiteBase:1437-1450）；project 同样未实现 SelfeFuseOwner，两侧行为一致，故本条款作为「差异」不成立",
+          "groundTruth": {
+            "verified": false,
+            "file": null,
+            "line": null
+          }
+        },
+        {
+          "clause": "DataManager.register SKIN (byte)：贴图/变体",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:68"
+          },
+          "note": "EntityInfEnderman 用自有的 TEXTURE_VARIANT/ARIRAL 而非基类 SKIN（全文无 setSkin/getSkin 调用），故基类 SKIN 条款对该生物不成立",
+          "groundTruth": {
+            "verified": false,
+            "file": null,
+            "line": null
+          }
+        },
+        {
+          "clause": "DataManager.register COLD_L / DISLO15（寒冷标记 / 击退计数）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:137",
+            "project": null
+          },
+          "note": "project 无 COLD_L / DISLO15 对应同步字段"
+        },
+        {
+          "clause": "NBT 持久化 SRPTextureVariant / thiscancrawl / SRPAriral（EntityInfEnderman:641-668）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:653",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:333"
+          },
+          "note": "project 存 texture_variant / crawling / shrimp_fed（三键覆盖同样的三态），键名与原版不同；另存 parasite_kills/target_ticks/self_teleport_cooldown/ally_teleport_cooldown/spot_cooldown（端口自有的计时器）"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "animation",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "动画函数组合：age_in_ticks / limb_swing × is_screaming_1 / is_crawling_1 × get_parasite_status_1|2 × get_still_ani_1",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "client/model/entity/infected/ModelInfEnderman.java:9",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:76"
+          },
+          "note": "project ORIGINAL_ANIMATION_FUNCTIONS 穷举 24 条组合名，animationFunction() 按 status/crawling/screaming/still 逐段拼接（AssimilatedEndermanEntity:381-401），与原版模型的多条件分支一一对应"
+        },
+        {
+          "clause": "静止姿势 get_still_ani_1（非移动时切换）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "client/model/entity/infected/ModelInfEnderman.java:9",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:425"
+          },
+          "note": "project STILL_ANIMATION_DELAY_TICKS(25) 后且非爬行时追加 .get_still_ani_1"
+        },
+        {
+          "clause": "爬行姿势 is_crawling_1（原版模型约 X 轴 90°、Z 轴 180° 旋转）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "client/model/entity/infected/ModelInfEnderman.java:9",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:395"
+          },
+          "note": "project 用独立的 movement_controller（transitionLength 0）立即切换爬行姿势，注释明确说明为还原原版即时切换、避免混合形变"
+        },
+        {
+          "clause": "受击/自爆闪白（getSelfeFlashIntensity 驱动缩放脉动，preRenderCallback 无 ff 分量）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "client/renderer/entity/infected/RenderInfEnderman.java:20",
+            "project": "src/main/java/alku/csrp/client/renderer/PrimitiveParasiteRenderer.java:84"
+          },
+          "note": "原版 RenderInfEnderman.preRenderCallback 不使用 getSelfeFlashIntensity2（无 aSize，因不可融化），project 的 SelfeFuseRender.applySwelling 同样只处理引信强度且该实体引信恒为未激活，两侧等价"
+        },
+        {
+          "clause": "控制器注册：ModelSRP.func_78087_a 每帧姿势计算（含 underground 起跳/埋地）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "client/model/entity/infected/ModelInfEnderman.java:9",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:241"
+          },
+          "note": "project 只注册 movement_controller，未注册独立的 age/idle 控制器（idle 姿态并入同一 controller）；缺 underground/埋地姿态"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "model_texture",
+      "status": "satisfied",
+      "clauses": [
+        {
+          "clause": "模型 ModelInfEnderman（1.12 Java 模型）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "client/model/entity/infected/ModelInfEnderman.java:9",
+            "project": "src/main/resources/assets/csrp/geo/sim_enderman.geo.json:1"
+          },
+          "note": "project 使用等价几何体 geo + PrimitiveParasiteRenderer 实参 \"sim_enderman\""
+        },
+        {
+          "clause": "基础贴图 srparasites:textures/entity/monster/infenderman.png",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "client/renderer/entity/infected/RenderInfEnderman.java:14",
+            "project": "src/main/resources/assets/csrp/textures/entity/sim_enderman.png"
+          },
+          "note": "贴图命名空间/文件名按 project 规范改写为 csrp:textures/entity/sim_enderman.png"
+        },
+        {
+          "clause": "变体贴图 infenderman1.png（getTextureVariant() == 1）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "client/renderer/entity/infected/RenderInfEnderman.java:14",
+            "project": "src/main/resources/assets/csrp/textures/entity/sim_enderman_variant.png"
+          },
+          "note": "project PrimitiveParasiteModel:131-133 在 getTextureVariant() == 1 时返回 sim_enderman_variant.png"
+        },
+        {
+          "clause": "变体贴图 infenderman_ariral.png（isAriral()）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "client/renderer/entity/infected/RenderInfEnderman.java:14",
+            "project": "src/main/resources/assets/csrp/textures/entity/sim_enderman_ariral.png"
+          },
+          "note": "project PrimitiveParasiteModel:128-129 在 isShrimpFed() 时返回 sim_enderman_ariral.png"
+        },
+        {
+          "clause": "渲染阴影半径 0.5F",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "client/renderer/entity/infected/RenderInfEnderman.java:16",
+            "project": "src/main/java/alku/csrp/client/ClientModEvents.java:213"
+          },
+          "note": "project new PrimitiveParasiteRenderer<>(context, \"sim_enderman\", 0.5F) 与原版 0.5F 一致"
+        },
+        {
+          "clause": "preRenderCallback：按引信强度缩放模型（1±0.4/0.1）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "client/renderer/entity/infected/RenderInfEnderman.java:20",
+            "project": "src/main/java/alku/csrp/client/renderer/SelfeFuseRender.java:18"
+          },
+          "note": "project 在 PrimitiveParasiteRenderer 的 scale 中实现同一 f1/f2/f3 公式；因该实体引信恒未激活，实际不产生缩放（与原版 canModRender=0 后 getSelfeFlashIntensity 恒 0 等价）"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "sounds",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "环境音 SRPSounds.INFECTEDENDERMAN_GROWL（getParasiteStatus() != 0 时退化为 MOBSILENCE）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:612",
+            "project": "src/main/java/alku/csrp/entity/ParasiteSoundProfiles.java:26"
+          },
+          "note": "project register(\"infectedenderman\", \"sim_enderman\", \"fer_enderman\") 映射 infectedenderman.growl/hurt/death（sounds.json:832/852/825），但无「状态非 0 时静音」判定"
+        },
+        {
+          "clause": "受伤音 SRPSounds.INFECTEDENDERMAN_HURT",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:616",
+            "project": "src/main/resources/assets/csrp/sounds.json:852"
+          },
+          "note": "project getHurtSound → ModSounds.get(\"infectedenderman.hurt\")"
+        },
+        {
+          "clause": "死亡音 SRPSounds.INFECTEDENDERMAN_DEATH",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:620",
+            "project": "src/main/resources/assets/csrp/sounds.json:825"
+          },
+          "note": "project getDeathSound → ModSounds.get(\"infectedenderman.death\")"
+        },
+        {
+          "clause": "传送音 SRPSounds.INFECTEDENDERMAN_PORTAL（发现目标 0.3F、传送成功 1.0F）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:158",
+            "project": "src/main/java/alku/csrp/registry/ModSounds.java:111"
+          },
+          "note": "project 已注册 ModSounds.INFECTED_ENDERMAN_PORTAL（sounds.json:844 亦有素材），但实体代码全部改用原版 SoundEvents.ENDERMAN_TELEPORT（AssimilatedEndermanEntity:146/407），音效事件名与音量（1.0 vs 原版发现时 0.3）均不一致"
+        },
+        {
+          "clause": "环境音 playEndermanSound：每 400 tick 播一次 SoundEvents.field_187533_aW(2.5F, 1.0F)（EntityInfEnderman:191）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:191",
+            "project": null
+          },
+          "note": "project AssimilatedEndermanEntity 无 lastCreepySound 计时字段、无 playEndermanSound 等价实现（全仓 grep playEndermanSound 无命中）"
+        },
+        {
+          "clause": "脚步声 getStepSound() = SoundEvents.field_187939_hm（村民脚步，0.15F 音量）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:624"
+          },
+          "note": "project AssimilatedEndermanEntity 未覆写 getStepSound / playStepSound，脚步声事件未还原"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "spawning",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "SRPSpawning.addSpawn(0, EntityInfEnderman.class, 1, 1, biome, infendermanSpawnRate, infendermanEnabled)（单体生成）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:153",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:31"
+          },
+          "note": "project spawn(\"sim_enderman\", 1, 1, 1)：组大小 1-1 与原版一致，但权重 1 而非原版 infendermanSpawnRate = 5（端口把末影人权重设为全表最低）"
+        },
+        {
+          "clause": "生成群组 min/max 数量 = 1..1",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:153",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:31"
+          },
+          "note": "原版 1-1，project 1-1，一致"
+        },
+        {
+          "clause": "生成权重 SRPConfigMobs.infendermanSpawnRate = 5",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:346",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:31"
+          },
+          "note": "原版默认 5，project 1"
+        },
+        {
+          "clause": "阶段门控：canSpawninPhase(type id, phaseMax/Cancel ID 阈值)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:556",
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:295"
+          },
+          "note": "project 按进化阶段选择生成表（sim_enderman 出现在 6 张阶段表中），等价实现"
+        },
+        {
+          "clause": "光照/难度/天数规则 func_70601_bi（SRPConfig.spawnDays、isValidLightLevelOne/Two）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1553",
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
+          },
+          "note": "enforceLegacySpawnValidity 在 FinalizeSpawnEvent 上判定，未通过则 setSpawnCancelled(true)"
+        },
+        {
+          "clause": "同化生成数据门控 canSpawnByIDData（EntityInfEnderman:103 → SRPConfigMobs.infendermanCanSpawnAssimilatedNat = 9）",
+          "verdict": "missing",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfEnderman.java:103",
+            "project": null
+          },
+          "note": "project 无 per-mob 同化配额（grep infendermanCanSpawnAssimilatedNat 无命中）"
+        },
+        {
+          "clause": "宿主转化映射 SRPConfigSystems.COTHVictimParasite（minecraft:enderman → sim_enderman）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems.java:101",
+            "project": "src/main/java/alku/csrp/Config.java:178"
+          },
+          "note": "project cothVictimParasites 含 \"minecraft:enderman;csrp:sim_enderman\""
+        },
+        {
+          "clause": "OverLast 顶替映射（sim_enderman → minecraft:enderman）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems.java:101",
+            "project": "src/main/java/alku/csrp/event/OverlastEvents.java:52"
+          },
+          "note": "project Map.entry(\"sim_enderman\", EntityType.ENDERMAN)"
+        }
+      ],
+      "confidence": "high"
+    },
+    {
+      "name": "loot",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "主掉落 srparasites:pearl;10;1;false（唯一掉落项）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:351",
+            "project": "src/main/resources/data/csrp/loot_table/entities/sim_enderman.json:1"
+          },
+          "note": "project 第二个 pool 为 random_chance 0.1 的 csrp:pearl、恒 1 个，与原版 10%/上限 1 一致"
+        },
+        {
+          "clause": "额外掉落 csrp:assimilated_flesh（uniform 1-3，100% 概率）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:351",
+            "project": "src/main/resources/data/csrp/loot_table/entities/sim_enderman.json:1"
+          },
+          "note": "原版 infendermanLoot 数组只有 pearl 一条，不含 assimilated_flesh（与其它同化体不同）；project 额外无条件掉落 1-3 个 assimilated_flesh，属于端口新增掉落"
+        },
+        {
+          "clause": "头颅掉落 infendermanheadLoot = new String[0]（空）",
+          "verdict": "na",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfigMobs.java:352"
+          },
+          "note": "原版头颅掉落表为空数组，本身无掉落行为，故本条款不成立",
+          "groundTruth": {
+            "verified": false,
+            "file": null,
+            "line": null
+          }
+        },
+        {
+          "clause": "经验 8（XP_INFECTED）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "D:/code/MC模组/_SRP-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:146",
+            "project": "src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java:113"
+          },
+          "note": "原版 infectedXPValue = 8，project xpReward = 8"
+        }
+      ],
+      "confidence": "high"
+    }
+  ]
+}

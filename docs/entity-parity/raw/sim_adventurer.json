@@ -56,7 +56,7 @@
           "clause": "tracker(64, 3, true)：追踪距离 64 格 / 更新间隔 3 tick",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:188",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:191",
             "project": "src/main/java/alku/csrp/registry/ModEntities.java:630"
           },
           "note": "project monster() helper 用 clientTrackingRange(4)（4 区块 = 64 格）+ updateInterval(3)，与原版一致"
@@ -92,7 +92,7 @@
           "clause": "语言键 srparasites.sim_adventurer",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:186",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:189",
             "project": "src/main/resources/assets/csrp/lang/en_us.json:75"
           },
           "note": "键名空间由 srparasites.* 映射为 entity.csrp.*，值 \"Assimilated Adventurer\""
@@ -176,7 +176,7 @@
           "clause": "阶段属性加成 evolutionParasiteStatIncrease（phase ≥ 阈值时生命/护甲/攻击 ×(1+v)）",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1676",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1683",
             "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
           "note": "applyPhaseStatBonus 于 FinalizeSpawnEvent 中实现（phase ≥ Config.evolutionStatIncreasePhase 时基础值 ×(1+0.07)）；sim_adventurer 走同一事件"
@@ -185,7 +185,7 @@
           "clause": "拾取装备 setCanPickUpLoot / 护甲渲染层（EntityInfPlayer 的 SRPLayerBipedArmor + HELM 槽位）",
           "verdict": "satisfied",
           "evidence": {
-            "original": "client/renderer/entity/infected/RenderInfPlayer.java:14",
+            "original": "client/renderer/entity/infected/RenderInfPlayer.java:17",
             "project": "src/main/java/alku/csrp/entity/SimAdventurerEntity.java:97"
           },
           "note": "project ctor 调 setCanPickUpLoot(true)，头盔槽由 ageAnimation() 读取 EquipmentSlot.HEAD 决定 helmet_slot 动画（SimAdventurerEntity:289），语义等价"
@@ -446,7 +446,7 @@
           "clause": "spawnGore：goreSim 大方块 + EntityRemain（生命 20×infectedRemainValue）",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:319",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:320",
             "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java:297"
           },
           "note": "leaveGore：BIG 血迹方块 + RemainEntity（goal = 20 × parasiteRemainValue）+ 摊铺 flat 血迹 + 3 个 type 1 血肉弹"
@@ -480,7 +480,7 @@
           "clause": "火焰倍率 SRPConfig.firemultyplier = 4.0（火伤 ×4）",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:790",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:801",
             "project": "src/main/java/alku/csrp/entity/SimAdventurerEntity.java:163"
           },
           "note": "project hurt() 对 IS_FIRE 伤害 ×4.0F"
@@ -498,7 +498,7 @@
           "clause": "VIRA 病毒叠加放大最小伤害",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:878",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:893",
             "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
           },
           "note": "applyMinimumMeleeDamage：VIRA 等级 +2 倍率"
@@ -516,7 +516,7 @@
           "clause": "击杀后按 victim 最大生命 × geneMobHealing(3.0) 回血",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1040",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1079",
             "project": "src/main/java/alku/csrp/entity/ParasiteCombatEffects.java"
           },
           "note": "healOnKill：按 generationProfile.mobHealing 基因 × victim 最大生命回血"
@@ -525,7 +525,7 @@
           "clause": "击杀后用 PARATE 强化生命/护甲/伤害",
           "verdict": "satisfied",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1046",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1058",
             "project": "src/main/java/alku/csrp/event/StatusEffectEvents.java"
           },
           "note": "absorbParateAttributes：按 0.5×(amp+1) 把受害者基础生命/护甲/攻击加到自身"
@@ -535,7 +535,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1324",
-            "project": "src/main/java/alku/csrp/world/EvolutionSystem.java:191"
+            "project": "src/main/java/alku/csrp/world/EvolutionSystem.java:198"
           },
           "note": "project parasiteDeathPenalty 检查 ModMobEffects.DEBAR"
         }
@@ -635,13 +635,13 @@
     },
     {
       "name": "animation",
-      "status": "satisfied",
+      "status": "partial",
       "clauses": [
         {
           "clause": "status 0 行走/待机动画（age_in_ticks + limb_swing）",
           "verdict": "satisfied",
           "evidence": {
-            "original": "client/model/entity/infected/ModelInfPlayer.java:1",
+            "original": "client/model/entity/infected/ModelInfPlayer.java:9",
             "project": "src/main/java/alku/csrp/entity/SimAdventurerEntity.java:281"
           },
           "note": "project age_controller（age_in_ticks）+ movement_controller（limb_swing）播放同名提取动画"
@@ -650,7 +650,7 @@
           "clause": "getStillAni 为真时切换到静止姿势",
           "verdict": "satisfied",
           "evidence": {
-            "original": "client/model/entity/infected/ModelInfPlayer.java:1",
+            "original": "client/model/entity/infected/ModelInfPlayer.java:9",
             "project": "src/main/java/alku/csrp/entity/SimAdventurerEntity.java:291"
           },
           "note": "project 融化时使用 ...get_still_ani_1 变体（AGE_STILL / HELMET_STILL）"
@@ -659,7 +659,7 @@
           "clause": "头盔槽动画 helmet_slot 与 helmet_slot.get_still_ani_1",
           "verdict": "satisfied",
           "evidence": {
-            "original": "client/model/entity/infected/ModelInfPlayer.java:1",
+            "original": "client/model/entity/infected/ModelInfPlayer.java:9",
             "project": "src/main/java/alku/csrp/entity/SimAdventurerEntity.java:85"
           },
           "note": "project HELMET / HELMET_STILL 两条 animation 分别对应头盔与静止变体"
@@ -686,7 +686,7 @@
           "clause": "控制器注册：ModelSRP.func_78087_a 每帧姿势计算（含 underground 起跳/埋地）",
           "verdict": "partial",
           "evidence": {
-            "original": "client/model/entity/infected/ModelInfPlayer.java:1",
+            "original": "client/model/entity/infected/ModelInfPlayer.java:9",
             "project": "src/main/java/alku/csrp/entity/SimAdventurerEntity.java:280"
           },
           "note": "project 使用 Citadel 控制器，缺 underground/埋地姿态"
@@ -702,7 +702,7 @@
           "clause": "模型 ModelInfPlayer（1.12 Java 模型）",
           "verdict": "satisfied",
           "evidence": {
-            "original": "client/model/entity/infected/ModelInfPlayer.java:1",
+            "original": "client/model/entity/infected/ModelInfPlayer.java:9",
             "project": "src/main/resources/assets/csrp/geo/sim_adventurer.geo.json:1"
           },
           "note": "project 使用等价几何体 geo + PrimitiveParasiteModel(\"sim_adventurer\")（SimAdventurerRenderer:12）"
@@ -711,7 +711,7 @@
           "clause": "实体贴图 srparasites:textures/entity/monster/infplayer.png",
           "verdict": "satisfied",
           "evidence": {
-            "original": "client/renderer/entity/infected/RenderInfPlayer.java:10",
+            "original": "client/renderer/entity/infected/RenderInfPlayer.java:15",
             "project": "src/main/resources/assets/csrp/textures/entity/sim_adventurer.png"
           },
           "note": "贴图命名空间/文件名按 project 规范改写为 csrp:textures/entity/sim_adventurer.png"
@@ -720,8 +720,8 @@
           "clause": "渲染阴影半径 0.5F",
           "verdict": "satisfied",
           "evidence": {
-            "original": "client/renderer/entity/infected/RenderInfPlayer.java:13",
-            "project": "src/main/java/alku/csrp/client/renderer/SimAdventurerRenderer.java:13"
+            "original": "client/renderer/entity/infected/RenderInfPlayer.java:15",
+            "project": "src/main/java/alku/csrp/client/renderer/SimAdventurerRenderer.java:12"
           },
           "note": "project shadowRadius = 0.5F，与原版一致"
         },
@@ -729,7 +729,7 @@
           "clause": "护甲渲染层 SRPLayerBipedArmor",
           "verdict": "partial",
           "evidence": {
-            "original": "client/renderer/entity/infected/RenderInfPlayer.java:14",
+            "original": "client/renderer/entity/infected/RenderInfPlayer.java:17",
             "project": "src/main/java/alku/csrp/entity/SimAdventurerEntity.java:167"
           },
           "note": "project 未挂接护甲渲染层（SimAdventurerRenderer 只用 ParasiteGeoRenderer 基类），仅以 canReplaceCurrentItem 禁止替换胸甲槽近似"
@@ -738,7 +738,7 @@
           "clause": "preRenderCallback：按引信强度缩放模型（1±0.4/0.1）",
           "verdict": "missing",
           "evidence": {
-            "original": "client/renderer/entity/infected/RenderInfPlayer.java:16",
+            "original": "client/renderer/entity/infected/RenderInfPlayer.java:20",
             "project": null
           },
           "note": "project SimAdventurerRenderer 未实现引信膨胀缩放（无 SelfeFuseRender 调用）"
@@ -842,7 +842,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:556",
-            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:18"
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:295"
           },
           "note": "project 按进化阶段选择生成表，等价实现"
         },
