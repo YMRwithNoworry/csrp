@@ -3912,3 +3912,27 @@ DEVOURER 0.0 ↔ `EntityLum` 0.0 ✔、BURROWER 0.26 ↔ `EntityZaa` 0.26 ✔、
 
 **下一步（hp/dmg 提取）**：本轮对原版类的 `field_111267_a`（生命）正则**多数未命中** ✗ ⇒ 原版很可能通过
 **配置倍率**（如 `SRPConfigMobs.<name>Health`）或**基值 × 倍率**设置，需先读一个类的属性方法看清写法，再统一提取。
+
+## 批次 238：primitive 族属性**按映射比对——7/8 一致**（2026-09-25 续）
+
+用批次 237 的映射 + 本轮提取的**原版代号常量**（`EntityBano` 用异名 `ZETMO_*`，其余同类名）：
+
+| 端口 kind | 端口 hp/dmg | 原版类（代号） | 原版 hp/dmg | 结论 |
+| --- | --- | --- | --- | --- |
+| BOLSTER | 35 / 6 | EntityBano（ZETMO） | 35 / 6 | ✔ |
+| MANDUCATER | 30 / 12 | EntityHull（HULL） | 30 / 12 | ✔ |
+| REEKER | 40 / 12 | EntityNogla（NOGLA） | 40 / 12 | ✔ |
+| TOZOON | 45 / 15 | EntityWymo（WYMO） | 45 / 15 | ✔ |
+| ARACHNIDA | 35 / 15 | EntityRanrac（RANRAC） | 35 / 15 | ✔ |
+| DEVOURER | 60 / 20 | EntityLum（LUM） | 60 / 20 | ✔ |
+| BURROWER | 45 / 15 | EntityZaa（ZAA） | 45 / 15 | ✔ |
+| YELLOWEYE | 30 / 3.5 | EntityEmana（EMANA） | 30 / **?** | hp ✔，伤害待查 |
+
+**⇒ 7/8 完全一致，端口 primitive 属性表基本正确** ✔（生命项 8/8 全对 ✔）。
+
+**唯一待查项**：原版 `EntityEmana` 的**伤害**行指向了 `EMANA_ARMOR`（疑为反编译错位或该类在别处设伤害 ✗），
+故其伤害常量名未取到 ⇒ 端口的 `3.5` 需另找来源核对（下一批）。
+
+**方法论价值**：本族的比对**耗时约 4 轮**（映射 → 代号 → 常量值 → 比对），全部由脚本完成、**零代码改动**，
+最终确认了 8 项数值中 7 项正确。**这正是"先核对、后修改"的收益**——若跳过核对直接"按审计逐条改"，
+很可能会把已经正确的 7 项改错。
