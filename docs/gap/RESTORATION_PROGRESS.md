@@ -2741,3 +2741,18 @@ monster("sim_dragone", AssimilatedDragonEntity::new, 1.9F, 3.8F, 1.75F)   // 原
 
 **下一批**：在 `EntityParasiteBase`/相关类中查 `attID == 14` 的分支 → 确认行为（是否与端口既有的某个技能等价）→ 再接线。
 **在确认技能行为前不写代码**——否则会接上一个"能触发但做错事"的技能（比不接更糟）。
+
+## 批次 175：技能分派链再下一层——`doSpecialSkill(attID)`（2026-09-25 续，未改代码）
+
+```
+EntityAISkill.java:59-63   this.parentEntity.doSpecialSkill(this.attID);
+                           if (this.parentEntity.getFinished(this.attID)) { … setFinished(attID, false); }
+EntityAISkill.java:43      排除 attID 13 与 31（推测为"无需视线/特殊"分支）
+```
+
+⇒ `attackID = 14` 的行为**不在 `EntityAISkill` 内**，而是由实体的 `doSpecialSkill(14)` 决定
+（可能是基类实现或该生物覆写）。**下一批**：查 `doSpecialSkill` 的实现位置与其对 14 的处理
+（`grep -rn "doSpecialSkill" <decomp>/entity`），确认行为后再决定端口用哪个 `ParasiteSkill` 实现。
+
+**链路已推进三层**：`EntityAISkill(…, attackID)` → `doSpecialSkill(attID)` → （待查）具体攻击实现。
+**在查到最后一层前不接线**——这正是"能触发但做错事"风险的来源。
