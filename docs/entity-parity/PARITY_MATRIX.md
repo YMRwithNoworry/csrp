@@ -1,11 +1,11 @@
 # 生物还原矩阵（SRParasites 1.10.9 → csrp）
 
-> 生成时间：2026-09-25T01:53:22.322Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
+> 生成时间：2026-09-25T01:54:13.779Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
 > 判定：✅ 全部条款满足；🟠 有部分实现但无缺失；❌ 存在缺失；· 未审计。
 
 - 注册生物总数：**127**；已审计：**13**；未审计：**114**
-- 条款总计：满足 617 / 部分 388 / 缺失 317（不计入 57 条不适用）
-- **加权完成度：61.3%**（partial 计 0.5）
+- 条款总计：满足 624 / 部分 388 / 缺失 310（不计入 57 条不适用）
+- **加权完成度：61.9%**（partial 计 0.5）
 
 ## 分面完成度
 
@@ -15,7 +15,7 @@
 | 属性 `attributes` | 66 | 29 | 30 | 64.4% |
 | AI `ai` | 74 | 76 | 39 | 59.3% |
 | 行为 `behaviors` | 150 | 77 | 73 | 62.8% |
-| 伤害/效果 `damage_and_effects` | 95 | 16 | 27 | 74.6% |
+| 伤害/效果 `damage_and_effects` | 102 | 16 | 20 | 79.7% |
 | 同步数据 `sync_data` | 16 | 33 | 40 | 36.5% |
 | 动画 `animation` | 46 | 19 | 8 | 76% |
 | 模型/贴图 `model_texture` | 35 | 12 | 21 | 60.3% |
@@ -34,10 +34,10 @@
 | ancient | 0/4 | 0 | 0 | 0 | 0% |
 | nexus_and_aberrant | 1/15 | 41 | 38 | 34 | 53.1% |
 | hijacked_and_feral | 2/12 | 93 | 59 | 74 | 54.2% |
-| marauderized | 1/7 | 50 | 26 | 28 | 60.6% |
+| marauderized | 1/7 | 51 | 26 | 27 | 61.5% |
 | early_lifecycle | 1/10 | 41 | 25 | 19 | 62.9% |
-| assimilated | 6/23 | 300 | 196 | 123 | 64.3% |
 | current | 2/13 | 92 | 44 | 39 | 65.1% |
+| assimilated | 6/23 | 306 | 196 | 117 | 65.3% |
 
 ## 逐生物矩阵
 
@@ -160,15 +160,15 @@
 | `fer_villager` | EntityFerVillager | FeralParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 52.6% |
 | `beckon_siii` | EntityVenkrolSIII | NexusParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 53.1% |
 | `hi_skeleton` | EntityHiSkeleton | HiSkeletonEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | 56.5% |
-| `mar_cow` | EntitySpeCow | MarauderizedCowEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 60.6% |
-| `sim_human` | EntityInfHuman | SimHumanEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 61.4% |
+| `mar_cow` | EntitySpeCow | MarauderizedCowEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 61.5% |
+| `sim_human` | EntityInfHuman | SimHumanEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 62.3% |
 | `host` | EntityHost | HostEntity | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | 🟠 | 62.9% |
 | `pri_longarms` | EntityShyco | LongarmsEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 63.3% |
-| `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 63.4% |
-| `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 64.5% |
-| `sim_cow` | EntityInfCow | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 64.6% |
-| `sim_bigspider` | EntityDorpa | AssimilatedVariantEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 65.3% |
-| `sim_sheep` | EntityInfSheep | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 66.7% |
+| `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 64.5% |
+| `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 65.4% |
+| `sim_cow` | EntityInfCow | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 65.6% |
+| `sim_bigspider` | EntityDorpa | AssimilatedVariantEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 66.3% |
+| `sim_sheep` | EntityInfSheep | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 67.6% |
 | `buglin` | EntityLodo | BuglinEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 67.9% |
 
 ## 缺口清单（按完成度升序）
@@ -197,7 +197,7 @@
 - 缺火焰伤害乘数(×4)与 20% RAGE、毒伤害治愈、效果免疫覆写、血块表现、载具碰撞免疫
 - 缺 EntityCanSpawn 计数门控、进化锁/殖民地锁、spawnDays 门控与 phaseCreated 注入；无 SpawnPlacement 注册
 
-### `mar_cow`（EntitySpeCow → MarauderizedCowEntity，60.6%）
+### `mar_cow`（EntitySpeCow → MarauderizedCowEntity，61.5%）
 - 眼高 1.3 未实现（用默认值）
 - EntityAIWait（呕吐后 60 tick 僵直）与 EntityAIJumping、EntityAISwimmingDiving、EntityAIAttackMeleeRangeSwitch 四个 goal 缺失
 - 同化配额门控（getIDSpawn/canSpawnByIDData）与 SRPConfigMobs.marcowEnabled 开关缺失
@@ -205,7 +205,7 @@
 - 死亡自爆链（50% madeRng → 40 tick 引信 → 毒云 + gore + MOBEXPLOTION 爆炸音）仅保留 Buglin 召唤
 - COTH 命中传播与 3 格 COTH 光环缺失
 
-### `sim_human`（EntityInfHuman → SimHumanEntity，61.4%）
+### `sim_human`（EntityInfHuman → SimHumanEntity，62.3%）
 - （无缺口摘要，见 raw JSON）
 
 ### `host`（EntityHost → HostEntity，62.9%）
@@ -224,19 +224,19 @@
 - 变体皮肤 5/6/7 与冰冻变体 120 全链路缺失（同步数据、finalizeSpawn、贴图、粒子、附加效果）
 - 伤害侧缺失：单次伤害上限(damageCap=6)+RAGE、生命恢复、吞噬食物、击杀治疗、FEAR、毒治愈、效果免疫、PIVOT 转移
 
-### `sim_squid`（EntityInfSquid → AssimilatedParasiteEntity，63.4%）
+### `sim_squid`（EntityInfSquid → AssimilatedParasiteEntity，64.5%）
 - （无缺口摘要，见 raw JSON）
 
-### `sim_wolf`（EntityInfWolf → AssimilatedParasiteEntity，64.5%）
+### `sim_wolf`（EntityInfWolf → AssimilatedParasiteEntity，65.4%）
 - （无缺口摘要，见 raw JSON）
 
-### `sim_cow`（EntityInfCow → AssimilatedParasiteEntity，64.6%）
+### `sim_cow`（EntityInfCow → AssimilatedParasiteEntity，65.6%）
 - （无缺口摘要，见 raw JSON）
 
-### `sim_bigspider`（EntityDorpa → AssimilatedVariantEntity，65.3%）
+### `sim_bigspider`（EntityDorpa → AssimilatedVariantEntity，66.3%）
 - （无缺口摘要，见 raw JSON）
 
-### `sim_sheep`（EntityInfSheep → AssimilatedParasiteEntity，66.7%）
+### `sim_sheep`（EntityInfSheep → AssimilatedParasiteEntity，67.6%）
 - （无缺口摘要，见 raw JSON）
 
 ### `buglin`（EntityLodo → BuglinEntity，67.9%）

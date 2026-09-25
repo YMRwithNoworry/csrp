@@ -201,6 +201,23 @@ const BATCHES = {
         detail: "tickRegeneration：每 20 tick 一次、killcount>1、非着火且受伤时 heal(parasiteRegen)，每 5 次消耗 1 killcount"
       }
     ]
+  },
+  // 台账修正（无新代码）：PARATE 击杀强化在工程中早已实现，审计（9/23）未发现，逐条核对语义一致后订正。
+  "parate-kill-buff-verified": {
+    note: "台账修正：PARATE 击杀强化（EntityParasiteBase:1046-1074，parateMuch = 0.5）——实现早已存在，审计陈旧",
+    projectClasses: [
+      "FeralParasiteEntity", "MarauderizedCowEntity", "HiSkeletonEntity", "LongarmsEntity",
+      "HostEntity", "BuglinEntity", "NexusParasiteEntity",
+      "AssimilatedParasiteEntity", "AssimilatedVariantEntity", "SimHumanEntity"
+    ],
+    clauses: [
+      {
+        match: /击杀后用 PARATE 强化/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/event/StatusEffectEvents.java",
+        detail: "absorbParateAttributes：击杀时若击杀者带 PARATE，则按 0.5×(amp+1)（原版 parateMuch=0.5 × bonuss）把受害者基础生命/护甲/攻击加到自身"
+      }
+    ]
   }
 };
 

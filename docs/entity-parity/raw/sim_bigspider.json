@@ -756,12 +756,12 @@
         },
         {
           "clause": "击杀后用 PARATE 强化生命/护甲/伤害",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1046",
-            "project": null
+            "project": "src/main/java/alku/csrp/event/StatusEffectEvents.java"
           },
-          "note": "project 无 PARATE 强化"
+          "note": "absorbParateAttributes：击杀时若击杀者带 PARATE，则按 0.5×(amp+1)（原版 parateMuch=0.5 × bonuss）把受害者基础生命/护甲/攻击加到自身；台账修正：PARATE 击杀强化（EntityParasiteBase:1046-1074，parateMuch = 0.5）——实现早已存在，审计陈旧"
         },
         {
           "clause": "thisMelting / EntityAIInfectedSearch 接入（killcount > primitiveKills(10) 且 levelCreated ≥ deveMergeUse(1)）",

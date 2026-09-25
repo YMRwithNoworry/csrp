@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-25T01:53:22.322Z",
+  "generatedAt": "2026-09-25T01:54:13.779Z",
   "protocol": "docs/entity-parity/AUDIT_PROTOCOL.md",
   "input": "docs/entity-parity/audit-input.json",
   "counts": {
@@ -8,12 +8,12 @@
     "missing": 114
   },
   "overall": {
-    "satisfied": 617,
+    "satisfied": 624,
     "partial": 388,
-    "missing": 317,
+    "missing": 310,
     "na": 57,
     "denominator": 1322,
-    "completion": 61.3
+    "completion": 61.9
   },
   "facets": [
     {
@@ -59,12 +59,12 @@
     {
       "facet": "damage_and_effects",
       "label": "伤害/效果",
-      "satisfied": 95,
+      "satisfied": 102,
       "partial": 16,
-      "missing": 27,
+      "missing": 20,
       "na": 4,
       "denominator": 138,
-      "completion": 74.6
+      "completion": 79.7
     },
     {
       "facet": "sync_data",
@@ -209,12 +209,12 @@
       "group": "marauderized",
       "audited": 1,
       "expected": 7,
-      "satisfied": 50,
+      "satisfied": 51,
       "partial": 26,
-      "missing": 28,
+      "missing": 27,
       "na": 7,
       "denominator": 104,
-      "completion": 60.6
+      "completion": 61.5
     },
     {
       "group": "early_lifecycle",
@@ -228,17 +228,6 @@
       "completion": 62.9
     },
     {
-      "group": "assimilated",
-      "audited": 6,
-      "expected": 23,
-      "satisfied": 300,
-      "partial": 196,
-      "missing": 123,
-      "na": 33,
-      "denominator": 619,
-      "completion": 64.3
-    },
-    {
       "group": "current",
       "audited": 2,
       "expected": 13,
@@ -248,6 +237,17 @@
       "na": 8,
       "denominator": 175,
       "completion": 65.1
+    },
+    {
+      "group": "assimilated",
+      "audited": 6,
+      "expected": 23,
+      "satisfied": 306,
+      "partial": 196,
+      "missing": 117,
+      "na": 33,
+      "denominator": 619,
+      "completion": 65.3
     }
   ],
   "creatures": [
@@ -304,13 +304,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 48,
+        "satisfied": 49,
         "partial": 32,
-        "missing": 18,
+        "missing": 17,
         "na": 5
       },
       "denominator": 98,
-      "completion": 65.3,
+      "completion": 66.3,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -341,9 +341,9 @@
           "clauses": 25
         },
         "damage_and_effects": {
-          "satisfied": 6,
+          "satisfied": 7,
           "partial": 1,
-          "missing": 1,
+          "missing": 0,
           "na": 0,
           "clauses": 8
         },
@@ -448,13 +448,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 43,
+        "satisfied": 44,
         "partial": 32,
-        "missing": 18,
+        "missing": 17,
         "na": 7
       },
       "denominator": 93,
-      "completion": 63.4,
+      "completion": 64.5,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -485,9 +485,9 @@
           "clauses": 27
         },
         "damage_and_effects": {
-          "satisfied": 6,
+          "satisfied": 7,
           "partial": 1,
-          "missing": 1,
+          "missing": 0,
           "na": 0,
           "clauses": 8
         },
@@ -590,13 +590,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 51,
+        "satisfied": 52,
         "partial": 33,
-        "missing": 26,
+        "missing": 25,
         "na": 6
       },
       "denominator": 110,
-      "completion": 61.4,
+      "completion": 62.3,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -627,9 +627,9 @@
           "clauses": 33
         },
         "damage_and_effects": {
-          "satisfied": 6,
+          "satisfied": 7,
           "partial": 1,
-          "missing": 1,
+          "missing": 0,
           "na": 0,
           "clauses": 8
         },
@@ -733,13 +733,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 51,
+        "satisfied": 52,
         "partial": 35,
-        "missing": 20,
+        "missing": 19,
         "na": 5
       },
       "denominator": 106,
-      "completion": 64.6,
+      "completion": 65.6,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -770,9 +770,9 @@
           "clauses": 28
         },
         "damage_and_effects": {
-          "satisfied": 6,
+          "satisfied": 7,
           "partial": 1,
-          "missing": 1,
+          "missing": 0,
           "na": 0,
           "clauses": 8
         },
@@ -876,13 +876,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 54,
+        "satisfied": 55,
         "partial": 32,
-        "missing": 19,
+        "missing": 18,
         "na": 5
       },
       "denominator": 105,
-      "completion": 66.7,
+      "completion": 67.6,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -913,9 +913,9 @@
           "clauses": 29
         },
         "damage_and_effects": {
-          "satisfied": 6,
+          "satisfied": 7,
           "partial": 1,
-          "missing": 1,
+          "missing": 0,
           "na": 0,
           "clauses": 8
         },
@@ -1019,13 +1019,13 @@
       "group": "assimilated",
       "missing": false,
       "totals": {
-        "satisfied": 53,
+        "satisfied": 54,
         "partial": 32,
-        "missing": 22,
+        "missing": 21,
         "na": 5
       },
       "denominator": 107,
-      "completion": 64.5,
+      "completion": 65.4,
       "facets": {
         "registration": {
           "satisfied": 5,
@@ -1056,9 +1056,9 @@
           "clauses": 30
         },
         "damage_and_effects": {
-          "satisfied": 6,
+          "satisfied": 7,
           "partial": 1,
-          "missing": 1,
+          "missing": 0,
           "na": 0,
           "clauses": 8
         },
@@ -2148,13 +2148,13 @@
       "group": "marauderized",
       "missing": false,
       "totals": {
-        "satisfied": 50,
+        "satisfied": 51,
         "partial": 26,
-        "missing": 28,
+        "missing": 27,
         "na": 7
       },
       "denominator": 104,
-      "completion": 60.6,
+      "completion": 61.5,
       "facets": {
         "registration": {
           "satisfied": 6,
@@ -2185,9 +2185,9 @@
           "clauses": 23
         },
         "damage_and_effects": {
-          "satisfied": 7,
+          "satisfied": 8,
           "partial": 1,
-          "missing": 2,
+          "missing": 1,
           "na": 1,
           "clauses": 11
         },

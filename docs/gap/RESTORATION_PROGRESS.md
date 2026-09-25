@@ -166,3 +166,10 @@ applyGene/阶段属性加成、同步数据（SELFE/COLD_L/DISLO15）、AI 任�
 覆盖范围：`PrimitiveParasiteEntity` 链（primitive/crude/hijacked/host/pure/preeminent/ancient/derived/deterrent/nexus）；
 `FeralParasiteEntity`、`Marauderized*`、`Assimilated*` 各自继承 `Monster`，需要后续单独接线（已在缺口清单中保留）。
 校验：`scripts/verify-parasite-wait-regen.cjs`；审计记账 7 条，满足条款 610 → **617**（缺失 324 → 317）。
+
+### 台账修正：PARATE 击杀强化（无新代码）
+
+审计（2026-09-23）把「击杀后用 PARATE 强化生命/护甲/伤害」记为缺失，逐条核对原版
+`EntityParasiteBase:1046-1074` 与工程实现后确认**早已实现且语义一致**：
+`StatusEffectEvents.absorbParateAttributes` 在击杀时按 `0.5 × (amp + 1)`（原版 `parateMuch = 0.5` × `bonuss`）
+把受害者的基础最大生命/护甲/攻击加到击杀者身上。属审计陈旧，已按证据订正 7 条。
