@@ -258,3 +258,17 @@ Sprinting/**WaterLeap**/SpecialM/Adaptation/BlockSearch/**Residue**/Orbbox，端
 说明：原版用 `setParasiteStatus(10/2)` 表示起跳/落地，端口的 `LongarmsEntity` 状态码含义不同（10=冲击波），
 故改用共享的 `startSpecialLeapAnimation(...)`（`SPECIAL_LEAP_TICKS` 同步位），避免串味。
 校验：新增 `scripts/verify-water-leap-gene.cjs`；审计记账 1 条，满足 643 → **644**。
+
+## 批次 11：疾跑与穿墙 gene 门控 + 远征冲刺目标（2026-09-25 续）
+
+| 项 | 原版语义 | 端口实现 |
+| --- | --- | --- |
+| `geneSprinting`（kool[3]） | 疾跑加速（端口既有范式 `HeedEntity:374` / `DredgeEntity:433` 用 1.3×） | 新增 `entity/GeneSprintGoal`：目标距离 > 4 格且生成允许时按 1.3× 追近，近了交回近战目标；**同优先级、注册在近战目标之前**（`MeleeAttackGoal.speedModifier` 在 1.21.1 是 private，无法直接改） |
+| `generationSprinting` 门控 | `applyGene` | 新增 `PrimitiveParasiteEntity.sprintingEnabled()` |
+| `geneLookwall` / `generationBlockSearch` | 破块/找墙 | `tickBlockBreaking` 增加 `blockSearchEnabled()` 门控（此前只受 `canBreakBlocks()` 管，无生成门控）；新增 `blockSearchEnabled()` |
+| 三族接线 | — | `MarauderizedParasiteEntity`(3)、`FeralParasiteEntity`(2)、`AssimilatedParasiteEntity`(2) 在近战目标前注册 `GeneSprintGoal` |
+
+**仍未翻转「基因加成 applyGene」捆绑条款**（诚实说明）：本轮补了 `sprinting`/`blockSearch` 两项，但该捆绑条款还缺
+**`attackSpeed`（全局未接：`GenerationProfile.attackSpeedMultiplier` 目前 0 个消费点）**、`waterleap`（野化/同化/掠夺化族无对应目标）、
+`specialmove`（同上）三项。按记账诚实原则不翻转。
+校验：`scripts/verify-parasite-combat-rules.cjs` 增加 10 条断言（两个 helper、破块门控、冲刺目标语义与三族注册顺序）。

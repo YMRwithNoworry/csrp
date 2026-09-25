@@ -179,7 +179,9 @@ public abstract class PrimitiveParasiteEntity extends Monster
     }
 
     private void tickBlockBreaking() {
-        if (!canBreakBlocks()) {
+        // Legacy geneBlockSearch / look-for-walls: the generation decides whether parasites clear
+        // terrain on their way to a target at all.
+        if (!canBreakBlocks() || !blockSearchEnabled()) {
             return;
         }
         if (blockBreakCooldown > 0) {
@@ -298,6 +300,18 @@ public abstract class PrimitiveParasiteEntity extends Monster
     protected final boolean waterLeapEnabled() {
         return level() instanceof ServerLevel serverLevel
                 && EvolutionSystem.generationProfile(serverLevel).waterLeap();
+    }
+
+    /** Legacy geneBlockSearch (applyGene): gates terrain clearing on the way to a target. */
+    protected final boolean blockSearchEnabled() {
+        return level() instanceof ServerLevel serverLevel
+                && EvolutionSystem.generationProfile(serverLevel).blockSearch();
+    }
+
+    /** Legacy geneSprinting (applyGene): the generation decides whether sprinting exists. */
+    protected final boolean sprintingEnabled() {
+        return level() instanceof ServerLevel serverLevel
+                && EvolutionSystem.generationProfile(serverLevel).sprinting();
     }
 
     /** Legacy EntityAIWait: suspends AI for the given ticks (see {@link WaitGoal}). */

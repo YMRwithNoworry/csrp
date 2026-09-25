@@ -75,6 +75,7 @@ public abstract class MarauderizedParasiteEntity extends HijackedParasiteEntity 
     @Override
     protected void registerGoals() {
         super.registerGoals();
+        goalSelector.addGoal(3, new GeneSprintGoal(this, meleeSpeed()));
         goalSelector.addGoal(3, new MeleeAttackGoal(this, meleeSpeed(), false));
     }
 
