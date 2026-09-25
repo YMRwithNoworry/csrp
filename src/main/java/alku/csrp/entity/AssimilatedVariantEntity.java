@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.config.MobsConfig;
 import alku.csrp.event.ParasiteCombatRules;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
@@ -107,11 +108,18 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
     }
 
     public static AttributeSupplier.Builder createAttributes(Kind kind) {
+        // Legacy SRPConfigMobs per-mob multipliers (default 1.0F in the original); dorpa is the
+        // internal name of the assimilated spider.
+        boolean dorpa = kind == Kind.BIGSPIDER;
+        double health = dorpa ? MobsConfig.dorpaHealthMultiplier() : 1.0D;
+        double armor = dorpa ? MobsConfig.dorpaArmorMultiplier() : 1.0D;
+        double damage = dorpa ? MobsConfig.dorpaDamageMultiplier() : 1.0D;
+        double knockback = dorpa ? MobsConfig.dorpaKnockbackMultiplier() : 1.0D;
         return Monster.createMonsterAttributes()
-                .add(Attributes.MAX_HEALTH, kind.maxHealth)
-                .add(Attributes.ARMOR, kind.armor)
-                .add(Attributes.ATTACK_DAMAGE, kind.attackDamage)
-                .add(Attributes.KNOCKBACK_RESISTANCE, kind.knockbackResistance)
+                .add(Attributes.MAX_HEALTH, kind.maxHealth * health)
+                .add(Attributes.ARMOR, kind.armor * armor)
+                .add(Attributes.ATTACK_DAMAGE, kind.attackDamage * damage)
+                .add(Attributes.KNOCKBACK_RESISTANCE, Math.min(1.0D, kind.knockbackResistance * knockback))
                 .add(Attributes.MOVEMENT_SPEED, kind.movementSpeed)
                 .add(Attributes.FOLLOW_RANGE, kind.followRange);
     }

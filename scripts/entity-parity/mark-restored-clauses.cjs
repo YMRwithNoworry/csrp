@@ -519,6 +519,19 @@ const BATCHES = {
         detail: "tickWebBallVolley：目标存活、65 格内且可见时先蓄力 WEB_CHARGE_TICKS(60)，随后 WEB_VOLLEY_SHOTS(3) 发、每 WEB_VOLLEY_INTERVAL_TICKS(15) 一发 fireWebBall；目标失效/超距/失去视线即重置，与原版 func_75246_d 的 attackTimer/shootingTimes/tickInterval 语义一致"
       }
     ]
+  },
+  // 批次 43：sim_bigspider（dorpa）的 per-mob 属性倍率接线
+  "per-mob-multipliers-dorpa": {
+    note: "批次：per-mob 属性倍率接线（原版 SRPConfigMobs.dorpa*，默认 1.0F）",
+    mobs: ["sim_bigspider"],
+    clauses: [
+      {
+        match: /per-mob|倍率/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java",
+        detail: "createAttributes 读取原版 SRPConfigMobs 的 dorpa 四项（health/damage/armor/KDResistance，默认 1.0）并相乘，与既有全局倍率（OriginalConfigEvents）构成「全局 × per-mob」结算；击退抗性按原版上限夹取 1.0"
+      }
+    ]
   }
 };
 

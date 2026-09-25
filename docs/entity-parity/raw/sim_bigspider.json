@@ -164,12 +164,12 @@
         },
         {
           "clause": "全局/单体倍率 SRPAttributes 初始化时全局倍率 × per-mob 倍率",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:1065",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java"
           },
-          "note": "project 无 globalHealthMultiplier / xxxHealthMultiplier 之类的属性倍率配置"
+          "note": "createAttributes 读取原版 SRPConfigMobs 的 dorpa 四项（health/damage/armor/KDResistance，默认 1.0）并相乘，与既有全局倍率（OriginalConfigEvents）构成「全局 × per-mob」结算；击退抗性按原版上限夹取 1.0；批次：per-mob 属性倍率接线（原版 SRPConfigMobs.dorpa*，默认 1.0F）"
         },
         {
           "clause": "阶段属性加成 evolutionParasiteStatIncrease（phase ≥ 阈值时生命/护甲/攻击 ×(1+v)）",

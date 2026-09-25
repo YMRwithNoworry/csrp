@@ -720,3 +720,15 @@ if (kind == Kind.BIGSPIDER && rangedCooldown <= 0 && getTarget() != null && hasL
 照抄 `arachnida*` 的 `value(...)` 范式；断言 4 条。
 **下一步（接线）**：在对应实体 `createAttributes` 中读取这些键并相乘，同时把既有的 `arachnida*` 一并接上
 （顺带修掉这个遗留的半成品）；两侧齐备后「全局 × per-mob」合取条款方可翻转。
+
+## 批次 43：per-mob 属性倍率接线（sim_bigspider）（2026-09-25 续）
+
+批次 42 补齐配置键后，本轮完成**读取侧**接线：
+
+- `MobsConfig` 新增 4 个公开访问器（`dorpaHealthMultiplier()` 等）；
+- `AssimilatedVariantEntity.createAttributes` 在 `Kind.BIGSPIDER`（原版 `EntityDorpa`）分支读取并相乘
+  生命/护甲/攻击，击退抗性按原版上限 `Math.min(1.0, …)` 夹取——与既有全局倍率
+  （`OriginalConfigEvents:39-45`）共同构成原版 `SRPAttributes` 的「全局 × per-mob」结算。
+- 同时修正了批次 40/42 指出的遗留半成品方向：既有的 `arachnida*` 配置键仍是"只配置不读取"，可在下一轮照本批范式接上。
+
+校验：`verify-parasite-combat-rules.cjs` 增加 6 条断言；审计记账 1 条，满足 685 → **686**，缺失 265 → **264**。

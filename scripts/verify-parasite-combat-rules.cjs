@@ -323,6 +323,17 @@ for (const key of ["dorpaHealthMultiplier", "dorpaDamageMultiplier", "dorpaArmor
   if (!mobsConfig.includes(key)) failures.push(`MobsConfig is missing ${key}`);
 }
 
+// legacy SRPConfigMobs per-mob multipliers must actually be read
+const spawnMobs = read("src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java");
+for (const [pattern, message] of [
+  [/boolean dorpa = kind == Kind\.BIGSPIDER;/, "the dorpa multiplier branch is missing"],
+  [/kind\.maxHealth \* health/, "max health must use the per-mob multiplier"],
+  [/kind\.armor \* armor/, "armor must use the per-mob multiplier"],
+  [/kind\.attackDamage \* damage/, "attack damage must use the per-mob multiplier"],
+  [/Math\.min\(1\.0D, kind\.knockbackResistance \* knockback\)/, "knockback must use the per-mob multiplier and stay clamped"]
+]) expect(spawnMobs, pattern, message);
+expect(mobsConfig, /public static double dorpaHealthMultiplier\(\)/, "the dorpa accessors are missing");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

@@ -166,6 +166,11 @@ public final class MobsConfig {
             "srparasites:dorpa", "dorpaKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
             "Knockback-resistance multiplier for the assimilated spider.");
 
+    public static double dorpaHealthMultiplier() { return DORPA_HEALTH_MULTIPLIER.get(); }
+    public static double dorpaDamageMultiplier() { return DORPA_DAMAGE_MULTIPLIER.get(); }
+    public static double dorpaArmorMultiplier() { return DORPA_ARMOR_MULTIPLIER.get(); }
+    public static double dorpaKnockbackMultiplier() { return DORPA_KNOCKBACK_MULTIPLIER.get(); }
+
     private static final ModConfigSpec.DoubleValue ARACHNIDA_HEALTH_MULTIPLIER = value(
             "srparasites:arachnida", "arachnidaHealthMultiplier", 1.0D, 0.01D, 100.0D,
             "Health multiplier shared by Primitive and Adapted Arachnida.");
