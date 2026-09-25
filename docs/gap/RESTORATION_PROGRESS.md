@@ -3985,3 +3985,27 @@ tozoon↔Wymo、arachnida↔Ranrac、devourer↔Lum、vermin↔Iki、viscera↔G
 
 **下一批**：读 `SRPAttributes` 中 `*_A_HEALTH` / `*_A_ATTACK_DAMAGE` 的赋值行（`X = 基值 * 倍率`），
 再用批次 230 的方式计算并与端口表逐项比对。
+
+## 批次 241：adapted 族属性公式解出（**三因子**）（2026-09-25 续，未改代码）
+
+```java
+原版 SRPAttributes:1471   LUM_A_HEALTH       = SRPConfigMobs.lumadaptedhealth
+                                              * (SRPConfig.globalHealthMultiplier * SRPConfigMobs.lumHealthMultiplier);
+原版 SRPAttributes:1473   LUM_A_ATTACK_DAMAGE = SRPConfigMobs.lumadapteddamage
+                                              * (SRPConfig.globalDamageMultiplier * SRPConfigMobs.lumDamageMultiplier);
+```
+
+⇒ adapted 族的属性 = **三个因子相乘**（逐族基值 × 全局倍率 × 逐类倍率）✔，
+比头部族（两因子：基值 × 逐类倍率）与 primitive 族（直值常量）**更复杂** ✗。
+
+**下一批**：读取各因子的默认值（`lumadaptedhealth`、`globalHealthMultiplier`、`lumHealthMultiplier` 等 4 类键 × 12 个 kind ✗
+—— 但 `globalHealthMultiplier` / `globalDamageMultiplier` 是**共享**的，故实际需读 12 × 2 + 2 = **26 个键** ✔），
+再计算并与端口 adapted 表逐项比对 ✔。
+
+**族间形态差异汇总（第 4 次记录，已成规律）**：
+| 族 | 属性形态 | 因子数 |
+| --- | --- | --- |
+| 头部族 | 基值 × 逐类倍率 | 2 |
+| primitive 族 | 直值常量 | 1（直接给值） |
+| **adapted 族** | 逐族基值 × 全局倍率 × 逐类倍率 | **3** |
+⇒ **每族的核对脚本都必须按其自身形态编写**，这已是本阶段的稳定结论 ✔。
