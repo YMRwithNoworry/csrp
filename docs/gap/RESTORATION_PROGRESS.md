@@ -173,3 +173,17 @@ applyGene/阶段属性加成、同步数据（SELFE/COLD_L/DISLO15）、AI 任�
 `EntityParasiteBase:1046-1074` 与工程实现后确认**早已实现且语义一致**：
 `StatusEffectEvents.absorbParateAttributes` 在击杀时按 `0.5 × (amp + 1)`（原版 `parateMuch = 0.5` × `bonuss`）
 把受害者的基础最大生命/护甲/攻击加到击杀者身上。属审计陈旧，已按证据订正 7 条。
+
+## 批次 6：SELFE 自爆引信与闪烁缩放（2026-09-25 续）
+
+原版 `EntityParasiteBase.dyingBurst` / `madeRng` / `getSelfeFlashIntensity`（`fuseTime = 40`）：
+
+| 条款 | 原版出处 | 1.21.1 实现 |
+| --- | --- | --- |
+| `madeRng`：首次受击掷骰（50%），命中则广播 byte 40 | `EntityParasiteBase:628-632` | `PrimitiveParasiteEntity.willExplodeOnDeath()`（`random.nextInt(2)`，首次受击时掷骰并广播 40） |
+| `SELFE` 同步引信状态（默认 -1） | `:135/283/1186-1190` | 新增 `SELFE` 同步数据 + `getSelfeState()`/`setSelfeState()` |
+| `dyingBurst(true,1)`：`onDeathUpdate` 期间引信 +1/tick，满 `fuseTime` 后 `selfExplode` | `:1430-1440`、`:1492-1505` | `tickDeath()` 覆写：引信期间持尸（`deathTime` 停在 20），满 40 tick 调 `ParasiteCombatRules.selfExplode` 再走正常死亡 |
+| `getSelfeFlashIntensity` 驱动 `preRenderCallback` 膨胀缩放 | `:2177-2179`；`RenderEmanaAdapted:20-28` | `getSelfeFlashIntensity(partial)`（`/(fuseTime-2)` 夹取 0..1）+ `PrimitiveParasiteRenderer.scale` 按原版 `f1/f2/f3` 公式缩放 |
+
+上一批的「死亡即爆」已升级为原版引信流程（非 primitive 链暂仍即时爆炸，待接线）。
+校验：`scripts/verify-parasite-selfe-fuse.cjs`；审计记账 3 条，满足条款 624 → **627**（缺失 310 → 307）。

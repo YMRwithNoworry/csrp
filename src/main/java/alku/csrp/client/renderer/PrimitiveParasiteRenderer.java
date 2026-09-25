@@ -6,6 +6,7 @@ import alku.csrp.client.model.PrimitiveParasiteModel;
 import alku.csrp.entity.AdaptedVariantEntity;
 import alku.csrp.entity.CarrierEntity;
 import alku.csrp.entity.MeltableAssimilated;
+import alku.csrp.entity.PrimitiveParasiteEntity;
 import alku.csrp.entity.PrimitiveVariantEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -60,6 +61,20 @@ public final class PrimitiveParasiteRenderer<T extends Mob & CitadelAnimatedEnti
             float horizontalScale = (1.0F + swell * 0.4F) * pulse;
             float verticalScale = (1.0F + swell * 0.1F) / pulse;
             poseStack.scale(horizontalScale, verticalScale, horizontalScale);
+        }
+        if (entity instanceof PrimitiveParasiteEntity parasite) {
+            // Legacy preRenderCallback: the self-destruct fuse swells the model (same math as the
+            // carrier swell above, fed by getSelfeFlashIntensity over fuseTime = 40).
+            float swell = parasite.getSelfeFlashIntensity(partialTick);
+            if (swell > 0.0F) {
+                float pulse = 1.0F + Mth.sin(swell * 100.0F) * swell * 0.01F;
+                swell = Mth.clamp(swell, 0.0F, 1.0F);
+                swell *= swell;
+                swell *= swell;
+                float horizontalScale = (1.0F + swell * 0.4F) * pulse;
+                float verticalScale = (1.0F + swell * 0.1F) / pulse;
+                poseStack.scale(horizontalScale, verticalScale, horizontalScale);
+            }
         }
         super.scale(entity, poseStack, partialTick);
     }

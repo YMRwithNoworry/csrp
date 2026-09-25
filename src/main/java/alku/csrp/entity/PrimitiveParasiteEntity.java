@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
+import alku.csrp.event.ParasiteCombatRules;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
@@ -73,6 +74,9 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
             PrimitiveParasiteEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Integer> SPECIAL_LEAP_TICKS = SynchedEntityData.defineId(
             PrimitiveParasiteEntity.class, EntityDataSerializers.INT);
+    /** Legacy SELFE: the self-destruct fuse state the client renders as a swelling flash. */
+    private static final EntityDataAccessor<Integer> SELFE = SynchedEntityData.defineId(
+            PrimitiveParasiteEntity.class, EntityDataSerializers.INT);
     private static final String KILLS_TAG = "parasitekills";
     private static final String LEGACY_KILLCOUNT_TAG = "legacy_killcount";
     private static final String ADAPTATIONS_TAG = "damage_adaptations";
@@ -85,6 +89,9 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
     /** Legacy EntityAIWait: how long a kill suspends the parasite's AI, and the regen cadence. */
     private static final int KILL_WAIT_TICKS = 10;
     private static final int REGEN_EFFICIENCY_TICKS = 5;
+    /** Legacy fuseTime: ticks a dying parasite burns before it bursts. */
+    private static final int SELFE_FUSE_TICKS = 40;
+    private static final int DEATH_ANIMATION_TICKS = 20;
     /** Legacy EntityParasiteBase fire handling: chance for RAGE II on a fire hit. */
     private static final float FIRE_RAGE_CHANCE = 0.2F;
     private static final TagKey<DamageType> TACZ_BULLET_DAMAGE = TagKey.create(Registries.DAMAGE_TYPE,
@@ -104,6 +111,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
     private int fireAdaptationBlockTicks;
     private int waitTicks;
     private int regenUse = 1;
+    private byte explodesOnDeath = -1;
 
     protected PrimitiveParasiteEntity(EntityType<? extends PrimitiveParasiteEntity> type, Level level) {
         super(type, level);
@@ -129,6 +137,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
         super.defineSynchedData(builder);
         builder.define(ADAPTATION_HIT_STATUS, (byte) 0);
         builder.define(SPECIAL_LEAP_TICKS, 0);
+        builder.define(SELFE, -1);
     }
 
     @Override
@@ -300,6 +309,80 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
         return waitTicks;
     }
 
+    /**
+     * Legacy madeRng: the self-destruct roll happens on the first hit and is remembered for the
+     * rest of the mob's life, so a parasite that will burst on death is already decided by then.
+     */
+    public boolean willExplodeOnDeath() {
+        if (explodesOnDeath < 0) {
+            explodesOnDeath = (byte) random.nextInt(2);
+            if (explodesOnDeath == 0 && !level().isClientSide) {
+                level().broadcastEntityEvent(this, (byte) 40);
+            }
+        }
+        return explodesOnDeath == 0;
+    }
+
+    /** Legacy dyingBurst(true, 1): the corpse burns a {@value #SELFE_FUSE_TICKS} tick fuse. */
+    public void startDyingFuse() {
+        if (getSelfeState() < 0) {
+            setSelfeState(0);
+        }
+    }
+
+    public boolean isDyingFuseActive() {
+        return getSelfeState() >= 0;
+    }
+
+    /** Legacy SELFE getter: -1 while no fuse is burning. */
+    public int getSelfeState() {
+        return entityData.get(SELFE);
+    }
+
+    /** Legacy setSelfeState: 1 arms the fuse, -1 clears it. */
+    public void setSelfeState(int state) {
+        entityData.set(SELFE, state);
+    }
+
+    /**
+     * Legacy getSelfeFlashIntensity: 0..1 across the fuse, used by the renderer to swell the model
+     * (the original divided by fuseTime - 2).
+     */
+    public float getSelfeFlashIntensity(float partialTick) {
+        int fuse = getSelfeState();
+        if (fuse < 0) {
+            return 0.0F;
+        }
+        return Mth.clamp((fuse + partialTick) / (float) (SELFE_FUSE_TICKS - 2), 0.0F, 1.0F);
+    }
+
+    /**
+     * Legacy EntityParasiteBase.onDeathUpdate: while a fuse burns the corpse is held, and the burst
+     * happens at the end of the fuse instead of at the moment of death.
+     */
+    @Override
+    protected void tickDeath() {
+        if (!isDyingFuseActive()) {
+            super.tickDeath();
+            return;
+        }
+        if (deathTime < DEATH_ANIMATION_TICKS) {
+            deathTime++;
+        }
+        if (level().isClientSide) {
+            return;
+        }
+        int next = getSelfeState() + 1;
+        setSelfeState(next);
+        if (next >= SELFE_FUSE_TICKS) {
+            if (level() instanceof ServerLevel serverLevel) {
+                ParasiteCombatRules.selfExplode(serverLevel, this);
+            }
+            setSelfeState(-1);
+            super.tickDeath();
+        }
+    }
+
     /** Legacy EntityAIWait: holds move/look/jump mutexes while the wait timer runs. */
     private final class WaitGoal extends Goal {
         private WaitGoal() {
@@ -377,6 +460,8 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
         lastDamageAdaptationReduction = 0.0F;
         if (!level().isClientSide) {
             entityData.set(ADAPTATION_HIT_STATUS, (byte) 0);
+            // Legacy madeRng: the self-destruct roll is decided by the first hit.
+            willExplodeOnDeath();
         }
         Entity attacker = source.getEntity();
         Entity direct = source.getDirectEntity();

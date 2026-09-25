@@ -921,12 +921,12 @@
         },
         {
           "clause": "preRenderCallback 自爆/自毁闪烁缩放（getSelfeFlashIntensity 驱动 scale）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/renderer/entity/primitive/RenderShyco.java:23",
-            "project": "src/main/java/alku/csrp/client/renderer/PrimitiveParasiteRenderer.java:50"
+            "project": "src/main/java/alku/csrp/client/renderer/PrimitiveParasiteRenderer.java"
           },
-          "note": "工程 scale() 只处理 MeltableAssimilated/CarrierEntity，无 selfe 闪烁缩放；服务端也无 selfeState/canModRender 机制"
+          "note": "getSelfeFlashIntensity 按 (fuse + partial)/(fuseTime - 2) 驱动 preRenderCallback 同款膨胀缩放（f1/f2/f3 公式）；批次：SELFE 自爆引信与闪烁缩放（EntityParasiteBase.dyingBurst / getSelfeFlashIntensity）"
         },
         {
           "clause": "RenderMalleable 基类附加渲染（适应/受击染色等）",

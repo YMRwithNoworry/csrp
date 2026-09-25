@@ -218,6 +218,36 @@ const BATCHES = {
         detail: "absorbParateAttributes：击杀时若击杀者带 PARATE，则按 0.5×(amp+1)（原版 parateMuch=0.5 × bonuss）把受害者基础生命/护甲/攻击加到自身"
       }
     ]
+  },
+  // 批次 6：SELFE 自爆引信（原版 dyingBurst / madeRng / getSelfeFlashIntensity，PrimitiveParasiteEntity 链）
+  "selfe-fuse": {
+    note: "批次：SELFE 自爆引信与闪烁缩放（EntityParasiteBase.dyingBurst / getSelfeFlashIntensity）",
+    projectClasses: [
+      "LongarmsEntity", "HostEntity", "HiSkeletonEntity", "NexusParasiteEntity",
+      "PureParasiteEntity", "PreeminentParasiteEntity", "AncientParasiteEntity",
+      "DerivedParasiteEntity", "DeterrentParasiteEntity"
+    ],
+    clauses: [
+      {
+        // COLD_L / DISLO15 are separate sync fields and stay missing for now.
+        match: /^(?!.*(COLD_L|DISLO15))(?=.*SELFE).*$/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java",
+        detail: "SELFE 同步数据（默认 -1）+ getSelfeState；引信期间按 tick 递增供客户端渲染"
+      },
+      {
+        match: /dyingBurst|madeRng/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java",
+        detail: "madeRng 首次受击 rand.nextInt(2)（50%，广播 byte 40）；死亡后 tickDeath 持尸 40 tick 引信再 selfExplode"
+      },
+      {
+        match: /getSelfeFlashIntensity|闪烁缩放|闪白/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/client/renderer/PrimitiveParasiteRenderer.java",
+        detail: "getSelfeFlashIntensity 按 (fuse + partial)/(fuseTime - 2) 驱动 preRenderCallback 同款膨胀缩放（f1/f2/f3 公式）"
+      }
+    ]
   }
 };
 

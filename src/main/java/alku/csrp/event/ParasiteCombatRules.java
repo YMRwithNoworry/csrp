@@ -157,6 +157,12 @@ public final class ParasiteCombatRules {
         if (Config.parasiteGoreEnabled()) {
             leaveGore(level, parasite, tier);
         }
+        // Legacy func_70609_aI: a parasite whose madeRng roll said so holds the corpse for the
+        // fuseTime and bursts at the end of it (see PrimitiveParasiteEntity.tickDeath).
+        if (parasite instanceof PrimitiveParasiteEntity primitive && primitive.willExplodeOnDeath()) {
+            primitive.startDyingFuse();
+            return;
+        }
         if (parasite.getRandom().nextDouble() < Config.parasiteSelfExplodeChance()) {
             selfExplode(level, parasite);
         }
@@ -221,7 +227,7 @@ public final class ParasiteCombatRules {
      * Legacy selfExplode: MOB_EXPLOTION plus a toxic cloud of width * 1.5 with poison 300 and
      * COTH 3600, halved duration and wait time 10.
      */
-    private static void selfExplode(ServerLevel level, LivingEntity parasite) {
+    public static void selfExplode(ServerLevel level, LivingEntity parasite) {
         level.playSound(null, parasite.getX(), parasite.getY(), parasite.getZ(),
                 ModSounds.MOB_EXPLOSION.get(), SoundSource.HOSTILE, 1.0F, 1.0F);
         ToxicCloudEntity cloud = ToxicCloudEntity.create(level,

@@ -705,11 +705,12 @@
         },
         {
           "clause": "SELFE(Integer) 自爆/自毁状态同步（getSelfeState/setSelfeState）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:135",
-            "project": null
-          }
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java"
+          },
+          "note": "SELFE 同步数据（默认 -1）+ getSelfeState；引信期间按 tick 递增供客户端渲染；批次：SELFE 自爆引信与闪烁缩放（EntityParasiteBase.dyingBurst / getSelfeFlashIntensity）"
         },
         {
           "clause": "COLD_L(Boolean) 与 DISLO15(Boolean) 同步参数",

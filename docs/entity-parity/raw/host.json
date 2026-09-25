@@ -542,11 +542,12 @@
         },
         {
           "clause": "DataManager.register SELFE(Integer) 同步自爆/成长计数",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:135",
-            "project": null
-          }
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java"
+          },
+          "note": "SELFE 同步数据（默认 -1）+ getSelfeState；引信期间按 tick 递增供客户端渲染；批次：SELFE 自爆引信与闪烁缩放（EntityParasiteBase.dyingBurst / getSelfeFlashIntensity）"
         },
         {
           "clause": "DataManager.register COLD_L / DISLO15(Boolean) 同步冻结与位移标记",
