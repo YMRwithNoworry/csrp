@@ -1246,3 +1246,19 @@ EntityDod / EntityLeem / EntityVenkrol : XP_INFECTED * 2
 **自校验信号**：替换后全文件该配色出现 **11 处** ⇒ 另有 5 只蛋**原本就用**这一对颜色，
 右证"原版统一配色、这六只是例外"的判断成立（若原版是逐生物配色，端口不会恰好有 5 处一致）。
 `build` 通过、套件维持既有 20 失败。
+
+## 批次 86：tracker 条款的语义与端口做法查清（2026-09-25 续，记录未改）
+
+条款原文（`raw/*.json`）：**`EntityEntryBuilder.tracker(64, 3, true)` 追踪范围 64 / 更新间隔 3 / 速度同步**（7 条 partial）。
+这是 **1.12.2 Forge 的实体注册参数**，不是某个 AI 的追踪逻辑——因此它与 `EntityAIEvade.tracker`（同名字段，实为冷却计数）
+无关（本轮先做了这步排除，避免误改 AI）。
+
+**1.21.1 的等价物**：`EntityType.Builder` 的
+
+```java
+.clientTrackingRange(4)   // 原版 64 格 ÷ 16 = 4 个区块（1.21 以区块为单位）
+.updateInterval(3)        // 含义一致
+```
+
+**做法（下一批执行）**：在 `registry/ModEntities.java` 为对应实体的 `EntityType.Builder` 补上这两项；
+需先 grep 现有是否已设置（部分实体可能已有 `clientTrackingRange`），再逐只对齐，避免重复/冲突。
