@@ -1,18 +1,18 @@
 # 生物还原矩阵（SRParasites 1.10.9 → csrp）
 
-> 生成时间：2026-09-25T03:47:16.777Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
+> 生成时间：2026-09-25T03:48:27.373Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
 > 判定：✅ 全部条款满足；🟠 有部分实现但无缺失；❌ 存在缺失；· 未审计。
 
 - 注册生物总数：**127**；已审计：**13**；未审计：**114**
-- 条款总计：满足 689 / 部分 372 / 缺失 261（不计入 57 条不适用）
-- **加权完成度：66.2%**（partial 计 0.5）
+- 条款总计：满足 690 / 部分 372 / 缺失 260（不计入 57 条不适用）
+- **加权完成度：66.3%**（partial 计 0.5）
 
 ## 分面完成度
 
 | 面 | 满足 | 部分 | 缺失 | 完成度 |
 | --- | ---: | ---: | ---: | ---: |
 | 注册 `registration` | 61 | 40 | 30 | 61.8% |
-| 属性 `attributes` | 84 | 29 | 12 | 78.8% |
+| 属性 `attributes` | 85 | 29 | 11 | 79.6% |
 | AI `ai` | 87 | 74 | 28 | 65.6% |
 | 行为 `behaviors` | 165 | 69 | 66 | 66.5% |
 | 伤害/效果 `damage_and_effects` | 102 | 16 | 20 | 79.7% |
@@ -37,7 +37,7 @@
 | early_lifecycle | 1/10 | 42 | 25 | 18 | 64.1% |
 | marauderized | 1/7 | 54 | 26 | 24 | 64.4% |
 | current | 2/13 | 96 | 44 | 35 | 67.4% |
-| assimilated | 6/23 | 350 | 180 | 89 | 71.1% |
+| assimilated | 6/23 | 351 | 180 | 88 | 71.2% |
 
 ## 逐生物矩阵
 
@@ -165,7 +165,7 @@
 | `pri_longarms` | EntityShyco | LongarmsEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 67.1% |
 | `sim_human` | EntityInfHuman | SimHumanEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 67.7% |
 | `buglin` | EntityLodo | BuglinEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 67.9% |
-| `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 68.8% |
+| `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | ❌ | 🟠 | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 69.9% |
 | `sim_bigspider` | EntityDorpa | AssimilatedVariantEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | 🟠 | 71.4% |
 | `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | ❌ | 🟠 | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 72% |
 | `sim_cow` | EntityInfCow | AssimilatedParasiteEntity | ❌ | 🟠 | ❌ | ❌ | 🟠 | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 72.2% |
@@ -232,7 +232,7 @@
 - 冰冻变体贴图（slodo）与脚步静音音效缺失
 - 经验值 1 而非 XP_LiTTLE(4)；缺少死亡钩子（spawnCyst/spawnBeckon/leaveScent）
 
-### `sim_squid`（EntityInfSquid → AssimilatedParasiteEntity，68.8%）
+### `sim_squid`（EntityInfSquid → AssimilatedParasiteEntity，69.9%）
 - （无缺口摘要，见 raw JSON）
 
 ### `sim_bigspider`（EntityDorpa → AssimilatedVariantEntity，71.4%）

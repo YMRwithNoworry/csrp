@@ -220,6 +220,25 @@ public final class MobsConfig {
     public static double infwolfArmorMultiplier() { return INFWOLF_ARMOR_MULTIPLIER.get(); }
     public static double infwolfKnockbackMultiplier() { return INFWOLF_KNOCKBACK_MULTIPLIER.get(); }
 
+    // Legacy SRPConfigMobs.infsquid* (the assimilated squid).
+    private static final ModConfigSpec.DoubleValue INFSQUID_HEALTH_MULTIPLIER = value(
+            "srparasites:infsquid", "infsquidHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for the assimilated squid.");
+    private static final ModConfigSpec.DoubleValue INFSQUID_DAMAGE_MULTIPLIER = value(
+            "srparasites:infsquid", "infsquidDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Attack-damage multiplier for the assimilated squid.");
+    private static final ModConfigSpec.DoubleValue INFSQUID_ARMOR_MULTIPLIER = value(
+            "srparasites:infsquid", "infsquidArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for the assimilated squid.");
+    private static final ModConfigSpec.DoubleValue INFSQUID_KNOCKBACK_MULTIPLIER = value(
+            "srparasites:infsquid", "infsquidKDResistanceMultiplier", 1.0D, 0.01D, 100.0D,
+            "Knockback-resistance multiplier for the assimilated squid.");
+
+    public static double infsquidHealthMultiplier() { return INFSQUID_HEALTH_MULTIPLIER.get(); }
+    public static double infsquidDamageMultiplier() { return INFSQUID_DAMAGE_MULTIPLIER.get(); }
+    public static double infsquidArmorMultiplier() { return INFSQUID_ARMOR_MULTIPLIER.get(); }
+    public static double infsquidKnockbackMultiplier() { return INFSQUID_KNOCKBACK_MULTIPLIER.get(); }
+
     public static double dorpaHealthMultiplier() { return DORPA_HEALTH_MULTIPLIER.get(); }
     public static double dorpaDamageMultiplier() { return DORPA_DAMAGE_MULTIPLIER.get(); }
     public static double dorpaArmorMultiplier() { return DORPA_ARMOR_MULTIPLIER.get(); }

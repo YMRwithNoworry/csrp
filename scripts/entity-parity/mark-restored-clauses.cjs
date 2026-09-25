@@ -558,6 +558,19 @@ const BATCHES = {
         detail: "createAttributes 按 kind 读取原版 SRPConfigMobs 的 infsheep/infwolf 四项（health/damage/armor/KDResistance，默认 1.0）并相乘，与既有全局倍率构成「全局 × per-mob」结算；击退抗性夹取 1.0"
       }
     ]
+  },
+  // 批次 46：sim_squid 的 per-mob 属性倍率接线
+  "per-mob-multipliers-insquid": {
+    note: "批次：per-mob 属性倍率接线（原版 SRPConfigMobs.infsquid*，默认 1.0F）",
+    mobs: ["sim_squid"],
+    clauses: [
+      {
+        match: /per-mob|倍率/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java",
+        detail: "createAttributes 的 SQUID 分支读取原版 SRPConfigMobs 的 infsquid 四项（health/damage/armor/KDResistance，默认 1.0）并相乘，与既有全局倍率构成「全局 × per-mob」结算；击退抗性夹取 1.0"
+      }
+    ]
   }
 };
 

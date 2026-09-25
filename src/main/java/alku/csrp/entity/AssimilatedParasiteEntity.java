@@ -122,18 +122,23 @@ public final class AssimilatedParasiteEntity extends Monster
         boolean cow = kind == Kind.COW;
         boolean sheep = kind == Kind.SHEEP;
         boolean wolf = kind == Kind.WOLF;
+        boolean squid = kind == Kind.SQUID;
         double health = cow ? MobsConfig.infcowHealthMultiplier()
                 : sheep ? MobsConfig.infsheepHealthMultiplier()
-                : wolf ? MobsConfig.infwolfHealthMultiplier() : 1.0D;
+                : wolf ? MobsConfig.infwolfHealthMultiplier()
+                : squid ? MobsConfig.infsquidHealthMultiplier() : 1.0D;
         double damage = cow ? MobsConfig.infcowDamageMultiplier()
                 : sheep ? MobsConfig.infsheepDamageMultiplier()
-                : wolf ? MobsConfig.infwolfDamageMultiplier() : 1.0D;
+                : wolf ? MobsConfig.infwolfDamageMultiplier()
+                : squid ? MobsConfig.infsquidDamageMultiplier() : 1.0D;
         double armor = cow ? MobsConfig.infcowArmorMultiplier()
                 : sheep ? MobsConfig.infsheepArmorMultiplier()
-                : wolf ? MobsConfig.infwolfArmorMultiplier() : 1.0D;
+                : wolf ? MobsConfig.infwolfArmorMultiplier()
+                : squid ? MobsConfig.infsquidArmorMultiplier() : 1.0D;
         double knockback = cow ? MobsConfig.infcowKnockbackMultiplier()
                 : sheep ? MobsConfig.infsheepKnockbackMultiplier()
-                : wolf ? MobsConfig.infwolfKnockbackMultiplier() : 1.0D;
+                : wolf ? MobsConfig.infwolfKnockbackMultiplier()
+                : squid ? MobsConfig.infsquidKnockbackMultiplier() : 1.0D;
         return Monster.createMonsterAttributes()
                 .add(Attributes.MAX_HEALTH, kind.maxHealth * health)
                 .add(Attributes.ATTACK_DAMAGE, kind.attackDamage * damage)
