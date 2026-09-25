@@ -281,7 +281,7 @@ public final class ModEntities {
             monster("sim_bigspider", (type, level) -> new AssimilatedVariantEntity(type, level,
                     AssimilatedVariantEntity.Kind.BIGSPIDER), 1.9F, 2.1F);
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedDragonEntity>> SIM_DRAGONE =
-            monster("sim_dragone", AssimilatedDragonEntity::new, 1.9F, 3.8F);
+            monster("sim_dragone", AssimilatedDragonEntity::new, 1.9F, 3.8F, 1.75F);
     public static final DeferredHolder<EntityType<?>, EntityType<DragonEggAssimilationEntity>> DRAGON_EGG_ASSIMILATION =
             ENTITIES.register("dragon_egg_assimilation", () -> EntityType.Builder
                     .<DragonEggAssimilationEntity>of(DragonEggAssimilationEntity::new, MobCategory.MISC)

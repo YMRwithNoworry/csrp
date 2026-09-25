@@ -2669,3 +2669,25 @@ leftWingHealth = legacyPartHealth;
 
 **方法论**：这是本会话又一处"**审计指出的缺口为真，但实现位置需自行确认**"——审计给的是"缺什么"，
 而"该加在哪里"仍要按原版形态判断（方法覆写 vs 注册参数 vs 属性）。
+
+## 批次 171：`sim_dragone` 眼高落地——**编译揭示 1.21 的 API 事实**（2026-09-25 续）
+
+批次 170 计划"在实体类覆写 `getEyeHeight()`"，本轮实施时**编译直接否决**：
+
+```
+错误：AssimilatedDragonEntity 中的 getEyeHeight(Pose) 无法覆盖 Entity 中的 getEyeHeight(Pose)
+      —— 被覆盖的方法为 final
+```
+
+⇒ 在 1.21 中 `Entity.getEyeHeight(Pose)` 是 **final**，**不能覆写** ✗。正确做法是走**注册参数**：
+改用 **4 参 `monster()` helper**（带 eyeHeight）并传 **1.75F**：
+
+```java
+monster("sim_dragone", AssimilatedDragonEntity::new, 1.9F, 3.8F, 1.75F)   // 原 3 参版本无眼高
+```
+
+**连带好处**：该 4 参 helper 的 tracker 已在批次 164 对齐为 `clientTrackingRange(4)/updateInterval(3)` ✔，
+因此本改动不会引入 tracker 偏差（若在批次 164 之前做，就会连带把 tracker 改回 128 格 ✗）。
+
+**方法论**：本会话第 N 次"**编译器充当事实核查**"——我基于 1.12 形态推断的实现位置（覆写方法）在 1.21 不成立，
+而编译在 1 秒内给出了结论，比任何文档检索都可靠。`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
