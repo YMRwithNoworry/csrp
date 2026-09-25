@@ -352,8 +352,11 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
                     Math.min(1.0D, MobsConfig.bolsterKnockbackResistance()
                             * MobsConfig.bolsterKnockbackMultiplier()));
             case BURROWER -> applyConfiguredAttributes(
-                    MobsConfig.burrowerHealth(), MobsConfig.burrowerArmor(),
-                    MobsConfig.burrowerDamage(), MobsConfig.burrowerKnockbackResistance());
+                    MobsConfig.burrowerHealth() * MobsConfig.burrowerHealthMultiplier(),
+                    MobsConfig.burrowerArmor() * MobsConfig.burrowerArmorMultiplier(),
+                    MobsConfig.burrowerDamage() * MobsConfig.burrowerDamageMultiplier(),
+                    Math.min(1.0D, MobsConfig.burrowerKnockbackResistance()
+                            * MobsConfig.burrowerKnockbackMultiplier()));
             case DEVOURER -> applyConfiguredAttributes(
                     MobsConfig.devourerHealth(), MobsConfig.devourerArmor(),
                     MobsConfig.devourerDamage(), MobsConfig.devourerKnockbackResistance());

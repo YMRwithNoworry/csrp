@@ -453,6 +453,12 @@ expect(read("src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java"),
   "the bolster health multiplier is not stacked");
 expect(mobsConfig, /public static double bolsterKnockbackMultiplier\(\)/, "the bolster accessors are missing");
 
+// the primitive burrower multipliers now stack on its configured base values
+expect(read("src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java"),
+  /burrowerHealth\(\) \* MobsConfig\.burrowerHealthMultiplier\(\)/,
+  "the burrower health multiplier is not stacked");
+expect(mobsConfig, /public static double burrowerKnockbackMultiplier\(\)/, "the burrower accessors are missing");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

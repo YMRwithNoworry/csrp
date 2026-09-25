@@ -923,3 +923,8 @@ strict: 46 known backlog key(s), 0 new ones.      # 由 50 降至 46
 ```
 
 这标志着 12 组死键 backlog 的**第一组下线**；后续每组按同一流程（查审计脚本给的名字 → 访问器 → case 叠加 → 白名单划掉）即可稳定推进。
+
+## 批次 61：primitive burrower 倍率接线（backlog 46 → 42）（2026-09-25 续）
+
+同批次 60 的流程（审计脚本给常量名 → 加访问器 → `case BURROWER` 叠加 → 白名单划掉）：
+`BURROWER_` 四键下线，`--strict` 输出由 46 降至 **42**。
