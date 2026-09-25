@@ -2266,3 +2266,17 @@ infvillagerMobSummon / infhorseMobSummon / infadventurerMobSummon`。`build` 通
 
 **方法论（第 N 次同类）**：这是本会话又一处"**我以为的通例其实是特例**"（对照批次 139 的"我以为的特例其实是通例"）。
 两次都指向同一纪律：**逐类查原版赋值点，不做族级外推**。
+
+## 批次 147：followRange 扫查项**闭合**（三个独立类逐项与原版一致）（2026-09-25 续）
+
+```
+原版 EntityInfDragonE:123       field_111265_b = 64.0   ↔ 端口 AssimilatedDragonEntity:115      64.0D  ✔
+原版 EntityInfDragonEHead:63    field_111265_b = 32.0   ↔ 端口 AssimilatedDragonHeadEntity:51   32.0D  ✔
+原版 EntityInfEnderman:114      field_111265_b = 64.0   ↔ 端口 AssimilatedEndermanEntity:123    64.0D  ✔（批次 146）
+```
+
+**结论**：同化档三个独立类的 followRange **全部与原版逐项一致**，无需改动；本会话出现的"followRange 漏项"
+**仅 `SimAdventurerEntity` 一处**（批次 145 已修）。加上 XP 三项均已为 8 ⇒ **该扫查项闭合**。
+
+至此"同型漏项"这条线收束：三次出现（`AssimilatedVariantEntity` 四 kind、`SimAdventurerEntity`、`AssimilatedHeadEntity` 经验）
+均已修正并复核，其余独立类经逐项核对无偏差。
