@@ -11,6 +11,9 @@ public final class GeneralConfig {
     private static final ModConfigSpec.BooleanValue PARASITE_BLOCK_DROPS = BUILDER
             .comment("Set to true if the blocks broken by parasites should have drops.")
             .define("parasiteBlockDrops", true);
+    private static final ModConfigSpec.BooleanValue WORLD_CREATION_UI = BUILDER
+            .comment("Set to false if you want to disable SRP world creation options.")
+            .define("worldCreationUi", true);
     private static final ModConfigSpec.DoubleValue GLOBAL_HEALTH_MULTIPLIER = BUILDER
             .comment("Global maximum-health multiplier for every parasite.")
             .defineInRange("globalHealthMultiplier", 1.0D, 0.01D, 100.0D);
@@ -36,6 +39,11 @@ public final class GeneralConfig {
     /** {@code SRPConfig.doTileDrops} — whether parasite block breaking produces drops. */
     public static boolean parasiteBlockDrops() {
         return PARASITE_BLOCK_DROPS.get();
+    }
+
+    /** {@code SRPConfig.worldGIU} — whether the SRP world-creation options are shown. */
+    public static boolean worldCreationUi() {
+        return WORLD_CREATION_UI.get();
     }
 
     public static double globalHealthMultiplier() {

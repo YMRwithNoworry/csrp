@@ -49,11 +49,14 @@ for (const token of ["ChunkEvent.Load", "event.isNewChunk()", "EventPriority.HIG
   expect(fractured.includes(token), `SRPFracturedTerrainHandler is missing original gate: ${token}`);
 expect(!fracturedCode.includes("PopulateChunkEvent"),
   "SRPFracturedTerrainHandler still uses the removed 1.12.2 PopulateChunkEvent");
-// The world-creation toggle must stay opt-in.
+// The world-creation toggle must stay opt-in.  The selector itself now lives in the dedicated
+// SRP world-settings screen (1.10.9 GuiSRPWorldSettings), so the default is asserted there.
 expect(worldData.includes("starType == SrpStarType.COLD && Boolean.TRUE.equals(fracturedTerrain)"),
   "SrpWorldData#fracturedTerrainEnabled no longer requires an explicit opt-in");
-expect(createScreen.includes("FRACTURED_SELECTIONS.getOrDefault(screen, SrpMeteorMode.OFF)"),
+expect(createScreen.includes("SrpMeteorMode fracturedTerrain = SrpMeteorMode.OFF;"),
   "the create-world fractured-terrain selector no longer defaults to off");
+expect(createScreen.includes("cold && state.fracturedTerrain.enabled()"),
+  "the create-world fractured-terrain choice is no longer gated behind a cold star");
 expect(coldSelection.includes("consumeFractured()"),
   "SrpColdStarSelection no longer carries the create-world fractured-terrain choice");
 
