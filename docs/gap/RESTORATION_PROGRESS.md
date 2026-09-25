@@ -2484,3 +2484,16 @@ updateTask:
 3. **存活期推进**：`tick` 中引信状态 > 0 时推进并触发膨胀表现（与死亡路径互斥）。
 
 规划至此**证据齐备**（原版 AI 类体 + 三处调用点 + 端口对应物），下一批可直接实施。
+
+## 批次 160：`sim_horse` 膨胀自爆第 1 步落地（`AttackSwellGoal`）（2026-09-25 续）
+
+新增 `entity/AttackSwellGoal`（对应原版 `EntityAIAttackSwell`）：`canUse` = 引信已激活或目标在 `distance` 内；
+`tick` 四分支——无目标 / 距离² > **49.0**（7 格）/ 无视线 → 置状态 `-1`（取消），否则置 `1`（开始膨胀）；
+构造参数 `requireHalfHealth` 复刻马的 `setSelfeState` 覆写（≤50% 生命才允许进入膨胀）。
+
+配套：`ParasiteFuseState` 增加**静态访问器** `getStateOf/setStateOf`（AI 目标无法持有状态实例，而原版 `setSelfeState`
+是实体方法 ⇒ 端口以静态访问器等价承载）。注册：`AssimilatedVariantEntity` 对 `Kind.HORSE` 加 `AttackSwellGoal(this, 5.0D, true)`（优先级 2，
+与原版 `addTask(2, …)` 一致）。断言 4 条；`build` 通过、套件维持既有 20 失败。
+
+**第 2、3 步待办**：存活期推进（`tick` 中状态 > 0 时推进引信 + 膨胀表现，与死亡路径互斥）；
+以及确认端口渲染已能表现膨胀（`SelfeFuseRender` 依赖 `SelfeFuseOwner`，而变体族已实现该接口 ✔）。

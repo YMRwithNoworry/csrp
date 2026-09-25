@@ -529,6 +529,14 @@ expect(summon, /default -> null;/, "mobs without a legacy spec must not summon")
 expect(combatRules, /ParasiteSummon\.spawn\(parasite, alku\.csrp\.entity\.ParasiteSummon\.specFor\(parasite\)\)/,
   "selfExplode does not summon the legacy reinforcements");
 
+// Legacy EntityAIAttackSwell drives the SELFE fuse by proximity (horse: 5.0, half-health gate).
+const swell = read("src/main/java/alku/csrp/entity/AttackSwellGoal.java");
+expect(swell, /CANCEL_DISTANCE_SQR = 49\.0D/, "the swell cancel distance is wrong");
+expect(swell, /getSensing\(\)\.hasLineOfSight\(target\)/, "the swell must require line of sight");
+expect(swell, /mob\.getHealth\(\) > mob\.getMaxHealth\(\) \* 0\.5F/, "the half-health gate is missing");
+expect(read("src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java"),
+  /new AttackSwellGoal\(this, 5\.0D, true\)/, "the horse does not register the swell goal");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

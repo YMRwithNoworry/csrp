@@ -206,6 +206,10 @@ public final class AssimilatedVariantEntity extends Monster implements CitadelAn
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
         goalSelector.addGoal(2, new MeleeAttackGoal(this, kind == Kind.HORSE ? 1.5D : 1.2D, false));
+        if (kind == Kind.HORSE) {
+            // Legacy EntityInfHorse:73 EntityAIAttackSwell(this, 5.0) plus its half-health setSelfeState gate.
+            goalSelector.addGoal(2, new AttackSwellGoal(this, 5.0D, true));
+        }
         // Legacy tasks.addTask(2, EntityAIWaterLeapAtTargetStatus(this, 0.7F, 1.5, 3, 20, 0)).
         goalSelector.addGoal(2, new WaterLeapAtTargetGoal(this, () -> level() instanceof ServerLevel serverLevel
                 && alku.csrp.world.EvolutionSystem.generationProfile(serverLevel).waterLeap(), 0.7F, 1.5D, 20, 0.0D));

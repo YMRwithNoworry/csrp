@@ -60,6 +60,15 @@ public final class ParasiteFuseState {
         setState(owner, -1);
     }
 
+    /** Static accessors so AI goals can drive the synced SELFE state without owning the instance. */
+    public static int getStateOf(LivingEntity owner) {
+        return owner.getEntityData().get(SELFE);
+    }
+
+    public static void setStateOf(LivingEntity owner, int state) {
+        owner.getEntityData().set(SELFE, state);
+    }
+
     public int getState(LivingEntity owner) {
         return owner.getEntityData().get(SELFE);
     }
