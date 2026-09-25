@@ -45,21 +45,21 @@
         },
         {
           "clause": "台阶高度 field_70138_W = 1.0F",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:79",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java"
           },
-          "note": "project 未设置 stepHeight（EntityType.Builder/实体构造均无），沿用 1.21 默认 0.6"
+          "note": "原版 EntityInfDragonE:79 field_70138_W = 1.0F；1.21 已改为属性 Attributes.STEP_HEIGHT，端口已在属性链追加 1.0D（批次 172）。；批次：sim_dragone 部件生命、步高、眼高、生成条目与音效"
         },
         {
           "clause": "眼高 func_70047_e = 1.75F",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:338",
-            "project": "src/main/java/alku/csrp/registry/ModEntities.java:284"
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java"
           },
-          "note": "project 未用带 eyeHeight 的 monster() 重载，使用默认眼高（0.85 × 3.8 ≈ 3.23），与原版 1.75 不一致"
+          "note": "原版 EntityInfDragonE:338 func_70047_e 返回 1.75F；1.21 的 getEyeHeight 为 final，故经 4 参 monster() helper 传 1.75F（批次 171）。；批次：sim_dragone 部件生命、步高、眼高、生成条目与音效"
         },
         {
           "clause": "tracker 追踪距离 64 格 / 更新间隔 3 tick",
@@ -181,12 +181,12 @@
         },
         {
           "clause": "部件（左右翼/头）生命 = 本体生命 × SRPConfig.tendrilHealth（默认 0.4 → 104）",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:89",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:50"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java"
           },
-          "note": "project 固定 PART_HEALTH = 52.0F（= 260 × 0.2），既不读取 Config.tendrilHealth（src/main/java/alku/csrp/Config.java:59 默认 0.5），也与原版默认 0.4 不同（原版 SRPConfig.java:128 tendrilHealth = 0.4）"
+          "note": "原版部件生命为父体最大生命 × SRPConfig.tendrilHealth（默认 0.4 => 260×0.4=104）；端口原写死 52.0F，已把赋值从字段初始化移到构造体 super(...) 之后并按该公式计算（批次 168）。；批次：sim_dragone 部件生命、步高、眼高、生成条目与音效"
         },
         {
           "clause": "经验 field_70728_aV = SRPAttributes.XP_INFECTED = 8",
@@ -521,12 +521,12 @@
         },
         {
           "clause": "部件生命以 func_70103_a(11/22/33) 客户端清零 + NBT parasiteleftTendril/parasiterightTendril 持久化",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:435",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java:74"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java"
           },
-          "note": "project 用三个 boolean（HEAD/LEFT_WING/RIGHT_WING_ATTACHED）替代部件血量同步与 11/22/33 事件码；NBT 键名改为 head_health/left_wing_health/right_wing_health（:292-294）"
+          "note": "原版部件生命为父体最大生命 × SRPConfig.tendrilHealth（默认 0.4 => 260×0.4=104）；端口原写死 52.0F，已把赋值从字段初始化移到构造体 super(...) 之后并按该公式计算（批次 168）。；批次：sim_dragone 部件生命、步高、眼高、生成条目与音效"
         }
       ],
       "confidence": "high"
@@ -632,30 +632,30 @@
       "clauses": [
         {
           "clause": "环境音：状态非 0 时 SRPSounds.MOBSILENCE，否则同样 MOBSILENCE（原版两者相同）",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:361",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java"
           },
-          "note": "project 未覆写 getAmbientSound，也未见 sim_dragone 的音效档案（grep -i dragon 在 ParasiteSoundProfiles.java/sounds.json 无命中）；Mob 默认返回 null，效果近似静音但无显式映射"
+          "note": "原版 EntityInfDragonE:360/364/368/373：ambient 与 death 为 MOBSILENCE、hurt 为末影龙受伤音、音量 5.0F；端口按 1.21 惯用法覆写（ambient/death 返回 null、hurt 用 SoundEvents.ENDER_DRAGON_HURT、音量 5.0F），无需新增音效资源（批次 194）。；批次：sim_dragone 部件生命、步高、眼高、生成条目与音效"
         },
         {
           "clause": "受伤音 SoundEvents.field_187526_aP（末影龙受伤音）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:365",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java"
           },
-          "note": "project 未覆写 getHurtSound；ParasiteSoundProfiles 无 sim_dragone 条目，受伤时静音"
+          "note": "原版 EntityInfDragonE:360/364/368/373：ambient 与 death 为 MOBSILENCE、hurt 为末影龙受伤音、音量 5.0F；端口按 1.21 惯用法覆写（ambient/death 返回 null、hurt 用 SoundEvents.ENDER_DRAGON_HURT、音量 5.0F），无需新增音效资源（批次 194）。；批次：sim_dragone 部件生命、步高、眼高、生成条目与音效"
         },
         {
           "clause": "死亡音 SRPSounds.MOBSILENCE",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:373",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java"
           },
-          "note": "project 未覆写 getDeathSound → 默认 null（静音），与原版 MOBSILENCE 实际效果一致，但无显式实现"
+          "note": "原版 EntityInfDragonE:360/364/368/373：ambient 与 death 为 MOBSILENCE、hurt 为末影龙受伤音、音量 5.0F；端口按 1.21 惯用法覆写（ambient/death 返回 null、hurt 用 SoundEvents.ENDER_DRAGON_HURT、音量 5.0F），无需新增音效资源（批次 194）。；批次：sim_dragone 部件生命、步高、眼高、生成条目与音效"
         },
         {
           "clause": "音量 func_70599_aP = 5.0F（环境音音量）",
@@ -668,12 +668,12 @@
         },
         {
           "clause": "脚步声 SoundEvents.field_187823_fN，音量 0.15F",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:377",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java"
           },
-          "note": "project 未覆写 getStepSound/playStepSound"
+          "note": "原版 EntityInfDragonE:360/364/368/373：ambient 与 death 为 MOBSILENCE、hurt 为末影龙受伤音、音量 5.0F；端口按 1.21 惯用法覆写（ambient/death 返回 null、hurt 用 SoundEvents.ENDER_DRAGON_HURT、音量 5.0F），无需新增音效资源（批次 194）。；批次：sim_dragone 部件生命、步高、眼高、生成条目与音效"
         }
       ],
       "confidence": "medium"
@@ -684,12 +684,12 @@
       "clauses": [
         {
           "clause": "SRPSpawning.addSpawn(0, EntityInfDragonE.class, 3, 6, biome, infdragoneSpawnRate = 2, infdragoneEnabled)",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPSpawning.java:162",
-            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java:386"
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java"
           },
-          "note": "project spawn(\"sim_dragone\", 1, 1, 1)：权重 1、组大小 1-1（原版权重 2、组 3-6）"
+          "note": "原版 SRPSpawning:162 为组 3-6、权重 infdragoneSpawnRate=2；端口原为 1/1/1，已改为 spawn(\"sim_dragone\", 3, 6, 2)（批次 169，权重由脚本直读原版写入）。；批次：sim_dragone 部件生命、步高、眼高、生成条目与音效"
         },
         {
           "clause": "仅晚期阶段表（latePhase 的 dragon 分支）纳入生成",
@@ -702,12 +702,12 @@
         },
         {
           "clause": "同化生成配额 canSpawnByIDData = SRPConfigMobs.infdragoneCanSpawnAssimilatedNat（默认 -1）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/EntityInfDragonE.java:103",
-            "project": null
+            "project": "src/main/java/alku/csrp/world/NaturalSpawnTables.java"
           },
-          "note": "project 无 per-mob 同化配额（原版默认值 -1 见 SRPConfigMobs.java:492）"
+          "note": "原版 SRPSpawning:162 为组 3-6、权重 infdragoneSpawnRate=2；端口原为 1/1/1，已改为 spawn(\"sim_dragone\", 3, 6, 2)（批次 169，权重由脚本直读原版写入）。；批次：sim_dragone 部件生命、步高、眼高、生成条目与音效"
         },
         {
           "clause": "刷怪蛋/启用开关 SRPConfigMobs.infdragoneEnabled",

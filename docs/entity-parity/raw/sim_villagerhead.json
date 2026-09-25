@@ -74,7 +74,7 @@
           "clause": "刷怪蛋开关 SRPConfig.vanillaEggs（builder.egg 的条件）",
           "verdict": "missing",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:192",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:193",
             "project": null
           },
           "note": "原版仅在 SRPConfig.vanillaEggs 为真时 builder.egg(...)；project 无该开关，刷怪蛋恒注册"
@@ -109,7 +109,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:1125",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:450"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:456"
           },
           "note": "project Kind.VILLAGER maxHealth=4.8D，与原版 16.0×0.3 一致（原版 1121 行还会乘 globalHealthMultiplier × infvillagerHealthMultiplier，默认均为 1.0）"
         },
@@ -118,7 +118,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/SRPAttributes.java:1126",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:450"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:456"
           },
           "note": "project Kind.VILLAGER attackDamage=3.0D"
         },
@@ -127,7 +127,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfVillagerHead.java:81",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:450"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:456"
           },
           "note": "project Kind.VILLAGER movementSpeed=0.30D"
         },
@@ -136,7 +136,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/util/config/SRPConfig.java:140",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:450"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:456"
           },
           "note": "project Kind.VILLAGER followRange=16.0D；写死 16.0 而非读配置，数值一致"
         },
@@ -154,7 +154,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:86",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:467"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:473"
           },
           "note": "project Kind 构造器 experience=8，由 xpReward = kind.experience 赋值（:87）"
         },
@@ -174,7 +174,7 @@
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfVillagerHead.java:48",
             "project": null
           },
-          "note": "project 头颅使用 vanilla MeleeAttackGoal（冷却 20 tick，AssimilatedHeadEntity.java:413）；带基因间隔的 GeneMeleeGoal 未接入头颅，原版 15 tick 基准无对应实现"
+          "note": "project 头颅使用 vanilla MeleeAttackGoal（冷却 20 tick，AssimilatedHeadEntity.java:417）；带基因间隔的 GeneMeleeGoal 未接入头颅，原版 15 tick 基准无对应实现"
         },
         {
           "clause": "阶段属性加成 evolutionParasiteStatIncrease（phase ≥ 阈值时生命/护甲/攻击 ×(1+v)）",
@@ -215,7 +215,7 @@
           "verdict": "partial",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfVillagerHead.java:68",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:413"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:417"
           },
           "note": "project HeadMeleeGoal(1.3D, false) 速度一致；原版第 4 参 -1.0（状态门控/伤害修正）无语义对应，project 改为状态 1 切换动画"
         },
@@ -233,7 +233,7 @@
           "verdict": "partial",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfVillagerHead.java:69",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:325"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:331"
           },
           "note": "project 无 work-task/编队（setWorkTask/setParasiteToFollow）机制；语义最近的是 HeadCothCloudGoal（8 格内同类 ≤2 且无目标时放毒云）与 ParasiteFollowGoal，光照与 RAGE 分支未还原"
         },
@@ -302,7 +302,7 @@
           "clause": "func_70636_d：SRPConfigSystems.disloGiveBodies 且 SRPSaveData code(44,20) ≥ 1 且 srpTicks == 10 时重建本体",
           "verdict": "missing",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfVillagerHead.java:107",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfVillagerHead.java:108",
             "project": null
           },
           "note": "project 无 disloGiveBodies 配置项、无 srpTicks 计时、无头颅自动重建本体逻辑（grep giveBodies/srpTicks 在 src/main/java 仅命中 LiquidLeap.java:12 的注释）"
@@ -321,7 +321,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfVillagerHead.java:139",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:250"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:256"
           },
           "note": "project causeFallDamage(distance, damageMultiplier * 0.3F, source) 为 1.21 对应物，倍率一致"
         },
@@ -330,7 +330,7 @@
           "verdict": "partial",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfVillagerHead.java:117",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:304"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:310"
           },
           "note": "project isValidParasiteTarget 只排除自身/死亡/Parasite 与 pack-size 条件；mobAttackingFull、mobattackingBlackList(White)、EntityInhooM 例外（可攻击同类）均未实现"
         },
@@ -477,7 +477,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/head/ModelInfVillagerHead.java:476",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:256"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:262"
           },
           "note": "project age_controller 播放 func_78087_a.age_in_ticks 与 ...get_still_ani_1 变体，movement_controller 播放 limb_swing 系动画"
         },
@@ -486,16 +486,16 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/head/ModelInfVillagerHead.java:510",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:271"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:277"
           },
-          "note": "project status 1/2 切换 get_parasite_status_1 动画（近战 goal 内 updateMeleeStatus 置 1，:436-439）"
+          "note": "project status 1/2 切换 get_parasite_status_1 动画（近战 goal 内 updateMeleeStatus 置 1，:442-445）"
         },
         {
           "clause": "status 10 跃击姿势（mainbody.field_78795_f = -0.9F 等）",
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/head/ModelInfVillagerHead.java:497",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:261"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:267"
           },
           "note": "project status 10 播放 func_78087_a.age_in_ticks.get_parasite_status_10"
         },
@@ -504,7 +504,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/client/model/entity/infected/head/ModelInfVillagerHead.java:476",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:267"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:273"
           },
           "note": "project 用 ParasiteAnimations.isMoving(...) 决定 movement_controller 停止（STOP），对应原版 getStillAni 判定"
         },
@@ -596,12 +596,12 @@
         },
         {
           "clause": "脚步声 SRPSounds.SMALL_STEPS（经 func_180429_a/getStepSound，音量 getSoundVolume、音高 getSoundPitch）",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfVillagerHead.java:160",
-            "project": "src/main/java/alku/csrp/registry/SoundEventCatalog.java:423"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:251"
           },
-          "note": "project 已注册 small.step 事件（SoundEventCatalog.java:423）并在他处使用，但 AssimilatedHeadEntity 未覆写 playStepSound/getStepSound，头颅脚步声未接线"
+          "note": "审计期间该实现在工作区落地：project AssimilatedHeadEntity.playStepSound（:249-253）以 ModSounds.get(small.step) + getSoundVolume()/getVoicePitch() 复刻原版 func_180429_a → getStepSound()=SMALL_STEPS；small.step 事件注册仍见 SoundEventCatalog.java:423"
         }
       ],
       "confidence": "high"
@@ -632,7 +632,7 @@
           "clause": "同化生成配额 canSpawnByIDData（SRPConfigMobs.infvillagerCanSpawnAssimilatedNat = 6）",
           "verdict": "missing",
           "evidence": {
-            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfVillagerHead.java:57",
+            "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/infected/head/EntityInfVillagerHead.java:58",
             "project": null
           },
           "note": "project 无 per-mob 同化配额（grep villagerCanSpawnAssimilatedNat 在 src/main/java 0 命中），宿主转化由 cothVictimParasites 表无条件决定"
@@ -667,7 +667,7 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected.java:86",
-            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:467"
+            "project": "src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java:473"
           },
           "note": "project xpReward 取自 Kind.experience=8（AssimilatedHeadEntity.java:87 赋值）"
         }

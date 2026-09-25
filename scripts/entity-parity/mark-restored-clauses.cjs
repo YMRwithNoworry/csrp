@@ -866,6 +866,43 @@ const BATCHES = {
         detail: "原版 EntityInf*Head:166/171 覆写 func_180429_a 返回 SRPSounds.SMALL_STEPS；端口该事件早已存在（SoundEventCatalog:423 small.step）但头部从不调用，已在 AssimilatedHeadEntity 覆写 playStepSound 播放该事件（照抄 AbominationEntity/GnatEntity/ManglerEntity 的既有范式）。"
       }
     ]
+  },
+  // 批次 195：sim_dragone 的五项修复（部件生命/步高/眼高/生成条目/音效）
+  "dragone-fixes": {
+    note: "批次：sim_dragone 部件生命、步高、眼高、生成条目与音效",
+    mobs: ["sim_dragone"],
+    clauses: [
+      {
+        match: /部件生命|part.?health|tendrilHealth/i,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java",
+        detail: "原版部件生命为父体最大生命 × SRPConfig.tendrilHealth（默认 0.4 => 260×0.4=104）；端口原写死 52.0F，已把赋值从字段初始化移到构造体 super(...) 之后并按该公式计算（批次 168）。"
+      },
+      {
+        match: /步高|step.?height|field_70138_W/i,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java",
+        detail: "原版 EntityInfDragonE:79 field_70138_W = 1.0F；1.21 已改为属性 Attributes.STEP_HEIGHT，端口已在属性链追加 1.0D（批次 172）。"
+      },
+      {
+        match: /眼高|eye.?height/i,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/registry/ModEntities.java",
+        detail: "原版 EntityInfDragonE:338 func_70047_e 返回 1.75F；1.21 的 getEyeHeight 为 final，故经 4 参 monster() helper 传 1.75F（批次 171）。"
+      },
+      {
+        match: /生成|spawn|权重|weight/i,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/world/NaturalSpawnTables.java",
+        detail: "原版 SRPSpawning:162 为组 3-6、权重 infdragoneSpawnRate=2；端口原为 1/1/1，已改为 spawn(\"sim_dragone\", 3, 6, 2)（批次 169，权重由脚本直读原版写入）。"
+      },
+      {
+        match: /音效|sound|静音|MOBSILENCE/i,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java",
+        detail: "原版 EntityInfDragonE:360/364/368/373：ambient 与 death 为 MOBSILENCE、hurt 为末影龙受伤音、音量 5.0F；端口按 1.21 惯用法覆写（ambient/death 返回 null、hurt 用 SoundEvents.ENDER_DRAGON_HURT、音量 5.0F），无需新增音效资源（批次 194）。"
+      }
+    ]
   }
 };
 
