@@ -955,3 +955,18 @@ strict: 46 known backlog key(s), 0 new ones.      # 由 50 降至 46
 两者都已在文档留痕，待补齐证据（原版 `SRPConfigMobs.yelloweyeDamageMultiplier` 的注释/使用点、`VisceraEntity` 的属性来源）后再动。
 
 净变更：回滚一次仅有访问器的临时改动；backlog 维持 **30**（已清 5/12 组）。
+
+## 批次 66：backlog 里混入了**端口自造键**（2026-09-25 续，未改代码）
+
+沿批次 65 的线索补证据时发现一件更重要的事：原版 `SRPConfigMobs` 中**根本不存在** `yelloweye*` 字段
+（`grep -nE "public static float yelloweye[A-Za-z]*" SRPConfigMobs.java` 无输出），而端口却定义了
+`primitiveYelloweyeHealthMultiplier / DamageMultiplier / ArmorMultiplier / KnockbackResistanceMultiplier / FlightHeightLimit / GearDegrade`。
+
+即：**这组键是端口自造的，不对应任何原版行为**，因此它们"没有访问器"**并不构成还原缺口**——
+把它们接线反而是给原版没有的东西加行为。同理需警惕 backlog 中其它组是否也属此类（`JINJO_`/`OVERSEER_`/
+`VIGILANTE_`/`WARDEN_`/`VISCERA_` 等尚未逐组核对原版对应性）。
+
+**结论与下一步**：`--strict` 的 backlog 计数混入了"端口自造键"，其语义应从"必须补完的缺口"改为
+"需要逐组判定：原版有 → 接线；原版无 → 删除或明确标注为端口扩展"。判定需要一个**原版键清单**作为基准，
+下一批应从 `SRPConfigMobs` 解析出全部 `<name>HealthMultiplier/DamageMultiplier/...` 字段名，
+与端口 `MobsConfig` 求交/差集后再分组归类。本轮不做删除，避免误删可能被其它系统使用的端口扩展键。
