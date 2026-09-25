@@ -3173,3 +3173,24 @@ startSeenByPlayer/stopSeenByPlayer → bossEvent.addPlayer/removePlayer       //
 
 **方法论重申**：这是本会话第 3 次"**审计主张在源头无法复现**"（前两次：贴图随机、SRG 方法名 `func_70110_aj`）。
 每次都按同一原则处理——**保持现状 + 记录待查**，而不是照主张改代码。
+
+## 批次 200：头部 `killcount = -10` 主张**属实**（源头已确认）（2026-09-25 续，未改代码）
+
+```
+原版 EntityParasiteBase:97         protected double killcount = 0.0;      ← 基类默认 0
+原版 EntityInfVillagerHead:47      this.killcount = -10.0;                ← 【头部逐类初始化为 -10】
+端口 PrimitiveParasiteEntity       字段名为 legacyKillCount（:84 有 NBT 标签常量），初值未见 -10
+```
+
+**结论**：主张**成立**，且实现位置明确——是**头部类自己的初始化**（不是基类默认值，故此前查基类没找到 ✔ 属正常）。
+
+**实施（下一批）**：在 `AssimilatedHeadEntity` 把 legacy kill count 初始化为 **-10**。
+需先确认 `PrimitiveParasiteEntity.legacyKillCount` 的可写途径（字段私有 ⇒ 需 setter 或受保护赋值），
+再一次性接线 + 断言。
+
+**与批次 199 的对照（同一批审计的两条主张）**：
+| 主张 | 源头 | 处置 |
+| --- | --- | --- |
+| `cothSpread` 掷点 | **未找到**该名称 | ⛔ 保持现状 |
+| 头部 `killcount = -10` | **找到**（`:47`） | ✅ 待实现 |
+⇒ **同样是审计主张，复核后结论相反**——这正是"逐条复核"不可省略的原因。
