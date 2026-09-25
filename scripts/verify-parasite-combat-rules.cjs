@@ -629,6 +629,12 @@ expect(read("src/main/java/alku/csrp/entity/AssimilatedParasiteEntity.java"),
 expect(read("src/main/java/alku/csrp/world/NaturalSpawnTables.java"),
   /^(?!.*spawn\("mar_(?:villager|enderman)")/s, "the marauderized family must not have natural spawn entries");
 
+// Legacy mar_* eye heights come from EntitySpe* overrides and must go through the 4-arg helper.
+const ents = read("src/main/java/alku/csrp/registry/ModEntities.java");
+for (const [id, eye] of [["mar_human","1.73F"],["mar_sheep","2.73F"],["mar_villager","1.973F"],["mar_cow","1.3F"],["mar_bear","1.3F"]]) {
+  expect(ents, new RegExp("monster\\(\\"" + id + "\\", [\\s\\S]{0,90}?, " + eye.replace(".","\\.") + "\\)"), id + " does not pass its legacy eye height");
+}
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

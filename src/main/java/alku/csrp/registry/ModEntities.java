@@ -358,17 +358,17 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<HiSkeletonEntity>> HI_SKELETON =
             monster("hi_skeleton", HiSkeletonEntity::new, 0.6F, 1.95F);
     public static final DeferredHolder<EntityType<?>, EntityType<MarauderizedBearEntity>> MAR_BEAR =
-            monster("mar_bear", MarauderizedBearEntity::new, 1.3F, 1.4F);
+            monster("mar_bear", MarauderizedBearEntity::new, 1.3F, 1.4F, 1.3F);
     public static final DeferredHolder<EntityType<?>, EntityType<MarauderizedCowEntity>> MAR_COW =
-            monster("mar_cow", MarauderizedCowEntity::new, 0.9F, 1.4F);
+            monster("mar_cow", MarauderizedCowEntity::new, 0.9F, 1.4F, 1.3F);
     public static final DeferredHolder<EntityType<?>, EntityType<MarauderizedEndermanEntity>> MAR_ENDERMAN =
             monster("mar_enderman", MarauderizedEndermanEntity::new, 0.6F, 2.9F);
     public static final DeferredHolder<EntityType<?>, EntityType<MarauderizedHumanEntity>> MAR_HUMAN =
-            monster("mar_human", MarauderizedHumanEntity::new, 0.6F, 1.95F);
+            monster("mar_human", MarauderizedHumanEntity::new, 0.6F, 1.95F, 1.73F);
     public static final DeferredHolder<EntityType<?>, EntityType<MarauderizedSheepEntity>> MAR_SHEEP =
-            monster("mar_sheep", MarauderizedSheepEntity::new, 0.7566F, 2.85F);
+            monster("mar_sheep", MarauderizedSheepEntity::new, 0.7566F, 2.85F, 2.73F);
     public static final DeferredHolder<EntityType<?>, EntityType<MarauderizedVillagerEntity>> MAR_VILLAGER =
-            monster("mar_villager", MarauderizedVillagerEntity::new, 0.6F, 2.75F);
+            monster("mar_villager", MarauderizedVillagerEntity::new, 0.6F, 2.75F, 1.973F);
     public static final DeferredHolder<EntityType<?>, EntityType<MarauderEntity>> MARAUDER =
             monster("marauder", MarauderEntity::new, 0.901F, 4.2F);
     public static final DeferredHolder<EntityType<?>, EntityType<MarauderTendrilEntity>> MARAUDER_TENDRIL =
