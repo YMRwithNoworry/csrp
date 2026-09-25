@@ -249,6 +249,12 @@ public final class MobsConfig {
     public static double tozoonArmorMultiplier() { return TOZOON_ARMOR_MULTIPLIER.get(); }
     public static double tozoonKnockbackMultiplier() { return TOZOON_KNOCKBACK_MULTIPLIER.get(); }
 
+    // Legacy SRPConfigMobs.jinjo* (port key: heavyBomber*; the JINJO_* constants are what the
+    // three-way audit recognised as original-backed).
+    public static double heavyBomberHealthMultiplier() { return JINJO_HEALTH_MULTIPLIER.get(); }
+    public static double heavyBomberDamageMultiplier() { return JINJO_DAMAGE_MULTIPLIER.get(); }
+    public static double heavyBomberArmorMultiplier() { return JINJO_ARMOR_MULTIPLIER.get(); }
+
     public static double infsheepHealthMultiplier() { return INFSHEEP_HEALTH_MULTIPLIER.get(); }
     public static double infsheepDamageMultiplier() { return INFSHEEP_DAMAGE_MULTIPLIER.get(); }
     public static double infsheepArmorMultiplier() { return INFSHEEP_ARMOR_MULTIPLIER.get(); }

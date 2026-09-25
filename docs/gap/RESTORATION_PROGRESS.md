@@ -1024,3 +1024,23 @@ backlog port-only (no restoration gap):        27
 
 下一步（无待调研项的部分已完成）：读 `PreeminentParasiteEntity`（或其 bomber 专用类）的 `createAttributes`/`Kind`
 分支 → 加 3 个访问器 → 对应偏移处叠加 → `--strict` 白名单划掉这 3 条。
+
+## 批次 70：heavyBomber（原版 jinjo*）三条接线完成——**真实缺口归零**（2026-09-25 续）
+
+按批次 69 的勘查结果落地：`PreeminentParasiteEntity.createAttributes(Kind)` 在 `Kind.BOMBER_HEAVY`
+分支按 `heavyBomberHealth/Damage/ArmorMultiplier()`（读 `JINJO_*` 常量）叠加；`MobsConfig` 加 3 个访问器。
+
+```
+$ node scripts/audit-mob-multipliers.cjs --strict
+unreachable (no accessor):      27
+backlog backed by the original (must be wired): 0      ← 真实缺口归零
+backlog port-only (no restoration gap):        27
+strict: 27 known backlog key(s), 0 new ones.
+```
+
+**收束（批次 52→70 这条线）**：
+- 起点是"`arachnida*` 等键只配置不读取"；中途经历一次误判（批次 57）与两次自我订正（批次 58、67→68 的三路匹配）；
+- 终点：**所有原版有对应的 per-mob 倍率键均已接线且被断言覆盖**（dorpa/infcow/infsheep/infwolf/infsquid/infhuman/
+  fervillager/shyco/hiskeleton/marcow/host/arachnida/bolster/burrower/devourer/manducater/tozoon/heavyBomber），
+  剩余 27 条经三路匹配确认为**端口自造键**，对还原不构成缺口；
+- 工具沉淀：`scripts/audit-mob-multipliers.cjs`（解析式 + 三路匹配 + `--strict` 守卫），后续新增死键会被直接拦下。

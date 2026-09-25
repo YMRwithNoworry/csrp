@@ -477,6 +477,11 @@ expect(read("src/main/java/alku/csrp/entity/PrimitiveVariantEntity.java"),
   "the tozoon health multiplier is not stacked");
 expect(mobsConfig, /public static double tozoonKnockbackMultiplier\(\)/, "the tozoon accessors are missing");
 
+// the heavy bomber stacks its original jinjo* multipliers
+expect(read("src/main/java/alku/csrp/entity/PreeminentParasiteEntity.java"),
+  /kind\.maxHealth \* health/, "the heavy bomber health multiplier is not stacked");
+expect(mobsConfig, /public static double heavyBomberHealthMultiplier\(\)/, "the heavyBomber accessors are missing");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

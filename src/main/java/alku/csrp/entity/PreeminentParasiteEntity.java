@@ -139,10 +139,16 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
     }
 
     public static AttributeSupplier.Builder createAttributes(Kind kind) {
+        // Legacy SRPConfigMobs.jinjo* per-mob multipliers (default 1.0F in the original) apply to the
+        // heavy bomber only.
+        boolean bomber = kind == Kind.BOMBER_HEAVY;
+        double health = bomber ? MobsConfig.heavyBomberHealthMultiplier() : 1.0D;
+        double damage = bomber ? MobsConfig.heavyBomberDamageMultiplier() : 1.0D;
+        double armor = bomber ? MobsConfig.heavyBomberArmorMultiplier() : 1.0D;
         AttributeSupplier.Builder attributes = Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, kind.maxHealth)
-                .add(Attributes.ARMOR, kind.armor)
-                .add(Attributes.ATTACK_DAMAGE, kind.attackDamage)
+                .add(Attributes.MAX_HEALTH, kind.maxHealth * health)
+                .add(Attributes.ARMOR, kind.armor * armor)
+                .add(Attributes.ATTACK_DAMAGE, kind.attackDamage * damage)
                 .add(Attributes.MOVEMENT_SPEED, kind.movementSpeed)
                 .add(Attributes.KNOCKBACK_RESISTANCE, kind.knockbackResistance)
                 .add(Attributes.FOLLOW_RANGE, kind.followRange);
