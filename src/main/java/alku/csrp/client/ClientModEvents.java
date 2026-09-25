@@ -189,17 +189,17 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "sim_adventurerhead", 0.6F));
         event.registerEntityRenderer(ModEntities.MOVINGFLESH.get(), MovingFleshRenderer::new);
         event.registerEntityRenderer(ModEntities.SIM_BEAR.get(), context ->
-                new AssimilatedParasiteRenderer(context, 0.65F));
+                new AssimilatedParasiteRenderer(context, 0.7F));
         event.registerEntityRenderer(ModEntities.SIM_COW.get(), context ->
-                new AssimilatedParasiteRenderer(context, 0.55F));
+                new AssimilatedParasiteRenderer(context, 0.50F));
         event.registerEntityRenderer(ModEntities.SIM_PIG.get(), context ->
-                new AssimilatedParasiteRenderer(context, 0.45F));
+                new AssimilatedParasiteRenderer(context, 0.50F));
         event.registerEntityRenderer(ModEntities.SIM_SHEEP.get(), context ->
                 new AssimilatedParasiteRenderer(context, 0.50F));
         event.registerEntityRenderer(ModEntities.SIM_WOLF.get(), context ->
-                new AssimilatedParasiteRenderer(context, 0.40F));
+                new AssimilatedParasiteRenderer(context, 0.50F));
         event.registerEntityRenderer(ModEntities.SIM_SQUID.get(), context ->
-                new AssimilatedParasiteRenderer(context, 0.45F));
+                new AssimilatedParasiteRenderer(context, 0.50F));
         event.registerEntityRenderer(ModEntities.SIM_BIGSPIDER.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "sim_bigspider", 1.2F));
         event.registerEntityRenderer(ModEntities.SIM_DRAGONE.get(), context ->

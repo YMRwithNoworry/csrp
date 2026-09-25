@@ -1625,3 +1625,18 @@ SRPEntities.java:182   private static <T extends Entity> EntityEntry CreateEntit
 故批次 88 的判断（残留 5 处保持不动）**维持不变**，不再在缺证据的情况下尝试统一。
 
 至此三条遗留数列线全部有明确归宿：XP ✅ 闭合、tracker ⏹ 证据不足收束、`SRPSpawning` 架构分叉 ⏸ 待决策。
+
+## 批次 107：同化族阴影半径对齐（2026-09-25 续）
+
+批次 74 因"找不到原版身体渲染器"而留手；本轮用**显式路径直读**一次取全（又一次证明 shell 循环在本环境不可靠——
+同样的 `find -name "RenderInfCow.java"` 放在 `for` 循环里没命中，直接写路径立刻拿到）：
+
+```
+RenderInfBear.java:15   super(manager, new ModelInfBear(), 0.7F)     ← 注意：熊是 0.7，不是 0.5
+RenderInfCow.java:15    0.5F     RenderInfPig.java:15   0.5F
+RenderInfSheep.java:17  0.5F     RenderInfWolf.java:16  0.5F     RenderInfSquid.java:13 0.5F
+```
+
+端口六个 `AssimilatedParasiteRenderer` 的实参原为 0.65/0.55/0.45/0.50/0.40/0.45 ⇒ 对齐为
+**Bear 0.70F，Cow/Pig/Sheep/Wolf/Squid 0.50F**（5 行改动；替换限定在 `AssimilatedParasiteRenderer(context,` 行内，
+以免误伤其它渲染器）。断言 2 条；`build` 通过、套件维持既有 20 失败。

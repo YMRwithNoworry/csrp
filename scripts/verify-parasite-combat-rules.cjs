@@ -498,6 +498,13 @@ expect(mobsConfig ? lightChecks : lightChecks, /else if \(alku\.csrp\.Config\.ig
 expect(read("src/main/java/alku/csrp/Config.java"), /public static boolean ignoreLightLevel\(\)/,
   "the ignoreL config key is missing");
 
+// Legacy renderer shadow radii of the assimilated family (RenderInfBear 0.7F, the rest 0.5F).
+const clientEvents = read("src/main/java/alku/csrp/client/ClientModEvents.java");
+expect(clientEvents, /SIM_BEAR\.get\(\), context ->\s*\n\s*new AssimilatedParasiteRenderer\(context, 0\.7F\)/,
+  "the assimilated bear must use the legacy 0.7F shadow radius");
+expect(clientEvents, /SIM_WOLF\.get\(\), context ->\s*\n\s*new AssimilatedParasiteRenderer\(context, 0\.50F\)/,
+  "the assimilated wolf must use the legacy 0.5F shadow radius");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));
