@@ -179,6 +179,10 @@ expect(read("src/main/java/alku/csrp/entity/LongarmsEntity.java"),
   /addGoal\(5, new JumpAtHigherTargetGoal\(this\)\)/,
   "LongarmsEntity must register EntityAIJumping at priority 5");
 
+// legacy geneSpecialmove: the shared gate used by skill goals
+expect(primitive, /protected final boolean specialMovesEnabled\(\) \{[\s\S]{0,200}?\.specialMoves\(\)/,
+  "PrimitiveParasiteEntity.specialMovesEnabled() is missing");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

@@ -140,10 +140,6 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         }
     }
 
-    private boolean specialMovesEnabled() {
-        return level() instanceof ServerLevel serverLevel
-                && EvolutionSystem.generationProfile(serverLevel).specialMoves();
-    }
 
     private boolean isValidShockwaveTarget(LivingEntity target) {
         if (!specialMovesEnabled() || target == null || !target.isAlive() || !onGround()

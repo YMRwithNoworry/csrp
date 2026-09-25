@@ -397,3 +397,15 @@ EntityInfCow: 0    EntityInfHuman: 0    EntitySpeCow: 0    EntityFerVillager: 0
 ② 建共享 `ParasiteSkillGoal`（承载门控/距离窗口/冷却/派发）；③ 为各族把 `CowChargeGoal` 一类既有技能
 适配成 attackID 条目并注册；④ 逐条核对参数表后翻转 7 条 gene 捆绑条款。
 本轮为语义提取与落账，未改代码，账面不变（满足 649 / 缺失 293）。
+
+## 批次 20：共享 geneSpecialmove 门（2026-09-25 续）
+
+按批次 19 的路径第 ① 步：把 `geneSpecialmove` 门收敛到共享基类，供后续 `ParasiteSkillGoal` 使用。
+
+- `PrimitiveParasiteEntity` 新增 `protected final boolean specialMovesEnabled()`（与 `waterLeapEnabled()`/
+  `blockSearchEnabled()`/`sprintingEnabled()` 同型，统一读 `GenerationProfile.specialMoves()`）。
+- 删除 `LongarmsEntity` 中重复的私有同签名实现（其 2 处调用点改由基类解析，行为不变）。
+
+校验：`verify-parasite-combat-rules.cjs` 增加 1 条断言；全套 99 脚本失败集合仍为既有 20 个；`build` 通过。
+下一步（批次 21）：新建共享 `ParasiteSkillGoal`（门控/距离窗口/冷却/attackID 派发），再把各族既有技能
+（`CowChargeGoal` 等）适配为 attackID 条目，注册到同化/野化/掠夺化三族。

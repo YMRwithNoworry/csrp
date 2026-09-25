@@ -310,6 +310,12 @@ public abstract class PrimitiveParasiteEntity extends Monster
                 && EvolutionSystem.generationProfile(serverLevel).waterLeap();
     }
 
+    /** Legacy geneSpecialmove (applyGene): gates the skills a generation unlocks. */
+    protected final boolean specialMovesEnabled() {
+        return level() instanceof ServerLevel serverLevel
+                && EvolutionSystem.generationProfile(serverLevel).specialMoves();
+    }
+
     /** Legacy geneBlockSearch (applyGene): gates terrain clearing on the way to a target. */
     protected final boolean blockSearchEnabled() {
         return level() instanceof ServerLevel serverLevel
