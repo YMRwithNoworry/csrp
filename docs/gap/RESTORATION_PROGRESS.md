@@ -4398,3 +4398,25 @@ MarauderizedEndermanEntity  →  TetheredMarauderizedEntity（:19）
 
 **委派机制迭代至此**：第一批（5 只、无落盘）零产出 → 逐步收紧为"2 只 + 增量落盘 + 止损 + 证据纪律 + 并发安全 + 结论粒度 + 引用核对 + 反向差异举证" ✔，
 **每一条约束都对应一次真实事故**，而非凭空添加 ✔。
+
+## 批次 261：adapted 族**第二种伤害形态**解出——YELLOWEYE 端口正确（2026-09-25 续）
+
+```
+原版 SRPAttributes:1525   EMANA_A_MELLE = SRPConfigMobs.emanaadaptedmelee * (globalDamageMultiplier * emanaDamageMultiplier);
+原版 SRPConfigMobs:135    public static double emanaadaptedmelee = 17.0;
+⇒ 适配黄眼的伤害 = 【直接值 17.0】（不是 base + additional ✗）
+端口 YELLOWEYE dmg = 17 ✔ 【正确】✔
+```
+
+⇒ **adapted 族内存在两种伤害形态** ✗：
+- **多数 kind**：`primitive 基值 + *adapteddamage`（如 LONGARMS 15+12=27 ✔）；
+- **YELLOWEYE**：**直接取 `emanaadaptedmelee`**（17 ✔，与基值/附加无关 ✗）。
+
+⇒ 我此前"端口 YELLOWEYE 伤害 ✗（17 vs 8.5）"的怀疑**被推翻**——**端口是对的** ✔（第 2 次"复核后比预期乐观" ✔）。
+
+**剩余待查 1 项**：LONGARMS 伤害 **26 vs 计算 27** ✗（差 1）——
+**可能同样存在 `shycoadaptedmelee` 之类的第三种形态** ✗（本会话已多次遇到"同族内不同写法"✗），
+下一批先 grep 该键再定性 ✔（**不先改端口** ✔）。
+
+**方法论**：本轮再次印证"**同族内形态可能不同**"（头部族眼高 6 档、音效逐类、伤害两种形态 ✗）——
+**任何"统一公式"都必须逐类验证**，这是本阶段最稳定的结论 ✔。
