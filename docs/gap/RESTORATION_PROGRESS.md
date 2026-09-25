@@ -379,3 +379,21 @@ EntityInfCow: 0    EntityInfHuman: 0    EntitySpeCow: 0    EntityFerVillager: 0
 下一轮实施顺序建议：先读原版 `EntityAISkill`（`entity/ai/EntityAISkill.java`）与其在各 `EntityInf*` 的构造参数，
 再决定是复用端口既有的技能/冲锋实现（如 `AssimilatedParasiteEntity` 的 `CowChargeGoal`）还是新建共享技能目标。
 本轮为侦察与证据落账，未改代码，账面不变（满足 649 / 缺失 293）。
+
+## 批次 19：EntityAISkill 语义提取（2026-09-25 续，为下一轮实施铺路）
+
+读原版 `entity/ai/EntityAISkill.java`，与端口对照后确定实现路径：
+
+| 原版要点 | 细节 | 端口应对 |
+| --- | --- | --- |
+| 构造 | `(para, cooldown, miniDistance, [maxDistance], needVisual, attackID[, ignoreStatus])`，距离存**平方** | 用 record/构造重载承载 |
+| 门控 `func_75250_a` | `parentEntity.getGeneMod(5)` = **geneSpecialmove**（除非 `ignoreStatus`；attackID 13/31 例外）；另有 `parasiteStatus ∈ (0,3)` 或已 attacking | 复用 `GenerationProfile.specialMoves()` |
+| 距离窗口 | `distanceL² ≤ d² < distanceC²` 才起手 | 同 |
+| 执行 | `attacking ≥ 1` 后每 tick 调 `parentEntity.doSpecialSkill(attID)`，直到 `getFinished(attID)` 为真再复位 | **端口缺失 `doSpecialSkill(attackID)` 派发层**：`AssimilatedParasiteEntity` 目前用具体目标（`CowChargeGoal` 等）直连，无按 attackID 分派 |
+| 外观要求 | `needVisual` → 需视线 | 用 `getSensing().hasLineOfSight` |
+
+结论：`EntityAISkill` 不是「一个目标」而是一层**技能派发契约**（attackID → 行为）。
+下一轮实施顺序：① 在共享基类加 `specialMovesEnabled()` 门（与 `waterLeapEnabled()` 同型）；
+② 建共享 `ParasiteSkillGoal`（承载门控/距离窗口/冷却/派发）；③ 为各族把 `CowChargeGoal` 一类既有技能
+适配成 attackID 条目并注册；④ 逐条核对参数表后翻转 7 条 gene 捆绑条款。
+本轮为语义提取与落账，未改代码，账面不变（满足 649 / 缺失 293）。
