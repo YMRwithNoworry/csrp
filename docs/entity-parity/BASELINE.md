@@ -1,6 +1,6 @@
 # 生物部分还原度基线
 
-> 生成时间：2026-09-25T05:33:17.665Z
+> 生成时间：2026-09-25T05:33:53.489Z
 > 事实来源：`D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites`（SRParasites 1.10.9，生物部分与 1.10.8 一致）
 > 本工程：`D:/code/MC模组/csrp`（MC 26.3 / NeoForge 26.3，分支 `port-26.3`）
 
@@ -15,7 +15,7 @@
 ## 总体基线
 
 - 覆盖：**14/127** 只生物已出条款级审计
-- 条款：满足 **719**、部分 **354**、缺失 **255**（另有 57 条判定为不适用）
+- 条款：满足 **721**、部分 **352**、缺失 **255**（另有 57 条判定为不适用）
 - **加权完成度：67.5%**
 
 ## 分面基线
@@ -23,7 +23,7 @@
 | 面 | 满足 | 部分 | 缺失 | 完成度 |
 | --- | ---: | ---: | ---: | ---: |
 | 注册 | 63 | 40 | 29 | 62.9% |
-| 属性 | 97 | 26 | 7 | 84.6% |
+| 属性 | 99 | 24 | 7 | 85.4% |
 | AI | 87 | 74 | 28 | 65.6% |
 | 行为 | 165 | 69 | 66 | 66.5% |
 | 伤害/效果 | 102 | 16 | 20 | 79.7% |
@@ -45,7 +45,7 @@
 | `mar_cow` | EntitySpeCow | MarauderizedCowEntity | 66.3% | 57/24/23 |
 | `pri_longarms` | EntityShyco | LongarmsEntity | 67.6% | 57/28/20 |
 | `buglin` | EntityLodo | BuglinEntity | 68.6% | 41/14/15 |
-| `sim_human` | EntityInfHuman | SimHumanEntity | 69.1% | 62/28/20 |
+| `sim_human` | EntityInfHuman | SimHumanEntity | 70% | 64/26/20 |
 | `sim_squid` | EntityInfSquid | AssimilatedParasiteEntity | 71% | 52/28/13 |
 | `sim_wolf` | EntityInfWolf | AssimilatedParasiteEntity | 72.4% | 63/29/15 |
 | `sim_bigspider` | EntityDorpa | AssimilatedVariantEntity | 73% | 59/25/14 |

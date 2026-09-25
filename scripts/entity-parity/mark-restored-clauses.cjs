@@ -707,6 +707,25 @@ const BATCHES = {
         detail: "原版 XP_INFECTED = infectedXPValue = 8（SRPConfig.java:146，EntityPInfected:86 施加）；端口 Kind.BIGSPIDER 的 experience 参数已由 10 对齐为 8（批次 120）。"
       }
     ]
+  },
+  // 批次 122：sim_human 的跟随范围/经验随 AssimilatedVariantEntity 全族对齐而收敛
+  "variant-follow-xp-human": {
+    note: "批次：AssimilatedVariantEntity 全族 followRange=16 / XP=8 对齐（sim_human）",
+    mobs: ["sim_human"],
+    clauses: [
+      {
+        match: /跟随范围 SRPConfig\.infectedFollow/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java",
+        detail: "原版 infectedFollow = 16（SRPConfig.java:146）；端口 Kind.HUMAN 第六参已由 32.0D 对齐为 16.0D（批次 120）。"
+      },
+      {
+        match: /经验 field_70728_aV = SRPAttributes\.XP_INFECTED/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java",
+        detail: "原版 XP_INFECTED = 8（SRPConfig.java:146）；端口 Kind.HUMAN 的 experience 参数已由 10 对齐为 8（批次 120）。"
+      }
+    ]
   }
 };
 

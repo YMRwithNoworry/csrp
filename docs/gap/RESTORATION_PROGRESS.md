@@ -1840,3 +1840,13 @@ SRPConfigMobs.java:4370  angedEnabled = cfg.getBoolean("Vigilante Enabled", "srp
 
 **仍待复核**：`sim_human` 的审计中未见同名的跟随范围/经验条款（其文本可能不同），下一轮逐条确认，
 确保全族"账实一致"（这是批次 120 遗留风险的另一半）。
+
+## 批次 122：sim_human 同两条据实收敛（+2 条）（2026-09-25 续）
+
+`sim_human` 审计中同样有「跟随范围 16」「经验 8」两条 partial（文本与 sim_bigspider 一致），源码已随批次 120 对齐 ⇒
+据实升为 satisfied（证据同上：`SRPConfig.java:146` ↔ `AssimilatedVariantEntity` 的 Kind.HUMAN 行）。
+
+**顺带记下该审计里其余未结项**（供后续轮次挑靶，均来自本次输出）：
+`眼高 1.73`(partial)、`tracker(64,3,true)`(partial，批次 87 已修 monster helper，需确认 sim_human 是否走该 helper)、
+`刷怪蛋颜色`(partial)、`SRPConfig.vanillaEggs 开关`(missing)、`infhumanEnabled 开关`(missing)、
+`阶段属性加成`(missing，实际已在批次 28 实现 ✗ 该审计文本可能过时，需复核)、若干 `na`。
