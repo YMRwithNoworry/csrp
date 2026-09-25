@@ -2704,3 +2704,21 @@ monster("sim_dragone", AssimilatedDragonEntity::new, 1.9F, 3.8F, 1.75F)   // 原
 **（二）启动第四批委派**（`c6a709d1…`）：沿用收紧提示词（2 只、逐步落盘、12 次调用止损、证据纪律、写入范围限定），
 并**新增一条已学到的 API 事实**供其直接使用（1.21 的 `getEyeHeight(Pose)` 为 final、`monster()` 3 参 helper 的 tracker 为 4 等），
 避免它重复踩同类坑。
+
+## 批次 173：头部技能 `EntityAISkill` 参数语义解出（`sim_wolfhead` 靶点前置）（2026-09-25 续）
+
+```
+原版 EntityInfWolfHead:60-61   func_75776_a(0, new EntityAISkill(this, 40, 100, 3, true, 14));   // 【任务优先级 0】
+                               this.setskillLeapValues(0.7F, 2.5, 0);
+原版 EntityAISkill:19/29       5 参 (para, cooldown, miniDistance, needVisual, attackID)
+                               6 参 (para, cooldown, miniDistance, maxDistance, needVisual, attackID)
+                               ⇒ 头部调用走【6 参】⇒ cooldown=40、mini=100、max=3、needVisual=true、attackID=14
+端口 AssimilatedHeadEntity     goalSelector 现有 Float(0)/Avoid(1)/LeapAtTarget(2)/HeadCothCloud(3)/HeadMelee(4)，
+                               【无技能目标】✗
+```
+
+**要点**：`miniDistance=100 > maxDistance=3` 属原版**反直觉命名**（与端口 `ParasiteSkillGoal` 已处理的
+`upperDistanceSqr/lowerDistanceSqr` 同源）⇒ 端口接线时须按"第一个距离是**上界**"的既有约定映射，不可按字面直译。
+
+**下一批实施**：先读端口 `ParasiteSkillGoal` 的构造签名（Longarms 用法为 `ParasiteSkillGoal(this, 21, new ScaryOrbSkill(), 80, 4, false)`，
+需确认各参含义）→ 按上述语义接线到头部（优先级 0）→ 断言 → 记账。
