@@ -1936,3 +1936,20 @@ SRPConfigMobs.java:4370  angedEnabled = cfg.getBoolean("Vigilante Enabled", "srp
 
 ⇒ 予以采纳。**累积验收 3 份**（sim_villager 93 / sim_adventurer 95 / sim_horse 94），合计 282 条条款，
 全部通过"结构一致 + 抽样实测引文"两道检查。
+
+## 批次 129：同化变体族补 `RecruitFollowersGoal`（三份审计共同指向的 AI 缺口之一）（2026-09-25 续）
+
+三份新审计（sim_villager / sim_adventurer / sim_horse）共同指出该族缺三个 AI 目标。本轮核查两侧：
+
+| 原版（EntityParasiteBase 构造） | 端口 `AssimilatedVariantEntity` 现状 |
+| --- | --- |
+| `tasks.addTask(5, EntityAIJumping)` | ❌ 无 |
+| `tasks.addTask(2, EntityAIWaterLeapAtTargetStatus(this, 0.7F, 1.5, 3, 20, 0))` | ❌ 无 |
+| `tasks.addTask(6, EntityAIGetFollowers(this, 1, 16))` | ❌ 无（现有 goal：Float/Melee/Stroll/**ParasiteFollow**/LookAround） |
+
+**本轮落地第一项**：在既有 `ParasiteFollowGoal(this)`（优先级 6）旁追加 `RecruitFollowersGoal(this, 16)`
+—— 形式取自端口三个族（`AssimilatedParasiteEntity:169`、`FeralParasiteEntity:101`、`HiSkeletonEntity:57`）**已用的同一写法**，
+与 `EntityAIGetFollowers(this, 1, 16)` 的半径 16 对应（非猜测）。
+
+**留待下一轮**：`JumpAtHigherTargetGoal`（需先取端口既有构造形式，本轮 grep 被 `head` 截断）与
+`WaterLeapAtTargetGoal`（野化族用 lambda 谓词形式，需照抄其形态）。`build` 通过、套件维持既有 20 失败。
