@@ -115,6 +115,10 @@ public final class Config {
             .comment("Chance for a dying parasite to burst into a toxic cloud and gore"
                     + " (legacy dyingBurst / selfExplode).")
             .defineInRange("parasiteSelfExplodeChance", 0.5D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue PARASITE_REGEN = BUILDER
+            .comment("Health a parasite regains per regeneration tick while it has killcount left"
+                    + " (legacy primitiveRegen, consumed one killcount per 5 heals).")
+            .defineInRange("parasiteRegen", 4.0D, 0.0D, 1000.0D);
     private static final ModConfigSpec.BooleanValue USE_EVOLUTION_PHASES = BUILDER
             .comment("Use SRP evolution phases instead of the legacy difficulty killcount behavior.")
             .define("useEvolutionPhases", true);
@@ -656,6 +660,7 @@ public final class Config {
     public static boolean parasiteGoreEnabled() { return PARASITE_GORE_ENABLED.get(); }
     public static int parasiteRemainValue() { return PARASITE_REMAIN_VALUE.get(); }
     public static double parasiteSelfExplodeChance() { return PARASITE_SELF_EXPLODE_CHANCE.get(); }
+    public static float parasiteRegen() { return PARASITE_REGEN.get().floatValue(); }
     public static boolean useEvolutionPhases() { return USE_EVOLUTION_PHASES.get(); }
     public static boolean generationEnabled() { return GENERATION_ENABLED.get(); }
     public static boolean pearlDestroyedOnBeholderKill() { return PEARL_DESTROYED_ON_BEHOLDER_KILL.get(); }

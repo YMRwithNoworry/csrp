@@ -58,6 +58,7 @@ import alku.csrp.animation.CitadelAnimationCache;
 import alku.csrp.animation.CitadelAnimationUtil;
 
 import java.lang.reflect.Method;
+import java.util.EnumSet;
 import java.util.LinkedHashMap;
 import java.util.HashMap;
 import java.util.Map;
@@ -81,6 +82,9 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
     private static final int DEFAULT_MAX_LEARNABLE_DAMAGE_SOURCES = 5;
     private static final int NEW_DAMAGE_COOLDOWN_TICKS = 20;
     private static final int FIRE_ADAPTATION_BLOCK_TICKS = 10;
+    /** Legacy EntityAIWait: how long a kill suspends the parasite's AI, and the regen cadence. */
+    private static final int KILL_WAIT_TICKS = 10;
+    private static final int REGEN_EFFICIENCY_TICKS = 5;
     /** Legacy EntityParasiteBase fire handling: chance for RAGE II on a fire hit. */
     private static final float FIRE_RAGE_CHANCE = 0.2F;
     private static final TagKey<DamageType> TACZ_BULLET_DAMAGE = TagKey.create(Registries.DAMAGE_TYPE,
@@ -98,6 +102,8 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
     private boolean adaptedFormSpawned;
     private int adaptationLearningCooldown;
     private int fireAdaptationBlockTicks;
+    private int waitTicks;
+    private int regenUse = 1;
 
     protected PrimitiveParasiteEntity(EntityType<? extends PrimitiveParasiteEntity> type, Level level) {
         super(type, level);
@@ -128,12 +134,16 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
     @Override
     public void tick() {
         super.tick();
+        if (waitTicks > 0) {
+            waitTicks--;
+        }
         if (!level().isClientSide) {
             tickBlockBreaking();
             int leapTicks = entityData.get(SPECIAL_LEAP_TICKS);
             if (leapTicks > 0) {
                 entityData.set(SPECIAL_LEAP_TICKS, leapTicks - 1);
             }
+            tickRegeneration();
         }
         if (!level().isClientSide && tickCount % 20 == 0 && !Config.useEvolutionPhases()
                 && level().getDifficulty() == Difficulty.HARD && Config.killcountPlus() > 0.0D) {
@@ -279,8 +289,50 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
         return entityData.get(SPECIAL_LEAP_TICKS) > 0;
     }
 
+    /** Legacy EntityAIWait: suspends AI for the given ticks (see {@link WaitGoal}). */
+    public void setWait(int ticks) {
+        if (ticks > waitTicks) {
+            waitTicks = ticks;
+        }
+    }
+
+    public int getWait() {
+        return waitTicks;
+    }
+
+    /** Legacy EntityAIWait: holds move/look/jump mutexes while the wait timer runs. */
+    private final class WaitGoal extends Goal {
+        private WaitGoal() {
+            setFlags(EnumSet.of(Flag.MOVE, Flag.LOOK, Flag.JUMP));
+        }
+
+        @Override
+        public boolean canUse() {
+            return waitTicks > 0;
+        }
+    }
+
+    /**
+     * Legacy primitiveRegen (EntityPPrimitive/EntityPFeral): once per second a wounded parasite
+     * with killcount left heals, and every fifth heal consumes one killcount.
+     */
+    private void tickRegeneration() {
+        if (tickCount % 20 != 10 || Config.parasiteRegen() <= 0.0F || parasiteKills <= 1
+                || getHealth() <= 0.0F || isOnFire() || getHealth() >= getMaxHealth()) {
+            return;
+        }
+        heal(Config.parasiteRegen());
+        if (--regenUse <= 0) {
+            parasiteKills--;
+            regenUse = REGEN_EFFICIENCY_TICKS;
+        }
+    }
+
     @Override
     protected void registerGoals() {
+        // Legacy EntityAIWait sits at priority 0 and mutexes move/look/jump, so a kill freezes the
+        // parasite for KILL_WAIT_TICKS without cancelling the rest of its goal set.
+        goalSelector.addGoal(0, new WaitGoal());
         if (usesDefaultMovementGoals()) {
             if (!(this instanceof PreeminentParasiteEntity preeminent
                     && (preeminent.getKind() == PreeminentParasiteEntity.Kind.CARRIER_COLONY

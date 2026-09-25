@@ -273,11 +273,12 @@
         },
         {
           "clause": "tasks.addTask(0, EntityAIWait)（基类等待/僵直状态机，wait 期间冻结 AI）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:189",
-            "project": null
-          }
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java"
+          },
+          "note": "WaitGoal（优先级 0、互斥 MOVE/LOOK/JUMP）对应 EntityAIWait；击杀后 setWait(10)；批次：EntityAIWait 定格与 primitiveRegen 再生（PrimitiveParasiteEntity 链）"
         },
         {
           "clause": "tasks.addTask(5, EntityAIWanderStatus(1.0, 120, 0.001, true))",

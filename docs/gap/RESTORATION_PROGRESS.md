@@ -153,3 +153,16 @@ applyGene/阶段属性加成、同步数据（SELFE/COLD_L/DISLO15）、AI 任�
 （`verify-coth-visibility.cjs` 全局禁止 `visible=false`，原版是隐藏的）；③未接 `selfExplode` 的额外召唤表与
 `EntityAta`/`worldMobCap` 逻辑（对应条款仍记为缺失）。
 校验：`scripts/verify-parasite-gore.cjs`；审计记账 42 条，满足条款 568 → **611**（缺失 360 → 323）。
+
+## 批次 5：受击反击 RAGE、AI 定格与击杀再生（2026-09-25 续）
+
+| 条款 | 原版出处 | 1.21.1 实现 |
+| --- | --- | --- |
+| 受击 20% 概率获得 RAGE 200/1 | `EntityParasiteBase.attackEntityFrom:796`（`rand.nextInt(5)==0`） | `ParasiteCombatRules.applyDefenseRules` 增加 20% 反击 RAGE（全科共享） |
+| `EntityAIWait` 等待状态机 + 击杀后 `setWait(10)` | `EntityParasiteBase:155/2573`、击杀钩子 `:1080` | `PrimitiveParasiteEntity` 新增 `waitTicks`/`setWait`/`getWait` 与优先级 0 的 `WaitGoal`（互斥 MOVE/LOOK/JUMP）；击杀钩子在 `applyKillHeal` 中调用 `setWait(10)` |
+| `primitiveRegen` 再生（killcount 门控） | `EntityPPrimitive:97-99`、`EntityPFeral:92-107` | `PrimitiveParasiteEntity.tickRegeneration`：每 20 tick 一次，`killcount>1`、非着火、受伤时 `heal(parasiteRegen)`，每 5 次消耗 1 killcount |
+
+新增配置：`parasiteRegen`(4.0)。
+覆盖范围：`PrimitiveParasiteEntity` 链（primitive/crude/hijacked/host/pure/preeminent/ancient/derived/deterrent/nexus）；
+`FeralParasiteEntity`、`Marauderized*`、`Assimilated*` 各自继承 `Monster`，需要后续单独接线（已在缺口清单中保留）。
+校验：`scripts/verify-parasite-wait-regen.cjs`；审计记账 7 条，满足条款 610 → **617**（缺失 324 → 317）。

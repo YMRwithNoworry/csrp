@@ -161,6 +161,46 @@ const BATCHES = {
         detail: "selfExplode：MOB_EXPLOSION 音效 + ToxicCloud（半径 width×1.5、waitTime 10、时长减半、中毒 300、COTH 3600）；40 tick 引信未做，仍走死亡即爆"
       }
     ]
+  },
+  // 批次 5a：受击 20% 反击 RAGE（原版 EntityParasiteBase.attackEntityFrom，全科共享）
+  "retaliation-rage": {
+    note: "批次：受击 20% 反击 RAGE（EntityParasiteBase.attackEntityFrom:796）",
+    projectClasses: [
+      "FeralParasiteEntity", "MarauderizedCowEntity", "HiSkeletonEntity", "LongarmsEntity",
+      "HostEntity", "BuglinEntity", "NexusParasiteEntity",
+      "AssimilatedParasiteEntity", "AssimilatedVariantEntity", "SimHumanEntity"
+    ],
+    clauses: [
+      {
+        match: /20% 概率(施加|获得) RAGE|所有活体攻击都会施加 20% 概率 RAGE/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/event/ParasiteCombatRules.java",
+        detail: "applyDefenseRules：被活体命中时 nextInt(5)==0（20%）且无 RAGE 时给 RAGE 200/1"
+      }
+    ]
+  },
+  // 批次 5b：AI 定格 + 击杀再生（原版 EntityAIWait / primitiveRegen，PrimitiveParasiteEntity 全链）
+  "wait-and-regen": {
+    note: "批次：EntityAIWait 定格与 primitiveRegen 再生（PrimitiveParasiteEntity 链）",
+    projectClasses: [
+      "LongarmsEntity", "HostEntity", "HiSkeletonEntity", "NexusParasiteEntity",
+      "PureParasiteEntity", "PreeminentParasiteEntity", "AncientParasiteEntity",
+      "DerivedParasiteEntity", "DeterrentParasiteEntity"
+    ],
+    clauses: [
+      {
+        match: /^(?!.*Jumping)(?=.*(EntityAIWait|setWait)).*$/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java",
+        detail: "WaitGoal（优先级 0、互斥 MOVE/LOOK/JUMP）对应 EntityAIWait；击杀后 setWait(10)"
+      },
+      {
+        match: /primitiveRegen|生命恢复/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java",
+        detail: "tickRegeneration：每 20 tick 一次、killcount>1、非着火且受伤时 heal(parasiteRegen)，每 5 次消耗 1 killcount"
+      }
+    ]
   }
 };
 

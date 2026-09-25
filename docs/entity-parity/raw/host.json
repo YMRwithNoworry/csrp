@@ -161,12 +161,12 @@
       "clauses": [
         {
           "clause": "tasks.addTask(0, EntityAIWait)（基类构造注册，计 1 条）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:189",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java"
           },
-          "note": "原版 initEntityAI 未调用 super，任务集完全由基类构造 + 子类覆写组成（见 docs/entity-parity/original-ai-baseline.json：本生物 baselineApplies=false）；工程无 wait GOAL"
+          "note": "WaitGoal（优先级 0、互斥 MOVE/LOOK/JUMP）对应 EntityAIWait；击杀后 setWait(10)；批次：EntityAIWait 定格与 primitiveRegen 再生（PrimitiveParasiteEntity 链）"
         },
         {
           "clause": "tasks.addTask(5, EntityAIWanderStatus(1.0, 120, 0.001F, true))",

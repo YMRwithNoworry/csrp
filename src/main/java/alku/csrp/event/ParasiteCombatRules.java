@@ -4,6 +4,7 @@ import alku.csrp.Csrp;
 import alku.csrp.Config;
 import alku.csrp.entity.GoreEntity;
 import alku.csrp.entity.Parasite;
+import alku.csrp.entity.PrimitiveParasiteEntity;
 import alku.csrp.entity.ParasiteCombatEffects;
 import alku.csrp.entity.RemainEntity;
 import alku.csrp.entity.ToxicCloudEntity;
@@ -78,6 +79,11 @@ public final class ParasiteCombatRules {
             return;
         }
         Tier tier = tierOf(parasite);
+        // Legacy attackEntityFrom: a 20% roll grants RAGE II in return for being hit.
+        if (event.getSource().getEntity() instanceof LivingEntity && Config.rageEnabled()
+                && !parasite.hasEffect(ModMobEffects.RAGE) && parasite.getRandom().nextInt(5) == 0) {
+            parasite.addEffect(new MobEffectInstance(ModMobEffects.RAGE, 200, 1, false, false), parasite);
+        }
         // Legacy attackEntityFrom: a 10% roll on any hit lays one flat gore block.
         if (Config.parasiteGoreEnabled() && parasite.level() instanceof ServerLevel goreLevel
                 && parasite.getRandom().nextFloat() < GORE_ON_HURT_CHANCE) {
@@ -130,6 +136,10 @@ public final class ParasiteCombatRules {
             return;
         }
         ParasiteCombatEffects.healOnKill(killer, event.getEntity());
+        // Legacy func_70074_a: a kill freezes the parasite's AI for ten ticks.
+        if (killer instanceof PrimitiveParasiteEntity parasite) {
+            parasite.setWait(10);
+        }
     }
 
     /**

@@ -323,16 +323,17 @@
         },
         {
           "clause": "tasks.addTask(0, this.wait) EntityAIWait 等待状态机（setWait(10) 后暂停 AI）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:189",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java"
           },
           "groundTruth": {
             "verified": true,
             "file": "D:/code/MC模组/_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java",
             "line": 155
-          }
+          },
+          "note": "WaitGoal（优先级 0、互斥 MOVE/LOOK/JUMP）对应 EntityAIWait；击杀后 setWait(10)；批次：EntityAIWait 定格与 primitiveRegen 再生（PrimitiveParasiteEntity 链）"
         },
         {
           "clause": "tasks.addTask(5, this.aiWander) EntityAIWanderStatus(1.0, 120, 0.001, true)",
@@ -592,12 +593,12 @@
         },
         {
           "clause": "所有活体攻击都会施加 20% 概率 RAGE(200 tick, amp 1)",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:796",
-            "project": null
+            "project": "src/main/java/alku/csrp/event/ParasiteCombatRules.java"
           },
-          "note": "工程仅在达到伤害上限时施加 RAGE，常规攻击不触发"
+          "note": "applyDefenseRules：被活体命中时 nextInt(5)==0（20%）且无 RAGE 时给 RAGE 200/1；批次：受击 20% 反击 RAGE（EntityParasiteBase.attackEntityFrom:796）"
         },
         {
           "clause": "单次伤害上限 damageCap（primitiveCap=6）：伤害 >= maxHealth/6 时削减并触发 RAGE 与血块表现",
@@ -671,11 +672,12 @@
         },
         {
           "clause": "生命恢复 primitiveRegen = 4.0 * globalHealthMultiplier（killcount > 1 时每 regenEff=5 次消耗 1 killcount）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPMalleable.java:152",
-            "project": null
-          }
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java"
+          },
+          "note": "tickRegeneration：每 20 tick 一次、killcount>1、非着火且受伤时 heal(parasiteRegen)，每 5 次消耗 1 killcount；批次：EntityAIWait 定格与 primitiveRegen 再生（PrimitiveParasiteEntity 链）"
         },
         {
           "clause": "吞噬玩家食物 foodSteal=0.5 / foodRott / foodRootNumber",
@@ -688,11 +690,12 @@
         },
         {
           "clause": "击杀后治疗 geneMobHealing（3.0）与 setWait(10)",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:1079",
-            "project": null
-          }
+            "project": "src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java"
+          },
+          "note": "WaitGoal（优先级 0、互斥 MOVE/LOOK/JUMP）对应 EntityAIWait；击杀后 setWait(10)；批次：EntityAIWait 定格与 primitiveRegen 再生（PrimitiveParasiteEntity 链）"
         },
         {
           "clause": "对玩家造成 >8 伤害时施加 FEAR_E（等级随伤害 1..3）",
