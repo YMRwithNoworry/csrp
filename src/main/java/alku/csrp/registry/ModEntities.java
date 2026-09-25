@@ -309,10 +309,10 @@ public final class ModEntities {
                     AssimilatedHeadEntity.Kind.HUMAN), 0.7F, 0.8F);
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedHeadEntity>> SIM_COW_HEAD =
             monster("sim_cowhead", (type, level) -> new AssimilatedHeadEntity(type, level,
-                    AssimilatedHeadEntity.Kind.COW), 0.7F, 0.9F);
+                    AssimilatedHeadEntity.Kind.COW), 0.7F, 0.9F, 0.8F);
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedHeadEntity>> SIM_PIG_HEAD =
             monster("sim_pighead", (type, level) -> new AssimilatedHeadEntity(type, level,
-                    AssimilatedHeadEntity.Kind.PIG), 0.7F, 0.9F);
+                    AssimilatedHeadEntity.Kind.PIG), 0.7F, 0.9F, 0.8F);
     public static final DeferredHolder<EntityType<?>, EntityType<AssimilatedHeadEntity>> SIM_SHEEP_HEAD =
             monster("sim_sheephead", (type, level) -> new AssimilatedHeadEntity(type, level,
                     AssimilatedHeadEntity.Kind.SHEEP), 0.7F, 0.7F);

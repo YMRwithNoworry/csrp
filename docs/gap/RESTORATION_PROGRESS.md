@@ -2971,3 +2971,18 @@ sim_villager 93 / sim_adventurer 95 / sim_horse 94 / sim_bear 92 / sim_enderman 
 **（五）并发写作者的协同表现（值得记录）**：它察觉到我同一时段对 `AssimilatedHeadEntity` 的 +2 行改动（跳跃技能接线），
 于是**把 ≥117 的所有引用行号逐条 +2 重锚并逐行核验**，还把头部技能条款翻为 satisfied ✔。
 这是"共享工作区下的正确做法"：**发现文件变动 → 重新锚定 → 核验**，而不是沿用过期行号。
+
+## 批次 187：头部眼高落地（cow/pig 头 → 4 参 helper 传 0.8F）（2026-09-25 续）
+
+按第四批委派指出的问题落地：头部走 **3 参 `monster()` helper（不传 eyeHeight）** ⇒ 1.21 下取默认值（约 0.765），
+而原版头部眼高为 **0.8F**。已改为 **4 参 helper**：
+
+```java
+monster("sim_cowhead", (type, level) -> new AssimilatedHeadEntity(type, level, Kind.COW), 0.7F, 0.9F, 0.8F);
+monster("sim_pighead", (type, level) -> new AssimilatedHeadEntity(type, level, Kind.PIG), 0.7F, 0.9F, 0.8F);
+```
+
+**只改这两只**（已审计、证据在手）；其余六种头部（horse/human/sheep/wolf/villager/enderman 头）的眼高**待逐类取证**后一并处理——
+按本会话纪律，不做"族级外推"（批次 146 的末影人 followRange 64 就是反例）。
+
+`build` 通过、套件维持既有 20 失败（先跑套件后提交 ✔）。
