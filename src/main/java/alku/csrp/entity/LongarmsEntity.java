@@ -103,6 +103,9 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         goalSelector.addGoal(1, new ShockwaveGoal());
         // Legacy EntityShyco:89 tasks.addTask(2, EntityAIWaterLeapAtTargetStatus(this, 0.7F, 1.5, 3, 20, 0)).
         goalSelector.addGoal(2, new WaterLeapAtTargetGoal(this, 0.7F, 1.5D, 20, 0.0D));
+        // Legacy EntityShyco tasks.addTask(2, EntityAISkill(this, 80, 4, false, 21)): the scary orb
+        // skill, dispatched through the shared EntityAISkill contract.
+        goalSelector.addGoal(2, new ParasiteSkillGoal(this, 21, new ScaryOrbSkill(), 80, 4, false));
         goalSelector.addGoal(2, new LongarmsMeleeGoal());
         // Legacy EntityShyco tasks.addTask(5, this.jumpT): EntityAIJumping hops when the target is
         // more than a block above the mob's eyes.
@@ -140,6 +143,27 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
         }
     }
 
+
+    /** Legacy attackID 21: the scary orb, gated by geneSpecialmove through ParasiteSkillGoal. */
+    private final class ScaryOrbSkill implements ParasiteSkillGoal.ParasiteSkill {
+        private static final int ANIMATION_TICKS = 20;
+        private int ticks;
+
+        @Override
+        public void tick() {
+            LivingEntity target = getTarget();
+            if (target != null && ticks == 0) {
+                applyScaryOrbEffect(target, 0);
+                applyScaryOrbMinimumDamage(target, 1.0F);
+            }
+            ticks++;
+        }
+
+        @Override
+        public boolean isFinished() {
+            return ticks >= ANIMATION_TICKS;
+        }
+    }
 
     private boolean isValidShockwaveTarget(LivingEntity target) {
         if (!specialMovesEnabled() || target == null || !target.isAlive() || !onGround()

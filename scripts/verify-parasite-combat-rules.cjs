@@ -196,6 +196,15 @@ for (const [pattern, message] of [
   [/if \(attackTimer < cooldownTicks\)/, "the legacy cooldown warm-up is missing"]
 ]) expect(skillGoal, pattern, message);
 
+// legacy EntityAISkill(this, 80, 4, false, 21): LongarmsEntity drives its orb through the contract
+const longarmsSource = read("src/main/java/alku/csrp/entity/LongarmsEntity.java");
+expect(longarmsSource, /addGoal\(2, new ParasiteSkillGoal\(this, 21, new ScaryOrbSkill\(\), 80, 4, false\)\)/,
+  "LongarmsEntity must register the legacy attackID 21 skill at priority 2 with (80, 4, false)");
+expect(longarmsSource, /applyScaryOrbEffect\(target, 0\)/,
+  "the skill must trigger the existing scary orb effect");
+expect(longarmsSource, /implements ParasiteSkillGoal\.ParasiteSkill/,
+  "the skill must implement the dispatch contract");
+
 if (failures.length) {
   console.error("Parasite combat rules verification failed:");
   failures.forEach((failure) => console.error(`- ${failure}`));

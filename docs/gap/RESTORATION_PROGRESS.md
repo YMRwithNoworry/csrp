@@ -426,3 +426,16 @@ EntityInfCow: 0    EntityInfHuman: 0    EntitySpeCow: 0    EntityFerVillager: 0
 本批只落地**契约层**（尚无注册点）：下一批把各族既有技能（`CowChargeGoal`、`LongarmsMeleeGoal`、
 `ShockwaveGoal` 等）适配成 `ParasiteSkill` 条目并按原版参数表注册，即可翻转 7 条 gene 捆绑条款。
 校验：`verify-parasite-combat-rules.cjs` 增加 8 条断言；全套 99 脚本失败集合仍为既有 20 个；`build` 通过。
+
+## 批次 22：EntityAISkill 契约接入 pri_longarms（2026-09-25 续）
+
+按批次 21 的契约层，把 `pri_longarms` 的技能接上（原版 `EntityShyco` 任务表：
+`tasks.addTask(2, EntityAISkill(this, 80, 4, false, 21))`，attackID 21 = 恐怖球）：
+
+- `LongarmsEntity` 优先级 2 注册 `ParasiteSkillGoal(this, 21, new ScaryOrbSkill(), 80, 4, false)`。
+- 技能体 `ScaryOrbSkill implements ParasiteSkillGoal.ParasiteSkill`：起手首 tick 复用端口既有的
+  `applyScaryOrbEffect(target, 0)` 与 `applyScaryOrbMinimumDamage(target, 1.0F)`，20 tick 动画后 `isFinished`。
+- gene 门、距离窗口（4 格，平方）、`needVisual=false`、80 tick 冷却均由契约层承担。
+
+校验：`verify-parasite-combat-rules.cjs` 增加 3 条断言；审计记账 1 条，满足 649 → **650**。
+下一步（批次 23）：同法为 `sim_cow` 等把 `CowChargeGoal` 适配为 attackID 条目，进而翻转 7 条 gene 捆绑条款。

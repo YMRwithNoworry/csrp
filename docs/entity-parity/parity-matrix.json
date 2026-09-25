@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-09-25T02:59:28.192Z",
+  "generatedAt": "2026-09-25T03:10:51.457Z",
   "protocol": "docs/entity-parity/AUDIT_PROTOCOL.md",
   "input": "docs/entity-parity/audit-input.json",
   "counts": {
@@ -8,9 +8,9 @@
     "missing": 114
   },
   "overall": {
-    "satisfied": 649,
+    "satisfied": 650,
     "partial": 380,
-    "missing": 293,
+    "missing": 292,
     "na": 57,
     "denominator": 1322,
     "completion": 63.5
@@ -39,12 +39,12 @@
     {
       "facet": "ai",
       "label": "AI",
-      "satisfied": 78,
+      "satisfied": 79,
       "partial": 75,
-      "missing": 36,
+      "missing": 35,
       "na": 39,
       "denominator": 189,
-      "completion": 61.1
+      "completion": 61.6
     },
     {
       "facet": "behaviors",
@@ -228,17 +228,6 @@
       "completion": 64.1
     },
     {
-      "group": "current",
-      "audited": 2,
-      "expected": 13,
-      "satisfied": 95,
-      "partial": 44,
-      "missing": 36,
-      "na": 8,
-      "denominator": 175,
-      "completion": 66.9
-    },
-    {
       "group": "assimilated",
       "audited": 6,
       "expected": 23,
@@ -248,6 +237,17 @@
       "na": 33,
       "denominator": 619,
       "completion": 66.9
+    },
+    {
+      "group": "current",
+      "audited": 2,
+      "expected": 13,
+      "satisfied": 96,
+      "partial": 44,
+      "missing": 35,
+      "na": 8,
+      "denominator": 175,
+      "completion": 67.4
     }
   ],
   "creatures": [
@@ -6474,13 +6474,13 @@
       "group": "current",
       "missing": false,
       "totals": {
-        "satisfied": 55,
+        "satisfied": 56,
         "partial": 29,
-        "missing": 21,
+        "missing": 20,
         "na": 2
       },
       "denominator": 105,
-      "completion": 66.2,
+      "completion": 67.1,
       "facets": {
         "registration": {
           "satisfied": 3,
@@ -6497,9 +6497,9 @@
           "clauses": 8
         },
         "ai": {
-          "satisfied": 10,
+          "satisfied": 11,
           "partial": 2,
-          "missing": 3,
+          "missing": 2,
           "na": 1,
           "clauses": 16
         },

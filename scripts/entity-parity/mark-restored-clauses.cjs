@@ -348,6 +348,19 @@ const BATCHES = {
         detail: "每 10 tick 判定：目标高出门眼 1 格以上且平方距离 < 4.0 且在地面 → 停导航 + 起跳（垂直 0.2 + 高*0.15，水平 0.5*0.8 + 现速*0.2）；沿用原版 canUse 内执行并返回 false 的形态；LongarmsEntity 优先级 5 注册"
       }
     ]
+  },
+  // 批次 22：EntityAISkill 契约接入（原版 EntityAISkill，pri_longarms attackID 21 恐怖球）
+  "skill-dispatch": {
+    note: "批次：EntityAISkill 契约与 pri_longarms 恐怖球技能（EntityShyco tasks.addTask(2, EntityAISkill(this, 80, 4, false, 21))）",
+    projectClasses: ["LongarmsEntity"],
+    clauses: [
+      {
+        match: /EntityAISkill/,
+        verdict: "satisfied",
+        evidence: "src/main/java/alku/csrp/entity/ParasiteSkillGoal.java",
+        detail: "共享 ParasiteSkillGoal 复刻契约（geneSpecialmove 门控、距离窗口平方、needVisual、冷却、attackID 派发）；LongarmsEntity 以 (80, 4, false, 21) 注册，技能体复用既有 applyScaryOrbEffect/applyScaryOrbMinimumDamage"
+      }
+    ]
   }
 };
 
