@@ -3805,3 +3805,20 @@ grep "pri_longarms|pri_buglin" src/main/java
 - **头部族**：一张 `Kind` 表 ⇒ 批量核对成本≈0 ✔（已做，8/8 通过）；
 - **primitive / assimilated 族**：属性散落各类 ⇒ 批量核对需遍历提取，成本中等；
 ⇒ **"批量核对"的可行性取决于代码组织形态**，不能假设所有族都像头部族一样集中。
+
+## 批次 233：primitive 族的属性形态**订正**（2026-09-25 续，未改代码）
+
+批次 232 我记述"primitive 族无统一属性表"——本轮实读后**表述需订正**（结论实质不变）：
+
+```
+端口 PrimitiveVariantEntity:2570   public enum Kind { ARACHNIDA, BOLSTER, BURROWER, DEVOURER, MANDUCATER, REEKER, TOZOON, YELLOWEYE }
+                                   —— 【枚举存在，但无构造参数】⇒ 属性不在表里，而在 createAttributes 内按 kind 计算
+端口 KirinEntity                   hp=410.0 / dmg=155.0（少数类用字面值 ✔ 脚本可提取）
+端口 其余 pri_* / Buglin / Longarms / Rupter / Summoner   → 脚本正则未命中（走计算式而非字面量）
+```
+
+**订正后的准确表述**：primitive 族**有 `Kind` 枚举，但属性值不在枚举里**（与头部族的 `Kind(id, hp, dmg, …)` 形态不同 ✗）
+⇒ 批量提取需要**解析 `createAttributes` 内的按 kind 分支**（比头部族复杂，但比逐生物审计省力）。
+
+**方法论**：本轮是"**我的记述被自己的实读订正**"的第 N 次（此前有 `GeneMeleeGoal` 的"带参数"、批次 185 的音效范围等）。
+规律很一致：**先写下近似结论、再实读订正**，比"不写"要好（因为近似结论会驱动下一步验证），但**必须在动手前完成订正**。
