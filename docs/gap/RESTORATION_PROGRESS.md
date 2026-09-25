@@ -2459,3 +2459,28 @@ id 用固定 `ResourceLocation`（`csrp:attacking_speed_boost`）以便可靠摘
    注册到马（或该族）的优先级 2。
 
 **在读完 `EntityAIAttackSwell` 类体前不写代码**——否则第 3 步会变成猜测。
+
+## 批次 159：`EntityAIAttackSwell` 语义解出（马的膨胀自爆规划完成）（2026-09-25 续）
+
+```java
+EntityAIAttackSwell(parasite, distance)     // 马传 5.0；func_75248_a(0) 设互斥位
+shouldExecute: getSelfeState() > 0 || (有目标 && 距离² < distance)
+startExecuting: 停止导航，记住目标
+updateTask:
+    目标为空                  → setSelfeState(-1)   // 取消膨胀
+    与目标距离² > 49.0（7 格）→ setSelfeState(-1)
+    无视线（func_75522_a）    → setSelfeState(-1)
+    否则                      → setSelfeState(1)    // 开始膨胀（进入引信）
+```
+
+**与批次 158 的两处结合** ⇒ 完整语义：
+「目标在 5 格内且可见 → 尝试置引信状态 1；但马的 `setSelfeState` 覆写**只在生命 ≤50% 时**才真正生效」
+⇒ **半血以下的马才会在近距离对目标膨胀自爆**，超出 7 格或失去视线即取消。
+
+**端口映射与实施（三步，与批次 158 规划一致）**：
+1. 新增 `AttackSwellGoal(this, distance)`：`canUse` = `ParasiteFuseState.getState(owner) > 0 || 目标在 distance 内`；
+   `tick` = 按上表四分支调用 `setState(owner, -1 / 1)`（端口 `ParasiteFuseState.setState` 即原版 `setSelfeState` 的对应物）；
+2. **半血门控**：在引信推进/置位处加"生命 ≤50%"条件（per-mob 开关，先只给马）；
+3. **存活期推进**：`tick` 中引信状态 > 0 时推进并触发膨胀表现（与死亡路径互斥）。
+
+规划至此**证据齐备**（原版 AI 类体 + 三处调用点 + 端口对应物），下一批可直接实施。
