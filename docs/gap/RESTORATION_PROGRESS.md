@@ -2538,3 +2538,11 @@ if (!level().isClientSide && isAlive() && selfeFuse.isActive(this) && selfeFuse.
 - 自爆流程复用 `ParasiteCombatRules.selfExplode`，因此**批次 148 的自爆召唤**在存活期自爆时同样生效 ✔（与原版一致）。
 
 断言 2 条；`build` 通过、套件维持既有 20 失败。**第 3 步（渲染膨胀）** 由 `SelfeFuseOwner.flashIntensity`（`:156`）承载，下一轮实测确认。
+
+批次 162 补记（同轮修复，含第二次流程自省）：新增断言时我写了 `const variant = read(...)`，而该脚本**已存在同名声明**
+⇒ 触发 `SyntaxError: Identifier 'variant' has already been declared` ⇒ 校验脚本**整体崩溃**（套件 20 → 21）。
+已用 **CRLF 容错正则**（`\r?\n`）移除重复声明，`node --check` 通过、脚本恢复、套件回到 **99 / 79 / 20** ✔。
+
+**流程自省（第二次同类）**：我又一次**先提交、后复检**（`565d63b5` 带 21 失败入库）。
+两次的共性都是"上下文余量告急时把 build 通过当作验完"。**即日起恢复硬性顺序：先跑套件 → 再提交**；
+若余量不足以跑完套件，则**不提交**（把改动留在工作树、下一轮继续），而不是先入库再补。

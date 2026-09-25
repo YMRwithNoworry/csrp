@@ -538,7 +538,6 @@ expect(read("src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java"),
   /new AttackSwellGoal\(this, 5\.0D, true\)/, "the horse does not register the swell goal");
 
 // Legacy EntityInfHorse:190: the swell burns down while alive (dyingBurst(false, 1)).
-const variant = read("src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java");
 expect(variant, /!level\(\)\.isClientSide && isAlive\(\) && selfeFuse\.isActive\(this\) && selfeFuse\.advance\(this\)/,
   "the live swell does not advance the fuse");
 expect(variant, /selfeFuse\.clear\(this\);\s*\n\s*\}/, "the live swell does not clear the fuse after bursting");
