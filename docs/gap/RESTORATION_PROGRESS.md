@@ -1905,3 +1905,16 @@ SRPConfigMobs.java:4370  angedEnabled = cfg.getBoolean("Vigilante Enabled", "srp
 与已验收的 `sim_villager.json` 采用同一标准（双侧 路径:行号 + 实测若干条）。
 
 当前账面：满足 **853** / 部分 419 / 缺失 287，加权 **68.2%**；审计面 16/127。
+
+## 批次 127：验收 `sim_adventurer.json`（2026-09-25 续）
+
+子代理第二份产出：`raw/sim_adventurer.json`，**11 facet / 95 条**（53 satisfied / 23 partial / 15 missing / 4 na），
+结构与证据风格与已验收的 `sim_villager.json` 一致。抽查 3 条 satisfied 并**实测 2 条引文**：
+
+```
+✔ ModEntities.java 确含 sim_adventurer
+✔ 原版 SRPEntities.java:257 确含 CreateEntityMob("sim_adventurer", EntityInfPlayer…
+```
+
+⇒ 证据真实，予以采纳。**累积验收**：2 份子代理产出（sim_villager 93 条、sim_adventurer 95 条）均通过抽查；
+两者的 `missing`/`partial` 清单已作为后续实现靶点（其中 `infvillager*` 已在批次 125 落地）。
