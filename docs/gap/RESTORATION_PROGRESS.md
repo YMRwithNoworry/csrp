@@ -2497,3 +2497,27 @@ updateTask:
 
 **第 2、3 步待办**：存活期推进（`tick` 中状态 > 0 时推进引信 + 膨胀表现，与死亡路径互斥）；
 以及确认端口渲染已能表现膨胀（`SelfeFuseRender` 依赖 `SelfeFuseOwner`，而变体族已实现该接口 ✔）。
+
+## 批次 161：原版引信推进全文解出（第 2 步实施前的最后取证）（2026-09-25 续）
+
+```java
+EntityParasiteBase:1492  protected void dyingBurst(boolean fromDeath, int value) {
+    int i = this.getSelfeState();
+    this.timeSinceIgnited += i * value;            // 计数按【状态 × 步长】累加（马：state=1, value=1）
+    if (this.timeSinceIgnited < 0) this.timeSinceIgnited = 0;
+    if (this.timeSinceIgnited >= this.fuseTime) {
+        this.timeSinceIgnited = this.fuseTime;
+        this.selfExplode();                        // 达 fuseTime 即自爆
+        if (fromDeath) this.OnDeathHelper();       // 【仅死亡路径】才做死后处理
+    }
+}
+```
+
+**关键结论**：端口现有模型（状态计数 + `advance` + 达 `FUSE_TICKS` 自爆）与原版**同构** ✔；
+差别只在**调用时机**——原版马在**存活期**逐 tick 调 `dyingBurst(false, 1)`（⇒ 存活期自爆，无需先死），
+而端口只在 `tickDeath` 里调 `advance`。且 `fromDeath=false` 时**不做死后处理** ⇒ 端口的存活期路径**不应**调用 `super.tickDeath()`。
+
+**第 2 步实施（下一批，证据已齐）**：在变体族实体 tick 中新增
+`if (!level().isClientSide && isAlive() && selfeFuse.isActive(this) && selfeFuse.advance(this)) { selfExplode(...); selfeFuse.clear(this); }`
+——与 `tickDeath` 路径**天然互斥**（存活时不会进 tickDeath；自爆后 `clear` 使死亡路径走 `super` 分支）。
+第 3 步（渲染膨胀）已由 `SelfeFuseOwner.flashIntensity`（:156）承载 ✔，只需实测确认。
