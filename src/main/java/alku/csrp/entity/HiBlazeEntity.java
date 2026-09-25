@@ -31,7 +31,8 @@ public final class HiBlazeEntity extends HijackedParasiteEntity implements Citad
     private int burstDelay;
 
     public HiBlazeEntity(EntityType<? extends HiBlazeEntity> type, Level level) {
-        super(type, level, 36);
+                // Legacy SRPConfig.hijackedXPValue = 11 for the whole hijacked tier.
+        super(type, level, 11);
         moveControl = new FlyingMoveControl(this, 20, true);
         setNoGravity(true);
     }

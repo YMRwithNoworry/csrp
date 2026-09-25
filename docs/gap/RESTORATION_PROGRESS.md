@@ -1176,3 +1176,10 @@ ancient 5000 pure 75    preeminent 200 derived 350   turret 75
 批次 79 补记（同批已修）：改动 `PrimitiveVariantEntity` 的 XP 表达式后，`verify-primitive-yelloweye-port.cjs:30`
 的旧断言 `/xpReward = kind == Kind.YELLOWEYE \? 30 : 18/` 立即失效（套件 20 → 21 失败），已改为 `/xpReward = 30;/`
 并注明"整档共用 primitiveXPValue = 30"——YELLOWEYE 的取值不变（30），仅表达式统一。套件回到基线 99/79/20。
+
+## 批次 80：劫持族经验对齐 hijackedXPValue = 11（2026-09-25 续）
+
+按批次 79 查全的档次表（hijacked = 11、preeminent = 200），核对端口：
+
+- ✗ `HiSkeletonEntity` 30 / `HiBlazeEntity` 36 / `HiGolemEntity` 60 → **全部对齐为 11**（含已审计的 `hi_skeleton`）；
+- ✗ `PreeminentParasiteEntity:131 xpReward = 75` → 应为 **200**（原版 preeminent 档；75 实为 pure/turret 档值），**留待下一轮**（本轮先落劫持三只，控制单轮改动面）。

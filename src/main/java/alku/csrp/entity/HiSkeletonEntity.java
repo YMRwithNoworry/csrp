@@ -29,7 +29,8 @@ public final class HiSkeletonEntity extends HijackedParasiteEntity {
     private int rangedCooldown = 20;
 
     public HiSkeletonEntity(EntityType<? extends HiSkeletonEntity> type, Level level) {
-        super(type, level, 30);
+                // Legacy SRPConfig.hijackedXPValue = 11 for the whole hijacked tier.
+        super(type, level, 11);
     }
 
     public static AttributeSupplier.Builder createAttributes() {

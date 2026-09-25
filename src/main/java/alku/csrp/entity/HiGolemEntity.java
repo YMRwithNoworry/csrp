@@ -50,7 +50,8 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
     private int chargeCooldown;
 
     public HiGolemEntity(EntityType<? extends HiGolemEntity> type, Level level) {
-        super(type, level, 60);
+                // Legacy SRPConfig.hijackedXPValue = 11 for the whole hijacked tier.
+        super(type, level, 11);
     }
 
     public static AttributeSupplier.Builder createAttributes() {
