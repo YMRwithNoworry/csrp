@@ -236,9 +236,9 @@
           "verdict": "partial",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:129",
-            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:82"
+            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:97"
           },
-          "note": "工程 MeleeAttackGoal(1.3) + doHurtTarget 半径 3.0，但缺少潜地前提判定与 AOE 触发音效"
+          "note": "工程 MeleeAttackGoal(1.3) 半径 3.0，doHurtTarget 已补潜地前提；仍无 EntityAIAttackMeleeRangeSwitch（8.0F 距离切换）"
         },
         {
           "clause": "tasks.addTask(6, EntityAIAttackMeleeRangeSwitch(this, 8.0F))",
@@ -288,9 +288,9 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:263",
-            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:106"
+            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:160"
           },
-          "note": "工程 distanceToSqr<=9、burrowDuration=80、潜地速度 0，数值一致"
+          "note": "updateBurrowState：buriedC 每 tick 先递减、目标在 9 格内则潜地并回填 burrowRefill(80)，buriedC<=0 时出土；潜地速度 0、出土恢复 baseMovementSpeed(0.12)，与原版 checkSpeed 一致"
         },
         {
           "clause": "潜地动画计时 buried 4.8 → 0（每 tick 0.08）与 open 张开标记",
@@ -303,21 +303,21 @@
         },
         {
           "clause": "出土/入土时碰撞箱高度每 tick ±0.05 渐变（0.25 ↔ 3.5）",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:250",
-            "project": null
+            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:122"
           },
-          "note": "工程仅记录动画计时，碰撞箱固定"
+          "note": "updateBurrowHitbox + getDefaultDimensions：潜地时每 tick +0.05 至 3.5F、出土时 -0.05 至 0.25F，经 EntityDimensions.scalable 生效；HostII 覆盖为 +0.09 至 7.5F（EntityHostII.checkBurrowed:239）"
         },
         {
           "clause": "投弹：EntityBomb fuse=80、HOST_BOMBDAMAGE=7、skin=1、作用半径 4，目标 >169 格不投",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:359",
-            "project": "src/main/java/alku/csrp/entity/HostEntity.java:94"
+            "project": "src/main/java/alku/csrp/entity/HostEntity.java:100"
           },
-          "note": "工程 fuse/damage/半径一致，但无 169 格距离门控"
+          "note": "工程 fuse/damage/半径一致；HostRangedGoal（AbstractHostEntity:344）补上原版 func_82196_d 的距离门控 distanceToSqr<=169 与「潜地且身高>=1.0」前提"
         },
         {
           "clause": "冲击波 spawnShock()：EntityWave 伤害 = 攻击力×0.3、MiniDamage、1 次、60 时长",
@@ -332,9 +332,9 @@
           "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:203",
-            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:192"
+            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:282"
           },
-          "note": "工程 spawnMinions(RUPTER, cap 4, 1/150 或 1/400)"
+          "note": "spawnMinions(RUPTER, 4, 3)：有目标 1/150 且 16 格内上限 4、无目标 1/400 且上限 3，且无目标时不指派 target，与原版 spawnRupters 逐分支一致；HostII 同规则召唤 Nuuh（Mangler）"
         },
         {
           "clause": "killcount > SRPConfigMobs.hostHerd (40) 时进化为 EntityHostII",
@@ -388,12 +388,12 @@
         },
         {
           "clause": "func_70652_k：潜地且高度>=1 时攻击并把 buriedC+160；未潜地时只切换为潜地不造成伤害",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:379",
-            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:123"
+            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:188"
           },
-          "note": "工程 doHurtTarget 无条件范围伤害，忽略潜地前提与 buriedC 延长"
+          "note": "performAoeMelee：仅 isBurrowed() 且 getBbHeight()>=1.0 时命中，每次命中 buriedC+=160；否则在距离<=4.0 时转为潜地（buriedC=160）且不造成伤害，全部经 doHurtTarget 接线"
         },
         {
           "clause": "func_70074_a：击杀后 particleStatus((byte)5) 粒子",
@@ -711,20 +711,21 @@
         },
         {
           "clause": "AOE 攻击连播 SWIPE(1.0)/SWIPE(1.25)/SWIPE(2.0)，冲击波前再播 SWIPE(2.0)",
-          "verdict": "partial",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:413",
-            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:156"
+            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:203"
           },
-          "note": "工程仅冲击波播放一次 MOB_SWIPE(2.0)，AOE 命中无音效"
+          "note": "performAoeMelee 命中时按原版顺序连播 MOB_SWIPE 1.0/1.25/2.0；performShockwave 前先播 MOB_SWIPE(2.0)"
         },
         {
           "clause": "冲击波起手播放自身受伤音效 playSound(getHurtSound, 4.0F, 2.0±0.4)",
-          "verdict": "missing",
+          "verdict": "satisfied",
           "evidence": {
             "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/crude/EntityHost.java:548",
-            "project": null
-          }
+            "project": "src/main/java/alku/csrp/entity/AbstractHostEntity.java:222"
+          },
+          "note": "playShockwaveWindupSound：HostShockwaveGoal.start 时以 HOST_HURT 4.0F、pitch=(rand-rand)*0.4+2.0 起手，对应原版 border==0 分支"
         },
         {
           "clause": "脚步音效未覆写（沿用原版默认方块脚步）",

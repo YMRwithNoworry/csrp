@@ -230,7 +230,19 @@ public final class HostIIEntity extends AbstractHostEntity {
     }
 
     private void summonManglers() {
-        spawnMinions(ModEntities.MANGLER, ManglerEntity.class, 4);
+        // Legacy EntityHostII.spawnRupters(): EntityNuuh (Mangler), cap 4 with a target / 3 idle.
+        spawnMinions(ModEntities.MANGLER, ManglerEntity.class, 4, 3);
+    }
+
+    @Override
+    protected float fullBurrowHeight() {
+        // Legacy EntityHostII.checkBurrowed(): grows to 7.5F at 0.09F per tick.
+        return 7.5F;
+    }
+
+    @Override
+    protected float burrowHeightStep() {
+        return 0.09F;
     }
 
     @Override

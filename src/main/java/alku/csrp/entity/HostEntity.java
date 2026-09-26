@@ -132,7 +132,8 @@ public final class HostEntity extends AbstractHostEntity {
     }
 
     private void summonRupters() {
-        spawnMinions(ModEntities.RUPTER, RupterEntity.class, 4);
+        // Legacy spawnRupters(): EntityMudo (凶猎兽), cap 4 with a target / 3 idle.
+        spawnMinions(ModEntities.RUPTER, RupterEntity.class, 4, 3);
     }
 
     @Override

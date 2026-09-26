@@ -1,11 +1,11 @@
 # 生物还原矩阵（SRParasites 1.10.9 → csrp）
 
-> 生成时间：2026-09-25T07:49:41.910Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
+> 生成时间：2026-09-26T15:25:19.590Z；方法见 `docs/entity-parity/AUDIT_PROTOCOL.md`，逐生物明细见 `docs/entity-parity/raw/<id>.json`。
 > 判定：✅ 全部条款满足；🟠 有部分实现但无缺失；❌ 存在缺失；· 未审计。
 
 - 注册生物总数：**127**；已审计：**34**；未审计：**93**
-- 条款总计：满足 1676 / 部分 733 / 缺失 458（不计入 160 条不适用）
-- **加权完成度：71.2%**（partial 计 0.5）
+- 条款总计：满足 1681 / 部分 730 / 缺失 456（不计入 160 条不适用）
+- **加权完成度：71.4%**（partial 计 0.5）
 
 ## 分面完成度
 
@@ -14,12 +14,12 @@
 | 注册 `registration` | 208 | 75 | 76 | 68.4% |
 | 属性 `attributes` | 234 | 60 | 18 | 84.6% |
 | AI `ai` | 198 | 185 | 46 | 67.7% |
-| 行为 `behaviors` | 286 | 148 | 85 | 69.4% |
+| 行为 `behaviors` | 289 | 146 | 84 | 69.7% |
 | 伤害/效果 `damage_and_effects` | 232 | 25 | 24 | 87% |
 | 同步数据 `sync_data` | 59 | 57 | 78 | 45.1% |
 | 动画 `animation` | 131 | 30 | 13 | 83.9% |
 | 模型/贴图 `model_texture` | 111 | 6 | 25 | 80.3% |
-| 音效 `sounds` | 87 | 49 | 35 | 65.2% |
+| 音效 `sounds` | 89 | 48 | 34 | 66.1% |
 | 生成 `spawning` | 91 | 56 | 37 | 64.7% |
 | 掉落 `loot` | 39 | 42 | 21 | 58.8% |
 
@@ -34,7 +34,7 @@
 | ancient | 0/4 | 0 | 0 | 0 | 0% |
 | nexus_and_aberrant | 1/15 | 43 | 38 | 32 | 54.9% |
 | hijacked_and_feral | 2/12 | 111 | 56 | 59 | 61.5% |
-| early_lifecycle | 1/10 | 42 | 25 | 18 | 64.1% |
+| early_lifecycle | 1/10 | 47 | 22 | 16 | 68.2% |
 | current | 2/13 | 99 | 42 | 34 | 68.6% |
 | marauderized | 5/7 | 262 | 110 | 85 | 69.4% |
 | assimilated | 23/23 | 1119 | 462 | 230 | 74.5% |
@@ -139,10 +139,10 @@
 | `beckon_siii` | EntityVenkrolSIII | NexusParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 54.9% |
 | `hi_skeleton` | EntityHiSkeleton | HiSkeletonEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | 61.4% |
 | `fer_villager` | EntityFerVillager | FeralParasiteEntity | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 61.6% |
-| `host` | EntityHost | HostEntity | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | 🟠 | 64.1% |
 | `mar_sheep` | EntitySpeSheep | MarauderizedSheepEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | 65.9% |
 | `mar_human` | EntitySpeHuman | MarauderizedHumanEntity | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | 67.2% |
 | `mar_cow` | EntitySpeCow | MarauderizedCowEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 67.3% |
+| `host` | EntityHost | HostEntity | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | 🟠 | 🟠 | 68.2% |
 | `sim_endermanhead` | EntityInfEndermanHead | AssimilatedHeadEntity | ❌ | 🟠 | 🟠 | ❌ | ❌ | ❌ | 🟠 | ✅ | ❌ | ❌ | ✅ | 68.6% |
 | `buglin` | EntityLodo | BuglinEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | 68.6% |
 | `pri_longarms` | EntityShyco | LongarmsEntity | ❌ | 🟠 | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟠 | ❌ | 68.6% |
@@ -197,14 +197,6 @@
 - 同步/NBT 与状态表达缺口：SELFE/SKIN/COLD_L/DISLO15 等 5 项数据参数缺失，parasiteStatus 只能表达 0..2 并被 clamp 到 3，缺少 6/10 等引信与水跃状态
 - 生成与掉落规则缺口：无 spawnDays/寄生群系亮度放宽、无 getIDSpawn 27 同化配额与 id 锁、默认掉落表与原版（默认空表 + chance/looting 语义）不一致，额外掉 csrp:bone 1-3；脚步声与音高未还原
 
-### `host`（EntityHost → HostEntity，64.1%）
-- 潜地状态下的受伤免疫/击退门控与动态碰撞箱未实现
-- 进伤上限（primitiveCap=6）、火伤倍率 4.0、药水免疫、中毒转治疗均缺失
-- 最小伤害 2.0 与偷取饱食度 0.5 的近战附加伤害未接入
-- 钻地传送、脚下 InfestRemain、地面粒子等伴随表现缺失
-- AI：wait/jumpT/AOE 范围切换 GOAL 缺失，跟随 GOAL 未按原版移除
-- 经验 20 < 原版 30，且缺少阶段加成与 per-mob 开关
-
 ### `mar_sheep`（EntitySpeSheep → MarauderizedSheepEntity，65.9%）
 - 眼高 2.73F 未作为注册参数（走 4 参 monster()，实际 ≈2.4225）
 - 刷怪蛋开关 SRPConfig.vanillaEggs 与 per-mob 开关 marsheepEnabled 均缺失
@@ -228,6 +220,14 @@
 - 伤害上限 assimaraCap=5、药水免疫、VIRA 最小伤害联动、击杀回血、PARATE 强化、最小伤害攻击全部缺失
 - 死亡自爆链（50% madeRng → 40 tick 引信 → 毒云 + gore + MOBEXPLOTION 爆炸音）仅保留 Buglin 召唤
 - COTH 命中传播与 3 格 COTH 光环缺失
+
+### `host`（EntityHost → HostEntity，68.2%）
+- 潜地状态下的受伤免疫/击退门控与动态碰撞箱未实现
+- 进伤上限（primitiveCap=6）、火伤倍率 4.0、药水免疫、中毒转治疗均缺失
+- 最小伤害 2.0 与偷取饱食度 0.5 的近战附加伤害未接入
+- 钻地传送、脚下 InfestRemain、地面粒子等伴随表现缺失
+- AI：wait/jumpT/AOE 范围切换 GOAL 缺失，跟随 GOAL 未按原版移除
+- 经验 20 < 原版 30，且缺少阶段加成与 per-mob 开关
 
 ### `sim_endermanhead`（EntityInfEndermanHead → AssimilatedHeadEntity，68.6%）
 - （无缺口摘要，见 raw JSON）
