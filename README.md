@@ -35,7 +35,8 @@ is kept.
 **Third-party notice:** *Scape and Run: Parasites*, its name, assets, sounds and game design belong to
 **dhanantry** and the SRP team. They are **not** covered by the MIT Licence and this repository claims
 no ownership over them. They are present only because this project reconstructs SRP for a newer
-Minecraft version, in the hope that the original authors take the work over.
+Minecraft version, in the hope that the original authors take the work over. The full text is in
+[`NOTICE`](NOTICE).
 
 ### Building
 
@@ -99,7 +100,7 @@ SRP 由 **dhanantry** 与 SRP 官方开发组制作，官方版本停留在 Mine
 
 **第三方声明**：*Scape and Run: Parasites* 的名称、素材、音效与玩法设计归 **dhanantry** 与 SRP 官方开发组所有，
 **不在** MIT 协议覆盖范围内，本仓库不主张任何相关权利；它们出现在这里，只是因为本项目为更高版本的 Minecraft
-重建 SRP，并期待原作者接手。
+重建 SRP，并期待原作者接手。完整声明见 [`NOTICE`](NOTICE)。
 
 ### 构建
 

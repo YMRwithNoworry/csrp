@@ -19,13 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-Third-party notice
-
-"Scape and Run: Parasites" (SRP), its name, its assets, its sounds and its game design belong to
-dhanantry and the SRP development team. They are not covered by the MIT Licence above and no
-ownership over them is claimed by this repository. They appear here only because this project is an
-unofficial reconstruction of SRP for Minecraft 1.21.1, written in the hope that the original authors
-will adopt it and continue SRP on modern Minecraft versions.

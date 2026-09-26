@@ -1,0 +1,28 @@
+CSRP — third-party notice
+=========================
+
+The MIT Licence in LICENSE covers the code, resources and documentation written for this
+repository (the CSRP port).
+
+It does NOT cover "Scape and Run: Parasites" (SRP) itself. The SRP name, its assets, textures,
+models, sounds, animations, config keys and game design belong to dhanantry and the SRP
+development team. This repository claims no ownership over them.
+
+They are present here only because this project is an unofficial reconstruction of SRP for
+Minecraft 1.21.1 (NeoForge), rebuilt clause by clause from the official SRP 1.10.9 decompiled
+sources — and because we hope the official SRP development team will use this repository to
+migrate SRP to modern Minecraft versions. If you are from the SRP team, take it, fork it,
+rename it, relicense it, or ask us to transfer the repository: no permission is needed, and
+none will be withheld.
+
+中文说明
+--------
+
+LICENSE 中的 MIT 协议覆盖的是本仓库（CSRP 移植）自行编写的代码、资源与文档。
+
+它**不覆盖**《Scape and Run: Parasites》(SRP) 本体：SRP 的名称、素材、贴图、模型、音效、动画、
+配置键与玩法设计归 dhanantry 与 SRP 官方开发组所有，本仓库不主张任何相关权利。
+
+它们出现在这里，只是因为本项目为 Minecraft 1.21.1 (NeoForge) 逐条还原 SRP（依据官方 1.10.9 反编译源码），
+以及我们期待 SRP 官方开发组利用本仓库把 SRP 迁移到更高版本。如果你是 SRP 官方开发组成员：
+拿去、fork、改名、换协议，或者直接找我们要仓库转移权限都可以，不需要任何许可，我们也不会拒绝。
