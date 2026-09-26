@@ -188,11 +188,9 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
 
     @Override
     public boolean doHurtTarget(Entity target) {
-        float healthBefore = target instanceof LivingEntity living
-                ? living.getHealth() + living.getAbsorptionAmount() : 0.0F;
         boolean hurt = super.doHurtTarget(target);
         if (hurt && target instanceof LivingEntity living) {
-            applyMinimumDamage(living, healthBefore);
+            applyMinimumDamage(living);
         }
         return hurt;
     }
@@ -362,24 +360,36 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
         }
     }
 
-    private void applyMinimumDamage(LivingEntity target, float healthBefore) {
+    /**
+     * Legacy {@code EntityParasiteBase.func_70652_k} + {@code attackEntityAsMobMinimum}
+     * (EntityParasiteBase.java:814/858, EntityNuuh.java:89/94): a connecting melee swing
+     * <em>adds</em> the tier minimum damage on top of the ordinary attack, instead of merely
+     * topping the hit up to that value. The extra damage is written straight onto health, so it
+     * ignores armour, enchantments, resistance and the vanilla invulnerability window – that
+     * per-swing chip is the "frame damage" the Mangler is known for. Paired with the original
+     * {@code attackSpeedT = 6} cadence, the Mangler lands one of these roughly every 6 ticks.
+     *
+     * <p>The VIRA multiplier mirrors the original
+     * {@code MinimumDamage * (amp + 1) + MinimumDamage}, i.e. {@code base * (amp + 2)}.
+     */
+    private void applyMinimumDamage(LivingEntity target) {
         if (!(level() instanceof ServerLevel serverLevel)
                 || !EvolutionSystem.generationProfile(serverLevel).minimumDamage()
                 || target == this || !target.isAlive() || target instanceof Parasite
                 || target instanceof Player player && player.getAbilities().invulnerable) {
             return;
         }
-        float dealt = healthBefore - target.getHealth() - target.getAbsorptionAmount();
-        float minimum = MobsConfig.manglerMinimumDamage();
-        if (dealt >= minimum || minimum <= 0.0F) {
+        float base = MobsConfig.manglerMinimumDamage();
+        if (base <= 0.0F) {
             return;
         }
-        float remaining = minimum - Math.max(0.0F, dealt);
-        float absorptionDamage = Math.min(target.getAbsorptionAmount(), remaining * 0.5F);
+        var viral = target.getEffect(ModMobEffects.VIRAL);
+        float amount = base * (viral == null ? 1.0F : viral.getAmplifier() + 2);
+        float absorptionDamage = Math.min(target.getAbsorptionAmount(), amount * 0.5F);
         if (absorptionDamage > 0.0F) {
             target.setAbsorptionAmount(target.getAbsorptionAmount() - absorptionDamage);
         }
-        target.setHealth(Math.max(0.0F, target.getHealth() - (remaining - absorptionDamage)));
+        target.setHealth(Math.max(0.0F, target.getHealth() - (amount - absorptionDamage)));
         serverLevel.broadcastEntityEvent(target, (byte) 2);
         if (target.getHealth() <= 0.0F) {
             target.die(damageSources().mobAttack(this));

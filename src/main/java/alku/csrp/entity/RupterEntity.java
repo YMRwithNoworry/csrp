@@ -432,11 +432,9 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
 
     @Override
     public boolean doHurtTarget(Entity entity) {
-        float healthBefore = entity instanceof LivingEntity living
-                ? living.getHealth() + living.getAbsorptionAmount() : 0.0F;
         boolean hit = super.doHurtTarget(entity);
         if (hit && entity instanceof LivingEntity living) {
-            applyMinimumDamage(living, healthBefore);
+            applyMinimumDamage(living);
             if (getBehaviorVariant() == BehaviorVariant.BERSERKER) {
                 living.addEffect(new MobEffectInstance(ModMobEffects.BLEED, 100, 0), this);
             } else if (getBehaviorVariant() == BehaviorVariant.VIRULENT) {
@@ -450,22 +448,32 @@ public class RupterEntity extends Monster implements CitadelAnimatedEntity, Para
         return hit;
     }
 
-    private void applyMinimumDamage(LivingEntity target, float healthBefore) {
+    /**
+     * Legacy {@code EntityParasiteBase.func_70652_k} + {@code attackEntityAsMobMinimum}
+     * (EntityParasiteBase.java:814/858, EntityMudo.java:63): a connecting melee swing
+     * <em>adds</em> the tier minimum damage on top of the ordinary attack rather than topping the
+     * hit up to that value. The extra damage is written straight onto health, so it ignores
+     * armour, enchantments, resistance and the vanilla invulnerability window.
+     *
+     * <p>The VIRA multiplier mirrors the original
+     * {@code MinimumDamage * (amp + 1) + MinimumDamage}, i.e. {@code base * (amp + 2)}.
+     */
+    private void applyMinimumDamage(LivingEntity target) {
         if (target == this || !target.isAlive() || target instanceof Parasite
                 || target instanceof Player player && player.getAbilities().invulnerable) {
             return;
         }
-        float dealt = healthBefore - target.getHealth() - target.getAbsorptionAmount();
-        float minimum = MobsConfig.rupterMinimumDamage();
-        if (dealt >= minimum || minimum <= 0.0F) {
+        float base = MobsConfig.rupterMinimumDamage();
+        if (base <= 0.0F) {
             return;
         }
-        float remaining = minimum - Math.max(0.0F, dealt);
-        float absorptionDamage = Math.min(target.getAbsorptionAmount(), remaining * 0.5F);
+        var viral = target.getEffect(ModMobEffects.VIRAL);
+        float amount = base * (viral == null ? 1.0F : viral.getAmplifier() + 2);
+        float absorptionDamage = Math.min(target.getAbsorptionAmount(), amount * 0.5F);
         if (absorptionDamage > 0.0F) {
             target.setAbsorptionAmount(target.getAbsorptionAmount() - absorptionDamage);
         }
-        target.setHealth(Math.max(0.0F, target.getHealth() - (remaining - absorptionDamage)));
+        target.setHealth(Math.max(0.0F, target.getHealth() - (amount - absorptionDamage)));
         level().broadcastEntityEvent(target, (byte) 2);
         if (target.getHealth() <= 0.0F) {
             target.die(damageSources().mobAttack(this));

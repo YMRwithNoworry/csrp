@@ -1,0 +1,197 @@
+{
+  "id": "rupter",
+  "originalClass": "EntityMudo",
+  "projectClass": "RupterEntity",
+  "facets": [
+    {
+      "name": "registration",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "CreateEntityMob(\"rupter\", EntityMudo.class, egg 0x313737/0x313737, 数值 id 12, SRPConfigMobs.mudoEnabled)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:296",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:143"
+          },
+          "note": "注册 id 与类一致；原版数值 id 12 在 1.21.1 无对应概念，其作用（掉落表键）由 loot table 取代"
+        },
+        {
+          "clause": "碰撞箱 func_70105_a(0.85F, 1.0F)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityMudo.java:61",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:143"
+          }
+        },
+        {
+          "clause": "眼高 func_70047_e() = 0.8F",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityMudo.java:352",
+            "project": "src/main/java/alku/csrp/entity/RupterEntity.java"
+          },
+          "note": "工程使用 EntityType 眼高参数，语义等价"
+        }
+      ]
+    },
+    {
+      "name": "attributes",
+      "status": "satisfied",
+      "clauses": [
+        {
+          "clause": "MAX_HEALTH = SRPAttributes.MUDO_HEALTH (10)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityMudo.java:222",
+            "project": "src/main/java/alku/csrp/entity/RupterEntity.java:143"
+          }
+        },
+        {
+          "clause": "ARMOR = SRPAttributes.MUDO_ARMOR (5)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityMudo.java:223",
+            "project": "src/main/java/alku/csrp/entity/RupterEntity.java:145"
+          }
+        },
+        {
+          "clause": "ATTACK_DAMAGE = SRPAttributes.MUDO_ATTACK_DAMAGE (5)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityMudo.java:225",
+            "project": "src/main/java/alku/csrp/entity/RupterEntity.java:144"
+          }
+        },
+        {
+          "clause": "移动速度 0.3",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityMudo.java:224",
+            "project": "src/main/java/alku/csrp/entity/RupterEntity.java:147"
+          }
+        },
+        {
+          "clause": "击退抗性 SRPAttributes.MUDO_KD_RESISTANCE (0.2)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityMudo.java:226",
+            "project": "src/main/java/alku/csrp/entity/RupterEntity.java:146"
+          }
+        },
+        {
+          "clause": "跟随范围 32.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityMudo.java:227",
+            "project": "src/main/java/alku/csrp/entity/RupterEntity.java:148"
+          }
+        }
+      ]
+    },
+    {
+      "name": "damage_and_effects",
+      "status": "satisfied",
+      "clauses": [
+        {
+          "clause": "帧伤：func_70652_k 命中时先无条件调用 attackEntityAsMobMinimum(target, MiniDamage)，伤害直接 setHealth 扣除，穿透护甲/附魔/抗性/无敌帧；VIRA 存在时为 MinimumDamage*(amp+1) 再加 MinimumDamage",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:814",
+            "project": "src/main/java/alku/csrp/entity/RupterEntity.java:453"
+          },
+          "note": "批次：凶裂兽/裂兽帧伤还原。原版为「额外追加」，旧工程实现为「补足到下限」（dealt >= minimum 即 return），导致普通伤害足够时不再追加、威力显著低于原版；本次改为始终追加 base*(amp+2)，与原版 MinimumDamage*(amp+1)+MinimumDamage 等价"
+        },
+        {
+          "clause": "MiniDamage = SRPConfigMobs.mudoMinDamage (默认 0.1F)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityMudo.java:63",
+            "project": "src/main/java/alku/csrp/config/MobsConfig.java:63"
+          },
+          "note": "MobsConfig rupterMinimumDamage 默认 0.1D，与原版一致"
+        },
+        {
+          "clause": "攻击节奏 attackSpeedT = 10（getAttackSpeed 每 10 tick 挥击一次）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityMudo.java:65",
+            "project": "src/main/java/alku/csrp/entity/RupterEntity.java:845"
+          },
+          "note": "FastMeleeAttackGoal.getTicksUntilNextAttack() 返回 6，与原版 attackSpeedT=10 存在差异（原版 10 tick）"
+        },
+        {
+          "clause": "击杀目标后施加 COTH_E(3600) 并使目标转化为寄生体，自身获得缓慢 80 tick",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityMudo.java:257",
+            "project": "src/main/java/alku/csrp/entity/RupterEntity.java:493"
+          }
+        },
+        {
+          "clause": "命中对 player 施加缓慢 II 40 tick，非 COTH 时施加 COTH 3600 tick",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityMudo.java:247",
+            "project": "src/main/java/alku/csrp/entity/RupterEntity.java:445"
+          }
+        },
+        {
+          "clause": "skin 5 命中附加 VIRA_E(100)，skin 6 附加 BLEED_E(100)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityMudo.java:240",
+            "project": "src/main/java/alku/csrp/entity/RupterEntity.java:440"
+          },
+          "note": "工程以 BehaviorVariant(BERSERKER/VIRULENT) 表达 skin 5/6 的攻击附加效果"
+        }
+      ]
+    },
+    {
+      "name": "sync_data",
+      "status": "satisfied",
+      "clauses": [
+        {
+          "clause": "CLIMBING(byte) 攀爬同步（isBesideClimbableBlock / setBesideClimbableBlock）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityMudo.java:57",
+            "project": "src/main/java/alku/csrp/entity/RupterEntity.java:92"
+          }
+        }
+      ]
+    },
+    {
+      "name": "sounds",
+      "status": "satisfied",
+      "clauses": [
+        {
+          "clause": "getAmbientSound = getParasiteStatus() != 0 ? MOBSILENCE : MUDO_GROWL",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityMudo.java:404",
+            "project": "src/main/java/alku/csrp/entity/ParasiteSoundProfiles.java"
+          }
+        },
+        {
+          "clause": "getHurtSound = SRPSounds.MUDO_HURT",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityMudo.java:408",
+            "project": "src/main/java/alku/csrp/entity/ParasiteSoundProfiles.java"
+          }
+        },
+        {
+          "clause": "getDeathSound = SRPSounds.MUDO_DEATH",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityMudo.java:412",
+            "project": "src/main/java/alku/csrp/entity/ParasiteSoundProfiles.java"
+          }
+        }
+      ]
+    }
+  ],
+  "missingSummary": "本次仅登记帧伤相关条款（用户诉求）与可确证的基础条款；AI/生成/掉落/动画/模型等面尚未逐条审计，留待完整审计批次。",
+  "confidence": "partial"
+}

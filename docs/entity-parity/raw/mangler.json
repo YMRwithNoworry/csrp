@@ -1,0 +1,181 @@
+{
+  "id": "mangler",
+  "originalClass": "EntityNuuh",
+  "projectClass": "ManglerEntity",
+  "facets": [
+    {
+      "name": "registration",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "CreateEntityMob(\"mangler\", EntityNuuh.class, egg 0x313737/0x313737, 数值 id 76, SRPConfigMobs.nuuhEnabled)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/init/SRPEntities.java:299",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:240"
+          },
+          "note": "注册 id 与类一致；原版数值 id 76 在 1.21.1 无对应概念，其作用（掉落表键）由 loot table 取代"
+        },
+        {
+          "clause": "碰撞箱 func_70105_a(1.0F, 1.0F)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityNuuh.java:51",
+            "project": "src/main/java/alku/csrp/registry/ModEntities.java:241"
+          }
+        },
+        {
+          "clause": "眼高 func_70047_e() = 0.9F",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityNuuh.java:219",
+            "project": "src/main/java/alku/csrp/entity/ManglerEntity.java"
+          },
+          "note": "工程使用 EntityType 眼高参数，语义等价"
+        }
+      ]
+    },
+    {
+      "name": "attributes",
+      "status": "satisfied",
+      "clauses": [
+        {
+          "clause": "MAX_HEALTH = SRPAttributes.NUUH_HEALTH (17)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityNuuh.java:137",
+            "project": "src/main/java/alku/csrp/entity/ManglerEntity.java:120"
+          }
+        },
+        {
+          "clause": "ARMOR = SRPAttributes.NUUH_ARMOR (10)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityNuuh.java:138",
+            "project": "src/main/java/alku/csrp/entity/ManglerEntity.java:121"
+          }
+        },
+        {
+          "clause": "ATTACK_DAMAGE = SRPAttributes.NUUH_ATTACK_DAMAGE (9)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityNuuh.java:140",
+            "project": "src/main/java/alku/csrp/entity/ManglerEntity.java:122"
+          }
+        },
+        {
+          "clause": "移动速度 0.37",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityNuuh.java:139",
+            "project": "src/main/java/alku/csrp/entity/ManglerEntity.java:123"
+          }
+        },
+        {
+          "clause": "击退抗性 SRPAttributes.NUUH_KD_RESISTANCE (0.6)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityNuuh.java:141",
+            "project": "src/main/java/alku/csrp/entity/ManglerEntity.java:124"
+          }
+        },
+        {
+          "clause": "跟随范围 32.0",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityNuuh.java:142",
+            "project": "src/main/java/alku/csrp/entity/ManglerEntity.java:125"
+          }
+        }
+      ]
+    },
+    {
+      "name": "damage_and_effects",
+      "status": "satisfied",
+      "clauses": [
+        {
+          "clause": "帧伤：func_70652_k 命中时先无条件调用 attackEntityAsMobMinimum(target, MiniDamage)，伤害直接 setHealth 扣除，穿透护甲/附魔/抗性/无敌帧；VIRA 存在时为 MinimumDamage*(amp+1) 再加 MinimumDamage",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase.java:814",
+            "project": "src/main/java/alku/csrp/entity/ManglerEntity.java:365"
+          },
+          "note": "批次：凶裂兽/裂兽帧伤还原。原版为「额外追加」，旧工程实现为「补足到下限」（dealt >= minimum 即 return），导致普通伤害足够时不再追加、威力显著低于原版；本次改为始终追加 base*(amp+2)，与原版 MinimumDamage*(amp+1)+MinimumDamage 等价"
+        },
+        {
+          "clause": "MiniDamage = SRPConfigMobs.nuuhMinDamage (默认 0.3F)",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityNuuh.java:89",
+            "project": "src/main/java/alku/csrp/config/MobsConfig.java:75"
+          },
+          "note": "MobsConfig manglerMinimumDamage 默认 0.3D，与原版一致"
+        },
+        {
+          "clause": "攻击节奏 attackSpeedT = 6（getAttackSpeed 每 6 tick 挥击一次，配合帧伤即为每 6 tick 一笔穿透伤害）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityNuuh.java:94",
+            "project": "src/main/java/alku/csrp/entity/ManglerEntity.java:400"
+          },
+          "note": "FastMeleeAttackGoal.getTicksUntilNextAttack() 返回 6，与原版 attackSpeedT=6 一致"
+        },
+        {
+          "clause": "func_82167_n 接触路径对非 parasite 施加 MiniDamage*0.5（EntityPMalleable.java:585）",
+          "verdict": "partial",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPMalleable.java:585",
+            "project": "src/main/java/alku/csrp/entity/ManglerEntity.java:200"
+          },
+          "note": "工程 push() 只对 VIRAL_VARIANT 施加 VIRA，未走 MiniDamage*0.5 接触帧伤；原版对任意碰撞目标施加"
+        }
+      ]
+    },
+    {
+      "name": "sync_data",
+      "status": "partial",
+      "clauses": [
+        {
+          "clause": "CLIMBING(byte) 攀爬同步（isBesideClimbableBlock / setBesideClimbableBlock）",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityNuuh.java:47",
+            "project": "src/main/java/alku/csrp/entity/ManglerEntity.java:57"
+          }
+        }
+      ]
+    },
+    {
+      "name": "sounds",
+      "status": "satisfied",
+      "clauses": [
+        {
+          "clause": "getAmbientSound = getParasiteStatus() != 0 ? MOBSILENCE : NUUH_GROWL",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityNuuh.java:255",
+            "project": "src/main/java/alku/csrp/entity/ParasiteSoundProfiles.java"
+          }
+        },
+        {
+          "clause": "getHurtSound = SRPSounds.NUUH_HURT",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityNuuh.java:259",
+            "project": "src/main/java/alku/csrp/entity/ParasiteSoundProfiles.java"
+          }
+        },
+        {
+          "clause": "getDeathSound = SRPSounds.NUUH_DEATH",
+          "verdict": "satisfied",
+          "evidence": {
+            "original": "_srp-orig/decomp-1.10.9/dhanantry/scapeandrunparasites/entity/monster/inborn/EntityNuuh.java:263",
+            "project": "src/main/java/alku/csrp/entity/ParasiteSoundProfiles.java"
+          }
+        }
+      ]
+    }
+  ],
+  "missingSummary": "本次仅登记帧伤相关条款（用户诉求）与可确证的基础条款；AI/生成/掉落/动画/模型等面尚未逐条审计，留待完整审计批次。",
+  "confidence": "partial"
+}
