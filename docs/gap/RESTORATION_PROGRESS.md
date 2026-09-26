@@ -4643,4 +4643,19 @@ NeoForge 的 `EntityAttributeCreationEvent`（registry init）早于 COMMON 配�
 dev server `Done (2.478s)`，dev client 进入世界连续运行约 3.5 分钟无崩溃，
 `defineId called for` 警告计数 0，无 `Duplicate id value`、无 `Cannot get config value`。
 
+## 批次 270：模组图标（2026-09-26）
+
+用户提供一张 1254×1254 的霓虹徽标图（绿/品红 + 人形与原子轨道），要求加为模组图标。
+
+- 新增 `tools/png-resize.js`：纯 JS PNG 编解码（复用 `png-crop.js` 的 decode/encode）+
+  **面积平均（box）降采样**，支持非整数缩放比（1254 → 256 不丢行、不重复行）。
+- 产出 `src/main/resources/csrp.png`（256×256，约 110 KB，落在 jar 根目录）。
+- `src/main/templates/META-INF/neoforge.mods.toml` 的 `logoFile` 由注释改为
+  `logoFile="csrp.png"`（FML 从 jar 根读该文件名显示在模组列表）。
+
+**验证**：`build` 通过；`build/resources/main/META-INF/neoforge.mods.toml:28` 与 jar 内
+`META-INF/neoforge.mods.toml` 均含 `logoFile="csrp.png"`，`tar -tf csrp-1.10.8.jar` 可见根目录 `csrp.png`；
+`node scripts/run-all-verifications.cjs` 维持基线 **99 / 79 / 20**。
+
+
 
