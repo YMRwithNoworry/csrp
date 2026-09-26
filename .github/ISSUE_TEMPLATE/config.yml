@@ -1,4 +1,4 @@
-# 只保留「提交 ESU」表单，避免问题被提交成没有上下文的空白 issue。
+# 只保留「提交 issue」表单，避免问题被提交成没有上下文的空白 issue。
 # 若希望允许空白 issue，把 blank_issues_enabled 改成 true 即可。
 blank_issues_enabled: false
 contact_links:

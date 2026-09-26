@@ -1,6 +1,5 @@
-name: 提交 ESU
+name: 提交 issue
 description: 反馈 CSRP 的问题、说明你期待的效果，并附上报错文件
-title: "[ESU] "
 body:
   - type: markdown
     attributes:

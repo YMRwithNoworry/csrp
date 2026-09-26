@@ -4686,10 +4686,11 @@ GitHub API `GET /repos/YMRwithNoworry/csrp` 已回报 `license.key = "mit"` / `s
 `license = "MIT"`、`displayName` / `authors` / `description` / `credits` / `displayURL` / `issueTrackerURL` 均已落地；
 全仓已无 "All rights reserved" 残留；`node scripts/run-all-verifications.cjs` 维持基线 **99 / 79 / 20**。
 
-## 批次 272：GitHub issue 表单「提交 ESU」（2026-09-26）
+## 批次 272：GitHub issue 表单「提交 issue」（2026-09-26）
 
-需求：把仓库的 ESU 模板定为「提交 ESU」，正文按三步——先选 CSRP 版本（如 1.20.1、1.21.1 和 26.3），
+需求：把仓库的 issue 模板定为「提交 issue」，正文按三步——先选 CSRP 版本（如 1.20.1、1.21.1 和 26.3），
 再具体反馈问题并描述期待的效果，可以的话附上报错文件。
+（首版误把 issue 写成 "ESU"，用户指正后已全部改为 issue：文件名、`name`、标题前缀、README 与台账。）
 
 **现状**：仓库此前**没有任何 `.github/` 目录**（无 issue 模板），因此是新建而非改写。
 
@@ -4697,10 +4698,10 @@ GitHub API `GET /repos/YMRwithNoworry/csrp` 已回报 `license.key = "mit"` / `s
 
 | 文件 | 内容 |
 | --- | --- |
-| `.github/ISSUE_TEMPLATE/esu.yml` | issue 表单，`name: 提交 ESU`，标题前缀 `[ESU] `；字段依次为 **CSRP 版本**（dropdown：`1.20.1` / `1.21.1` / `26.3` / 其他，必填）→ 具体构建（选填）→ **问题描述**（必填）→ **期待的效果**（必填）→ **报错文件**（选填，提示把 crash-report/latest.log 拖进输入框上传为附件）→ 运行环境（选填） |
-| `.github/ISSUE_TEMPLATE/config.yml` | `blank_issues_enabled: false`（强制走 ESU 表单）+ 两条 contact_links（README、NOTICE） |
+| `.github/ISSUE_TEMPLATE/issue.yml` | issue 表单，`name: 提交 issue`（无标题前缀）；字段依次为 **CSRP 版本**（dropdown：`1.20.1` / `1.21.1` / `26.3` / 其他，必填）→ 具体构建（选填）→ **问题描述**（必填）→ **期待的效果**（必填）→ **报错文件**（选填，提示把 crash-report/latest.log 拖进输入框上传为附件）→ 运行环境（选填） |
+| `.github/ISSUE_TEMPLATE/config.yml` | `blank_issues_enabled: false`（强制走该表单）+ 两条 contact_links（README、NOTICE） |
 
-README 中英两处补了「反馈问题（提交 ESU）」小节，指向该表单。
+README 中英两处补了「反馈问题（提交 issue）」小节，指向该表单。
 
 **验证**：用 `js-yaml` 解析两个 YAML 并做 schema 自检（type 合法、id 唯一且符合 `[A-Za-z0-9_-]+`、
 dropdown 有 options、required 为布尔、contact_links 三字段齐全）——全部通过；

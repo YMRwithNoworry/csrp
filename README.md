@@ -72,9 +72,9 @@ during the build.
 3. Cite evidence when restoring original behaviour — the ledger convention in
    `docs/entity-parity/` is what makes this port auditable.
 
-### Reporting a problem (ESU)
+### Reporting a problem
 
-Use the [**提交 ESU**](../../issues/new?template=esu.yml) issue form: pick the CSRP version you run
+Use the [**提交 issue**](../../issues/new?template=issue.yml) issue form: pick the CSRP version you run
 (1.20.1 / 1.21.1 / 26.3), describe the problem and the behaviour you expected, and — if you can —
 attach your `crash-report` or `latest.log`.
 
@@ -137,7 +137,7 @@ SRP 由 **dhanantry** 与 SRP 官方开发组制作，官方版本停留在 Mine
    套件有已知失败基线，不要把基线弄得更差。
 3. 还原原版行为时请附出处——`docs/entity-parity/` 的记账约定正是本仓库可被审计的原因。
 
-### 反馈问题（提交 ESU）
+### 反馈问题（提交 issue）
 
-请用 [**提交 ESU**](../../issues/new?template=esu.yml) 表单：先选你使用的 CSRP 版本（1.20.1 / 1.21.1 / 26.3），
+请用 [**提交 issue**](../../issues/new?template=issue.yml) 表单：先选你使用的 CSRP 版本（1.20.1 / 1.21.1 / 26.3），
 再具体反馈问题并描述期待的效果，如果可以的话把 `crash-report` 或 `latest.log` 一并附上。
