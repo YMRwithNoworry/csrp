@@ -4657,5 +4657,31 @@ dev server `Done (2.478s)`，dev client 进入世界连续运行约 3.5 分钟�
 `META-INF/neoforge.mods.toml` 均含 `logoFile="csrp.png"`，`tar -tf csrp-1.10.8.jar` 可见根目录 `csrp.png`；
 `node scripts/run-all-verifications.cjs` 维持基线 **99 / 79 / 20**。
 
+## 批次 271：仓库转为开源（MIT）+ 初心声明（2026-09-26）
+
+需求：把仓库从闭源改为开源、协议改 MIT，并明确写出「期待 SRP 官方开发组利用本仓库把 SRP 迁移到高版本」这一创建初心。
+
+**现状核对**：仓库在 GitHub 上本就是公开可读（未认证 API `GET /repos/YMRwithNoworry/csrp` 返回 200），
+所谓「闭源」实际是**授权与元数据层面**：根目录没有 LICENSE / README，`mods.toml` 模板注释还写着
+"All rights reserved is the default"，`gradle.properties` 的 `mod_authors` / `mod_description` 为空。
+（`mod_license` 原本已是 `MIT`，但缺少 LICENSE 正文，GitHub 不会识别。）
+
+**改动**：
+
+| 文件 | 内容 |
+| --- | --- |
+| `LICENSE`（新增） | 标准 MIT 全文，版权行 `Copyright (c) 2026 Paojiao134`（与 git 提交身份一致）；文末附第三方声明 |
+| `README.md`（新增） | 中英双语：项目定位、**初心声明**（期待 SRP 官方开发组用本仓库迁移 SRP 到更高版本，拿去/fork/改名/换协议/要仓库转移都可以）、MIT 协议与第三方声明、构建命令、目录结构、贡献约定 |
+| `gradle.properties` | `mod_name` 改为 `CSRP (Scape and Run: Parasites port)`；补 `mod_authors`（本移植 + 原版作者）；补 `mod_description`（含初心一句）；`mod_license` 注释更新为开源说明 |
+| `neoforge.mods.toml` | license 注释改为 MIT + 第三方声明；启用 `displayURL` / `issueTrackerURL`（指向 GitHub 仓库）；启用 `credits`（点明 dhanantry 与 SRP 官方开发组） |
+
+**第三方声明（关键）**：SRP 的名称、素材、音效与玩法设计归 dhanantry 与 SRP 官方开发组所有，**不在 MIT 覆盖范围内**，
+本仓库不主张相关权利；出现在这里只为在更高版本 Minecraft 上重建 SRP 并期待原作者接手。LICENSE 文末与 README 均写明。
+
+**验证**：`build` 通过；生成的 `build/resources/main/META-INF/neoforge.mods.toml` 中
+`license = "MIT"`、`displayName` / `authors` / `description` / `credits` / `displayURL` / `issueTrackerURL` 均已落地；
+全仓已无 "All rights reserved" 残留；`node scripts/run-all-verifications.cjs` 维持基线 **99 / 79 / 20**。
+
+
 
 
