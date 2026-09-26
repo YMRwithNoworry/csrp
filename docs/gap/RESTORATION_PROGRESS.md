@@ -4675,8 +4675,12 @@ dev server `Done (2.478s)`，dev client 进入世界连续运行约 3.5 分钟�
 | `gradle.properties` | `mod_name` 改为 `CSRP (Scape and Run: Parasites port)`；补 `mod_authors`（本移植 + 原版作者）；补 `mod_description`（含初心一句）；`mod_license` 注释更新为开源说明 |
 | `neoforge.mods.toml` | license 注释改为 MIT + 第三方声明；启用 `displayURL` / `issueTrackerURL`（指向 GitHub 仓库）；启用 `credits`（点明 dhanantry 与 SRP 官方开发组） |
 
-**第三方声明（关键）**：SRP 的名称、素材、音效与玩法设计归 dhanantry 与 SRP 官方开发组所有，**不在 MIT 覆盖范围内**，
-本仓库不主张相关权利；出现在这里只为在更高版本 Minecraft 上重建 SRP 并期待原作者接手。LICENSE 文末与 README 均写明。
+**第三方声明（关键）**：SRP 的名称、素材、贴图、模型、音效、动画、配置键与玩法设计归 dhanantry 与 SRP 官方开发组所有，
+**不在 MIT 覆盖范围内**，本仓库不主张相关权利；出现在这里只为在更高版本 Minecraft 上重建 SRP 并期待原作者接手。
+
+**收尾修正**：首版把第三方声明附在 `LICENSE` 末尾，GitHub licensee 因此识别为 `Other / NOASSERTION`（其检测要求 LICENSE 只含协议正文）。
+现 `LICENSE` 只保留标准 MIT 全文，第三方声明独立为 `NOTICE`，README 中英两处均指向 `NOTICE`；
+GitHub API `GET /repos/YMRwithNoworry/csrp` 已回报 `license.key = "mit"` / `spdx_id = "MIT"`，且 `visibility = "public"`（该仓库本就是公开仓库，本次改的是授权与元数据层面）。
 
 **验证**：`build` 通过；生成的 `build/resources/main/META-INF/neoforge.mods.toml` 中
 `license = "MIT"`、`displayName` / `authors` / `description` / `credits` / `displayURL` / `issueTrackerURL` 均已落地；
