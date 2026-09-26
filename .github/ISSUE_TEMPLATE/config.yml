@@ -1,0 +1,10 @@
+# 只保留「提交 ESU」表单，避免问题被提交成没有上下文的空白 issue。
+# 若希望允许空白 issue，把 blank_issues_enabled 改成 true 即可。
+blank_issues_enabled: false
+contact_links:
+  - name: 先看 README（构建方式 / 目录结构 / 贡献约定）
+    url: https://github.com/YMRwithNoworry/csrp/blob/main/README.md
+    about: 如何自行构建、仓库结构与提交约定
+  - name: 关于协议与第三方声明
+    url: https://github.com/YMRwithNoworry/csrp/blob/main/NOTICE
+    about: 本项目为 MIT 开源的 SRP 非官方移植；SRP 本体权利归 dhanantry 与 SRP 官方开发组

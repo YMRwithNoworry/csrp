@@ -1,0 +1,78 @@
+name: 提交 ESU
+description: 反馈 CSRP 的问题、说明你期待的效果，并附上报错文件
+title: "[ESU] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈！请按下面三步填写，信息越完整越容易被定位：
+
+        1. **首先**，选择你使用的 **CSRP 版本**（例如 1.20.1、1.21.1 和 26.3）。
+        2. **然后**，在下方具体反馈你的问题，并描述期待的效果。
+        3. **如果可以的话**，在这里附上你的报错文件（`crash-report` 或 `latest.log`，
+           直接把文件拖进输入框即可上传为附件，也可以粘贴关键堆栈）。
+
+  - type: dropdown
+    id: csrp_version
+    attributes:
+      label: CSRP 版本
+      description: 你正在使用的 CSRP 版本（对应 Minecraft 版本线）
+      options:
+        - "1.20.1"
+        - "1.21.1"
+        - "26.3"
+        - "其他（请在问题描述里说明）"
+    validations:
+      required: true
+
+  - type: input
+    id: build
+    attributes:
+      label: 具体构建 / 来源
+      description: 如果是自己构建的，请写上提交号；如果用的是发布的 jar，请写上文件名
+      placeholder: 例如：commit e322443a 自建 jar / csrp-1.10.8.jar
+    validations:
+      required: false
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 问题描述
+      description: 具体在这里反馈你的问题
+      placeholder: |
+        例如：
+        进入世界约 1 分钟后，附近的寄生体突然全部消失，附近没有调度柱……
+        复现步骤：1) … 2) … 3) …
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: 期待的效果
+      description: 描述你期待的效果
+      placeholder: |
+        例如：
+        寄生体应当留在原地；即使被回收，也应该在原地留下活体囊肿……
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: 报错文件（如果可以的话）
+      description: 把 crash-report / latest.log 拖进这个输入框即可上传为附件，也可以直接粘贴关键堆栈
+      placeholder: |
+        拖入 .txt / .log / .zip 文件，或粘贴关键堆栈与 latest.log 片段
+    validations:
+      required: false
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: 运行环境（可选）
+      description: 其他模组、启动器、Java 版本等；如果问题只在装了某些模组时出现，请列出来
+      placeholder: |
+        例如：NeoForge 21.1.235 / JDK 21 / 27 个模组（sodium、iris、citadel…）
+    validations:
+      required: false
