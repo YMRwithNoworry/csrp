@@ -13,6 +13,9 @@ public final class Config {
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
     private static final List<Integer> DEFAULT_DISLODGMENT_PHASE_CODES = List.of(
             1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25);
+    /** Original "every event" trigger list: player actions 0-5 plus world events 10-18. */
+    private static final List<Integer> ALL_DISLODGMENT_TRIGGERS =
+            List.of(0, 1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15, 16, 17, 18);
     private static final ForgeConfigSpec.IntValue EVOLUTION_PHASE = BUILDER
             .comment("Current parasite evolution phase used by phase-gated spawning and behavior.")
             .defineInRange("evolutionPhase", -1, -2, 10);
@@ -838,8 +841,73 @@ public final class Config {
     private static final ForgeConfigSpec.IntValue DISLO_BURNING_DEATH_COOLDOWN = BUILDER
             .defineInRange("disloBurningDeathCooldown", 180, 0, Integer.MAX_VALUE);
     private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_BURNING_DEATH_TRIGGERS =
-            dislodgmentTriggers("disloBurningDeathTriggers",
-                    List.of(0, 1, 2, 3, 4, 5, 10, 11, 12, 13, 14, 15, 16, 17, 18));
+            dislodgmentTriggers("disloBurningDeathTriggers", ALL_DISLODGMENT_TRIGGERS);
+    private static final ForgeConfigSpec.IntValue DISLODGMENT_UNLOCK_PHASE = BUILDER
+            .comment("Original evolutionDislodgment: phase at which dislodgment triggers unlock.")
+            .defineInRange("dislodgmentUnlockPhase", 11, -2, 100);
+    private static final ForgeConfigSpec.IntValue DISLODGMENT_UNLOCK_DEVELOPMENT = BUILDER
+            .comment("Original deveDisloUse: ubiquitous development level that also unlocks dislodgment.")
+            .defineInRange("dislodgmentUnlockDevelopment", 1, 0, 4);
+    private static final ForgeConfigSpec.IntValue DISLO_REMAIN_PLUS = BUILDER
+            .comment("Original canraadaptedremainplus: remains progress added once dislodgment 20 wakes them.")
+            .defineInRange("disloRemainPlus", 3, 0, 10000);
+    private static final ForgeConfigSpec.DoubleValue DISLO_REMAIN_HEALTH = BUILDER
+            .comment("Original canraadaptedremainhealth: rebuilt-body health multiplier used with 20.")
+            .defineInRange("disloRemainHealth", 1.5D, 0.0D, 10000.0D);
+    private static final ForgeConfigSpec.BooleanValue DISLO_KILLCOUNT_INC = BUILDER
+            .define("disloKillcountInc", true);
+    private static final ForgeConfigSpec.IntValue DISLO_KILLCOUNT_INC_POINT_COST = BUILDER
+            .defineInRange("disloKillcountIncPointCost", 100, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue DISLO_KILLCOUNT_INC_VALUE = BUILDER
+            .defineInRange("disloKillcountIncValue", 10, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue DISLO_KILLCOUNT_INC_DURATION = BUILDER
+            .defineInRange("disloKillcountIncDuration", 60, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue DISLO_KILLCOUNT_INC_COOLDOWN = BUILDER
+            .defineInRange("disloKillcountIncCooldown", 240, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_KILLCOUNT_INC_TRIGGERS =
+            dislodgmentTriggers("disloKillcountIncTriggers", List.of(1, 10, 16));
+    private static final ForgeConfigSpec.BooleanValue DISLO_GIVE_BODIES = BUILDER
+            .define("disloGiveBodies", true);
+    private static final ForgeConfigSpec.IntValue DISLO_GIVE_BODIES_POINT_COST = BUILDER
+            .defineInRange("disloGiveBodiesPointCost", 150, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue DISLO_GIVE_BODIES_DURATION = BUILDER
+            .defineInRange("disloGiveBodiesDuration", 300, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue DISLO_GIVE_BODIES_COOLDOWN = BUILDER
+            .defineInRange("disloGiveBodiesCooldown", 150, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_GIVE_BODIES_TRIGGERS =
+            dislodgmentTriggers("disloGiveBodiesTriggers", ALL_DISLODGMENT_TRIGGERS);
+    private static final ForgeConfigSpec.BooleanValue DISLO_SAME_VERSION_DYEING = BUILDER
+            .define("disloSameVersionDyeing", true);
+    private static final ForgeConfigSpec.IntValue DISLO_SAME_VERSION_DYEING_POINT_COST = BUILDER
+            .defineInRange("disloSameVersionDyeingPointCost", 100, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue DISLO_SAME_VERSION_DYEING_VALUE = BUILDER
+            .defineInRange("disloSameVersionDyeingValue", 1, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue DISLO_SAME_VERSION_DYEING_DURATION = BUILDER
+            .defineInRange("disloSameVersionDyeingDuration", 300, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue DISLO_SAME_VERSION_DYEING_COOLDOWN = BUILDER
+            .defineInRange("disloSameVersionDyeingCooldown", 60, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_SAME_VERSION_DYEING_TRIGGERS =
+            dislodgmentTriggers("disloSameVersionDyeingTriggers", ALL_DISLODGMENT_TRIGGERS);
+    private static final ForgeConfigSpec.BooleanValue DISLO_PARASITE_BLOCK = BUILDER
+            .define("disloParasiteBlock", true);
+    private static final ForgeConfigSpec.IntValue DISLO_PARASITE_BLOCK_POINT_COST = BUILDER
+            .defineInRange("disloParasiteBlockPointCost", 10, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue DISLO_PARASITE_BLOCK_VALUE = BUILDER
+            .defineInRange("disloParasiteBlockValue", 1, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue DISLO_PARASITE_BLOCK_VALUE1 = BUILDER
+            .defineInRange("disloParasiteBlockValue1", 9, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue DISLO_PARASITE_BLOCK_VALUE2 = BUILDER
+            .defineInRange("disloParasiteBlockValue2", 15, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue DISLO_PARASITE_BLOCK_VALUE3 = BUILDER
+            .defineInRange("disloParasiteBlockValue3", 21, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue DISLO_PARASITE_BLOCK_DURATION = BUILDER
+            .defineInRange("disloParasiteBlockDuration", 10, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue DISLO_PARASITE_BLOCK_COOLDOWN = BUILDER
+            .defineInRange("disloParasiteBlockCooldown", 10, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.DoubleValue DISLO_PARASITE_BLOCK_CHANCE = BUILDER
+            .defineInRange("disloParasiteBlockChance", 0.2D, 0.0D, 1.0D);
+    private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_PARASITE_BLOCK_TRIGGERS =
+            dislodgmentTriggers("disloParasiteBlockTriggers", ALL_DISLODGMENT_TRIGGERS);
 
     static final ForgeConfigSpec SPEC = BUILDER.build();
 
@@ -1174,6 +1242,29 @@ public final class Config {
     public static boolean disloBurningDeath() { return DISLO_BURNING_DEATH.get(); }
     public static int disloBurningDeathPointCost() { return DISLO_BURNING_DEATH_POINT_COST.get(); }
     public static int disloBurningDeathDuration() { return DISLO_BURNING_DEATH_DURATION.get(); }
+    public static int disloRemainPlus() { return DISLO_REMAIN_PLUS.get(); }
+    public static double disloRemainHealth() { return DISLO_REMAIN_HEALTH.get(); }
+    public static int dislodgmentUnlockPhase() { return DISLODGMENT_UNLOCK_PHASE.get(); }
+    public static int dislodgmentUnlockDevelopment() { return DISLODGMENT_UNLOCK_DEVELOPMENT.get(); }
+    public static boolean disloKillcountInc() { return DISLO_KILLCOUNT_INC.get(); }
+    public static int disloKillcountIncPointCost() { return DISLO_KILLCOUNT_INC_POINT_COST.get(); }
+    public static int disloKillcountIncValue() { return DISLO_KILLCOUNT_INC_VALUE.get(); }
+    public static int disloKillcountIncDuration() { return DISLO_KILLCOUNT_INC_DURATION.get(); }
+    public static boolean disloGiveBodies() { return DISLO_GIVE_BODIES.get(); }
+    public static int disloGiveBodiesPointCost() { return DISLO_GIVE_BODIES_POINT_COST.get(); }
+    public static int disloGiveBodiesDuration() { return DISLO_GIVE_BODIES_DURATION.get(); }
+    public static boolean disloSameVersionDyeing() { return DISLO_SAME_VERSION_DYEING.get(); }
+    public static int disloSameVersionDyeingPointCost() { return DISLO_SAME_VERSION_DYEING_POINT_COST.get(); }
+    public static int disloSameVersionDyeingValue() { return DISLO_SAME_VERSION_DYEING_VALUE.get(); }
+    public static int disloSameVersionDyeingDuration() { return DISLO_SAME_VERSION_DYEING_DURATION.get(); }
+    public static boolean disloParasiteBlock() { return DISLO_PARASITE_BLOCK.get(); }
+    public static int disloParasiteBlockPointCost() { return DISLO_PARASITE_BLOCK_POINT_COST.get(); }
+    public static int disloParasiteBlockValue() { return DISLO_PARASITE_BLOCK_VALUE.get(); }
+    public static int disloParasiteBlockValue1() { return DISLO_PARASITE_BLOCK_VALUE1.get(); }
+    public static int disloParasiteBlockValue2() { return DISLO_PARASITE_BLOCK_VALUE2.get(); }
+    public static int disloParasiteBlockValue3() { return DISLO_PARASITE_BLOCK_VALUE3.get(); }
+    public static int disloParasiteBlockDuration() { return DISLO_PARASITE_BLOCK_DURATION.get(); }
+    public static double disloParasiteBlockChance() { return DISLO_PARASITE_BLOCK_CHANCE.get(); }
 
     public static List<? extends Integer> dislodgmentTriggers(int code) {
         return switch (code) {
@@ -1196,7 +1287,11 @@ public final class Config {
             case 16 -> DISLO_WALK_NOISE_TRIGGERS.get();
             case 17 -> DISLO_SHIELD_FOOD_TRIGGERS.get();
             case 18 -> DISLO_LOOT_XP_CANCEL_TRIGGERS.get();
+            case 19 -> DISLO_KILLCOUNT_INC_TRIGGERS.get();
+            case 20 -> DISLO_GIVE_BODIES_TRIGGERS.get();
             case 21 -> DISLO_BURNING_DEATH_TRIGGERS.get();
+            case 22 -> DISLO_SAME_VERSION_DYEING_TRIGGERS.get();
+            case 25 -> DISLO_PARASITE_BLOCK_TRIGGERS.get();
             default -> List.of();
         };
     }
@@ -1222,7 +1317,11 @@ public final class Config {
             case 16 -> DISLO_WALK_NOISE_COOLDOWN.get();
             case 17 -> DISLO_SHIELD_FOOD_COOLDOWN.get();
             case 18 -> DISLO_LOOT_XP_CANCEL_COOLDOWN.get();
+            case 19 -> DISLO_KILLCOUNT_INC_COOLDOWN.get();
+            case 20 -> DISLO_GIVE_BODIES_COOLDOWN.get();
             case 21 -> DISLO_BURNING_DEATH_COOLDOWN.get();
+            case 22 -> DISLO_SAME_VERSION_DYEING_COOLDOWN.get();
+            case 25 -> DISLO_PARASITE_BLOCK_COOLDOWN.get();
             default -> 0;
         };
     }

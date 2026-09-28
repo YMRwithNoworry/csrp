@@ -341,6 +341,9 @@ public final class EvolutionEvents {
         if (!(entity instanceof Parasite)) {
             return;
         }
+        if (entity instanceof alku.csrp.entity.PrimitiveParasiteEntity parasite && entity.tickCount % 20 == 0) {
+            parasite.addDislodgmentKillCount(DislodgmentSystem.killCountIncrement(level));
+        }
         EvolutionSystem.GenerationProfile profile = EvolutionSystem.generationProfile(level);
         updatePhaseTenAttributes(entity, level);
         if (entity.tickCount % 20 == 0 && InfectionMechanics.tryRestoreAssimilatedDisguise(entity)) {

@@ -407,7 +407,8 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         return hurt;
     }
 
-    private MobEffect killingResistanceEffect() {
+    /** Marker potion this parasite's tier reacts to; null when the tier has no "killing" mark. */
+    public MobEffect killingResistanceEffect() {
         if (this instanceof CrudeParasiteEntity) {
             return ModMobEffects.CRUDE.get();
         }
@@ -743,6 +744,21 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         legacyKillCount = Math.max(legacyKillCount, parasiteKills);
         onParasiteKill(level, victim, parasiteKills);
         return super.killedEntity(level, victim);
+    }
+
+    /**
+     * Original dislodgment code 19: while the code runs, {@code EntityParasiteBase} adds
+     * {@code disloNumberNineteenValue} to the parasite's kill count once per second.
+     */
+    public void addDislodgmentKillCount(int amount) {
+        if (amount <= 0) {
+            return;
+        }
+        parasiteKills += amount;
+        legacyKillCount = Math.max(legacyKillCount, parasiteKills);
+        if (level() instanceof ServerLevel serverLevel) {
+            onParasiteKill(serverLevel, this, parasiteKills);
+        }
     }
 
     protected void onParasiteKill(ServerLevel level, LivingEntity victim, int kills) {

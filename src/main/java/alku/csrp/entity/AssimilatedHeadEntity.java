@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.infection.InfectionMechanics;
+import alku.csrp.world.DislodgmentSystem;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
@@ -168,6 +169,12 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
                 setParasiteStatus(0);
             }
         }
+        // Original EntityInf*Head: with dislodgment 20 active the head rebuilds its body after 10 ticks.
+        if (tickCount == 10 && level() instanceof ServerLevel serverLevel
+                && DislodgmentSystem.bodiesGranted(serverLevel)) {
+            rebuildBody(serverLevel);
+            return;
+        }
         if (kind == Kind.ENDERMAN && tickCount % 20 == 0 && getTarget() != null
                 && distanceToSqr(getTarget()) > 4.0D && random.nextInt(3) == 0) {
             teleportAwayFromTarget(getTarget());
@@ -178,6 +185,40 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
                 InfectionMechanics.applyCoth(target, this);
             }
         }
+    }
+
+    /**
+     * Legacy {@code ParasiteEventEntity#spawnNext}: the body replaces this head, inheriting its name,
+     * persistence flag and skin, and the head is removed.
+     */
+    private boolean rebuildBody(ServerLevel serverLevel) {
+        Mob body = switch (kind) {
+            case COW -> ModEntities.SIM_COW.get().create(serverLevel);
+            case ENDERMAN -> ModEntities.SIM_ENDERMAN.get().create(serverLevel);
+            case HORSE -> ModEntities.SIM_HORSE.get().create(serverLevel);
+            case HUMAN -> ModEntities.SIM_HUMAN.get().create(serverLevel);
+            case PIG -> ModEntities.SIM_PIG.get().create(serverLevel);
+            case SHEEP -> ModEntities.SIM_SHEEP.get().create(serverLevel);
+            case VILLAGER -> ModEntities.SIM_VILLAGER.get().create(serverLevel);
+            case WOLF -> ModEntities.SIM_WOLF.get().create(serverLevel);
+        };
+        if (body == null) {
+            return false;
+        }
+        body.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
+        body.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
+                MobSpawnType.MOB_SUMMONED, null, null);
+        body.setCustomName(getCustomName());
+        body.setCustomNameVisible(isCustomNameVisible());
+        if (isPersistenceRequired()) {
+            body.setPersistenceRequired();
+        }
+        if (!serverLevel.addFreshEntity(body)) {
+            return false;
+        }
+        body.getPersistentData().putByte("parasiteskin", (byte) 7);
+        discard();
+        return true;
     }
 
     @Override
@@ -191,30 +232,10 @@ public final class AssimilatedHeadEntity extends Monster implements GeoEntity, P
     @Override
     public boolean doHurtTarget(Entity target) {
         if (target instanceof IncompleteFormMediumEntity && level() instanceof ServerLevel serverLevel) {
-            Mob body = switch (kind) {
-                case COW -> ModEntities.SIM_COW.get().create(serverLevel);
-                case ENDERMAN -> ModEntities.SIM_ENDERMAN.get().create(serverLevel);
-                case HORSE -> ModEntities.SIM_HORSE.get().create(serverLevel);
-                case HUMAN -> ModEntities.SIM_HUMAN.get().create(serverLevel);
-                case PIG -> ModEntities.SIM_PIG.get().create(serverLevel);
-                case SHEEP -> ModEntities.SIM_SHEEP.get().create(serverLevel);
-                case VILLAGER -> ModEntities.SIM_VILLAGER.get().create(serverLevel);
-                case WOLF -> ModEntities.SIM_WOLF.get().create(serverLevel);
-            };
-            if (body != null) {
-                body.moveTo(getX(), getY(), getZ(), getYRot(), getXRot());
-                body.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                        MobSpawnType.MOB_SUMMONED, null, null);
-                body.setCustomName(getCustomName());
-                body.setCustomNameVisible(isCustomNameVisible());
-                if (isPersistenceRequired()) {
-                    body.setPersistenceRequired();
-                }
-                serverLevel.addFreshEntity(body);
+            if (rebuildBody(serverLevel)) {
+                target.discard();
+                return true;
             }
-            target.discard();
-            discard();
-            return true;
         }
         LivingEntity livingTarget = target instanceof LivingEntity living ? living : null;
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);

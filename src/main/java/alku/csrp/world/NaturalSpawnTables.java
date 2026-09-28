@@ -307,6 +307,15 @@ public final class NaturalSpawnTables {
         if (!ubiquitous.isEmpty() && usesUbiquitousTable(level)) {
             return scaledWeights(ubiquitous);
         }
+        // Original SRPSpawning#getSpawnList: dislodgment code 5 clears the list, code 14 shifts the
+        // phase whose table is used ("the next phase's spawn list").
+        if (DislodgmentSystem.naturalSpawningSuppressed(level)) {
+            return List.of();
+        }
+        phase += DislodgmentSystem.naturalSpawnPhaseOffset(level);
+        if (phase > 10 || phase < -1) {
+            return List.of();
+        }
         return scaledWeights(phaseEntries(phase));
     }
 

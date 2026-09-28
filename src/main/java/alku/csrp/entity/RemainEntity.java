@@ -1,9 +1,11 @@
 package alku.csrp.entity;
 
+import alku.csrp.Config;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModParticles;
 import alku.csrp.registry.ModSounds;
+import alku.csrp.world.DislodgmentSystem;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -44,11 +46,18 @@ public final class RemainEntity extends Entity {
         if (level().isClientSide) {
             return;
         }
-        if (tickCount % 20 == 0
-                && (!level().getBlockState(blockPosition()).is(ModBlocks.INFESTED_REMAINS.get())
-                || parasite == null)) {
-            discard();
-            return;
+        if (tickCount % 20 == 0) {
+            if (!level().getBlockState(blockPosition()).is(ModBlocks.INFESTED_REMAINS.get())
+                    || parasite == null) {
+                discard();
+                return;
+            }
+            // Original EntityRemain: dislodgment 20 wakes a dormant remain and boosts the rebuilt body.
+            if (!active && level() instanceof ServerLevel serverLevel
+                    && DislodgmentSystem.bodiesGranted(serverLevel)) {
+                setPlus(Config.disloRemainPlus());
+                setHealth((float) Config.disloRemainHealth());
+            }
         }
         if (!active) {
             return;

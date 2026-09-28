@@ -2,6 +2,7 @@ package alku.csrp.world;
 
 import alku.csrp.Config;
 import alku.csrp.Csrp;
+import alku.csrp.config.WorldConfig;
 import alku.csrp.entity.DeterrentParasiteEntity;
 import alku.csrp.entity.NexusParasiteEntity;
 import alku.csrp.entity.Parasite;
@@ -135,6 +136,7 @@ public final class DislodgmentSystem {
             ResourceLocation blockId = BuiltInRegistries.BLOCK.getKey(event.getState().getBlock());
             if (Csrp.MODID.equals(blockId.getNamespace())) {
                 tryTrigger(level, 11, Config.dislodgmentBlockBreakTriggerChance(), event.getPos(), false);
+                spawnFromParasiteBlock(level, event.getPos(), SrpWorldData.get(level));
             }
         }
     }
@@ -269,6 +271,7 @@ public final class DislodgmentSystem {
         }
         tryTrigger(level, 10, Config.dislodgmentDeathTriggerChance(), dead.blockPosition(), false);
         applySummonByDeath(dead, event.getSource().getEntity(), data);
+        applySameVersionDyeing(dead, event.getSource().getEntity(), data);
         applyDeathAreaCodes(level, dead, data);
     }
 
@@ -319,7 +322,7 @@ public final class DislodgmentSystem {
         }
         SrpWorldData data = SrpWorldData.get(level);
         int phase = data.evolutionPhase();
-        if (!data.dislodgmentTriggerReady(level) || phase < 1 || phase > 10
+        if (!data.dislodgmentTriggerReady(level) || !dislodgmentUnlocked(level) || phase < 1 || phase > 10
                 || level.getRandom().nextDouble() > chance
                 || requireCothSpy && !hasCothSpy(level, position)) {
             return false;
@@ -343,19 +346,50 @@ public final class DislodgmentSystem {
         return started;
     }
 
+    /**
+     * Called by {@link SrpWorldData#startDislodgmentCode}. The original applies every code passively from
+     * the dimension's active-code array, so there is no start-side work left beyond code 5's spawn lock,
+     * which {@link #naturalSpawningSuppressed(ServerLevel)} enforces while the code runs.
+     */
     public static void onCodeStarted(ServerLevel level, int code, int value, long durationTicks) {
-        if (!Config.useDislodgment() || code != 5 || !Config.disloDeathRaid()) {
-            return;
+    }
+
+    /**
+     * Original {@code ParasiteEventWorld#setDisloWorldPhase}: dislodgment runs when the dimension is at
+     * {@code evolutionDislodgment} or the world reached {@code disloUse} ubiquitous development.
+     */
+    public static boolean dislodgmentUnlocked(ServerLevel level) {
+        if (!Config.useDislodgment()) {
+            return false;
         }
-        List<LivingEntity> parasites = new ArrayList<>();
-        for (Entity entity : level.getAllEntities()) {
-            if (entity instanceof LivingEntity living && living instanceof Parasite) {
-                parasites.add(living);
-            }
-        }
-        for (LivingEntity parasite : parasites) {
-            parasite.hurt(level.damageSources().fellOutOfWorld(), 10_000.0F);
-        }
+        SrpWorldData data = SrpWorldData.get(level);
+        return data.evolutionPhase() >= Config.dislodgmentUnlockPhase()
+                || EvolutionSystem.ubiquitousDevelopment(level.getServer()) >= Config.dislodgmentUnlockDevelopment();
+    }
+
+    /** Original code 5: while active {@code SRPSpawning#getSpawnList} returns no natural spawn list. */
+    public static boolean naturalSpawningSuppressed(ServerLevel level) {
+        return Config.useDislodgment() && Config.disloDeathRaid() && activeValue(SrpWorldData.get(level), 5) > 0;
+    }
+
+    /** Original code 14: {@code phase += vaal[14]} before the natural spawn list is picked. */
+    public static int naturalSpawnPhaseOffset(ServerLevel level) {
+        return Config.useDislodgment() && Config.disloNextPhaseList()
+                ? activeValue(SrpWorldData.get(level), 14)
+                : 0;
+    }
+
+    /** Original code 19: every second a parasite's kill count grows by {@code vaal[19]}. */
+    public static int killCountIncrement(ServerLevel level) {
+        return Config.useDislodgment() && Config.disloKillcountInc()
+                ? activeValue(SrpWorldData.get(level), 19)
+                : 0;
+    }
+
+    /** Original code 20: dormant remains wake up and infected heads rebuild their body. */
+    public static boolean bodiesGranted(ServerLevel level) {
+        return Config.useDislodgment() && Config.disloGiveBodies()
+                && activeValue(SrpWorldData.get(level), 20) > 0;
     }
 
     public static int activeCodeValue(ServerLevel level, int code) {
@@ -435,6 +469,26 @@ public final class DislodgmentSystem {
         if (Config.disloLootXpCancel()) {
             rules.add(new ActivationRule(18, 1, Config.disloLootXpCancelDuration(),
                     Config.disloLootXpCancelPointCost()));
+        }
+        if (Config.disloKillcountInc()) {
+            rules.add(new ActivationRule(19, Config.disloKillcountIncValue(),
+                    Config.disloKillcountIncDuration(), Config.disloKillcountIncPointCost()));
+        }
+        if (Config.disloGiveBodies()) {
+            rules.add(new ActivationRule(20, 1, Config.disloGiveBodiesDuration(),
+                    Config.disloGiveBodiesPointCost()));
+        }
+        if (Config.disloSameVersionDyeing()) {
+            rules.add(new ActivationRule(22, Config.disloSameVersionDyeingValue(),
+                    Config.disloSameVersionDyeingDuration(), Config.disloSameVersionDyeingPointCost()));
+        }
+        if (Config.disloParasiteBlock()) {
+            rules.add(new ActivationRule(25, Config.disloParasiteBlockValue(),
+                    Config.disloParasiteBlockDuration(), Config.disloParasiteBlockPointCost()));
+        }
+        if (Config.disloNextPhaseList()) {
+            rules.add(new ActivationRule(14, Config.disloNextPhaseListValue(),
+                    Config.disloNextPhaseListDuration(), Config.disloNextPhaseListPointCost()));
         }
         if (Config.disloBurningDeath()) {
             rules.add(new ActivationRule(21, 1, Config.disloBurningDeathDuration(),
@@ -610,6 +664,86 @@ public final class DislodgmentSystem {
         int newDuration = existing.getDuration() + 40 <= duration ? duration : existing.getDuration() + 10;
         int amplifier = Math.min(255, existing.getAmplifier() + 1);
         target.addEffect(new MobEffectInstance(ModMobEffects.JUGG.get(), newDuration, amplifier, false, false), source);
+    }
+
+    /**
+     * Original code 22 ({@code disloSameVersionDyeing}): a parasite killed while the code is active dyes
+     * its killer, clearing the five tier "killing" marks and stacking the feral mark the attack uses.
+     */
+    private static void applySameVersionDyeing(LivingEntity dead, Entity killer, SrpWorldData data) {
+        if (!(dead.level() instanceof ServerLevel level) || !Config.disloSameVersionDyeing()) {
+            return;
+        }
+        int count = activeValue(data, 22);
+        // Original EntityPFeral/PPrimitive/PAdapted/PPure/PStationary own this death callback: only the
+        // tiers that carry a "killing" mark dye their killer.
+        if (count < 1 || !(killer instanceof LivingEntity target)
+                || !(dead instanceof alku.csrp.entity.PrimitiveParasiteEntity parasite)
+                || parasite.killingResistanceEffect() == null) {
+            return;
+        }
+        target.removeEffect(ModMobEffects.PRIMITIVE.get());
+        target.removeEffect(ModMobEffects.ADAPTED.get());
+        target.removeEffect(ModMobEffects.PURE.get());
+        target.removeEffect(ModMobEffects.CRUDE.get());
+        target.removeEffect(ModMobEffects.NEXUS.get());
+        MobEffectInstance existing = target.getEffect(ModMobEffects.FERAL.get());
+        int amplifier = existing == null ? count : Math.min(255, existing.getAmplifier() + count);
+        int duration = existing == null ? 1200 : Math.max(1200, existing.getDuration());
+        target.addEffect(new MobEffectInstance(ModMobEffects.FERAL.get(), duration, amplifier, false, false), dead);
+        level.broadcastEntityEvent(target, (byte) 2);
+    }
+
+    /**
+     * Original {@code BlockBase#removedByPlayer} (code 25): breaking a parasite block can rebuild a
+     * parasite whose tier follows the code value, as long as the world mob cap is not exceeded.
+     */
+    private static void spawnFromParasiteBlock(ServerLevel level, BlockPos pos, SrpWorldData data) {
+        if (!Config.useDislodgment() || !Config.disloParasiteBlock()) {
+            return;
+        }
+        int value = activeValue(data, 25);
+        int cap = WorldConfig.naturalMobCap(level);
+        if (value <= 0 || level.getRandom().nextDouble() >= Config.disloParasiteBlockChance()
+                || cap > 0 && countParasites(level) > cap) {
+            return;
+        }
+        List<EntityType<? extends Mob>> pool = value >= Config.disloParasiteBlockValue3() ? pureTypes()
+                : value >= Config.disloParasiteBlockValue2() ? adaptedTypes()
+                : value >= Config.disloParasiteBlockValue1() ? primitiveTypes()
+                : feralTypes();
+        EntityType<? extends Mob> type = pool.get(level.getRandom().nextInt(pool.size()));
+        Mob spawned = type.create(level);
+        if (spawned == null) {
+            return;
+        }
+        spawned.moveTo(pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D,
+                level.getRandom().nextFloat() * 360.0F, 0.0F);
+        if (!level.noCollision(spawned)) {
+            spawned.discard();
+            return;
+        }
+        spawned.finalizeSpawn(level, level.getCurrentDifficultyAt(pos), MobSpawnType.MOB_SUMMONED, null, null);
+        if (level.addFreshEntity(spawned)) {
+            level.levelEvent(null, 1026, pos, 0);
+        }
+    }
+
+    private static int countParasites(ServerLevel level) {
+        int count = 0;
+        for (Entity entity : level.getAllEntities()) {
+            if (entity instanceof Parasite) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /** Original {@code ParasiteEventEntity#getRandomFeral} pool. */
+    private static List<EntityType<? extends Mob>> feralTypes() {
+        return List.of(ModEntities.FER_BEAR.get(), ModEntities.FER_COW.get(), ModEntities.FER_HORSE.get(),
+                ModEntities.FER_HUMAN.get(), ModEntities.FER_PIG.get(), ModEntities.FER_SHEEP.get(),
+                ModEntities.FER_VILLAGER.get(), ModEntities.FER_WOLF.get(), ModEntities.FER_ENDERMAN.get());
     }
 
     private static void applyDeathAreaCodes(ServerLevel level, LivingEntity dead, SrpWorldData data) {
