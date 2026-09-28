@@ -45,14 +45,14 @@ expectPattern(tables,
   "Late phase Dragon, Architect or preeminent group variants are wrong");
 
 expectPattern(tables,
-  /phase == -2 \|\| phase == -1 && !isInsideVector\(level, pos\)/,
-  "Phase -2 denial or phase -1 EIV radius gate is missing");
+  /phase == -2[\s\S]{0,200}phase == -1 && !isInsideVector\(level, pos\)[\s\S]{0,200}vectorlessSpawningUnlocked/, 
+  "Phase -2 denial, phase -1 EIV gate or the development-2 vectorless unlock is missing");
 expectPattern(tables,
   /vector\.health\(\) > 0 && vector\.pos\(\)\.distSqr\(pos\) <= radius \* radius/,
   "Natural spawning does not require a living EIV within its radius");
 expectPattern(tables,
-  /usesUbiquitousTable\(level\)[\s\S]*?getGameTime\(\)[\s\S]*?sample < UBIQUITOUS_TABLE_CHANCE/,
-  "UD 50 percent selection is not stable within a game tick");
+  /usesUbiquitousTable\(level\)[\s\S]*?getGameTime\(\)[\s\S]*?sample < Config\.ubiquitousMobChance\(\)/,
+  "UD spawn-list swap chance is not read from the config or is unstable within a game tick");
 expect(!tables.includes("level.random.nextDouble()"),
   "UD selection still rerolls whenever spawn candidates are queried");
 expectPattern(tables,

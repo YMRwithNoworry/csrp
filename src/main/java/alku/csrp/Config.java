@@ -909,6 +909,70 @@ public final class Config {
     private static final ForgeConfigSpec.ConfigValue<List<? extends Integer>> DISLO_PARASITE_BLOCK_TRIGGERS =
             dislodgmentTriggers("disloParasiteBlockTriggers", ALL_DISLODGMENT_TRIGGERS);
 
+    // ------------------------------------------------------------------
+    // Original "parasite_ubiquitous_development_1..4" categories (deve*).
+    // ------------------------------------------------------------------
+    private static final ForgeConfigSpec.DoubleValue UBIQUITOUS_MOB_CHANCE = BUILDER
+            .comment("Original deveMobChance: chance the ubiquitous spawn list replaces the phase list.")
+            .defineInRange("ubiquitousMobChance", 0.5D, 0.0D, 1.0D);
+    private static final ForgeConfigSpec.IntValue UBIQUITOUS_POINTS_1 = BUILDER
+            .comment("Original devePointsOne: phase sum needed for ubiquitous development 1.")
+            .defineInRange("ubiquitousPoints1", 4, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue UBIQUITOUS_DIMENSIONS_1 = BUILDER
+            .comment("Original deveMiniDimsOne: dimensions needed for ubiquitous development 1.")
+            .defineInRange("ubiquitousDimensions1", 1, 0, 1000);
+    private static final ForgeConfigSpec.IntValue UBIQUITOUS_POINTS_2 = BUILDER
+            .defineInRange("ubiquitousPoints2", 7, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue UBIQUITOUS_DIMENSIONS_2 = BUILDER
+            .defineInRange("ubiquitousDimensions2", 2, 0, 1000);
+    private static final ForgeConfigSpec.IntValue UBIQUITOUS_POINTS_3 = BUILDER
+            .defineInRange("ubiquitousPoints3", 10, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue UBIQUITOUS_DIMENSIONS_3 = BUILDER
+            .defineInRange("ubiquitousDimensions3", 2, 0, 1000);
+    private static final ForgeConfigSpec.IntValue UBIQUITOUS_POINTS_4 = BUILDER
+            .defineInRange("ubiquitousPoints4", 14, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.IntValue UBIQUITOUS_DIMENSIONS_4 = BUILDER
+            .defineInRange("ubiquitousDimensions4", 2, 0, 1000);
+    private static final ForgeConfigSpec.IntValue UBIQUITOUS_MERGE_LEVEL = BUILDER
+            .comment("Original deveMergeUse: development level that unlocks the merge system.")
+            .defineInRange("ubiquitousMergeLevel", 1, 0, 4);
+    private static final ForgeConfigSpec.IntValue UBIQUITOUS_ONE_MIND_LEVEL = BUILDER
+            .comment("Original deveOnemindUse: development level that unlocks collective consciousness.")
+            .defineInRange("ubiquitousOneMindLevel", 2, 0, 4);
+    private static final ForgeConfigSpec.IntValue UBIQUITOUS_VECTORLESS_LEVEL = BUILDER
+            .comment("Original deveOriginlessUse: development level that allows spawning outside a vector.")
+            .defineInRange("ubiquitousVectorlessLevel", 2, 0, 4);
+    private static final ForgeConfigSpec.IntValue UBIQUITOUS_NESTS_LEVEL = BUILDER
+            .comment("Original deveNestsUse: development level that unlocks nest generation.")
+            .defineInRange("ubiquitousNestsLevel", 3, 0, 4);
+    private static final ForgeConfigSpec.IntValue UBIQUITOUS_VARIANTS_LEVEL = BUILDER
+            .comment("Original deveAlwaysVariantUse: development level that unlocks always-variant spawns.")
+            .defineInRange("ubiquitousVariantsLevel", 3, 0, 4);
+    private static final ForgeConfigSpec.IntValue UBIQUITOUS_COLONIES_LEVEL = BUILDER
+            .comment("Original deveColoniesUse: development level that unlocks colony generation.")
+            .defineInRange("ubiquitousColoniesLevel", 4, 0, 4);
+    private static final ForgeConfigSpec.IntValue UBIQUITOUS_NODES_LEVEL = BUILDER
+            .comment("Original deveNodesUse: development level that unlocks node generation.")
+            .defineInRange("ubiquitousNodesLevel", 4, 0, 4);
+    private static final ForgeConfigSpec.IntValue UBIQUITOUS_HIVES_LEVEL = BUILDER
+            .comment("Original deveHivesUse: development level that unlocks hive generation.")
+            .defineInRange("ubiquitousHivesLevel", 4, 0, 4);
+    private static final ForgeConfigSpec.IntValue EVOLUTION_NESTS_UNLOCK = BUILDER
+            .comment("Original evolutionNests: phase that also unlocks nest generation (11 = only development).")
+            .defineInRange("evolutionNestsUnlock", 11, -1, 11);
+    private static final ForgeConfigSpec.IntValue EVOLUTION_NODES_UNLOCK = BUILDER
+            .comment("Original evolutionNodeUnlock: phase that also unlocks node generation.")
+            .defineInRange("evolutionNodesUnlock", 11, -1, 11);
+    private static final ForgeConfigSpec.IntValue EVOLUTION_COLONIES_UNLOCK = BUILDER
+            .comment("Original evolutionColonyUnlock: phase that also unlocks colony generation.")
+            .defineInRange("evolutionColoniesUnlock", 11, -1, 11);
+    private static final ForgeConfigSpec.IntValue EVOLUTION_HIVES_UNLOCK = BUILDER
+            .comment("Original evolutionHives: phase that also unlocks hive generation.")
+            .defineInRange("evolutionHivesUnlock", 11, -1, 11);
+    private static final ForgeConfigSpec.IntValue EVOLUTION_ONE_MIND_UNLOCK = BUILDER
+            .comment("Original evolutionOneMind: phase that also unlocks collective consciousness.")
+            .defineInRange("evolutionOneMindUnlock", 11, -1, 11);
+
     static final ForgeConfigSpec SPEC = BUILDER.build();
 
     private Config() {
@@ -1242,6 +1306,36 @@ public final class Config {
     public static boolean disloBurningDeath() { return DISLO_BURNING_DEATH.get(); }
     public static int disloBurningDeathPointCost() { return DISLO_BURNING_DEATH_POINT_COST.get(); }
     public static int disloBurningDeathDuration() { return DISLO_BURNING_DEATH_DURATION.get(); }
+    public static double ubiquitousMobChance() { return UBIQUITOUS_MOB_CHANCE.get(); }
+    public static int ubiquitousPoints(int level) {
+        return switch (level) {
+            case 2 -> UBIQUITOUS_POINTS_2.get();
+            case 3 -> UBIQUITOUS_POINTS_3.get();
+            case 4 -> UBIQUITOUS_POINTS_4.get();
+            default -> UBIQUITOUS_POINTS_1.get();
+        };
+    }
+    public static int ubiquitousDimensions(int level) {
+        return switch (level) {
+            case 2 -> UBIQUITOUS_DIMENSIONS_2.get();
+            case 3 -> UBIQUITOUS_DIMENSIONS_3.get();
+            case 4 -> UBIQUITOUS_DIMENSIONS_4.get();
+            default -> UBIQUITOUS_DIMENSIONS_1.get();
+        };
+    }
+    public static int ubiquitousMergeLevel() { return UBIQUITOUS_MERGE_LEVEL.get(); }
+    public static int ubiquitousOneMindLevel() { return UBIQUITOUS_ONE_MIND_LEVEL.get(); }
+    public static int ubiquitousVectorlessLevel() { return UBIQUITOUS_VECTORLESS_LEVEL.get(); }
+    public static int ubiquitousNestsLevel() { return UBIQUITOUS_NESTS_LEVEL.get(); }
+    public static int ubiquitousVariantsLevel() { return UBIQUITOUS_VARIANTS_LEVEL.get(); }
+    public static int ubiquitousColoniesLevel() { return UBIQUITOUS_COLONIES_LEVEL.get(); }
+    public static int ubiquitousNodesLevel() { return UBIQUITOUS_NODES_LEVEL.get(); }
+    public static int ubiquitousHivesLevel() { return UBIQUITOUS_HIVES_LEVEL.get(); }
+    public static int evolutionNestsUnlock() { return EVOLUTION_NESTS_UNLOCK.get(); }
+    public static int evolutionNodesUnlock() { return EVOLUTION_NODES_UNLOCK.get(); }
+    public static int evolutionColoniesUnlock() { return EVOLUTION_COLONIES_UNLOCK.get(); }
+    public static int evolutionHivesUnlock() { return EVOLUTION_HIVES_UNLOCK.get(); }
+    public static int evolutionOneMindUnlock() { return EVOLUTION_ONE_MIND_UNLOCK.get(); }
     public static int disloRemainPlus() { return DISLO_REMAIN_PLUS.get(); }
     public static double disloRemainHealth() { return DISLO_REMAIN_HEALTH.get(); }
     public static int dislodgmentUnlockPhase() { return DISLODGMENT_UNLOCK_PHASE.get(); }

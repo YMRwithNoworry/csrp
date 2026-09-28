@@ -10,6 +10,7 @@ import alku.csrp.infection.BlockInfestation;
 import alku.csrp.infection.InfestationSpreadLimiter;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModItems;
+import alku.csrp.world.EvolutionSystem;
 import alku.csrp.world.SrpCoreSystems;
 import alku.csrp.world.SrpWorldData;
 import net.minecraft.core.BlockPos;
@@ -189,7 +190,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         if (canGrow && growthDelayTicks > 0 && level() instanceof ServerLevel serverLevel) {
             int phase = SrpWorldData.get(serverLevel).evolutionPhase();
             int minimumPhase = activeKind.stage + 2;
-            if (phase >= minimumPhase && (phase > minimumPhase || tickCount % 4 == 0)
+            // Original EntityAINexusGrow: nest growth also unlocks through ubiquitous development.
+            boolean nestUnlocked = phase >= minimumPhase || EvolutionSystem.nestsUnlocked(serverLevel);
+            if (nestUnlocked && (phase > minimumPhase || tickCount % 4 == 0)
                     && ++growthTicks >= growthDelayTicks && evolve()) {
                 return;
             }
@@ -242,7 +245,8 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void tryPlaceFirstColony() {
-        if (tickCount < 1_200 || random.nextInt(10) != 0 || !(level() instanceof ServerLevel serverLevel)) {
+        if (tickCount < 1_200 || random.nextInt(10) != 0 || !(level() instanceof ServerLevel serverLevel)
+                || !EvolutionSystem.coloniesUnlocked(serverLevel)) {
             return;
         }
         if (!SrpWorldData.get(serverLevel).colonies().isEmpty()) {
@@ -884,9 +888,27 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         }
     }
 
+    /**
+     * Original {@code EntityAINexusGrow} stage-3 upgrades: each family needs its own phase unlock
+     * ({@code evolutionNodeUnlock} / {@code evolutionColonyUnlock} / {@code evolutionHives}) or the
+     * matching ubiquitous development level ({@code deveNodesUse} / {@code deveColoniesUse} /
+     * {@code deveHivesUse}).
+     */
+    private boolean familyUpgradeUnlocked(ServerLevel level) {
+        return switch (activeKind().family) {
+            case BECKON -> EvolutionSystem.nodesUnlocked(level);
+            case DISPATCHER -> EvolutionSystem.coloniesUnlocked(level);
+            case ROOTER -> EvolutionSystem.hivesUnlocked(level);
+            default -> true;
+        };
+    }
+
     private boolean evolve() {
         Kind activeKind = activeKind();
         if (!(level() instanceof ServerLevel serverLevel) || activeKind.stage <= 0 || activeKind.stage >= 4) {
+            return false;
+        }
+        if (activeKind.stage == 3 && !familyUpgradeUnlocked(serverLevel)) {
             return false;
         }
         NexusParasiteEntity next = createNexus(serverLevel, activeKind.family, activeKind.stage + 1);

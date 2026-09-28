@@ -410,14 +410,77 @@ public final class EvolutionSystem {
         if (override > 0) {
             return override;
         }
-        if (phasePoints >= 14 && dimensions >= 2) return 4;
-        if (phasePoints >= 10 && dimensions >= 2) return 3;
-        if (phasePoints >= 7 && dimensions >= 2) return 2;
-        return phasePoints >= 4 && dimensions >= 1 ? 1 : 0;
+        // Original SRPSaveData#getDeveLevel: the configured phase sum and dimension count per level.
+        for (int level = 4; level >= 1; level--) {
+            if (phasePoints >= Config.ubiquitousPoints(level)
+                    && dimensions >= Config.ubiquitousDimensions(level)) {
+                return level;
+            }
+        }
+        return 0;
+    }
+
+    public static int ubiquitousDevelopment(ServerLevel level) {
+        return level == null ? 0 : ubiquitousDevelopment(level.getServer());
     }
 
     public static void setUbiquitousDevelopmentOverride(MinecraftServer server, int level) {
         SrpWorldData.get(server.overworld()).setUbiquitousDevelopment(level);
+    }
+
+    /**
+     * Original {@code SRPConfigSystems.deveXUse} unlock checks: every mechanic they gate runs when the
+     * dimension reached its phase unlock or the world reached the matching development level.
+     */
+    private static boolean developmentUnlocked(ServerLevel level, int phaseUnlock, int developmentLevel) {
+        return SrpWorldData.get(level).evolutionPhase() >= phaseUnlock
+                || ubiquitousDevelopment(level) >= developmentLevel;
+    }
+
+    /** Original {@code deveMergeUse}: the merge system becomes usable. */
+    public static boolean mergeUnlocked(ServerLevel level) {
+        return level != null && ubiquitousDevelopment(level) >= Config.ubiquitousMergeLevel();
+    }
+
+    /** Original {@code deveOnemindUse} / {@code evolutionOneMind}: collective consciousness. */
+    public static boolean collectiveConsciousnessUnlocked(ServerLevel level) {
+        return level != null && (Config.collectiveConsciousnessEnabled()
+                && developmentUnlocked(level, Config.evolutionOneMindUnlock(),
+                Config.ubiquitousOneMindLevel()));
+    }
+
+    /** Original {@code deveOriginlessUse}: natural spawning is allowed without a vector. */
+    public static boolean vectorlessSpawningUnlocked(ServerLevel level) {
+        return level != null && ubiquitousDevelopment(level) >= Config.ubiquitousVectorlessLevel();
+    }
+
+    /** Original {@code deveNestsUse} / {@code evolutionNests}. */
+    public static boolean nestsUnlocked(ServerLevel level) {
+        return level != null && developmentUnlocked(level, Config.evolutionNestsUnlock(),
+                Config.ubiquitousNestsLevel());
+    }
+
+    /** Original {@code deveNodesUse} / {@code evolutionNodeUnlock}. */
+    public static boolean nodesUnlocked(ServerLevel level) {
+        return level != null && developmentUnlocked(level, Config.evolutionNodesUnlock(),
+                Config.ubiquitousNodesLevel());
+    }
+
+    /** Original {@code deveColoniesUse} / {@code evolutionColonyUnlock}. */
+    public static boolean coloniesUnlocked(ServerLevel level) {
+        return level != null && developmentUnlocked(level, Config.evolutionColoniesUnlock(),
+                Config.ubiquitousColoniesLevel());
+    }
+
+    /** Original {@code deveAlwaysVariantUse}: always-variant spawns (reported, no gameplay consumer). */
+    public static boolean variantsUnlocked(ServerLevel level) {
+        return level != null && ubiquitousDevelopment(level) >= Config.ubiquitousVariantsLevel();
+    }
+
+    /** Original {@code deveHivesUse} / {@code evolutionHives}. */
+    public static boolean hivesUnlocked(ServerLevel level) {
+        return level != null && developmentUnlocked(level, Config.evolutionHivesUnlock(),
+                Config.ubiquitousHivesLevel());
     }
 
     public static void announcePhaseChange(ServerLevel level, int previous, int current) {

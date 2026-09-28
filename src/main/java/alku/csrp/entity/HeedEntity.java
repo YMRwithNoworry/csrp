@@ -111,7 +111,7 @@ public final class HeedEntity extends CrudeParasiteEntity {
                 false, false, this::isValidParasiteTarget));
         if (Config.mobAttackingEnabled()) {
             // Legacy EntityAINearestAttackableTargetStatus: shouldCheckSight || !getGeneMod(2).
-            boolean checkSight = !Config.collectiveConsciousnessEnabled() || !seesThroughWalls();
+            boolean checkSight = !collectiveConsciousnessActive() || !seesThroughWalls();
             targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Mob.class, 0,
                     checkSight, false, this::isValidHeedMobTarget));
         }

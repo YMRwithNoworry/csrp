@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import alku.csrp.Config;
 import alku.csrp.registry.ModEntities;
+import alku.csrp.world.EvolutionSystem;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -31,7 +32,9 @@ final class AssimilatedMeltSystem {
                 || !(source instanceof MeltableAssimilated sourceMeltable)
                 || !sourceMeltable.canMelt() || sourceMeltable.isMelting()
                 || !(source.level() instanceof ServerLevel serverLevel)
-                || Config.evolutionPhase(serverLevel) < MINIMUM_MERGE_PHASE) {
+                || Config.evolutionPhase(serverLevel) < MINIMUM_MERGE_PHASE
+                // Original EntityPInfected: the merge system needs deveMergeUse (development 1).
+                || !EvolutionSystem.mergeUnlocked(serverLevel)) {
             return false;
         }
 

@@ -255,6 +255,15 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
      * Legacy {@code EntityParasiteBase#getGeneMod(2)}: this generation notices targets through walls,
      * which is what {@code EntityAINearestAttackableTargetStatus} uses as {@code shouldCheckSight || !getGeneMod(2)}.
      */
+    /**
+     * Original {@code deveOnemindUse} / {@code evolutionOneMind}: collective consciousness only runs once
+     * the dimension reached its phase unlock or the world reached the matching development level.
+     */
+    protected boolean collectiveConsciousnessActive() {
+        return level() instanceof ServerLevel serverLevel
+                && EvolutionSystem.collectiveConsciousnessUnlocked(serverLevel);
+    }
+
     protected boolean seesThroughWalls() {
         return level() instanceof ServerLevel serverLevel
                 && EvolutionSystem.generationProfile(serverLevel).lookWalls();

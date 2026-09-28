@@ -1,5 +1,6 @@
 package alku.csrp.world;
 
+import alku.csrp.Config;
 import alku.csrp.Csrp;
 import alku.csrp.config.WorldConfig;
 import net.minecraft.core.BlockPos;
@@ -18,8 +19,8 @@ import java.util.stream.Stream;
 /** Original SRP phase and ubiquitous-development natural spawn tables. */
 public final class NaturalSpawnTables {
     // Legacy SpawnPlacementTypes.IN_AIR is represented by Forge 1.20.1 NO_RESTRICTIONS;
-    // CommonModEvents still enforces the three-block air column predicate.
-    private static final double UBIQUITOUS_TABLE_CHANCE = 0.5D;
+    // CommonModEvents still enforces the three-block air column predicate. The ubiquitous list swap
+    // chance lives in the config as the original "deveMobChance".
 
     // The tables below always keep the original SRP 1.10.8 weights so they stay verifiable.
     // "naturalSpawnWeightMultiplier" is applied to cached copies instead, which keeps this
@@ -300,7 +301,11 @@ public final class NaturalSpawnTables {
 
     public static List<MobSpawnSettings.SpawnerData> select(ServerLevel level, BlockPos pos) {
         int phase = SrpWorldData.get(level).evolutionPhase();
-        if (phase == -2 || phase == -1 && !isInsideVector(level, pos)) {
+        // Original SRPWorldEntitySpawner#originlessAllowed: from development 2 a dimension no longer
+        // needs a vector to spawn parasites naturally.
+        if (phase == -2
+                || phase == -1 && !isInsideVector(level, pos)
+                && !EvolutionSystem.vectorlessSpawningUnlocked(level)) {
             return List.of();
         }
         List<MobSpawnSettings.SpawnerData> ubiquitous = ubiquitousEntries(level);
@@ -419,7 +424,7 @@ public final class NaturalSpawnTables {
         hash *= 0xC4CEB9FE1A85EC53L;
         hash ^= hash >>> 33;
         double sample = (hash >>> 11) * 0x1.0p-53;
-        return sample < UBIQUITOUS_TABLE_CHANCE;
+        return sample < Config.ubiquitousMobChance();
     }
 
     private static boolean contains(List<MobSpawnSettings.SpawnerData> entries, String path) {

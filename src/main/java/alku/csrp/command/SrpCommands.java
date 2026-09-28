@@ -163,9 +163,10 @@ public final class SrpCommands {
 
     private static LiteralArgumentBuilder<CommandSourceStack> srUDevelopment() {
         return admin("srpudevelopment")
-                .then(Commands.literal("getlevel").executes(context -> success(context.getSource(),
-                        "Current Ubiquitous Development Level: "
-                                + EvolutionSystem.ubiquitousDevelopment(context.getSource().getServer()))))
+                .then(Commands.literal("getlevel").executes(context -> {
+                    showDevelopmentLevel(context.getSource());
+                    return Command.SINGLE_SUCCESS;
+                }))
                 .then(Commands.literal("setlevel")
                         .then(Commands.argument("level", IntegerArgumentType.integer(0, 4)).executes(context -> {
                             int level = IntegerArgumentType.getInteger(context, "level");
@@ -597,6 +598,52 @@ public final class SrpCommands {
         entries.forEach(entry -> success(source, "[" + format(entry.pos()) + ", " + entry.health() + ", "
                 + entry.radius() + "]"));
         return Command.SINGLE_SUCCESS;
+    }
+
+    /**
+     * Echoes the original SRPProgressSnapshot unlock table so a server owner can see which mechanics the
+     * current ubiquitous development level has unlocked.
+     */
+    private static void showDevelopmentLevel(CommandSourceStack source) {
+        ServerLevel level = source.getLevel();
+        int development = EvolutionSystem.ubiquitousDevelopment(source.getServer());
+        success(source, " ======> ");
+        success(source, " -> Current Ubiquitous Development Level: " + development);
+        success(source, " -> Phase sum needed: 1:" + Config.ubiquitousPoints(1)
+                + ", 2:" + Config.ubiquitousPoints(2)
+                + ", 3:" + Config.ubiquitousPoints(3)
+                + ", 4:" + Config.ubiquitousPoints(4));
+        success(source, " -> Dimensions needed: 1:" + Config.ubiquitousDimensions(1)
+                + ", 2:" + Config.ubiquitousDimensions(2)
+                + ", 3:" + Config.ubiquitousDimensions(3)
+                + ", 4:" + Config.ubiquitousDimensions(4));
+        success(source, " -> Dislodgment: " + unlockLabel(development >= Config.dislodgmentUnlockDevelopment())
+                + " (level " + Config.dislodgmentUnlockDevelopment() + ")");
+        success(source, " -> Merge system: " + unlockLabel(EvolutionSystem.mergeUnlocked(level))
+                + " (level " + Config.ubiquitousMergeLevel() + ")");
+        success(source, " -> Collective consciousness: "
+                + unlockLabel(EvolutionSystem.collectiveConsciousnessUnlocked(level))
+                + " (level " + Config.ubiquitousOneMindLevel() + ")");
+        success(source, " -> Scent system: " + unlockLabel(development >= Config.scentDevelopmentLevel())
+                + " (level " + Config.scentDevelopmentLevel() + ")");
+        success(source, " -> Vectorless spawning: "
+                + unlockLabel(EvolutionSystem.vectorlessSpawningUnlocked(level))
+                + " (level " + Config.ubiquitousVectorlessLevel() + ")");
+        success(source, " -> Nest generation: " + unlockLabel(EvolutionSystem.nestsUnlocked(level))
+                + " (level " + Config.ubiquitousNestsLevel() + ")");
+        success(source, " -> Node generation: " + unlockLabel(EvolutionSystem.nodesUnlocked(level))
+                + " (level " + Config.ubiquitousNodesLevel() + ")");
+        success(source, " -> Colony generation: " + unlockLabel(EvolutionSystem.coloniesUnlocked(level))
+                + " (level " + Config.ubiquitousColoniesLevel() + ")");
+        success(source, " -> Hive generation: " + unlockLabel(EvolutionSystem.hivesUnlocked(level))
+                + " (level " + Config.ubiquitousHivesLevel() + ")");
+        success(source, " -> Always-variant spawns: " + unlockLabel(EvolutionSystem.variantsUnlocked(level))
+                + " (level " + Config.ubiquitousVariantsLevel() + ")");
+        success(source, " -> Spawn list swap chance: " + Config.ubiquitousMobChance());
+    }
+
+    private static String unlockLabel(boolean unlocked) {
+        return unlocked ? "unlocked" : "locked";
     }
 
     private static int showDislodgmentCodes(CommandSourceStack source) {
