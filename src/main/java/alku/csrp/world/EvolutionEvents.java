@@ -22,6 +22,8 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.event.TickEvent;
@@ -30,6 +32,7 @@ import net.minecraftforge.event.entity.EntityStruckByLightningEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingExperienceDropEvent;
 import net.minecraftforge.event.entity.living.LivingHealEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
@@ -365,15 +368,28 @@ public final class EvolutionEvents {
         boolean shouldSprint = profile.sprinting() && entity instanceof Mob mob
                 && mob.getTarget() != null && mob.getTarget().isAlive() && movedHorizontally;
         entity.setSprinting(shouldSprint);
-        if (entity.tickCount % 20 != 0 || entity.getHealth() >= entity.getMaxHealth()) {
+    }
+
+    /**
+     * Original {@code EntityParasiteBase#hurt}: {@code if (source == DamageSource.MAGIC && isPotionActive
+     * (POISON) && amount == 1.0F) { heal(1.0F * genePoisonHealing); return false; }} - a poison tick is
+     * turned into healing scaled by the generation "Poison" gene instead of dealing damage.
+     */
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public static void convertPoisonToHealing(LivingHurtEvent event) {
+        LivingEntity parasite = event.getEntity();
+        if (!(parasite instanceof Parasite)
+                || !(parasite.level() instanceof ServerLevel level)
+                || event.getAmount() != 1.0F
+                || !event.getSource().is(DamageTypes.MAGIC)
+                || !parasite.hasEffect(MobEffects.POISON)) {
             return;
         }
-        float healing = profile.mobHealing();
-        if (entity.hasEffect(MobEffects.POISON)) {
-            healing += profile.poisonHealing();
+        float healing = EvolutionSystem.generationProfile(level).poisonHealing();
+        if (healing <= 0.0F) {
+            return;
         }
-        if (healing > 0.0F) {
-            entity.heal(healing);
-        }
+        event.setCanceled(true);
+        parasite.heal(1.0F * healing);
     }
 }

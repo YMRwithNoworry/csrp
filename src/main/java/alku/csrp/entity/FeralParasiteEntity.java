@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.registry.ModMobEffects;
+import alku.csrp.world.EvolutionSystem;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -185,6 +186,11 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
     @Override
     public boolean killedEntity(ServerLevel level, LivingEntity victim) {
         parasiteKills++;
+        // Original EntityParasiteBase#func_70074_a: heal by the victim's max health x Mob Healing gene.
+        float healing = EvolutionSystem.generationProfile(level).mobHealing();
+        if (healing > 0.0F && victim != null) {
+            heal(victim.getMaxHealth() * healing);
+        }
         return super.killedEntity(level, victim);
     }
 
