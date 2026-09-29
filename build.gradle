@@ -95,6 +95,16 @@ dependencies {
     // used while porting the original SRParasites Java models.
     implementation fg.deobf("maven.modrinth:citadel:${citadel_version}")
 
+    // Bundle both libraries inside the mod jar (Jar-in-Jar) so players no longer have to
+    // install GeckoLib or Citadel separately. The embedded copies are the production jars,
+    // and FML loads them before this mod thanks to the "AFTER" ordering in mods.toml.
+    jarJar("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}") {
+        jarJar.ranged(it, "[${geckolib_version},)")
+    }
+    jarJar("maven.modrinth:citadel:${citadel_version}") {
+        jarJar.ranged(it, "[${citadel_version},)")
+    }
+
     // Mixin AP is intentionally disabled; legacy targets are compatible at runtime
     // but are not compatible with ForgeGradle's AP mappings. Because no refmap is
     // generated, src/main/resources/csrp.mixins.json must never reference one
@@ -130,6 +140,19 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
 // Include the output of "generateModMetadata" as an input directory for the build
 // this works with both building through Gradle and the IDE.
 sourceSets.main.resources.srcDir generateModMetadata
+
+// Jar-in-Jar: the libraries configured above are bundled into META-INF/jarjar, and the
+// self-contained build takes the plain artifact name so build/libs/csrp-<version>.jar is the
+// jar players install. The library-less build keeps the "-thin" classifier.
+jarJar.enable()
+
+tasks.named('jarJar', Jar) {
+    archiveClassifier = ''
+}
+
+tasks.named('jar', Jar) {
+    archiveClassifier = 'thin'
+}
 
 jar {
     manifest {
