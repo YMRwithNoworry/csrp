@@ -574,16 +574,16 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 goalSelector.addGoal(1, new CloakGoal());
                 goalSelector.addGoal(2, new ManducaterEvadeGoal());
                 goalSelector.addGoal(3, new ManducaterVomitGoal());
-                goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.20D, false));
+                goalSelector.addGoal(4, new GenerationMeleeAttackGoal(this, 1.20D, false));
             }
             case REEKER -> {
                 goalSelector.addGoal(1, new ChargeGoal());
-                goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.35D, false));
+                goalSelector.addGoal(2, new GenerationMeleeAttackGoal(this, 1.35D, false));
             }
             case SUMMONER -> {
                 goalSelector.addGoal(1, new SummonGoal());
                 goalSelector.addGoal(2, new VomitGoal());
-                goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.05D, false));
+                goalSelector.addGoal(3, new GenerationMeleeAttackGoal(this, 1.05D, false));
             }
             case VERMIN -> {
                 registerVerminTargetGoals();
@@ -597,7 +597,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             }
             case VISCERA -> {
                 goalSelector.addGoal(1, new SideLeapGoal());
-                goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.25D, false));
+                goalSelector.addGoal(2, new GenerationMeleeAttackGoal(this, 1.25D, false));
             }
             case YELLOWEYE -> {
                 goalSelector.addGoal(1, new YelloweyeRangedGoal());
@@ -761,10 +761,16 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         return hurt;
     }
 
+    /** Original EntityPAdapted constructor: adaptedCap (9) and adaptedMinDamage (4.0). */
     @Override
-    protected int incomingDamageCapDivisor() {
-        return activeKind() == Kind.BOLSTER && level() instanceof ServerLevel serverLevel
-                && EvolutionSystem.generationProfile(serverLevel).damageCap() ? 9 : super.incomingDamageCapDivisor();
+    public ParasiteTier tier() {
+        return ParasiteTier.ADAPTED;
+    }
+
+    /** Original EntityNoglaAdapted sets miniCapA. */
+    @Override
+    protected boolean usesMinimumDamageSpecialAttackCap() {
+        return activeKind() == Kind.REEKER;
     }
 
     @Override

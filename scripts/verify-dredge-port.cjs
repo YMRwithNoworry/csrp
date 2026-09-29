@@ -11,6 +11,8 @@ const expect = (source, pattern, message) => {
 const dredge = read("src/main/java/alku/csrp/entity/DredgeEntity.java");
 const follow = read("src/main/java/alku/csrp/entity/ParasiteFollowGoal.java");
 const entities = read("src/main/java/alku/csrp/registry/ModEntities.java");
+const tier = read("src/main/java/alku/csrp/entity/ParasiteTier.java");
+const config = read("src/main/java/alku/csrp/Config.java");
 
 expect(entities, /monster\("dredge", DredgeEntity::new, 0\.8F, 3\.4F, 1\.73F\)/,
   "Dredge dimensions or eye height do not match EntityDone");
@@ -18,7 +20,12 @@ expect(dredge,
   /MAX_HEALTH, 40\.0D[\s\S]*?ARMOR, 9\.0D[\s\S]*?ATTACK_DAMAGE, 15\.0D[\s\S]*?MOVEMENT_SPEED, 0\.4D[\s\S]*?KNOCKBACK_RESISTANCE, 0\.7D[\s\S]*?FOLLOW_RANGE, 32\.0D/,
   "Dredge attributes are incomplete");
 expect(dredge, /xpReward\s*=\s*30/, "Dredge XP reward is not the primitive value");
-expect(dredge, /incomingDamageCapDivisor\(\)[\s\S]*?return 6;/,
+// The primitive tier damage cap (6) now comes from ParasiteTier / the generation config.
+expect(dredge, /class DredgeEntity extends CrudeParasiteEntity/,
+  "Dredge must stay on the primitive/crude tier");
+expect(tier, /PRIMITIVE\("primitive"\)/,
+  "the primitive tier (cap 6) is missing");
+expect(config, /tier\("primitive", 6, 2\.0D, false\)/,
   "Dredge primitive damage cap divisor is not six");
 expect(dredge,
   /addGoal\(0, new DredgeSwimmingGoal\(\)\)[\s\S]*?addGoal\(3, new DredgeMeleeGoal\(\)\)[\s\S]*?addGoal\(6, new RecruitFollowersGoal\(\)/,

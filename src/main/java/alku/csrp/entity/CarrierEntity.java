@@ -189,7 +189,7 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
         super.registerGoals();
         goalSelector.addGoal(1, new SwellGoal());
         if (usesMeleeAttack()) {
-            goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.1, false));
+            goalSelector.addGoal(2, new GenerationMeleeAttackGoal(this, 1.1, false));
         }
     }
 

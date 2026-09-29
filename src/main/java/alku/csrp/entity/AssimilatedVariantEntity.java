@@ -131,7 +131,7 @@ public final class AssimilatedVariantEntity extends Monster implements GeoEntity
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
-        goalSelector.addGoal(2, new MeleeAttackGoal(this, kind == Kind.HORSE ? 1.5D : 1.2D, false));
+        goalSelector.addGoal(2, new GenerationMeleeAttackGoal(this, kind == Kind.HORSE ? 1.5D : 1.2D, false));
         if (kind == Kind.HUMAN) {
             goalSelector.addGoal(4, new CircleGroupGoal(this, 1.15D, 8, 4.0D, 10.0D, 16,
                     entity -> entity instanceof AssimilatedVariantEntity assimilated

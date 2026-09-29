@@ -61,6 +61,12 @@ import java.util.Set;
  * uses stronger adaptation and delegates its battlefield support to Flams.
  */
 public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity implements ManualVariantProvider {
+
+    /** Original preeminent tier constructor values. */
+    @Override
+    public ParasiteTier tier() {
+        return ParasiteTier.PREEMINENT;
+    }
     private static final EntityDataAccessor<Boolean> CARRIER_VARIANT =
             SynchedEntityData.defineId(PreeminentParasiteEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Boolean> HAUNTER_VARIANT =
@@ -283,11 +289,6 @@ public final class PreeminentParasiteEntity extends PrimitiveParasiteEntity impl
             revealStealth();
         }
         return super.hurt(source, source.is(DamageTypeTags.IS_FIRE) ? amount * 4.0F : amount);
-    }
-
-    @Override
-    protected int incomingDamageCapDivisor() {
-        return 18;
     }
 
     @Override

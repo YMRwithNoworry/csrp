@@ -125,7 +125,7 @@ public class AdaWatcherEntity extends BurrowingVariantEntity implements PullingB
         super.registerGoals();
         goalSelector.addGoal(0, new FloatGoal(this));
         goalSelector.addGoal(1, new WebPullGoal());
-        goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.20D, false));
+        goalSelector.addGoal(2, new GenerationMeleeAttackGoal(this, 1.20D, false));
     }
 
     @Override

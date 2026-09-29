@@ -44,7 +44,7 @@ public final class IncompleteCruxEntity extends CrudeParasiteEntity {
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0, false));
+        goalSelector.addGoal(2, new GenerationMeleeAttackGoal(this, 1.0, false));
     }
 
     @Override

@@ -79,7 +79,7 @@ abstract class AbstractHostEntity extends CrudeParasiteEntity {
         super.registerGoals();
         goalSelector.addGoal(1, new HostShockwaveGoal());
         goalSelector.addGoal(2, new HostRangedGoal());
-        goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.3, false));
+        goalSelector.addGoal(3, new GenerationMeleeAttackGoal(this, 1.3, false));
     }
 
     @Override

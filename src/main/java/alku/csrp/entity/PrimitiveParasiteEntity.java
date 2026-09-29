@@ -269,6 +269,50 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
                 && EvolutionSystem.generationProfile(serverLevel).lookWalls();
     }
 
+    /**
+     * Original per-tier constructor values ({@code EntityPPrimitive}, {@code EntityPAdapted},
+     * {@code EntityPPure}, {@code EntityPPreeminent}, {@code EntityPDerived}, ...): the damage cap
+     * divisor and the minimum damage of this parasite's tier.
+     */
+    public ParasiteTier tier() {
+        return ParasiteTier.PRIMITIVE;
+    }
+
+    /** Original {@code getAttackSpeed} style tier value: armor-bypassing minimum melee damage. */
+    protected float generationMinimumDamage() {
+        return tier().minimumDamage();
+    }
+
+    /**
+     * Original {@code miniCapA}: parasites whose original class set it (Nogla, Esor, Ganro, HiGolem)
+     * stop adding minimum damage while the victim is below the "Minimum Damage Special Attack Cap".
+     */
+    protected boolean usesMinimumDamageSpecialAttackCap() {
+        return false;
+    }
+
+    private boolean minimumDamageSuppressedByHealth(LivingEntity target) {
+        return usesMinimumDamageSpecialAttackCap()
+                && target.getHealth() <= Config.minimumDamageSpecialAttackCap();
+    }
+
+    /**
+     * Original {@code EntityAINearestAttackableTargetStatus}: {@code shouldCheckSight || !geneLookWalls}.
+     * Only tiers whose "Walls" option is false may keep a target without line of sight once the
+     * generation-4 X-ray gene is unlocked.
+     */
+    public boolean ignoresLineOfSight() {
+        return level() instanceof ServerLevel serverLevel
+                && !tier().forcesSightCheck()
+                && EvolutionSystem.generationProfile(serverLevel).lookWalls();
+    }
+
+    /** Original {@code EntityAISkill} / {@code EntityAIEvade}: the generation-4 special-move gene. */
+    protected boolean generationSpecialMoves() {
+        return level() instanceof ServerLevel serverLevel
+                && EvolutionSystem.generationProfile(serverLevel).specialMoves();
+    }
+
     /** Legacy {@code EntityParasiteBase#getGeneMod(4)}: the generation unlocks the liquid leap of {@code handleWater}. */
     protected boolean waterLeapAllowed() {
         return level() instanceof ServerLevel serverLevel
@@ -440,6 +484,11 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
 
     @Override
     public boolean doHurtTarget(Entity target) {
+        // Legacy EntityParasiteBase#func_70652_k: the tier minimum damage lands before the ordinary hit.
+        if (target instanceof LivingEntity living && !(target instanceof Parasite)
+                && !minimumDamageSuppressedByHealth(living)) {
+            GenerationCombat.applyMinimumDamage(this, living, generationMinimumDamage());
+        }
         boolean hit = !(target instanceof Parasite) && super.doHurtTarget(target);
         if (hit) {
             if (!swinging) {
@@ -461,13 +510,16 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
                 1, 0.0D, 0.0D, 0.0D, 0.0D);
     }
 
+    /** Original {@code this.damageCap}: {@code SRPConfig.<tier>Cap}, gated by the damage-cap gene. */
     protected int incomingDamageCapDivisor() {
-        return 1;
+        return tier().damageCap();
     }
 
     private boolean hurtWithIncomingDamageCap(DamageSource source, float amount) {
-        int divisor = incomingDamageCapDivisor();
-        if (divisor <= 1 || source.is(DamageTypeTags.IS_FIRE) || source.is(DamageTypes.FELL_OUT_OF_WORLD)) {
+        int divisor = level() instanceof ServerLevel serverLevel
+                && EvolutionSystem.generationProfile(serverLevel).damageCap() ? incomingDamageCapDivisor() : 1;
+        if (divisor <= 1 || source.is(DamageTypeTags.IS_FIRE) || source.is(DamageTypes.FELL_OUT_OF_WORLD)
+                || GenerationCombat.ignoresDamageCap(source)) {
             return super.hurt(source, amount);
         }
         float maximumHealth = getMaxHealth();
@@ -752,7 +804,20 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         parasiteKills++;
         legacyKillCount = Math.max(legacyKillCount, parasiteKills);
         onParasiteKill(level, victim, parasiteKills);
+        healFromKill(level, victim);
         return super.killedEntity(level, victim);
+    }
+
+    /**
+     * Original {@code EntityParasiteBase#func_70074_a}: {@code heal(victim.getMaxHealth() *
+     * geneMobHealing)} - the generation "Mob Healing" gene heals on kill by a share of the victim's
+     * maximum health, not by a flat amount per second.
+     */
+    protected void healFromKill(ServerLevel level, LivingEntity victim) {
+        float healing = EvolutionSystem.generationProfile(level).mobHealing();
+        if (healing > 0.0F && victim != null) {
+            heal(victim.getMaxHealth() * healing);
+        }
     }
 
     /**

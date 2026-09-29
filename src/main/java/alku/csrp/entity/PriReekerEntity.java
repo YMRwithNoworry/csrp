@@ -39,6 +39,12 @@ import software.bernie.geckolib.core.animation.RawAnimation;
 import java.util.EnumSet;
 
 public class PriReekerEntity extends PrimitiveParasiteEntity {
+
+    /** Original EntityNogla sets miniCapA. */
+    @Override
+    protected boolean usesMinimumDamageSpecialAttackCap() {
+        return true;
+    }
     // 动画状态常量
     private static final int STATUS_NORMAL = 0;
     private static final int STATUS_ATTACK_PREP = 1;
@@ -95,7 +101,7 @@ public class PriReekerEntity extends PrimitiveParasiteEntity {
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
         goalSelector.addGoal(1, new ChargeAttackGoal());
-        goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.3, false));
+        goalSelector.addGoal(2, new GenerationMeleeAttackGoal(this, 1.3, false));
         goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 1.0));
         goalSelector.addGoal(4, new ParasiteFollowGoal(this));
         goalSelector.addGoal(5, new RandomLookAroundGoal(this));

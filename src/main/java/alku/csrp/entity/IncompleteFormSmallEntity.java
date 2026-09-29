@@ -44,7 +44,7 @@ public class IncompleteFormSmallEntity extends CrudeParasiteEntity {
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
-        goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.3, false));
+        goalSelector.addGoal(3, new GenerationMeleeAttackGoal(this, 1.3, false));
         targetSelector.addGoal(1, new HurtByTargetGoal(this));
         targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, true));
         targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,

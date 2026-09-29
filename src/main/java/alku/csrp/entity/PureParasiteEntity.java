@@ -76,6 +76,17 @@ import java.util.UUID;
  */
 public final class PureParasiteEntity extends PrimitiveParasiteEntity
         implements SummonCapacityOwner, ManualVariantProvider {
+    /** Original EntityPPure constructor values (pureCap 13, pureMinDamage 7.0). */
+    /** Original EntityGanro (warden) sets miniCapA. */
+    @Override
+    protected boolean usesMinimumDamageSpecialAttackCap() {
+        return activeKind() == Kind.WARDEN;
+    }
+    @Override
+    public ParasiteTier tier() {
+        return ParasiteTier.PURE;
+    }
+
     private static final EntityDataAccessor<Boolean> WARDEN_CHARGING = SynchedEntityData.defineId(
             PureParasiteEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> WARDEN_STATUS = SynchedEntityData.defineId(
@@ -1640,7 +1651,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
                 return false;
             }
             LivingEntity target = getTarget();
-            return target != null && onGround() && distanceToSqr(target) >= 9.0D
+            return generationSpecialMoves() && target != null && onGround() && distanceToSqr(target) >= 9.0D
                     && distanceToSqr(target) <= 196.0D;
         }
 
@@ -1683,7 +1694,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         @Override
         public boolean canUse() {
             LivingEntity target = getTarget();
-            return target != null && target.isAlive() && onGround();
+            return generationSpecialMoves() && target != null && target.isAlive() && onGround();
         }
 
         @Override

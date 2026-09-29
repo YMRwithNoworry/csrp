@@ -46,6 +46,12 @@ import java.util.UUID;
 
 /** Modern equivalent of SRP 1.10.7's independently registered EntityFlam. */
 public final class FlamEntity extends PrimitiveParasiteEntity {
+
+    /** Original preeminent tier constructor values. */
+    @Override
+    public ParasiteTier tier() {
+        return ParasiteTier.PREEMINENT;
+    }
     public static final int ACTION_EXPLODE = 1;
     public static final int ACTION_ORB = 2;
     public static final int ACTION_TELEPORT = 3;
@@ -364,12 +370,6 @@ public final class FlamEntity extends PrimitiveParasiteEntity {
     @Override
     public float getEyeHeight(net.minecraft.world.entity.Pose pose) {
         return 0.5F;
-    }
-
-    @Override
-    protected int incomingDamageCapDivisor() {
-        // SRP 1.10.7 inherits the shared preeminentCap (18); the Wiki lists 15 for Succor.
-        return 18;
     }
 
     @Override

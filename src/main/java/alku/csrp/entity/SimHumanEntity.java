@@ -129,7 +129,7 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
         goalSelector.addGoal(0, new FloatGoal(this));
         goalSelector.addGoal(1, new OpenDoorGoal(this, true));
         goalSelector.addGoal(2, new WaterLeapGoal());
-        goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.0D, false));
+        goalSelector.addGoal(3, new GenerationMeleeAttackGoal(this, 1.0D, false));
         goalSelector.addGoal(4, new CircleGroupGoal(this, 1.15D, 8, 4.0D, 10.0D, 16,
                 entity -> entity instanceof SimHumanEntity));
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));

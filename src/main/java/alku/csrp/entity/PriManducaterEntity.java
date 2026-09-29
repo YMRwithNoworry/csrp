@@ -121,7 +121,7 @@ public class PriManducaterEntity extends PrimitiveParasiteEntity implements GeoE
         goalSelector.addGoal(0, new FloatGoal(this));
         goalSelector.addGoal(1, new SprintGoal());
         goalSelector.addGoal(2, new PullGoal());
-        goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.15, false));
+        goalSelector.addGoal(3, new GenerationMeleeAttackGoal(this, 1.15, false));
         goalSelector.addGoal(4, new WaterAvoidingRandomStrollGoal(this, 1.0));
         goalSelector.addGoal(5, new ParasiteFollowGoal(this));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));

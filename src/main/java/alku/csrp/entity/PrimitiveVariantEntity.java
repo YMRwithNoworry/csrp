@@ -80,6 +80,12 @@ import java.util.EnumSet;
  * combat branch while sharing the common primitive adaptation state.</p>
  */
 public final class PrimitiveVariantEntity extends BurrowingVariantEntity implements ManualVariantProvider {
+    /** Primitive variants keep the primitive tier values (primitiveCap 6, primitiveMinDamage 2.0). */
+    @Override
+    public ParasiteTier tier() {
+        return ParasiteTier.PRIMITIVE;
+    }
+
     private static final EntityDataAccessor<Integer> REEKER_CHARGE_STATE = SynchedEntityData.defineId(
             PrimitiveVariantEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> SPECIAL_ANIMATION_TICKS = SynchedEntityData.defineId(
@@ -386,10 +392,10 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         switch (activeKind()) {
             case ARACHNIDA -> {
                 goalSelector.addGoal(1, new WebPullGoal());
-                goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.15D, false));
+                goalSelector.addGoal(2, new GenerationMeleeAttackGoal(this, 1.15D, false));
             }
             case BOLSTER -> {
-                goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.0D, false));
+                goalSelector.addGoal(2, new GenerationMeleeAttackGoal(this, 1.0D, false));
                 goalSelector.addGoal(3, new BolsterSupportGoal());
                 goalSelector.addGoal(6, new ReekerRecruitFollowersGoal());
             }
@@ -1015,17 +1021,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     }
 
     private void applyManducaterMinimumDamage(LivingEntity target) {
-        float damage = MANDUCATER_MINIMUM_DAMAGE;
-        float absorption = target.getAbsorptionAmount();
-        if (absorption > 0.0F) {
-            target.setHealth(target.getHealth() - damage * 0.5F);
-            target.setAbsorptionAmount(Math.max(0.0F, absorption - damage * 0.5F));
-        } else {
-            target.setHealth(target.getHealth() - damage);
-        }
-        if (target.isDeadOrDying()) {
-            target.die(damageSources().mobAttack(this));
-        }
+        GenerationCombat.applyMinimumDamage(this, target, MANDUCATER_MINIMUM_DAMAGE);
     }
 
     private void applyManducaterPullMotion() {
@@ -1848,7 +1844,8 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         public boolean canUse() {
             LivingEntity target = getTarget();
             int status = entityData.get(MANDUCATER_STATUS);
-            return evading || target != null && target.isAlive() && status > 0 && status < 3 && onGround()
+            return evading || generationSpecialMoves() && target != null && target.isAlive() && status > 0 && status < 3
+                    && onGround()
                     && !hasEffect(MobEffects.MOVEMENT_SLOWDOWN)
                     && distanceToSqr(target) > 64.0D && distanceToSqr(target) < 225.0D
                     && hasLineOfSight(target);
@@ -2012,7 +2009,7 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         @Override
         public boolean canUse() {
             LivingEntity target = getTarget();
-            return evading || target != null && target.isAlive() && onGround()
+            return evading || generationSpecialMoves() && target != null && target.isAlive() && onGround()
                     && entityData.get(REEKER_CHARGE_STATE) == REEKER_CHARGE_NONE
                     && !hasEffect(MobEffects.MOVEMENT_SLOWDOWN)
                     && distanceToSqr(target) > REEKER_EVADE_MIN_DISTANCE_SQR

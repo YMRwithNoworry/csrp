@@ -54,7 +54,7 @@ public final class AssimilatedDragonHeadEntity extends Monster implements GeoEnt
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
         goalSelector.addGoal(2, new LeapAtTargetGoal(this, 0.4F));
-        goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.3D, false));
+        goalSelector.addGoal(3, new GenerationMeleeAttackGoal(this, 1.3D, false));
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(6, new RandomLookAroundGoal(this));

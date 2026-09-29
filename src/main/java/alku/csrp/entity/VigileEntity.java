@@ -43,7 +43,7 @@ public final class VigileEntity extends PrimitiveParasiteEntity {
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0D, false));
+        goalSelector.addGoal(1, new GenerationMeleeAttackGoal(this, 1.0D, false));
     }
 
     @Override

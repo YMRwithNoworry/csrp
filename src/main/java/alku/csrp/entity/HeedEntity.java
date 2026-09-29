@@ -288,8 +288,8 @@ public final class HeedEntity extends CrudeParasiteEntity {
 
         @Override
         public boolean canUse() {
-            // Legacy handleWater liquid leap is gated by the water leap gene: getGeneMod(4).
-            return waterLeapAllowed() && (isInWaterOrBubble() || isInLava() || attacking >= 1);
+            // Legacy EntityAIWaterLeapAtTargetStatus: this leap goal never consults the water leap gene.
+            return isInWaterOrBubble() || isInLava() || attacking >= 1;
         }
 
         @Override

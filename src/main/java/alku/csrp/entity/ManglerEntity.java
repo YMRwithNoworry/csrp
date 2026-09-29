@@ -187,15 +187,10 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
         return data;
     }
 
+    /** Original EntityMangler minimum damage value from the mobs config. */
     @Override
-    public boolean doHurtTarget(Entity target) {
-        float healthBefore = target instanceof LivingEntity living
-                ? living.getHealth() + living.getAbsorptionAmount() : 0.0F;
-        boolean hurt = super.doHurtTarget(target);
-        if (hurt && target instanceof LivingEntity living) {
-            applyMinimumDamage(living, healthBefore);
-        }
-        return hurt;
+    protected float generationMinimumDamage() {
+        return MobsConfig.manglerMinimumDamage();
     }
 
     @Override
@@ -360,30 +355,6 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
         if (--regenerationUses <= 0) {
             consumeParasiteKill();
             regenerationUses = 3;
-        }
-    }
-
-    private void applyMinimumDamage(LivingEntity target, float healthBefore) {
-        if (!(level() instanceof ServerLevel serverLevel)
-                || !EvolutionSystem.generationProfile(serverLevel).minimumDamage()
-                || target == this || !target.isAlive() || target instanceof Parasite
-                || target instanceof Player player && player.getAbilities().invulnerable) {
-            return;
-        }
-        float dealt = healthBefore - target.getHealth() - target.getAbsorptionAmount();
-        float minimum = MobsConfig.manglerMinimumDamage();
-        if (dealt >= minimum || minimum <= 0.0F) {
-            return;
-        }
-        float remaining = minimum - Math.max(0.0F, dealt);
-        float absorptionDamage = Math.min(target.getAbsorptionAmount(), remaining * 0.5F);
-        if (absorptionDamage > 0.0F) {
-            target.setAbsorptionAmount(target.getAbsorptionAmount() - absorptionDamage);
-        }
-        target.setHealth(Math.max(0.0F, target.getHealth() - (remaining - absorptionDamage)));
-        serverLevel.broadcastEntityEvent(target, (byte) 2);
-        if (target.getHealth() <= 0.0F) {
-            target.die(damageSources().mobAttack(this));
         }
     }
 

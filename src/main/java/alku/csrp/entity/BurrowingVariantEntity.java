@@ -25,6 +25,12 @@ import java.util.UUID;
 
 /** Shared staged digging movement used by Quac and the original and adapted Zaa and Wymo forms. */
 public abstract class BurrowingVariantEntity extends PrimitiveParasiteEntity {
+    /** Original EntityPAdapted constructor values (adaptedCap 9, adaptedMinDamage 4.0). */
+    @Override
+    public ParasiteTier tier() {
+        return ParasiteTier.ADAPTED;
+    }
+
     private static final byte BURROW_NONE = 0;
     private static final byte BURROW_DIVING = 1;
     private static final byte BURROW_UNDERGROUND = 2;

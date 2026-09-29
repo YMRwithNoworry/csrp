@@ -373,24 +373,9 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
         return Math.min(amount, cap);
     }
 
+    /** Original EntityParasiteBase#attackEntityAsMobMinimum with the feral tier value (0.75). */
     private void applyMinimumDamage(LivingEntity target, float healthBefore) {
-        if (!(level() instanceof ServerLevel serverLevel)
-                || !EvolutionSystem.generationProfile(serverLevel).minimumDamage() || !target.isAlive()) {
-            return;
-        }
-        float dealt = Math.max(0.0F, healthBefore - ParasiteCombatEffects.healthWithAbsorption(target));
-        float remaining = MINIMUM_DAMAGE - dealt;
-        if (remaining <= 0.0F) {
-            return;
-        }
-        float absorption = target.getAbsorptionAmount();
-        float absorbed = Math.min(absorption, remaining);
-        target.setAbsorptionAmount(absorption - absorbed);
-        remaining -= absorbed;
-        if (remaining > 0.0F) {
-            target.setHealth(Math.max(0.0F, target.getHealth() - remaining));
-        }
-        level().broadcastEntityEvent(target, (byte) 2);
+        GenerationCombat.applyMinimumDamage(this, target, MINIMUM_DAMAGE);
     }
 
     private void pursueInLiquid(LivingEntity target) {

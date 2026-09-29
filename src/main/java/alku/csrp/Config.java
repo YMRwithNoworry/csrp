@@ -7,7 +7,9 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeConfigSpec;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public final class Config {
     private static final ForgeConfigSpec.Builder BUILDER = new ForgeConfigSpec.Builder();
@@ -418,6 +420,54 @@ public final class Config {
     private static final ForgeConfigSpec.DoubleValue GENERATION_5_ATTACK_SPEED = BUILDER
             .comment("\"Generation 5 Attack Speed\" (original SRP).")
             .defineInRange("generation5AttackSpeed", 0.5D, 0D, 1D);
+    // ------------------------------------------------------------------
+    // Original SRP per-tier combat values ("Version <tier> Cap", "Version <tier> Minimum Damage",
+    // "<tier> Walls"). The generation system scales them: the damage cap only applies while the
+    // damage-cap gene is unlocked, the minimum damage only while the minimum-damage gene is
+    // unlocked, and "Walls" (true = always check line of sight) decides whether the generation-4
+    // X-ray gene can actually let that tier see through blocks.
+    // ------------------------------------------------------------------
+    private static final Map<String, ForgeConfigSpec.IntValue> TIER_DAMAGE_CAPS = new LinkedHashMap<>();
+    private static final Map<String, ForgeConfigSpec.DoubleValue> TIER_MINIMUM_DAMAGE = new LinkedHashMap<>();
+    private static final Map<String, ForgeConfigSpec.BooleanValue> TIER_WALLS = new LinkedHashMap<>();
+    private static final ForgeConfigSpec.DoubleValue MINIMUM_DAMAGE_SPECIAL_ATTACK_CAP = BUILDER
+            .comment("Special attacks stop adding minimum damage once the victim's health is below this",
+                    "value (original SRP \"Minimum Damage Special Attack Cap\").")
+            .defineInRange("minimumDamageSpecialAttackCap", 5.0D, 0.0D, 1000.0D);
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> DAMAGE_CAP_BLACKLIST = BUILDER
+            .comment("Damage sources that ignore the generation damage cap. Entries may be a damage",
+                    "type id ('minecraft:magic'), an item id ('minecraft:mace') or an entity id",
+                    "(original SRP \"Damage Cap Black List\").")
+            .defineList("damageCapBlackList", List.of(), value -> value instanceof String);
+
+    static {
+        tier("infected", 2, 0.5D, false);
+        tier("assimara", 5, 1.1D, false);
+        tier("feral", 3, 0.75D, false);
+        tier("hijacked", 5, 1.3D, false);
+        tier("primitive", 6, 2.0D, false);
+        tier("adapted", 9, 4.0D, false);
+        tier("ancient", 5, 2.5D, false);
+        tier("pure", 13, 7.0D, false);
+        tier("preeminent", 18, 10.0D, false);
+        tier("derived", 25, 14.0D, true);
+    }
+
+    private static void tier(String name, int cap, double minimumDamage, boolean walls) {
+        TIER_DAMAGE_CAPS.put(name, BUILDER
+                .comment("Original SRP \"Version " + name + " Cap\": damage cap divisor of the "
+                        + name + " tier.")
+                .defineInRange(name + "Cap", cap, 0, 1000));
+        TIER_MINIMUM_DAMAGE.put(name, BUILDER
+                .comment("Original SRP \"Version " + name + " Minimum Damage\": armor-bypassing damage the "
+                        + name + " tier adds to every melee hit.")
+                .defineInRange(name + "MinimumDamage", minimumDamage, 0.0D, 1000.0D));
+        TIER_WALLS.put(name, BUILDER
+                .comment("Original SRP \"" + name + " Walls\": when true this tier always needs line of",
+                        "sight, so the generation 4 X-ray gene never applies to it.")
+                .define(name + "Walls", walls));
+    }
+
     private static final ForgeConfigSpec.BooleanValue PEARL_DESTROYED_ON_BEHOLDER_KILL = BUILDER
             .comment("Destroy dropped Eyes of the Beholder when their owner is slain by a beholder.")
             .define("pearlDestroyedOnBeholderKill", true);
@@ -1022,6 +1072,13 @@ public final class Config {
 
     public static double killcountPlus() { return KILLCOUNT_PLUS.get(); }
     public static float primitiveMinimumDamage() { return PRIMITIVE_MINIMUM_DAMAGE.get().floatValue(); }
+    public static int tierDamageCap(String tier) { return TIER_DAMAGE_CAPS.get(tier).get(); }
+    public static float tierMinimumDamage(String tier) { return TIER_MINIMUM_DAMAGE.get(tier).get().floatValue(); }
+    public static boolean tierWalls(String tier) { return TIER_WALLS.get(tier).get(); }
+    public static List<? extends String> damageCapBlackList() { return DAMAGE_CAP_BLACKLIST.get(); }
+    public static float minimumDamageSpecialAttackCap() {
+        return MINIMUM_DAMAGE_SPECIAL_ATTACK_CAP.get().floatValue();
+    }
     public static boolean useEvolutionPhases() { return USE_EVOLUTION_PHASES.get(); }
 
     /**

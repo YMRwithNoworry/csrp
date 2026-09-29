@@ -48,6 +48,12 @@ import java.util.List;
 
 /** Legacy Ancient Dreadnaut and Ancient Overlord boss implementations. */
 public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
+
+    /** Original ancient tier constructor values. */
+    @Override
+    public ParasiteTier tier() {
+        return ParasiteTier.ANCIENT;
+    }
     private static final EntityDataAccessor<Integer> DREAD_DAMAGE_REACTION_TICKS = SynchedEntityData.defineId(
             AncientParasiteEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Integer> DREAD_ATTACK_ANIMATION_TICKS = SynchedEntityData.defineId(

@@ -8,6 +8,12 @@ import net.minecraft.world.level.Level;
 
 /** Shared hostile state for legacy hijacked mobs. */
 public abstract class HijackedParasiteEntity extends PrimitiveParasiteEntity {
+
+    /** Original hijacked tier constructor values. */
+    @Override
+    public ParasiteTier tier() {
+        return ParasiteTier.HIJACKED;
+    }
     protected HijackedParasiteEntity(EntityType<? extends HijackedParasiteEntity> type, Level level, int experience) {
         super(type, level);
         xpReward = experience;

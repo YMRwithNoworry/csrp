@@ -26,7 +26,8 @@ expect(client, /ModEntities\.WAVE\.get\(\), NoopRenderer::new/,
 expect(wave, /class WaveEntity extends PathfinderMob implements Parasite/,
   "wave is not an independently navigating parasite");
 expect(wave, /Attributes\.MOVEMENT_SPEED, 0\.45D/, "wave movement speed is not original");
-expect(wave, /new MeleeAttackGoal\(this, 1\.0D, false\)/, "wave target navigation is missing");
+expect(wave, /new GenerationMeleeAttackGoal\(this, 1\.0D, false\)/,
+  "wave target navigation is missing");
 expect(wave, /tickCount > 40[\s\S]*?getX\(\) == xo \|\| getZ\(\) == zo[\s\S]*?20 \* durationSeconds/,
   "wave stuck and duration removal rules are missing");
 expect(wave, /getFluidState\(blockPosition\(\)\)\.isEmpty\(\)/,

@@ -39,7 +39,7 @@ public final class CarrierWormEntity extends BurrowingVariantEntity {
     protected void registerGoals() {
         super.registerGoals();
         goalSelector.addGoal(1, createBurrowMovementGoal());
-        goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.3D, false));
+        goalSelector.addGoal(3, new GenerationMeleeAttackGoal(this, 1.3D, false));
     }
 
     @Override

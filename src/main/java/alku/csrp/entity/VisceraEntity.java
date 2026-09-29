@@ -382,8 +382,8 @@ public final class VisceraEntity extends PrimitiveParasiteEntity implements Manu
         @Override
         public boolean canUse() {
             LivingEntity target = getTarget();
-            return evading || target != null && target.isAlive() && getParasiteStatus() > 0
-                    && getParasiteStatus() < 3 && onGround()
+            return evading || generationSpecialMoves() && target != null && target.isAlive()
+                    && getParasiteStatus() > 0 && getParasiteStatus() < 3 && onGround()
                     && !hasEffect(MobEffects.MOVEMENT_SLOWDOWN)
                     && distanceToSqr(target) > 16.0D && distanceToSqr(target) < 225.0D
                     && hasLineOfSight(target);

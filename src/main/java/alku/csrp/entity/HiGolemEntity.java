@@ -26,6 +26,12 @@ import java.util.UUID;
 
 /** Legacy hijacked golem's wind-up charge and close-range control. */
 public final class HiGolemEntity extends HijackedParasiteEntity {
+
+    /** Original EntityHiGolem sets miniCapA. */
+    @Override
+    protected boolean usesMinimumDamageSpecialAttackCap() {
+        return true;
+    }
     private static final EntityDataAccessor<Boolean> CHARGING = SynchedEntityData.defineId(
             HiGolemEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
@@ -68,7 +74,7 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
     protected void registerGoals() {
         super.registerGoals();
         goalSelector.addGoal(1, new GolemChargeGoal());
-        goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.5D, false));
+        goalSelector.addGoal(3, new GenerationMeleeAttackGoal(this, 1.5D, false));
         goalSelector.addGoal(6, new ParasiteRecruitFollowersGoal(this, 1, 16));
     }
 

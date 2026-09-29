@@ -19,7 +19,7 @@ expect(entity, /case BOLSTER -> \{[\s\S]*?health = 35\.0D[\s\S]*?armor = 4\.0D[\
   "Primitive Bolster original attributes are missing");
 expect(entity, /case BOLSTER -> applyConfiguredAttributes\([\s\S]*?MobsConfig\.bolsterHealth\(\)[\s\S]*?MobsConfig\.bolsterArmor\(\)[\s\S]*?MobsConfig\.bolsterDamage\(\)[\s\S]*?MobsConfig\.bolsterKnockbackResistance\(\)/,
   "Primitive Bolster config attributes are not applied");
-expect(entity, /new MeleeAttackGoal\(this, 1\.0D, false\)/,
+expect(entity, /new GenerationMeleeAttackGoal\(this, 1\.0D, false\)/,
   "Primitive Bolster melee speed is not the original 1.0");
 expect(entity, /class BolsterSupportGoal extends Goal[\s\S]*?buffTimer\+\+[\s\S]*?buffTimer < 60[\s\S]*?bolsterBuffCooldownTicks\(\)/,
   "Primitive Bolster area-buff cadence is missing");

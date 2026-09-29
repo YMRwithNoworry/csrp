@@ -69,7 +69,7 @@ public final class SummonerEntity extends PrimitiveParasiteEntity implements Sum
         super.registerGoals();
         goalSelector.addGoal(1, new SummonGoal());
         goalSelector.addGoal(2, new VomitGoal());
-        goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.3, false));
+        goalSelector.addGoal(3, new GenerationMeleeAttackGoal(this, 1.3, false));
     }
 
     @Override public void tick() {

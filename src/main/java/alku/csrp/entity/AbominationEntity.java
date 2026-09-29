@@ -96,8 +96,7 @@ public final class AbominationEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected int incomingDamageCapDivisor() {
-        return activeKind() == Kind.BODIES && level() instanceof ServerLevel serverLevel
-                && EvolutionSystem.generationProfile(serverLevel).damageCap() ? 4 : 1;
+        return activeKind() == Kind.BODIES ? 4 : 1;
     }
 
     @Override

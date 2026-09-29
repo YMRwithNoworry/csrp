@@ -458,11 +458,12 @@ public final class InfectionMechanics {
         boolean assimilatedEnderman = host.getType() == EntityType.ENDERMAN
                 && BuiltInRegistries.ENTITY_TYPE.getKey(converted.getType()).getPath().equals("sim_enderman");
         converted.moveTo(host.getX(), host.getY(), host.getZ(), host.getYRot(), host.getXRot());
-        // Original getSimCOTHMod(): a freshly converted host spawns with its health scaled by
-        // generationCOTH<generation> (ParasiteEventEntity:660-662 and 755-757, SRPEventHandlerBus:1226-1228).
-        float cothHealth = EvolutionSystem.generationProfile(serverLevel).cothChance();
+        // Original getSimCOTHMod(): a freshly converted host keeps a share of the victim's health and is
+        // then scaled by generationCOTH<generation> when it enters the level
+        // (ParasiteEventEntity:660-662 and 755-757, SRPEventHandlerBus:1226-1228,
+        // EvolutionEvents#applyGenerationCothOnSpawn).
         converted.setHealth(Math.max(1.0F,
-                converted.getMaxHealth() * Math.max(0.1F, healthFraction) * cothHealth));
+                converted.getMaxHealth() * Math.max(0.1F, healthFraction)));
         converted.setCustomName(host.getCustomName());
         converted.setCustomNameVisible(host.isCustomNameVisible());
         converted.setPersistenceRequired();

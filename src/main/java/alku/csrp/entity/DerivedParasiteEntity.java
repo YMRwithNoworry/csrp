@@ -154,11 +154,10 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
         return 0.10F;
     }
 
+    /** Original EntityPDerived constructor: derivedCap (25) takes over the tier damage cap. */
     @Override
-    protected int incomingDamageCapDivisor() {
-        return level() instanceof ServerLevel serverLevel
-                && EvolutionSystem.generationProfile(serverLevel).damageCap()
-                ? DERIVED_DAMAGE_CAP : 1;
+    public ParasiteTier tier() {
+        return ParasiteTier.DERIVED;
     }
 
     @Override
@@ -236,9 +235,7 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
 
     @Override
     public boolean doHurtTarget(Entity target) {
-        if (target instanceof LivingEntity living && !(target instanceof Parasite)) {
-            applyMinimumDamage(living, DERIVED_MINIMUM_DAMAGE);
-        }
+        // Legacy EntityPDerived MiniDamage (14) now lands through PrimitiveParasiteEntity#doHurtTarget.
         return super.doHurtTarget(target);
     }
 
@@ -336,6 +333,11 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void tickShadowState() {
+        // EntityPCosmical#checkShadow only runs while parasiteStatus < 3, which is how the original
+        // keeps a mob in the middle of a skill from spawning or resolving its shadow clone.
+        if (getParasiteStatus() >= 3) {
+            return;
+        }
         if (isShadowClone()) {
             cloneLifeTicks++;
             if (cloneLifeTicks >= SHADOW_CLONE_LIFETIME_TICKS || !hasLiveParent()) {

@@ -80,7 +80,7 @@ public class FeralParasiteEntity extends Monster implements GeoEntity, Parasite 
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
-        goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.5D, false));
+        goalSelector.addGoal(2, new GenerationMeleeAttackGoal(this, 1.5D, false));
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0D));
         goalSelector.addGoal(6, new ParasiteRecruitFollowersGoal(this, 1, 16));
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));

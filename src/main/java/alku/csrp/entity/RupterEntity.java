@@ -455,26 +455,9 @@ public class RupterEntity extends Monster implements GeoEntity, Parasite, Manual
         return hit;
     }
 
+    /** Original EntityParasiteBase#attackEntityAsMobMinimum with the rupter minimum damage value. */
     private void applyMinimumDamage(LivingEntity target, float healthBefore) {
-        if (target == this || !target.isAlive() || target instanceof Parasite
-                || target instanceof Player player && player.getAbilities().invulnerable) {
-            return;
-        }
-        float dealt = healthBefore - target.getHealth() - target.getAbsorptionAmount();
-        float minimum = MobsConfig.rupterMinimumDamage();
-        if (dealt >= minimum || minimum <= 0.0F) {
-            return;
-        }
-        float remaining = minimum - Math.max(0.0F, dealt);
-        float absorptionDamage = Math.min(target.getAbsorptionAmount(), remaining * 0.5F);
-        if (absorptionDamage > 0.0F) {
-            target.setAbsorptionAmount(target.getAbsorptionAmount() - absorptionDamage);
-        }
-        target.setHealth(Math.max(0.0F, target.getHealth() - (remaining - absorptionDamage)));
-        level().broadcastEntityEvent(target, (byte) 2);
-        if (target.getHealth() <= 0.0F) {
-            target.die(damageSources().mobAttack(this));
-        }
+        GenerationCombat.applyMinimumDamage(this, target, MobsConfig.rupterMinimumDamage());
     }
 
     @Override

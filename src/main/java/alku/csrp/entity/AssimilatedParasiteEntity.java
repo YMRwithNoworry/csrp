@@ -132,7 +132,7 @@ public final class AssimilatedParasiteEntity extends Monster
         if (kind == Kind.COW) {
             goalSelector.addGoal(1, new CowChargeGoal());
         }
-        goalSelector.addGoal(2, new MeleeAttackGoal(this, kind == Kind.WOLF ? 1.35D : 1.15D, false));
+        goalSelector.addGoal(2, new GenerationMeleeAttackGoal(this, kind == Kind.WOLF ? 1.35D : 1.15D, false));
         if (kind == Kind.SQUID) {
             goalSelector.addGoal(5, new RandomSwimmingGoal(this, 1.0D, 30));
         } else {

@@ -54,7 +54,7 @@ public final class WaveEntity extends PathfinderMob implements Parasite {
 
     @Override
     protected void registerGoals() {
-        goalSelector.addGoal(3, new MeleeAttackGoal(this, 1.0D, false));
+        goalSelector.addGoal(3, new GenerationMeleeAttackGoal(this, 1.0D, false));
     }
 
     @Override

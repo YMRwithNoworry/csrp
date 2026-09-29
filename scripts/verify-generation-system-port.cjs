@@ -209,6 +209,7 @@ if (fs.existsSync(infectionDir)) walk(infectionDir);
 const entitySources = entityFiles.map((file) => ({ file, text: fs.readFileSync(file, 'utf8') }));
 const findEntities = (pattern) => entitySources.filter((entry) => pattern.test(entry.text))
     .map((entry) => path.relative(root, entry.file).replace(/\\/g, '/'));
+const entitiesFor = (name) => (entitySources.find((entry) => entry.file.endsWith(name)) || { text: '' }).text;
 
 const consumers = [
     ['lookWalls', /\.lookWalls\(\)/, 'no entity consults the per-generation X-ray flag'],
@@ -250,6 +251,109 @@ expect(commands, /literal\("setphase"\)[\s\S]{0,700}IntegerArgumentType\.integer
     '/srpevolution setphase must accept the optional generation argument');
 expect(relay, /data\.generationTicks\(\)/,
     'the relay phase report must read the remaining generation ticks');
+
+/* ------------------------------------------------------------------ *
+ * 9. Per-tier values, minimum damage, damage cap, X-ray, sprinting, poison and COTH.
+ *    Original sources: SRPConfig (Version <tier> Cap / Minimum Damage / Walls),
+ *    EntityParasiteBase#attackEntityAsMobMinimum / #hurt, EntityAIEvade, EntityAISkill,
+ *    EntityAIAttackMeleeStatus, EntityAINearestAttackableTargetStatus, SRPEventHandlerBus#onEntitySpawn.
+ * ------------------------------------------------------------------ */
+const tiers = read('src/main/java/alku/csrp/entity/ParasiteTier.java');
+const combat = read('src/main/java/alku/csrp/entity/GenerationCombat.java');
+const meleeGoal = read('src/main/java/alku/csrp/entity/GenerationMeleeAttackGoal.java');
+const base = read('src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java');
+const infection = read('src/main/java/alku/csrp/infection/InfectionMechanics.java');
+
+// Per-tier options copied from SRPConfig.
+const TIERS = [
+    ['infected', 2, '0.5D', false], ['assimara', 5, '1.1D', false], ['feral', 3, '0.75D', false],
+    ['hijacked', 5, '1.3D', false], ['primitive', 6, '2.0D', false], ['adapted', 9, '4.0D', false],
+    ['ancient', 5, '2.5D', false], ['pure', 13, '7.0D', false], ['preeminent', 18, '10.0D', false],
+    ['derived', 25, '14.0D', true]
+];
+for (const [tier, cap, minimumDamage, walls] of TIERS) {
+    const declared = 'tier("' + tier + '", ' + cap + ', ' + minimumDamage + ', ' + walls + ')';
+    if (!config.includes(declared)) {
+        failures.push('the original tier values are missing: ' + declared);
+    }
+    if (!tiers.includes(tier.toUpperCase() + '("' + tier + '")')) {
+        failures.push('ParasiteTier is missing the ' + tier + ' tier');
+    }
+}
+expect(config, /defineList\("damageCapBlackList"/,
+    'the original "Damage Cap Black List" option (damageCapBlackList) is missing');
+expect(config, /defineInRange\("minimumDamageSpecialAttackCap", 5\.0D/,
+    'the original "Minimum Damage Special Attack Cap" default 5.0 is missing');
+expect(tiers, /Config\.tierDamageCap\(key\)/, 'ParasiteTier must read the configure damage cap');
+expect(tiers, /Config\.tierWalls\(key\)/, 'ParasiteTier must read the configured sight-check flag');
+
+// Minimum damage: shared original implementation, applied by every melee hit.
+expect(combat, /public static boolean applyMinimumDamage\(LivingEntity attacker, LivingEntity target, float baseDamage\)/,
+    'GenerationCombat#applyMinimumDamage (original attackEntityAsMobMinimum) is missing');
+expect(combat, /ModMobEffects\.VIRAL\.get\(\)/, 'the minimum damage must be amplified by the Viral effect');
+expect(combat, /getAbsorptionAmount\(\)/, 'the minimum damage must be split with absorption');
+expect(combat, /public static boolean ignoresDamageCap\(DamageSource source\)/,
+    'GenerationCombat#ignoresDamageCap (original damage cap black list) is missing');
+expect(base, /GenerationCombat\.applyMinimumDamage\(this, living, generationMinimumDamage\(\)\)/,
+    'PrimitiveParasiteEntity#doHurtTarget must apply the tier minimum damage on every melee hit');
+expect(base, /protected float generationMinimumDamage\(\)/,
+    'the per-tier minimum damage hook (generationMinimumDamage) is missing');
+expect(base, /usesMinimumDamageSpecialAttackCap\(\)/,
+    'the original miniCapA "Minimum Damage Special Attack Cap" hook is missing');
+
+// Damage cap: tier value, gene gate and black list.
+expect(base, /EvolutionSystem\.generationProfile\(serverLevel\)\.damageCap\(\) \? incomingDamageCapDivisor\(\) : 1/,
+    'the damage cap must stay locked until the generation damage-cap gene is unlocked');
+expect(base, /GenerationCombat\.ignoresDamageCap\(source\)/,
+    'the damage cap must honour the black list');
+expect(base, /protected int incomingDamageCapDivisor\(\) \{\s*return tier\(\)\.damageCap\(\);/,
+    'the base damage cap divisor must come from the parasite tier');
+
+// X-ray: tier "Walls" flag plus the sight-ignoring target acquisition.
+expect(base, /protected boolean ignoresLineOfSight\(\)|public boolean ignoresLineOfSight\(\)/,
+    'the tier-aware sight check (ignoresLineOfSight) is missing');
+expect(base, /!tier\(\)\.forcesSightCheck\(\)/, 'ignoresLineOfSight must read the tier "Walls" flag');
+expect(events, /parasite\.ignoresLineOfSight\(\)/,
+    'the generation X-ray gene must let parasites acquire targets without line of sight');
+
+// Sprinting: the original melee AI speed bonus.
+expect(meleeGoal, /SPRINT_SPEED_MULTIPLIER = 1\.3D/,
+    'the original 1.3x sprinting speed of EntityAIAttackMeleeStatus is missing');
+expect(meleeGoal, /generationProfile\(level\)\.sprinting\(\)/,
+    'the melee speed bonus must be gated by the generation sprinting gene');
+let meleeGoals = 0;
+for (const entry of entitySources) {
+    const hits = entry.text.split('new GenerationMeleeAttackGoal(').length - 1;
+    meleeGoals += hits;
+}
+if (meleeGoals < 25) {
+    failures.push('only ' + meleeGoals + ' melee goals use the generation sprinting speed');
+}
+
+// Special moves gate the dodge/dash goals of primitive, pure and adapted variants.
+expect(entitiesFor('PrimitiveVariantEntity.java'), /generationSpecialMoves\(\)/,
+    'the primitive variant dodge goals must be gated by the special-move gene');
+expect(entitiesFor('VisceraEntity.java'), /generationSpecialMoves\(\)/,
+    'the viscera dodge goal must be gated by the special-move gene');
+expect(entitiesFor('PureParasiteEntity.java'), /generationSpecialMoves\(\)/,
+    'the pure dash goals must be gated by the special-move gene');
+
+// Water leap: the water-leap-at-target goal is not gene gated in the original.
+expect(entitiesFor('HeedEntity.java'),
+    /Legacy EntityAIWaterLeapAtTargetStatus: this leap goal never consults the water leap gene/,
+    'the water-leap-at-target goal must not be gated by the water leap gene');
+
+// Poison: the tick is cancelled even when the gene heals nothing.
+expect(events, /event\.setCanceled\(true\);\s*\n\s*if \(healing > 0\.0F\) \{\s*\n\s*parasite\.heal\(1\.0F \* healing\);/,
+    'the poison tick must be cancelled even when the poison gene heals nothing');
+
+// COTH spawn stats now apply to freshly spawned assimilated and feral parasites.
+expect(events, /public static void applyGenerationCothOnSpawn\(EntityJoinLevelEvent event\)/,
+    'the original COTH spawning stats hook (assimilated and feral spawns) is missing');
+expect(events, /generationProfile\(level\)\.cothChance\(\)/,
+    'the COTH spawning stats hook must read the generation coth value');
+expect(infection, /converted\.getMaxHealth\(\) \* Math\.max\(0\.1F, healthFraction\)\)/,
+    'the conversion path must keep the host health share and let the spawn hook apply the COTH factor');
 
 if (failures.length) {
     console.error('Generation (迭代) port verification failed:');

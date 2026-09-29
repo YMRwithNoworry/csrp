@@ -211,8 +211,7 @@ public final class DredgeEntity extends CrudeParasiteEntity {
             return;
         }
         if (!waterLeapAllowed()) {
-            // Legacy handleWater consumes the charge without leaping when the gene is missing.
-            liquidLeap--;
+            // Legacy handleWater only spends the charge inside the water leap gene block.
             return;
         }
         liquidLeap--;
@@ -335,11 +334,6 @@ public final class DredgeEntity extends CrudeParasiteEntity {
         }
         setParasiteStatus(getDeltaMovement().horizontalDistanceSqr() > 0.0004D
                 ? STATUS_SPRINT : STATUS_COMBAT);
-    }
-
-    @Override
-    protected int incomingDamageCapDivisor() {
-        return 6;
     }
 
     @Override

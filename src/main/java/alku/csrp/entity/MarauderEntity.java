@@ -41,6 +41,12 @@ import java.util.UUID;
  * tendrils, charged smash behavior, and the original model-function states.
  */
 public final class MarauderEntity extends PrimitiveParasiteEntity {
+
+    /** Original EntityEsor sets miniCapA. */
+    @Override
+    protected boolean usesMinimumDamageSpecialAttackCap() {
+        return true;
+    }
     @Override
     protected int maxDamageAdaptationHits() {
         return 8;

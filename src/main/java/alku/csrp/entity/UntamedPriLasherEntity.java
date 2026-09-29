@@ -104,7 +104,7 @@ public class UntamedPriLasherEntity extends PrimitiveParasiteEntity {
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
-        goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.2, false));
+        goalSelector.addGoal(2, new GenerationMeleeAttackGoal(this, 1.2, false));
         goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 1.0));
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
         goalSelector.addGoal(7, new RandomLookAroundGoal(this));

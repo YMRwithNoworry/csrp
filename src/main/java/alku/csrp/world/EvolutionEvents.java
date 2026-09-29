@@ -1,10 +1,13 @@
 package alku.csrp.world;
 
+import alku.csrp.Config;
 import alku.csrp.Csrp;
 import alku.csrp.config.GeneralConfig;
 import alku.csrp.config.WorldConfig;
 import alku.csrp.entity.ArchitectEntity;
+import alku.csrp.entity.FeralParasiteEntity;
 import alku.csrp.entity.NexusParasiteEntity;
+import alku.csrp.entity.PrimitiveParasiteEntity;
 import alku.csrp.entity.Parasite;
 import alku.csrp.entity.ParasiteTransformation;
 import alku.csrp.infection.InfectionMechanics;
@@ -352,8 +355,11 @@ public final class EvolutionEvents {
         if (entity.tickCount % 20 == 0 && InfectionMechanics.tryRestoreAssimilatedDisguise(entity)) {
             return;
         }
+        // Legacy EntityAINearestAttackableTargetStatus: shouldCheckSight || !getGeneMod(2). Tiers whose
+        // "Walls" option is false pick up targets without line of sight once the X-ray gene is unlocked.
+        boolean generationSight = entity instanceof PrimitiveParasiteEntity parasite && parasite.ignoresLineOfSight();
         if (entity.tickCount % 20 == 0 && entity instanceof Mob mob && mob.getTarget() == null
-                && SrpWorldData.get(level).evolutionPhase() >= 9) {
+                && (SrpWorldData.get(level).evolutionPhase() >= 9 || generationSight)) {
             double range = Math.max(16.0D, mob.getAttributeValue(Attributes.FOLLOW_RANGE));
             level.getEntitiesOfClass(LivingEntity.class, mob.getBoundingBox().inflate(range),
                             candidate -> candidate != mob && candidate.isAlive() && !(candidate instanceof Parasite)
@@ -368,6 +374,34 @@ public final class EvolutionEvents {
         boolean shouldSprint = profile.sprinting() && entity instanceof Mob mob
                 && mob.getTarget() != null && mob.getTarget().isAlive() && movedHorizontally;
         entity.setSprinting(shouldSprint);
+    }
+
+    private static final String GENERATION_COTH_TAG = "csrp_generation_coth";
+
+    /**
+     * Original {@code SRPEventHandlerBus#onEntitySpawn}: a freshly spawned assimilated host has its
+     * health multiplied by the dimension generation "COTH Spawning Stats" value, so assimilated and
+     * feral parasites appear with 20% / 30% / 65% / 100% health. The original applies the same factor
+     * in the conversion paths ({@code ParasiteEventEntity:661/756}).
+     */
+    @SubscribeEvent
+    public static void applyGenerationCothOnSpawn(EntityJoinLevelEvent event) {
+        if (event.loadedFromDisk() || !Config.generationEnabled()
+                || !(event.getEntity() instanceof LivingEntity entity)
+                || !(event.getLevel() instanceof ServerLevel level)) {
+            return;
+        }
+        if (!(entity instanceof FeralParasiteEntity) && !InfectionMechanics.isAssimilatedBody(entity)) {
+            return;
+        }
+        if (entity.getPersistentData().getBoolean(GENERATION_COTH_TAG)) {
+            return;
+        }
+        entity.getPersistentData().putBoolean(GENERATION_COTH_TAG, true);
+        float coth = EvolutionSystem.generationProfile(level).cothChance();
+        if (coth > 0.0F && coth != 1.0F) {
+            entity.setHealth(Math.max(1.0F, entity.getHealth() * coth));
+        }
     }
 
     /**
@@ -385,11 +419,11 @@ public final class EvolutionEvents {
                 || !parasite.hasEffect(MobEffects.POISON)) {
             return;
         }
+        // The original cancels the poison tick even when the gene heals nothing.
         float healing = EvolutionSystem.generationProfile(level).poisonHealing();
-        if (healing <= 0.0F) {
-            return;
-        }
         event.setCanceled(true);
-        parasite.heal(1.0F * healing);
+        if (healing > 0.0F) {
+            parasite.heal(1.0F * healing);
+        }
     }
 }
