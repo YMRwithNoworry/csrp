@@ -42,6 +42,12 @@ import java.util.UUID;
  */
 public final class MarauderEntity extends PrimitiveParasiteEntity {
 
+    /** Original EntityEsor is a pure-tier parasite (pureCap 13, pureMinDamage 7.0). */
+    @Override
+    public ParasiteTier tier() {
+        return ParasiteTier.PURE;
+    }
+
     /** Original EntityEsor sets miniCapA. */
     @Override
     protected boolean usesMinimumDamageSpecialAttackCap() {
