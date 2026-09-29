@@ -122,6 +122,26 @@ for (const [pattern, description] of [
     [/getFluidState\(\)\.is\(FluidTags\.WATER\)/, "post-impact water updates are missing"]
 ]) expect(impact, pattern, description);
 
+// The 1.12 "y > 5" guards are carve floors only. Clamping the *surface* to them moved every
+// decoration two blocks above the ground on a superflat world, leaving a floating ring of
+// infested blocks around the impact instead of the original ground-level crater decorations.
+expect(impact, /public static BlockPos surface\(ServerLevel level, BlockPos around\) \{\s*\n\s*int y = level\.getHeight\(Heightmap\.Types\.MOTION_BLOCKING[\s\S]{0,160}?Math\.max\(level\.getMinBuildHeight\(\), y\)/,
+    "the impact surface must be the real surface block (original getTopSolidOrLiquidBlock().below()), not a MIN_CARVE_Y clamp");
+reject(impact, /Math\.max\(level\.getMinBuildHeight\(\)\s*\+\s*MIN_[A-Z_]*Y_OFFSET,\s*y\)/,
+    "the impact surface is still clamped to the carve floor, which floats every decoration above the ground");
+expect(impact, /int localTop = level\.getHeight\(Heightmap\.Types\.MOTION_BLOCKING, columnX, columnZ\) - 1;/,
+    "the crater bowl must start from the surface block (original colTop)");
+expect(impact, /int cut = localTop - \(int\) Math\.round\(depth \* Math\.pow\(1\.0D - distance \/ radius, 2\.0D\)\);/,
+    "the crater bowl must use the original cut = topY - round(depth * curve)");
+expect(impact, /for \(int y = localTop; y > cut && y > minimumY; y--\)/,
+    "the crater bowl carve loop must mirror the original y > cut && y > 5 guard");
+expect(impact, /BlockPos floor = surface\(level, new BlockPos\(columnX, localTop, columnZ\)\);/,
+    "crater decorations must be placed on the surface re-read after carving, like the original");
+expect(impact, /MIN_STRUCTURE_Y_OFFSET = 6;/,
+    "the structure placement clamp must be the original y = 6 (1.20: minBuildHeight + 6)");
+expect(impact, /Math\.max\(level\.getMinBuildHeight\(\) \+ MIN_STRUCTURE_Y_OFFSET,\s*\n\s*impact\.getY\(\) - depth \+ 1\)/,
+    "the main meteor structure must be placed with the original placeY = max(bottomY + 1, 6)");
+
 for (const [pattern, description] of [
     [/LEGACY_NAMESPACE\s*=\s*"srparasites:"/, "legacy meteor structure namespace rewriting is missing"],
     [/Map\.entry\("dermoid_cyst",\s*"gluttonous_cyst"\)/,

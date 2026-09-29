@@ -19,14 +19,23 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
 
 public final class MeteorImpactGenerator {
-    private static final int MIN_SAFE_Y_OFFSET = 5;
+    /**
+     * Original {@code MIN_CARVE_Y = 5}. It is a floor for <b>carving</b> only (the 1.12 {@code y > 5}
+     * guards); it must never move the impact surface itself, otherwise a superflat world (surface
+     * y = -61) would have every decoration placed two blocks above the ground and the whole impact
+     * would float.
+     */
+    private static final int MIN_CARVE_Y_OFFSET = 5;
+    /** Original {@code Math.max(bottomY + 1, 6)}: 1.12 {@code y = 6} mapped into 1.20 coordinates. */
+    private static final int MIN_STRUCTURE_Y_OFFSET = 6;
 
     private MeteorImpactGenerator() {
     }
 
+    /** Original {@code World#getTopSolidOrLiquidBlock(pos).below()}: the surface block itself. */
     public static BlockPos surface(ServerLevel level, BlockPos around) {
         int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING, around.getX(), around.getZ()) - 1;
-        return new BlockPos(around.getX(), Math.max(level.getMinBuildHeight() + MIN_SAFE_Y_OFFSET, y), around.getZ());
+        return new BlockPos(around.getX(), Math.max(level.getMinBuildHeight(), y), around.getZ());
     }
 
     public static void generateMain(ServerLevel level, BlockPos impact, RandomSource random) {
@@ -51,7 +60,9 @@ public final class MeteorImpactGenerator {
         ejecta(level, impact, radius, directionX, directionZ, random);
         microCraters(level, impact, radius, directionX, directionZ, random);
 
-        int bottomY = Math.max(level.getMinBuildHeight() + MIN_SAFE_Y_OFFSET, impact.getY() - depth + 1);
+        // Original: bottomY2 = craterSurface.y - adjustedDepth + 1, clamped to y = 6.
+        int bottomY = Math.max(level.getMinBuildHeight() + MIN_STRUCTURE_Y_OFFSET,
+                impact.getY() - depth + 1);
         deadBloodPool(level, new BlockPos(impact.getX(), bottomY, impact.getZ()),
                 Math.max(4, radius / 6), 10, 4);
         BlockPos structureOrigin = new BlockPos(impact.getX(), bottomY, impact.getZ())
@@ -126,7 +137,7 @@ public final class MeteorImpactGenerator {
 
     private static void carveArrivalDisk(ServerLevel level, int centerX, int y, int centerZ,
                                           int radius, int incomplete, RandomSource random) {
-        if (radius <= 0 || y <= level.getMinBuildHeight() + MIN_SAFE_Y_OFFSET
+        if (radius <= 0 || y <= level.getMinBuildHeight() + MIN_CARVE_Y_OFFSET
                 || y >= level.getMaxBuildHeight()) {
             return;
         }
@@ -143,7 +154,7 @@ public final class MeteorImpactGenerator {
 
     private static void carveBowl(ServerLevel level, BlockPos center, int radius, int depth, RandomSource random) {
         int radiusSqr = radius * radius;
-        int minimumY = level.getMinBuildHeight() + MIN_SAFE_Y_OFFSET;
+        int minimumY = level.getMinBuildHeight() + MIN_CARVE_Y_OFFSET;
         for (int x = -radius; x <= radius; x++) {
             for (int z = -radius; z <= radius; z++) {
                 int distanceSqr = x * x + z * z;
@@ -151,14 +162,18 @@ public final class MeteorImpactGenerator {
                     continue;
                 }
                 double distance = Math.sqrt(distanceSqr);
-                int localTop = level.getHeight(Heightmap.Types.MOTION_BLOCKING,
-                        center.getX() + x, center.getZ() + z);
-                int floorY = Math.max(minimumY,
-                        localTop - (int) Math.round(depth * Math.pow(1.0D - distance / radius, 2.0D)));
-                for (int y = localTop - 1; y > floorY; y--) {
-                    clear(level, new BlockPos(center.getX() + x, y, center.getZ() + z));
+                int columnX = center.getX() + x;
+                int columnZ = center.getZ() + z;
+                // Original: colTop = getTopSolidOrLiquidBlock(...).y, cut = topY - round(depth * curve).
+                int localTop = level.getHeight(Heightmap.Types.MOTION_BLOCKING, columnX, columnZ) - 1;
+                int cut = localTop - (int) Math.round(depth * Math.pow(1.0D - distance / radius, 2.0D));
+                for (int y = localTop; y > cut && y > minimumY; y--) {
+                    clear(level, new BlockPos(columnX, y, columnZ));
                 }
-                BlockPos floor = new BlockPos(center.getX() + x, floorY, center.getZ() + z);
+                // Original: the decoration replaces the surface block re-read *after* the carve. On a
+                // superflat world nothing can be carved (the ground sits below MIN_CARVE_Y), so the
+                // decoration lands on the real ground instead of floating above it.
+                BlockPos floor = surface(level, new BlockPos(columnX, localTop, columnZ));
                 int coreRadius = Math.max(2, (int) (radius * 0.28F));
                 if (distanceSqr <= coreRadius * coreRadius) {
                     replace(level, floor, random.nextInt(3) == 0 ? stain() : cookedFlesh());
@@ -199,7 +214,7 @@ public final class MeteorImpactGenerator {
 
     private static void clearVegetation(ServerLevel level, BlockPos center, int radius, int depth) {
         int radiusSqr = radius * radius;
-        int minimumY = Math.max(level.getMinBuildHeight() + MIN_SAFE_Y_OFFSET,
+        int minimumY = Math.max(level.getMinBuildHeight() + MIN_CARVE_Y_OFFSET,
                 center.getY() - depth - 12);
         int maximumY = Math.min(level.getMaxBuildHeight() - 1, center.getY() + 50);
         for (int x = -radius; x <= radius; x++) {
@@ -347,7 +362,7 @@ public final class MeteorImpactGenerator {
     }
 
     private static boolean clearAndReport(ServerLevel level, BlockPos pos) {
-        if (!level.isInWorldBounds(pos) || pos.getY() <= level.getMinBuildHeight() + MIN_SAFE_Y_OFFSET
+        if (!level.isInWorldBounds(pos) || pos.getY() <= level.getMinBuildHeight() + MIN_CARVE_Y_OFFSET
                 || level.getBlockEntity(pos) != null) {
             return false;
         }
