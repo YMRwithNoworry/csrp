@@ -4780,3 +4780,48 @@ until this time (seconds) has passed），端口此前缺这一层配置面 —�
 
 **验证**：`./gradlew.bat build` 成功；新增 `scripts/verify-phase-cooldown.cjs` 钉住
 「默认 false + 只有开关为真才起冷却 + 旧存档迁移清计时 + 诱饵计时独立」；全量校验维持基线。
+
+## 批次 275：复刻原模组刷怪器（专用 SRPWorldParasiteSpawner）（2026-10-01）
+
+需求：游戏里「感觉刷怪好少」，要求复刻原模组的刷怪。
+
+**根因**：此前只在 `LevelEvent.PotentialSpawns` 里把寄生体塞进生物群系的 `MONSTER` 候选表。
+原版 `SRPConfigSystems.phaseCustomSpawner` 默认为 `true`，此时它**根本不走生物群系刷怪表**：
+`SRPEventHandlerBus#tickSpawn` 每世界 tick 直接调用
+`SRPWorldParasiteSpawner.findChunksForSpawning`（见 `util/handlers/SRPEventHandlerBus.java:1579-1584`）。
+把寄生体混进 `MONSTER` 的后果是它们要跟原版怪物抢同一个 vanilla 刷怪上限——该上限按
+`getMaxInstancesPerChunk() * spawnableChunkCount / 17²` 算（`.ref263` 的 `NaturalSpawner`
+`SpawnState#canSpawnForCategoryGlobal`），正常世界里几乎常年吃满，所以寄生体几乎刷不出来。
+
+**改动**：
+
+| 位置 | 内容 |
+| --- | --- |
+| `world/SrpWorldParasiteSpawner`（新增） | 逐条复刻原版 `SRPWorldParasiteSpawner#findChunksForSpawningVanilla`：8 格区块半径（**外层一圈按 `flag` 排除**，实取内层 15×15）、`Collections.shuffle` 等价乱序、每簇 `ceil(rand*4)` 次尝试 ×3 簇、玩家 24 格内不进刷、距世界出生点 <576 格不进刷、`isRedstoneConductor` 起点排除、权重取自 `NaturalSpawnTables`、`IN_AIR` 70% 直接弃且按最近 24 格外玩家高度重定位（受 `spawnerSKYLimitUp` 夹取）、每簇 `getMaxSpawnClusterSize` 提前结束 |
+| `world/EvolutionEvents#tickGeneration` | 改为每 tick 驱动一次刷怪器；`useEvolutionPhases && phaseCustomSpawner` 为真时才跑（对齐原版 `worldTick`→`tickSpawn` 的判定） |
+| `world/EvolutionEvents#replaceNaturalSpawnCandidates` | 保留**清理**寄生体候选（避免原版表与专用器双重刷怪），但只在 `phaseCustomSpawner=false` 的旧路径才注入生物群系表 |
+| `config/WorldConfig` | 新增 `worldWaterCap`（原版 3）、`worldAirCap`（原版 3）、`spawnerSKYLimitUp`（原版 250） |
+| `Config` | 新增 `phaseCustomSpawner`（原版 `SRPConfigSystems.phaseCustomSpawner = true`） |
+| `registry/CommonModEvents` | `WATER_SPAWN_IDS` / `AIR_SPAWN_IDS` 改为 `public`，与刷怪器共用同一份分类，避免两处漂移 |
+
+**逐条上限**（原版在 `SRPSpawning.DimensionHandler#onSpawn` 施加）：总数 `count > worldSpawningMobCap
++ players` 拒绝、Gnat/Lice `> worldGnatCap`、Worker（Kol）`> 10`、水生 `> worldWaterCap`、
+飞行 `> worldAirCap`。本移植把这些搬进 `SpawnCounts`，每次采样后随刷新推进，不再对每个候选重扫全量实体
+（采样结果带 20 tick 缓存）。
+
+**两处刻意映射**：
+
+| 原版 | 本移植 |
+| --- | --- |
+| 水生寄生体（`EntityInfSquid`/`EntityLum`）覆写 `func_70058_J`（`isNotColliding`）以去掉「碰撞箱内含液体」判定 | `passesSpawnChecks` 对 `WATER_SPAWN_IDS` 单独走「位置检查事件 + `checkSpawnRules` + `isUnobstructed`」，其余仍走 `EventHooks.checkSpawnPosition` |
+| 原版 `originActivated` 默认 `true`，其 `findChunksForSpawningOrigin` 用 `lock > 7` 预热 | 统一采用 `lock > 7`（`WARMUP_PASSES = 7`）；节点/殖民地过滤未复刻本批次，见下 |
+
+**边界（本批次刻意不动）**：原版 `originActivated=true` 时还会用 `filterEligibleChunksForOrigin`
+把候选区块限制在节点/殖民地半径内，并按 `deveLevel` 叠加 `LEVELONE..LEVELFOUR` 通用发育表。
+本工程已有自己的节点/殖民地/vector 体系（`SrpWorldData`、`DislodgmentSystem`），本轮不动这两条，
+只保证「专用刷怪器 + 原版权重表 + 原版上限」这条主线；`origin` 专用过滤留作后续独立批次。
+
+**验证**：`./gradlew.bat build` 成功；新增 `scripts/verify-srp-natural-spawner.cjs` 钉住
+「每 tick 驱动 + 8 格半径排除外圈 + ceil(rand*4)×3 + 24 格/576 格排除 + 权重表 + 空气 70%
++ 原版三类上限 + 水生去掉液体判定 + 旧候选注入被跳过」；全量校验由 101 项/81 通过
+变为 **102 项/82 通过，失败数不变（20）**。

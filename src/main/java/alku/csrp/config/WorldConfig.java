@@ -15,6 +15,18 @@ public final class WorldConfig {
     private static final ModConfigSpec.IntValue WORLD_MOB_CAP_PLUS_PLAYER = BUILDER
             .comment("Natural parasite cap added for each player in the dimension.")
             .defineInRange("worldMobCapPlusPlayer", 5, 0, 50000);
+    private static final ModConfigSpec.IntValue WORLD_WATER_CAP = BUILDER
+            .comment("Aquatic parasites stop spawning naturally once this many are loaded"
+                    + " (SRPConfig.worldWaterCap = 3). Set to 0 to disable the cap.")
+            .defineInRange("worldWaterCap", 3, 0, 50000);
+    private static final ModConfigSpec.IntValue WORLD_AIR_CAP = BUILDER
+            .comment("Flying parasites stop spawning naturally once this many are loaded"
+                    + " (SRPConfig.worldAirCap = 3). Set to 0 to disable the cap.")
+            .defineInRange("worldAirCap", 3, 0, 50000);
+    private static final ModConfigSpec.IntValue SPAWNER_SKY_LIMIT_UP = BUILDER
+            .comment("Highest Y an air parasite may be relocated to by the natural spawner"
+                    + " (SRPConfigWorld.spawnerSKYLimitUp = 250).")
+            .defineInRange("spawnerSKYLimitUp", 250, 0, 2048);
     private static final ModConfigSpec.BooleanValue MOB_CLEANER_ENABLED = BUILDER
             .comment("Remove excess parasites when their count exceeds twice the current natural mob cap.")
             .define("mobCleanerEnabled", true);
@@ -60,6 +72,21 @@ public final class WorldConfig {
     public static int naturalMobCap(ServerLevel level) {
         int base = safe(WORLD_SPAWNING_MOB_CAP);
         return base == 0 ? 0 : base + level.players().size() * safe(WORLD_MOB_CAP_PLUS_PLAYER);
+    }
+
+    /** Legacy {@code SRPConfig.worldWaterCap}. */
+    public static int naturalWaterMobCap() {
+        return safe(WORLD_WATER_CAP);
+    }
+
+    /** Legacy {@code SRPConfig.worldAirCap}. */
+    public static int naturalAirMobCap() {
+        return safe(WORLD_AIR_CAP);
+    }
+
+    /** Legacy {@code SRPConfigWorld.spawnerSKYLimitUp}. */
+    public static int spawnerSkyLimitUp() {
+        return safe(SPAWNER_SKY_LIMIT_UP);
     }
 
     public static boolean mobCleanerEnabled() {

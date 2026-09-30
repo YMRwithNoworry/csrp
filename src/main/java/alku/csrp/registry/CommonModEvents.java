@@ -91,9 +91,9 @@ import java.util.Set;
 
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class CommonModEvents {
-    private static final Set<String> WATER_SPAWN_IDS = Set.of(
+    public static final Set<String> WATER_SPAWN_IDS = Set.of(
             "sim_squid", "pri_devourer", "ada_devourer");
-    private static final Set<String> AIR_SPAWN_IDS = Set.of(
+    public static final Set<String> AIR_SPAWN_IDS = Set.of(
             "carrier_flying", "lice", "sim_dragone", "pri_yelloweye", "ada_yelloweye",
             "pri_vermin", "airscrew", "overseer", "bomber_light", "bomber_heavy", "wraith",
             "bogle", "architect", "draconite");

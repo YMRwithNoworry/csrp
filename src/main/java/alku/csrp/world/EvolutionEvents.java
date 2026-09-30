@@ -71,7 +71,14 @@ public final class EvolutionEvents {
 
     @SubscribeEvent
     public static void tickGeneration(LevelTickEvent.Post event) {
-        if (event.getLevel() instanceof ServerLevel level && level.getGameTime() % 20L == 0L) {
+        if (!(event.getLevel() instanceof ServerLevel level)) {
+            return;
+        }
+        // 原版 worldTick → tickSpawn 只在 useEvolution && phaseCustomSpawner 时跑专用刷怪器。
+        if (Config.useEvolutionPhases() && Config.phaseCustomSpawner()) {
+            SrpWorldParasiteSpawner.findChunksForSpawning(level);
+        }
+        if (level.getGameTime() % 20L == 0L) {
             SrpWorldData data = SrpWorldData.get(level);
             if (Config.generationEnabled()) {
                 data.tickGeneration(level, 20);
@@ -230,7 +237,11 @@ public final class EvolutionEvents {
                 event.removeSpawnerData(entry);
             }
         }
-        if (!GeneralConfig.allowMobs() || !WorldConfig.dimensionAllowsNaturalSpawning(level)) {
+        // 原版只在 useEvolution=false 或 phaseCustomSpawner=false 时把寄生体塞进生物群系
+        // 怪物列表；两者都开启时走 SRPWorldParasiteSpawner 专用刷怪器，不再与
+        // 原版怪物共享同一份 MONSTER 刷怪上限（这正是此前刷怪极少的根因）。
+        if ((Config.useEvolutionPhases() && Config.phaseCustomSpawner()) || !GeneralConfig.allowMobs()
+                || !WorldConfig.dimensionAllowsNaturalSpawning(level)) {
             return;
         }
         for (var entry : NaturalSpawnTables.select(level, event.getPos())) {

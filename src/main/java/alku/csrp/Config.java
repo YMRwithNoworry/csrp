@@ -146,6 +146,11 @@ public final class Config {
     private static final ModConfigSpec.BooleanValue USE_EVOLUTION_PHASES = BUILDER
             .comment("Use SRP evolution phases instead of the legacy difficulty killcount behavior.")
             .define("useEvolutionPhases", true);
+    private static final ModConfigSpec.BooleanValue PHASE_CUSTOM_SPAWNER = BUILDER
+            .comment("Run the original SRP world spawner (SRPConfigSystems.phaseCustomSpawner = true)."
+                    + " When false, parasites are instead injected into the biome monster list and"
+                    + " share vanilla's mob cap, which spawns far fewer of them.")
+            .define("phaseCustomSpawner", true);
     private static final ModConfigSpec.BooleanValue PHASE_COOLDOWN_ENABLED = BUILDER
             .comment("Apply the original phase delay (parasite_evolution_phases_N \"Phase N Delay\"):"
                     + " after a phase change parasites cannot earn evolution points until that many"
@@ -698,6 +703,7 @@ public final class Config {
     public static boolean phaseLightlessMinusOne() { return safe(PHASE_LIGHTLESS_MINUS_ONE); }
     public static boolean ignoreLightLevel() { return safe(IGNORE_LIGHT); }
     public static boolean useEvolutionPhases() { return safe(USE_EVOLUTION_PHASES); }
+    public static boolean phaseCustomSpawner() { return safe(PHASE_CUSTOM_SPAWNER); }
     public static boolean phaseCooldownEnabled() { return safe(PHASE_COOLDOWN_ENABLED); }
     public static boolean generationEnabled() { return safe(GENERATION_ENABLED); }
     public static boolean pearlDestroyedOnBeholderKill() { return safe(PEARL_DESTROYED_ON_BEHOLDER_KILL); }
