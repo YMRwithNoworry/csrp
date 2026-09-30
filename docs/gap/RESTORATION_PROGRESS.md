@@ -4741,6 +4741,16 @@ GitHub 只读取**默认分支**（`main`）的模板，故只需落在 main。
 （`verify-infested-shape-blocks-port`、`verify-parasitic-growth-port`、`verify-rupter-port`
 在改动前后同样失败，与模型无关）。
 
-**已知遗留**：`block.csrp.infestedbush` 在 `lang/zh_cn.json` / `lang/en_us.json` 中没有条目
-（旧 `.lang` 只提供 `tile.csrp.infestedbush_<变体>.name`），截图里的 HUD 因此显示原始键名；
-本批次不臆造译名，留待命名确认后再补。
+**补充命名**：`block.csrp.infestedbush` / `block.csrp.parasitebush` 在 1.21.1 的 `.json` 语言文件里
+原本没有任何条目（旧 `.lang` 只提供 `tile.csrp.infestedbush_<变体>.name`；原版 1.12 同样没有基名），
+截图里的 HUD 因此显示原始键名。两只方块各补一条基名，`.lang`（en_us / zh_cn）与
+`.json`（en_us / zh_cn）同步写入：
+
+| 键 | en_us | zh_cn |
+| --- | --- | --- |
+| `block.csrp.infestedbush` | Infested Veins | 寄染脉络 |
+| `block.csrp.parasitebush` | Parasite Bush | 寄生枝丛 |
+
+取名依据：原版 1.12 的变体名统一是「Infested Vein(s) *」（寄染脉 X）一系，
+故基名沿用同族词根，并避开既有变体名（`infestedbush_spine` 已是「寄染灌木」/ Infested Veins Bush）。
+其它语种（`ko_kr` / `hr_hr`）缺该键时按 Minecraft 规则回落 `en_us`。

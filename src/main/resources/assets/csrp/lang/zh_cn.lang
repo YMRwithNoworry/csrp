@@ -708,6 +708,7 @@ tooltip.csrp.parasite_barrier.creative_only=创造专属物品
 tooltip.csrp.parasite_barrier.desc1=强制驱逐寄生体至屏障外。
 tooltip.csrp.parasite_barrier.desc2=交互以调整屏障范围。
 
+tile.csrp.parasitebush.name=寄生枝丛
 tile.csrp.parasitebush_tendril.name=微管草网
 tile.csrp.parasitebush_pop.name=寄生囊泡
 tile.csrp.parasitebush_bine.name=神经蜷枝
@@ -869,6 +870,7 @@ tile.csrp.infestedtrunk.name=寄染原木
 tile.csrp.infestedrubble.name=寄染石头
 tile.csrp.infestremain.name=寄染残渣
 
+tile.csrp.infestedbush.name=寄染脉络
 tile.csrp.infestedbush_infected.name=寄染棘脉
 tile.csrp.infestedbush_grass1.name=寄染枝桠
 tile.csrp.infestedbush_flower1.name=寄染脉芽
