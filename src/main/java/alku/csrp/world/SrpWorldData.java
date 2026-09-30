@@ -18,7 +18,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 
 public final class SrpWorldData extends SavedData {
     private static final String DATA_NAME = "csrp_world_data";
-    private static final int DATA_VERSION = 4;
+    private static final int DATA_VERSION = 5;
     private static final Factory<SrpWorldData> FACTORY = new Factory<>(SrpWorldData::new, SrpWorldData::load);
     private static final int[] DISLODGMENT_PHASE_COOLDOWN_MULTIPLIER = {1, 4, 3, 3, 4, 5, 6, 7, 8, 9, 10};
 
@@ -232,7 +232,9 @@ public final class SrpWorldData extends SavedData {
         int previous = evolutionPhase;
         evolutionPhase = EvolutionSystem.phaseForPoints(evolutionPoints);
         if (previous != evolutionPhase) {
-            setCooldown(level, EvolutionSystem.phaseDelaySeconds(evolutionPhase));
+            if (Config.phaseCooldownEnabled()) {
+                setCooldown(level, EvolutionSystem.phaseDelaySeconds(evolutionPhase));
+            }
             EvolutionSystem.announcePhaseChange(level, previous, evolutionPhase);
         }
         setDirty();
@@ -720,6 +722,13 @@ public final class SrpWorldData extends SavedData {
             return;
         }
         if (dataVersion < 3) {
+            cooldownEnd = 0L;
+        }
+        // 4 -> 5: the phase delay became opt-in. Drop a pending timer from a save that was
+        // written while it was always on, otherwise an existing world stays locked out for up
+        // to 6000 seconds even though the delay is now disabled. Only when the option is off;
+        // an admin who enables it keeps whatever timer the save already carries.
+        if (dataVersion < 5 && !Config.phaseCooldownEnabled()) {
             cooldownEnd = 0L;
         }
         dataVersion = DATA_VERSION;

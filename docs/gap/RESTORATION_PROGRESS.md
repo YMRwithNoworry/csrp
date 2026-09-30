@@ -4754,3 +4754,29 @@ GitHub 只读取**默认分支**（`main`）的模板，故只需落在 main。
 取名依据：原版 1.12 的变体名统一是「Infested Vein(s) *」（寄染脉 X）一系，
 故基名沿用同族词根，并避开既有变体名（`infestedbush_spine` 已是「寄染灌木」/ Infested Veins Bush）。
 其它语种（`ko_kr` / `hr_hr`）缺该键时按 Minecraft 规则回落 `en_us`。
+
+## 批次 274：演化阶段冷却改为默认关闭（2026-09-30）
+
+需求：把演化阶段冷却默认关掉。
+
+**现状**：批次 43bafff8「完整还原演化阶段规则」按原版把 `Phase N Delay` 重新接了回来，且**恒开**——
+每次阶段变化都 `setCooldown(phaseDelaySeconds(phase))`，而该表是 4000–6000 秒（阶段 1 就要约 66 分钟），
+期间 `addEvolutionPoints` 直接拒绝加分。原版这 10 个值本就是可配置项
+（`parasite_evolution_phases_N` 的 "Phase N Delay"，注释：Parasites will not be able to earn points
+until this time (seconds) has passed），端口此前缺这一层配置面 —— 只能硬吃。
+
+**改动**：
+
+| 位置 | 内容 |
+| --- | --- |
+| `Config` | 新增 `phaseCooldownEnabled`，**默认 false**；getter 走 `safe()`，与其它键一样早读安全 |
+| `SrpWorldData.addEvolutionPoints` | 阶段变化时只在开关为真才 `setCooldown(...)`；公告照旧发 |
+| `SrpWorldData` 迁移 | `DATA_VERSION 4 → 5`：开关为关时清掉旧存档里挂着的阶段计时，否则升级后仍被锁最长 6000 秒；开关为真则保留原计时 |
+| 时钟/中继标签 | `tooltip.csrp.evolution_clock.cooldown` / `report.csrp.field.cooldown` 由「阶段冷却」改为「诱饵/尸骸计时」（en: Lure/carcass timer）——开关关掉后这个值基本只剩诱饵/尸骸来源 |
+
+**边界（刻意不动）**：诱饵与尸骸的 `cooldownEnd` 是**另一套**计时（`EvolutionLureBlock` 的
+`addCooldown(tier.cooldownSeconds())`，10–1200 秒），本次不碰；`srpevolution setcooldown` 与
+进化时钟读数仍指向该字段，文案已随之改名。
+
+**验证**：`./gradlew.bat build` 成功；新增 `scripts/verify-phase-cooldown.cjs` 钉住
+「默认 false + 只有开关为真才起冷却 + 旧存档迁移清计时 + 诱饵计时独立」；全量校验维持基线。
