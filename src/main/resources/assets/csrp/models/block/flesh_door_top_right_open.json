@@ -1,4 +1,5 @@
 {
+  "render_type": "cutout",
   "parent": "minecraft:block/door_top_right_open",
   "textures": {
     "top": "csrp:block/flesh_door_top",

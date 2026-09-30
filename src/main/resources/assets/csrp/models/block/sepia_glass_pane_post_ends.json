@@ -1,4 +1,5 @@
 {
+  "render_type": "translucent",
   "parent": "block/glass_pane_post_ends",
   "textures": {
     "pane": "csrp:blocks/sepia_glass",

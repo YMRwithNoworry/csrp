@@ -1,4 +1,5 @@
 {
+  "render_type": "cutout",
   "parent": "minecraft:block/cube_all",
   "textures": {
     "all": "csrp:block/parasitethin_treebase"

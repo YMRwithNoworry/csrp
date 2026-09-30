@@ -1,4 +1,5 @@
 {
+  "render_type": "cutout",
   "parent": "minecraft:block/template_trapdoor_open",
   "textures": {
     "texture": "csrp:block/cooked_flesh_trapdoor"

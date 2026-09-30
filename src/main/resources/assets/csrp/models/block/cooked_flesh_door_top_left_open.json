@@ -1,4 +1,5 @@
 {
+  "render_type": "cutout",
   "parent": "minecraft:block/door_top_left_open",
   "textures": {
     "top": "csrp:block/cooked_flesh_door_top",

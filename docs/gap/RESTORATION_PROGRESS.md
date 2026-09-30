@@ -4712,3 +4712,35 @@ GitHub 只读取**默认分支**（`main`）的模板，故只需落在 main。
 
 
 
+## 批次 273：方块模型补齐 `render_type`（透明裁剪/半透明渲染层）（2026-09-30）
+
+需求：玩家反馈「模组中方块纹理错误」——截图里 `csrp:infestedbush`（寄染灌木）表现为整张贴图铺满的
+巨大不透明绿色平面，看不到叶脉之间的镂空。
+
+根因：1.12 原版靠代码注册方块渲染层（`BlockInfestedBush` 等方块在客户端 `setBlockLayer`），
+移植到 1.21.1 后本仓库没有任何等价代码，NeoForge 只认模型 JSON 里的 `render_type` 字段；
+模型缺该字段时方块回落到 `solid`，alpha 被忽略，`block/cross` 的两个平面就整张铺出来
+（贴图透明像素的 RGB 直接显示，看起来就是一块巨大的绿色平面）。
+仓库内已有同名先例：`913d5fac -（修复）薄蛛网模型启用透明裁剪渲染`。
+
+现状：`models/block` 共 798 个模型，其中 91 个已带 `render_type`（人工移植的新方块），
+155 个引用带 alpha 贴图却缺该字段——寄染灌木/寄生灌木全家、血渍与肉块地面、门/活板门/梯子、
+树苗、菌类、玻璃板 `_post_ends` 等都是同一根因。
+
+改动（脚本按「解析父链取纹理 → 统计 alpha 直方图」判定，只补该字段，不动其它内容）：
+
+| 判据 | 取值 | 数量 |
+| --- | --- | --- |
+| 二值 alpha（既有 0 也有 255） | `minecraft:cutout` | 145 |
+| 玻璃/玻璃板/雾（沿用同族已有取值） | `translucent` | 9 |
+| 叶片（与 `deadhead_leaves` 一致） | `cutout_mipped` | 1 |
+
+**验证**：798 个方块模型全部 JSON 合法且无重复字段；`./gradlew.bat build` 成功，
+产物 jar 内 `assets/csrp/models/block/infestedbush_spine.json` 等已含新字段；
+`node scripts/run-all-verifications.cjs` 维持基线 100 / 80 / 20
+（`verify-infested-shape-blocks-port`、`verify-parasitic-growth-port`、`verify-rupter-port`
+在改动前后同样失败，与模型无关）。
+
+**已知遗留**：`block.csrp.infestedbush` 在 `lang/zh_cn.json` / `lang/en_us.json` 中没有条目
+（旧 `.lang` 只提供 `tile.csrp.infestedbush_<变体>.name`），截图里的 HUD 因此显示原始键名；
+本批次不臆造译名，留待命名确认后再补。

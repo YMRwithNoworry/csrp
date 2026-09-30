@@ -1,4 +1,5 @@
 {
+  "render_type": "cutout",
   "loader": "neoforge:obj",
   "model": "csrp:models/block/arraytowerlarge.obj",
   "ambientocclusion": true,

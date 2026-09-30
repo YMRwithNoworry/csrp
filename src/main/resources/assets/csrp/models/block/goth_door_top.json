@@ -1,4 +1,5 @@
 {
+  "render_type": "cutout",
   "parent": "block/door_top",
   "textures": {
     "top": "csrp:blocks/goth_door_top"

@@ -1,4 +1,5 @@
 {
+  "render_type": "translucent",
   "parent": "block/cube",
   "textures": {
     "particle": "csrp:blocks/parasite_fog",

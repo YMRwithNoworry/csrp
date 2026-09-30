@@ -1,4 +1,5 @@
 {
+  "render_type": "cutout",
   "parent": "block/cross",
   "textures": {
     "cross": "csrp:blocks/parasitebush_tendril_end"
