@@ -57,6 +57,9 @@ expect(killedHost, /createMappedHost\(host, serverLevel,[\s\S]*phase >= ASSIMILA
 expect(killedHost, /return replaceHost\(host, converted, serverLevel\);/,
         "kill conversion does not use the shared successful-assimilation settlement");
 expect(replaceHost,
+        /!host\.isAlive\(\)[\s\S]*\? 1\.0F/,
+        "death conversions do not restore the converted mob to full health");
+expect(replaceHost,
         /getEffect\(ModMobEffects\.COTH\)[\s\S]*getAmplifier\(\) >= COTH_MAX_AMPLIFIER/,
         "assimilation points are not restricted to COTH III hosts");
 expect(replaceHost,

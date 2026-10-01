@@ -445,7 +445,8 @@ public final class InfectionMechanics {
     }
 
     private static boolean replaceHost(LivingEntity host, Mob converted, ServerLevel serverLevel) {
-        float healthFraction = host.getMaxHealth() <= 0.0F ? 1.0F : host.getHealth() / host.getMaxHealth();
+        float healthFraction = !host.isAlive() || host.getMaxHealth() <= 0.0F
+                ? 1.0F : host.getHealth() / host.getMaxHealth();
         MobEffectInstance coth = host.getEffect(ModMobEffects.COTH);
         boolean terminalCothAssimilation = coth != null && coth.getAmplifier() >= COTH_MAX_AMPLIFIER;
         boolean assimilatedEnderman = host.getType() == EntityType.ENDERMAN
