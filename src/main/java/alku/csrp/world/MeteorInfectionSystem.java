@@ -40,7 +40,7 @@ public final class MeteorInfectionSystem {
         }
         MeteorImpactUtil.tickPendingStructures(level);
         ResourceKey<Level> dimension = level.dimension();
-        if (Config.meteorDimensionBlacklist().contains(dimension.location().toString())) {
+        if (!isDimensionAllowed(level)) {
             return;
         }
         // The create-world "Meteor Infection" toggle wins; worlds created before the option
@@ -74,6 +74,9 @@ public final class MeteorInfectionSystem {
 
     /** Original {@code SRPEventHandlerBus#spawningMet}: prefer a player standing under open sky. */
     public static boolean spawnMeteor(ServerLevel level) {
+        if (!isDimensionAllowed(level)) {
+            return false;
+        }
         List<ServerPlayer> players = level.players();
         if (players.isEmpty()) {
             return false;
@@ -93,6 +96,9 @@ public final class MeteorInfectionSystem {
 
     /** Original {@code ParasiteSummon.spawnMeteor(BlockPos, rad, minRad, World)}. */
     public static boolean spawnMeteorAround(ServerLevel level, BlockPos center) {
+        if (!isDimensionAllowed(level)) {
+            return false;
+        }
         int rad = level.random.nextInt(Math.max(2, Config.meteorRadius()));
         int minRad = Config.meteorMinimumRadius();
         if (rad > Config.meteorRadius()) {
@@ -119,6 +125,9 @@ public final class MeteorInfectionSystem {
 
     /** Direct launch helper used by the admin command. */
     public static boolean spawnMeteor(ServerLevel level, Vec3 origin, Vec3 target) {
+        if (!isDimensionAllowed(level)) {
+            return false;
+        }
         Vec3 direction = target.subtract(origin);
         if (direction.lengthSqr() < 1.0E-6D) {
             return false;
@@ -133,6 +142,11 @@ public final class MeteorInfectionSystem {
             MeteorShakePayload.send(player, 0, 0, true, false, 0.0F);
         }
         return true;
+    }
+
+    public static boolean isDimensionAllowed(ServerLevel level) {
+        return !Level.END.equals(level.dimension())
+                && !Config.meteorDimensionBlacklist().contains(level.dimension().location().toString());
     }
 
     public static void createVectorAt(ServerLevel level, BlockPos pos) {

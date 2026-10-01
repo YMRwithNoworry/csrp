@@ -616,7 +616,7 @@ public final class Config {
             .define("meteorCreatesVector", true);
     private static final ModConfigSpec.ConfigValue<List<? extends String>> METEOR_DIMENSION_BLACKLIST = BUILDER
             .comment("Dimension ids where periodic meteor infection is disabled.")
-            .defineList("meteorDimensionBlacklist", List.of("minecraft:the_nether"),
+            .defineList("meteorDimensionBlacklist", List.of("minecraft:the_nether", "minecraft:the_end"),
                     value -> value instanceof String entry && ResourceLocation.tryParse(entry) != null);
 
 

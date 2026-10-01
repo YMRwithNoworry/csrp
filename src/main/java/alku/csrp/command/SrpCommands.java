@@ -101,6 +101,9 @@ public final class SrpCommands {
     }
 
     private static int spawnMeteor(CommandSourceStack source) {
+        if (!MeteorInfectionSystem.isDimensionAllowed(source.getLevel())) {
+            return failure(source, "Meteor impacts are disabled in this dimension");
+        }
         return MeteorInfectionSystem.spawnMeteor(source.getLevel())
                 ? success(source, "Hive Satellite launched")
                 : failure(source, "No player available to target");
@@ -108,6 +111,9 @@ public final class SrpCommands {
 
     private static int spawnMeteorAt(CommandSourceStack source, BlockPos pos) {
         ServerLevel level = source.getLevel();
+        if (!MeteorInfectionSystem.isDimensionAllowed(level)) {
+            return failure(source, "Meteor impacts are disabled in this dimension");
+        }
         net.minecraft.world.phys.Vec3 origin = new net.minecraft.world.phys.Vec3(
                 pos.getX(), level.getMaxBuildHeight(), pos.getZ());
         net.minecraft.world.phys.Vec3 target = new net.minecraft.world.phys.Vec3(
