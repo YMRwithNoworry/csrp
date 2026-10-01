@@ -4885,3 +4885,11 @@ until this time (seconds) has passed），端口此前缺这一层配置面 —�
 修复：`SimAdventurerEntity` 覆盖 `dropEquipment()`，不执行装备死亡掉落；感染转换把继承装备掉落概率设为 `0.0F`。覆盖转换生成、自然生成、拾取装备以及旧存档实体，不依赖旧 NBT 中的掉落概率。保留继承装备的战斗使用、原有 `keepInventory` 规则、寄生体战利品及死亡特殊行为，不改动真实玩家的死亡掉落规则或其他生物。
 
 验证：`./gradlew.bat build` 成功；感染转换静态检查新增装备掉落、装备继承、`keepInventory` 与寄生体战利品断言。未启动游戏进行实际死亡掉落实测。
+
+## 修复：寄生兽死亡自爆错误生成猪
+
+需求：部分寄生兽死亡后会爆出猪。根因是 `ParasiteSummon.spawn` 直接用旧配置中的 `srparasites:buglin` 查询当前实体注册表，而当前实体注册在 `csrp` 命名空间；`ENTITY_TYPE.get(id)` 对不存在的 ID 返回默认实体猪，原有 `type == null` 检查无法阻止。
+
+修复：召唤 ID 先去除前后空白，将旧 `srparasites` 命名空间映射至 `Csrp.MODID`，再通过 `getOptional(id).orElse(null)` 查询。无效或不存在的 ID 直接跳过，不再误生成猪。保留原有自爆、配置召唤数量及有效实体召唤；现有旧配置无需手动修改。
+
+验证：构建及共享战斗规则、血肉自爆检查；新增旧命名空间兼容、ID 空白容错、未知 ID 跳过和禁止默认注册表回退的静态断言。未启动游戏进行死亡召唤实测。

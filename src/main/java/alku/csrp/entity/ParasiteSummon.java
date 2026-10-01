@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.Csrp;
 import alku.csrp.config.MobsConfig;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -30,11 +31,15 @@ public final class ParasiteSummon {
         if (parts.length < 3) {
             return;
         }
-        ResourceLocation id = ResourceLocation.tryParse(parts[0]);
+        ResourceLocation id = ResourceLocation.tryParse(parts[0].trim());
         if (id == null) {
             return;
         }
-        EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.get(id);
+        if (id.getNamespace().equals("srparasites")) {
+            id = ResourceLocation.fromNamespaceAndPath(Csrp.MODID, id.getPath());
+        }
+        // Missing configured ids must not resolve to the entity registry's default pig.
+        EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(id).orElse(null);
         if (type == null) {
             return;
         }

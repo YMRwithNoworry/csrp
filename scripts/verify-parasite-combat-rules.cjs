@@ -523,6 +523,15 @@ expect(read("src/main/java/alku/csrp/entity/AssimilatedVariantEntity.java"),
 const summon = read("src/main/java/alku/csrp/entity/ParasiteSummon.java");
 expect(summon, /public static void spawn\(LivingEntity owner, String spec\)/, "the summon helper is missing");
 expect(summon, /spec\.split\(";"\)/, "the summon spec is not parsed");
+expect(summon, /ResourceLocation\.tryParse\(parts\[0\]\.trim\(\)\)/,
+  "death summon entity ids must accept surrounding whitespace");
+expect(summon, /id\.getNamespace\(\)\.equals\("srparasites"\)[\s\S]*?ResourceLocation\.fromNamespaceAndPath\(Csrp\.MODID, id\.getPath\(\)\)/,
+  "legacy death summon ids must resolve to the current mod namespace");
+expect(summon, /ENTITY_TYPE\.getOptional\(id\)\.orElse\(null\);\s*if \(type == null\)\s*\{\s*return;/,
+  "unknown death summon ids must be skipped instead of spawning the default pig");
+if (/ENTITY_TYPE\.get\(id\)/.test(summon)) {
+  failures.push("death summons must not use a defaulting entity registry lookup");
+}
 expect(summon, /case "sim_cow", "sim_bear" -> MobsConfig\.infcowMobSummon\(\)/,
   "the bear must reuse the cow summon spec, as in the original");
 expect(summon, /default -> null;/, "mobs without a legacy spec must not summon");
