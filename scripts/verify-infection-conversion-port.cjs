@@ -24,6 +24,7 @@ function method(content, start, end) {
 }
 
 const infection = read("src/main/java/alku/csrp/infection/InfectionMechanics.java");
+const adventurer = read("src/main/java/alku/csrp/entity/SimAdventurerEntity.java");
 const evolution = read("src/main/java/alku/csrp/world/EvolutionSystem.java");
 const evolutionEvents = read("src/main/java/alku/csrp/world/EvolutionEvents.java");
 const killedHost = method(infection, "public static boolean convertKilledHost", "private static Mob createIncompleteForm");
@@ -67,6 +68,24 @@ expect(infection, /"fer_" \+ targetId\.getPath\(\)\.substring\("sim_"\.length\(\
         "sim-to-Feral entity id mapping is missing");
 if (/VALUE_COTH|PointSource\.COTH/.test(killedHost) || /VALUE_COTH|PointSource\.COTH/.test(killedPlayer)) {
     failures.push("kill-specific conversion paths bypass the shared COTH III settlement");
+}
+
+expect(killedPlayer, /converted\.setItemSlot\(slot, equipment\.copy\(\)\)/,
+        "infected players must retain inherited equipment for combat");
+expect(killedPlayer, /converted\.setDropChance\(slot, 0\.0F\)/,
+        "player conversion must not guarantee inherited equipment drops");
+expect(killedPlayer, /if \(!keepInventory\)\s*\{\s*player\.setItemSlot\(slot, ItemStack\.EMPTY\)/,
+        "player conversion must preserve the existing keepInventory rule");
+expect(adventurer, /@Override\s*protected void dropEquipment\(\)/,
+        "infected players must override equipment drops, including old saved and picked-up equipment");
+const equipmentDrops = adventurer.match(/protected void dropEquipment\(\)\s*\{([^}]*)\}/)?.[1];
+if (equipmentDrops === undefined || equipmentDrops.replace(/\/\/[^\n]*/g, "").trim()) {
+    failures.push("infected player equipment drop override must not drop any player items");
+}
+const adventurerLoot = JSON.parse(read("src/main/resources/data/csrp/loot_table/entities/sim_adventurer.json"));
+const lootItems = adventurerLoot.pools.flatMap((pool) => pool.entries.map((entry) => entry.name));
+if (!lootItems.includes("csrp:assimilated_flesh") || lootItems.some((item) => !item.startsWith("csrp:"))) {
+    failures.push("infected players must retain parasite loot, not player inventory items");
 }
 
 if (failures.length) {

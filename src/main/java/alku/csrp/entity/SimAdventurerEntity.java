@@ -171,6 +171,11 @@ public final class SimAdventurerEntity extends Monster implements CitadelAnimate
     }
 
     @Override
+    protected void dropEquipment() {
+        // Inherited and picked-up player equipment is not recoverable parasite loot.
+    }
+
+    @Override
     public void die(DamageSource source) {
         super.die(source);
         if (level().isClientSide || isMelting()) {

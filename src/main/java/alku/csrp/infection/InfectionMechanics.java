@@ -536,7 +536,7 @@ public final class InfectionMechanics {
                 continue;
             }
             converted.setItemSlot(slot, equipment.copy());
-            converted.setDropChance(slot, 1.0F);
+            converted.setDropChance(slot, 0.0F);
             if (!keepInventory) {
                 player.setItemSlot(slot, ItemStack.EMPTY);
             }
