@@ -107,12 +107,12 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
 
     @Override
     public void tick() {
+        super.tick();
         if (getX() == xo && getZ() == zo) {
             stillAnimationTicks++;
         } else {
             stillAnimationTicks = 0;
         }
-        super.tick();
         if (!level().isClientSide && isInWaterOrBubble() && getTarget() != null && tickCount % 20 == 0) {
             setDeltaMovement(getDeltaMovement().add(0.0, 0.095, 0.0));
         }

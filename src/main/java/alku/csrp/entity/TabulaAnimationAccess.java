@@ -26,7 +26,9 @@ public interface TabulaAnimationAccess {
 
     default boolean getStillAni() {
         if (this instanceof Entity entity) {
-            return entity.getDeltaMovement().horizontalDistanceSqr() < 1.0E-4D;
+            double deltaX = entity.getX() - entity.xo;
+            double deltaZ = entity.getZ() - entity.zo;
+            return deltaX * deltaX + deltaZ * deltaZ < 1.0E-6D;
         }
         return bool("stillAni", false);
     }
@@ -110,7 +112,9 @@ public interface TabulaAnimationAccess {
         return new TabulaAnimationAccess() {
             @Override public float getVerticalVelocity() { return (float) entity.getDeltaMovement().y; }
             @Override public boolean getStillAni() {
-                return entity.getDeltaMovement().horizontalDistanceSqr() < 1.0E-4D;
+                double deltaX = entity.getX() - entity.xo;
+                double deltaZ = entity.getZ() - entity.zo;
+                return deltaX * deltaX + deltaZ * deltaZ < 1.0E-6D;
             }
         };
     }

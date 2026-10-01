@@ -452,18 +452,14 @@ public final class InfectionMechanics {
     }
 
     private static boolean replaceHost(LivingEntity host, Mob converted, ServerLevel serverLevel) {
-        float healthFraction = host.getMaxHealth() <= 0.0F ? 1.0F : host.getHealth() / host.getMaxHealth();
         MobEffectInstance coth = host.getEffect(ModMobEffects.COTH.get());
         boolean terminalCothAssimilation = coth != null && coth.getAmplifier() >= COTH_MAX_AMPLIFIER;
         boolean assimilatedEnderman = host.getType() == EntityType.ENDERMAN
                 && BuiltInRegistries.ENTITY_TYPE.getKey(converted.getType()).getPath().equals("sim_enderman");
         converted.moveTo(host.getX(), host.getY(), host.getZ(), host.getYRot(), host.getXRot());
-        // Original getSimCOTHMod(): a freshly converted host keeps a share of the victim's health and is
-        // then scaled by generationCOTH<generation> when it enters the level
-        // (ParasiteEventEntity:660-662 and 755-757, SRPEventHandlerBus:1226-1228,
-        // EvolutionEvents#applyGenerationCothOnSpawn).
-        converted.setHealth(Math.max(1.0F,
-                converted.getMaxHealth() * Math.max(0.1F, healthFraction)));
+        // A conversion creates a new body, not a wounded copy of a dying host.
+        // EvolutionEvents applies the configured generation health factor once on level join.
+        converted.setHealth(converted.getMaxHealth());
         converted.setCustomName(host.getCustomName());
         converted.setCustomNameVisible(host.isCustomNameVisible());
         converted.setPersistenceRequired();

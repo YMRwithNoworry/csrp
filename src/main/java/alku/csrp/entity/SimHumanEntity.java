@@ -224,6 +224,21 @@ public final class SimHumanEntity extends Monster implements GeoEntity, Parasite
     }
 
     @Override
+    public int getParasiteStatus() {
+        return getAnimationState();
+    }
+
+    @Override
+    public boolean getStillAni() {
+        return isMelting() || stillAnimationTicks > STILL_ANIMATION_DELAY_TICKS;
+    }
+
+    @Override
+    public float getAttackTimer() {
+        return getAttackAnim(0.0F);
+    }
+
+    @Override
     public boolean doHurtTarget(Entity target) {
         LivingEntity livingTarget = target instanceof LivingEntity living ? living : null;
         float healthBefore = livingTarget == null ? 0.0F : ParasiteCombatEffects.healthWithAbsorption(livingTarget);
