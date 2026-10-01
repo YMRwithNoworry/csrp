@@ -136,7 +136,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     private final CitadelRawAnimation LONGARMS_STATUS_1 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
     private final CitadelRawAnimation LONGARMS_ATTACK_STATUS_1 = ParasiteAnimations.play(this,
-            "get_attack_timer.get_parasite_status_1");
+            "get_attack_timer.get_parasite_status_1.get_still_ani_1");
     private final CitadelRawAnimation AGE_STATUS_1 = ParasiteAnimations.loop(this,
             "func_78087_a.age_in_ticks.get_parasite_status_1");
     private final CitadelRawAnimation FLY = IDLE;

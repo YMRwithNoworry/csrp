@@ -5,6 +5,7 @@ const root = path.resolve(__dirname, "..");
 const read = (file) => fs.readFileSync(path.join(root, file), "utf8");
 const primitive = read("src/main/java/alku/csrp/entity/LongarmsEntity.java");
 const adapted = read("src/main/java/alku/csrp/entity/AdaptedVariantEntity.java");
+const longarmsAnimations = JSON.parse(read("src/main/resources/assets/csrp/animations/pri_longarms.animation.json")).animations;
 const failures = [];
 
 function expect(source, pattern, message) {
@@ -15,14 +16,17 @@ expect(primitive,
   /triggerAttackAnimation\(\)[\s\S]{0,120}?swing\(InteractionHand\.MAIN_HAND\)/,
   "Primitive Longarms attacks do not synchronize the vanilla attack timer");
 expect(primitive,
-  /movementAnimation\(AnimationState<LongarmsEntity> state\)[\s\S]{0,180}?ParasiteAnimations\.isAttacking\(this\)[\s\S]{0,300}?COMBAT_STILL_ATTACK[\s\S]{0,120}?SPRINT_ATTACK/,
+  /movementAnimation\(CitadelAnimationState<LongarmsEntity> state\)[\s\S]{0,180}?ParasiteAnimations\.isAttacking\(this\)[\s\S]{0,300}?COMBAT_STILL_ATTACK[\s\S]{0,120}?SPRINT_ATTACK/,
   "Primitive Longarms movement controller does not prioritize its original attack animations");
 if (/triggerAnim\("attack_controller"/.test(primitive)) {
   failures.push("Primitive Longarms still relies on a non-restarting triggered attack loop");
 }
 
+if (!Object.hasOwn(longarmsAnimations, "animation.pri_longarms.get_attack_timer.get_parasite_status_1.get_still_ani_1")) {
+  failures.push("Longarms combat attack animation clip is missing from its resource");
+}
 expect(adapted,
-  /LONGARMS_ATTACK_STATUS_1\s*=\s*ParasiteAnimations\.play\(this,\s*"get_attack_timer\.get_parasite_status_1"\)/,
+  /LONGARMS_ATTACK_STATUS_1\s*=\s*ParasiteAnimations\.play\(this,\s*"get_attack_timer\.get_parasite_status_1\.get_still_ani_1"\)/,
   "Adapted Longarms original combat attack animation is not wired");
 expect(adapted,
   /if \(kind == Kind\.LONGARMS\)[\s\S]{0,180}?ParasiteAnimations\.isAttacking\(this\)[\s\S]{0,120}?LONGARMS_ATTACK_STATUS_1/,
