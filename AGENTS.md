@@ -26,3 +26,20 @@ The repository currently has no automated test sources or coverage threshold. Ad
 ## Commit & Pull Request Guidelines
 
 This repository has no prior Git history. Use concise, imperative commit subjects in the project convention, such as `-（功能）添加寄生方块注册`. Keep each commit focused. Pull requests should explain behavior changes, list verification commands, link related issues, and include screenshots only for visible client changes. Never commit `.gradle`, `build`, `run`, IDE metadata, credentials, or local agent configuration.
+
+<!-- BEGIN dsh-global-system-prompt -->
+<!--
+  Managed by the dsh-global-system-prompt plugin. The rules below are synced from:
+  C:\Users\Administrator\.dsh\global-prompt.md
+  Edits inside this block are overwritten on the next sync; delete the block,
+  markers included, to stop syncing.
+-->
+
+Global rules — follow these in every task in this project:
+
+默认使用 Niubash（Bash on Windows，`niu -c`）执行任务。
+每次任务结束将项目上传至github远程仓库，若无远程仓库则自己创建。
+jdk在这里D:\MC\jdk
+一般不要过度debug。构建无报错即可。
+
+<!-- END dsh-global-system-prompt -->

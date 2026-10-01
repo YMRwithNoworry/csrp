@@ -181,7 +181,15 @@ public final class Csrp {
                                         && item != ModItems.DISPATCHER_SIV_SPAWN_EGG && item != ModItems.ROOTER_SI_SPAWN_EGG
                                         && item != ModItems.ROOTER_SII_SPAWN_EGG && item != ModItems.ROOTER_SIII_SPAWN_EGG
                                         && item != ModItems.ROOTER_SIV_SPAWN_EGG && item != ModItems.ROOTERBALL_SPAWN_EGG
-                                        && item != ModItems.ABO_BODIES_SPAWN_EGG && item != ModItems.ABO_HEAD_SPAWN_EGG)
+                                        && item != ModItems.ABO_BODIES_SPAWN_EGG && item != ModItems.ABO_HEAD_SPAWN_EGG
+                                        && item != ModItems.BOW_UPPERLIMB && item != ModItems.BOW_LOWERLIMB
+                                        && item != ModItems.BOW_STRING && item != ModItems.BOW_GRIP
+                                        && item != ModItems.BOW_CORE && item != ModItems.SCYTHE_BACK
+                                        && item != ModItems.SCYTHE_BLADE && item != ModItems.SCYTHE_CORE
+                                        && item != ModItems.SCYTHE_HANDLE && item != ModItems.SCYTHE_HEAD
+                                        && item != ModItems.ADA_BURROWER_DROP
+                                        && item != ModItems.ITEMMOBSPAWNER_WORKER && item != ModItems.ITEMMOBSPAWNER_FLAM
+                                        && item != ModItems.ITEMMOBSPAWNER_BANO && item != ModItems.ITEMMOBSPAWNER_BANOADAPTED)
                                 .forEach(item -> output.accept(item.get()));
                     })
                     .build());

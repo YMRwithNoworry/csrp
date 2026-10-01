@@ -39,6 +39,8 @@ public final class ModSounds {
     public static final RegistryObject<SoundEvent> INCOMPLETE_MEDIUM_DEATH = register("inhoom.death");
     public static final RegistryObject<SoundEvent> LITE_FLESH_SLIDE = register("lite_flesh.slide");
     public static final RegistryObject<SoundEvent> DISC_THREE = register("srparasites.discthree");
+    public static final RegistryObject<SoundEvent> DISC_ONE = register("srparasites.discone");
+    public static final RegistryObject<SoundEvent> DISC_TWO = register("srparasites.disctwo");
     public static final RegistryObject<SoundEvent> HOST_LIVING = register("host.growl");
     public static final RegistryObject<SoundEvent> HOST_HURT = register("host.hurt");
     public static final RegistryObject<SoundEvent> HOST_DEATH = register("host.death");
@@ -71,11 +73,20 @@ public final class ModSounds {
     public static final RegistryObject<SoundEvent> PARASITE_MELT = register("parasite.melt");
     public static final RegistryObject<SoundEvent> SHRIMP_EAT = register("shrimp.eat");
     public static final RegistryObject<SoundEvent> SHYCO_SPECIAL = register("shyco.special");
-
-    public static final RegistryObject<SoundEvent> KIRIN_LIVING = register("kirin.living");
     public static final RegistryObject<SoundEvent> KIRIN_HURT = register("kirin.hurt");
     public static final RegistryObject<SoundEvent> KIRIN_DEATH = register("kirin.death");
-    public static final RegistryObject<SoundEvent> KIRIN_BLACK_HOLE = register("kirin.black_hole");
+    // 麒麟投射物/其他麒麟音效
+    public static final RegistryObject<SoundEvent> KIRIN_GROWL = register("kirin.growl");
+    public static final RegistryObject<SoundEvent> KIRIN_SHOOT = register("kirin.shoot");
+    public static final RegistryObject<SoundEvent> KIRIN_PROJECTILE_CHARGE = register("kirin.projectile_charge");
+    public static final RegistryObject<SoundEvent> KIRIN_PROJECTILE_SUMMON = register("kirin.projectile_summon");
+    public static final RegistryObject<SoundEvent> KIRIN_PROJECTILE_IMPACT = register("kirin.projectile_impact");
+    // 其他寄生体受击音效
+    public static final RegistryObject<SoundEvent> OMBOO_HURT = register("omboo.hurt");
+    public static final RegistryObject<SoundEvent> OMBOO_DEATH = register("omboo.death");
+    public static final RegistryObject<SoundEvent> ALAFHA_HURT = register("alafha.hurt");
+    public static final RegistryObject<SoundEvent> CRUX_HURT = register("crux.hurt");
+    public static final RegistryObject<SoundEvent> MOBSILENCE = register("mob.silence");
     public static final RegistryObject<SoundEvent> SIM_ADVENTURER_LIVING = register("sim_adventurer.living");
     public static final RegistryObject<SoundEvent> SIM_ADVENTURER_HURT = register("sim_adventurer.hurt");
     public static final RegistryObject<SoundEvent> SIM_ADVENTURER_DEATH = register("sim_adventurer.death");

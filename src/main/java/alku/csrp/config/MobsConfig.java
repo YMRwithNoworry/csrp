@@ -463,6 +463,19 @@ public final class MobsConfig {
             value -> value instanceof String id
                     && net.minecraft.resources.ResourceLocation.tryParse(id) != null);
 
+    // SRPConfigMobs kirin debug switches, used by KirinDebugAttackHandler.
+    private static final ForgeConfigSpec.BooleanValue KIRIN_DEBUG_SPECIAL_ATTACK = booleanValue(
+            "srparasites:kirin", "Kirin Debug Special Attack", false,
+            "Set to true to allow interacting with csrp:kirin_spawn_egg to force the nearest Kirin"
+                    + " to perform its judgement cut attack.");
+    private static final ForgeConfigSpec.BooleanValue KIRIN_DEBUG_TARGET_CREATIVE_PLAYERS = booleanValue(
+            "srparasites:kirin", "Kirin Debug Target Creative Players", false,
+            "Set to true to allow the Kirin debug special attack to target Creative players.");
+    private static final ForgeConfigSpec.BooleanValue KIRIN_DEBUG_TARGET_PLAYER_IF_NO_TARGET = booleanValue(
+            "srparasites:kirin", "Kirin Debug Target Player If No Target", false,
+            "Set to true to let the Kirin debug special attack target the player using the item when"
+                    + " no other target is available.");
+
     public static final ForgeConfigSpec SPEC = BUILDER.build();
 
     private MobsConfig() {
@@ -482,6 +495,19 @@ public final class MobsConfig {
         ForgeConfigSpec.DoubleValue value = BUILDER.comment(comment).defineInRange(name, defaultValue, min, max);
         BUILDER.pop();
         return value;
+    }
+
+
+    public static boolean kirinDebugSpecialAttack() {
+        return KIRIN_DEBUG_SPECIAL_ATTACK.get();
+    }
+
+    public static boolean kirinDebugTargetCreativePlayers() {
+        return KIRIN_DEBUG_TARGET_CREATIVE_PLAYERS.get();
+    }
+
+    public static boolean kirinDebugTargetPlayerIfNoTarget() {
+        return KIRIN_DEBUG_TARGET_PLAYER_IF_NO_TARGET.get();
     }
 
     private static ForgeConfigSpec.BooleanValue booleanValue(String category, String name,

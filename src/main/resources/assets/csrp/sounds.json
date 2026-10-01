@@ -6160,20 +6160,6 @@
       "csrp:draconite_fire_shoot"
     ]
   },
-  "kirin.living": {
-    "subtitle": "subtitles.csrp.kirin.living",
-    "sounds": [
-      "csrp:kirin_idle_1",
-      "csrp:kirin_idle_2",
-      "csrp:kirin_idle_3"
-    ]
-  },
-  "kirin.black_hole": {
-    "subtitle": "subtitles.csrp.kirin.black_hole",
-    "sounds": [
-      "csrp:kirin_black_hole"
-    ]
-  },
   "sim_adventurer.living": {
     "subtitle": "subtitles.csrp.sim_adventurer.living",
     "sounds": [

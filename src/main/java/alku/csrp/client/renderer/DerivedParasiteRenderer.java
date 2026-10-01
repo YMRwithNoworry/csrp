@@ -3,7 +3,6 @@ package alku.csrp.client.renderer;
 import alku.csrp.Csrp;
 import alku.csrp.client.model.PrimitiveParasiteModel;
 import alku.csrp.entity.DerivedParasiteEntity;
-import alku.csrp.entity.KirinEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
@@ -34,9 +33,6 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
     private static final int BEAM_RED = 78;
     private static final int BEAM_GREEN = 156;
     private static final int BEAM_BLUE = 250;
-    private static final int KIRIN_BEAM_RED = 255;
-    private static final int KIRIN_BEAM_GREEN = 72;
-    private static final int KIRIN_BEAM_BLUE = 196;
 
     private final ResourceLocation shadowTexture;
 
@@ -48,7 +44,6 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
         this.shadowRadius = shadowRadius;
         addRenderLayer(new ShadowLayer<>(this, this.shadowTexture));
         addRenderLayer(new CosmicHackingLayer<>(this));
-        addRenderLayer(new KirinLaserChargeLayer<>(this));
     }
 
     @Override
@@ -88,13 +83,6 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
                 if (target instanceof LivingEntity living && living.isAlive()) {
                     renderNeuralBeam(entity, living, partialTick, poseStack, bufferSource);
                 }
-            }
-        }
-        if (entity instanceof KirinEntity kirin && kirin.isLaserFiring()) {
-            Entity target = entity.level().getEntity(kirin.getLaserTargetId());
-            if (target instanceof LivingEntity living && living.isAlive()) {
-                renderBeam(entity, living, partialTick, poseStack, bufferSource,
-                        KIRIN_BEAM_RED, KIRIN_BEAM_GREEN, KIRIN_BEAM_BLUE, BEAM_RADIUS * 1.35F);
             }
         }
     }
@@ -209,26 +197,6 @@ public final class DerivedParasiteRenderer<T extends DerivedParasiteEntity> exte
             getRenderer().reRender(bakedModel, poseStack, bufferSource, entity, hackingRenderType,
                     bufferSource.getBuffer(hackingRenderType), partialTick, LightTexture.FULL_BRIGHT,
                     packedOverlay, 1.0F, 0.5F, 0.5F, 1.0F);
-        }
-    }
-
-    private static final class KirinLaserChargeLayer<T extends DerivedParasiteEntity> extends GeoRenderLayer<T> {
-        private KirinLaserChargeLayer(DerivedParasiteRenderer<T> renderer) {
-            super(renderer);
-        }
-
-        @Override
-        public void render(PoseStack poseStack, T entity, BakedGeoModel bakedModel, RenderType renderType,
-                MultiBufferSource bufferSource, VertexConsumer buffer, float partialTick, int packedLight,
-                int packedOverlay) {
-            if (!(entity instanceof KirinEntity kirin) || !kirin.isLaserCharging()) {
-                return;
-            }
-            ResourceLocation texture = getRenderer().getTextureLocation(entity);
-            RenderType glowType = RenderType.entityTranslucentEmissive(texture);
-            getRenderer().reRender(bakedModel, poseStack, bufferSource, entity, glowType,
-                    bufferSource.getBuffer(glowType), partialTick, LightTexture.FULL_BRIGHT,
-                    packedOverlay, 1.0F, 0.28F, 0.77F, 0.6F);
         }
     }
 }

@@ -24,6 +24,8 @@ import alku.csrp.client.renderer.BuglinRenderer;
 import alku.csrp.client.renderer.TabulaBiomassRenderer;
 import alku.csrp.client.renderer.BombRenderer;
 import alku.csrp.client.renderer.DerivedParasiteRenderer;
+import alku.csrp.client.renderer.DerivedTabulaRenderer;
+import alku.csrp.client.renderer.KirinTabulaRenderer;
 import alku.csrp.client.renderer.DragonEggAssimilationRenderer;
 import alku.csrp.client.renderer.HaunterHomingProjectileRenderer;
 import alku.csrp.client.renderer.KirinSlashRenderer;
@@ -194,10 +196,11 @@ public final class ClientModEvents {
                 new PrimitiveParasiteRenderer<>(context, "incompleteform_small", 0.35F));
         event.registerEntityRenderer(ModEntities.INCOMPLETEFORM_MEDIUM.get(), context ->
                 new PrimitiveParasiteRenderer<>(context, "incompleteform_medium", 0.45F));
+        // Kirin/Draconite are derived parasites, so they need the legacy shadow clone pass.
         event.registerEntityRenderer(ModEntities.DRACONITE.get(), context ->
-                new TabulaMobRenderer<>(context, "draconite", 1.2F));
+                new DerivedTabulaRenderer<>(context, "draconite", 1.2F));
         event.registerEntityRenderer(ModEntities.KIRIN.get(), context ->
-                new TabulaMobRenderer<>(context, "kirin", 1.1F));
+                KirinTabulaRenderer.create(context, "kirin", 1.1F));
         event.registerEntityRenderer(ModEntities.KIRIN_SLASH.get(), KirinSlashRenderer::new);
         event.registerEntityRenderer(ModEntities.SIM_ADVENTURER.get(), context ->
                 new TabulaMobRenderer<>(context, "sim_adventurer", 0.5F));

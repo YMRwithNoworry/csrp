@@ -257,7 +257,7 @@
 |---|---|---|
 | 通过 accessor 拿 `ShaderGroup.listShaders` 写 uniform | `PostChain` 字段 **`private final List<PostPass> passes;`**（**private、`PostChain` 无任何 getter，也无 `getEffect()`——`getEffect()` 在 `PostPass` 上**）；`PostPass` 字段 `private final EffectInstance effect;` + **`public EffectInstance getEffect();`**；`EffectInstance#safeGetUniform(String)` 返回 `com.mojang.blaze3d.shaders.AbstractUniform`；`com.mojang.blaze3d.shaders.Uniform#set(float)` 是 **`public final void`**（另有 `set(float,float)`、`set(int,float)`、`set(float,float,float)`、`set(Vector3f)`、`set(float,float,float,float)`、`set(Vector4f)`、`set(int…)`、`set(float[])`、`set(Matrix4f)`、`set(Matrix3f)`、`setSafe(...)`） | **已实现**：`StarWorldShaderEvents.java:42-158` 用反射（候选字段名 `{"passes","f_110009_","e"}` + `trySetAccessible()`）+ `pass.getEffect().safeGetUniform(name).set(value)`，带失败降级（`LOGGER.warn`）。`PostChain` 其他公开 API（**【核实】** `PostChain(TextureManager, ResourceManager, RenderTarget, ResourceLocation)`、`getTempTarget`、`addTempTarget`、`addPass`、`resize`、`process(float)`、`getName`、`close`）本工程用不到。加载侧 `GameRenderer.loadEffect(ResourceLocation)` / `currentEffect(): PostChain` / `shutdownEffect()` **【核实】全部存在**。 |
 
-**决策**：**不新建 accessor mixin**，**复用 `StarWorldShaderEvents` 的反射 + `GameRenderer.loadEffect` 路线**，新增 `assets/csrp/shaders/post/blizzard_reverse.json` + `shaders/program/blizzard_reverse.{json,fsh}`（照抄工程既有 `kirin_vhs` 结构），uniform 名沿用 `SRP_*`。
+**决策**：**不新建 accessor mixin**，**复用 `StarWorldShaderEvents` 的反射 + `GameRenderer.loadEffect` 路线**，新增 `assets/csrp/shaders/post/blizzard_reverse.json` + `shaders/program/blizzard_reverse.{json,fsh}`（结构照抄工程既有 post 效果，如 `alveolar_breathe`），uniform 名沿用 `SRP_*`。
 
 理由：① accessor 能拿到的信息与反射完全相同（都要绕过 `passes` 的 private）；② 反射版已在本工程跑通并带降级；③ 少一个 mixin 就少一个 `required:true` 的启动崩溃面。
 **取舍**：反射比 accessor 慢（`Field.get` 未缓存），但只在 `ClientTickEvent` 里每 tick 写一次 uniform，不在渲染热路径上。
@@ -850,7 +850,7 @@ python -c "import zipfile;z=zipfile.ZipFile(r'C:/Users/P傲娇34/.gradle/caches/
 | U4 | 原版雨雪纹理 **V 坐标**超出 1.0 | `buffer.func_187315_a(0, textureOffset)`，`textureOffset = time*0.09 + randomC*8 + lane*0.37` 可达几十 | 逐字保留同一公式 | 低（1.12.2 依赖 GL_REPEAT；1.20.1 默认 `GL_REPEAT`，行为一致。若出现雪花被拉伸，需改 `% 1.0`） |
 | U5 | 斜向雪丝的**象限判断** `if (!(distance > radius))` 与 `randomF > 0.84F` 跳过逻辑 | 逐字照抄 | 逐字照抄（已核实与原文件一致） | 无 |
 | U6 | `blizzard_reverse` post effect 的**着色值** | 1.10.9 **没有**这个 post shader（`blackBlend` 只作用于雪丝与雾壳顶点色） | 新增 fsh：`dim = 1 - blackBlend*0.94` + 轻微偏暖压暗 | 低（纯视觉近似，不影响任何逻辑）；**需目视确认"变黑"观感与 1.10.9 一致** |
-| U7 | 该 post effect 与 `StarWorldShaderEvents` 的 **post chain 互斥** | 无此概念 | `gameRenderer.currentEffect() != null` 时**不抢占**（与 `KirinVhsEffectEvents` 同款礼让） | 低（冷星 shader 开启时 `blackBlend` 只作用于雪丝/雾壳顶点色，绕过 post） |
+| U7 | 该 post effect 与 `StarWorldShaderEvents` 的 **post chain 互斥** | 无此概念 | `gameRenderer.currentEffect() != null` 时**不抢占**（与 `StarWorldShaderEvents` 同款礼让） | 低（冷星 shader 开启时 `blackBlend` 只作用于雪丝/雾壳顶点色，绕过 post） |
 | U8 | `BlizzardDirectionClient.setReverseRequested` 的**调用方** | `SRPBlizzardDerivedHandler`（服务端）+ `MsgSyncBlizzardReverse` 包 | **本片不接线**（片 5 负责网络）；方法已按 1.10.9 签名 `public static void setReverseRequested(boolean)` 备好 | 无（片 5 直接调用即可） |
 
 ---

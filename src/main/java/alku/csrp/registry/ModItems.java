@@ -1,5 +1,6 @@
 package alku.csrp.registry;
 
+import alku.csrp.item.ItemMobSpawner;
 import alku.csrp.Csrp;
 import alku.csrp.item.AssimilationWandItem;
 import alku.csrp.item.BoughItem;
@@ -361,6 +362,297 @@ public final class ModItems {
             "abo_bodies_spawn_egg", ModEntities.ABO_BODIES, 0x4A2D2C, 0xB86C59);
     public static final RegistryObject<SpawnEggItem> ABO_HEAD_SPAWN_EGG = spawnEgg(
             "abo_head_spawn_egg", ModEntities.ABO_HEAD, 0x45322E, 0xB97D61);
+
+    // ==================== 原版刷怪物品 itemmobspawner_*（SRP 1.10.9 ItemMobSpawner，id 与原版一致） ====================
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_ABOBODIES = ITEMS.registerItem(
+            "itemmobspawner_abobodies", properties -> new ItemMobSpawner(ModEntities.ABO_BODIES, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_ABOHEAD = ITEMS.registerItem(
+            "itemmobspawner_abohead", properties -> new ItemMobSpawner(ModEntities.ABO_HEAD, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_ALAFHA = ITEMS.registerItem(
+            "itemmobspawner_alafha", properties -> new ItemMobSpawner(ModEntities.OVERSEER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_ANGED = ITEMS.registerItem(
+            "itemmobspawner_anged", properties -> new ItemMobSpawner(ModEntities.VIGILANTE, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_ATA = ITEMS.registerItem(
+            "itemmobspawner_ata", properties -> new ItemMobSpawner(ModEntities.GNAT, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_BUTHOL = ITEMS.registerItem(
+            "itemmobspawner_buthol", properties -> new ItemMobSpawner(ModEntities.CARRIER_FLYING, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_CANRA = ITEMS.registerItem(
+            "itemmobspawner_canra", properties -> new ItemMobSpawner(ModEntities.PRI_SUMMONER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_CANRAADAPTED = ITEMS.registerItem(
+            "itemmobspawner_canraadapted", properties -> new ItemMobSpawner(ModEntities.ADA_LONGARMS, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_CRUXA = ITEMS.registerItem(
+            "itemmobspawner_cruxa", properties -> new ItemMobSpawner(ModEntities.CRUX, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_CRUXB = ITEMS.registerItem(
+            "itemmobspawner_cruxb", properties -> new ItemMobSpawner(ModEntities.CRUX_INCOMPLETE, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_DOD = ITEMS.registerItem(
+            "itemmobspawner_dod", properties -> new ItemMobSpawner(ModEntities.DISPATCHER_SI, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_DODSII = ITEMS.registerItem(
+            "itemmobspawner_dodsii", properties -> new ItemMobSpawner(ModEntities.DISPATCHER_SII, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_DODSIII = ITEMS.registerItem(
+            "itemmobspawner_dodsiii", properties -> new ItemMobSpawner(ModEntities.DISPATCHER_SIII, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_DODSIV = ITEMS.registerItem(
+            "itemmobspawner_dodsiv", properties -> new ItemMobSpawner(ModEntities.DISPATCHER_SIV, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_DONE = ITEMS.registerItem(
+            "itemmobspawner_done", properties -> new ItemMobSpawner(ModEntities.DREDGE, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_DORPA = ITEMS.registerItem(
+            "itemmobspawner_dorpa", properties -> new ItemMobSpawner(ModEntities.SIM_BIGSPIDER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_ELVIA = ITEMS.registerItem(
+            "itemmobspawner_elvia", properties -> new ItemMobSpawner(ModEntities.WRAITH, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_EMANA = ITEMS.registerItem(
+            "itemmobspawner_emana", properties -> new ItemMobSpawner(ModEntities.PRI_YELLOWEYE, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_EMANAADAPTED = ITEMS.registerItem(
+            "itemmobspawner_emanaadapted", properties -> new ItemMobSpawner(ModEntities.ADA_YELLOWEYE, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_ESOR = ITEMS.registerItem(
+            "itemmobspawner_esor", properties -> new ItemMobSpawner(ModEntities.MARAUDER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_FERBEAR = ITEMS.registerItem(
+            "itemmobspawner_ferbear", properties -> new ItemMobSpawner(ModEntities.FER_BEAR, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_FERCOW = ITEMS.registerItem(
+            "itemmobspawner_fercow", properties -> new ItemMobSpawner(ModEntities.FER_COW, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_FERENDERMAN = ITEMS.registerItem(
+            "itemmobspawner_ferenderman", properties -> new ItemMobSpawner(ModEntities.FER_ENDERMAN, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_FERHORSE = ITEMS.registerItem(
+            "itemmobspawner_ferhorse", properties -> new ItemMobSpawner(ModEntities.FER_HORSE, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_FERHUMAN = ITEMS.registerItem(
+            "itemmobspawner_ferhuman", properties -> new ItemMobSpawner(ModEntities.FER_HUMAN, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_FERPIG = ITEMS.registerItem(
+            "itemmobspawner_ferpig", properties -> new ItemMobSpawner(ModEntities.FER_PIG, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_FERSHEEP = ITEMS.registerItem(
+            "itemmobspawner_fersheep", properties -> new ItemMobSpawner(ModEntities.FER_SHEEP, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_FERVILLAGER = ITEMS.registerItem(
+            "itemmobspawner_fervillager", properties -> new ItemMobSpawner(ModEntities.FER_VILLAGER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_FERWOLF = ITEMS.registerItem(
+            "itemmobspawner_ferwolf", properties -> new ItemMobSpawner(ModEntities.FER_WOLF, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_FLOG = ITEMS.registerItem(
+            "itemmobspawner_flog", properties -> new ItemMobSpawner(ModEntities.GRUNT, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_GANRO = ITEMS.registerItem(
+            "itemmobspawner_ganro", properties -> new ItemMobSpawner(ModEntities.WARDEN, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_GIM = ITEMS.registerItem(
+            "itemmobspawner_gim", properties -> new ItemMobSpawner(ModEntities.PRI_VISCERA, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_GIMADAPTED = ITEMS.registerItem(
+            "itemmobspawner_gimadapted", properties -> new ItemMobSpawner(ModEntities.ADA_VERMIN, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_GOTHOL = ITEMS.registerItem(
+            "itemmobspawner_gothol", properties -> new ItemMobSpawner(ModEntities.CARRIER_LIGHT, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_HEBLU = ITEMS.registerItem(
+            "itemmobspawner_heblu", properties -> new ItemMobSpawner(ModEntities.DRACONITE, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_HEED = ITEMS.registerItem(
+            "itemmobspawner_heed", properties -> new ItemMobSpawner(ModEntities.HEED, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_HIBLAZE = ITEMS.registerItem(
+            "itemmobspawner_hiblaze", properties -> new ItemMobSpawner(ModEntities.HI_BLAZE, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_HIGOLEM = ITEMS.registerItem(
+            "itemmobspawner_higolem", properties -> new ItemMobSpawner(ModEntities.HI_GOLEM, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_HISKELETON = ITEMS.registerItem(
+            "itemmobspawner_hiskeleton", properties -> new ItemMobSpawner(ModEntities.HI_SKELETON, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_HOST = ITEMS.registerItem(
+            "itemmobspawner_host", properties -> new ItemMobSpawner(ModEntities.HOST, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_HOSTII = ITEMS.registerItem(
+            "itemmobspawner_hostii", properties -> new ItemMobSpawner(ModEntities.HOSTII, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_HULL = ITEMS.registerItem(
+            "itemmobspawner_hull", properties -> new ItemMobSpawner(ModEntities.PRI_MANDUCATER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_HULLADAPTED = ITEMS.registerItem(
+            "itemmobspawner_hulladapted", properties -> new ItemMobSpawner(ModEntities.ADA_MANDUCATER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_IKI = ITEMS.registerItem(
+            "itemmobspawner_iki", properties -> new ItemMobSpawner(ModEntities.PRI_VERMIN, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_IKIADAPTED = ITEMS.registerItem(
+            "itemmobspawner_ikiadapted", properties -> new ItemMobSpawner(ModEntities.ADA_VISCERA, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INFBEAR = ITEMS.registerItem(
+            "itemmobspawner_infbear", properties -> new ItemMobSpawner(ModEntities.SIM_BEAR, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INFCOW = ITEMS.registerItem(
+            "itemmobspawner_infcow", properties -> new ItemMobSpawner(ModEntities.SIM_COW, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INFCOWHEAD = ITEMS.registerItem(
+            "itemmobspawner_infcowhead", properties -> new ItemMobSpawner(ModEntities.SIM_COW_HEAD, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INFDRAGONE = ITEMS.registerItem(
+            "itemmobspawner_infdragone", properties -> new ItemMobSpawner(ModEntities.SIM_DRAGONE, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INFDRAGONEHEAD = ITEMS.registerItem(
+            "itemmobspawner_infdragonehead", properties -> new ItemMobSpawner(ModEntities.SIM_DRAGON_HEAD, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INFENDERMAN = ITEMS.registerItem(
+            "itemmobspawner_infenderman", properties -> new ItemMobSpawner(ModEntities.SIM_ENDERMAN, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INFENDERMANHEAD = ITEMS.registerItem(
+            "itemmobspawner_infendermanhead", properties -> new ItemMobSpawner(ModEntities.SIM_ENDERMAN_HEAD, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INFHORSE = ITEMS.registerItem(
+            "itemmobspawner_infhorse", properties -> new ItemMobSpawner(ModEntities.SIM_HORSE, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INFHORSEHEAD = ITEMS.registerItem(
+            "itemmobspawner_infhorsehead", properties -> new ItemMobSpawner(ModEntities.SIM_HORSE_HEAD, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INFHUMAN = ITEMS.registerItem(
+            "itemmobspawner_infhuman", properties -> new ItemMobSpawner(ModEntities.SIM_HUMAN, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INFHUMANHEAD = ITEMS.registerItem(
+            "itemmobspawner_infhumanhead", properties -> new ItemMobSpawner(ModEntities.SIM_HUMAN_HEAD, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INFPIG = ITEMS.registerItem(
+            "itemmobspawner_infpig", properties -> new ItemMobSpawner(ModEntities.SIM_PIG, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INFPIGHEAD = ITEMS.registerItem(
+            "itemmobspawner_infpighead", properties -> new ItemMobSpawner(ModEntities.SIM_PIG_HEAD, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INFPLAYER = ITEMS.registerItem(
+            "itemmobspawner_infplayer", properties -> new ItemMobSpawner(ModEntities.SIM_ADVENTURER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INFPLAYERHEAD = ITEMS.registerItem(
+            "itemmobspawner_infplayerhead", properties -> new ItemMobSpawner(ModEntities.SIM_ADVENTURER_HEAD, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INFSHEEP = ITEMS.registerItem(
+            "itemmobspawner_infsheep", properties -> new ItemMobSpawner(ModEntities.SIM_SHEEP, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INFSHEEPHEAD = ITEMS.registerItem(
+            "itemmobspawner_infsheephead", properties -> new ItemMobSpawner(ModEntities.SIM_SHEEP_HEAD, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INFSQUID = ITEMS.registerItem(
+            "itemmobspawner_infsquid", properties -> new ItemMobSpawner(ModEntities.SIM_SQUID, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INFVILLAGER = ITEMS.registerItem(
+            "itemmobspawner_infvillager", properties -> new ItemMobSpawner(ModEntities.SIM_VILLAGER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INFVILLAGERHEAD = ITEMS.registerItem(
+            "itemmobspawner_infvillagerhead", properties -> new ItemMobSpawner(ModEntities.SIM_VILLAGER_HEAD, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INFWOLF = ITEMS.registerItem(
+            "itemmobspawner_infwolf", properties -> new ItemMobSpawner(ModEntities.SIM_WOLF, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INFWOLFHEAD = ITEMS.registerItem(
+            "itemmobspawner_infwolfhead", properties -> new ItemMobSpawner(ModEntities.SIM_WOLF_HEAD, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INHOOM = ITEMS.registerItem(
+            "itemmobspawner_inhoom", properties -> new ItemMobSpawner(ModEntities.INCOMPLETEFORM_MEDIUM, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_INHOOS = ITEMS.registerItem(
+            "itemmobspawner_inhoos", properties -> new ItemMobSpawner(ModEntities.INCOMPLETEFORM_SMALL, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_JINJO = ITEMS.registerItem(
+            "itemmobspawner_jinjo", properties -> new ItemMobSpawner(ModEntities.BOMBER_HEAVY, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_KIRIN = ITEMS.registerItem(
+            "itemmobspawner_kirin", properties -> new ItemMobSpawner(ModEntities.KIRIN, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_LEEM = ITEMS.registerItem(
+            "itemmobspawner_leem", properties -> new ItemMobSpawner(ModEntities.ROOTER_SI, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_LEEMSII = ITEMS.registerItem(
+            "itemmobspawner_leemsii", properties -> new ItemMobSpawner(ModEntities.ROOTER_SII, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_LEEMSIII = ITEMS.registerItem(
+            "itemmobspawner_leemsiii", properties -> new ItemMobSpawner(ModEntities.ROOTER_SIII, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_LEEMSIV = ITEMS.registerItem(
+            "itemmobspawner_leemsiv", properties -> new ItemMobSpawner(ModEntities.ROOTER_SIV, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_LEER = ITEMS.registerItem(
+            "itemmobspawner_leer", properties -> new ItemMobSpawner(ModEntities.AIRSCREW, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_LENCIA = ITEMS.registerItem(
+            "itemmobspawner_lencia", properties -> new ItemMobSpawner(ModEntities.BOGLE, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_LESH = ITEMS.registerItem(
+            "itemmobspawner_lesh", properties -> new ItemMobSpawner(ModEntities.MOVINGFLESH, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_LODO = ITEMS.registerItem(
+            "itemmobspawner_lodo", properties -> new ItemMobSpawner(ModEntities.BUGLIN, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_LUM = ITEMS.registerItem(
+            "itemmobspawner_lum", properties -> new ItemMobSpawner(ModEntities.PRI_DEVOURER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_LUMADAPTED = ITEMS.registerItem(
+            "itemmobspawner_lumadapted", properties -> new ItemMobSpawner(ModEntities.ADA_DEVOURER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_MARBEAR = ITEMS.registerItem(
+            "itemmobspawner_marbear", properties -> new ItemMobSpawner(ModEntities.MAR_BEAR, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_MARCOW = ITEMS.registerItem(
+            "itemmobspawner_marcow", properties -> new ItemMobSpawner(ModEntities.MAR_COW, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_MARENDERMAN = ITEMS.registerItem(
+            "itemmobspawner_marenderman", properties -> new ItemMobSpawner(ModEntities.MAR_ENDERMAN, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_MARHUMAN = ITEMS.registerItem(
+            "itemmobspawner_marhuman", properties -> new ItemMobSpawner(ModEntities.MAR_HUMAN, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_MARSHEEP = ITEMS.registerItem(
+            "itemmobspawner_marsheep", properties -> new ItemMobSpawner(ModEntities.MAR_SHEEP, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_MARVILLAGER = ITEMS.registerItem(
+            "itemmobspawner_marvillager", properties -> new ItemMobSpawner(ModEntities.MAR_VILLAGER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_MES = ITEMS.registerItem(
+            "itemmobspawner_mes", properties -> new ItemMobSpawner(ModEntities.THRALL, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_MUDO = ITEMS.registerItem(
+            "itemmobspawner_mudo", properties -> new ItemMobSpawner(ModEntities.RUPTER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_NAK = ITEMS.registerItem(
+            "itemmobspawner_nak", properties -> new ItemMobSpawner(ModEntities.SEIZER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_NOGLA = ITEMS.registerItem(
+            "itemmobspawner_nogla", properties -> new ItemMobSpawner(ModEntities.PRI_REEKER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_NOGLAADAPTED = ITEMS.registerItem(
+            "itemmobspawner_noglaadapted", properties -> new ItemMobSpawner(ModEntities.ADA_REEKER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_NUUH = ITEMS.registerItem(
+            "itemmobspawner_nuuh", properties -> new ItemMobSpawner(ModEntities.MANGLER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_OMBOO = ITEMS.registerItem(
+            "itemmobspawner_omboo", properties -> new ItemMobSpawner(ModEntities.BOMBER_LIGHT, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_ORCH = ITEMS.registerItem(
+            "itemmobspawner_orch", properties -> new ItemMobSpawner(ModEntities.MONARCH, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_ORONCO = ITEMS.registerItem(
+            "itemmobspawner_oronco", properties -> new ItemMobSpawner(ModEntities.ANC_DREADNAUT, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_PHEON = ITEMS.registerItem(
+            "itemmobspawner_pheon", properties -> new ItemMobSpawner(ModEntities.HAUNTER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_POD = ITEMS.registerItem(
+            "itemmobspawner_pod", properties -> new ItemMobSpawner(ModEntities.ANC_POD, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_QUAC = ITEMS.registerItem(
+            "itemmobspawner_quac", properties -> new ItemMobSpawner(ModEntities.CARRIER_WORM, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_RANRAC = ITEMS.registerItem(
+            "itemmobspawner_ranrac", properties -> new ItemMobSpawner(ModEntities.PRI_ARACHNIDA, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_RANRACADAPTED = ITEMS.registerItem(
+            "itemmobspawner_ranracadapted", properties -> new ItemMobSpawner(ModEntities.ADA_ARACHNIDA, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_RATHOL = ITEMS.registerItem(
+            "itemmobspawner_rathol", properties -> new ItemMobSpawner(ModEntities.CARRIER_HEAVY, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_SHYCO = ITEMS.registerItem(
+            "itemmobspawner_shyco", properties -> new ItemMobSpawner(ModEntities.PRI_LONGARMS, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_SHYCOADAPTED = ITEMS.registerItem(
+            "itemmobspawner_shycoadapted", properties -> new ItemMobSpawner(ModEntities.ADA_SUMMONER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_SOO = ITEMS.registerItem(
+            "itemmobspawner_soo", properties -> new ItemMobSpawner(ModEntities.SEEKER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_TENN = ITEMS.registerItem(
+            "itemmobspawner_tenn", properties -> new ItemMobSpawner(ModEntities.ARCHITECT, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_TERLA = ITEMS.registerItem(
+            "itemmobspawner_terla", properties -> new ItemMobSpawner(ModEntities.ANC_OVERLORD, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_TONRO = ITEMS.registerItem(
+            "itemmobspawner_tonro", properties -> new ItemMobSpawner(ModEntities.KYPHOSIS, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_UNVO = ITEMS.registerItem(
+            "itemmobspawner_unvo", properties -> new ItemMobSpawner(ModEntities.SENTRY, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_VENKROL = ITEMS.registerItem(
+            "itemmobspawner_venkrol", properties -> new ItemMobSpawner(ModEntities.BECKON_SI, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_VENKROLSII = ITEMS.registerItem(
+            "itemmobspawner_venkrolsii", properties -> new ItemMobSpawner(ModEntities.BECKON_SII, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_VENKROLSIII = ITEMS.registerItem(
+            "itemmobspawner_venkrolsiii", properties -> new ItemMobSpawner(ModEntities.BECKON_SIII, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_VENKROLSIV = ITEMS.registerItem(
+            "itemmobspawner_venkrolsiv", properties -> new ItemMobSpawner(ModEntities.BECKON_SIV, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_VESTA = ITEMS.registerItem(
+            "itemmobspawner_vesta", properties -> new ItemMobSpawner(ModEntities.CARRIER_COLONY, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_WYMO = ITEMS.registerItem(
+            "itemmobspawner_wymo", properties -> new ItemMobSpawner(ModEntities.PRI_TOZOON, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_WYMOADAPTED = ITEMS.registerItem(
+            "itemmobspawner_wymoadapted", properties -> new ItemMobSpawner(ModEntities.ADA_TOZOON, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_ZAA = ITEMS.registerItem(
+            "itemmobspawner_zaa", properties -> new ItemMobSpawner(ModEntities.PRI_BURROWER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_ZAAADAPTED = ITEMS.registerItem(
+            "itemmobspawner_zaaadapted", properties -> new ItemMobSpawner(ModEntities.ADA_BURROWER, properties));
+
+
+    // ==================== 原版成就图标 / 诱饵部件 / 唱片（1.10.9 id 对齐） ====================
+    public static final RegistryObject<Item> ITEMTAB = simple("itemtab");
+    public static final RegistryObject<Item> LURECOMPONENT7 = simple("lurecomponent7");
+    public static final RegistryObject<Item> LURECOMPONENT8 = simple("lurecomponent8");
+    public static final RegistryObject<Item> LURECOMPONENT9 = simple("lurecomponent9");
+    public static final RegistryObject<Item> LURECOMPONENT10 = simple("lurecomponent10");
+    public static final RegistryObject<Item> DARK_DAYS_ICON = simple("dark_days_icon");
+    public static final RegistryObject<Item> ADAPTED_ICON = simple("adapted_icon");
+    public static final RegistryObject<Item> PRIMITIVE_ICON = simple("primitive_icon");
+    public static final RegistryObject<Item> CRUDE_ICON = simple("crude_icon");
+    public static final RegistryObject<Item> PURE_ICON = simple("pure_icon");
+    public static final RegistryObject<Item> HUNT_SEASON_ICON = simple("hunt_season_icon");
+    public static final RegistryObject<Item> GUERILLA_ICON = simple("guerilla_icon");
+    public static final RegistryObject<Item> ECSTASY_ICON = simple("ecstasy_icon");
+    public static final RegistryObject<Item> ENEMY_OF_ENEMY_ICON = simple("enemy_of_enemy_icon");
+    public static final RegistryObject<Item> FOG_NULLIFIER_ICON = simple("fog_nullifier_icon");
+    public static final RegistryObject<Item> SELF_DESTRUCT_ICON = simple("self_destruct_icon");
+    public static final RegistryObject<Item> POTION_COLUMBUS_ICON = simple("potion_columbus_icon");
+    public static final RegistryObject<Item> POTION_STOLAS_ICON = simple("potion_stolas_icon");
+    public static final RegistryObject<Item> HELLFIRE_CHEMICAL_WARFARE_ICON = simple("hellfire_chemical_warfare_icon");
+    public static final RegistryObject<Item> COSMIC_STRUCTURAL_FAILURE_ICON = simple("cosmic_structural_failure_icon");
+    // 原版注册但无美术的刷怪物品（id 与原版一致；同步排除出创造栏）
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_WORKER = ITEMS.registerItem(
+            "itemmobspawner_worker", properties -> new ItemMobSpawner(ModEntities.WORKER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_FLAM = ITEMS.registerItem(
+            "itemmobspawner_flam", properties -> new ItemMobSpawner(ModEntities.SUCCOR, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_BANO = ITEMS.registerItem(
+            "itemmobspawner_bano", properties -> new ItemMobSpawner(ModEntities.PRI_BOLSTER, properties));
+    public static final RegistryObject<Item> ITEMMOBSPAWNER_BANOADAPTED = ITEMS.registerItem(
+            "itemmobspawner_banoadapted", properties -> new ItemMobSpawner(ModEntities.ADA_BOLSTER, properties));
+    public static final RegistryObject<Item> ROOTS_ICON = simple("roots_icon");
+
+    // 原版无美术的合成中间件与掉落物（原版同样没有模型/贴图，故不进创造栏）
+    public static final RegistryObject<Item> BOW_UPPERLIMB = simple("bow_upperlimb");
+    public static final RegistryObject<Item> BOW_LOWERLIMB = simple("bow_lowerlimb");
+    public static final RegistryObject<Item> BOW_STRING = simple("bow_string");
+    public static final RegistryObject<Item> BOW_GRIP = simple("bow_grip");
+    public static final RegistryObject<Item> BOW_CORE = simple("bow_core");
+    public static final RegistryObject<Item> SCYTHE_BACK = simple("scythe_back");
+    public static final RegistryObject<Item> SCYTHE_BLADE = simple("scythe_blade");
+    public static final RegistryObject<Item> SCYTHE_CORE = simple("scythe_core");
+    public static final RegistryObject<Item> SCYTHE_HANDLE = simple("scythe_handle");
+    public static final RegistryObject<Item> SCYTHE_HEAD = simple("scythe_head");
+    public static final RegistryObject<Item> ADA_BURROWER_DROP = simple("ada_burrower_drop");
+
+    public static final RegistryObject<Item> DISCONE = ITEMS.registerItem("discone",
+            properties -> new net.minecraft.world.item.RecordItem(1, ModSounds.DISC_ONE,
+                    properties.stacksTo(1).rarity(Rarity.RARE), 240));
+    public static final RegistryObject<Item> DISCTWO = ITEMS.registerItem("disctwo",
+            properties -> new net.minecraft.world.item.RecordItem(2, ModSounds.DISC_TWO,
+                    properties.stacksTo(1).rarity(Rarity.RARE), 240));
     public static final RegistryObject<Item> RUPTER_VISCERA = simple("rupter_viscera");
     public static final RegistryObject<BlockItem> TUNNEL = ITEMS.registerSimpleBlockItem("tunnel", ModBlocks.TUNNEL);
     public static final RegistryObject<BlockItem> SRP_WEB = ITEMS.registerSimpleBlockItem("srpweb", ModBlocks.SRP_WEB);
@@ -550,7 +842,6 @@ public final class ModItems {
             "parasitestain_red", ModBlocks.PARASITESTAIN_RED);
     public static final RegistryObject<BlockItem> PARASITESTAIN_SPORE = ITEMS.registerSimpleBlockItem(
             "parasitestain_spore", ModBlocks.PARASITESTAIN_SPORE);
-
     public static final RegistryObject<BlockItem> PARASITESTAIN_FLESH = ITEMS.registerSimpleBlockItem(
             "parasitestain_flesh", ModBlocks.PARASITESTAIN_FLESH);
     public static final RegistryObject<BlockItem> PARASITESTAIN_DIRT = ITEMS.registerSimpleBlockItem(
@@ -571,7 +862,8 @@ public final class ModItems {
             "parasitethin", ModBlocks.PARASITETHIN);
     public static final RegistryObject<BlockItem> GOTH_STEM = ITEMS.registerSimpleBlockItem(
             "goth_stem", ModBlocks.GOTH_STEM);
-
+    public static final RegistryObject<BlockItem> INFESTED_WORKBENCH = ITEMS.registerSimpleBlockItem(
+            "infested_workbench", ModBlocks.INFESTED_WORKBENCH);
     /**
      * 原模组 {@code BlockWorkbenchConsumed}。此前只注册了方块、漏了物品，导致
      * {@code data/csrp/loot_tables/blocks/consumed_workbench.json} 加载失败
@@ -579,8 +871,6 @@ public final class ModItems {
      */
     public static final RegistryObject<BlockItem> CONSUMED_WORKBENCH = ITEMS.registerSimpleBlockItem(
             "consumed_workbench", ModBlocks.CONSUMED_WORKBENCH);
-    public static final RegistryObject<BlockItem> INFESTED_WORKBENCH = ITEMS.registerSimpleBlockItem(
-            "infested_workbench", ModBlocks.INFESTED_WORKBENCH);
     public static final RegistryObject<BlockItem> GOTH_DOOR = ITEMS.registerSimpleBlockItem(
             "goth_door", ModBlocks.GOTH_DOOR);
     public static final RegistryObject<BlockItem> BRUSEWOOD_DOOR = ITEMS.registerSimpleBlockItem(

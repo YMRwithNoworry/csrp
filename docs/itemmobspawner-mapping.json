@@ -1,0 +1,470 @@
+{
+ "map": {
+  "abobodies": {
+   "id": "abo_bodies_spawn_egg",
+   "ent": "ABO_BODIES"
+  },
+  "abohead": {
+   "id": "abo_head_spawn_egg",
+   "ent": "ABO_HEAD"
+  },
+  "alafha": {
+   "id": "overseer_spawn_egg",
+   "ent": "OVERSEER"
+  },
+  "anged": {
+   "id": "vigilante_spawn_egg",
+   "ent": "VIGILANTE"
+  },
+  "ata": {
+   "id": "gnat_spawn_egg",
+   "ent": "GNAT"
+  },
+  "buthol": {
+   "id": "carrier_flying_spawn_egg",
+   "ent": "CARRIER_FLYING"
+  },
+  "canra": {
+   "id": "pri_summoner_spawn_egg",
+   "ent": "PRI_SUMMONER"
+  },
+  "canraadapted": {
+   "id": "ada_longarms_spawn_egg",
+   "ent": "ADA_LONGARMS"
+  },
+  "cruxa": {
+   "id": "crux_spawn_egg",
+   "ent": "CRUX"
+  },
+  "cruxb": {
+   "id": "crux_incomplete_spawn_egg",
+   "ent": "CRUX_INCOMPLETE"
+  },
+  "dod": {
+   "id": "dispatcher_si_spawn_egg",
+   "ent": "DISPATCHER_SI"
+  },
+  "dodsii": {
+   "id": "dispatcher_sii_spawn_egg",
+   "ent": "DISPATCHER_SII"
+  },
+  "dodsiii": {
+   "id": "dispatcher_siii_spawn_egg",
+   "ent": "DISPATCHER_SIII"
+  },
+  "dodsiv": {
+   "id": "dispatcher_siv_spawn_egg",
+   "ent": "DISPATCHER_SIV"
+  },
+  "done": {
+   "id": "dredge_spawn_egg",
+   "ent": "DREDGE"
+  },
+  "dorpa": {
+   "id": "sim_bigspider_spawn_egg",
+   "ent": "SIM_BIGSPIDER"
+  },
+  "emana": {
+   "id": "pri_yelloweye_spawn_egg",
+   "ent": "PRI_YELLOWEYE"
+  },
+  "emanaadapted": {
+   "id": "ada_yelloweye_spawn_egg",
+   "ent": "ADA_YELLOWEYE"
+  },
+  "esor": {
+   "id": "marauder_spawn_egg",
+   "ent": "MARAUDER"
+  },
+  "ferbear": {
+   "id": "fer_bear_spawn_egg",
+   "ent": "FER_BEAR"
+  },
+  "fercow": {
+   "id": "fer_cow_spawn_egg",
+   "ent": "FER_COW"
+  },
+  "ferenderman": {
+   "id": "fer_enderman_spawn_egg",
+   "ent": "FER_ENDERMAN"
+  },
+  "ferhorse": {
+   "id": "fer_horse_spawn_egg",
+   "ent": "FER_HORSE"
+  },
+  "ferhuman": {
+   "id": "fer_human_spawn_egg",
+   "ent": "FER_HUMAN"
+  },
+  "ferpig": {
+   "id": "fer_pig_spawn_egg",
+   "ent": "FER_PIG"
+  },
+  "fersheep": {
+   "id": "fer_sheep_spawn_egg",
+   "ent": "FER_SHEEP"
+  },
+  "fervillager": {
+   "id": "fer_villager_spawn_egg",
+   "ent": "FER_VILLAGER"
+  },
+  "ferwolf": {
+   "id": "fer_wolf_spawn_egg",
+   "ent": "FER_WOLF"
+  },
+  "flog": {
+   "id": "grunt_spawn_egg",
+   "ent": "GRUNT"
+  },
+  "ganro": {
+   "id": "warden_spawn_egg",
+   "ent": "WARDEN"
+  },
+  "gim": {
+   "id": "pri_viscera_spawn_egg",
+   "ent": "PRI_VISCERA"
+  },
+  "gimadapted": {
+   "id": "ada_vermin_spawn_egg",
+   "ent": "ADA_VERMIN"
+  },
+  "gothol": {
+   "id": "carrier_light_spawn_egg",
+   "ent": "CARRIER_LIGHT"
+  },
+  "heblu": {
+   "id": "draconite_spawn_egg",
+   "ent": "DRACONITE"
+  },
+  "heed": {
+   "id": "heed_spawn_egg",
+   "ent": "HEED"
+  },
+  "hiblaze": {
+   "id": "hi_blaze_spawn_egg",
+   "ent": "HI_BLAZE"
+  },
+  "higolem": {
+   "id": "hi_golem_spawn_egg",
+   "ent": "HI_GOLEM"
+  },
+  "hiskeleton": {
+   "id": "hi_skeleton_spawn_egg",
+   "ent": "HI_SKELETON"
+  },
+  "host": {
+   "id": "host_spawn_egg",
+   "ent": "HOST"
+  },
+  "hostii": {
+   "id": "hostii_spawn_egg",
+   "ent": "HOSTII"
+  },
+  "hull": {
+   "id": "pri_manducater_spawn_egg",
+   "ent": "PRI_MANDUCATER"
+  },
+  "hulladapted": {
+   "id": "ada_manducater_spawn_egg",
+   "ent": "ADA_MANDUCATER"
+  },
+  "iki": {
+   "id": "pri_vermin_spawn_egg",
+   "ent": "PRI_VERMIN"
+  },
+  "ikiadapted": {
+   "id": "ada_viscera_spawn_egg",
+   "ent": "ADA_VISCERA"
+  },
+  "infbear": {
+   "id": "sim_bear_spawn_egg",
+   "ent": "SIM_BEAR"
+  },
+  "infcow": {
+   "id": "sim_cow_spawn_egg",
+   "ent": "SIM_COW"
+  },
+  "infcowhead": {
+   "id": "sim_cowhead_spawn_egg",
+   "ent": "SIM_COW_HEAD"
+  },
+  "infdragone": {
+   "id": "sim_dragone_spawn_egg",
+   "ent": "SIM_DRAGONE"
+  },
+  "infenderman": {
+   "id": "sim_enderman_spawn_egg",
+   "ent": "SIM_ENDERMAN"
+  },
+  "infendermanhead": {
+   "id": "sim_endermanhead_spawn_egg",
+   "ent": "SIM_ENDERMAN_HEAD"
+  },
+  "infhorse": {
+   "id": "sim_horse_spawn_egg",
+   "ent": "SIM_HORSE"
+  },
+  "infhorsehead": {
+   "id": "sim_horsehead_spawn_egg",
+   "ent": "SIM_HORSE_HEAD"
+  },
+  "infhuman": {
+   "id": "sim_human_spawn_egg",
+   "ent": "SIM_HUMAN"
+  },
+  "infhumanhead": {
+   "id": "sim_humanhead_spawn_egg",
+   "ent": "SIM_HUMAN_HEAD"
+  },
+  "infpig": {
+   "id": "sim_pig_spawn_egg",
+   "ent": "SIM_PIG"
+  },
+  "infpighead": {
+   "id": "sim_pighead_spawn_egg",
+   "ent": "SIM_PIG_HEAD"
+  },
+  "infplayer": {
+   "id": "sim_adventurer_spawn_egg",
+   "ent": "SIM_ADVENTURER"
+  },
+  "infplayerhead": {
+   "id": "sim_adventurerhead_spawn_egg",
+   "ent": "SIM_ADVENTURER_HEAD"
+  },
+  "infsheep": {
+   "id": "sim_sheep_spawn_egg",
+   "ent": "SIM_SHEEP"
+  },
+  "infsheephead": {
+   "id": "sim_sheephead_spawn_egg",
+   "ent": "SIM_SHEEP_HEAD"
+  },
+  "infsquid": {
+   "id": "sim_squid_spawn_egg",
+   "ent": "SIM_SQUID"
+  },
+  "infvillager": {
+   "id": "sim_villager_spawn_egg",
+   "ent": "SIM_VILLAGER"
+  },
+  "infvillagerhead": {
+   "id": "sim_villagerhead_spawn_egg",
+   "ent": "SIM_VILLAGER_HEAD"
+  },
+  "infwolf": {
+   "id": "sim_wolf_spawn_egg",
+   "ent": "SIM_WOLF"
+  },
+  "infwolfhead": {
+   "id": "sim_wolfhead_spawn_egg",
+   "ent": "SIM_WOLF_HEAD"
+  },
+  "inhoom": {
+   "id": "incompleteform_medium_spawn_egg",
+   "ent": "INCOMPLETEFORM_MEDIUM"
+  },
+  "inhoos": {
+   "id": "incompleteform_small_spawn_egg",
+   "ent": "INCOMPLETEFORM_SMALL"
+  },
+  "jinjo": {
+   "id": "bomber_heavy_spawn_egg",
+   "ent": "BOMBER_HEAVY"
+  },
+  "kirin": {
+   "id": "kirin_spawn_egg",
+   "ent": "KIRIN"
+  },
+  "kol": {
+   "id": "worker_spawn_egg",
+   "ent": "WORKER"
+  },
+  "leemsii": {
+   "id": "rooter_sii_spawn_egg",
+   "ent": "ROOTER_SII"
+  },
+  "leemsiii": {
+   "id": "rooter_siii_spawn_egg",
+   "ent": "ROOTER_SIII"
+  },
+  "leemsiv": {
+   "id": "rooter_siv_spawn_egg",
+   "ent": "ROOTER_SIV"
+  },
+  "leer": {
+   "id": "airscrew_spawn_egg",
+   "ent": "AIRSCREW"
+  },
+  "lencia": {
+   "id": "bogle_spawn_egg",
+   "ent": "BOGLE"
+  },
+  "lesh": {
+   "id": "movingflesh_spawn_egg",
+   "ent": "MOVINGFLESH"
+  },
+  "lodo": {
+   "id": "buglin_spawn_egg",
+   "ent": "BUGLIN"
+  },
+  "lum": {
+   "id": "pri_devourer_spawn_egg",
+   "ent": "PRI_DEVOURER"
+  },
+  "lumadapted": {
+   "id": "ada_devourer_spawn_egg",
+   "ent": "ADA_DEVOURER"
+  },
+  "marbear": {
+   "id": "mar_bear_spawn_egg",
+   "ent": "MAR_BEAR"
+  },
+  "marcow": {
+   "id": "mar_cow_spawn_egg",
+   "ent": "MAR_COW"
+  },
+  "marenderman": {
+   "id": "mar_enderman_spawn_egg",
+   "ent": "MAR_ENDERMAN"
+  },
+  "marhuman": {
+   "id": "mar_human_spawn_egg",
+   "ent": "MAR_HUMAN"
+  },
+  "marsheep": {
+   "id": "mar_sheep_spawn_egg",
+   "ent": "MAR_SHEEP"
+  },
+  "marvillager": {
+   "id": "mar_villager_spawn_egg",
+   "ent": "MAR_VILLAGER"
+  },
+  "mes": {
+   "id": "thrall_spawn_egg",
+   "ent": "THRALL"
+  },
+  "mudo": {
+   "id": "rupter_spawn_egg",
+   "ent": "RUPTER"
+  },
+  "nak": {
+   "id": "seizer_spawn_egg",
+   "ent": "SEIZER"
+  },
+  "nogla": {
+   "id": "pri_reeker_spawn_egg",
+   "ent": "PRI_REEKER"
+  },
+  "noglaadapted": {
+   "id": "ada_reeker_spawn_egg",
+   "ent": "ADA_REEKER"
+  },
+  "nuuh": {
+   "id": "mangler_spawn_egg",
+   "ent": "MANGLER"
+  },
+  "omboo": {
+   "id": "bomber_light_spawn_egg",
+   "ent": "BOMBER_LIGHT"
+  },
+  "orch": {
+   "id": "monarch_spawn_egg",
+   "ent": "MONARCH"
+  },
+  "pheon": {
+   "id": "haunter_spawn_egg",
+   "ent": "HAUNTER"
+  },
+  "pod": {
+   "id": "anc_pod_spawn_egg",
+   "ent": "ANC_POD"
+  },
+  "ranrac": {
+   "id": "pri_arachnida_spawn_egg",
+   "ent": "PRI_ARACHNIDA"
+  },
+  "rathol": {
+   "id": "carrier_heavy_spawn_egg",
+   "ent": "CARRIER_HEAVY"
+  },
+  "shyco": {
+   "id": "pri_longarms_spawn_egg",
+   "ent": "PRI_LONGARMS"
+  },
+  "shycoadapted": {
+   "id": "ada_summoner_spawn_egg",
+   "ent": "ADA_SUMMONER"
+  },
+  "tonro": {
+   "id": "kyphosis_spawn_egg",
+   "ent": "KYPHOSIS"
+  },
+  "unvo": {
+   "id": "sentry_spawn_egg",
+   "ent": "SENTRY"
+  },
+  "venkrol": {
+   "id": "beckon_si_spawn_egg",
+   "ent": "BECKON_SI"
+  },
+  "venkrolsii": {
+   "id": "beckon_sii_spawn_egg",
+   "ent": "BECKON_SII"
+  },
+  "venkrolsiii": {
+   "id": "beckon_siii_spawn_egg",
+   "ent": "BECKON_SIII"
+  },
+  "venkrolsiv": {
+   "id": "beckon_siv_spawn_egg",
+   "ent": "BECKON_SIV"
+  },
+  "vesta": {
+   "id": "carrier_colony_spawn_egg",
+   "ent": "CARRIER_COLONY"
+  },
+  "wymo": {
+   "id": "pri_tozoon_spawn_egg",
+   "ent": "PRI_TOZOON"
+  },
+  "wymoadapted": {
+   "id": "ada_tozoon_spawn_egg",
+   "ent": "ADA_TOZOON"
+  },
+  "zaa": {
+   "id": "pri_burrower_spawn_egg",
+   "ent": "PRI_BURROWER"
+  },
+  "zaaadapted": {
+   "id": "ada_burrower_spawn_egg",
+   "ent": "ADA_BURROWER"
+  },
+  "zetmo": {
+   "id": "pri_bolster_spawn_egg",
+   "ent": "PRI_BOLSTER"
+  },
+  "zetmoadapted": {
+   "id": "ada_bolster_spawn_egg",
+   "ent": "ADA_BOLSTER"
+  }
+ },
+ "ambiguous": [
+  "elvia -> WRAITH/SUCCOR",
+  "infdragonehead -> SIM_DRAGON_HEAD/SIM_DRAGON_HEAD",
+  "leem -> ROOTER_SI/ROOTERBALL",
+  "oronco -> ANC_DREADNAUT/ANC_OVERLORD/ANC_DREADNAUT_TEN",
+  "ranracadapted -> ADA_ARACHNIDA/DISPATCHERTEN/WORM",
+  "soo -> SEEKER/ARCHITECT",
+  "tenn -> SEEKER/ARCHITECT",
+  "terla -> ANC_DREADNAUT/ANC_OVERLORD/ANC_DREADNAUT_TEN"
+ ],
+ "unmatched": [
+  "dorpahead",
+  "infbearhead",
+  "mar",
+  "marwolf",
+  "quac",
+  "viin"
+ ]
+}
