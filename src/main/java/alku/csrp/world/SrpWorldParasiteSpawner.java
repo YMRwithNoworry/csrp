@@ -55,7 +55,8 @@ import java.util.Set;
  *
  * <ul>
  *   <li>a 17x17 chunk neighbourhood with the border ring excluded
- *   <li>a shuffled chunk list and {@code ceil(rand*4)} attempts per cluster position, three times
+ *   <li>a shuffled chunk list and {@code ceil(rand*4)} attempts per cluster position, three times plus
+ *       a 30% chance of a fourth pass
  *   <li>the "no player within 24 blocks" and 576-block-from-world-spawn exclusions
  *   <li>SRP table selection rather than the biome monster list
  *   <li>the {@code IN_AIR} 70% rejection and nearest-player height relocation
@@ -73,6 +74,7 @@ public final class SrpWorldParasiteSpawner {
     private static final int SPAWN_CHUNK_RADIUS = 8;
     private static final int MIN_SPAWN_DISTANCE = 24;
     private static final int CLUSTER_ATTEMPTS = 3;
+    private static final float EXTRA_CLUSTER_CHANCE = 0.30F;
     private static final int AIR_SPAWN_REJECT_PERCENT = 70;
     /** Original {@code worker > 10} gate for the Worker (Kol) caste. */
     private static final int WORKER_CAP = 10;
@@ -148,7 +150,9 @@ public final class SrpWorldParasiteSpawner {
 
             // The original tracked a per-chunk pack count separately from the running total.
             int packSize = 0;
-            for (int cluster = 0; cluster < CLUSTER_ATTEMPTS; cluster++) {
+            int clusterAttempts = CLUSTER_ATTEMPTS
+                    + (level.random.nextFloat() < EXTRA_CLUSTER_CHANCE ? 1 : 0);
+            for (int cluster = 0; cluster < clusterAttempts; cluster++) {
                 int x = startX;
                 int z = startZ;
                 MobSpawnSettings.SpawnerData spawnData = null;
