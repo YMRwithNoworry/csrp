@@ -66,10 +66,12 @@ expect(sounds, /ADAPTATION_PARTIAL\s*=\s*register\("adaptation\.parcial"\)/,
   "partial adaptation sound event is not exposed");
 expect(sounds, /ADAPTATION_FULL\s*=\s*register\("adaptation\.full"\)/,
   "full adaptation sound event is not exposed");
-expect(renderer, /Color\.ofRGBA\(64, 255, 64, 255\)/,
-  "green partial-adaptation feedback is missing");
-expect(renderer, /Color\.ofRGBA\(255, 64, 255, 255\)/,
-  "purple full-adaptation feedback is missing");
+expect(renderer, /entity\.hurtTime\s*<=\s*0[\s\S]*?getAdaptationHitStatus\(\)[\s\S]*?case 1 -> 0xFF40FF40/,
+  "green partial-adaptation feedback must tint the parasite while hurt");
+expect(renderer, /case 2 -> 0xFFFF40FF/,
+  "purple full-adaptation feedback must tint the parasite while hurt");
+expect(renderer, /entity\.isInvisible\(\)/,
+  "adaptation tint must not reveal invisible parasites");
 
 const tierChecks = [
   ["AdaptedVariantEntity.java", /damageAdaptationLearningChance\(\)[\s\S]{0,80}0\.80F/,

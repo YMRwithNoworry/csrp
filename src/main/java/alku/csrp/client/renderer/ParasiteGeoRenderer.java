@@ -2,12 +2,18 @@ package alku.csrp.client.renderer;
 
 import alku.csrp.animation.CitadelAnimatedEntity;
 import alku.csrp.client.model.CitadelTextureProvider;
+import alku.csrp.entity.PrimitiveParasiteEntity;
 import alku.csrp.registry.ModMobEffects;
 import com.github.alexthe666.citadel.client.model.AdvancedEntityModel;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
 
@@ -16,6 +22,7 @@ public class ParasiteGeoRenderer<T extends Mob & CitadelAnimatedEntity>
         extends MobRenderer<T, AdvancedEntityModel<T>> {
     protected ParasiteGeoRenderer(EntityRendererProvider.Context context, AdvancedEntityModel<T> model) {
         super(context, model, 0.5F);
+        addLayer(new AdaptationTintLayer<>(this));
     }
 
     @Override
@@ -38,4 +45,30 @@ public class ParasiteGeoRenderer<T extends Mob & CitadelAnimatedEntity>
         return player != null && player.hasEffect(ModMobEffects.BRAINING);
     }
 
+    private static final class AdaptationTintLayer<T extends Mob & CitadelAnimatedEntity>
+            extends RenderLayer<T, AdvancedEntityModel<T>> {
+        private AdaptationTintLayer(ParasiteGeoRenderer<T> renderer) {
+            super(renderer);
+        }
+
+        @Override
+        public void render(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight,
+                T entity, float limbSwing, float limbSwingAmount, float partialTick,
+                float ageInTicks, float netHeadYaw, float headPitch) {
+            if (!(entity instanceof PrimitiveParasiteEntity parasite) || entity.isInvisible()
+                    || entity.hurtTime <= 0) {
+                return;
+            }
+            int color = switch (parasite.getAdaptationHitStatus()) {
+                case 1 -> 0xFF40FF40;
+                case 2 -> 0xFFFF40FF;
+                default -> 0;
+            };
+            if (color != 0) {
+                RenderType renderType = RenderType.entityTranslucent(getTextureLocation(entity));
+                getParentModel().renderToBuffer(poseStack, bufferSource.getBuffer(renderType),
+                        packedLight, OverlayTexture.NO_OVERLAY, color);
+            }
+        }
+    }
 }
