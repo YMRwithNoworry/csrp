@@ -116,11 +116,11 @@ public final class InfectionEvents {
      * {@link #convertTerminalCothHost(LivingDeathEvent)} cancels the death of every host it turns
      * into an Assimilated or Incomplete Form, and cancelled deaths never reach this handler.
      */
-    @SubscribeEvent(priority = EventPriority.LOWEST)
+    @SubscribeEvent(priority = EventPriority.LOWEST, receiveCanceled = true)
     public static void leaveMovingFleshOnParasiteKill(LivingDeathEvent event) {
         LivingEntity corpse = event.getEntity();
-        if (event.isCanceled() || corpse.level().isClientSide() || !(event.getSource().getEntity() instanceof Parasite)
-                || corpse instanceof Parasite || corpse instanceof Player
+        if ((event.isCanceled() && !corpse.isRemoved()) || corpse.level().isClientSide()
+                || !(event.getSource().getEntity() instanceof Parasite) || corpse instanceof Parasite
                 || !(corpse.level() instanceof ServerLevel serverLevel)) {
             return;
         }

@@ -22,21 +22,23 @@ const flesh = read("src/main/java/alku/csrp/entity/MovingFleshEntity.java");
 const config = read("src/main/java/alku/csrp/config/MobsConfig.java");
 const entities = read("src/main/java/alku/csrp/registry/ModEntities.java");
 
-// 1. A parasite kill must leave Living Flesh on the corpse without claiming the death, so the
-//    victim keeps dropping its loot and experience.
-expect(events, /@SubscribeEvent\(priority = EventPriority\.LOWEST\)/,
-  "corpse flesh handler must run after the COTH conversions (EventPriority.LOWEST is missing)");
+// 1. A parasite kill must leave Living Flesh on the corpse, including converted hosts and players.
+expect(events, /@SubscribeEvent\(priority = EventPriority\.LOWEST, receiveCanceled = true\)/,
+  "corpse flesh handler must run after conversions and receive converted deaths");
 const handlerMatch = events.match(
   /leaveMovingFleshOnParasiteKill\(LivingDeathEvent event\)\s*\{([\s\S]*?)\n    \}/);
 if (!handlerMatch) {
   failures.push("leaveMovingFleshOnParasiteKill(LivingDeathEvent) handler was not found");
 } else {
   const body = handlerMatch[1];
-  expect(body, /event\.isCanceled\(\)/, "corpse handler must skip deaths a conversion already claimed");
+  expect(body, /event\.isCanceled\(\) && !corpse\.isRemoved\(\)/,
+    "corpse handler must only include canceled deaths when conversion removed the host");
   expect(body, /event\.getSource\(\)\.getEntity\(\) instanceof Parasite/,
     "corpse handler must require a parasite killer");
   expect(body, /corpse instanceof Parasite/, "corpse handler must ignore parasite corpses");
-  expect(body, /corpse instanceof Player/, "corpse handler must ignore player deaths");
+  if (/corpse instanceof Player/.test(body)) {
+    failures.push("corpse handler must include player victims");
+  }
   expect(body, /MovingFleshEntity\.spawnFromCorpse\(serverLevel, corpse\)/,
     "corpse handler must spawn the Living Flesh from the corpse");
   if (/setCanceled/.test(body)) {
