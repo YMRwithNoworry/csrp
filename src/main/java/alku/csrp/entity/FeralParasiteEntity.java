@@ -293,8 +293,12 @@ public class FeralParasiteEntity extends Monster implements CitadelAnimatedEntit
 
     @Override
     public void registerControllers(CitadelAnimationManager.ControllerRegistrar controllers) {
-        controllers.add(new CitadelAnimationController<>(this, "age_controller", 0,
-                state -> state.setAndContinue(ageAnimation())));
+        controllers.add(new CitadelAnimationController<>(this, "age_controller", 0, state -> {
+            if (ParasiteAnimations.isMoving(this, state.isMoving())) {
+                return CitadelPlayState.STOP;
+            }
+            return state.setAndContinue(ageAnimation());
+        }));
         controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, state -> {
             if (!ParasiteAnimations.isMoving(this, state.isMoving())) {
                 return CitadelPlayState.STOP;

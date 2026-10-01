@@ -39,6 +39,7 @@ const variants = read("src/main/java/alku/csrp/entity/AssimilatedVariantEntity.j
 const simHuman = read("src/main/java/alku/csrp/entity/SimHumanEntity.java");
 const heads = read("src/main/java/alku/csrp/entity/AssimilatedHeadEntity.java");
 const enderman = read("src/main/java/alku/csrp/entity/AssimilatedEndermanEntity.java");
+const feralEnderman = read("src/main/java/alku/csrp/entity/FeralEndermanEntity.java");
 const dragon = read("src/main/java/alku/csrp/entity/AssimilatedDragonEntity.java");
 const meltSystem = read("src/main/java/alku/csrp/entity/AssimilatedMeltSystem.java");
 const movingFlesh = read("src/main/java/alku/csrp/entity/MovingFleshEntity.java");
@@ -59,6 +60,10 @@ expect(assimilated, /setTamedWolfTexture\(random\.nextInt\(100\) == 0\)/,
 expect(feral, /REGEN_AMOUNT\s*=\s*3\.0F/, "Feral recovery amount is missing");
 expect(feral, /REGEN_KILL_INTERVAL\s*=\s*10/, "Feral recovery interval is missing");
 expect(feral, /DamageTypeTags\.IS_FIRE.*amount \* 4\.0F/, "Feral fire weakness is missing");
+expect(feral, /age_controller[\s\S]*?ParasiteAnimations\.isMoving\(this, state\.isMoving\(\)\)[\s\S]*?CitadelPlayState\.STOP/,
+  "Feral idle animation must not overlap locomotion");
+expect(feralEnderman, /age_controller[\s\S]*?ParasiteAnimations\.isMoving\(this, state\.isMoving\(\)\)[\s\S]*?CitadelPlayState\.STOP/,
+  "Feral Enderman idle animation must not overlap locomotion");
 expect(feral, /MeleeAttackGoal\(this, 1\.5D, false\)/, "Feral legacy melee speed is missing");
 expect(feral, /HORSE\(37\.0D, 16\.0D, 3\.0D, 0\.6D, 0\.2775D/,
   "Feral Horse legacy attributes are missing");
