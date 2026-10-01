@@ -1,18 +1,44 @@
 {
   "textures": {
-    "particle": "csrp:block/infestremain",
-    "texture": "csrp:block/infestremain"
+    "particle": "csrp:blocks/infestremain",
+    "texture": "csrp:blocks/infestremain",
+    "all": "csrp:blocks/infestremain"
   },
-  "elements": [{
-    "from": [0, 0, 0],
-    "to": [16, 2, 16],
-    "faces": {
-      "down": {"texture":"#texture","cullface":"down"},
-      "up": {"texture":"#texture"},
-      "north": {"uv":[0,14,16,16],"texture":"#texture"},
-      "south": {"uv":[0,14,16,16],"texture":"#texture"},
-      "west": {"uv":[0,14,16,16],"texture":"#texture"},
-      "east": {"uv":[0,14,16,16],"texture":"#texture"}
+  "elements": [
+    {
+      "from": [0, 0, 0],
+      "to": [16, 2, 16],
+      "faces": {
+        "down": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#texture",
+          "cullface": "down"
+        },
+        "up": {
+          "uv": [0, 0, 16, 16],
+          "texture": "#texture"
+        },
+        "north": {
+          "uv": [0, 14, 16, 16],
+          "texture": "#texture",
+          "cullface": "north"
+        },
+        "south": {
+          "uv": [0, 14, 16, 16],
+          "texture": "#texture",
+          "cullface": "south"
+        },
+        "west": {
+          "uv": [0, 14, 16, 16],
+          "texture": "#texture",
+          "cullface": "west"
+        },
+        "east": {
+          "uv": [0, 14, 16, 16],
+          "texture": "#texture",
+          "cullface": "east"
+        }
+      }
     }
-  }]
+  ]
 }

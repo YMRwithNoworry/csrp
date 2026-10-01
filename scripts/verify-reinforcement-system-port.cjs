@@ -29,6 +29,9 @@ const data = read("src/main/java/alku/csrp/world/SrpWorldData.java");
 const carrier = read("src/main/java/alku/csrp/entity/CarrierEntity.java");
 const infested = read("src/main/java/alku/csrp/block/InfestedBlock.java");
 const residue = read("src/main/java/alku/csrp/block/InfestedResidueBlock.java");
+const bolster = read("src/main/java/alku/csrp/entity/AdaptedVariantEntity.java");
+const feralEnderman = read("src/main/java/alku/csrp/entity/FeralEndermanEntity.java");
+const residueModel = read("src/main/resources/assets/csrp/models/block/infestremain.json");
 const blocks = read("src/main/java/alku/csrp/registry/ModBlocks.java");
 const items = read("src/main/java/alku/csrp/registry/ModItems.java");
 
@@ -46,6 +49,16 @@ if (/INFESTED_REMAINS|spreadResidue|placeResidueAtFloor/.test(carrier)) {
 }
 expect(infested, /tryFromInfestedBlock/, "infested blocks do not trigger reinforcement attempts");
 expect(residue, /tryFromResidue/, "Infested Residue does not trigger reinforcement attempts");
+expect(residue, /direction == Direction\.DOWN && !state\.canSurvive\(level, pos\)[\s\S]*?Blocks\.AIR\.defaultBlockState\(\)/,
+  "Infested Residue does not disappear when its floor support is removed");
+expect(bolster, /residue\.canSurvive\(level\(\), candidate\)/,
+  "Bolster residue placement does not require a valid support face");
+expect(feralEnderman, /residue\.canSurvive\(level\(\), candidate\)/,
+  "Feral Enderman residue placement does not require a valid support face");
+expect(residueModel, /"cullface": "north"[\s\S]*?"cullface": "south"[\s\S]*?"cullface": "west"[\s\S]*?"cullface": "east"/,
+  "Infested Residue model does not cull its thin layer faces");
+expect(residueModel, /"up": \{\s*"uv": \[0, 0, 16, 16\]/,
+  "Infested Residue top face UVs are incorrect");
 expect(residue, /multiply\(0\.84D, 1\.0D, 0\.86D\)/, "Infested Residue slowdown is incorrect");
 expect(residue, /InfectionMechanics\.applyCoth/, "Infested Residue does not apply COTH");
 expect(blocks, /"residue_block"/, "Residue Block registration is missing");

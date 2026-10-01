@@ -1446,11 +1446,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     private void placeBolsterResidue(BlockPos start) {
+        BlockState residue = ModBlocks.INFESTED_REMAINS.get().defaultBlockState();
         for (int y = 0; y <= 6; y++) {
             BlockPos candidate = start.below(y);
             if (level().getBlockState(candidate).canBeReplaced()
-                    && !level().getBlockState(candidate.below()).canBeReplaced()) {
-                level().setBlock(candidate, ModBlocks.INFESTED_REMAINS.get().defaultBlockState(), 3);
+                    && residue.canSurvive(level(), candidate)) {
+                level().setBlock(candidate, residue, 3);
                 return;
             }
         }

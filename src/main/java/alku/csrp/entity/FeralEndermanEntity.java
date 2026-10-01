@@ -26,6 +26,7 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import alku.csrp.animation.CitadelAnimationManager;
@@ -458,10 +459,11 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
         if (!level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
             return;
         }
+        BlockState residue = ModBlocks.INFESTED_REMAINS.get().defaultBlockState();
         for (int offset = 0; offset <= 4; offset++) {
             BlockPos candidate = origin.below(offset);
-            if (level().isEmptyBlock(candidate) && level().getBlockState(candidate.below()).blocksMotion()) {
-                level().setBlock(candidate, ModBlocks.INFESTED_REMAINS.get().defaultBlockState(), 3);
+            if (level().isEmptyBlock(candidate) && residue.canSurvive(level(), candidate)) {
+                level().setBlock(candidate, residue, 3);
                 return;
             }
         }
