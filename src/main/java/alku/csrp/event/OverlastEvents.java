@@ -8,6 +8,7 @@ import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModItems;
 import alku.csrp.overlast.network.EvolutionHudPayload;
 import alku.csrp.world.EvolutionSystem;
+import alku.csrp.world.HighPhaseVanillaMobRules;
 import alku.csrp.world.SrpWorldData;
 import java.util.List;
 import java.util.Map;
@@ -119,6 +120,9 @@ public final class OverlastEvents {
     }
 
     private static void restoreHost(ServerLevel level, LivingEntity parasite) {
+        if (HighPhaseVanillaMobRules.active(level)) {
+            return;
+        }
         String path = BuiltInRegistries.ENTITY_TYPE.getKey(parasite.getType()).getPath();
         EntityType<?> restoredType = CURED_FORMS.get(path);
         if (restoredType == null) {

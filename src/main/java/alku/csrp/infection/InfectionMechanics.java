@@ -19,6 +19,7 @@ import alku.csrp.registry.ModParticles;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.DislodgmentSystem;
 import alku.csrp.world.EvolutionSystem;
+import alku.csrp.world.HighPhaseVanillaMobRules;
 import alku.csrp.world.SrpWorldData;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -330,7 +331,8 @@ public final class InfectionMechanics {
         }
         Entity created = BuiltInRegistries.ENTITY_TYPE.getOptional(hostId)
                 .map(type -> type.create(serverLevel)).orElse(null);
-        if (!(created instanceof Mob disguise) || (automatic && disguise instanceof Monster)) {
+        if (!(created instanceof Mob disguise) || (automatic && disguise instanceof Monster)
+                || HighPhaseVanillaMobRules.isBlocked(serverLevel, disguise)) {
             return false;
         }
         playAssimilationStart(serverLevel, assimilated, ASSIMILATION_RESTORE_NAUSEA_TICKS);

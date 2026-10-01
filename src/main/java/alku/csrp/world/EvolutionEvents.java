@@ -277,7 +277,7 @@ public final class EvolutionEvents {
                 }
             }
         }
-        if (parasite && phase == -2 || !parasite && phase >= 10) {
+        if (parasite && phase == -2 || HighPhaseVanillaMobRules.isBlocked(level, event.getEntity())) {
             event.setResult(MobSpawnEvent.PositionCheck.Result.FAIL);
             return;
         }
