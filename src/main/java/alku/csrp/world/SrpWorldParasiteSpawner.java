@@ -256,21 +256,18 @@ public final class SrpWorldParasiteSpawner {
     }
 
     /**
-     * Original {@code getRandomChunkPosition}: random X/Z inside the chunk, with the Y bound taken
-     * from the surface height rounded up to a section. 1.21 worlds start at a negative build height,
-     * so the sampled offset is applied relative to {@code getMinBuildHeight()} the same way the
-     * original applied it relative to Y=0.
+     * Pick a usable terrain position inside the chunk. The old port sampled Y uniformly from the
+     * build floor to the surface, which made almost every ground attempt start inside a solid block
+     * and left natural parasites effectively limited to the few caves hit by chance.
      */
     private static BlockPos getRandomChunkPosition(ServerLevel level, int chunkX, int chunkZ) {
         int x = chunkX * 16 + level.random.nextInt(16);
         int z = chunkZ * 16 + level.random.nextInt(16);
         LevelChunk chunk = level.getChunkSource().getChunkNow(chunkX, chunkZ);
         int surface = chunk == null
-                ? level.getHeight(Heightmap.Types.WORLD_SURFACE, x, z)
-                : chunk.getHeight(Heightmap.Types.WORLD_SURFACE, x, z);
-        int minY = level.getMinBuildHeight();
-        int bound = Math.max(1, Mth.roundToward(surface + 1 - minY, 16));
-        int y = minY + level.random.nextInt(bound);
+                ? level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z)
+                : chunk.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
+        int y = Mth.clamp(surface, level.getMinBuildHeight(), level.getMaxBuildHeight() - 1);
         return new BlockPos(x, y, z);
     }
 

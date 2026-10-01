@@ -50,6 +50,9 @@ expectPattern(spawner,
   /level\.getBlockState\(start\)\.isRedstoneConductor\(level, start\)/,
   "Spawner lost the original redstone-conductor rejection");
 expectPattern(spawner,
+  /Heightmap\.Types\.MOTION_BLOCKING_NO_LEAVES[\s\S]*?Mth\.clamp\(surface, level\.getMinBuildHeight\(\), level\.getMaxBuildHeight\(\) - 1\)/,
+  "Ground spawn candidates no longer use a clamped terrain height");
+expectPattern(spawner,
   /packSize >= EventHooks\.getMaxSpawnClusterSize\(mob\)[\s\S]*?continue chunkLoop/,
   "Spawner lost the original per-chunk pack size early exit");
 
