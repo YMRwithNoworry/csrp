@@ -19,6 +19,7 @@ import alku.csrp.client.renderer.DragonEggAssimilationRenderer;
 import alku.csrp.client.renderer.HaunterHomingProjectileRenderer;
 import alku.csrp.client.renderer.HiveSatelliteRenderer;
 import alku.csrp.client.renderer.GoreRenderer;
+import alku.csrp.client.renderer.RemainRenderer;
 import alku.csrp.client.renderer.MarauderRenderer;
 import alku.csrp.client.renderer.MarauderTendrilRenderer;
 import alku.csrp.client.renderer.NadeRenderer;
@@ -368,7 +369,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.ANTI_INFESTED_BLOCK.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.ORB_BOOM.get(), OrbBoomRenderer::new);
         event.registerEntityRenderer(ModEntities.SOURCE.get(), NoopRenderer::new);
-        event.registerEntityRenderer(ModEntities.REMAIN.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.REMAIN.get(), RemainRenderer::new);
         event.registerEntityRenderer(ModEntities.BOMB.get(), BombRenderer::new);
         event.registerEntityRenderer(ModEntities.CLOUD_TOXIC.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.GORE.get(), GoreRenderer::new);

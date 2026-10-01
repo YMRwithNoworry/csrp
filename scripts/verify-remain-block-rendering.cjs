@@ -41,7 +41,35 @@ expect(blocks, /new Block\(legacyProperties\(id\)\)/,
 expect(blocks, /new Block\(legacyProperties\(id\)\) \{\s*@Override\s*protected void createBlockStateDefinition/,
   "legacy state blocks must go through legacyProperties(id)");
 
-// --- 2. no model may reference a parent that does not exist in 1.21.1 ---
+// --- 2. gore must not leave an invisible full-cube collision/support shape ---
+const gore = read("src/main/java/alku/csrp/block/GoreBlock.java");
+const client = read("src/main/java/alku/csrp/client/ClientModEvents.java");
+expect(blocks, /GORE_BLOCK_BY_TIER\.containsValue\(id\)[\s\S]*?new GoreBlock\(legacyProperties\(id\)\)[\s\S]*?builder\.add\(GORE_VARIANT\)/,
+  "all six gore families must use GoreBlock and preserve their variant property");
+expect(gore, /super\(properties\.noCollission\(\)\.noOcclusion\(\)\)/,
+  "gore must not have invisible collision or occlude neighbouring blocks");
+expect(gore, /Block\.box\(1\.6D, 0\.0D, 1\.6D, 14\.4D, 12\.8D, 14\.4D\)/,
+  "gore selection bounds must match original BlockGore, not a full cube");
+expect(gore, /getShape\([\s\S]*?return SHAPE;/,
+  "gore must actually use its non-full selection shape");
+expect(gore, /onPlace\([\s\S]*?RemainsMigration\.convert\(serverLevel, pos, state\)/,
+  "legacy gore placement must immediately convert to an entity");
+expect(client, /ModEntities\.REMAIN\.get\(\), RemainRenderer::new/,
+  "remains must have their own visible entity renderer");
+for (const family of ["sim", "pri", "ada", "pure", "fer", "mar"]) {
+  for (const variant of ["flat", "small", "big"]) {
+    const relative = `src/main/resources/assets/csrp/models/block/gore_${family}_${variant}.json`;
+    const model = JSON.parse(read(relative));
+    if (!["cutout", "minecraft:cutout"].includes(model.render_type)) {
+      failures.push(`${relative}: gore model must discard transparent pixels`);
+    }
+    if (model.parent !== "csrp:block/gore_base") {
+      failures.push(`${relative}: gore model must retain its original geometry`);
+    }
+  }
+}
+
+// --- 3. no model may reference a parent that does not exist in 1.21.1 ---
 const modelRoot = path.join(root, "src/main/resources/assets/csrp/models");
 const vanillaRoot = path.join(root, ".vanilla-assets/assets/minecraft/models");
 const deadParents = [

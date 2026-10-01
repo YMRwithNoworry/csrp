@@ -578,7 +578,8 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<RemainEntity>> REMAIN =
             ENTITIES.register("remain", () -> EntityType.Builder
                     .<RemainEntity>of(RemainEntity::new, MobCategory.MISC)
-                    .sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(3)
+                    .sized(1.0F, 0.2F).clientTrackingRange(8).updateInterval(1)
+                    .setShouldReceiveVelocityUpdates(true)
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "remain").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<BombEntity>> BOMB =
             ENTITIES.register("bomb", () -> EntityType.Builder

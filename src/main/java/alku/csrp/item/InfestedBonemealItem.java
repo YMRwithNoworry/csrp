@@ -1,6 +1,8 @@
 package alku.csrp.item;
 
 import alku.csrp.block.PestilentialOreBlock;
+import alku.csrp.entity.RemainEntity;
+import net.minecraft.world.phys.AABB;
 import alku.csrp.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -28,6 +30,22 @@ public final class InfestedBonemealItem extends BoneMealItem {
         BlockPos pos = context.getClickedPos();
         BlockState state = level.getBlockState(pos);
         Block block = state.getBlock();
+
+        var remains = level.getEntitiesOfClass(RemainEntity.class, new AABB(pos).inflate(0.1D, 1.0D, 0.1D),
+                entity -> entity.isInfestedResidue()
+                        && level.getBlockState(entity.blockPosition()).canBeReplaced());
+        if (!remains.isEmpty()) {
+            if (!level.isClientSide) {
+                RemainEntity residue = remains.getFirst();
+                BlockPos target = residue.blockPosition();
+                if (level.setBlock(target, ModBlocks.INFESTED_ORE.get().defaultBlockState(), 3)) {
+                    residue.discard();
+                    spawnInfectionParticles((ServerLevel) level, target);
+                    consume(context);
+                }
+            }
+            return InteractionResult.sidedSuccess(level.isClientSide);
+        }
 
         if (block == ModBlocks.INFESTED_REMAINS.get()) {
             if (!level.isClientSide) {

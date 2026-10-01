@@ -81,7 +81,7 @@ public final class GoreEntity extends Entity {
             discard();
             return;
         }
-        if (!level().isClientSide && groundTicks >= 1) {
+        if (!level().isClientSide && groundTicks >= 1 && (goreType == 10 || goreType == 11)) {
             applyLandingPayload((ServerLevel) level());
             discard();
         }

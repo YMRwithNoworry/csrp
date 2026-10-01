@@ -1446,12 +1446,16 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     private void placeBolsterResidue(BlockPos start) {
-        BlockState residue = ModBlocks.INFESTED_REMAINS.get().defaultBlockState();
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
         for (int y = 0; y <= 6; y++) {
             BlockPos candidate = start.below(y);
             if (level().getBlockState(candidate).canBeReplaced()
-                    && residue.canSurvive(level(), candidate)) {
-                level().setBlock(candidate, residue, 3);
+                    && net.minecraft.world.level.block.Block.canSupportCenter(level(), candidate.below(),
+                            net.minecraft.core.Direction.UP)) {
+                RemainEntity.spawn(serverLevel, candidate.getX() + 0.5D, candidate.getY(),
+                        candidate.getZ() + 0.5D, "infested", "flat");
                 return;
             }
         }

@@ -23,7 +23,7 @@ function expect(source, pattern, message) {
 
 const config = read("src/main/java/alku/csrp/Config.java");
 const rules = read("src/main/java/alku/csrp/event/ParasiteCombatRules.java");
-const blocks = read("src/main/java/alku/csrp/registry/ModBlocks.java");
+const remains = read("src/main/java/alku/csrp/entity/RemainEntity.java");
 
 // config surface (SRPConfig.paraGore / infectedRemainValue, dyingBurst chance)
 for (const [pattern, message] of [
@@ -38,17 +38,21 @@ for (const [pattern, message] of [
     "parasiteSelfExplodeChance accessor is missing"]
 ]) expect(config, pattern, message);
 
-// block side: a public helper that resolves the per-tier legacy gore block and its variant
+// Entity remains deliberately replace legacy terrain-changing gore blocks.
 for (const [pattern, message] of [
-  [/public static boolean placeGore\(Level level, BlockPos pos, String tier, boolean big\)/,
-    "ModBlocks.placeGore helper is missing"],
-  [/"infected", "goresim", "primitive", "gorepri", "adapted", "goreada"/,
-    "the per-tier gore block map is incomplete"],
-  [/"pure", "gorepur", "feral", "gorefer", "assimara", "goremar"/,
-    "the per-tier gore block map is missing pure/feral/assimara entries"],
-  [/canBeReplaced\(\)/, "placeGore must not overwrite a solid block"],
-  [/big \? GoreVariant\.BIG : GoreVariant\.FLAT/, "placeGore must honour the big/flat variant"]
-]) expect(blocks, pattern, message);
+  [/public static RemainEntity spawn\(ServerLevel level/,
+    "the server-side remains spawn helper is missing"],
+  [/case "infected", "sim" -> 0/, "infected remains appearance is missing"],
+  [/case "primitive", "pri" -> 1/, "primitive remains appearance is missing"],
+  [/case "adapted", "ada" -> 2/, "adapted remains appearance is missing"],
+  [/case "pure"/, "pure remains appearance is missing"],
+  [/case "feral", "fer" -> 4/, "feral remains appearance is missing"],
+  [/case "assimara", "mar" -> 5/, "assimara remains appearance is missing"],
+  [/case "small" -> 1;[\s\S]*?case "big" -> 2;/, "small/big remains variants are missing"]
+]) expect(remains, pattern, message);
+if (/placeGore|\.setBlock(?:AndUpdate)?\(/.test(rules)) {
+  failures.push("combat gore must spawn entities without placing blocks");
+}
 
 // behaviour side: hurt gore, death gore, Remain, gore bombs and the self-explode cloud
 for (const [pattern, message] of [
@@ -56,8 +60,10 @@ for (const [pattern, message] of [
     "the parasite death-gore handler is missing"],
   [/GORE_ON_HURT_CHANCE = 0\.1F/, "the 10% gore-on-hurt roll is missing"],
   [/Config\.parasiteGoreEnabled\(\)/, "gore placement must be gated by the config"],
-  [/ModBlocks\.placeGore\(level, pos, tier, true\)/, "spawnGore must place a big gore block"],
-  [/ModEntities\.REMAIN\.get\(\)\.create\(level\)/, "spawnGore must create a Remain"],
+  [/RemainEntity\.spawn\(level, parasite\.getX\(\), parasite\.getY\(\), parasite\.getZ\(\), tier, "big"\)/,
+    "death gore must create a visible big remains entity"],
+  [/RemainEntity\.spawn\(goreLevel,[\s\S]*?"flat"\)/,
+    "hurt gore must create a flat remains entity"],
   [/remain\.setGoal\(20 \* Config\.parasiteRemainValue\(\)\)/,
     "the Remain goal must be 20 * remain value ticks"],
   [/remain\.setParasite\(BuiltInRegistries\.ENTITY_TYPE\.getKey\(parasite\.getType\(\)\)\.toString\(\)\)/,

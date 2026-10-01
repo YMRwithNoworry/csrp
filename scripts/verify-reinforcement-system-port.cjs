@@ -28,7 +28,8 @@ const system = read("src/main/java/alku/csrp/world/ReinforcementSystem.java");
 const data = read("src/main/java/alku/csrp/world/SrpWorldData.java");
 const carrier = read("src/main/java/alku/csrp/entity/CarrierEntity.java");
 const infested = read("src/main/java/alku/csrp/block/InfestedBlock.java");
-const residue = read("src/main/java/alku/csrp/block/InfestedResidueBlock.java");
+const legacyResidue = read("src/main/java/alku/csrp/block/InfestedResidueBlock.java");
+const residue = read("src/main/java/alku/csrp/entity/RemainEntity.java");
 const bolster = read("src/main/java/alku/csrp/entity/AdaptedVariantEntity.java");
 const feralEnderman = read("src/main/java/alku/csrp/entity/FeralEndermanEntity.java");
 const residueModel = read("src/main/resources/assets/csrp/models/block/infestremain.json");
@@ -49,11 +50,15 @@ if (/INFESTED_REMAINS|spreadResidue|placeResidueAtFloor/.test(carrier)) {
 }
 expect(infested, /tryFromInfestedBlock/, "infested blocks do not trigger reinforcement attempts");
 expect(residue, /tryFromResidue/, "Infested Residue does not trigger reinforcement attempts");
-expect(residue, /direction == Direction\.DOWN && !state\.canSurvive\(level, pos\)[\s\S]*?Blocks\.AIR\.defaultBlockState\(\)/,
-  "Infested Residue does not disappear when its floor support is removed");
-expect(bolster, /residue\.canSurvive\(level\(\), candidate\)/,
+expect(legacyResidue, /onPlace\([\s\S]*?RemainsMigration\.convert/,
+  "legacy Infested Residue must immediately become an entity");
+expect(residue, /move\(MoverType\.SELF, movement\)/,
+  "Infested Residue must fall independently when floor support is removed");
+expect(residue, /random\.nextInt\(4096\)[\s\S]*?GameRules\.RULE_RANDOMTICKING/,
+  "entity residue must preserve block random-tick frequency for reinforcement");
+expect(bolster, /Block\.canSupportCenter\(level\(\), candidate\.below\(\)/,
   "Bolster residue placement does not require a valid support face");
-expect(feralEnderman, /residue\.canSurvive\(level\(\), candidate\)/,
+expect(feralEnderman, /Block\.canSupportCenter\(level\(\), candidate\.below\(\)/,
   "Feral Enderman residue placement does not require a valid support face");
 expect(residueModel, /"cullface": "north"[\s\S]*?"cullface": "south"[\s\S]*?"cullface": "west"[\s\S]*?"cullface": "east"/,
   "Infested Residue model does not cull its thin layer faces");

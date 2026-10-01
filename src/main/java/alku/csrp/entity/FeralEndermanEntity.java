@@ -1,6 +1,5 @@
 package alku.csrp.entity;
 
-import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
@@ -460,14 +459,17 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
     }
 
     private void placeFeralRemains(BlockPos origin) {
-        if (!level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
+        if (!(level() instanceof ServerLevel serverLevel)
+                || !level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
             return;
         }
-        BlockState residue = ModBlocks.INFESTED_REMAINS.get().defaultBlockState();
         for (int offset = 0; offset <= 4; offset++) {
             BlockPos candidate = origin.below(offset);
-            if (level().isEmptyBlock(candidate) && residue.canSurvive(level(), candidate)) {
-                level().setBlock(candidate, residue, 3);
+            if (level().isEmptyBlock(candidate)
+                    && net.minecraft.world.level.block.Block.canSupportCenter(level(), candidate.below(),
+                            net.minecraft.core.Direction.UP)) {
+                RemainEntity.spawn(serverLevel, candidate.getX() + 0.5D, candidate.getY(),
+                        candidate.getZ() + 0.5D, "infested", "flat");
                 return;
             }
         }

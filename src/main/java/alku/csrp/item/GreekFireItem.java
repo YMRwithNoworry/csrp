@@ -1,6 +1,8 @@
 package alku.csrp.item;
 
 import alku.csrp.registry.ModBlocks;
+import alku.csrp.entity.RemainEntity;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -44,11 +46,10 @@ public class GreekFireItem extends Item {
         }
 
         BlockPos pos = context.getClickedPos();
-        if (!isTargetBush(level.getBlockState(pos).getBlock())) {
-            return InteractionResult.PASS;
+        int burned = burnRemainsCluster(level, pos);
+        if (isTargetBush(level.getBlockState(pos).getBlock())) {
+            burned += burnBushCluster(level, pos);
         }
-
-        int burned = burnBushCluster(level, pos);
         if (burned <= 0) {
             return InteractionResult.PASS;
         }
@@ -60,6 +61,34 @@ public class GreekFireItem extends Item {
                     context.getHand() == InteractionHand.MAIN_HAND ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND);
         }
         return InteractionResult.CONSUME;
+    }
+
+    private int burnRemainsCluster(Level level, BlockPos origin) {
+        Queue<RemainEntity> queue = new ArrayDeque<>();
+        Set<Integer> visited = new HashSet<>();
+        for (RemainEntity remains : level.getEntitiesOfClass(RemainEntity.class, new AABB(origin).inflate(1.0D))) {
+            queue.add(remains);
+            visited.add(remains.getId());
+        }
+        int burned = 0;
+        while (!queue.isEmpty() && burned < MAX_SPREAD) {
+            RemainEntity current = queue.poll();
+            if (current.isRemoved()) {
+                continue;
+            }
+            for (RemainEntity next : level.getEntitiesOfClass(RemainEntity.class,
+                    current.getBoundingBox().inflate(LINK_RADIUS))) {
+                if (visited.add(next.getId())) {
+                    queue.add(next);
+                }
+            }
+            if (burned % PARTICLE_EVERY == 0 && burned / PARTICLE_EVERY < MAX_PARTICLE_SPAWNS) {
+                spawnSmoke(level, current.blockPosition());
+            }
+            current.discard();
+            burned++;
+        }
+        return burned;
     }
 
     private int burnBushCluster(Level level, BlockPos origin) {

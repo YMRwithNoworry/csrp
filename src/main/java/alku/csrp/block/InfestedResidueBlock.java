@@ -4,6 +4,7 @@ import alku.csrp.entity.Parasite;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.world.ReinforcementSystem;
+import alku.csrp.world.RemainsMigration;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -27,6 +28,13 @@ public final class InfestedResidueBlock extends Block {
 
     public InfestedResidueBlock(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean moving) {
+        if (level instanceof ServerLevel serverLevel) {
+            RemainsMigration.convert(serverLevel, pos, state);
+        }
     }
 
     @Override

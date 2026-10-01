@@ -96,6 +96,7 @@ public final class GoreRenderer extends EntityRenderer<GoreEntity> {
     private ModelPart model(GoreEntity entity) {
         return switch (entity.getSkin()) {
             case 1, 10 -> assimilated;
+            case 5, 6, 8 -> assimilated;
             case 2 -> primitive;
             case 3 -> adapted;
             case 4 -> pure;

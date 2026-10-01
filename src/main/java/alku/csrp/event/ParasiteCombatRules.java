@@ -9,7 +9,6 @@ import alku.csrp.entity.PrimitiveParasiteEntity;
 import alku.csrp.entity.RemainEntity;
 import alku.csrp.entity.SelfeFuseOwner;
 import alku.csrp.entity.ToxicCloudEntity;
-import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
@@ -73,9 +72,9 @@ public final class ParasiteCombatRules {
     }
 
     private static final Tier NEUTRAL = new Tier(1, 0.0F, 0.0F);
-    /** Legacy attackEntityFrom roll that lays a single flat gore block. */
+    /** Hurt feedback spawns a flat blood-decal entity. */
     private static final float GORE_ON_HURT_CHANCE = 0.1F;
-    /** Legacy damage-cap roll for a gore block plus one gore bomb. */
+    /** Legacy damage-cap roll for a gore decal plus one gore fragment. */
     private static final double CAP_GORE_CHANCE = 0.3D;
 
     @SubscribeEvent
@@ -97,8 +96,8 @@ public final class ParasiteCombatRules {
         // Legacy attackEntityFrom: a 10% roll on any hit lays one flat gore block.
         if (Config.parasiteGoreEnabled() && parasite.level() instanceof ServerLevel goreLevel
                 && parasite.getRandom().nextFloat() < GORE_ON_HURT_CHANCE) {
-            ModBlocks.placeGore(goreLevel, parasite.blockPosition(),
-                    tierKey(BuiltInRegistries.ENTITY_TYPE.getKey(parasite.getType()).getPath()), false);
+            RemainEntity.spawn(goreLevel, parasite.getX(), parasite.getY(), parasite.getZ(),
+                    tierKey(BuiltInRegistries.ENTITY_TYPE.getKey(parasite.getType()).getPath()), "flat");
         }
         // Legacy flagCap = damageCap > 1 && geneDamcap: the generation decides whether the tier cap
         // applies at all (applyGene).
@@ -112,12 +111,12 @@ public final class ParasiteCombatRules {
             if (!parasite.hasEffect(ModMobEffects.RAGE) && Config.rageEnabled()) {
                 parasite.addEffect(new MobEffectInstance(ModMobEffects.RAGE, 200, 1, false, false), parasite);
             }
-            // Legacy damage-cap reaction: 30% roll for a gore block plus one gore bomb.
+            // Legacy damage-cap reaction: 30% roll for a gore decal plus one gore fragment.
             if (parasite.level() instanceof ServerLevel capLevel && parasite.getHealth() > 0.0F
                     && parasite.getRandom().nextDouble() < CAP_GORE_CHANCE) {
                 String tierName = tierKey(BuiltInRegistries.ENTITY_TYPE.getKey(parasite.getType()).getPath());
                 if (Config.parasiteGoreEnabled()) {
-                    ModBlocks.placeGore(capLevel, parasite.blockPosition(), tierName, false);
+                    RemainEntity.spawn(capLevel, parasite.getX(), parasite.getY(), parasite.getZ(), tierName, "flat");
                     spawnGoreBombs(capLevel, parasite, 1);
                 }
             }
@@ -293,23 +292,18 @@ public final class ParasiteCombatRules {
         }
     }
 
-    /** Legacy spawnGore: a big gore block, a Remain, a flat gore spread and three gore bombs. */
+    /** A visible corpse entity with a rebuild counter, blood decals and flying fragments. */
     private static void leaveGore(ServerLevel level, LivingEntity parasite, String tier) {
-        BlockPos pos = parasite.blockPosition();
-        ModBlocks.placeGore(level, pos, tier, true);
-        RemainEntity remain = ModEntities.REMAIN.get().create(level);
+        RemainEntity remain = RemainEntity.spawn(level, parasite.getX(), parasite.getY(), parasite.getZ(), tier, "big");
         if (remain != null) {
-            remain.moveTo(parasite.getX(), parasite.getY(), parasite.getZ(),
-                    parasite.getYRot(), parasite.getXRot());
             remain.setParasite(BuiltInRegistries.ENTITY_TYPE.getKey(parasite.getType()).toString());
             remain.setGoal(20 * Config.parasiteRemainValue());
-            level.addFreshEntity(remain);
         }
         spreadFlatGore(level, parasite, tier);
         spawnGoreBombs(level, parasite, 3);
     }
 
-    /** Legacy attackEntityFromEffects(2, 100): flat gore blocks around the corpse. */
+    /** Legacy attackEntityFromEffects(2, 100): flat gore decals around the corpse. */
     private static void spreadFlatGore(ServerLevel level, LivingEntity parasite, String tier) {
         BlockPos origin = parasite.blockPosition();
         for (int dx = -2; dx <= 2; dx++) {
@@ -321,7 +315,10 @@ public final class ParasiteCombatRules {
                 if (candidate.equals(origin)) {
                     continue;
                 }
-                ModBlocks.placeGore(level, candidate, tier, false);
+                if (level.getBlockState(candidate).canBeReplaced()) {
+                    RemainEntity.spawn(level, candidate.getX() + 0.5D, candidate.getY(),
+                            candidate.getZ() + 0.5D, tier, "flat");
+                }
             }
         }
     }

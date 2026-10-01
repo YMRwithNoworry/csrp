@@ -105,7 +105,7 @@ public final class Config {
             .comment("Fire damage multiplier applied to parasites (legacy firemultyplier).")
             .defineInRange("parasiteFireMultiplier", 4.0D, 1.0D, 100.0D);
     private static final ModConfigSpec.BooleanValue PARASITE_GORE_ENABLED = BUILDER
-            .comment("Let parasites leave gore blocks and Remains behind (legacy paraGore).")
+            .comment("Let parasites leave independent gore and remains entities behind (legacy paraGore).")
             .define("parasiteGore", true);
     private static final ModConfigSpec.IntValue PARASITE_REMAIN_VALUE = BUILDER
             .comment("Remain life points per unit: the original rebuilt a Remain with"
