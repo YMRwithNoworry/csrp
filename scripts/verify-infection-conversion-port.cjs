@@ -65,6 +65,9 @@ expect(replaceHost,
 expect(replaceHost,
         /if \(!serverLevel\.addFreshEntity\(converted\)\)[\s\S]*return false;[\s\S]*if \(terminalCothAssimilation\)[\s\S]*VALUE_COTH/,
         "COTH III points are not awarded only after a successful assimilation");
+expect(replaceHost,
+        /playAssimilationCompletion\(serverLevel, converted\);[\s\S]*host\.discard\(\);/,
+        "successful COTH host conversion does not show its assimilation completion effect");
 expect(evolution, /VALUE_COTH\s*=\s*6;/,
         "COTH III assimilation does not award the original six additional points");
 expect(infection, /"fer_" \+ targetId\.getPath\(\)\.substring\("sim_"\.length\(\)\)/,

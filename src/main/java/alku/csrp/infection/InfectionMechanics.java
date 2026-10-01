@@ -469,6 +469,7 @@ public final class InfectionMechanics {
         if (terminalCothAssimilation) {
             EvolutionSystem.addPoints(serverLevel, EvolutionSystem.VALUE_COTH, EvolutionSystem.PointSource.COTH);
         }
+        playAssimilationCompletion(serverLevel, converted);
         host.discard();
         return true;
     }
