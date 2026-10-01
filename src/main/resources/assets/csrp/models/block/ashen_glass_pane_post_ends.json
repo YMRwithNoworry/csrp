@@ -1,6 +1,6 @@
 {
   "render_type": "translucent",
-  "parent": "block/glass_pane_post_ends",
+  "parent": "minecraft:block/iron_bars_post_ends",
   "textures": {
     "pane": "csrp:blocks/ashen_glass",
     "edge": "csrp:blocks/ashen_glass_pane",

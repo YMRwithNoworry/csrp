@@ -1054,17 +1054,48 @@ public final class ModBlocks {
             } else if (LEGACY_STATE_PROPERTIES.containsKey(id)) {
                 holder = BLOCKS.register(id, () -> legacyStateBlock(id));
             } else {
-                holder = BLOCKS.register(id, () -> new Block(legacyProperties()));
+                holder = BLOCKS.register(id, () -> new Block(legacyProperties(id)));
             }
             result.put(id, holder);
         }
         return java.util.Map.copyOf(result);
     }
 
+    /**
+     * Legacy ids whose 1.10.8 model is not a full cube (a carpet-thin layer, a cross plant, a
+     * pot, a small prop).  They must be non-occluding, otherwise the neighbouring blocks cull
+     * the faces that touch them and the remains end up looking straight through the ground.
+     */
+    private static final java.util.Set<String> LEGACY_THIN_BLOCKS = java.util.Set.of(
+            "assimilated_blossom",
+            "consumed_pot",
+            "goreada",
+            "gorefer",
+            "goremar",
+            "gorepri",
+            "gorepur",
+            "goresim",
+            "hirsute_hair",
+            "infested_pot",
+            "infestedbush",
+            "lipoma_mass",
+            "parasitebush",
+            "parasitecanister",
+            "parasitesapling",
+            "potted_assimilated_blossom",
+            "potted_consumed_assimilated_blossom",
+            "relaycontroller");
+
     /** Base properties shared by the compatibility ids. */
     private static BlockBehaviour.Properties legacyProperties() {
         return BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
                 .strength(1.5F, 6.0F).sound(SoundType.ROOTED_DIRT);
+    }
+
+    /** Properties for a legacy id, adding {@code noOcclusion} when the model is not a full cube. */
+    private static BlockBehaviour.Properties legacyProperties(String id) {
+        BlockBehaviour.Properties properties = legacyProperties();
+        return LEGACY_THIN_BLOCKS.contains(id) ? properties.noOcclusion() : properties;
     }
 
     /**
@@ -1076,7 +1107,7 @@ public final class ModBlocks {
      */
     private static Block legacyStateBlock(String id) {
         final Property<?>[] stateProperties = LEGACY_STATE_PROPERTIES.get(id);
-        return new Block(legacyProperties()) {
+        return new Block(legacyProperties(id)) {
             @Override
             protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
                 for (Property<?> property : stateProperties) {

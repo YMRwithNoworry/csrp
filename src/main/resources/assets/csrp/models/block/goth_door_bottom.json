@@ -1,6 +1,6 @@
 {
   "render_type": "cutout",
-  "parent": "block/door_bottom",
+  "parent": "minecraft:block/door_bottom_left",
   "textures": {
     "bottom": "csrp:blocks/goth_door_bottom"
   }

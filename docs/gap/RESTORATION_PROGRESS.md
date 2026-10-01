@@ -4825,3 +4825,39 @@ until this time (seconds) has passed），端口此前缺这一层配置面 —�
 「每 tick 驱动 + 8 格半径排除外圈 + ceil(rand*4)×3 + 24 格/576 格排除 + 权重表 + 空气 70%
 + 原版三类上限 + 水生去掉液体判定 + 旧候选注入被跳过」；全量校验由 101 项/81 通过
 变为 **102 项/82 通过，失败数不变（20）**。
+
+## 批次 276：寄生遗骸透视与模型加载错误（2026-10-01）
+
+需求：游戏里「寄生遗骸透视，模型加载错误」，要求修掉。
+
+**根因 1（透视）**：遗骸系（`goreSim`/`gorePri`/`goreAda`/`gorePur`/`goreFer`/`goreMar`）在 1.10.8 是
+`BlockGore extends BlockBush`，模型是「两张 45° 交叉平面 + 一张 0.1 高的薄底」（`gore_base.json`），
+本身**不是满方块**。端口把它们并进 `LEGACY_BLOCKS` 后统一走 `legacyProperties()` 的普通方块的属性，
+没带 `noOcclusion()`：方块被当成遮挡体，邻接方块据此剔除贴面，于是遗骸看起来「透」过地面。
+同一根因还影响 `infestedbush`/`parasitebush`（cross）、`lipoma_mass`/`hirsute_hair`、
+`parasitesapling`/`parasitecanister`、`infested_pot`/`consumed_pot`、`relaycontroller`（OBJ）等 18 个 id。
+
+**根因 2（模型加载错误）**：22 个模型引用了 **1.12 时代才有的父模型**，1.21.1 已不存在：
+`block/door_bottom`、`block/door_top`、`block/door_bottom_rh`、`block/door_top_rh`、
+`block/glass_pane_post_ends`（现分别叫 `template_glass_pane_*`/`door_bottom_left` 等）。
+其中 7 个玻璃板 `*_post_ends` 与 14 个门模型（`goth_door_bottom/top`、`bruisewood/door_*`、
+`consumed_door/door_*`、`goth_door/door_*`）在烘焙阶段取父模型失败，正是日志里那类
+`Failed to load model` / 方块显示成缺失模型的来源。
+
+**根因 3（附带）**：`zh_cn.lang` 第 860 行 `tile.csrp.gorefer_small.name` **漏了 `=`**，
+该键整行不生效；且 6 族遗骸方块在 1.21.1 的 `.json` 语言文件里**完全没有条目**
+（旧 `.lang` 只有 `tile.csrp.gore*` 变体名），HUD 会显示原始键名。
+
+**改动**：
+
+| 位置 | 内容 |
+| --- | --- |
+| `ModBlocks` | 新增 `LEGACY_THIN_BLOCKS`（18 个非满方块 id）+ `legacyProperties(String id)`：命中即 `.noOcclusion()`；`legacyStateBlock` 与普通分支都改走该重载 |
+| 7 个 `*_glass_pane_post_ends.json` | 父模型 `block/glass_pane_post_ends` → `minecraft:block/iron_bars_post_ends`（1.21.1 中同形的柱端模型，保留 `render_type: translucent`） |
+| 14 个门模型 | `door_bottom/top(_rh)` → `minecraft:block/door_bottom_left`/`door_top_left`/`door_bottom_right`/`door_top_right` |
+| `zh_cn.lang` | 补上漏掉的 `=`；`.json` 语言文件为 6 族遗骸各补 3 档共 18 条方块名（zh_cn/en_us） |
+| `scripts/verify-remain-block-rendering.cjs` | 新校验：遗骸必须非遮挡、模型父链必须能在 1.21.1 解析、遗骸必须有本地化名 |
+
+**验证**：`./gradlew.bat build` 成功；全仓模型父链审计剩余问题 **22 → 0**；
+`node scripts/verify-remain-block-rendering.cjs` 通过；全量校验由 102 项/82 通过
+变为 **103 项/83 通过，失败数不变（20）**。
