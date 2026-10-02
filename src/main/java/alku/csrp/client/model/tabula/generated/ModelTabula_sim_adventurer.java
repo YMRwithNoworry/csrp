@@ -6,7 +6,7 @@ import net.minecraft.world.entity.Mob;
 import com.github.alexthe666.citadel.client.model.AdvancedModelBox;
 import net.minecraft.util.Mth;
 
-/** Direct Citadel port of SRParasites 1.10.8's Tabula-exported {@code ModelMudo}. */
+/** Direct Citadel port of SRParasites' {@code ModelInfPlayer}. */
 public final class ModelTabula_sim_adventurer extends ModelSRP<Mob> {
    public AdvancedModelBox mainbody;
    public AdvancedModelBox joingRB;
@@ -124,7 +124,7 @@ public final class ModelTabula_sim_adventurer extends ModelSRP<Mob> {
 
    public ModelTabula_sim_adventurer() {
       this.texWidth = 64;
-      this.texHeight = 50;
+      this.texHeight = 55;
       this.hair_jointRR2 = new AdvancedModelBox(this, 23, 36);
       this.hair_jointRR2.setRotationPoint(0.0F, 0.0F, 2.0F);
       this.hair_jointRR2.addBox(-0.5F, -0.5F, -0.5F, 1, 1, 1, 0.0F);

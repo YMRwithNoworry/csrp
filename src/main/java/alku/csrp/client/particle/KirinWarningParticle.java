@@ -80,7 +80,7 @@ public final class KirinWarningParticle extends TextureSheetParticle {
                                      float x, float z, float cosine, float sine, float u, float v,
                                      int light, int alpha) {
         consumer.vertex(centerX + x * cosine - z * sine, y, centerZ + x * sine + z * cosine)
-                .color(255, 255, 255, alpha).uv(u, v).uv2(light).endVertex();
+                .uv(u, v).color(255, 255, 255, alpha).uv2(light).endVertex();
     }
 
     @Override
