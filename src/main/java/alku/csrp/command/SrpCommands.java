@@ -132,10 +132,21 @@ public final class SrpCommands {
                                         IntegerArgumentType.getInteger(context, "generation")))))
                 .then(Commands.literal("getgeneration")
                         .executes(context -> showGenerationStatus(context.getSource())))
+                .then(Commands.literal("extreme_snow")
+                        .executes(context -> setExtremeSnow(context.getSource(),
+                                !SrpWorldData.get(context.getSource().getLevel()).extremeSnow()))
+                        .then(Commands.argument("enabled", BoolArgumentType.bool())
+                                .executes(context -> setExtremeSnow(context.getSource(),
+                                        BoolArgumentType.getBool(context, "enabled")))))
                 .then(Commands.literal("resetdatafile").executes(context -> {
                     data(context.getSource()).reset(context.getSource().getLevel());
                     return success(context.getSource(), "Data file of this dimension has been reset");
                 }));
+    }
+
+    private static int setExtremeSnow(CommandSourceStack source, boolean enabled) {
+        SrpWorldData.get(source.getLevel()).setExtremeSnow(enabled);
+        return success(source, "Cold Star extreme snow " + (enabled ? "enabled" : "disabled"));
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> srEvolution() {

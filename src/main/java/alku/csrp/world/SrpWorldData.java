@@ -18,7 +18,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 
 public final class SrpWorldData extends SavedData {
     private static final String DATA_NAME = "csrp_world_data";
-    private static final int DATA_VERSION = 5;
+    private static final int DATA_VERSION = 6;
     private static final Factory<SrpWorldData> FACTORY = new Factory<>(SrpWorldData::new, SrpWorldData::load);
     private static final int[] DISLODGMENT_PHASE_COOLDOWN_MULTIPLIER = {1, 4, 3, 3, 4, 5, 6, 7, 8, 9, 10};
 
@@ -33,6 +33,9 @@ public final class SrpWorldData extends SavedData {
      * stored one (older saves), so {@link Config#meteorEnabled()} stays authoritative.
      */
     private SrpMeteorMode meteorInfection;
+    private boolean coldStarFracturedTerrain = true;
+    private boolean coldStarMushroomTrees = true;
+    private boolean extremeSnow;
     private double difficultyPointRemainder;
     private long cooldownEnd;
     private boolean canGain = true;
@@ -81,6 +84,11 @@ public final class SrpWorldData extends SavedData {
         data.meteorInfection = tag.contains("meteor_infection")
                 ? SrpMeteorMode.byId(tag.getString("meteor_infection"))
                 : null;
+        data.coldStarFracturedTerrain = !tag.contains("cold_star_fractured_terrain")
+                || tag.getBoolean("cold_star_fractured_terrain");
+        data.coldStarMushroomTrees = !tag.contains("cold_star_mushroom_trees")
+                || tag.getBoolean("cold_star_mushroom_trees");
+        data.extremeSnow = tag.getBoolean("extreme_snow");
         data.difficultyPointRemainder = tag.getDouble("difficulty_point_remainder");
         data.cooldownEnd = tag.getLong("cooldown_end");
         data.canGain = !tag.contains("can_gain") || tag.getBoolean("can_gain");
@@ -119,6 +127,9 @@ public final class SrpWorldData extends SavedData {
         if (meteorInfection != null) {
             tag.putString("meteor_infection", meteorInfection.id());
         }
+        tag.putBoolean("cold_star_fractured_terrain", coldStarFracturedTerrain);
+        tag.putBoolean("cold_star_mushroom_trees", coldStarMushroomTrees);
+        tag.putBoolean("extreme_snow", extremeSnow);
         tag.putDouble("difficulty_point_remainder", difficultyPointRemainder);
         tag.putLong("cooldown_end", cooldownEnd);
         tag.putBoolean("can_gain", canGain);
@@ -199,6 +210,26 @@ public final class SrpWorldData extends SavedData {
             return;
         }
         meteorInfection = mode;
+        setDirty();
+    }
+
+    public boolean coldStarFracturedTerrain() {
+        return coldStarFracturedTerrain;
+    }
+
+    public boolean coldStarMushroomTrees() {
+        return coldStarMushroomTrees;
+    }
+
+    public boolean extremeSnow() {
+        return extremeSnow;
+    }
+
+    public void setExtremeSnow(boolean enabled) {
+        if (extremeSnow == enabled) {
+            return;
+        }
+        extremeSnow = enabled;
         setDirty();
     }
 
@@ -708,6 +739,17 @@ public final class SrpWorldData extends SavedData {
         meteorInfection = level == level.getServer().overworld()
                 ? SrpMeteorSelection.consume()
                 : SrpWorldData.get(level.getServer().overworld()).meteorInfection;
+        if (level == level.getServer().overworld()) {
+            SrpColdStarSelection.Settings settings = SrpColdStarSelection.consumeOrDefault();
+            coldStarFracturedTerrain = settings.fracturedTerrain();
+            coldStarMushroomTrees = settings.mushroomTrees();
+            extremeSnow = settings.extremeSnow();
+        } else {
+            SrpWorldData overworldData = SrpWorldData.get(level.getServer().overworld());
+            coldStarFracturedTerrain = overworldData.coldStarFracturedTerrain;
+            coldStarMushroomTrees = overworldData.coldStarMushroomTrees;
+            extremeSnow = overworldData.extremeSnow;
+        }
         difficultyPointRemainder = 0.0D;
         generation = 0;
         generationTicks = 0;
@@ -730,6 +772,11 @@ public final class SrpWorldData extends SavedData {
         // an admin who enables it keeps whatever timer the save already carries.
         if (dataVersion < 5 && !Config.phaseCooldownEnabled()) {
             cooldownEnd = 0L;
+        }
+        if (dataVersion < 6) {
+            coldStarFracturedTerrain = true;
+            coldStarMushroomTrees = true;
+            extremeSnow = false;
         }
         dataVersion = DATA_VERSION;
         setDirty();

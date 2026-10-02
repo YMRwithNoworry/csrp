@@ -31,6 +31,17 @@ public final class ColdStarVillageGenerator {
         return chunkPos.x == candidateX && chunkPos.z == candidateZ;
     }
 
+    public static boolean isVillageArea(long seed, ChunkPos chunkPos) {
+        for (int x = -2; x <= 2; x++) {
+            for (int z = -2; z <= 2; z++) {
+                if (isVillageChunk(seed, new ChunkPos(chunkPos.x + x, chunkPos.z + z))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public static void generate(ServerLevel level, int chunkX, int chunkZ) {
         if (level.dimension() != net.minecraft.world.level.Level.OVERWORLD
                 || SrpWorldData.get(level).starType() != SrpStarType.COLD

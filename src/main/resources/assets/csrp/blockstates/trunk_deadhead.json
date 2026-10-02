@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "axis=y": {"model": "csrp:block/parasitetrunk_deadhead"},
+    "axis=x": {"model": "csrp:block/parasitetrunk_deadhead", "x": 90, "y": 90},
+    "axis=z": {"model": "csrp:block/parasitetrunk_deadhead", "x": 90}
+  }
+}

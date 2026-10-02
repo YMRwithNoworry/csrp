@@ -117,15 +117,30 @@ public final class MobsConfig {
                     "srparasites:hostii;0", "srparasites:incompleteform_medium;0",
                     "srparasites:incompleteform_small;0", "srparasites:thrall;0",
                     // Feral
-                    "srparasites:fer_bear;0", "srparasites:fer_cow;0",
-                    "srparasites:fer_enderman;0", "srparasites:fer_horse;0",
-                    "srparasites:fer_human;0", "srparasites:fer_pig;0",
-                    "srparasites:fer_sheep;0", "srparasites:fer_villager;0",
-                    "srparasites:fer_wolf;0",
+                    "srparasites:fer_bear;0", "srparasites:fer_bear;3;1",
+                     "srparasites:fer_cow;0", "srparasites:fer_cow;3;1",
+                    "srparasites:fer_enderman;0", "srparasites:fer_enderman;3;1",
+                     "srparasites:fer_horse;0", "srparasites:fer_horse;3;1",
+                    "srparasites:fer_human;0", "srparasites:fer_human;3;1",
+                     "srparasites:fer_pig;0", "srparasites:fer_pig;3;1",
+                    "srparasites:fer_sheep;0", "srparasites:fer_sheep;3;1",
+                     "srparasites:fer_villager;0", "srparasites:fer_villager;3;1",
+                    "srparasites:fer_wolf;0", "srparasites:fer_wolf;3;1",
+                    // Assimilated forms
+                    "srparasites:sim_adventurer;0", "srparasites:sim_bear;0",
+                    "srparasites:sim_bigspider;0", "srparasites:sim_cow;0",
+                    "srparasites:sim_dragone;0", "srparasites:sim_enderman;0",
+                    "srparasites:sim_horse;0", "srparasites:sim_human;0",
+                    "srparasites:sim_pig;0", "srparasites:sim_sheep;0",
+                    "srparasites:sim_squid;0", "srparasites:sim_villager;0",
+                    "srparasites:sim_wolf;0",
                     // Assimara
-                    "srparasites:mar_bear;0", "srparasites:mar_cow;0",
-                    "srparasites:mar_enderman;0", "srparasites:mar_human;0",
-                    "srparasites:mar_sheep;0", "srparasites:mar_villager;0",
+                    "srparasites:mar_bear;0", "srparasites:mar_bear;2;1",
+                     "srparasites:mar_cow;0", "srparasites:mar_cow;2;1",
+                    "srparasites:mar_enderman;0", "srparasites:mar_enderman;2;1",
+                     "srparasites:mar_human;0", "srparasites:mar_human;2;1",
+                    "srparasites:mar_sheep;0", "srparasites:mar_sheep;2;1",
+                     "srparasites:mar_villager;0", "srparasites:mar_villager;2;1",
                     // Hijacked
                     "srparasites:hi_blaze;0", "srparasites:hi_golem;0",
                     "srparasites:hi_skeleton;0",
@@ -144,13 +159,16 @@ public final class MobsConfig {
                     "srparasites:ada_tozoon;0", "srparasites:ada_vermin;0",
                     "srparasites:ada_viscera;0", "srparasites:ada_yelloweye;0",
                     // Pure
-                    "srparasites:bomber_light;0", "srparasites:grunt;0",
-                    "srparasites:marauder;0", "srparasites:monarch;0",
-                    "srparasites:overseer;0", "srparasites:vigilante;0",
-                    "srparasites:warden;0"),
-            "Moving Flesh merge table: entity_id;merge_value. Every tier is listed, so two Living "
-                    + "Flesh masses melt into a random Crude/Feral/Assimara/Hijacked/Primitive/"
-                    + "Adapted/Pure parasite.", MobsConfig::validMergeMobEntry);
+                    "srparasites:bomber_light;0", "srparasites:bomber_light;4;1",
+                     "srparasites:grunt;0", "srparasites:grunt;4;1",
+                    "srparasites:marauder;0", "srparasites:marauder;4;1",
+                     "srparasites:monarch;0", "srparasites:monarch;4;1",
+                    "srparasites:overseer;0", "srparasites:overseer;4;1",
+                     "srparasites:vigilante;0", "srparasites:vigilante;4;1",
+                    "srparasites:warden;0", "srparasites:warden;4;1"),
+            "Moving Flesh merge table: entity_id;merge_value[;weight]. Zero-weight entries are disabled; "
+                    + "merge values 2, 3, and 4 produce Assimara, Feral, and Pure forms.",
+            MobsConfig::validMergeMobEntry);
 
     // Legacy SRPConfigMobs: per-mob attribute multipliers (default 1.0F in the original).
     private static final ModConfigSpec.DoubleValue DORPA_HEALTH_MULTIPLIER = value(
@@ -1457,12 +1475,13 @@ public final class MobsConfig {
             return false;
         }
         String[] parts = entry.split(";", -1);
-        if (parts.length != 2 || net.minecraft.resources.ResourceLocation.tryParse(parts[0].trim()) == null) {
+        if ((parts.length != 2 && parts.length != 3)
+                || net.minecraft.resources.ResourceLocation.tryParse(parts[0].trim()) == null) {
             return false;
         }
         try {
-            Integer.parseInt(parts[1].trim());
-            return true;
+            int mergeValue = Integer.parseInt(parts[1].trim());
+            return mergeValue >= 0 && (parts.length == 2 || Integer.parseInt(parts[2].trim()) >= 0);
         } catch (NumberFormatException ignored) {
             return false;
         }

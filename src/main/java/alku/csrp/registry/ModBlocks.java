@@ -150,6 +150,9 @@ public final class ModBlocks {
     // RotatedPillarBlock so the `axis` property exists; the blockstates rotate the
     // trunk models the same way vanilla logs do.
     public static final DeferredBlock<RotatedPillarBlock> PARASITETRUNK = BLOCKS.register("parasitetrunk", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
+    public static final DeferredBlock<RotatedPillarBlock> DEADHEAD_TRUNK = BLOCKS.register("trunk_deadhead",
+            () -> new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY)
+                    .strength(2.0F).sound(SoundType.WOOD)));
     public static final DeferredBlock<RotatedPillarBlock> PARASITETRUNK_BALL = BLOCKS.register("parasitetrunk_ball", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
     public static final DeferredBlock<RotatedPillarBlock> PARASITETRUNK_PLANT = BLOCKS.register("parasitetrunk_plant", () -> new RotatedPillarBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED).strength(1.6F).sound(SoundType.WOOD)));
     public static final DeferredBlock<InfestedStairBlock> PARASITERUBBLE_BONESTAIRS = infestedStairs("parasiterubble_bonestairs", PARASITERUBBLE_BONE);

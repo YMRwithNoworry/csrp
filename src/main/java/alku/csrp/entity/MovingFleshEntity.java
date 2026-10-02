@@ -40,6 +40,7 @@ import alku.csrp.animation.CitadelAnimationManager;
 import alku.csrp.animation.CitadelAnimationController;
 import alku.csrp.animation.CitadelRawAnimation;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.EnumSet;
 import java.util.List;
@@ -370,7 +371,7 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
         if (!MobsConfig.mergeSystemRandom()) {
             for (String entry : table) {
                 String[] parts = entry.split(";", -1);
-                if (parts.length == 2) {
+                if (parts.length >= 2) {
                     try {
                         if (Integer.parseInt(parts[1].trim()) == getMergeValue()) {
                             selected = parts[0].trim();
@@ -383,7 +384,34 @@ public final class MovingFleshEntity extends CrudeParasiteEntity {
             }
         }
         if (selected == null) {
-            selected = table.get(random.nextInt(table.size())).split(";", -1)[0].trim();
+            List<String> weighted = new ArrayList<>();
+            int totalWeight = 0;
+            for (String entry : table) {
+                String[] parts = entry.split(";", -1);
+                try {
+                    int weight = parts.length == 3
+                            ? Integer.parseInt(parts[2].trim()) : Integer.parseInt(parts[1].trim());
+                    if (weight > 0) {
+                        weighted.add(parts[0].trim() + ";" + weight);
+                        totalWeight += weight;
+                    }
+                } catch (NumberFormatException ignored) {
+                    // Ignore malformed entries left over from older config files.
+                }
+            }
+            if (totalWeight == 0) {
+                return null;
+            }
+            int choice = random.nextInt(totalWeight);
+            for (String entry : weighted) {
+                String[] parts = entry.split(";", -1);
+                int weight = Integer.parseInt(parts[1]);
+                if (choice < weight) {
+                    selected = parts[0];
+                    break;
+                }
+                choice -= weight;
+            }
         }
         ResourceLocation location = ResourceLocation.tryParse(selected);
         if (location == null) {

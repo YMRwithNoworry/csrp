@@ -106,6 +106,8 @@ public final class Csrp {
                         output.accept(ModItems.SEEKER_SPAWN_EGG.get());
                         output.accept(ModItems.VIGILANTE_SPAWN_EGG.get());
                         output.accept(ModItems.WARDEN_SPAWN_EGG.get());
+                        output.accept(ModItems.DEADHEAD_TRUNK.get());
+                        output.accept(ModItems.DEADHEAD_LEAVES.get());
                         output.accept(ModItems.BOGLE_SPAWN_EGG.get());
                         output.accept(ModItems.CARRIER_COLONY_SPAWN_EGG.get());
                         output.accept(ModItems.HAUNTER_SPAWN_EGG.get());

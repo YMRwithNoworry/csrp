@@ -54,10 +54,15 @@ public final class StarBiomeGenerationEvents {
         replaceBiomes(level, chunk, starType);
         if (starType == SrpStarType.WARM) {
             dryWarmStarChunk(chunk);
-        } else if (ColdStarVillageGenerator.isVillageChunk(level.getSeed(), chunk.getPos())) {
-            int chunkX = chunk.getPos().x;
-            int chunkZ = chunk.getPos().z;
-            level.getServer().execute(() -> ColdStarVillageGenerator.generate(level, chunkX, chunkZ));
+        } else {
+            SrpWorldData data = SrpWorldData.get(level);
+            ColdStarTerrainGenerator.generate(level, chunk, data.coldStarFracturedTerrain(),
+                    data.coldStarMushroomTrees());
+            if (ColdStarVillageGenerator.isVillageChunk(level.getSeed(), chunk.getPos())) {
+                int chunkX = chunk.getPos().x;
+                int chunkZ = chunk.getPos().z;
+                level.getServer().execute(() -> ColdStarVillageGenerator.generate(level, chunkX, chunkZ));
+            }
         }
         chunk.setUnsaved(true);
     }

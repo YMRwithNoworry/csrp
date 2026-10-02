@@ -2,6 +2,7 @@ package alku.csrp.client;
 
 import alku.csrp.Csrp;
 import alku.csrp.Config;
+import alku.csrp.world.SrpColdStarSelection;
 import alku.csrp.world.SrpDifficulty;
 import alku.csrp.world.SrpDifficultySelection;
 import alku.csrp.world.SrpMeteorMode;
@@ -11,6 +12,7 @@ import alku.csrp.world.SrpStarTypeSelection;
 import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
+import java.util.function.Consumer;
 import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.worldselection.CreateWorldScreen;
@@ -26,6 +28,9 @@ public final class SrpDifficultyScreenEvents {
     private static final Map<CreateWorldScreen, SrpDifficulty> SELECTIONS = new WeakHashMap<>();
     private static final Map<CreateWorldScreen, SrpStarType> STAR_SELECTIONS = new WeakHashMap<>();
     private static final Map<CreateWorldScreen, SrpMeteorMode> METEOR_SELECTIONS = new WeakHashMap<>();
+    private static final Map<CreateWorldScreen, Boolean> FRACTURED_TERRAIN_SELECTIONS = new WeakHashMap<>();
+    private static final Map<CreateWorldScreen, Boolean> MUSHROOM_TREE_SELECTIONS = new WeakHashMap<>();
+    private static final Map<CreateWorldScreen, Boolean> EXTREME_SNOW_SELECTIONS = new WeakHashMap<>();
 
     private SrpDifficultyScreenEvents() {
     }
@@ -81,6 +86,23 @@ public final class SrpDifficultyScreenEvents {
                         });
         updateMeteorTooltip(meteorSelector, selectedMeteor);
         event.addListener(meteorSelector);
+
+        int toggleGap = 4;
+        int toggleWidth = Math.max(72, (screen.width - 28) / 3);
+        int toggleStart = Math.max(10, (screen.width - (toggleWidth * 3 + toggleGap * 2)) / 2);
+        int toggleY = screen.height - 124;
+        addColdStarToggle(event, screen, toggleStart, toggleWidth, toggleY,
+                "options.csrp.cold_fractured_short", "options.csrp.cold_fractured_tooltip",
+                FRACTURED_TERRAIN_SELECTIONS.getOrDefault(screen, true),
+                value -> FRACTURED_TERRAIN_SELECTIONS.put(screen, value));
+        addColdStarToggle(event, screen, toggleStart + toggleWidth + toggleGap, toggleWidth, toggleY,
+                "options.csrp.cold_trees_short", "options.csrp.cold_trees_tooltip",
+                MUSHROOM_TREE_SELECTIONS.getOrDefault(screen, true),
+                value -> MUSHROOM_TREE_SELECTIONS.put(screen, value));
+        addColdStarToggle(event, screen, toggleStart + (toggleWidth + toggleGap) * 2, toggleWidth, toggleY,
+                "options.csrp.cold_snow_short", "options.csrp.cold_snow_tooltip",
+                EXTREME_SNOW_SELECTIONS.getOrDefault(screen, false),
+                value -> EXTREME_SNOW_SELECTIONS.put(screen, value));
     }
 
     public static void stageSelection(CreateWorldScreen screen) {
@@ -90,6 +112,10 @@ public final class SrpDifficultyScreenEvents {
         if (meteor != null) {
             SrpMeteorSelection.stage(meteor);
         }
+        SrpColdStarSelection.stage(new SrpColdStarSelection.Settings(
+                FRACTURED_TERRAIN_SELECTIONS.getOrDefault(screen, true),
+                MUSHROOM_TREE_SELECTIONS.getOrDefault(screen, true),
+                EXTREME_SNOW_SELECTIONS.getOrDefault(screen, false)));
     }
 
     private static boolean defaultMeteorEnabled() {
@@ -98,6 +124,22 @@ public final class SrpDifficultyScreenEvents {
         } catch (IllegalStateException | NullPointerException configNotLoaded) {
             return false;
         }
+    }
+
+    private static void addColdStarToggle(ScreenEvent.Init.Post event, CreateWorldScreen screen,
+            int x, int width, int y, String labelKey, String tooltipKey, boolean initialValue,
+            Consumer<Boolean> onChange) {
+        CycleButton<Boolean> toggle = CycleButton.<Boolean>builder(value ->
+                        Component.translatable(value ? "options.on" : "options.off"))
+                .withValues(List.of(false, true))
+                .withInitialValue(initialValue)
+                .create(x, y, width, 20, Component.translatable(labelKey),
+                        (button, value) -> {
+                            onChange.accept(value);
+                            button.setTooltip(Tooltip.create(Component.translatable(tooltipKey)));
+                        });
+        toggle.setTooltip(Tooltip.create(Component.translatable(tooltipKey)));
+        event.addListener(toggle);
     }
 
     private static void updateMeteorTooltip(CycleButton<SrpMeteorMode> button, SrpMeteorMode mode) {

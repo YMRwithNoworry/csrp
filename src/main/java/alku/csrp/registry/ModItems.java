@@ -457,6 +457,8 @@ public final class ModItems {
             "consumed_ladder", ModBlocks.CONSUMED_LADDER);
     public static final DeferredItem<BlockItem> CONSUMED_BOOKSHELF = ITEMS.registerSimpleBlockItem(
             "consumed_bookshelf", ModBlocks.CONSUMED_BOOKSHELF);
+    public static final DeferredItem<BlockItem> DEADHEAD_TRUNK = ITEMS.registerSimpleBlockItem(
+            "trunk_deadhead", ModBlocks.DEADHEAD_TRUNK);
     public static final DeferredItem<BlockItem> DEADHEAD_PLANKS = ITEMS.registerSimpleBlockItem(
             "parasiteplank_deadhead", ModBlocks.DEADHEAD_PLANKS);
     public static final DeferredItem<BlockItem> DEADHEAD_BUTTON = ITEMS.registerSimpleBlockItem(
