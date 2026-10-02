@@ -31,6 +31,12 @@ public final class KirinTabulaRenderer extends DerivedTabulaRenderer<KirinEntity
         return renderer;
     }
 
+    @Override
+    protected void applyScale(KirinEntity entity, PoseStack poseStack, float partialTick) {
+        super.applyScale(entity, poseStack, partialTick);
+        poseStack.translate(0.0D, -1.75D, 0.0D);
+    }
+
     /**
      * Original aura: an untextured additive white copy of the model that fades in and pulses over
      * the 60-tick judgement cut charge, then expands and fades out over the 24-tick trailing aura.

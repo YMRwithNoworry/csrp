@@ -299,9 +299,11 @@ public final class KirinEntity extends DerivedParasiteEntity {
         tickJudgementCutTimers();
         if (summoning) {
             tickSummon();
-        } else if (judgementCutQueued) {
+        }
+        if (judgementCutQueued) {
             tickJudgementCutSkill();
-        } else {
+        }
+        if (!summoning && !judgementCutQueued) {
             tickSkillWindUp();
         }
         if (summoning || judgementCutQueued) {
@@ -975,8 +977,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
 
         @Override
         public boolean canContinueToUse() {
-            LivingEntity target = getTarget();
-            return blinkCharge > 0 && target != null && target.isAlive();
+            return blinkCharge > 0;
         }
 
         @Override
@@ -995,12 +996,11 @@ public final class KirinEntity extends DerivedParasiteEntity {
         @Override
         public void tick() {
             LivingEntity target = getTarget();
-            if (target == null) {
-                return;
-            }
             getNavigation().stop();
             setDeltaMovement(Vec3.ZERO);
-            getLookControl().setLookAt(target, 30.0F, 30.0F);
+            if (target != null && target.isAlive()) {
+                getLookControl().setLookAt(target, 30.0F, 30.0F);
+            }
             if (blinkCharge % 10 == 0) {
                 // The original played SoundEvents.field_187685_dH here; both ports map that to the
                 // ambient portal sound at the same volume and pitch.

@@ -200,7 +200,7 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.DRACONITE.get(), context ->
                 new DerivedTabulaRenderer<>(context, "draconite", 1.2F));
         event.registerEntityRenderer(ModEntities.KIRIN.get(), context ->
-                KirinTabulaRenderer.create(context, "kirin", 1.1F));
+                KirinTabulaRenderer.create(context, "kirin", 1.3F));
         event.registerEntityRenderer(ModEntities.KIRIN_SLASH.get(), KirinSlashRenderer::new);
         event.registerEntityRenderer(ModEntities.SIM_ADVENTURER.get(), context ->
                 new TabulaMobRenderer<>(context, "sim_adventurer", 0.5F));
