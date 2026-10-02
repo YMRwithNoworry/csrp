@@ -376,12 +376,11 @@ public final class CommonModEvents {
     }
 
     private static boolean isAirColumnSpawnPosition(ServerLevelAccessor level, BlockPos pos) {
-        // Legacy IN_AIR placement: isWithinBounds(pos), isEmptyBlock(pos.below()),
-        // isEmptyBlock(pos), and isEmptyBlock(pos.above()) are all required.
+        // Natural-spawn heightmaps sample the air block directly above the surface, so the floor may be solid.
         return level.getLevel().getWorldBorder().isWithinBounds(pos)
-                && level.isEmptyBlock(pos.below())
                 && level.isEmptyBlock(pos)
-                && level.isEmptyBlock(pos.above());
+                && level.isEmptyBlock(pos.above())
+                && level.isEmptyBlock(pos.above(2));
     }
 
 }
