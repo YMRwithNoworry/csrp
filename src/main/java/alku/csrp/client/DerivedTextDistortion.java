@@ -1,6 +1,7 @@
 package alku.csrp.client;
 
 import alku.csrp.Csrp;
+import alku.csrp.config.ClientConfig;
 import alku.csrp.entity.DraconiteEntity;
 import alku.csrp.entity.KirinEntity;
 import alku.csrp.registry.ModMobEffects;
@@ -47,12 +48,13 @@ public final class DerivedTextDistortion {
             return;
         }
         active = player.hasEffect(ModMobEffects.DISTORTED_ENLIGHTENMENT.get())
-                || !minecraft.level.getEntitiesOfClass(KirinEntity.class,
+                || ClientConfig.derivedTextDistortionEnabled()
+                        && (!minecraft.level.getEntitiesOfClass(KirinEntity.class,
                         player.getBoundingBox().inflate(RANGE),
                         entity -> entity.isAlive() && entity.distanceToSqr(player) <= RANGE * RANGE).isEmpty()
                 || !minecraft.level.getEntitiesOfClass(DraconiteEntity.class,
                         player.getBoundingBox().inflate(RANGE),
-                        entity -> entity.isAlive() && entity.distanceToSqr(player) <= RANGE * RANGE).isEmpty();
+                        entity -> entity.isAlive() && entity.distanceToSqr(player) <= RANGE * RANGE).isEmpty());
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)

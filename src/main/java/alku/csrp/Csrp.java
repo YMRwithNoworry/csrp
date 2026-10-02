@@ -1,6 +1,7 @@
 package alku.csrp;
 
 import alku.csrp.config.BlockConversionsConfig;
+import alku.csrp.config.ClientConfig;
 import alku.csrp.config.GeneralConfig;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.config.WorldConfig;
@@ -26,6 +27,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -224,6 +226,10 @@ public final class Csrp {
                 "csrp-world.toml");
         net.minecraftforge.fml.ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BlockConversionsConfig.SPEC,
                 "csrp-block-conversions.toml");
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+            net.minecraftforge.fml.ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.SPEC,
+                    "csrp-client.toml");
+        }
     }
 
     private void addCreativeItems(BuildCreativeModeTabContentsEvent event) {
