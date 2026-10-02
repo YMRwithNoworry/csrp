@@ -49,7 +49,6 @@ public final class NaturalSpawnTables {
             spawn("rupter", 3, 6, 30),
             spawn("carrier_light", 1, 1, 1),
             spawn("worker", 1, 1, 5),
-            spawn("architect", 1, 1, 5),
             spawn("bomber_heavy", 1, 1, 1),
             spawn("wraith", 1, 1, 1),
             spawn("bogle", 1, 1, 1),
@@ -76,7 +75,6 @@ public final class NaturalSpawnTables {
             spawn("sim_bear", 3, 5, 25),
             spawn("sim_enderman", 1, 1, 1),
             spawn("worker", 1, 1, 5),
-            spawn("architect", 1, 1, 5),
             spawn("bomber_heavy", 1, 1, 1),
             spawn("wraith", 1, 1, 1),
             spawn("bogle", 1, 1, 1),
@@ -105,7 +103,6 @@ public final class NaturalSpawnTables {
             spawn("sim_enderman", 1, 1, 1),
             spawn("host", 1, 2, 5),
             spawn("worker", 1, 1, 5),
-            spawn("architect", 1, 1, 5),
             spawn("bomber_heavy", 1, 1, 1),
             spawn("wraith", 1, 1, 1),
             spawn("bogle", 1, 1, 1),
@@ -139,7 +136,6 @@ public final class NaturalSpawnTables {
             spawn("mar_sheep", 1, 1, 1),
             spawn("mar_bear", 1, 1, 1),
             spawn("worker", 1, 1, 5),
-            spawn("architect", 1, 1, 5),
             spawn("bomber_heavy", 1, 1, 1),
             spawn("wraith", 1, 1, 1),
             spawn("bogle", 1, 1, 1),
@@ -172,7 +168,6 @@ public final class NaturalSpawnTables {
             spawn("mar_sheep", 1, 1, 1),
             spawn("mar_bear", 1, 1, 1),
             spawn("worker", 1, 1, 5),
-            spawn("architect", 1, 1, 5),
             spawn("bomber_heavy", 1, 1, 1),
             spawn("wraith", 1, 1, 1),
             spawn("bogle", 1, 1, 1),
@@ -211,7 +206,6 @@ public final class NaturalSpawnTables {
             spawn("abo_bodies", 1, 2, 5),
             spawn("mangler", 3, 6, 30),
             spawn("worker", 1, 1, 5),
-            spawn("architect", 1, 1, 5),
             spawn("bomber_heavy", 1, 1, 1),
             spawn("wraith", 1, 1, 1),
             spawn("bogle", 1, 1, 1),
@@ -276,7 +270,8 @@ public final class NaturalSpawnTables {
 
     public static List<MobSpawnSettings.SpawnerData> select(ServerLevel level, BlockPos pos) {
         int phase = SrpWorldData.get(level).evolutionPhase();
-        if (phase == -2 || phase == -1 && !isInsideVector(level, pos)) {
+        // Phase -1 is the default; do not wait for a meteor-created Vector to spawn naturally.
+        if (phase == -2) {
             return List.of();
         }
         List<MobSpawnSettings.SpawnerData> ubiquitous = ubiquitousEntries(level);
@@ -401,9 +396,6 @@ public final class NaturalSpawnTables {
                 spawn("mangler", 3, 6, 30),
                 spawn("bomber_light", 1, 1, 5),
                 spawn("worker", 1, 1, 5)));
-        if (!dragon || largerPreeminentGroups) {
-            entries.add(spawn("architect", 1, 1, 5));
-        }
         int max = largerPreeminentGroups ? 2 : 1;
         int weight = largerPreeminentGroups ? 5 : 1;
         entries.addAll(List.of(

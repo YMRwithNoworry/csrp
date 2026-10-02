@@ -11,10 +11,10 @@ public final class WorldConfig {
 
     private static final ModConfigSpec.IntValue WORLD_SPAWNING_MOB_CAP = BUILDER
             .comment("Base number of parasites allowed to spawn naturally in one dimension. Set to 0 to disable the cap.")
-            .defineInRange("worldSpawningMobCap", 20, 0, 50000);
+            .defineInRange("worldSpawningMobCap", 80, 0, 50000);
     private static final ModConfigSpec.IntValue WORLD_MOB_CAP_PLUS_PLAYER = BUILDER
             .comment("Natural parasite cap added for each player in the dimension.")
-            .defineInRange("worldMobCapPlusPlayer", 5, 0, 50000);
+            .defineInRange("worldMobCapPlusPlayer", 20, 0, 50000);
     private static final ModConfigSpec.IntValue WORLD_WATER_CAP = BUILDER
             .comment("Aquatic parasites stop spawning naturally once this many are loaded"
                     + " (SRPConfig.worldWaterCap = 3). Set to 0 to disable the cap.")

@@ -14,6 +14,7 @@ const events = read("src/main/java/alku/csrp/world/EvolutionEvents.java");
 const system = read("src/main/java/alku/csrp/world/EvolutionSystem.java");
 const common = read("src/main/java/alku/csrp/registry/CommonModEvents.java");
 const entities = read("src/main/java/alku/csrp/registry/ModEntities.java");
+const worldConfig = read("src/main/java/alku/csrp/config/WorldConfig.java");
 
 const spawnIds = [...tables.matchAll(/spawn\("([a-z0-9_]+)"/g)].map((match) => match[1]);
 for (const id of new Set(spawnIds)) {
@@ -30,6 +31,10 @@ for (const phase of [
 for (const development of ["UD_TWO", "UD_THREE", "UD_FOUR"]) {
   expect(tables.includes(development), `Ubiquitous development table ${development} is missing`);
 }
+expectPattern(worldConfig, /defineInRange\("worldSpawningMobCap", 80,/,
+  "Natural parasite base cap was not raised");
+expectPattern(worldConfig, /defineInRange\("worldMobCapPlusPlayer", 20,/,
+  "Natural parasite per-player cap was not raised");
 
 expectPattern(tables,
   /spawn\("buglin", 2, 6, 30\)/,
@@ -42,14 +47,18 @@ expectPattern(tables,
   "UD4 dual Grunt entries are not original");
 expectPattern(tables,
   /PHASE_EIGHT = latePhase\(false, false\)[\s\S]*?PHASE_NINE = latePhase\(true, true\)[\s\S]*?PHASE_TEN = latePhase\(true, false\)/,
-  "Late phase Dragon, Architect or preeminent group variants are wrong");
+  "Late phase Dragon or preeminent group variants are wrong");
 
 expectPattern(tables,
-  /phase == -2 \|\| phase == -1 && !isInsideVector\(level, pos\)/,
-  "Phase -2 denial or phase -1 EIV radius gate is missing");
+  /if \(phase == -2\) \{\s*return List\.of\(\);/,
+  "Phase -2 natural spawning denial is missing");
+expect(!tables.includes("phase == -1 && !isInsideVector(level, pos)"),
+  "Phase -1 natural spawning is still restricted to vector radius");
 expectPattern(tables,
   /vector\.health\(\) > 0 && vector\.pos\(\)\.distSqr\(pos\) <= radius \* radius/,
-  "Natural spawning does not require a living EIV within its radius");
+  "Vector radius checks are missing");
+expect(!tables.includes('spawn("architect"'),
+  "Architect remains in a natural spawn table");
 expectPattern(tables,
   /usesUbiquitousTable\(level\)[\s\S]*?getGameTime\(\)[\s\S]*?sample < UBIQUITOUS_TABLE_CHANCE/,
   "UD 50 percent selection is not stable within a game tick");
