@@ -24,6 +24,7 @@ public final class KirinWarningParticle extends TextureSheetParticle {
     private static final ParticleRenderType ADDITIVE_RENDER_TYPE = new ParticleRenderType() {
         @Override
         public void begin(BufferBuilder buffer, TextureManager textureManager) {
+            buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.PARTICLE);
             RenderSystem.depthMask(false);
             RenderSystem.setShader(GameRenderer::getParticleShader);
             RenderSystem.setShaderTexture(0, TextureAtlas.LOCATION_PARTICLES);
