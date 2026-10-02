@@ -1091,6 +1091,7 @@
   "block.csrp.fog": "雾",
   "block.csrp.fog_nullifier": "除雾器",
   "tooltip.csrp.fog_nullifier.uses": "剩余使用次数：%s/%s",
+  "block.csrp.deadblood": "死血",
   "fluid.csrp.deadblood": "死血",
   "item.csrp.deadblood_bucket": "死血桶",
   "block.csrp.visceral_mud": "内脏烂泥",
