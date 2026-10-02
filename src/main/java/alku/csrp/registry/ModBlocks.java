@@ -1069,7 +1069,6 @@ public final class ModBlocks {
             "infestedbush",
             "lipoma_mass",
             "parasitebush",
-            "parasitecanister",
             "parasitesapling",
             "potted_assimilated_blossom",
             "potted_consumed_assimilated_blossom",
