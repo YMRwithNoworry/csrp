@@ -776,6 +776,7 @@ public final class SrpWorldData extends SavedData {
         }
         difficultyPointRemainder = 0.0D;
         applyConfiguredGeneration(level);
+        applyConfiguredEvolutionStart(level);
         assimilatedEndermen = 0;
         passivePointRemainder = 0.0D;
         cooldownEnd = 0L;
@@ -790,17 +791,12 @@ public final class SrpWorldData extends SavedData {
      */
     private void applyConfiguredGeneration(ServerLevel level) {
         int configured = Math.max(0, Math.min(5, Config.generationDefaultValue()));
-        String location = level.dimension().location().toString();
-        String path = level.dimension().location().getPath();
-        String legacyId = legacyDimensionId(level);
         for (String entry : Config.generationDimensionStartingList()) {
             int separator = entry == null ? -1 : entry.indexOf(';');
             if (separator <= 0) {
                 continue;
             }
-            String dimension = entry.substring(0, separator).trim();
-            if (!dimension.equals(location) && !dimension.equals(path)
-                    && (legacyId == null || !dimension.equals(legacyId))) {
+            if (!matchesDimension(level, entry.substring(0, separator).trim())) {
                 continue;
             }
             try {
@@ -816,7 +812,58 @@ public final class SrpWorldData extends SavedData {
     }
 
     /**
-     * The original "Generation Dimension Starting List" keys dimensions by their legacy numeric id
+     * Original {@code SRPSaveData#createData}: every line of {@code SRPConfigSystems.evolutionDimStart}
+     * ("Evolution Phases Dimension Starting Phase List", formatted {@code "<dimension>;<phase>;<points>"})
+     * sets that dimension's starting phase and points. Phase -2 locks the dimension (no point gain and no
+     * point loss), phase -1 starts it at {@code -points}, and 0-10 start it at {@code points}; malformed
+     * lines are skipped silently, exactly like the original. Entries are only applied while a dimension's
+     * data is being created, so a running world never loses progress.
+     */
+    private void applyConfiguredEvolutionStart(ServerLevel level) {
+        for (String entry : Config.evolutionDimensionStartingList()) {
+            String[] fields = entry == null ? new String[0] : entry.split(";", 3);
+            if (fields.length < 2 || !matchesDimension(level, fields[0].trim())) {
+                continue;
+            }
+            try {
+                int phase = Math.max(-2, Math.min(10, Integer.parseInt(fields[1].trim())));
+                forceEvolutionPhase(level, phase);
+                if (phase == -2) {
+                    // Original: setGaining(false) + setLoss(false) - a locked dimension.
+                    canGain = false;
+                    canLose = false;
+                    continue;
+                }
+                if (fields.length > 2) {
+                    // Original three-field form: the points decide the phase again on the next point
+                    // change, and a phase of -1 starts the dimension at -points (SRPSaveData#createData).
+                    int points = Integer.parseInt(fields[2].trim());
+                    evolutionPoints = phase == -1 ? -points : points;
+                } else {
+                    // Two-field form "<dimension>;<phase>": keep the phase the entry asked for by
+                    // starting the dimension at that phase's point threshold.
+                    evolutionPoints = EvolutionSystem.thresholdForPhase(phase);
+                }
+            } catch (NumberFormatException ignored) {
+                // Malformed "Evolution Phases Dimension Starting Phase List" entry: keep the default.
+            }
+        }
+    }
+
+    /**
+     * Matches a configured dimension against the level: the full dimension id, its path, or the legacy
+     * numeric id the original 1.12 config used.
+     */
+    private static boolean matchesDimension(ServerLevel level, String configured) {
+        String location = level.dimension().location().toString();
+        String path = level.dimension().location().getPath();
+        String legacyId = legacyDimensionId(level);
+        return configured.equals(location) || configured.equals(path)
+                || (legacyId != null && configured.equals(legacyId));
+    }
+
+    /**
+     * The original lists key dimensions by their legacy numeric id
      * ({@code int dim = Integer.parseInt(split[0].trim())}). Those ids no longer exist in 1.20.1, so the
      * three vanilla ones are still accepted for configuration compatibility.
      */

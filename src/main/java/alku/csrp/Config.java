@@ -98,6 +98,27 @@ public final class Config {
                     "默认全部为 0：阶段冷却关闭，进化到下一阶段后可以立即正常获得点数。")
             .defineList("phaseDelaySeconds", List.of(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
                     value -> value instanceof Integer seconds && seconds >= 0);
+    private static final ForgeConfigSpec.ConfigValue<List<? extends String>> EVOLUTION_DIMENSION_STARTING_LIST =
+            BUILDER
+                    .comment("Starting evolution phase of specific dimensions, one entry per dimension,",
+                            "formatted \"<dimension_id>;<phase>;<points>\" (original SRP",
+                            "\"Evolution Phases Dimension Starting Phase List\").",
+                            "The dimension may be the full id (\"minecraft:the_nether\"), its path",
+                            "(\"the_nether\") or the legacy numeric id (\"-1\"); <phase> is -2 (dimension",
+                            "locked: no point gain and no point loss), -1 (before phase 0) or 0-10;",
+                            "<points> is the starting evolution point total, and a phase of -1 starts the",
+                            "dimension at -<points>, exactly like the original; since the phase is derived",
+                            "from the points, the two must agree - or leave <points> out and the dimension",
+                            "starts exactly at <phase> (its point threshold is used).",
+                            "Entries are applied when a dimension's data is created - a new world, or the",
+                            "first visit of that dimension - so existing progress is never reset; use",
+                            "/srpevolution setphase <phase> inside a dimension to change a running world.",
+                            "Empty by default, which keeps the built-in per-dimension defaults",
+                            "(overworld 0/0, nether -1/-50, end -1/-100, everything else -1/-300).",
+                            "For the original 1.10.9 values use:",
+                            "[\"minecraft:overworld;0;0\", \"minecraft:the_nether;-1;50\",",
+                            "\"minecraft:the_end;-1;100\"].")
+                    .defineList("evolutionDimensionStartingList", List.of(), value -> value instanceof String);
 
     // ------------------------------------------------------------------
     // Parasite Generations - original SRP "parasite_generation" category.
@@ -1087,6 +1108,11 @@ public final class Config {
      * lock, when the index is past the end of the list, or for the pre-phase-0 start states, which
      * is also the default for every phase.
      */
+    /** Original {@code SRPConfigSystems.evolutionDimStart} ("Evolution Phases Dimension Starting Phase List"). */
+    public static List<? extends String> evolutionDimensionStartingList() {
+        return EVOLUTION_DIMENSION_STARTING_LIST.get();
+    }
+
     public static int phaseDelaySeconds(int phase) {
         if (phase < 0) {
             return 0;
