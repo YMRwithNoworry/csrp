@@ -11,7 +11,7 @@ import net.minecraft.world.level.biome.MobSpawnSettings;
 import java.util.List;
 import java.util.stream.Stream;
 
-/** Original SRP phase and ubiquitous-development natural spawn tables. */
+/** SRP phase and ubiquitous-development natural spawn tables, with Architect spawning disabled. */
 public final class NaturalSpawnTables {
     private static final double UBIQUITOUS_TABLE_CHANCE = 0.5D;
 
@@ -49,7 +49,6 @@ public final class NaturalSpawnTables {
             spawn("rupter", 3, 6, 30),
             spawn("carrier_light", 1, 1, 1),
             spawn("worker", 1, 1, 5),
-            spawn("architect", 1, 1, 5),
             spawn("bomber_heavy", 1, 1, 1),
             spawn("wraith", 1, 1, 1),
             spawn("bogle", 1, 1, 1),
@@ -76,7 +75,6 @@ public final class NaturalSpawnTables {
             spawn("sim_bear", 3, 5, 25),
             spawn("sim_enderman", 1, 1, 1),
             spawn("worker", 1, 1, 5),
-            spawn("architect", 1, 1, 5),
             spawn("bomber_heavy", 1, 1, 1),
             spawn("wraith", 1, 1, 1),
             spawn("bogle", 1, 1, 1),
@@ -105,7 +103,6 @@ public final class NaturalSpawnTables {
             spawn("sim_enderman", 1, 1, 1),
             spawn("host", 1, 2, 5),
             spawn("worker", 1, 1, 5),
-            spawn("architect", 1, 1, 5),
             spawn("bomber_heavy", 1, 1, 1),
             spawn("wraith", 1, 1, 1),
             spawn("bogle", 1, 1, 1),
@@ -139,7 +136,6 @@ public final class NaturalSpawnTables {
             spawn("mar_sheep", 1, 1, 1),
             spawn("mar_bear", 1, 1, 1),
             spawn("worker", 1, 1, 5),
-            spawn("architect", 1, 1, 5),
             spawn("bomber_heavy", 1, 1, 1),
             spawn("wraith", 1, 1, 1),
             spawn("bogle", 1, 1, 1),
@@ -172,7 +168,6 @@ public final class NaturalSpawnTables {
             spawn("mar_sheep", 1, 1, 1),
             spawn("mar_bear", 1, 1, 1),
             spawn("worker", 1, 1, 5),
-            spawn("architect", 1, 1, 5),
             spawn("bomber_heavy", 1, 1, 1),
             spawn("wraith", 1, 1, 1),
             spawn("bogle", 1, 1, 1),
@@ -211,7 +206,6 @@ public final class NaturalSpawnTables {
             spawn("abo_bodies", 1, 2, 5),
             spawn("mangler", 3, 6, 30),
             spawn("worker", 1, 1, 5),
-            spawn("architect", 1, 1, 5),
             spawn("bomber_heavy", 1, 1, 1),
             spawn("wraith", 1, 1, 1),
             spawn("bogle", 1, 1, 1),
@@ -401,9 +395,6 @@ public final class NaturalSpawnTables {
                 spawn("mangler", 3, 6, 30),
                 spawn("bomber_light", 1, 1, 5),
                 spawn("worker", 1, 1, 5)));
-        if (!dragon || largerPreeminentGroups) {
-            entries.add(spawn("architect", 1, 1, 5));
-        }
         int max = largerPreeminentGroups ? 2 : 1;
         int weight = largerPreeminentGroups ? 5 : 1;
         entries.addAll(List.of(
