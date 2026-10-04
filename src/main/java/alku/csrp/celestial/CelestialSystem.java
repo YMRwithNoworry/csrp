@@ -31,10 +31,9 @@ public final class CelestialSystem {
     private static final String WITNESSED_KEY = "csrpWitnessed";
     private static final int HALF_EVENT_COUNT = 8;
     private static final int ALL_EVENT_COUNT = 16;
-    private static final ResourceLocation COLUMBUS = ResourceLocation.fromNamespaceAndPath(
-            alku.csrp.Csrp.MODID, "columbus");
-    private static final ResourceLocation STOLAS = ResourceLocation.fromNamespaceAndPath(
-            alku.csrp.Csrp.MODID, "stolas");
+    private static final String COLUMBUS_PATH = "columbus";
+    private static final String STOLAS_PATH = "stolas";
+    private static final String DARK_DAYS_PATH = "dark_days";
 
     private CelestialSystem() {
     }
@@ -64,8 +63,10 @@ public final class CelestialSystem {
                 continue;
             }
             saveWitnessed(player, witnessed);
-            award(player, COLUMBUS, "witness_half", HALF_EVENT_COUNT);
-            award(player, STOLAS, "witness_all", ALL_EVENT_COUNT);
+            // PacketBestiarySeenCelestial grants the whole (single-criterion)
+            // advancement once half / all celestial objects have been observed.
+            award(player, COLUMBUS_PATH, HALF_EVENT_COUNT);
+            award(player, STOLAS_PATH, ALL_EVENT_COUNT);
         }
     }
 
@@ -86,15 +87,11 @@ public final class CelestialSystem {
         player.getPersistentData().put(WITNESSED_KEY, list);
     }
 
-    private static void award(ServerPlayer player, ResourceLocation advancementId,
-            String criterion, int threshold) {
+    private static void award(ServerPlayer player, String advancementPath, int threshold) {
         if (loadWitnessed(player).size() < threshold) {
             return;
         }
-        AdvancementHolder holder = player.server.getAdvancements().get(advancementId);
-        if (holder != null) {
-            player.getAdvancements().award(holder, criterion);
-        }
+        alku.csrp.event.AdvancementGrants.awardAllPending(player, advancementPath);
     }
 
     private static void rollNight(ServerLevel level, CelestialWorldData data) {
@@ -210,17 +207,14 @@ public final class CelestialSystem {
         sync(level);
     }
 
+    /**
+     * Mirrors SRP {@code CelestialEventManager#grantDarkDaysAdvancement}: when the
+     * dark days event finishes, every player in the affected dimension receives
+     * all still-pending criteria of the (single-criterion) dark_days advancement.
+     */
     private static void awardDarkDaysSurvivors(ServerLevel level) {
-        net.minecraft.advancements.AdvancementHolder holder = level.getServer().getAdvancements()
-                .get(net.minecraft.resources.ResourceLocation.fromNamespaceAndPath(
-                        alku.csrp.Csrp.MODID, "dark_days"));
-        if (holder == null) {
-            return;
-        }
-        for (net.minecraft.server.level.ServerPlayer player : level.players()) {
-            if (player.isAlive()) {
-                player.getAdvancements().award(holder, "survived_dark_days");
-            }
+        for (ServerPlayer player : level.players()) {
+            alku.csrp.event.AdvancementGrants.awardAllPending(player, DARK_DAYS_PATH);
         }
     }
 

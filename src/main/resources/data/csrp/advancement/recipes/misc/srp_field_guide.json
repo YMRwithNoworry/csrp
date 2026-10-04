@@ -1,17 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
-  "rewards": {
-    "recipes": [
-      "csrp:srp_field_guide"
-    ]
-  },
   "criteria": {
     "has_book": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "minecraft:book"
+            "items": "minecraft:book"
           }
         ]
       }
@@ -21,7 +16,7 @@
       "conditions": {
         "items": [
           {
-            "item": "csrp:assimilated_flesh"
+            "items": "csrp:assimilated_flesh"
           }
         ]
       }
@@ -32,5 +27,10 @@
       "has_book",
       "has_flesh"
     ]
-  ]
+  ],
+  "rewards": {
+    "recipes": [
+      "csrp:srp_field_guide"
+    ]
+  }
 }

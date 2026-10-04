@@ -2,7 +2,7 @@
   "parent": "csrp:stolas",
   "display": {
     "icon": {
-      "item": "csrp:book_of_vengeance"
+      "id": "csrp:book_of_vengeance"
     },
     "title": {
       "translate": "advancements.csrp.tricked_me_did_you.title",

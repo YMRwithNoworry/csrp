@@ -2,7 +2,7 @@
   "parent": "csrp:brew_fear",
   "display": {
     "icon": {
-      "item": "csrp:ada_summoner_drop"
+      "id": "csrp:ada_summoner_drop"
     },
     "title": {
       "translate": "advancements.csrp.fermented_arrogance.title"

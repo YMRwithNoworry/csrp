@@ -2,7 +2,7 @@
   "parent": "csrp:secret_root",
   "display": {
     "icon": {
-      "item": "csrp:ecstasy_icon"
+      "id": "csrp:ecstasy_icon"
     },
     "title": {
       "translate": "advancements.csrp.brew_fear.title"

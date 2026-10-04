@@ -1108,6 +1108,52 @@ public static final DeferredItem<BlockItem> PARASITERUBBLE_BONE = ITEMS.register
     public static final DeferredItem<BlockItem> FLESH_FENCE = ITEMS.registerSimpleBlockItem("flesh_fence", ModBlocks.FLESH_FENCE);
     public static final DeferredItem<BlockItem> DEADHEAD_FENCE = ITEMS.registerSimpleBlockItem("deadhead_fence", ModBlocks.DEADHEAD_FENCE);
 
+    // ==================== 成就图标物品（原版 Scape and Run: Parasites 1.10.9 的纯图标物品） ====================
+    // 这些 id 只用于成就 JSON 的 display.icon，原模组里没有合成/掉落，因此注册成普通物品即可。
+    // 模型见 assets/csrp/models/item/<id>.json，贴图见 assets/csrp/textures/gui/。
+    public static final DeferredItem<Item> ROOTS_ICON = simple("roots_icon");
+    public static final DeferredItem<Item> ECSTASY_ICON = simple("ecstasy_icon");
+    public static final DeferredItem<Item> POTION_COLUMBUS_ICON = simple("potion_columbus_icon");
+    public static final DeferredItem<Item> POTION_STOLAS_ICON = simple("potion_stolas_icon");
+    public static final DeferredItem<Item> DARK_DAYS_ICON = simple("dark_days_icon");
+    public static final DeferredItem<Item> HUNT_SEASON_ICON = simple("hunt_season_icon");
+    public static final DeferredItem<Item> ENEMY_OF_ENEMY_ICON = simple("enemy_of_enemy_icon");
+    public static final DeferredItem<Item> GUERILLA_ICON = simple("guerilla_icon");
+    public static final DeferredItem<Item> SELF_DESTRUCT_ICON = simple("self_destruct_icon");
+    public static final DeferredItem<Item> COSMIC_STRUCTURAL_FAILURE_ICON = simple("cosmic_structural_failure_icon");
+    public static final DeferredItem<Item> HELLFIRE_CHEMICAL_WARFARE_ICON = simple("hellfire_chemical_warfare_icon");
+    public static final DeferredItem<Item> CRUDE_ICON = simple("crude_icon");
+    public static final DeferredItem<Item> PRIMITIVE_ICON = simple("primitive_icon");
+    public static final DeferredItem<Item> ADAPTED_ICON = simple("adapted_icon");
+    public static final DeferredItem<Item> PURE_ICON = simple("pure_icon");
+    public static final DeferredItem<Item> FOG_NULLIFIER_ICON = simple("fog_nullifier_icon");
+
+    // ==================== 成就图标用方块物品 ====================
+    // 原版成就把 parasitebush / infestedbush / parasitesapling / dispatchern 的 metadata 变体当作图标，
+    // 移植版只注册了方块本身（ModBlocks.registerLegacyBlocks 的私有 LEGACY_BLOCKS 映射），
+    // 这里按注册名反查同一个 DeferredHolder 来补上物品形式，物品模型指向对应方块模型。
+    public static final DeferredItem<BlockItem> PARASITEBUSH = ITEMS.registerSimpleBlockItem(
+            "parasitebush", legacyBlockSupplier("parasitebush"));
+    public static final DeferredItem<BlockItem> INFESTEDBUSH = ITEMS.registerSimpleBlockItem(
+            "infestedbush", legacyBlockSupplier("infestedbush"));
+    public static final DeferredItem<BlockItem> PARASITESAPLING = ITEMS.registerSimpleBlockItem(
+            "parasitesapling", legacyBlockSupplier("parasitesapling"));
+    public static final DeferredItem<BlockItem> DISPATCHERN = ITEMS.registerSimpleBlockItem(
+            "dispatchern", legacyBlockSupplier("dispatchern"));
+
+    /**
+     * 惰性反查 {@code ModBlocks} 里由私有 {@code LEGACY_BLOCKS} 映射注册的方块。
+     * 该映射是私有的，所以只能按注册名从 {@link ModBlocks#BLOCKS} 的条目里找；
+     * 供货函数在物品注册阶段才求值，那时方块注册表已经填好了。
+     */
+    private static java.util.function.Supplier<net.minecraft.world.level.block.Block> legacyBlockSupplier(String id) {
+        return () -> ModBlocks.BLOCKS.getEntries().stream()
+                .filter(holder -> holder.getKey().location().getPath().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Missing legacy block csrp:" + id))
+                .value();
+    }
+
     private ModItems() {
     }
 }

@@ -1,14 +1,14 @@
 {
-  "parent": "csrp:cognitio",
+  "parent": "csrp:secret_root",
   "display": {
     "icon": {
-      "id": "csrp:rupter_spawn_egg"
+      "id": "minecraft:name_tag"
     },
     "title": {
-      "translate": "advancements.csrp.cut_roots.title"
+      "translate": "advancements.csrp.paojiao_wolf.title"
     },
     "description": {
-      "translate": "advancements.csrp.cut_roots.desc"
+      "translate": "advancements.csrp.paojiao_wolf.desc"
     },
     "frame": "challenge",
     "show_toast": true,
@@ -16,13 +16,13 @@
     "hidden": false
   },
   "criteria": {
-    "reached_1000_rupter_kills": {
+    "named_wolf": {
       "trigger": "minecraft:impossible"
     }
   },
   "requirements": [
     [
-      "reached_1000_rupter_kills"
+      "named_wolf"
     ]
   ]
 }

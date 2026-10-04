@@ -2,7 +2,7 @@
   "parent": "csrp:kill_dispatcher_s3",
   "display": {
     "icon": {
-      "item": "csrp:dispatchern"
+      "id": "csrp:dispatchern"
     },
     "title": {
       "translate": "advancements.csrp.kill_dispatcher_s4.title"

@@ -915,11 +915,9 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
     }
 
     private void awardRicardoShearing(ServerPlayer player) {
-        AdvancementHolder advancement = player.server.getAdvancements().get(
-                ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "tricked_me"));
-        if (advancement != null) {
-            player.getAdvancements().award(advancement, "sheared_ricardo");
-        }
+        // SRP EntityNogla#grantRicardoShearAdvancement awards every still-pending
+        // criterion of srparasites:tricked_me_did_you (single criterion "unlock").
+        alku.csrp.event.AdvancementGrants.awardAllPending(player, "tricked_me_did_you");
     }
 
     private void tickManducater() {

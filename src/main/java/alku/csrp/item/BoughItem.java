@@ -36,7 +36,7 @@ public final class BoughItem extends Item {
     public static final int USE_DURATION = 40;
     private static final ResourceLocation ADVANCEMENT_ID =
             ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "sepeku");
-    private static final String ADVANCEMENT_CRITERION = "sepeku";
+    private static final String ADVANCEMENT_CRITERION = "done";
 
     public BoughItem(Item.Properties properties) {
         super(properties.stacksTo(1));

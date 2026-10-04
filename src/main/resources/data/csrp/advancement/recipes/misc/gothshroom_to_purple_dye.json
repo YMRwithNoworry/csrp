@@ -1,17 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
-  "rewards": {
-    "recipes": [
-      "csrp:gothshroom_to_purple_dye"
-    ]
-  },
   "criteria": {
     "has_gothshroom": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "csrp:gothshroom"
+            "items": "csrp:gothshroom"
           }
         ]
       }
@@ -21,5 +16,10 @@
     [
       "has_gothshroom"
     ]
-  ]
+  ],
+  "rewards": {
+    "recipes": [
+      "csrp:gothshroom_to_purple_dye"
+    ]
+  }
 }

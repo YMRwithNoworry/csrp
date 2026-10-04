@@ -2,7 +2,7 @@
   "parent": "csrp:secret_root",
   "display": {
     "icon": {
-      "item": "csrp:pearl"
+      "id": "csrp:pearl"
     },
     "title": {
       "translate": "advancements.csrp.controversial.title"

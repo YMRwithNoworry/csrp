@@ -1,16 +1,23 @@
 {
+  "parent": "csrp:fermented_arrogance",
   "display": {
-    "icon": { "id": "csrp:bough" },
-    "title": { "translate": "advancements.csrp.sepeku.title" },
-    "description": { "translate": "advancements.csrp.sepeku.description" },
-    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",
-    "frame": "challenge",
+    "icon": {
+      "id": "csrp:bough"
+    },
+    "title": {
+      "translate": "advancement.csrp.sepeku.title"
+    },
+    "description": {
+      "translate": "advancement.csrp.sepeku.desc"
+    },
+    "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
-    "hidden": false
+    "hidden": true
   },
   "criteria": {
-    "sepeku": { "trigger": "minecraft:impossible" }
-  },
-  "requirements": [["sepeku"]]
+    "done": {
+      "trigger": "minecraft:impossible"
+    }
+  }
 }

@@ -1,16 +1,23 @@
 {
+  "parent": "csrp:guerilla",
   "display": {
-    "icon": { "id": "csrp:thornshade_decanter" },
-    "title": { "translate": "advancements.csrp.thornshade_self_destruct.title" },
-    "description": { "translate": "advancements.csrp.thornshade_self_destruct.description" },
-    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",
+    "icon": {
+      "id": "csrp:self_destruct_icon"
+    },
+    "title": {
+      "translate": "advancement.csrp.thornshade_self_destruct.title"
+    },
+    "description": {
+      "translate": "advancement.csrp.thornshade_self_destruct.desc"
+    },
     "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
-    "hidden": false
+    "hidden": true
   },
   "criteria": {
-    "exploded": { "trigger": "minecraft:impossible" }
-  },
-  "requirements": [["exploded"]]
+    "exploded": {
+      "trigger": "minecraft:impossible"
+    }
+  }
 }

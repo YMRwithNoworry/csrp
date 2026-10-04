@@ -2,7 +2,7 @@
   "parent": "csrp:columbus",
   "display": {
     "icon": {
-      "item": "csrp:potion_stolas_icon"
+      "id": "csrp:potion_stolas_icon"
     },
     "title": {
       "translate": "advancements.csrp.stolas.title"

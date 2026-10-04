@@ -2,8 +2,7 @@
   "parent": "csrp:kill_beckon_s3",
   "display": {
     "icon": {
-      "item": "csrp:infestedbush",
-      "data": 2
+      "id": "csrp:infestedbush"
     },
     "title": {
       "translate": "advancements.csrp.kill_beckon_s4.title"

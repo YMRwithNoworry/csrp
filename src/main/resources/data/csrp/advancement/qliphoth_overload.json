@@ -2,8 +2,7 @@
   "parent": "csrp:kill_dispatcher_s4",
   "display": {
     "icon": {
-      "item": "csrp:parasiterubbledense",
-      "data": 1
+      "id": "csrp:parasiterubbledense"
     },
     "title": {
       "translate": "advancements.csrp.qliphoth_overload.title"

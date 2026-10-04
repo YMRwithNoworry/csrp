@@ -2,7 +2,7 @@
   "parent": "csrp:kill_deterrent",
   "display": {
     "icon": {
-      "item": "csrp:cosmic_structural_failure_icon"
+      "id": "csrp:cosmic_structural_failure_icon"
     },
     "title": {
       "translate": "advancement.csrp.cosmic_structural_failure.title"

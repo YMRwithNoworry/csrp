@@ -4,34 +4,43 @@ import alku.csrp.Csrp;
 import alku.csrp.entity.AssimilatedParasiteEntity;
 import alku.csrp.entity.Parasite;
 import alku.csrp.registry.ModMobEffects;
-import java.util.Comparator;
-import net.minecraft.advancements.AdvancementHolder;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.phys.AABB;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerInteractEvent;
 
 /**
- * Remaining Cognitio achievements: Ricardo shearing, guerilla kills, creeper
- * assisted kills, and the fifty-kills-in-one-day hunt season.
+ * Cognitio achievements: Ricardo shearing, guerilla kills, creeper assisted
+ * kills, and the fifty-kills-in-one-day hunt season.
+ *
+ * <p>Criterion names follow SRP 1.10.9 exactly: {@code kill_fear_splashed}
+ * (guerilla), {@code creeper_killed_parasite} (enemy_enemy) and
+ * {@code fifty_in_day} (hunt_season).
  */
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class CognitioEvents {
-    private static final String HUNT_DAY_KEY = "csrpHuntDay";
-    private static final String HUNT_COUNT_KEY = "csrpHuntCount";
+    /** Rolling-window bookkeeping, same keys as the original HuntSeasonAdvancement. */
+    public static final String HUNT_START_KEY = "srpHuntStart";
+    public static final String HUNT_COUNT_KEY = "srpHuntCount";
+    private static final long HUNT_WINDOW_TICKS = 24000L;
     private static final int HUNT_TARGET = 50;
+
+    private static final String GUERILLA = "guerilla";
+    private static final String GUERILLA_CRITERION = "kill_fear_splashed";
+    private static final String ENEMY_ENEMY = "enemy_enemy";
+    private static final String ENEMY_ENEMY_CRITERION = "creeper_killed_parasite";
+    private static final String HUNT_SEASON = "hunt_season";
+    private static final String HUNT_SEASON_CRITERION = "fifty_in_day";
+    private static final double CREEPER_ASSIST_RANGE_SQR = 4096.0D;
 
     private CognitioEvents() {
     }
@@ -48,7 +57,7 @@ public final class CognitioEvents {
                 && event.getItemStack().get(DataComponents.CUSTOM_NAME) != null
                 && event.getItemStack().get(DataComponents.CUSTOM_NAME).getString().equals("Paojiao134")
                 && event.getEntity() instanceof ServerPlayer player) {
-            award(player, "paojiao_wolf", "named_wolf");
+            AdvancementGrants.award(player, "paojiao_wolf", "named_wolf");
         }
     }
 
@@ -61,45 +70,48 @@ public final class CognitioEvents {
         Entity sourceEntity = event.getSource().getEntity();
         if (victim instanceof Player && victim.hasEffect(ModMobEffects.FEAR)
                 && sourceEntity instanceof ServerPlayer killer) {
-            award(killer, "guerilla", "killed_fearful_player");
+            AdvancementGrants.award(killer, GUERILLA, GUERILLA_CRITERION);
         }
-        if (victim instanceof Parasite && event.getSource().is(DamageTypes.EXPLOSION)) {
-            awardNearest(victim, "enemy_of_my_enemy", "creeper_kill");
+        // SRP checks the killer entity type (EntityCreeper), not the damage type.
+        if (victim instanceof Parasite && sourceEntity instanceof Creeper) {
+            awardCreeperAssist(victim);
         }
         if (victim instanceof Parasite && sourceEntity instanceof ServerPlayer hunter) {
             trackHuntSeason(hunter);
         }
     }
 
-    private static void trackHuntSeason(ServerPlayer player) {
-        var data = player.getPersistentData();
-        long day = player.level().getDayTime() / 24000L;
-        if (data.getLong(HUNT_DAY_KEY) != day) {
-            data.putLong(HUNT_DAY_KEY, day);
-            data.putInt(HUNT_COUNT_KEY, 0);
-        }
-        int count = data.getInt(HUNT_COUNT_KEY) + 1;
-        data.putInt(HUNT_COUNT_KEY, count);
-        if (count >= HUNT_TARGET) {
-            data.putInt(HUNT_COUNT_KEY, 0);
-            award(player, "hunt_season", "fifty_in_day");
-        }
-    }
-
-    private static void awardNearest(LivingEntity victim, String advancement, String criterion) {
+    /** Every player within 64 blocks of the corpse, mirroring EnemyOfMyEnemyAdvancement. */
+    private static void awardCreeperAssist(LivingEntity victim) {
         if (!(victim.level() instanceof ServerLevel level)) {
             return;
         }
-        level.getEntitiesOfClass(ServerPlayer.class, new AABB(victim.blockPosition()).inflate(24.0D))
-                .stream().min(Comparator.comparingDouble(p -> p.distanceToSqr(victim)))
-                .ifPresent(player -> award(player, advancement, criterion));
+        for (ServerPlayer player : level.players()) {
+            if (player.distanceToSqr(victim) <= CREEPER_ASSIST_RANGE_SQR) {
+                AdvancementGrants.award(player, ENEMY_ENEMY, ENEMY_ENEMY_CRITERION);
+            }
+        }
     }
 
-    private static void award(ServerPlayer player, String advancement, String criterion) {
-        AdvancementHolder holder = player.server.getAdvancements()
-                .get(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, advancement));
-        if (holder != null) {
-            player.getAdvancements().award(holder, criterion);
+    /**
+     * Rolling window: the first kill starts the window, further kills within
+     * 24000 ticks increase the count, otherwise the window restarts at one.
+     */
+    private static void trackHuntSeason(ServerPlayer player) {
+        CompoundTag data = player.getPersistentData();
+        long now = player.level().getGameTime();
+        long start = data.getLong(HUNT_START_KEY);
+        int count;
+        if (start != 0L && now - start <= HUNT_WINDOW_TICKS) {
+            count = data.getInt(HUNT_COUNT_KEY) + 1;
+        } else {
+            start = now;
+            count = 1;
+        }
+        data.putLong(HUNT_START_KEY, start);
+        data.putInt(HUNT_COUNT_KEY, count);
+        if (count >= HUNT_TARGET) {
+            AdvancementGrants.award(player, HUNT_SEASON, HUNT_SEASON_CRITERION);
         }
     }
 }

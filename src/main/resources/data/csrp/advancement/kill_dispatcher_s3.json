@@ -2,8 +2,7 @@
   "parent": "csrp:kill_dispatcher_s2",
   "display": {
     "icon": {
-      "item": "csrp:parasitebush",
-      "data": 1
+      "id": "csrp:parasitebush"
     },
     "title": {
       "translate": "advancements.csrp.kill_dispatcher_s3.title"

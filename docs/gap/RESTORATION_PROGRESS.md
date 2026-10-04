@@ -4919,3 +4919,16 @@ until this time (seconds) has passed），端口此前缺这一层配置面 —�
 - 按用户要求移除 `csrp:architect` 的全部自然生成候选，包括各进化阶段的显式表和共享晚期表；确认泛用发育表也没有构筑体候选，阶段与泛用表驱动的生成器、位置检查不再允许构筑体自然生成。
 - 移除领地核心每 200 tick 的构筑体补生逻辑，避免自然生成关闭后仍由领地自动生成。已有构筑体、刷怪蛋和管理员命令不受影响。
 - 验证：`./gradlew.bat build` 成功；全量静态检查 106 项/86 通过/20 失败，与既有失败基线一致。自然生成与构筑体行为检查通过；未启动游戏进行阶段切换及领地补生实测。
+
+## 成就系统完整移植（1.21.1 数据格式）
+
+- 以原模组 SRP 1.10.9 的 43 条成就（40 条展示成就 + 3 条配方解锁成就）为唯一依据，逐条重写为 1.21.1 的 `data/csrp/advancement/` JSON，保留原始文件路径、成就 ID、父级树形、图标物品、标题/描述键名、判据名、触发条件与奖励。
+- 1.21 格式差异处理：图标由 `{"item": ...}` 改为 `{"id": ...}`；`minecraft:inventory_changed` 的物品条件由 `item` 字段改为 `items` 字段；1.12 的 `data` 元数据变体（parasitebush/infestedbush/parasitesapling/parasiterubbledense）改用对应方块物品。
+- 删除此前错误引入的重复成就集 `data/csrp/advancement/csrp/`（39 条，ID 用标题重命名、判据全为 `minecraft:tick`，与原版不符）与失效路径副本 `assets/csrp/advancements/`（1.12 路径，1.21 不加载）。保留移植版自有的 `again`（龙蛋同化）与 `paojiao_wolf`（椒太狼）两条附加成就。
+- 语言文件按原模组文本补齐并覆盖全部 82 条标题/描述键（en_us/zh_cn/hr_hr/ko_kr 的 JSON），并补齐成就图标物品名称键。原版使用单数 `advancement.` 前缀的四条（cosmic_structural_failure、hellfire_chemical_warfare、sepeku、thornshade_self_destruct）保持单数键名不变。
+- 触发条件对齐原版实现：monument/qliphoth_overload 在 beckon_siv/dispatcher_siv 进入世界时授予同维度 256 格内的玩家；enemy_enemy 要求击杀者为爬行者并在 64 格内授予；hunt_season 使用 24000 tick 滚动窗口计数 50；guerilla 判据名为 `kill_fear_splashed`；sepeku 判据 `done`；thornshade_self_destruct 判据 `exploded`；columbus/stolas/tricked_me_did_you 按原版授予全部未完成判据。
+- 新增 `scripts/verify-advancements-port.cjs`：逐条比对父级、图标、标题/描述键、frame/背景/toast/chat/hidden、判据与条件、requirements、rewards，并校验条件实体已注册、语言键存在、旧重复集不再出现。
+- 旧存档进度迁移：新增 `AdvancementLegacyMigrationEvents`，在玩家数据载入时把 `csrp:csrp/<旧名>` 改写成规范 ID。1.21.1 的成就进度实际存放在 `<world>/advancements/<uuid>.json`（不是 playerdata 的 `advancements` 复合标签），而未知 ID 会被 `PlayerAdvancements.load` 静默丢弃并在登出时被空进度覆写，因此两份都改写，并在改写后调用 `PlayerAdvancements#reload` 让本次登录立即生效；全部步骤 try/catch 兜底，损坏的存档不会把玩家挡在游戏外。
+- 游戏内验证：新增 GameTest `alku.csrp.gametest.AdvancementGameTests`（6 个用例，复用仓库已有的 `csrp:box` 结构模板），断言全部成就被游戏解析进 `ServerAdvancementManager`、父级逐条一致、无父级者恰为 `csrp:root` 与 `csrp:again`、图标物品均已注册、每条成就的每个判据授予后进度完成、以及旧 ID 迁移的 NBT/JSON/映射表目标存在性。
+- 验证：`./gradlew.bat build` 成功；`./gradlew.bat runGameTestServer` 退出码 0，日志为 `All 6 required tests passed :)`（主代理独立复跑一致）；全量静态检查 **107 项/87 通过/20 失败**，失败项与既有 20 项基线完全相同，新增的 `scripts/verify-advancements-port.cjs` 通过。
+- 已知偏差：原版 Beckon/Dispatcher 检测还会发送屏幕抖动网络包，移植版无该系统故只保留成就与音效；`guerilla` 仍沿用移植版既有的近似判定（受害者带 Fear 且击杀者为伤害来源），未实现原版的 Fear 施加者追踪。

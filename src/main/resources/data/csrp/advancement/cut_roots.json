@@ -1,7 +1,8 @@
 {
+  "parent": "csrp:sepeku",
   "display": {
     "icon": {
-      "id": "csrp:rupter_viscera"
+      "id": "minecraft:shears"
     },
     "title": {
       "translate": "advancements.csrp.cut_roots.title"
@@ -9,20 +10,14 @@
     "description": {
       "translate": "advancements.csrp.cut_roots.description"
     },
-    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",
     "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
-    "hidden": false
+    "hidden": true
   },
   "criteria": {
     "reached_1000_rupter_kills": {
       "trigger": "minecraft:impossible"
     }
-  },
-  "requirements": [
-    [
-      "reached_1000_rupter_kills"
-    ]
-  ]
+  }
 }

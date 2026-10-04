@@ -2,8 +2,7 @@
   "parent": "csrp:monument_root",
   "display": {
     "icon": {
-      "item": "csrp:parasitebush",
-      "data": 4
+      "id": "csrp:parasitebush"
     },
     "title": {
       "translate": "advancements.csrp.kill_beckon_s1.title"
