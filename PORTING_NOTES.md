@@ -37,7 +37,7 @@
 | 可加载运行的构建产物 | `build/libs/csrp-1.10.9.jar`（约 134 MB，含全部资源） |
 | 移植说明 | 本文件 |
 | 各子系统详细报告 | `docs/gap/R2_REPORT.md`、`R2_BLIZZARD_REPORT.md`、`R3_WORLDGEN_REPORT.md`、`R4_BLOCKS_REPORT.md`、`R5_ITEMS_REPORT.md`、`R6_ENTITY_MATRIX.md`、`LANG_REPORT.md` |
-| 自动化校验 | `scripts/run-all-verifications.cjs`（121 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
+| 自动化校验 | `scripts/run-all-verifications.cjs`（122 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
 
 规模：569 个 Java 文件、88 个方块类、128 个实体文件、44 个物品类、7 个 Mixin、362 个 blockstate、2236 张纹理、1008 个音效、55 个结构 NBT、33 套语言。
 
@@ -84,6 +84,7 @@
 - **酿造配方恢复（玩法缺口）**：原件 `potion/Recipe.java` 用 5 个 `IBrewingRecipe` 注册了恐惧药水三级链、死血、荆棘醒酒器；NeoForge 26.3 移除了 `IBrewingRecipe` 与 `RegisterBrewingRecipesEvent`，本工程此前只留下一个空的 `ThornshadeBrewingEvents` NEEDS-DESIGN 占位类，**配方实际不可用**。现按 26.3 的数据驱动方式恢复为 `data/csrp/recipe/brewing/*.json` 共 7 个文件（恐惧药水链 3 条 + 死血 water/awkward 2 条 + 醒酒器 water/awkward 2 条），删除空壳类；校验 `scripts/verify-brewing-recipes.cjs` + GameTest `csrp:brewing_recipes/legacy_srp_brews`（经真实 `RecipeManager` 加载并匹配）。
   - **字段映射经官方映射表核实**：从 `MinecraftForge/MCPConfig` 的 `joined.tsrg` 与 Forge maven 的 `mcp_stable-39-1.12.zip`（内含 `fields.csv`）查得 —— `field_151145_ak` = **FLINT（燧石）**、`field_151016_H` = GUNPOWDER、`field_185157_bK` = DRAGON_BREATH、`field_151068_bn` = POTIONITEM、`field_185155_bH` = SPLASH_POTION、`field_185156_bI` = LINGERING_POTION、`field_151069_bo` = GLASS_BOTTLE、`field_150432_aD` = ICE。其中燧石一项**纠正了此前的常识推断**（曾误判为地狱疣），ICE 一项同时证实了工程注入熔炉玻璃置换映射（现为 `recipe/InfuserFurnaceRecipes`）的正确性。
 - **注入熔炉保真化**：此前是简化重写（4 槽、原版熔炉纹理、单进度、无副产物、无原版熔炼、非朝向方块）。现按原件 `TileEntityInfuserFurnace` / `ContainerInfuserFurnace` / `GuiInfuserFurnace` / `BlockInfuserFurnace` 还原：**6 槽**（熔炼输入/燃料/熔炼输出/注入试剂/注入产物/副产物）坐标与原件纹理上的槽位框一一对应、**两个独立 200 tick 计数器**共用一个燃料缓冲、注入产出**主产物 + 玻璃瓶副产物**、玻璃置换产出 **2 个**、**同时执行原版熔炼**、GUI 改用原件 `infuser_furnace.png`（此前该纹理在仓库里却无人引用）、方块恢复 `FACING` 四变体。配方表独立为 `recipe/InfuserFurnaceRecipe(s)`（9 条，镜像原件 `SRPInfuserFurnaceRecipeInit`）。
+- **JEI 配方查看器集成**：原件 `compatibility/jei/**` 此前未移植。现补齐 `compat/jei/SrpJeiPlugin` + `InfuserFurnaceJeiCategory`（注入熔炉分类、催化剂、隐藏 16 个成就图标），JEI 以 `compileOnly` 引入，不装 JEI 也能构建运行；酿造那 7 条配方由 JEI 内置酿造分类自行展示。详见 §4.1。
 - **Escape 系统补齐**：见 §3.6。
 
 ### 3.6 Escape（死亡循环逃脱）系统
@@ -125,7 +126,7 @@
 | `phase/EvoPhase`、`EvoPhases` | ✅ 已覆盖 | 进化阶段定义由本工程的进化系统（`EvolutionSystem` / `EvolutionTierCatalog` / `SrpWorldData.evolution_phase`）承担，含阶段 -2..10 |
 | `proxy/CommonProxy`、`ClientProxy` | ✅ 已覆盖 | 1.12.2 的代理模式由 NeoForge 事件订阅（`@EventBusSubscriber` + `Dist.CLIENT`）取代 |
 | `compatibility/ModCompatibility` | ❌ **不适用** | 它只检测并警告两个 **1.12.2 专属**模组（ReachFix、JustEnoughIDs）的冲突，这两个模组在 26.3 不存在；`warnAddonDeprecatedFunction` 是给 1.12.2 附属模组作者的弃用提示。无对应物可移植 |
-| `compatibility/jei/**`（`SRPJEIPlugin`、`InfuserFurnaceJEICategory/Recipe`、`SRPBrewingCategory/Recipe`） | ⚠️ **尚未移植** | 这是**配方查看器集成**（给注入熔炉与 SRP 酿造添加 JEI 分类），属展示层便利功能，非核心玩法。JEI 已有 NeoForge 26.3 构建（Modrinth `jei` 项目，版本 `31.9.0.58 for NeoForge 26.3`），因此**可以**补齐：需在 `build.gradle` 加 `compileOnly` JEI 依赖，并按 JEI 26.3 的 `IRecipeCategory` / `IRecipeCatalystRegistration` API 重写这 5 个类。已登记在 `PORT_BACKLOG.md` 待办 |
+| `compatibility/jei/**`（`SRPJEIPlugin`、`InfuserFurnaceJEICategory/Recipe`、`SRPBrewingCategory/Recipe`） | ✅ **已移植**（`compat/jei/SrpJeiPlugin` + `InfuserFurnaceJeiCategory`） | 注入熔炉分类按原件槽位（55,16）(29,34)(115,34)(139,52) 与 200 tick 箭头（79,34）还原，催化剂为注入熔炉方块，并隐藏原件那 16 个成就图标。**两处因 API 差异的改写**：① JEI 26.3 移除了 `getBackground()`，分类改为在 `draw()` 里绘制原件 `infuser_furnace.png` 的 (0,0,176,82) 区域（JEI 的绘制顺序是「JEI 背景 → 分类 draw → 槽位 → 控件 → drawable」，`draw()` 是唯一能画在槽位下方的钩子）；② 酿造一半**无需插件代码**——那 7 条配方是真正的 `minecraft:brewing` 配方，JEI 内置的酿造分类会自行展示（1.12.2 时 JEI 不显示 Forge 酿造配方，才需要自建分类）。JEI 为 `compileOnly`，不装 JEI 时模组照常构建与运行 |
 
 ---
 
@@ -175,7 +176,7 @@ node scripts/run-all-verifications.cjs   # {"total":118,"passed":118,"failed":0}
 | 检查 | 结果 |
 | --- | --- |
 | 编译与打包 | **BUILD SUCCESSFUL**，产物 `build/libs/csrp-1.10.9.jar` |
-| 静态契约校验 | **121 / 121 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape 契约等） |
+| 静态契约校验 | **122 / 122 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape 契约等） |
 | 运行期 GameTest | **177 / 177 通过**（170 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉） |
 | 服务器启动 | GameTest 服务器完整启动至测试结束，无启动崩溃 |
 | 世界生成运行期 | 225 区块实证：四类寄生群系 + 36 种寄生体方块落地，零 decoration 失败 |

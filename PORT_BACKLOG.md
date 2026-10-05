@@ -14,7 +14,7 @@
 ## 当前基线
 
 - `gradlew clean build`：**成功**（GraalVM 25.3.4.1 / Gradle 9.2.1），产物 `build/libs/csrp-1.10.9.jar`。
-- 静态校验套件：**121 / 121 通过**。
+- 静态校验套件：**122 / 122 通过**。
 - 运行期验证：`runGameTestServer` → **177 / 177 GameTests 通过**（170 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉），服务器完整启动到测试结束。
 - 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2978 键 / zh_cn 2994 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
@@ -42,20 +42,18 @@
 
 全部 73 个 AI 类已逐条判定，无"缺失"项；剩余登记项为：`EntityAIDodAttack` 的黑/白名单过滤、`EntityAIVenkrolSummon` 的 mob 表逐条复刻、`EntityAIFollowBodies` 的架构差异（本工程用 `bodyPredecessor` 实体链，语义等价）、gene 系统（本工程用 Kind 分支替代 `EntityPMalleable` 的 10 个开关）。详见 `docs/gap/R6_ENTITY_MATRIX.md` §5.2。
 
-### JEI 配方查看器集成（待办，方案已就绪）
+### JEI 配方查看器集成（✅ 已完成）
 
-原件 `compatibility/jei/**` 共 5 个类（`SRPJEIPlugin` 140 行、`InfuserFurnaceJEICategory` 61、`InfuserFurnaceJEIRecipe` 29、`SRPBrewingCategory` 48、`SRPBrewingJEIRecipe` 26）。本工程尚未移植。**JEI 已有 NeoForge 26.3 构建**（Modrinth `jei`，`31.9.0.58`，文件名 `jei-26.3-neoforge-31.9.0.58.jar`），因此可以补齐。
+已实现 `compat/jei/SrpJeiPlugin`（`@JeiPlugin`）+ `compat/jei/InfuserFurnaceJeiCategory`，JEI 依赖为 `compileOnly 'maven.modrinth:jei:31.9.0.58'`（Modrinth maven），**不装 JEI 也能构建与运行**：
 
-已核实的事实（可直接据此实现）：
+- 注入熔炉分类：槽位按原件 (55,16)/(29,34)/(115,34)/(139,52)，200 tick 动画箭头在 (79,34)，催化剂为 `csrp:infuser_furnace`，配方来自 `recipe/InfuserFurnaceRecipes.all()`。
+- 隐藏原件黑名单里的 16 个成就图标（`onRuntimeAvailable` → `removeIngredientsAtRuntime`）。
+- **酿造分类不需要插件代码**：7 条配方是真正的 `minecraft:brewing` 配方，JEI 内置酿造分类会自行展示。
+- 因 API 差异的改写：JEI 26.3 无 `getBackground()`，分类改为在 `draw()` 中绘制原件 `infuser_furnace.png` 的 (0,0,176,82)；`needsRecipeBorder()` 返回 false 以免叠加边框。
+- 保真保留：原件把注入产物放在第一个输出槽 (115,34)、副产物放在第二个 (139,52)，与 GUI 上这两个槽位的实际位置相反——这是原件的展示顺序，已按原样保留而非「顺手修正」。
 
-1. **依赖**：在 `build.gradle` 加 `maven { url "https://api.modrinth.com/maven" }` 与 `compileOnly "maven.modrinth:jei:31.9.0.58"`（若需在 `runClient` 里验证插件发现，再考虑 `runtimeOnly` 或 `localRuntime`）。
-2. **26.3 JEI API（已从 jar 反查）**：`mezz.jei.api.IModPlugin`（`getPluginUid()` 返回 `Identifier`；默认方法 `registerCategories(IRecipeCategoryRegistration)`、`registerRecipeCatalysts(IRecipeCatalystRegistration)`、`registerRecipes(IRecipeRegistration)`）；`IRecipeCategory<T>` 必须实现 `getRecipeType()` / `getTitle()` / `getWidth()` / `getHeight()` / `getIcon()` / `setRecipe(IRecipeLayoutBuilder, T, IFocusGroup)`；注册用 `IRecipeCategoryRegistration.addRecipeCategories(...)`、`IRecipeCatalystRegistration.addCraftingStation(IRecipeType<?>, ItemLike...)`、`IRecipeRegistration.addRecipes(IRecipeType<T>, List<T>)`。
-3. **注入熔炉配方**：✅ 已由 `recipe/InfuserFurnaceRecipes.all()` 提供只读配方表（9 条：输入 1 / 输入 2 / 主产物 / 副产物），JEI 分类直接读取即可，无需再改方块实体。
-4. **SRP 酿造配方**：✅ **已实现**（数据包 `data/csrp/recipe/brewing/*.json` 共 7 个文件；校验 `scripts/verify-brewing-recipes.cjs` + GameTest `csrp:brewing_recipes/legacy_srp_brews`）。原件 `potion/Recipe.java` 的 5 个 `IBrewingRecipe` 对应：`alveolar_fluid + 燧石 → 恐惧药水`、`恐惧药水 + 火药 → 喷溅`、`喷溅 + 龙息 → 滞留`、`水/粗制 + 疾病海绵 → 死血`、`水/粗制 + 荆棘浆果 → 荆棘醒酒器`。
-   - 关键映射已用官方 **MCPConfig + `mcp_stable-39-1.12` 的 `fields.csv`** 核实：`field_151145_ak` = **FLINT（燧石）**，**不是**地狱疣（原先按 base→potion 用地狱疣的常识推断，查表后纠正）；`field_151016_H` = GUNPOWDER、`field_185157_bK` = DRAGON_BREATH、`field_151068_bn` = POTIONITEM、`field_185155_bH` = SPLASH_POTION、`field_185156_bI` = LINGERING_POTION、`field_151069_bo` = GLASS_BOTTLE、`field_150432_aD` = ICE（与工程 `GLASS_RECIPES` 的 `Items.ICE` 一致 ✓）。
-   - 因此 JEI 的酿造分类现在只需**展示**这 7 条已存在的配方，无需再补行为。
-5. **催化剂**：注入熔炉方块 → `csrp:infuser_furnace` 分类；酿造台 → `csrp:srp_brewing` 分类。
-6. **隐藏 16 个成就图标物品**：原件把它们从 JEI 物品列表里移除（`dark_days_icon`、`adapted_icon`、`primitive_icon`、`crude_icon`、`pure_icon`、`hunt_season_icon`、`guerilla_icon`、`ecstasy_icon`、`enemy_of_enemy_icon`、`fog_nullifier_icon`、`self_destruct_icon`、`potion_columbus_icon`、`potion_stolas_icon`、`hellfire_chemical_warfare_icon`、`cosmic_structural_failure_icon`、`roots_icon`）。26.3 JEI 用 `IJeiRuntime` / `IJeiFeatures` 或 `jei.hide` 配置实现隐藏，需按实际 API 选择。
+验证：`scripts/verify-jei-plugin.cjs`（插件注解、UID、分类/催化剂/配方注册、16 个图标 id 与注册表一致、JEI 保持 compileOnly）；产物中 `alku/csrp/compat/jei/SrpJeiPlugin.class` 已打包且带 `Lmezz/jei/api/JeiPlugin;` 注解（JEI 以类文件级扫描发现插件）。**未做运行期目视验证**：JEI 是客户端模组，本环境无法启动图形客户端。
+
 ### 注入熔炉保真化（✅ 已完成）
 
 已按原件 `TileEntityInfuserFurnace` / `ContainerInfuserFurnace` / `GuiInfuserFurnace` / `BlockInfuserFurnace` 重构：
