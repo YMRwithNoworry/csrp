@@ -14,8 +14,8 @@
 ## 当前基线
 
 - `gradlew clean build`：**成功**（GraalVM 25.3.4.1 / Gradle 9.2.1），产物 `build/libs/csrp-1.10.9.jar`。
-- 静态校验套件：**117 / 117 通过**。
-- 运行期验证：`runGameTestServer` → **171 / 171 GameTests 通过**（170 个实体生成冒烟 + 1 个 NBT 往返），服务器完整启动到测试结束。
+- 静态校验套件：**118 / 118 通过**。
+- 运行期验证：`runGameTestServer` → **173 / 173 GameTests 通过**（170 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则），服务器完整启动到测试结束。
 - 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2978 键 / zh_cn 2994 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
 - 本轮由 `runGameTestServer` 抓出并修复的运行期加载失败：方块状态定义读取 `super()` 前未赋值的实例字段（`LegacyVariantSlabBlock` / `LegacyRelayBlock`，改为工厂预发布）、`JukeboxSong` 是数据包注册表故 `discone` / `disctwo` 需要 `data/csrp/jukebox_song/*.json`（见 commit `d7f7ca5c`）。
@@ -30,6 +30,9 @@
 - **语言**：33 套 `.lang` → 26.3 JSON，`en_us` 2332/2332、`zh_cn` 2140/2140 全覆盖；剔除 6 个会覆盖原版字幕的 vanilla 键。报告：`docs/gap/LANG_REPORT.md`。
 - **世界创建选项（UI 保真修复）**：原模组的世界选项是「创建世界界面上的 *SRP World Options...* 按钮 → 专用 *SRP World Settings* 界面（5 个选项 + 世界预览面板 + Done）」，由 `SRPConfig.worldGIU` 开关（`client/gui/SRPWorldCreateButtons.java` + `GuiSRPWorldSettings.java` + `GuiSRPWorldPreview.java`）。此前本工程把 5 个 CycleButton 直接硬塞进原版创建世界界面的固定 y 偏移（`height-52 … height-148`），会被原版页脚/标签内容盖住而看不到。现按原件恢复：新增 `client/SrpWorldSettingsScreen.java`（专用界面，原版布局 leftX / topY+0,48,72,96,120 + 160×122 预览 + Done）、`client/SrpWorldPreview.java`（星空 + 行星系统，固定种子 923847、70 星、8 张既有纹理）、`SrpDifficultyScreenEvents` 改为页脚行内单个入口按钮（按位置定位原版页脚，不引用任何 vanilla 语言键），并补 `GeneralConfig.worldCreationUi`（原 `worldGIU`）与 `gui.csrp.worldsettings.star.warm` 标签。校验：`scripts/verify-world-settings-ui.cjs`。
 - **资源**：结构 NBT 55/55、音效 1008/1008、纹理对齐。
+
+- **Escape 死亡循环逃脱系统（本轮补齐）**：原 `feature/EscapeOnDeathHandler` + `EscapeRespawnHandler` + `client/EscapeClientState` + `GuiGameOverEscape` + 两个网络包此前只迁移了语言键、代码缺失。现补齐：寄生体致死一分钟内超过 5 次 → 死亡界面出现逃脱按钮 → 点击置 pending 并重生 → 在 200~300 格内寻找安全落点传送。配置 `escapeEnabled` / `escapeMinDistance` / `escapeMaxDistance`（原 `SRPConfigWorld` EscapeSystem 分节）。校验 `scripts/verify-escape-system.cjs` + 2 个 GameTest。
+- **交付说明**：`PORTING_NOTES.md`（已完成清单、因 26.3 API 缺失而改写/省略的部分、已知不兼容项——含旧存档不可迁移的明确说明）。
 
 ## 待办
 

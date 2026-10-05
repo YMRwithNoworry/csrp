@@ -286,14 +286,24 @@ public final class CelestialSystem {
     public static void sync(ServerLevel level) {
         CelestialWorldData data = CelestialWorldData.get(level);
         CelestialStatePayload payload = new CelestialStatePayload(visible(level), data.nightIndex(), level.getGameTime());
-        level.players().forEach(player -> PacketDistributor.sendToPlayer(player, payload));
+        level.players().forEach(player -> send(player, payload));
     }
 
     public static void sync(ServerPlayer player) {
         ServerLevel level = player.level();
         CelestialWorldData data = CelestialWorldData.get(level);
-        PacketDistributor.sendToPlayer(player,
-                new CelestialStatePayload(visible(level), data.nightIndex(), level.getGameTime()));
+        send(player, new CelestialStatePayload(visible(level), data.nightIndex(), level.getGameTime()));
+    }
+
+    /**
+     * A player without a connection (GameTest mock players, or one already disconnecting) cannot receive
+     * payloads and NeoForge rejects the send outright, so it is skipped.
+     */
+    private static void send(ServerPlayer player, CelestialStatePayload payload) {
+        if (player.connection == null) {
+            return;
+        }
+        PacketDistributor.sendToPlayer(player, payload);
     }
 
     private static boolean isDarkDaysPendingOrActive(CelestialWorldData data) {

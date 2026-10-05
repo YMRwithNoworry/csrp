@@ -47,6 +47,17 @@ public final class WorldConfig {
             .defineList("dimensionList", List.of(), value -> value instanceof String id
                     && Identifier.tryParse(id) != null);
 
+    // Original SRPConfigWorld "EscapeSystem" section (EscapeOnDeathHandler / EscapeRespawnHandler).
+    private static final ModConfigSpec.BooleanValue ESCAPE_ENABLED = BUILDER
+            .comment("If false, the escape system will never trigger.")
+            .define("escapeEnabled", true);
+    private static final ModConfigSpec.IntValue ESCAPE_MIN_DISTANCE = BUILDER
+            .comment("Minimum distance from the source that escape teleport can choose.")
+            .defineInRange("escapeMinDistance", 200, 0, 100000000);
+    private static final ModConfigSpec.IntValue ESCAPE_MAX_DISTANCE = BUILDER
+            .comment("Maximum distance from the source that escape teleport can choose.")
+            .defineInRange("escapeMaxDistance", 300, 0, 100000000);
+
     public static final ModConfigSpec SPEC = BUILDER.build();
 
     private WorldConfig() {
@@ -93,5 +104,20 @@ public final class WorldConfig {
         String dimension = level.dimension().identifier().toString();
         boolean listed = DIMENSION_LIST.get().contains(dimension);
         return DIMENSION_LIST_IS_BLACKLIST.get() != listed;
+    }
+
+    /** {@code SRPConfigWorld.escapeEnabled}. */
+    public static boolean escapeEnabled() {
+        return ESCAPE_ENABLED.get();
+    }
+
+    /** {@code SRPConfigWorld.escapeMinDistance}. */
+    public static int escapeMinDistance() {
+        return ESCAPE_MIN_DISTANCE.get();
+    }
+
+    /** {@code SRPConfigWorld.escapeMaxDistance}. */
+    public static int escapeMaxDistance() {
+        return ESCAPE_MAX_DISTANCE.get();
     }
 }
