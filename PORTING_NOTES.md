@@ -114,6 +114,16 @@
 
 **判定为死代码、有意不移植**（有证据）：`EntityAIEvadeTP`、`EntityAINexusNest`、`AISoundEaterStalk`、`AIDisableBeaconIki`（原件从未实例化）；7 个 monster 类（Dharma / OroncoAW / VenkrolSV / Mor / Rond / BanoFocused / ShycoFocused）原件既未注册也零引用；`WorldGenParasiteColonyB4` / `BS4` 不可达（仅通过显式 API 暴露，不伪造自动投放）；`GuiSRPConfigEdit` / `GuiSRPConfigView` 及其配置按钮（常量与语言键存在但从未加入界面）。以上均**未凭空造行为**。
 
+### 4.1 原件其他包的处理
+
+| 原件 | 处理 | 说明 |
+| --- | --- | --- |
+| `api/SRPBestiaryApi`（3 个方法） | ✅ **已移植** | `alku.csrp.api.SrpBestiaryApi`；原件读 `IBestiaryProgress` capability，26.3 无 capability 体系，改为读本模组已持久化的图鉴进度（`CompendiumSavedData.progress(uuid).celestials()`），语义与返回不可变集合的行为一致 |
+| `phase/EvoPhase`、`EvoPhases` | ✅ 已覆盖 | 进化阶段定义由本工程的进化系统（`EvolutionSystem` / `EvolutionTierCatalog` / `SrpWorldData.evolution_phase`）承担，含阶段 -2..10 |
+| `proxy/CommonProxy`、`ClientProxy` | ✅ 已覆盖 | 1.12.2 的代理模式由 NeoForge 事件订阅（`@EventBusSubscriber` + `Dist.CLIENT`）取代 |
+| `compatibility/ModCompatibility` | ❌ **不适用** | 它只检测并警告两个 **1.12.2 专属**模组（ReachFix、JustEnoughIDs）的冲突，这两个模组在 26.3 不存在；`warnAddonDeprecatedFunction` 是给 1.12.2 附属模组作者的弃用提示。无对应物可移植 |
+| `compatibility/jei/**`（`SRPJEIPlugin`、`InfuserFurnaceJEICategory/Recipe`、`SRPBrewingCategory/Recipe`） | ⚠️ **尚未移植** | 这是**配方查看器集成**（给注入熔炉与 SRP 酿造添加 JEI 分类），属展示层便利功能，非核心玩法。JEI 已有 NeoForge 26.3 构建（Modrinth `jei` 项目，版本 `31.9.0.58 for NeoForge 26.3`），因此**可以**补齐：需在 `build.gradle` 加 `compileOnly` JEI 依赖，并按 JEI 26.3 的 `IRecipeCategory` / `IRecipeCatalystRegistration` API 重写这 5 个类。已登记在 `PORT_BACKLOG.md` 待办 |
+
 ---
 
 ## 5. 已知不兼容项

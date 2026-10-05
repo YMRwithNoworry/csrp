@@ -134,6 +134,17 @@ for (const disc of ["discone", "disctwo", "discthree"]) {
     }
 }
 
+// Original api/SRPBestiaryApi: the public surface addons use to read witnessed celestial events.
+const bestiaryApi = read("src/main/java/alku/csrp/api/SrpBestiaryApi.java");
+expect(bestiaryApi, /public static boolean hasSeenCelestial\(Player player, String celestialId\)/,
+        "SrpBestiaryApi.hasSeenCelestial is missing");
+expect(bestiaryApi, /public static Set<String> getSeenCelestials\(Player player\)/,
+        "SrpBestiaryApi.getSeenCelestials is missing");
+expect(bestiaryApi, /public static int getSeenCelestialCount\(Player player\)/,
+        "SrpBestiaryApi.getSeenCelestialCount is missing");
+expect(bestiaryApi, /CompendiumSavedData\.get\(server\)\.progress\(player\.getUUID\(\)\)\.celestials\(\)/,
+        "SrpBestiaryApi no longer reads the persisted compendium progress");
+
 if (failures.length) {
     for (const failure of failures) console.error(failure);
     process.exit(1);
