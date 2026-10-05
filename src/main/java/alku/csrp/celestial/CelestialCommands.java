@@ -24,6 +24,7 @@ public final class CelestialCommands {
                 .then(Commands.literal("list").executes(context -> list(context.getSource())))
                 .then(Commands.literal("clear").executes(context -> clear(context.getSource())))
                 .then(Commands.literal("all").executes(context -> all(context.getSource())))
+                .then(Commands.literal("debug").executes(context -> debug(context.getSource())))
                 .then(Commands.literal("dark_days_end").executes(context -> endDarkDays(context.getSource())));
         for (CelestialDefinition definition : CelestialCatalog.ALL) {
             root.then(Commands.literal(definition.id()).executes(context ->
@@ -63,6 +64,29 @@ public final class CelestialCommands {
     private static int endDarkDays(CommandSourceStack source) {
         CelestialSystem.stopDarkDays(source.getLevel());
         source.sendSuccess(() -> Component.translatable("command.csrp.celestial.dark_days_end"), true);
+        return Command.SINGLE_SUCCESS;
+    }
+
+    /**
+     * {@code CommandForceCelestial}'s {@code debug} branch: dump this dimension's celestial state. The
+     * original printed the same fields as plain text — dimension, evolution phase, night index, time of
+     * day, the active/forced counts and the dark days timers — followed by the two id lists.
+     */
+    private static int debug(CommandSourceStack source) {
+        ServerLevel level = source.getLevel();
+        CelestialWorldData data = CelestialWorldData.get(level);
+        int phase = alku.csrp.world.SrpWorldData.get(level).evolutionPhase();
+        long gameTime = level.getGameTime();
+        source.sendSuccess(() -> Component.literal("[SERVER] dim=" + level.dimension().identifier()
+                + " phase=" + phase
+                + " day=" + (gameTime / 24000L)
+                + " dayTime=" + (gameTime % 24000L)
+                + " active=" + data.active().size()
+                + " forced=" + data.forced().size()
+                + " darkDaysEndTime=" + data.darkDaysEndTime()
+                + " darkDaysEndingSoundPlayed=" + data.darkDaysEndingSoundPlayed()), false);
+        source.sendSuccess(() -> Component.literal("[SERVER] active=" + format(data.active())), false);
+        source.sendSuccess(() -> Component.literal("[SERVER] forced=" + format(data.forced())), false);
         return Command.SINGLE_SUCCESS;
     }
 

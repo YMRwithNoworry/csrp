@@ -14,7 +14,7 @@
 ## 当前基线
 
 - `gradlew clean build`：**成功**（GraalVM 25.3.4.1 / Gradle 9.2.1），产物 `build/libs/csrp-1.10.9.jar`。
-- 静态校验套件：**124 / 124 通过**。
+- 静态校验套件：**125 / 125 通过**。
 - 运行期验证：`runGameTestServer` → **181 / 181 GameTests 通过**（170 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩），服务器完整启动到测试结束。
 - 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2978 键 / zh_cn 2994 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
@@ -82,6 +82,21 @@
 
 验证：`scripts/verify-vengeance-grapple.cjs`（钉住全部原件数值与结构）+ 2 个 GameTest（5 个音效已注册、击退衰减公式）。**速度与 AoE 手感仍需真机确认**。
 
+### 剩余管理命令（待办，规格已核实）
+
+把原件 `proxy/CommonProxy` 注册的 18 个命令与工程逐一对照后，仍缺以下 4 条（其余均已有对应，含 `srpguide`/`srpguideclear`/`srpbestiarystats`/`srpstats`/`srp_celestial`）：
+
+1. **`srp_extremesnow <on|off|toggle> [intensity 0..1] [anywhere 0|1] [windDeg 0..359] [windSpeed 0..1]`**（权限 2，原件 `util/CommandExtremeSnow.java`，71 行）。
+   - 依赖原件 `world/ExtremeSnowData.java`（`WorldSavedData`，存档键 **`srp_extreme_snow`**）的字段：`enabled=false`、`intensity=1.0`、`forceAnywhere=true`、`windDeg=30.0`、`windSpeed=0.5`。
+   - 工程现状：暴风雪渲染由「冷星 + 原版降雨强度」驱动（`client/weather/SRPBlizzardClient`，与原件客户端逻辑一致），但**没有**服务端 `ExtremeSnowData` 状态，因此没有「强制任何维度下雪」与风参数控制。补齐需新增该 SavedData、命令，并把 `windDeg`/`windSpeed` 接到暴风雪渲染（`SRPBlizzardRenderer` / `SRPBlizzardDirectionClient`）。
+
+2. **`harlequin_here [radiusChunks=1]`**（权限 2，原件 79 行）：把玩家周围 (2r+1)² 个区块的生物群系设为 Harlequin 并推送给客户端，然后回报「应用了 N 个区块」与当前位置的实际群系名。工程已有 `srp_harlequinn` 群系（`world/ParasiteBiomeDecorator.HARLEQUIN_BIOME`），可直接实现。
+
+3. **`harlequin_convert [radius=16] [sampleChance=1] [depth=32] [blotchChance=18] [blotchMinDiam=3] [blotchMaxDiam=5]`**（权限 2，原件 176 行）：按 `HarlequinBlockConverter.Config(HarleskinnBlock, HarlequinnGrass, Alveoli, AlveoliGrowth, ...)` 把地形方块转换为 Harlequin 方块（含斑块直径）。工程**没有**独立的 `HarlequinBlockConverter`（Harlequin 地形由 `world/gen/ParasiteGenContext` + `ParasiteBiomeDecorator` 的 Harlequin 调色板在生成期完成），需先抽出可复用的转换器。
+
+4. **`harlequin_scatter [...]`**（权限 2，原件 225 行）：在合适地面上散布 Harlequin 结构，结构名清单为 `harlequin_rock_01..07`、`harlequin_bush_00..02`、`harlequin_tree_01..07`、`harlequin_ruin_01..03`（工程 `data/csrp/structure/` 下这些 NBT **全部存在**），地面判定接受沙子/红沙/黏土/草/泥土以及 `harlequinn_grass` / `harleskinn_block`。
+
+已完成的相关项：`srp_celestial` 补上原件的 **`debug`** 子命令（打印维度、进化阶段、天数、当日时刻、active/forced 数量与 dark days 计时器，再列出两个 id 列表）；`dark_days` 子命令本就由工程按 celestial id 切换覆盖（`CelestialCatalog` 含 `dark_days` 定义）。
 ### 文档一致性（待办）
 
 `AGENTS.md` 的“Project Structure / Build, Test, and Development Commands / Testing Guidelines”三节仍写着 **Minecraft 1.21.1 / NeoForge 21.1 / Java 21**，与工程实际（26.3 / NeoForge 26.3.0.1-beta / Java 25，见 `gradle.properties`）不符；其中 `gradlew gameTestServer` 的实际任务名是 **`runGameTestServer`**。该文件同时被 DSH 的 global-system-prompt 插件托管（会反复注入一段本机配置块），因此本轮未直接改动它，仅在此登记，供人工按实际修订。
