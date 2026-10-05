@@ -214,7 +214,11 @@ public final class SRPBlizzardFogRenderer {
      */
     @SubscribeEvent
     public static void renderFog(ViewportEvent.RenderFog event) {
-        if (event.getType() != FogType.ATMOSPHERIC || !SRPBlizzardClient.isColdWorld()) {
+        if (event.getType() != FogType.ATMOSPHERIC || !SRPBlizzardClient.isBlizzardActive()) {
+            return;
+        }
+        // The forced extreme snow has its own whiteout (ClientExtremeSnow), so it wins here.
+        if (ClientExtremeSnow.isEnabled()) {
             return;
         }
         float intensity = Mth.clamp(SRPBlizzardClient.getIntensity((float) event.getPartialTick()),
@@ -236,7 +240,11 @@ public final class SRPBlizzardFogRenderer {
      */
     @SubscribeEvent
     public static void computeFogColor(ViewportEvent.ComputeFogColor event) {
-        if (!SRPBlizzardClient.isColdWorld()) {
+        if (!SRPBlizzardClient.isBlizzardActive()) {
+            return;
+        }
+        // The forced extreme snow washes the fog out to white instead (ClientExtremeSnow).
+        if (ClientExtremeSnow.isEnabled()) {
             return;
         }
         float partialTicks = (float) event.getPartialTick();

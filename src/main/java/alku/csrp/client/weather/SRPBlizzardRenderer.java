@@ -76,9 +76,18 @@ public final class SRPBlizzardRenderer {
         double time = level.getGameTime() + partialTicks;
         double snowTime = SRPBlizzardDirectionClient.getMotionPhase(partialTicks);
 
-        double windAngle = time * 0.0012 + Math.sin(time * 3.7E-4) * 0.45;
-        double windStrength = (0.8 + intensity * 2.2)
-                * (0.72 + Math.sin(time * 0.065) * 0.18 + Math.sin(time * 0.017) * 0.1);
+        // The cold star's wind wanders on its own; the forced extreme snow uses the windDeg/windSpeed the
+        // command configured, which is the direction the original's ClientExtremeSnow gave its snowflakes.
+        double windAngle;
+        double windStrength;
+        if (ClientExtremeSnow.isEnabled()) {
+            windAngle = Math.toRadians(ClientExtremeSnow.getWindDeg());
+            windStrength = (0.8D + intensity * 2.2D) * (0.4D + 0.6D * ClientExtremeSnow.getWindSpeed());
+        } else {
+            windAngle = time * 0.0012 + Math.sin(time * 3.7E-4) * 0.45;
+            windStrength = (0.8 + intensity * 2.2)
+                    * (0.72 + Math.sin(time * 0.065) * 0.18 + Math.sin(time * 0.017) * 0.1);
+        }
         double windX = Math.cos(windAngle) * windStrength;
         double windZ = Math.sin(windAngle) * windStrength;
 

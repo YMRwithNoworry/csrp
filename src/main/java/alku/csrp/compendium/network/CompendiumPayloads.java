@@ -6,6 +6,7 @@ import alku.csrp.celestial.network.StarWorldStatePayload;
 import alku.csrp.overlast.network.EvolutionHudPayload;
 import alku.csrp.network.ParasiteDeathFxPayload;
 import alku.csrp.network.CitadelAnimationTriggerPayload;
+import alku.csrp.network.ExtremeSnowStatePayload;
 import alku.csrp.network.GuiDistortionStatePayload;
 import alku.csrp.network.MeteorShakePayload;
 import alku.csrp.relay.network.RelayReportOpenPayload;
@@ -43,5 +44,7 @@ public final class CompendiumPayloads {
                 MeteorShakePayload::handle);
         registrar.playToClient(GuiDistortionStatePayload.TYPE, GuiDistortionStatePayload.STREAM_CODEC,
                 GuiDistortionStatePayload::handle);
+        registrar.playToClient(ExtremeSnowStatePayload.TYPE, ExtremeSnowStatePayload.STREAM_CODEC,
+                ExtremeSnowStatePayload::handle);
     }
 }

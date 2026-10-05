@@ -29,12 +29,30 @@ public final class SRPBlizzardClient {
         return StarWorldClientState.starType() == SrpStarType.COLD;
     }
 
+    /**
+     * The blizzard is drawn when the cold star is in play <em>or</em> {@code /srp_extremesnow} forced it
+     * on for this dimension; the original's {@code ClientExtremeSnow} spawned its own snowflakes for the
+     * forced case, which this project's custom-geometry renderer covers instead.
+     */
+    public static boolean isBlizzardActive() {
+        Minecraft minecraft = Minecraft.getInstance();
+        ClientLevel level = minecraft.level;
+        if (level == null || level.dimension() != Level.OVERWORLD) {
+            return false;
+        }
+        return isColdWorld() || ClientExtremeSnow.isEnabled();
+    }
+
     /** 1.10.9 {@code getIntensity}: vanilla rain strength, clamped, cold star only. */
     public static float getIntensity(float partialTicks) {
         Minecraft minecraft = Minecraft.getInstance();
         ClientLevel level = minecraft.level;
-        if (level == null || !isColdWorld()) {
+        if (level == null || !isBlizzardActive()) {
             return 0.0F;
+        }
+        if (ClientExtremeSnow.isEnabled()) {
+            // The forced snow has no rain to read; its own intensity is authoritative.
+            return Mth.clamp(ClientExtremeSnow.getIntensity(), 0.0F, 1.0F);
         }
         return Mth.clamp(level.getRainLevel(partialTicks), 0.0F, 1.0F);
     }

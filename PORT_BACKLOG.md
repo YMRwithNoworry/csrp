@@ -14,8 +14,8 @@
 ## 当前基线
 
 - `gradlew clean build`：**成功**（GraalVM 25.3.4.1 / Gradle 9.2.1），产物 `build/libs/csrp-1.10.9.jar`。
-- 静态校验套件：**125 / 125 通过**。
-- 运行期验证：`runGameTestServer` → **181 / 181 GameTests 通过**（170 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩），服务器完整启动到测试结束。
+- 静态校验套件：**126 / 126 通过**。
+- 运行期验证：`runGameTestServer` → **183 / 183 GameTests 通过**（170 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 2 个 harlequin），服务器完整启动到测试结束。
 - 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2978 键 / zh_cn 2994 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
 - 本轮由 `runGameTestServer` 抓出并修复的运行期加载失败：方块状态定义读取 `super()` 前未赋值的实例字段（`LegacyVariantSlabBlock` / `LegacyRelayBlock`，改为工厂预发布）、`JukeboxSong` 是数据包注册表故 `discone` / `disctwo` 需要 `data/csrp/jukebox_song/*.json`（见 commit `d7f7ca5c`）。
@@ -82,21 +82,34 @@
 
 验证：`scripts/verify-vengeance-grapple.cjs`（钉住全部原件数值与结构）+ 2 个 GameTest（5 个音效已注册、击退衰减公式）。**速度与 AoE 手感仍需真机确认**。
 
-### 剩余管理命令（待办，规格已核实）
+### 管理命令：harlequin 家族（部分完成）
 
-把原件 `proxy/CommonProxy` 注册的 18 个命令与工程逐一对照后，仍缺以下 4 条（其余均已有对应，含 `srpguide`/`srpguideclear`/`srpbestiarystats`/`srpstats`/`srp_celestial`）：
+原件 `proxy/CommonProxy` 注册的 18 个命令已全部核对；本轮又完成一条：
 
-1. **`srp_extremesnow <on|off|toggle> [intensity 0..1] [anywhere 0|1] [windDeg 0..359] [windSpeed 0..1]`**（权限 2，原件 `util/CommandExtremeSnow.java`，71 行）。
-   - 依赖原件 `world/ExtremeSnowData.java`（`WorldSavedData`，存档键 **`srp_extreme_snow`**）的字段：`enabled=false`、`intensity=1.0`、`forceAnywhere=true`、`windDeg=30.0`、`windSpeed=0.5`。
-   - 工程现状：暴风雪渲染由「冷星 + 原版降雨强度」驱动（`client/weather/SRPBlizzardClient`，与原件客户端逻辑一致），但**没有**服务端 `ExtremeSnowData` 状态，因此没有「强制任何维度下雪」与风参数控制。补齐需新增该 SavedData、命令，并把 `windDeg`/`windSpeed` 接到暴风雪渲染（`SRPBlizzardRenderer` / `SRPBlizzardDirectionClient`）。
+- ✅ **`harlequin_here [radiusChunks=1]`**（权限 2）：把调用者周围 (2r+1)² 个区块的生物群系改为 Harlequin 并推送给客户端，然后回报变更区块数与当前位置的实际群系名。
+  - 26.3 改写：原件直接写 `Chunk#getBiomeArray()` 并自建区块群系包；26.3 群系按 4×4×4 段存储，故改用 `ChunkAccess#fillBiomesFromNoise`（即 `/fillbiome` 用的同一原语）+ `ChunkMap#resendBiomesForChunks`。
+  - **刻意不用** 原版的 `FillBiomeCommand.fill`：它有 **32768 方块**的体积上限，而整高的区块方块远超该值（原件无此限制）。
+  - 验证：GameTest `csrp:harlequin_command/biome_fill` 直接调用命令自身的写入路径并断言地形群系确实变成 Harlequin；`csrp:harlequin_command/registered` 断言命令与群系均已注册。
 
-2. **`harlequin_here [radiusChunks=1]`**（权限 2，原件 79 行）：把玩家周围 (2r+1)² 个区块的生物群系设为 Harlequin 并推送给客户端，然后回报「应用了 N 个区块」与当前位置的实际群系名。工程已有 `srp_harlequinn` 群系（`world/ParasiteBiomeDecorator.HARLEQUIN_BIOME`），可直接实现。
+仍缺 2 条（规格已核实）：
 
-3. **`harlequin_convert [radius=16] [sampleChance=1] [depth=32] [blotchChance=18] [blotchMinDiam=3] [blotchMaxDiam=5]`**（权限 2，原件 176 行）：按 `HarlequinBlockConverter.Config(HarleskinnBlock, HarlequinnGrass, Alveoli, AlveoliGrowth, ...)` 把地形方块转换为 Harlequin 方块（含斑块直径）。工程**没有**独立的 `HarlequinBlockConverter`（Harlequin 地形由 `world/gen/ParasiteGenContext` + `ParasiteBiomeDecorator` 的 Harlequin 调色板在生成期完成），需先抽出可复用的转换器。
+1. **`harlequin_convert [radius=16] [sampleChance=1] [depth=32] [blotchChance=18] [blotchMinDiam=3] [blotchMaxDiam=5]`**（权限 2，原件 176 行）：按 `HarlequinBlockConverter.Config(HarleskinnBlock, HarlequinnGrass, Alveoli, AlveoliGrowth, LipomaMass, TressesHair, HirsuteHair)` 做斑块式地形转换。需先移植 `util/convert/HarlequinBlockConverter`（164 行：`convert` / `maybePlaceHair` / `canSustain` / `placeDoublePlant` 等）。
+2. **`harlequin_scatter [...]`**（权限 2，原件 225 行）：在合适地面上散布 Harlequin 结构，结构名清单 `harlequin_rock_01..07`、`harlequin_bush_00..02`、`harlequin_tree_01..07`、`harlequin_ruin_01..03`（工程 `data/csrp/structure/` 下**全部存在**），地面判定接受沙子/红沙/黏土/草/泥土以及 `harlequinn_grass` / `harleskinn_block`。
 
-4. **`harlequin_scatter [...]`**（权限 2，原件 225 行）：在合适地面上散布 Harlequin 结构，结构名清单为 `harlequin_rock_01..07`、`harlequin_bush_00..02`、`harlequin_tree_01..07`、`harlequin_ruin_01..03`（工程 `data/csrp/structure/` 下这些 NBT **全部存在**），地面判定接受沙子/红沙/黏土/草/泥土以及 `harlequinn_grass` / `harleskinn_block`。
+### 极端降雪（`/srp_extremesnow`）：原件为死代码
 
-已完成的相关项：`srp_celestial` 补上原件的 **`debug`** 子命令（打印维度、进化阶段、天数、当日时刻、active/forced 数量与 dark days 计时器，再列出两个 id 列表）；`dark_days` 子命令本就由工程按 celestial id 切换覆盖（`CelestialCatalog` 含 `dark_days` 定义）。
+**结论：不注册该命令，但保留其驱动系统。** 证据：
+
+- 原件的 `CommandExtremeSnow` **从未出现在 `registerServerCommand` 列表中**，全树唯一的 `ExtremeSnowData#setEnabled` 调用点就在它自己内部；
+- 原件语言文件里**没有任何** `srphelp.srp_extremesnow` 条目（对比：3 条 harlequin 命令都有 `srphelp.harlequin_*` 条目）；
+- 因此 `ExtremeSnowData.enabled` 在原版 1.10.9 中**永远是 false**，`ExtremeSnowServer` 永远不落雪——系统接线齐全但不可达。
+
+处理方式（与既有「死代码不移植」策略一致，同时保留 parity）：
+
+- 移植并接线了系统本身（与原版一样挂着但休眠）：`world/ExtremeSnowData`（存档键 `srp_extreme_snow`，字段 enabled/intensity/forceAnywhere/windDeg/windSpeed）、`world/ExtremeSnowServer`（每玩家 `12+48×intensity` 次尝试、半径 18、放 1 层雪）、`network/ExtremeSnowStatePayload`、`client/weather/ClientExtremeSnow`（风向向量 `cos/sin(deg)×(0.15+0.55×speed)`、雾密度 `sqrt(ln50)/10`、雾色 75% 拉白、五点露天判定）；暴风雪渲染器额外接入该状态作为触发源。
+- `command/ExtremeSnowCommand` 保留为 parity 但**不注册**，由 `scripts/verify-harlequin-and-snow.cjs` 断言它不在 dispatcher 上——注册它等于给玩家一个原版从未有过的管理命令。
+- 注：原件的 `ExtremeSnowData` setter **不标 dirty**（改动不会存盘），本工程补了 `setDirty()`。
+
 ### 文档一致性（待办）
 
 `AGENTS.md` 的“Project Structure / Build, Test, and Development Commands / Testing Guidelines”三节仍写着 **Minecraft 1.21.1 / NeoForge 21.1 / Java 21**，与工程实际（26.3 / NeoForge 26.3.0.1-beta / Java 25，见 `gradle.properties`）不符；其中 `gradlew gameTestServer` 的实际任务名是 **`runGameTestServer`**。该文件同时被 DSH 的 global-system-prompt 插件托管（会反复注入一段本机配置块），因此本轮未直接改动它，仅在此登记，供人工按实际修订。

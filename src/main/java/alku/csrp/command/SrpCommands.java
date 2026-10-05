@@ -73,6 +73,8 @@ public final class SrpCommands {
         for (LiteralArgumentBuilder<CommandSourceStack> alias : GuiDistortionCommand.aliasCommands()) {
             dispatcher.register(alias);
         }
+        // CommandHarlequinHere, registered as its own root command like the original.
+        dispatcher.register(HarlequinCommand.hereCommand());
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> srMeteor() {
