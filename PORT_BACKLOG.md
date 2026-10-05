@@ -42,6 +42,18 @@
 
 全部 73 个 AI 类已逐条判定，无"缺失"项；剩余登记项为：`EntityAIDodAttack` 的黑/白名单过滤、`EntityAIVenkrolSummon` 的 mob 表逐条复刻、`EntityAIFollowBodies` 的架构差异（本工程用 `bodyPredecessor` 实体链，语义等价）、gene 系统（本工程用 Kind 分支替代 `EntityPMalleable` 的 10 个开关）。详见 `docs/gap/R6_ENTITY_MATRIX.md` §5.2。
 
+### JEI 配方查看器集成（待办，方案已就绪）
+
+原件 `compatibility/jei/**` 共 5 个类（`SRPJEIPlugin` 140 行、`InfuserFurnaceJEICategory` 61、`InfuserFurnaceJEIRecipe` 29、`SRPBrewingCategory` 48、`SRPBrewingJEIRecipe` 26）。本工程尚未移植。**JEI 已有 NeoForge 26.3 构建**（Modrinth `jei`，`31.9.0.58`，文件名 `jei-26.3-neoforge-31.9.0.58.jar`），因此可以补齐。
+
+已核实的事实（可直接据此实现）：
+
+1. **依赖**：在 `build.gradle` 加 `maven { url "https://api.modrinth.com/maven" }` 与 `compileOnly "maven.modrinth:jei:31.9.0.58"`（若需在 `runClient` 里验证插件发现，再考虑 `runtimeOnly` 或 `localRuntime`）。
+2. **26.3 JEI API（已从 jar 反查）**：`mezz.jei.api.IModPlugin`（`getPluginUid()` 返回 `Identifier`；默认方法 `registerCategories(IRecipeCategoryRegistration)`、`registerRecipeCatalysts(IRecipeCatalystRegistration)`、`registerRecipes(IRecipeRegistration)`）；`IRecipeCategory<T>` 必须实现 `getRecipeType()` / `getTitle()` / `getWidth()` / `getHeight()` / `getIcon()` / `setRecipe(IRecipeLayoutBuilder, T, IFocusGroup)`；注册用 `IRecipeCategoryRegistration.addRecipeCategories(...)`、`IRecipeCatalystRegistration.addCraftingStation(IRecipeType<?>, ItemLike...)`、`IRecipeRegistration.addRecipes(IRecipeType<T>, List<T>)`。
+3. **注入熔炉配方**：原件 `recipes/SRPInfuserFurnaceRecipeInit.init()` 共 9 条 = 2 条特殊（铁锭 + 死血 → 半有机锭 + 桶；侵染沙 + 死血 → 侵染玻璃 + 桶）+ 7 条玻璃置换（32× 侵染玻璃 + 16× 原料 → 2× 对应玻璃：熟肉→血玻璃、侵染陶瓦→灰玻璃、波兰皮块→棕玻璃、哈勒斯金块→丑角玻璃、冰→裹尸玻璃、残渣块→阴郁玻璃、哥特菇→暗影玻璃）。本工程对应实现是 `InfuserFurnaceBlockEntity.GLASS_RECIPES`（7 条玻璃置换的 input→output 映射，private），2 条特殊配方在该类内单独处理——需要暴露一个只读访问器供 JEI 读取。
+4. **SRP 酿造配方**：原件硬编码 5 条——恐惧药水三级链（水瓶 + 炼药材料 → 恐惧药水 → 喷溅 → 滞留，材料分别为 `Items.field_151145_ak`、`Items.field_151016_H`、`Items.field_185157_bK`）+ 疾病海绵 → 死血（需水瓶 + 粗制药水）+ 荆棘浆果 → 荆棘醒酒器（需水瓶 + 粗制药水）。本工程对应：`ModPotions`（fear 等）、`event/ThornshadeBrewingEvents`、`ModItems.DEADBLOOD_FLUID` / `THORNSHADE_BERRY` / `THORNSHADE_DECANTER`。
+5. **催化剂**：注入熔炉方块 → `csrp:infuser_furnace` 分类；酿造台 → `csrp:srp_brewing` 分类。
+6. **隐藏 16 个成就图标物品**：原件把它们从 JEI 物品列表里移除（`dark_days_icon`、`adapted_icon`、`primitive_icon`、`crude_icon`、`pure_icon`、`hunt_season_icon`、`guerilla_icon`、`ecstasy_icon`、`enemy_of_enemy_icon`、`fog_nullifier_icon`、`self_destruct_icon`、`potion_columbus_icon`、`potion_stolas_icon`、`hellfire_chemical_warfare_icon`、`cosmic_structural_failure_icon`、`roots_icon`）。26.3 JEI 用 `IJeiRuntime` / `IJeiFeatures` 或 `jei.hide` 配置实现隐藏，需按实际 API 选择。
 ### 已核实的"backlog 误报"（不再作为待办）
 - `BlockParasiteBush.THORN`：out109 的 `BlockParasiteBush.EnumType` 无 THORN、无荆棘伤害；thorn 行为属 `BlockThornshade` + `ThornshadeThornsEvents`（已实现）。证据见 `docs/gap/R4_BLOCKS_REPORT.md` §3.1。
 - `ada_burrower_drop`：1.10.9 的 `SRPItems.java` 未注册该 id，仅存在于 lang 与掉落表引用（`SRPConfigMobs.java:74,81`）；注册它会让原模组本就不生效的掉落条目生效，属改变行为，故不注册。证据见 `docs/gap/R5_ITEMS_REPORT.md`。
