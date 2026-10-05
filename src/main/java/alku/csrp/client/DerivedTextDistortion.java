@@ -123,7 +123,10 @@ public final class DerivedTextDistortion {
     }
 
     private static boolean shouldDistort() {
-        return Config.derivedTextDistortionEnabled() && active && RENDER_SCOPE_DEPTH.get() > 0;
+        // /srpguidistortion switches the effect off per player (SRPGuiDistortionDisabled), and a creative
+        // or spectator player only keeps it while the creative override is on.
+        return Config.derivedTextDistortionEnabled() && active && RENDER_SCOPE_DEPTH.get() > 0
+                && !GuiDistortionClientState.effectivelyDisabled();
     }
 
     private static Component distortComponent(String text) {

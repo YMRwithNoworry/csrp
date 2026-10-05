@@ -69,6 +69,13 @@
 
 验证：`scripts/verify-infuser-furnace.cjs` + 3 个 GameTest（`infuser_furnace/infuse_with_byproduct`、`glass_swap_yields_two`、`vanilla_smelting`），驱动真实 `serverTick` 断言副产物、双倍产物、原版熔炼与逐次消耗量。
 
+### 复仇之书抓钩保真化（待办，规格已逐行核实）
+
+原件 `item/VengeanceGrappleHandler.java`（441 行）+ `network/PacketVengeanceFX` 是一套两段式抓钩：**拉近 → 首次冲击（14.0F、半径 5 的 AoE + 沿视线弹射）→ 弹跳（14 tick，三段速度曲线）→ 二次冲击（6.0F + 半径 3.5 缩放 AoE + 落雷）**。
+
+工程 `event/BookOfVengeanceEvents.java` 结构相同（两次冲击 + 中间弹跳），但**数值成簇不一致**：蓄力 10 vs 20、弹跳 8 vs 14、首次拉近上限 12 vs 40、接触距离 2.5 vs 2.2、物品冷却 80 vs 60、首次冲击 7.0F 单体 vs **14.0F 半径 5 AoE**、二次冲击 11.0F vs **6.0F**、拉近速度 1.55/1.85 vs 1.8/2.35，且缺首次冲击的沿视线弹射、弹跳三段速度曲线与二次冲击的缩放 AoE。
+
+完整规格（含每个阶段的 tick、音效、FX 类型、伤害公式与速度钳制）见 **`docs/gap/VENGEANCE_GRAPPLE_REPORT.md`**，可直接据此重写。
 ### 文档一致性（待办）
 
 `AGENTS.md` 的“Project Structure / Build, Test, and Development Commands / Testing Guidelines”三节仍写着 **Minecraft 1.21.1 / NeoForge 21.1 / Java 21**，与工程实际（26.3 / NeoForge 26.3.0.1-beta / Java 25，见 `gradle.properties`）不符；其中 `gradlew gameTestServer` 的实际任务名是 **`runGameTestServer`**。该文件同时被 DSH 的 global-system-prompt 插件托管（会反复注入一段本机配置块），因此本轮未直接改动它，仅在此登记，供人工按实际修订。

@@ -6,6 +6,7 @@ import alku.csrp.celestial.network.StarWorldStatePayload;
 import alku.csrp.overlast.network.EvolutionHudPayload;
 import alku.csrp.network.ParasiteDeathFxPayload;
 import alku.csrp.network.CitadelAnimationTriggerPayload;
+import alku.csrp.network.GuiDistortionStatePayload;
 import alku.csrp.network.MeteorShakePayload;
 import alku.csrp.relay.network.RelayReportOpenPayload;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -40,5 +41,7 @@ public final class CompendiumPayloads {
                 CitadelAnimationTriggerPayload.STREAM_CODEC, CitadelAnimationTriggerPayload::handle);
         registrar.playToClient(MeteorShakePayload.TYPE, MeteorShakePayload.STREAM_CODEC,
                 MeteorShakePayload::handle);
+        registrar.playToClient(GuiDistortionStatePayload.TYPE, GuiDistortionStatePayload.STREAM_CODEC,
+                GuiDistortionStatePayload::handle);
     }
 }

@@ -155,6 +155,7 @@
 - 世界创建界面的星型选择器提供 **3 种**（Normal / Cold / Warm），原件该界面只列 2 种（`pendingStarType = (pendingStarType + 1) % 2`）；但原件的 worldgen 层存在 Warm（`world/star/GenLayerSRPWarmStar.java`、预览纹理 `earth_warm.png`），故保留 3 种。
 - `relay_report` 等文案保留原 `%s` 占位符（1.12.2 格式，26.3 不填充）。
 - `noderelay` / `relaycontroller` / `relay_controller_dummy` / `dermoid_cyst` / `parasite_barrier` 的 1.12.2 tile entity 层未复刻：工程既有 relay / cyst 体系语义已覆盖，且原 `TileEntityRelayController`（1043 行）与既有实现耦合到不同方块，重复注册会产生半可用方块。
+- **复仇之书抓钩的数值与范围尚未对齐原件**：该机制已实现（拉近 → 首次冲击 → 弹跳 → 二次冲击），但蓄力/弹跳时长、接触距离、物品冷却，以及两次冲击的伤害与范围（原件首次为 **14.0F、半径 5 的 AoE** 并沿视线弹射，二次为 **6.0F** 加半径 3.5 的缩放 AoE 与落雷）与原件不同。逐行规格见 `docs/gap/VENGEANCE_GRAPPLE_REPORT.md`，已登记为待修正项——**此处明确记录，不静默保留**。
 - 两个既有保真缺陷在移植中顺手修正（均有证据）：`ParasiteGenContext.sideCurse` 的 10/11、20/21 两对对角线互换；`canGrowInto` 把 `field_150345_g` 当 podzol 且丢失 SAPLING/VINE/LOG2 映射。
 
 ### 5.6 12 个实现辅助实体 id

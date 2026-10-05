@@ -68,6 +68,11 @@ public final class SrpCommands {
         dispatcher.register(srHelp());
         dispatcher.register(srSummonNidus());
         dispatcher.register(srMeteor());
+        // SRPCommandGuiDistortion was registered as its own root command, aliases included.
+        dispatcher.register(GuiDistortionCommand.command());
+        for (LiteralArgumentBuilder<CommandSourceStack> alias : GuiDistortionCommand.aliasCommands()) {
+            dispatcher.register(alias);
+        }
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> srMeteor() {
