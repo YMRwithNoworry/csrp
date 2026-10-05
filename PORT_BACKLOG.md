@@ -79,6 +79,9 @@
 已完成的部分：输入项已由原版 `SAND` 修正为原件要求的 `csrp:infestedsand`（`BlockFallingInfestedStain("infestedsand")`）。
 
 同时暴露一份只读配方表（输入 1 / 输入 2 / 主产物 / 副产物）供 JEI 注入熔炉分类使用（见上一节）。
+### 文档一致性（待办）
+
+`AGENTS.md` 的“Project Structure / Build, Test, and Development Commands / Testing Guidelines”三节仍写着 **Minecraft 1.21.1 / NeoForge 21.1 / Java 21**，与工程实际（26.3 / NeoForge 26.3.0.1-beta / Java 25，见 `gradle.properties`）不符；其中 `gradlew gameTestServer` 的实际任务名是 **`runGameTestServer`**。该文件同时被 DSH 的 global-system-prompt 插件托管（会反复注入一段本机配置块），因此本轮未直接改动它，仅在此登记，供人工按实际修订。
 ### 已核实的"backlog 误报"（不再作为待办）
 - `BlockParasiteBush.THORN`：out109 的 `BlockParasiteBush.EnumType` 无 THORN、无荆棘伤害；thorn 行为属 `BlockThornshade` + `ThornshadeThornsEvents`（已实现）。证据见 `docs/gap/R4_BLOCKS_REPORT.md` §3.1。
 - `ada_burrower_drop`：1.10.9 的 `SRPItems.java` 未注册该 id，仅存在于 lang 与掉落表引用（`SRPConfigMobs.java:74,81`）；注册它会让原模组本就不生效的掉落条目生效，属改变行为，故不注册。证据见 `docs/gap/R5_ITEMS_REPORT.md`。
