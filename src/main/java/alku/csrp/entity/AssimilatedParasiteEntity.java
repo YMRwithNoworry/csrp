@@ -201,7 +201,6 @@ public final class AssimilatedParasiteEntity extends Monster
         }
         if (hit && kind == Kind.SQUID) {
             float damage = (float) getAttributeValue(Attributes.ATTACK_DAMAGE);
-            DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(1.75D));
             for (LivingEntity nearby : level().getEntitiesOfClass(LivingEntity.class,
                     getBoundingBox().inflate(1.75D), this::isValidParasiteTarget)) {
                 if (nearby != entity) {
@@ -719,8 +718,6 @@ public final class AssimilatedParasiteEntity extends Monster
                 entityData.set(COW_CHARGE_STATE, 2);
             }
 
-            DragonEggAssimilationEntity.assimilateDragonEggs(level(),
-                    getBoundingBox().inflate(1.0D, 0.0D, 1.0D));
             for (LivingEntity nearby : level().getEntitiesOfClass(LivingEntity.class,
                     getBoundingBox().inflate(1.0D, 0.0D, 1.0D), AssimilatedParasiteEntity.this::isValidParasiteTarget)) {
                 if (nearby.hurtOrSimulate(damageSources().mobAttack(AssimilatedParasiteEntity.this),

@@ -107,7 +107,7 @@ public final class WardenShockwaveEntity extends Entity {
 
     private void damageTargets(PureParasiteEntity owner) {
         AABB area = getBoundingBox().inflate(1.5D, 0.2D, 1.5D);
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(), area);
+
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area,
                 target -> target != owner && target.isAlive() && !(target instanceof Parasite))) {
             if (owner.hurtWardenSkillTarget(target)) {

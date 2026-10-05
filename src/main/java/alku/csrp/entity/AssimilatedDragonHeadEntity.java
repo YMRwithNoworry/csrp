@@ -136,7 +136,7 @@ public final class AssimilatedDragonHeadEntity extends Monster implements Citade
         cloud.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 120, 0, false, true));
         level().addFreshEntity(cloud);
         AABB breathArea = getBoundingBox().expandTowards(direction.scale(24.0D)).inflate(1.5D);
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(), breathArea);
+
         for (LivingEntity victim : level().getEntitiesOfClass(LivingEntity.class,
                 breathArea,
                 entity -> entity != this && entity.isAlive() && !(entity instanceof Parasite))) {

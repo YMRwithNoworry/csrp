@@ -1,8 +1,6 @@
 {
   "advancements.csrp.adapted.desc": "Kill all twelve Adapted parasites at least once",
   "advancements.csrp.adapted.title": "Prilagođeno",
-  "advancements.csrp.again.description": "Witness a dragon egg become assimilated",
-  "advancements.csrp.again.title": "Again?",
   "advancements.csrp.aleph_suppression.desc": "Kill a Stage IV Dispatcher",
   "advancements.csrp.aleph_suppression.title": "ALEPH Stišavanje",
   "advancements.csrp.beautiful_self_destruction.desc": "Drink from a Thornshade Decanter three times and trigger the explosion",
@@ -1027,7 +1025,6 @@
   "entity.csrp.dispatcherten": "Otpravnikov krak",
   "entity.csrp.done": "Bager",
   "entity.csrp.draconite": "§9Drakonit",
-  "entity.csrp.dragon_egg_assimilation": "Assimilating Dragon Egg",
   "entity.csrp.dredge": "Bager",
   "entity.csrp.fer_bear": "Pobješnjeli Medvjed",
   "entity.csrp.fer_cow": "Pobješnjela Krava",

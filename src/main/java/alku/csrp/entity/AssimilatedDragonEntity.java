@@ -492,7 +492,7 @@ public final class AssimilatedDragonEntity extends Monster implements CitadelAni
         direction = direction.normalize();
         Vec3 impact = source.add(direction.scale(Math.min(32.0D, Math.sqrt(distanceToSqr(target)))));
         AABB breathArea = getBoundingBox().expandTowards(direction.scale(32.0D)).inflate(2.0D);
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(), breathArea);
+
         for (LivingEntity victim : level().getEntitiesOfClass(LivingEntity.class,
                 breathArea, this::isValidParasiteTarget)) {
             if (hasLineOfSight(victim)) {

@@ -231,7 +231,6 @@ public final class PrimitiveVariantEntity extends BurrowingVariantEntity impleme
         return true;
     }
 
-
     protected boolean usesDefaultMovementGoals() {
         return activeKind() != Kind.DEVOURER;
     }

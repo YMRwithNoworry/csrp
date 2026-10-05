@@ -37,7 +37,7 @@
 | 可加载运行的构建产物 | `build/libs/csrp-1.10.9.jar`（约 134 MB，含全部资源） |
 | 移植说明 | 本文件 |
 | 各子系统详细报告 | `docs/gap/R2_REPORT.md`、`R2_BLIZZARD_REPORT.md`、`R3_WORLDGEN_REPORT.md`、`R4_BLOCKS_REPORT.md`、`R5_ITEMS_REPORT.md`、`R6_ENTITY_MATRIX.md`、`LANG_REPORT.md` |
-| 自动化校验 | `scripts/run-all-verifications.cjs`（126 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
+| 自动化校验 | `scripts/run-all-verifications.cjs`（127 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
 
 规模：569 个 Java 文件、88 个方块类、128 个实体文件、44 个物品类、7 个 Mixin、362 个 blockstate、2236 张纹理、1008 个音效、55 个结构 NBT、33 套语言。
 
@@ -49,7 +49,7 @@
 - **方块**：全部 id 到位；1.10.9 的 108 个兼容/元数据 id **全部**改用专用类或形状家族（通用 `new Block(...)` 回退 0 个命中）。
 - **方块实体**：10 个 `BlockEntityType`，含 1.12.2 兼容 id `legacy_infested_furnace`（`infested_furnace` / `infested_furnace_lit` 是**真实可用**的容器熔炉，非空壳）。
 - **物品**：机器化 diff 后原模组 115 个一般物品 id **全部命中**；17 个成就图标统一 `stacksTo(1)`（对齐 `ItemAdvancementIcon` 的 `field_77777_bU = 1`）。
-- **实体**：原件 **158 个 id 全部注册**；本工程共 170 个（多出的 12 个是移植实现所需的辅助/拆分实体，见 §5.6）。
+- **实体**：原件 **158 个 id 全部注册**；本工程共 169 个（多出的 11 个是移植实现所需的辅助/拆分实体，见 §5.6）。
 - **其他注册**：菜单、粒子、药水、状态效果、音效、唱片（`jukebox_song` 数据包注册表）、伤害类型、附魔、创造模式标签页。
 
 ### 3.2 世界生成
@@ -80,10 +80,11 @@
 - **语言**：33 套 `.lang` → 26.3 JSON；`en_us` 2332/2332、`zh_cn` 2140/2140 全覆盖。
 - **世界创建选项**：恢复原件的「*SRP World Options...* 入口按钮 → 专用 *SRP World Settings* 界面（5 个选项 + 动画世界预览 + Done）」，替换此前被硬塞进原版创建世界界面底部、会被原版页脚盖住的 5 个按钮；补 `GeneralConfig.worldCreationUi`（原 `SRPConfig.worldGIU`）。
 - **纹理缺失修复**：Kirin 光束/牵引线此前引用 26.3 已迁移的 vanilla 路径（`textures/entity/guardian_beam.png` → 现为 `textures/entity/guardian/guardian_beam.png`），会渲染成缺失纹理；`OrbBoom` 与投射物默认纹理引用了从未随包的 `scary_orb.png`。新增 `scripts/verify-texture-references.cjs` 全量校验（含对照 26.3 客户端 jar 校验 vanilla 路径）。
-- **实体渲染器覆盖修复**：26.3 对未注册渲染器的实体类型**没有兜底**（`EntityRenderDispatcher.getRenderer` 是普通查表，`extractEntity` 直接解引用结果），而两个移植自有的不可见伤害载体实体 `crux_block_damage` / `haunter_damage` 会被 `addFreshEntity` 同步到客户端——一旦渲染即崩溃。已按同类不可见实体的既有做法注册 `NoopRenderer`，现 **170/170 实体 id 均有渲染器**（`scripts/verify-entity-renderers.cjs` 断言）。
+- **实体渲染器覆盖修复**：26.3 对未注册渲染器的实体类型**没有兜底**（`EntityRenderDispatcher.getRenderer` 是普通查表，`extractEntity` 直接解引用结果），而两个移植自有的不可见伤害载体实体 `crux_block_damage` / `haunter_damage` 会被 `addFreshEntity` 同步到客户端——一旦渲染即崩溃。已按同类不可见实体的既有做法注册 `NoopRenderer`，现 **169/169 实体 id 均有渲染器**（`scripts/verify-entity-renderers.cjs` 断言）。
 - **酿造配方恢复（玩法缺口）**：原件 `potion/Recipe.java` 用 5 个 `IBrewingRecipe` 注册了恐惧药水三级链、死血、荆棘醒酒器；NeoForge 26.3 移除了 `IBrewingRecipe` 与 `RegisterBrewingRecipesEvent`，本工程此前只留下一个空的 `ThornshadeBrewingEvents` NEEDS-DESIGN 占位类，**配方实际不可用**。现按 26.3 的数据驱动方式恢复为 `data/csrp/recipe/brewing/*.json` 共 7 个文件（恐惧药水链 3 条 + 死血 water/awkward 2 条 + 醒酒器 water/awkward 2 条），删除空壳类；校验 `scripts/verify-brewing-recipes.cjs` + GameTest `csrp:brewing_recipes/legacy_srp_brews`（经真实 `RecipeManager` 加载并匹配）。
   - **字段映射经官方映射表核实**：从 `MinecraftForge/MCPConfig` 的 `joined.tsrg` 与 Forge maven 的 `mcp_stable-39-1.12.zip`（内含 `fields.csv`）查得 —— `field_151145_ak` = **FLINT（燧石）**、`field_151016_H` = GUNPOWDER、`field_185157_bK` = DRAGON_BREATH、`field_151068_bn` = POTIONITEM、`field_185155_bH` = SPLASH_POTION、`field_185156_bI` = LINGERING_POTION、`field_151069_bo` = GLASS_BOTTLE、`field_150432_aD` = ICE。其中燧石一项**纠正了此前的常识推断**（曾误判为地狱疣），ICE 一项同时证实了工程注入熔炉玻璃置换映射（现为 `recipe/InfuserFurnaceRecipes`）的正确性。
 - **注入熔炉保真化**：此前是简化重写（4 槽、原版熔炉纹理、单进度、无副产物、无原版熔炼、非朝向方块）。现按原件 `TileEntityInfuserFurnace` / `ContainerInfuserFurnace` / `GuiInfuserFurnace` / `BlockInfuserFurnace` 还原：**6 槽**（熔炼输入/燃料/熔炼输出/注入试剂/注入产物/副产物）坐标与原件纹理上的槽位框一一对应、**两个独立 200 tick 计数器**共用一个燃料缓冲、注入产出**主产物 + 玻璃瓶副产物**、玻璃置换产出 **2 个**、**同时执行原版熔炼**、GUI 改用原件 `infuser_furnace.png`（此前该纹理在仓库里却无人引用）、方块恢复 `FACING` 四变体。配方表独立为 `recipe/InfuserFurnaceRecipe(s)`（9 条，镜像原件 `SRPInfuserFurnaceRecipeInit`）。
+- **移除了一处臆造玩法（保真修正）**：本工程此前新增了「寄生体攻击时同化附近龙蛋」的机制（`DragonEggAssimilationEntity` + 渲染器 + 进度 `csrp:again` + 语言键，共 30 个文件、38 处调用点）。经核对，**原件 1.10.9 与 1.10.8 都完全没有该玩法**（`EntityInfDragonE` 无任何 egg 引用，`EntityParasiteBase` 的攻击逻辑也无方块转化），其引入提交标题即为「添加龙蛋同化末影龙事件」。为遵守「不要添加原模组没有的新生物、新玩法或新系统」，该功能已完整移除。同时清除了 `data/csrp/advancement/csrp/` 下 **39 个陈旧重复进度**（会以 `csrp:csrp/*` 重复注册，其中 24 个原件根本没有）；现进度集与原件**恰好一致（40 个）**，由 `scripts/verify-advancements.cjs` 断言。
 - **`/harlequin_here` 与极端降雪系统**：harlequin_here 按原件（权限 2、`[radiusChunks=1]`、改写 (2r+1)² 个区块的群系并推送客户端）实现，26.3 以 `ChunkAccess#fillBiomesFromNoise` + `ChunkMap#resendBiomesForChunks` 表达（原版 `FillBiomeCommand.fill` 有 32768 方块体积上限，原件无此限制，故刻意不用）。原件的极端降雪系统（`ExtremeSnowData`/`ExtremeSnowServer`/`ExtremeSnowNetwork`/`ClientExtremeSnow`）已按 parity 移植并接线，但**其唯一开关 `/srp_extremesnow` 在原件中从未注册**（全树唯一的 `setEnabled` 调用点就在该命令内部，且原件语言文件无任何相关条目），因此该状态在原版永远是关闭的——本工程同样**不注册**该命令，避免给玩家一个原版没有的管理命令。详见 §4.1 与 `PORT_BACKLOG.md`。
 - **JEI 配方查看器集成**：原件 `compatibility/jei/**` 此前未移植。现补齐 `compat/jei/SrpJeiPlugin` + `InfuserFurnaceJeiCategory`（注入熔炉分类、催化剂、隐藏 16 个成就图标），JEI 以 `compileOnly` 引入，不装 JEI 也能构建运行；酿造那 7 条配方由 JEI 内置酿造分类自行展示。详见 §4.1。
 - **Escape 系统补齐**：见 §3.6。
@@ -160,8 +161,10 @@
 - **复仇之书抓钩已按原件对齐**（此前数值成簇偏差）：现为原件的三阶段（蓄力 20 tick → 拉近 1.8 速度、接触 2.2 格或 40 tick → 首次冲击 **14.0F / 半径 5 的 AoE** + 沿视线弹射 + 对范围内每个实体施加 100 tick 减益 + 玩家水平速度 ×0.15 → 弹跳 14 tick 三段速度曲线 → 二次冲击 **6.0F** + 半径 3.5 的缩放 AoE（最高 10.0F）+ 落雷）。触发方式也改为原件语义（右键自动取 **32 格视线目标**，冷却 60；潜行右键为击退爆发，冷却 80 存于物品 `srp_kb_next` 标签）。同时补齐原件的 5 个 `VENGEANCE_*` 音效事件——**ogg 文件与 sounds.json 条目一直在仓库里，却从未注册音效事件**。规格与逐行对照见 `docs/gap/VENGEANCE_GRAPPLE_REPORT.md`。
 - 两个既有保真缺陷在移植中顺手修正（均有证据）：`ParasiteGenContext.sideCurse` 的 10/11、20/21 两对对角线互换；`canGrowInto` 把 `field_150345_g` 当 podzol 且丢失 SAPLING/VINE/LOG2 映射。
 
-### 5.6 12 个实现辅助实体 id
-`crux_block_damage`、`dragon_egg_assimilation`、`haunter_damage`、`haunter_homing`、`marauder_tendril`、`meteor_satellite`、`parasite_projectile`、`pulling_ball`、`scary_orb`、`shockwave`、`sim_dragonhead`、`warden_waveshock`。
+### 5.6 11 个实现辅助实体 id
+`crux_block_damage`、`haunter_damage`、`haunter_homing`、`marauder_tendril`、`meteor_satellite`、`parasite_projectile`、`pulling_ball`、`scary_orb`、`shockwave`、`sim_dragonhead`、`warden_waveshock`。
+
+> 曾有第 12 个额外 id `dragon_egg_assimilation`，它承载的是**原模组（1.10.9 与 1.10.8）完全没有的「寄生体攻击时同化附近龙蛋」玩法**，并附带臆造进度 `csrp:again` 与语言键。为遵守「不要添加原模组没有的新玩法」，该实体、渲染器、进度与语言键已全部移除（`scripts/verify-advancements.cjs` 断言其不再出现）。
 **不是新玩法**：原件把 13 个投射物分散为独立 id，本工程用单一 `parasite_projectile` + `Mode` 承载并拆分出上述载体/辅助 id。原件 158 个 id 全部仍在，无一缺失（`scripts/verify-entity-id-parity.cjs` 断言）。
 
 ---
@@ -179,8 +182,8 @@ node scripts/run-all-verifications.cjs   # {"total":118,"passed":118,"failed":0}
 | 检查 | 结果 |
 | --- | --- |
 | 编译与打包 | **BUILD SUCCESSFUL**，产物 `build/libs/csrp-1.10.9.jar` |
-| 静态契约校验 | **126 / 126 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape/失真/注入熔炉/JEI/抓钩契约等） |
-| 运行期 GameTest | **183 / 183 通过**（170 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 2 个 harlequin） |
+| 静态契约校验 | **127 / 127 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape/失真/注入熔炉/JEI/抓钩契约等） |
+| 运行期 GameTest | **182 / 182 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 2 个 harlequin） |
 | 服务器启动 | GameTest 服务器完整启动至测试结束，无启动崩溃 |
 | 世界生成运行期 | 225 区块实证：四类寄生群系 + 36 种寄生体方块落地，零 decoration 失败 |
 | 实体 id 对齐 | 原件 158 个 id **全部命中**（缺失 0） |

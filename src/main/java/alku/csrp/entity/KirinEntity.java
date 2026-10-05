@@ -750,8 +750,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
                 serverLevel.addFreshEntity(slash);
             }
         }
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(),
-                getBoundingBox().inflate(BLINK_LIFE_STEAL_RADIUS));
+
         List<LivingEntity> nearby = level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(BLINK_LIFE_STEAL_RADIUS),
                 entity -> entity != this && entity.isAlive() && !(entity instanceof Parasite));

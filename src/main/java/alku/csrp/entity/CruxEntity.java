@@ -207,7 +207,7 @@ public final class CruxEntity extends CrudeParasiteEntity {
     private boolean performAoeAttack(LivingEntity target) {
         triggerOriginalAction("get_attack_timer_m");
         AABB attackArea = target.getBoundingBox().inflate(1.0);
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(), attackArea);
+
         boolean hit = false;
         float damage = (float) getAttributeValue(Attributes.ATTACK_DAMAGE);
         for (LivingEntity victim : level().getEntitiesOfClass(LivingEntity.class, attackArea, this::isValidParasiteTarget)) {

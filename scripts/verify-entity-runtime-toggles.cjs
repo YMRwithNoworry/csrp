@@ -86,14 +86,17 @@ if (!fs.existsSync(matrixPath)) {
   expect(matrix, /AI 类合计（本矩阵逐条核对） \| 73 \|/, "matrix does not cover all 73 AI classes");
   expect(matrix, /out109 `entity\/monster\/\*\*` java 文件 \| 137 \|/, "matrix does not cover the 137 monster files");
   expect(matrix, /out109 `init\/SRPEntities\.java` 注册的实体 id \| 158 \|/, "matrix misses the original 158 entity ids");
-  // The port registers every one of the original 158 ids plus 12 port-only auxiliary ids.
-  const expectedPorted = 158 + 12;
+  // The port registers every one of the original 158 ids plus 11 port-only auxiliary ids.
+  // (There were 12 until dragon_egg_assimilation was removed: it carried an invented "assimilate
+  //  nearby dragon eggs when attacking" mechanic with its own advancement, which 1.10.9 and 1.10.8
+  //  do not have at all.  See PORTING_NOTES.md.)
+  const expectedPorted = 158 + 11;
   expect(matrix, new RegExp(`本工程 \`ModEntities\\.java\` 注册的实体 id \\| ${expectedPorted} \\|`),
     `matrix misses the ${expectedPorted} ported entity ids`);
   expect(matrix, /实体 \*\*id 层无缺失\*\*：原模组 158 个 id 在本工程全部已注册/,
     "matrix does not state that all 158 original ids are registered");
-  expect(matrix, /本工程多出 12 个 id/,
-    "matrix does not explain the 12 port-only auxiliary ids");
+  expect(matrix, /本工程多出 11 个 id/,
+    "matrix does not explain the 11 port-only auxiliary ids");
 
   // every out109 AI class must have exactly one row
   const aiFiles = [
@@ -140,7 +143,7 @@ if (!fs.existsSync(matrixPath)) {
 }
 
 // ---------------------------------------------------------------------------
-// 4. entity id level diff: every original 158 id is registered, plus 12 port-only ids
+// 4. entity id level diff: every original 158 id is registered, plus 11 port-only ids
 //
 // Reproducible count: parse every non-comment registration call in ModEntities.java
 //   grep -vE '^\s*(//|\*|/\*)' src/main/java/alku/csrp/registry/ModEntities.java \
@@ -154,7 +157,7 @@ for (const line of modEntities.split(/\r?\n/)) {
   if (m) ids.add(m[1]);
 }
 const ORIGINAL_IDS = 158;
-const PORT_ONLY_IDS = 12;
+const PORT_ONLY_IDS = 11;
 if (ids.size !== ORIGINAL_IDS + PORT_ONLY_IDS) {
   failures.push(`ModEntities registers ${ids.size} ids instead of ${ORIGINAL_IDS + PORT_ONLY_IDS}`);
 }
@@ -165,7 +168,7 @@ for (const original of ["webball", "spineball", "nadeball", "salivaball", "ballb
   if (!ids.has(original)) failures.push(`${original} (an original 1.10.9 entity id) is not registered`);
 }
 if (!ids.has("parasite_projectile")) failures.push("parasite_projectile (the merged projectile entity) is missing");
-for (const portOnly of ["crux_block_damage", "dragon_egg_assimilation", "haunter_damage", "haunter_homing",
+for (const portOnly of ["crux_block_damage", "haunter_damage", "haunter_homing",
   "marauder_tendril", "meteor_satellite", "parasite_projectile", "pulling_ball", "scary_orb",
   "shockwave", "sim_dragonhead", "warden_waveshock"]) {
   if (!ids.has(portOnly)) failures.push(`${portOnly} (a port-only auxiliary id) is missing`);

@@ -105,9 +105,6 @@ public final class NadeEntity extends Entity {
         AABB area = new AABB(getX() - halfWidth, getY(), getZ() - halfWidth,
                 getX() + halfWidth, getY() + getRenderHeight(), getZ() + halfWidth);
         float frameDamage = (float) owner.getAttributeValue(Attributes.ATTACK_DAMAGE);
-        if (getKind() == Kind.ELVIA) {
-            DragonEggAssimilationEntity.assimilateDragonEggs(level(), area);
-        }
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area,
                 owner::isValidParasiteTarget)) {
             switch (getKind()) {

@@ -261,7 +261,7 @@ public final class AncientParasiteEntity extends PrimitiveParasiteEntity {
             nearby = level().getEntitiesOfClass(LivingEntity.class,
                     getBoundingBox().inflate(5.0D, 3.0D, 5.0D), LivingEntity::isAlive);
         }
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(), initialArea);
+
         boolean hit = false;
         for (LivingEntity target : nearby) {
             if (target == this || target instanceof Parasite) {

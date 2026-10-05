@@ -94,7 +94,7 @@ public final class ShockwaveEntity extends Entity {
 
     private void damageTargets(LongarmsEntity owner) {
         AABB impactArea = getBoundingBox().inflate(1.5D, 0.2D, 1.5D);
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(), impactArea);
+
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, impactArea,
                 owner::isValidParasiteTarget)) {
             if (hitEntities.add(target.getUUID())) {

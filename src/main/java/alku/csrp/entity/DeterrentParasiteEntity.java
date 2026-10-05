@@ -700,7 +700,6 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected void hurtNearby(Entity center, double radius, float damage, boolean launch) {
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(), center.getBoundingBox().inflate(radius));
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 center.getBoundingBox().inflate(radius), this::isValidParasiteTarget)) {
             if (!target.hurtOrSimulate(damageSources().mobAttack(this), damage)) {
@@ -841,7 +840,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         }
 
         // 同化龙蛋
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(), impactArea);
+
 
         // 对范围内的敌对实体造成伤害和击退
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, impactArea,

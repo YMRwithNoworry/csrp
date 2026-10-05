@@ -327,7 +327,6 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         return true;
     }
 
-
     protected boolean usesDefaultMovementGoals() {
         return !activeKind().flying;
     }
@@ -1077,7 +1076,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             playSound(ModSounds.MOB_SWIPE.get(), 2.0F, 1.0F);
             triggerAttackAnimation();
         }
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(), center.getBoundingBox().inflate(radius));
+
         boolean hit = false;
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 center.getBoundingBox().inflate(radius), this::isValidParasiteTarget)) {
@@ -1372,7 +1371,6 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     }
 
     private void triggerPureDeathBurst() {
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(2.0D));
         boolean mobGriefing = level() instanceof ServerLevel serverLevel
                 && serverLevel.getGameRules().get(GameRules.MOB_GRIEFING);
         Level.ExplosionInteraction interaction = mobGriefing
@@ -2264,7 +2262,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     private void performMonarchLandingAttack(double radius) {
         AABB area = new AABB(getX(), getY(), getZ(), getX() + 1.0D, getY() + 1.0D, getZ() + 1.0D)
                 .inflate(radius, 2.0D, radius);
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(), area);
+
         ServerLevel serverLevel = level() instanceof ServerLevel sl ? sl : null;
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area,
                 entity -> entity != PureParasiteEntity.this && entity.isAlive() && !(entity instanceof Parasite))) {
@@ -3391,7 +3389,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
     private void performWardenLandingAttack() {
         AABB area = new AABB(getX(), getY(), getZ(), getX() + 1.0D, getY() + 1.0D, getZ() + 1.0D)
                 .inflate(5.0D, 2.0D, 5.0D);
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(), area);
+
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area,
                 this::isValidParasiteTarget)) {
             target.knockback(2.5D, getX() - target.getX(), getZ() - target.getZ(),
@@ -3402,7 +3400,7 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
 
     private void damageWardenChargeTargets() {
         AABB area = getBoundingBox().inflate(2.0D, 0.0D, 2.0D);
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(), area);
+
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area,
                 this::isValidParasiteTarget)) {
             target.knockback(0.5D, getX() - target.getX(), getZ() - target.getZ(),

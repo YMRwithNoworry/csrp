@@ -312,7 +312,7 @@ public abstract class CarrierEntity extends PrimitiveParasiteEntity implements M
         }
 
         detonated = true;
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(4.0D));
+
         Level.ExplosionInteraction interaction = serverLevel.getGameRules().get(GameRules.MOB_GRIEFING)
                         && griefingEnabled() && EventHooks.canEntityGrief(serverLevel, this)
                 ? Level.ExplosionInteraction.MOB : Level.ExplosionInteraction.NONE;

@@ -16,7 +16,7 @@
 | out109 `entity/ai/misc/*.java` | 34 |
 | out109 AI 类合计（本矩阵逐条核对） | 73 |
 | out109 `init/SRPEntities.java` 注册的实体 id | 158 |
-| 本工程 `ModEntities.java` 注册的实体 id | 170 |
+| 本工程 `ModEntities.java` 注册的实体 id | 169 |
 
 AI 判定分布：
 
@@ -55,7 +55,6 @@ AI 判定分布：
 | 本工程 id | 本工程实现类 | 说明 |
 |---|---|---|
 | `crux_block_damage` | `—` | CruxA 投掷方块伤害的独立伤害源实体 |
-| `dragon_egg_assimilation` | `—` | 龙蛋同化辅助实体 |
 | `haunter_damage` | `—` | Haunter 伤害载体 |
 | `haunter_homing` | `—` | Haunter 追踪弹 |
 | `marauder_tendril` | `MarauderTendrilEntity` | Marauder 触手部件 |
@@ -70,7 +69,8 @@ AI 判定分布：
 ### 1.3 结论
 
 - 实体 **id 层无缺失**：原模组 158 个 id 在本工程全部已注册。
-- 本工程多出 12 个 id，均为部件/伤害载体/命名对齐，不影响原 id 的可用性。
+- 本工程多出 11 个 id，均为部件/伤害载体/命名对齐，不影响原 id 的可用性。
+- 说明：曾有第 12 个额外 id `dragon_egg_assimilation`，它承载的是「寄生体攻击时同化附近龙蛋」这一**原模组（1.10.9 与 1.10.8）完全没有的玩法**，并附带一条臆造进度 `csrp:again`。为遵守「不要添加原模组没有的新玩法」，该实体、渲染器、进度与语言键已全部移除。
 - `registry/ModEntities.java` 无需为 R6 增删 id。
 
 ## 2. 实体类矩阵（out109 `entity/monster/**`，137 个文件）

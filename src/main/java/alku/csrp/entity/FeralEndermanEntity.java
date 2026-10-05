@@ -443,7 +443,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(2.0D));
+
         level().explode(this, getX(), getY(), getZ(), 2.0F, Level.ExplosionInteraction.NONE);
         ToxicCloudEntity cloud = ToxicCloudEntity.create(level(), getX(), getY(), getZ());
         cloud.setOwner(this);

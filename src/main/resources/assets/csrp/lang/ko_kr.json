@@ -1,8 +1,6 @@
 {
   "advancements.csrp.adapted.desc": "Kill all twelve Adapted parasites at least once",
   "advancements.csrp.adapted.title": "적응한 기생충",
-  "advancements.csrp.again.description": "Witness a dragon egg become assimilated",
-  "advancements.csrp.again.title": "Again?",
   "advancements.csrp.aleph_suppression.desc": "Kill a Stage IV Dispatcher",
   "advancements.csrp.aleph_suppression.title": "ALEPH 제압",
   "advancements.csrp.beautiful_self_destruction.desc": "Drink from a Thornshade Decanter three times and trigger the explosion",
@@ -1032,7 +1030,6 @@
   "entity.csrp.dispatcherten": "디스패쳐의 촉수",
   "entity.csrp.done": "준설충",
   "entity.csrp.draconite": "§9드라코나이트",
-  "entity.csrp.dragon_egg_assimilation": "Assimilating Dragon Egg",
   "entity.csrp.dredge": "도굴충",
   "entity.csrp.fer_bear": "훙포한 곰",
   "entity.csrp.fer_cow": "훙포한 소",

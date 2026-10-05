@@ -526,7 +526,6 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         return true;
     }
 
-
     protected boolean usesDefaultMovementGoals() {
         return activeKind() != Kind.VERMIN;
     }
@@ -1997,7 +1996,6 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     private void damageBolsterBarrage() {
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(8.0D));
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(8.0D), this::isValidParasiteTarget)) {
             if (!hasLineOfSight(target)) {

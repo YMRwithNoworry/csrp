@@ -407,7 +407,6 @@ public final class ParasiteProjectileEntity extends Entity {
             }
         }
         if (mode == Mode.BOMB || mode == Mode.METEOR) {
-            DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(radius));
             spawnLingeringCothCloud(owner);
             if (mode == Mode.BOMB && level() instanceof ServerLevel serverLevel
                     && serverLevel.getGameRules().get(GameRules.MOB_GRIEFING)) {
@@ -616,7 +615,6 @@ public final class ParasiteProjectileEntity extends Entity {
             directHit.hurt(damageSources().mobProjectile(this, owner), damage);
         }
         if (mode == Mode.LENCIA_BALL) {
-            DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(10.0D));
             level().explode(owner, getX(), getY(), getZ(), 10.0F, Level.ExplosionInteraction.MOB);
         }
         discard();
@@ -667,7 +665,7 @@ public final class ParasiteProjectileEntity extends Entity {
         if (owner != null && owner.isAlive()) {
             AABB damageArea = new AABB(getX() - 1.45D, getY(), getZ() - 1.45D,
                     getX() + 1.45D, getY() + 1.46D, getZ() + 1.45D);
-            DragonEggAssimilationEntity.assimilateDragonEggs(level(), damageArea);
+
             float attackDamage = (float) owner.getAttributeValue(Attributes.ATTACK_DAMAGE);
             for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, damageArea,
                     owner::isValidParasiteTarget)) {

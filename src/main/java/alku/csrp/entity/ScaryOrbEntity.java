@@ -128,7 +128,6 @@ public final class ScaryOrbEntity extends Entity {
     }
 
     private void applyOrbEffects(PrimitiveParasiteEntity owner, boolean damagePulse) {
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(2.5D));
         List<LivingEntity> targets = level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(2.5D), LivingEntity::isAlive);
         int nearbyEntities = targets.size();
@@ -141,7 +140,6 @@ public final class ScaryOrbEntity extends Entity {
     }
 
     private void burst(PrimitiveParasiteEntity owner) {
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(3.0D));
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(3.0D), LivingEntity::isAlive)) {
             owner.applyScaryOrbMinimumDamage(target, 5.0F);
