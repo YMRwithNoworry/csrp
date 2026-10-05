@@ -37,7 +37,7 @@
 | 可加载运行的构建产物 | `build/libs/csrp-1.10.9.jar`（约 134 MB，含全部资源） |
 | 移植说明 | 本文件 |
 | 各子系统详细报告 | `docs/gap/R2_REPORT.md`、`R2_BLIZZARD_REPORT.md`、`R3_WORLDGEN_REPORT.md`、`R4_BLOCKS_REPORT.md`、`R5_ITEMS_REPORT.md`、`R6_ENTITY_MATRIX.md`、`LANG_REPORT.md` |
-| 自动化校验 | `scripts/run-all-verifications.cjs`（118 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
+| 自动化校验 | `scripts/run-all-verifications.cjs`（120 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
 
 规模：569 个 Java 文件、88 个方块类、128 个实体文件、44 个物品类、7 个 Mixin、362 个 blockstate、2236 张纹理、1008 个音效、55 个结构 NBT、33 套语言。
 
@@ -81,6 +81,8 @@
 - **世界创建选项**：恢复原件的「*SRP World Options...* 入口按钮 → 专用 *SRP World Settings* 界面（5 个选项 + 动画世界预览 + Done）」，替换此前被硬塞进原版创建世界界面底部、会被原版页脚盖住的 5 个按钮；补 `GeneralConfig.worldCreationUi`（原 `SRPConfig.worldGIU`）。
 - **纹理缺失修复**：Kirin 光束/牵引线此前引用 26.3 已迁移的 vanilla 路径（`textures/entity/guardian_beam.png` → 现为 `textures/entity/guardian/guardian_beam.png`），会渲染成缺失纹理；`OrbBoom` 与投射物默认纹理引用了从未随包的 `scary_orb.png`。新增 `scripts/verify-texture-references.cjs` 全量校验（含对照 26.3 客户端 jar 校验 vanilla 路径）。
 - **实体渲染器覆盖修复**：26.3 对未注册渲染器的实体类型**没有兜底**（`EntityRenderDispatcher.getRenderer` 是普通查表，`extractEntity` 直接解引用结果），而两个移植自有的不可见伤害载体实体 `crux_block_damage` / `haunter_damage` 会被 `addFreshEntity` 同步到客户端——一旦渲染即崩溃。已按同类不可见实体的既有做法注册 `NoopRenderer`，现 **170/170 实体 id 均有渲染器**（`scripts/verify-entity-renderers.cjs` 断言）。
+- **酿造配方恢复（玩法缺口）**：原件 `potion/Recipe.java` 用 5 个 `IBrewingRecipe` 注册了恐惧药水三级链、死血、荆棘醒酒器；NeoForge 26.3 移除了 `IBrewingRecipe` 与 `RegisterBrewingRecipesEvent`，本工程此前只留下一个空的 `ThornshadeBrewingEvents` NEEDS-DESIGN 占位类，**配方实际不可用**。现按 26.3 的数据驱动方式恢复为 `data/csrp/recipe/brewing/*.json` 共 7 个文件（恐惧药水链 3 条 + 死血 water/awkward 2 条 + 醒酒器 water/awkward 2 条），删除空壳类；校验 `scripts/verify-brewing-recipes.cjs` + GameTest `csrp:brewing_recipes/legacy_srp_brews`（经真实 `RecipeManager` 加载并匹配）。
+  - **字段映射经官方映射表核实**：从 `MinecraftForge/MCPConfig` 的 `joined.tsrg` 与 Forge maven 的 `mcp_stable-39-1.12.zip`（内含 `fields.csv`）查得 —— `field_151145_ak` = **FLINT（燧石）**、`field_151016_H` = GUNPOWDER、`field_185157_bK` = DRAGON_BREATH、`field_151068_bn` = POTIONITEM、`field_185155_bH` = SPLASH_POTION、`field_185156_bI` = LINGERING_POTION、`field_151069_bo` = GLASS_BOTTLE、`field_150432_aD` = ICE。其中燧石一项**纠正了此前的常识推断**（曾误判为地狱疣），ICE 一项同时证实了工程 `InfuserFurnaceBlockEntity.GLASS_RECIPES` 的映射正确。
 - **Escape 系统补齐**：见 §3.6。
 
 ### 3.6 Escape（死亡循环逃脱）系统
@@ -172,8 +174,8 @@ node scripts/run-all-verifications.cjs   # {"total":118,"passed":118,"failed":0}
 | 检查 | 结果 |
 | --- | --- |
 | 编译与打包 | **BUILD SUCCESSFUL**，产物 `build/libs/csrp-1.10.9.jar` |
-| 静态契约校验 | **118 / 118 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape 契约等） |
-| 运行期 GameTest | **173 / 173 通过**（170 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则） |
+| 静态契约校验 | **120 / 120 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape 契约等） |
+| 运行期 GameTest | **174 / 174 通过**（170 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方） |
 | 服务器启动 | GameTest 服务器完整启动至测试结束，无启动崩溃 |
 | 世界生成运行期 | 225 区块实证：四类寄生群系 + 36 种寄生体方块落地，零 decoration 失败 |
 | 实体 id 对齐 | 原件 158 个 id **全部命中**（缺失 0） |

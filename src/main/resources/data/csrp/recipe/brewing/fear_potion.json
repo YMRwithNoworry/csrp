@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:brewing",
+  "input": {
+    "item": "csrp:alveolar_fluid"
+  },
+  "reagent": {
+    "item": "minecraft:flint"
+  },
+  "output": {
+    "id": "minecraft:potion",
+    "components": {
+      "minecraft:potion_contents": {
+        "potion": "csrp:fear"
+      }
+    }
+  }
+}

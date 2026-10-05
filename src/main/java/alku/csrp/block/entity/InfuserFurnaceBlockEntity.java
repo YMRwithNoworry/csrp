@@ -123,7 +123,9 @@ public final class InfuserFurnaceBlockEntity extends BaseContainerBlockEntity {
         if (input1.is(Items.IRON_INGOT) && input2.is(ModItems.DEADBLOOD_FLUID.get())) {
             return ModItems.SEMIORGANIC_INGOT.get();
         }
-        if (input1.is(net.minecraft.world.level.block.Blocks.SAND.asItem())
+        // 1.10.9 SRPInfuserFurnaceRecipeInit uses SRPBlocks.InfestedSand here, not vanilla sand
+        // (the original declares it as its own BlockFallingInfestedStain("infestedsand")).
+        if (input1.is(ModBlocks.INFESTED_SAND.get().asItem())
                 && input2.is(ModItems.DEADBLOOD_FLUID.get())) {
             return ModBlocks.INFESTED_GLASS.get().asItem();
         }
