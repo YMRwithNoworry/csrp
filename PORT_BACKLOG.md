@@ -14,8 +14,8 @@
 ## 当前基线
 
 - `gradlew clean build`：**成功**（GraalVM 25.3.4.1 / Gradle 9.2.1），产物 `build/libs/csrp-1.10.9.jar`。
-- 静态校验套件：**120 / 120 通过**。
-- 运行期验证：`runGameTestServer` → **174 / 174 GameTests 通过**（170 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方），服务器完整启动到测试结束。
+- 静态校验套件：**121 / 121 通过**。
+- 运行期验证：`runGameTestServer` → **177 / 177 GameTests 通过**（170 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉），服务器完整启动到测试结束。
 - 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2978 键 / zh_cn 2994 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
 - 本轮由 `runGameTestServer` 抓出并修复的运行期加载失败：方块状态定义读取 `super()` 前未赋值的实例字段（`LegacyVariantSlabBlock` / `LegacyRelayBlock`，改为工厂预发布）、`JukeboxSong` 是数据包注册表故 `discone` / `disctwo` 需要 `data/csrp/jukebox_song/*.json`（见 commit `d7f7ca5c`）。
@@ -50,35 +50,27 @@
 
 1. **依赖**：在 `build.gradle` 加 `maven { url "https://api.modrinth.com/maven" }` 与 `compileOnly "maven.modrinth:jei:31.9.0.58"`（若需在 `runClient` 里验证插件发现，再考虑 `runtimeOnly` 或 `localRuntime`）。
 2. **26.3 JEI API（已从 jar 反查）**：`mezz.jei.api.IModPlugin`（`getPluginUid()` 返回 `Identifier`；默认方法 `registerCategories(IRecipeCategoryRegistration)`、`registerRecipeCatalysts(IRecipeCatalystRegistration)`、`registerRecipes(IRecipeRegistration)`）；`IRecipeCategory<T>` 必须实现 `getRecipeType()` / `getTitle()` / `getWidth()` / `getHeight()` / `getIcon()` / `setRecipe(IRecipeLayoutBuilder, T, IFocusGroup)`；注册用 `IRecipeCategoryRegistration.addRecipeCategories(...)`、`IRecipeCatalystRegistration.addCraftingStation(IRecipeType<?>, ItemLike...)`、`IRecipeRegistration.addRecipes(IRecipeType<T>, List<T>)`。
-3. **注入熔炉配方**：原件 `recipes/SRPInfuserFurnaceRecipeInit.init()` 共 9 条 = 2 条特殊（铁锭 + 死血 → 半有机锭 + 玻璃瓶；侵染沙 + 死血 → 侵染玻璃 + 玻璃瓶）+ 7 条玻璃置换（32× 侵染玻璃 + 16× 原料 → 2× 对应玻璃：熟肉→血玻璃、侵染陶瓦→灰玻璃、波兰皮块→棕玻璃、哈勒斯金块→丑角玻璃、冰→裹尸玻璃、残渣块→阴郁玻璃、哥特菇→暗影玻璃）。本工程对应实现是 `InfuserFurnaceBlockEntity.GLASS_RECIPES`（7 条玻璃置换的 input→output 映射，private），2 条特殊配方在该类内单独处理——需要暴露一个只读访问器供 JEI 读取。
+3. **注入熔炉配方**：✅ 已由 `recipe/InfuserFurnaceRecipes.all()` 提供只读配方表（9 条：输入 1 / 输入 2 / 主产物 / 副产物），JEI 分类直接读取即可，无需再改方块实体。
 4. **SRP 酿造配方**：✅ **已实现**（数据包 `data/csrp/recipe/brewing/*.json` 共 7 个文件；校验 `scripts/verify-brewing-recipes.cjs` + GameTest `csrp:brewing_recipes/legacy_srp_brews`）。原件 `potion/Recipe.java` 的 5 个 `IBrewingRecipe` 对应：`alveolar_fluid + 燧石 → 恐惧药水`、`恐惧药水 + 火药 → 喷溅`、`喷溅 + 龙息 → 滞留`、`水/粗制 + 疾病海绵 → 死血`、`水/粗制 + 荆棘浆果 → 荆棘醒酒器`。
    - 关键映射已用官方 **MCPConfig + `mcp_stable-39-1.12` 的 `fields.csv`** 核实：`field_151145_ak` = **FLINT（燧石）**，**不是**地狱疣（原先按 base→potion 用地狱疣的常识推断，查表后纠正）；`field_151016_H` = GUNPOWDER、`field_185157_bK` = DRAGON_BREATH、`field_151068_bn` = POTIONITEM、`field_185155_bH` = SPLASH_POTION、`field_185156_bI` = LINGERING_POTION、`field_151069_bo` = GLASS_BOTTLE、`field_150432_aD` = ICE（与工程 `GLASS_RECIPES` 的 `Items.ICE` 一致 ✓）。
    - 因此 JEI 的酿造分类现在只需**展示**这 7 条已存在的配方，无需再补行为。
 5. **催化剂**：注入熔炉方块 → `csrp:infuser_furnace` 分类；酿造台 → `csrp:srp_brewing` 分类。
 6. **隐藏 16 个成就图标物品**：原件把它们从 JEI 物品列表里移除（`dark_days_icon`、`adapted_icon`、`primitive_icon`、`crude_icon`、`pure_icon`、`hunt_season_icon`、`guerilla_icon`、`ecstasy_icon`、`enemy_of_enemy_icon`、`fog_nullifier_icon`、`self_destruct_icon`、`potion_columbus_icon`、`potion_stolas_icon`、`hellfire_chemical_warfare_icon`、`cosmic_structural_failure_icon`、`roots_icon`）。26.3 JEI 用 `IJeiRuntime` / `IJeiFeatures` 或 `jei.hide` 配置实现隐藏，需按实际 API 选择。
-### 注入熔炉保真化（待办，原件数据已全部核实）
+### 注入熔炉保真化（✅ 已完成）
 
-工程当前的 `InfuserFurnaceBlockEntity` / `InfuserFurnaceMenu` / `InfuserFurnaceScreen` 是**简化重写**，与原件差异较大，需要重构：
+已按原件 `TileEntityInfuserFurnace` / `ContainerInfuserFurnace` / `GuiInfuserFurnace` / `BlockInfuserFurnace` 重构：
 
-| 项 | 原件（1.10.9） | 工程现状 | 处理 |
-| --- | --- | --- | --- |
-| GUI 背景 | `srparasites:textures/gui/infuser_furnace.png`（176×166 区域，256×256 图集） | **原版** `textures/gui/container/furnace.png` | 改用 `csrp:textures/gui/infuser_furnace.png`（**该纹理已在仓库中，但无人引用**） |
-| 槽位 | **6 个**：0 熔炼输入 (56,17)、1 燃料 (56,53)、2 原版熔炼输出 (140,17)、3 注入输入 (30,35)、4 注入产物 (140,53)、5 副产物 (116,35) | **4 个**：(44,17)、(62,17)、(56,53)、(116,35) | 按原件坐标恢复 6 槽 |
-| 熔炼 | 同时执行**原版熔炉配方**（`FurnaceRecipes`，输入槽 0 → 输出槽 2） | 无 | 补回 |
-| 注入消耗 | `doInfuse`：槽 0 与槽 3 各 `shrink(1)`（**各 1 个**，配方里的 32/16 只是 JEI 展示量，1.12.2 的 `Ingredient.apply` 不校验数量） | 槽 0/1 各 shrink(1) | 改为槽 0/3 |
-| 注入产出 | `mergeInto(4, r.infusedOut)` + `mergeInto(5, r.bottleOut)`——**主产物 + 副产物** | 只有 1 个输出槽、无副产物 | 补回副产物槽 |
-| 玻璃置换产物数量 | **2 个**（`addGlassSwap(y16, x32)` 里 `x32 = new ItemStack(BloodyGlass, 2)` 作为 `infusedOut`） | 1 个 | 改为 2 个 |
-| 进度条绘制 | 箭头 `blit(x+80, y+35, 176, 14, w, 16)`；火焰 `blit(x+56, y+36+12-k, 176, 12-k, 14, k+1)` | 原版熔炉坐标 (79,34) / (56,36) | 按原件 u/v 与坐标绘制 |
+- **6 槽**：0 熔炼输入、1 燃料、2 原版熔炼输出、3 注入试剂、4 注入产物、5 副产物（原件的槽位索引与命名）。
+- **两个独立 200 tick 计数器**（`cookTimeSmelt` / `cookTimeInfuse`）共用同一燃料缓冲；燃料耗尽时按 `getCraftingRemainder()` 留下容器物品（如岩浆桶→桶）。
+- **注入产出主产物 + 玻璃瓶副产物**（铁锭/侵染沙 + 死血），玻璃置换产出 **2 个**；每次消耗输入各 1 个（1.12.2 的 `Ingredient.apply` 不校验数量，配方的 32/16 仅为 JEI 展示量）。
+- **同时执行原版熔炼**（槽 0 → 槽 2，经 `RecipeType.SMELTING` 查询）。
+- **GUI 改用原件纹理** `csrp:textures/gui/infuser_furnace.png`（此前误用原版熔炉纹理），箭头 (80,35) u=176 v=14、火焰自 (56,36) 向上绘制，与原件 `GuiInfuserFurnace` 的偏移一致。
+- **容器槽位坐标按原件**：(56,17) (56,53) (30,35) (140,53) (116,35) (140,17)，与纹理上的槽位框对齐。
+- **方块改为朝向方块**：原件 `BlockInfuserFurnace` 有 `FACING`（无 lit），blockstate 4 个 `facing=*` 变体；此前工程是非朝向单变体。
+- **配方表**独立为 `recipe/InfuserFurnaceRecipe(s)`（9 条，镜像原件 `SRPInfuserFurnaceRecipeInit`），供方块实体与 JEI 共用。
 
-原件配方全表（`recipes/SRPInfuserFurnaceRecipeInit.init()`，9 条）：
+验证：`scripts/verify-infuser-furnace.cjs` + 3 个 GameTest（`infuser_furnace/infuse_with_byproduct`、`glass_swap_yields_two`、`vanilla_smelting`），驱动真实 `serverTick` 断言副产物、双倍产物、原版熔炼与逐次消耗量。
 
-1. 铁锭 + 死血 → 半有机锭 ×1 + **玻璃瓶 ×1**（副产物）
-2. `infestedsand` + 死血 → 侵染玻璃 ×1 + **玻璃瓶 ×1**（副产物）
-3. ~9. 32× 侵染玻璃 + 16× 原料 → **2×** 对应玻璃（熟肉→血玻璃、侵染陶瓦→灰玻璃、波兰皮块→棕玻璃、哈勒斯金块→丑角玻璃、冰→裹尸玻璃、残渣块→阴郁玻璃、哥特菇→暗影玻璃），无副产物
-
-已完成的部分：输入项已由原版 `SAND` 修正为原件要求的 `csrp:infestedsand`（`BlockFallingInfestedStain("infestedsand")`）。
-
-同时暴露一份只读配方表（输入 1 / 输入 2 / 主产物 / 副产物）供 JEI 注入熔炉分类使用（见上一节）。
 ### 文档一致性（待办）
 
 `AGENTS.md` 的“Project Structure / Build, Test, and Development Commands / Testing Guidelines”三节仍写着 **Minecraft 1.21.1 / NeoForge 21.1 / Java 21**，与工程实际（26.3 / NeoForge 26.3.0.1-beta / Java 25，见 `gradle.properties`）不符；其中 `gradlew gameTestServer` 的实际任务名是 **`runGameTestServer`**。该文件同时被 DSH 的 global-system-prompt 插件托管（会反复注入一段本机配置块），因此本轮未直接改动它，仅在此登记，供人工按实际修订。

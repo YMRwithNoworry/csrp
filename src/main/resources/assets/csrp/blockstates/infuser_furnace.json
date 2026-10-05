@@ -1,7 +1,8 @@
 {
   "variants": {
-    "": {
-      "model": "csrp:block/infuser_furnace"
-    }
+    "facing=north": { "model": "csrp:block/infuser_furnace" },
+    "facing=south": { "model": "csrp:block/infuser_furnace", "y": 180 },
+    "facing=west": { "model": "csrp:block/infuser_furnace", "y": 270 },
+    "facing=east": { "model": "csrp:block/infuser_furnace", "y": 90 }
   }
 }
