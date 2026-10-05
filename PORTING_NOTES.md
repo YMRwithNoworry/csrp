@@ -37,7 +37,7 @@
 | 可加载运行的构建产物 | `build/libs/csrp-1.10.9.jar`（约 134 MB，含全部资源） |
 | 移植说明 | 本文件 |
 | 各子系统详细报告 | `docs/gap/R2_REPORT.md`、`R2_BLIZZARD_REPORT.md`、`R3_WORLDGEN_REPORT.md`、`R4_BLOCKS_REPORT.md`、`R5_ITEMS_REPORT.md`、`R6_ENTITY_MATRIX.md`、`LANG_REPORT.md` |
-| 自动化校验 | `scripts/run-all-verifications.cjs`（122 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
+| 自动化校验 | `scripts/run-all-verifications.cjs`（124 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
 
 规模：569 个 Java 文件、88 个方块类、128 个实体文件、44 个物品类、7 个 Mixin、362 个 blockstate、2236 张纹理、1008 个音效、55 个结构 NBT、33 套语言。
 
@@ -155,7 +155,7 @@
 - 世界创建界面的星型选择器提供 **3 种**（Normal / Cold / Warm），原件该界面只列 2 种（`pendingStarType = (pendingStarType + 1) % 2`）；但原件的 worldgen 层存在 Warm（`world/star/GenLayerSRPWarmStar.java`、预览纹理 `earth_warm.png`），故保留 3 种。
 - `relay_report` 等文案保留原 `%s` 占位符（1.12.2 格式，26.3 不填充）。
 - `noderelay` / `relaycontroller` / `relay_controller_dummy` / `dermoid_cyst` / `parasite_barrier` 的 1.12.2 tile entity 层未复刻：工程既有 relay / cyst 体系语义已覆盖，且原 `TileEntityRelayController`（1043 行）与既有实现耦合到不同方块，重复注册会产生半可用方块。
-- **复仇之书抓钩的数值与范围尚未对齐原件**：该机制已实现（拉近 → 首次冲击 → 弹跳 → 二次冲击），但蓄力/弹跳时长、接触距离、物品冷却，以及两次冲击的伤害与范围（原件首次为 **14.0F、半径 5 的 AoE** 并沿视线弹射，二次为 **6.0F** 加半径 3.5 的缩放 AoE 与落雷）与原件不同。逐行规格见 `docs/gap/VENGEANCE_GRAPPLE_REPORT.md`，已登记为待修正项——**此处明确记录，不静默保留**。
+- **复仇之书抓钩已按原件对齐**（此前数值成簇偏差）：现为原件的三阶段（蓄力 20 tick → 拉近 1.8 速度、接触 2.2 格或 40 tick → 首次冲击 **14.0F / 半径 5 的 AoE** + 沿视线弹射 + 对范围内每个实体施加 100 tick 减益 + 玩家水平速度 ×0.15 → 弹跳 14 tick 三段速度曲线 → 二次冲击 **6.0F** + 半径 3.5 的缩放 AoE（最高 10.0F）+ 落雷）。触发方式也改为原件语义（右键自动取 **32 格视线目标**，冷却 60；潜行右键为击退爆发，冷却 80 存于物品 `srp_kb_next` 标签）。同时补齐原件的 5 个 `VENGEANCE_*` 音效事件——**ogg 文件与 sounds.json 条目一直在仓库里，却从未注册音效事件**。规格与逐行对照见 `docs/gap/VENGEANCE_GRAPPLE_REPORT.md`。
 - 两个既有保真缺陷在移植中顺手修正（均有证据）：`ParasiteGenContext.sideCurse` 的 10/11、20/21 两对对角线互换；`canGrowInto` 把 `field_150345_g` 当 podzol 且丢失 SAPLING/VINE/LOG2 映射。
 
 ### 5.6 12 个实现辅助实体 id
@@ -177,8 +177,8 @@ node scripts/run-all-verifications.cjs   # {"total":118,"passed":118,"failed":0}
 | 检查 | 结果 |
 | --- | --- |
 | 编译与打包 | **BUILD SUCCESSFUL**，产物 `build/libs/csrp-1.10.9.jar` |
-| 静态契约校验 | **122 / 122 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape 契约等） |
-| 运行期 GameTest | **177 / 177 通过**（170 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉） |
+| 静态契约校验 | **124 / 124 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape/失真/注入熔炉/JEI/抓钩契约等） |
+| 运行期 GameTest | **181 / 181 通过**（170 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩） |
 | 服务器启动 | GameTest 服务器完整启动至测试结束，无启动崩溃 |
 | 世界生成运行期 | 225 区块实证：四类寄生群系 + 36 种寄生体方块落地，零 decoration 失败 |
 | 实体 id 对齐 | 原件 158 个 id **全部命中**（缺失 0） |

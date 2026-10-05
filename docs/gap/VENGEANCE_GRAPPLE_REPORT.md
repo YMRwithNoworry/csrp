@@ -1,6 +1,6 @@
 # 复仇之书抓钩（Vengeance Grapple）保真差异报告
 
-**状态：待修正。** 本文件记录 1.10.9 原件 `item/VengeanceGrappleHandler.java`（441 行）的完整规格，以及本工程 `event/BookOfVengeanceEvents.java`（285 行）当前的差异。规格已逐行核实，可直接据此重写。
+**状态：✅ 已按本规格修正。** 本文件记录 1.10.9 原件 `item/VengeanceGrappleHandler.java`（441 行）与 `item/ItemBookOfVengeance` 的完整规格。下表的「工程现状」列是修正**前**的状态，保留下来作为对照；现工程已按「原件」列实现（校验 `scripts/verify-vengeance-grapple.cjs`）。
 
 ## 1. 触发方式
 

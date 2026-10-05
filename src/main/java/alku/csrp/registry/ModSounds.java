@@ -139,6 +139,14 @@ public final class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> ADAPTED_BURROWER_DIG = register("azaa.dig");
     public static final DeferredHolder<SoundEvent, SoundEvent> ADAPTED_TOZOON_DIG = register("awymo.dig");
 
+    // SRPSounds.VENGEANCE_* — the Book of Vengeance grapple's chain, impacts and whoosh. The entries were
+    // already in sounds.json (vengeance.attack.*), but no sound event existed to play them.
+    public static final DeferredHolder<SoundEvent, SoundEvent> VENGEANCE_IMPACT = register("vengeance.attack.impact");
+    public static final DeferredHolder<SoundEvent, SoundEvent> VENGEANCE_PAPER = register("vengeance.attack.paper");
+    public static final DeferredHolder<SoundEvent, SoundEvent> VENGEANCE_CHAIN_IMPACT = register("vengeance.attack.chain");
+    public static final DeferredHolder<SoundEvent, SoundEvent> VENGEANCE_WHOOSH = register("vengeance.attack.whoosh");
+    public static final DeferredHolder<SoundEvent, SoundEvent> VENGEANCE_ROCK = register("vengeance.attack.rock");
+
     static {
         SoundEventCatalog.EVENTS.forEach(ModSounds::register);
     }

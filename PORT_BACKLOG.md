@@ -14,8 +14,8 @@
 ## 当前基线
 
 - `gradlew clean build`：**成功**（GraalVM 25.3.4.1 / Gradle 9.2.1），产物 `build/libs/csrp-1.10.9.jar`。
-- 静态校验套件：**122 / 122 通过**。
-- 运行期验证：`runGameTestServer` → **177 / 177 GameTests 通过**（170 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉），服务器完整启动到测试结束。
+- 静态校验套件：**124 / 124 通过**。
+- 运行期验证：`runGameTestServer` → **181 / 181 GameTests 通过**（170 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩），服务器完整启动到测试结束。
 - 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2978 键 / zh_cn 2994 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
 - 本轮由 `runGameTestServer` 抓出并修复的运行期加载失败：方块状态定义读取 `super()` 前未赋值的实例字段（`LegacyVariantSlabBlock` / `LegacyRelayBlock`，改为工厂预发布）、`JukeboxSong` 是数据包注册表故 `discone` / `disctwo` 需要 `data/csrp/jukebox_song/*.json`（见 commit `d7f7ca5c`）。
@@ -69,13 +69,19 @@
 
 验证：`scripts/verify-infuser-furnace.cjs` + 3 个 GameTest（`infuser_furnace/infuse_with_byproduct`、`glass_swap_yields_two`、`vanilla_smelting`），驱动真实 `serverTick` 断言副产物、双倍产物、原版熔炼与逐次消耗量。
 
-### 复仇之书抓钩保真化（待办，规格已逐行核实）
+### 复仇之书抓钩保真化（✅ 已完成）
 
-原件 `item/VengeanceGrappleHandler.java`（441 行）+ `network/PacketVengeanceFX` 是一套两段式抓钩：**拉近 → 首次冲击（14.0F、半径 5 的 AoE + 沿视线弹射）→ 弹跳（14 tick，三段速度曲线）→ 二次冲击（6.0F + 半径 3.5 缩放 AoE + 落雷）**。
+已按 `docs/gap/VENGEANCE_GRAPPLE_REPORT.md` 的逐行规格重写 `event/BookOfVengeanceEvents` 与 `item/BookOfVengeanceItem`：
 
-工程 `event/BookOfVengeanceEvents.java` 结构相同（两次冲击 + 中间弹跳），但**数值成簇不一致**：蓄力 10 vs 20、弹跳 8 vs 14、首次拉近上限 12 vs 40、接触距离 2.5 vs 2.2、物品冷却 80 vs 60、首次冲击 7.0F 单体 vs **14.0F 半径 5 AoE**、二次冲击 11.0F vs **6.0F**、拉近速度 1.55/1.85 vs 1.8/2.35，且缺首次冲击的沿视线弹射、弹跳三段速度曲线与二次冲击的缩放 AoE。
+- **三阶段状态机**（原件的 WINDUP / PULL / BOUNCE）：蓄力 20 tick、拉近速度 1.8、接触距离 2.2 格或 40 tick 超时。
+- **首次冲击**：14.0F、半径 5 的 AoE（盒 ±5/-2..+4/±5，排除玩家），对范围内每个实体施加 `DOD_SMOKE_TRAIL`/`BLEED`/`DEBAR` 各 100 tick，沿玩家视线以 1.9 前 + 0.65 上弹射，玩家水平速度 ×0.15。
+- **弹跳 14 tick** 三段速度曲线（`t≥12`：上抬 0.55、水平 ×0.4；`t≥6`：上抬 -0.02、水平 ×0.65；否则以 2.35 再次拉近），每 tick 清零坠落距离。
+- **二次冲击**：目标 6.0F + 上抬 0.35；半径 3.5 的缩放 AoE（`10.0F*(1-d/3.5)`）含击退与上抬，最后落雷。
+- **触发与冷却**：右键自动取 **32 格视线目标**（射线 + 0.3 命中盒 + 视线校验），冷却 60；潜行右键为击退爆发（半径 5、强度 2.2、衰减 `0.45+0.55*falloff`、上抬 0.4、自身 0.42），冷却 80 存于物品 `srp_kb_next` 标签。
+- **丢失视线即断链**并播放熄火音效；补齐 5 个 `VENGEANCE_*` 音效事件与 4 类粒子表现（对应原件 `PacketVengeanceFX` 的 SPARKS / IMPACT_DUST / HEAVY_BLEED / LIGHTNING_EXPL）。
 
-完整规格（含每个阶段的 tick、音效、FX 类型、伤害公式与速度钳制）见 **`docs/gap/VENGEANCE_GRAPPLE_REPORT.md`**，可直接据此重写。
+验证：`scripts/verify-vengeance-grapple.cjs`（钉住全部原件数值与结构）+ 2 个 GameTest（5 个音效已注册、击退衰减公式）。**速度与 AoE 手感仍需真机确认**。
+
 ### 文档一致性（待办）
 
 `AGENTS.md` 的“Project Structure / Build, Test, and Development Commands / Testing Guidelines”三节仍写着 **Minecraft 1.21.1 / NeoForge 21.1 / Java 21**，与工程实际（26.3 / NeoForge 26.3.0.1-beta / Java 25，见 `gradle.properties`）不符；其中 `gradlew gameTestServer` 的实际任务名是 **`runGameTestServer`**。该文件同时被 DSH 的 global-system-prompt 插件托管（会反复注入一段本机配置块），因此本轮未直接改动它，仅在此登记，供人工按实际修订。
