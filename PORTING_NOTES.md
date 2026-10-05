@@ -80,6 +80,7 @@
 - **语言**：33 套 `.lang` → 26.3 JSON；`en_us` 2332/2332、`zh_cn` 2140/2140 全覆盖。
 - **世界创建选项**：恢复原件的「*SRP World Options...* 入口按钮 → 专用 *SRP World Settings* 界面（5 个选项 + 动画世界预览 + Done）」，替换此前被硬塞进原版创建世界界面底部、会被原版页脚盖住的 5 个按钮；补 `GeneralConfig.worldCreationUi`（原 `SRPConfig.worldGIU`）。
 - **纹理缺失修复**：Kirin 光束/牵引线此前引用 26.3 已迁移的 vanilla 路径（`textures/entity/guardian_beam.png` → 现为 `textures/entity/guardian/guardian_beam.png`），会渲染成缺失纹理；`OrbBoom` 与投射物默认纹理引用了从未随包的 `scary_orb.png`。新增 `scripts/verify-texture-references.cjs` 全量校验（含对照 26.3 客户端 jar 校验 vanilla 路径）。
+- **实体渲染器覆盖修复**：26.3 对未注册渲染器的实体类型**没有兜底**（`EntityRenderDispatcher.getRenderer` 是普通查表，`extractEntity` 直接解引用结果），而两个移植自有的不可见伤害载体实体 `crux_block_damage` / `haunter_damage` 会被 `addFreshEntity` 同步到客户端——一旦渲染即崩溃。已按同类不可见实体的既有做法注册 `NoopRenderer`，现 **170/170 实体 id 均有渲染器**（`scripts/verify-entity-renderers.cjs` 断言）。
 - **Escape 系统补齐**：见 §3.6。
 
 ### 3.6 Escape（死亡循环逃脱）系统

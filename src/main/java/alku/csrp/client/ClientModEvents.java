@@ -94,6 +94,11 @@ public final class ClientModEvents {
         event.registerEntityRenderer(ModEntities.SHOCKWAVE_LEGACY.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.KIRIN_SLASH.get(), KirinSlashRenderer::new);
         event.registerEntityRenderer(ModEntities.WARDEN_SHOCKWAVE.get(), NoopRenderer::new);
+        // Invisible damage carriers.  26.3 has no fallback renderer for an unregistered entity type:
+        // EntityRenderDispatcher.extractEntity() dereferences the lookup result, so a type that reaches
+        // the client without a renderer crashes it.  Both of these are spawned with addFreshEntity().
+        event.registerEntityRenderer(ModEntities.CRUX_BLOCK_DAMAGE.get(), NoopRenderer::new);
+        event.registerEntityRenderer(ModEntities.HAUNTER_DAMAGE.get(), NoopRenderer::new);
         event.registerEntityRenderer(ModEntities.BUGLIN.get(), BuglinRenderer::new);
         event.registerEntityRenderer(ModEntities.RUPTER.get(), RupterRenderer::new);
         event.registerEntityRenderer(ModEntities.SCENT.get(), ParasiticScentRenderer::new);
