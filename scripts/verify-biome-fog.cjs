@@ -52,7 +52,7 @@ expect(worldData, /nodeAge >= WorldConfig\.nodeThreeTime\(\)[\s\S]{0,120}nodeAge
         "convertDayToAgeNode no longer uses the two node age thresholds");
 expect(worldData, /return range < 0 \? -1 : \(squared \? range \* range : range\);/,
         "getDistanceEffectByAge/Spread no longer square the radius (or no longer return -1)");
-expect(worldData, /distanceSquared <= effectRange && \(distance == -1\.0 \|\| distance <= distanceSquared\)/,
+expect(worldData, /distanceSquared <= range && \(distance == -1\.0 \|\| distance <= distanceSquared\)/,
         "nearestHeartAge lost the original's 'farthest covering node wins' rule");
 expect(worldData, /public int nearestHeartAge\(BlockPos pos\)/, "nearestHeartAge is gone");
 expect(worldData, /public int nearestHeartType\(BlockPos pos\)/, "nearestHeartType is gone");
@@ -67,10 +67,10 @@ expect(decorator, /public static int parasiteBiomeIndex\(Holder<Biome> biome\)/,
 expect(decorator, /return nodeType == 3 \? 3 : 1;/,
         "SRPReference#getBiomeFromInt no longer maps only 3 onto harlequin");
 
-const server = read("src/main/java/alku/csrp/world/ParasiteBiomeFogServer.java");
+const server = read("src/main/java/alku/csrp/world/ParasiteBiomeAmbienceServer.java");
 expect(server, /RAMP_UP = 4\.5E-4F/, "the ramp-up rate is no longer 4.5E-4F");
 expect(server, /RAMP_DOWN = 8\.0E-4F/, "the ramp-down rate is no longer 8.0E-4F");
-expect(server, /if \(heartAge < 1 && terrainBiome == 0\)/,
+expect(server, /if \(heartAge < 1 && !inParasiteBiome\)/,
         "the 'no node influence and no parasite biome' gate changed");
 expect(server, /fog = Math\.min\(fog \+ RAMP_UP, density\)/, "the ramp-up clamp changed");
 expect(server, /fog = Math\.max\(fog - RAMP_DOWN, 0\.0F\)/, "the ramp-down clamp changed");

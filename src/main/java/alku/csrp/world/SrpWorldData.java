@@ -500,23 +500,55 @@ public final class SrpWorldData extends SavedData {
      * ({@code distance <= distanceSQ}) rather than the nearest one; that quirk is preserved.
      */
     public int nearestHeartAge(BlockPos pos) {
-        NodeEntry heart = coveringHeart(pos);
+        return nearestHeartAge(pos, false);
+    }
+
+    /** {@code SRPWorldData#nearestHeartAge(pos, spread, 0)} — {@code spread} picks the spread table. */
+    public int nearestHeartAge(BlockPos pos, boolean spread) {
+        NodeEntry heart = coveringHeart(pos, spread);
         return heart == null ? -1 : nodeStageFor(heart.age());
     }
 
     /** {@code SRPWorldData#nearestHeartType(pos, false, 0)} — that node's type, or -1. */
     public int nearestHeartType(BlockPos pos) {
-        NodeEntry heart = coveringHeart(pos);
+        return nearestHeartType(pos, false);
+    }
+
+    /** {@code SRPWorldData#nearestHeartType(pos, spread, 0)}. */
+    public int nearestHeartType(BlockPos pos, boolean spread) {
+        NodeEntry heart = coveringHeart(pos, spread);
         return heart == null ? -1 : heart.type();
     }
 
-    private NodeEntry coveringHeart(BlockPos pos) {
+    /**
+     * {@code SRPWorldData#isInRangeOfHeart(pos, distance)} — the squared distance of the
+     * <em>first</em> node inside {@code distance + 1}, or -1.
+     *
+     * <p>The original increments the radius before comparing and returns the first node it finds
+     * rather than the nearest one; both quirks are preserved because the node heart sound's volume is
+     * derived from this number.</p>
+     */
+    public int isInRangeOfHeart(BlockPos pos, double distance) {
+        double radius = distance + 1.0D;
+        for (NodeEntry node : nodes) {
+            double distanceSquared = node.pos().distSqr(pos);
+            if (distanceSquared < radius * radius) {
+                return (int) distanceSquared;
+            }
+        }
+        return -1;
+    }
+
+    private NodeEntry coveringHeart(BlockPos pos, boolean spread) {
         NodeEntry covered = null;
         double distance = -1.0;
         for (NodeEntry node : nodes) {
             double distanceSquared = node.pos().distSqr(pos);
-            int effectRange = getDistanceEffectByAge(nodeStageFor(node.age()), true);
-            if (distanceSquared <= effectRange && (distance == -1.0 || distance <= distanceSquared)) {
+            int stage = nodeStageFor(node.age());
+            int range = spread
+                    ? getDistanceSpreadByAge(stage, true)
+                    : getDistanceEffectByAge(stage, true);
+            if (distanceSquared <= range && (distance == -1.0 || distance <= distanceSquared)) {
                 covered = node;
                 distance = distanceSquared;
             }

@@ -37,7 +37,7 @@
 | 可加载运行的构建产物 | `build/libs/csrp-1.10.9.jar`（约 134 MB，含全部资源） |
 | 移植说明 | 本文件 |
 | 各子系统详细报告 | `docs/gap/R2_REPORT.md`、`R2_BLIZZARD_REPORT.md`、`R3_WORLDGEN_REPORT.md`、`R4_BLOCKS_REPORT.md`、`R5_ITEMS_REPORT.md`、`R6_ENTITY_MATRIX.md`、`LANG_REPORT.md` |
-| 自动化校验 | `scripts/run-all-verifications.cjs`（130 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
+| 自动化校验 | `scripts/run-all-verifications.cjs`（131 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
 
 规模：569 个 Java 文件、88 个方块类、128 个实体文件、44 个物品类、7 个 Mixin、362 个 blockstate、2236 张纹理、1008 个音效、55 个结构 NBT、33 套语言。
 
@@ -110,10 +110,15 @@
 - **寄生群系雾（原件雾系统的两个分支全部到位）**：原件 `SRPEventHandlerBus` 的 `FogDensity` / `FogColors` 两个钩子：
   - **血液分支**：玩家浸入 `SRPBlocks.PARASITEBLOOD` 时 `EXP + density 1.0F`、雾色 `(0.1, 0.6, 0.2)`。`SRPBlocks.PARASITEBLOOD` 在原件里是流体 **Material**（不是方块），故 26.3 用 `LocalPlayer#isInFluidType(csrp:deadblood)` 判定。
   - **群系分支**：服务端逐玩家把雾浓度以 `4.5E-4F`/tick 推向 `biomeFogDensity`（默认 `0.06F`），离开寄生群系与节点影响范围后以 `8.0E-4F`/tick 退雾，颜色取当前寄生群系的 `biomeOne..FourFog*`（Shrouded/Boils/Harlequin/Demen，0..255 ÷ 255）；客户端在 `fog > biomeFogDensity × 0.2` 时换色，两个分支都受**夜视**豁免（血液分支不受）。
-  - 为此补齐的前置：`WorldConfig` 的 `biomeFogDensity` + 12 个雾色 + `nodeTwoTime`/`nodeThreeTime`（10/40）+ `nodeRangeEffectsOne/Two/Three`（400/1600/8000）与 `nodeRangeSpread*`（200/800/4000）；`SrpWorldData#convertDayToAgeNode` / `getDistanceEffectByAge` / `getDistanceSpreadByAge` / `nearestHeartAge` / `nearestHeartType`（含原件「覆盖范围内**最远**的节点胜出」这一怪癖）；`SrpCoreSystems.nodeStage` 改为走可配置阈值；`ParasiteBiomeDecorator#parasiteBiomeIndex` / `nodeBiomeIndex`（`SRPReference#getBiomeFromInt` 只把类型 3 映射到 Harlequin、其余映射到 Shrouded）。新增 `world/ParasiteBiomeFogServer` + `network/BiomeFogPayload`（`csrp:biome_fog`，只在浓度仍在变化时发送，与原件一致）。
+  - 为此补齐的前置：`WorldConfig` 的 `biomeFogDensity` + 12 个雾色 + `nodeTwoTime`/`nodeThreeTime`（10/40）+ `nodeRangeEffectsOne/Two/Three`（400/1600/8000）与 `nodeRangeSpread*`（200/800/4000）；`SrpWorldData#convertDayToAgeNode` / `getDistanceEffectByAge` / `getDistanceSpreadByAge` / `nearestHeartAge` / `nearestHeartType`（含原件「覆盖范围内**最远**的节点胜出」这一怪癖）；`SrpCoreSystems.nodeStage` 改为走可配置阈值；`ParasiteBiomeDecorator#parasiteBiomeIndex` / `nodeBiomeIndex`（`SRPReference#getBiomeFromInt` 只把类型 3 映射到 Harlequin、其余映射到 Shrouded）。新增 `world/ParasiteBiomeAmbienceServer` + `network/BiomeFogPayload`（`csrp:biome_fog`，只在浓度仍在变化时发送，与原件一致）。
   - 26.3 改写点：`EntityViewRenderEvent.FogDensity` 已不存在，指数密度按工程既有换算（`ClientExtremeSnow.density()`：`density = sqrt(ln 50) / 能见度`）折算成 `ViewportEvent.RenderFog` 的线性 near/far；原件对所有雾模式都覆盖，故不加 `FogType` 过滤；客户端的 `fog` 静态量在换世界时清零（对应原件 `onWorldLoad(Unload)`）。
   - **按原件保留的怪癖**：原件把 `fog` 记在 `SRPEventHandlerBus` 的 **static** 字段上，服务端全体玩家（与所有维度）共用同一个累加值，最后一个被 tick 的玩家决定所有人看到的浓度。本工程按原样保留（改掉就偏离原件行为），已在代码注释与本节写明。
   - 校验：`scripts/verify-parasite-fog.cjs`（客户端两分支）+ `scripts/verify-biome-fog.cjs`（配置默认值、节点查询、服务端推进、包注册）+ 2 个 GameTest（`biome_fog/node_influence`、`biome_fog/node_stage_thresholds`）。
+- **节点心跳音（`biomeHeartFreq` + `SRPPacketMovingSound(-1, vol)`）**：原件每 `biomeHeartFreq`（默认 30，0..100）个玩家 tick 重置一次计数器，若玩家处在寄生群系内则取 `nearestHeartAge(pos, spread = true)`（**扩散**半径表）的档位与 `getDistanceSpreadByAge(age, true)` 的平方扩散半径 `totalS`，再用 `isInRangeOfHeart(pos, totalS)` 取到节点的平方距离算出音量 `1 - distSq/totalS` 并发包；客户端 `ClientProxy#playMovingSound(-1, v)` 以 `pitch 1.0F、volume v × biomeHeartVol`（默认 0.4）播放 `srparasites:biome.heart`（本工程 `csrp:biome.heart`——音效文件与 sounds.json 条目原本就在仓库里，却从未被播放过）。
+  - 新增 `world/ParasiteBiomeAmbienceServer`（雾与心跳在原件里同属一个 `playerTick`，故同处一个方法）、`network/NodeHeartPayload`（`csrp:node_heart`）、`client/sound/ClientNodeHeart`（`playLocalSound(..., SoundSource.NEUTRAL, v × biomeHeartVol, 1.0F, false)`，对应原件 `PositionedSoundRecord.func_194007_a(BHEART, 1.0F, v × biomeHeartVol)`）。
+  - 前置补齐：配置 `biomeHeartFreq`(30) 与 `biomeHeartVol`(0.4)；`SrpWorldData#isInRangeOfHeart`（保留原件「半径先自增 1、取**第一个**命中而非最近」两处怪癖）与 `nearestHeartAge`/`nearestHeartType` 的 `spread` 重载。
+  - 按原件保留的怪癖：心跳计数器与雾累加值一样是共享的（原件 `SRPEventHandlerBus.heart`），多人下按玩家人数成比例加快。另：`nodeRangeSpread*` 被配置成 0 时原件会除以 0，本工程在该处直接跳过并注明。
+  - 校验：`scripts/verify-node-heart.cjs` + GameTest `biome_fog/node_influence` 中的 `isInRangeOfHeart` 与 spread 重载断言。
 - **文档与工具**：`AGENTS.md` 的三节过时描述（1.21.1 / NeoForge 21.1 / Java 21 / `gameTestServer`）改为实际的 26.3 / NeoForge 26.3.0.1-beta / Java 25 / `runGameTestServer`；`scripts/build-locked.sh` 改用 `java -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain`（本环境 Niubash 无法执行 `gradlew.bat`，会静默挂起）。
 
 ---
@@ -193,14 +198,14 @@ export JAVA_HOME="D:/MC/jdk/graalvm-community-25.3.4.1+1.1"
 GRADLE=("$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain)
 
 "${GRADLE[@]}" build -x test             # BUILD SUCCESSFUL → build/libs/csrp-1.10.9.jar
-node scripts/run-all-verifications.cjs   # {"total":130,"passed":130,"failed":0}
+node scripts/run-all-verifications.cjs   # {"total":131,"passed":131,"failed":0}
 "${GRADLE[@]}" runGameTestServer         # All 184 required tests passed
 ```
 
 | 检查 | 结果 |
 | --- | --- |
 | 编译与打包 | **BUILD SUCCESSFUL**，产物 `build/libs/csrp-1.10.9.jar` |
-| 静态契约校验 | **130 / 130 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape/失真/注入熔炉/JEI/抓钩/harlequin 命令契约等） |
+| 静态契约校验 | **131 / 131 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape/失真/注入熔炉/JEI/抓钩/harlequin 命令契约等） |
 | 运行期 GameTest | **186 / 186 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 4 个 harlequin + 2 个寄生群系雾） |
 | 服务器启动 | GameTest 服务器完整启动至测试结束，无启动崩溃 |
 | 世界生成运行期 | 225 区块实证：四类寄生群系 + 36 种寄生体方块落地，零 decoration 失败 |

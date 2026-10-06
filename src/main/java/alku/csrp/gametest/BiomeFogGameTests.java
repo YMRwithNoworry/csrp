@@ -87,6 +87,21 @@ public final class BiomeFogGameTests {
             helper.assertTrue(data.nearestHeartAge(origin.offset(stageOneRange + 1, 0, 0)) == 3,
                     Component.literal("a stage 3 node does not cover a stage 1 distance"));
 
+            // isInRangeOfHeart bumps the radius by one and takes the first node it finds.
+            helper.assertTrue(data.isInRangeOfHeart(origin, 0) == 0,
+                    Component.literal("a node on the queried position must report distance 0"));
+            helper.assertTrue(data.isInRangeOfHeart(origin.offset(2, 0, 0), 1) == -1,
+                    Component.literal("isInRangeOfHeart must compare strictly inside distance + 1"));
+            helper.assertTrue(data.isInRangeOfHeart(origin.offset(2, 0, 0), 2) == 4,
+                    Component.literal("isInRangeOfHeart must return the squared distance of the first node"));
+
+            // The heart sound measures with the spread table, the fog with the effect table.
+            int spread = WorldConfig.nodeRangeSpread(3);
+            helper.assertTrue(data.nearestHeartAge(origin, true) == 3,
+                    Component.literal("the spread query does not see a node on top of the position"));
+            helper.assertTrue(data.nearestHeartAge(origin.offset(spread + 1, 0, 0), true) == -1,
+                    Component.literal("the spread query reaches past the spread radius"));
+
             data.clearNodes();
             helper.assertTrue(data.nearestHeartAge(origin) == -1,
                     Component.literal("clearing the nodes left a heart behind"));

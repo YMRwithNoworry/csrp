@@ -16,7 +16,7 @@ import net.neoforged.neoforge.network.handling.IPayloadContext;
  * {@code SRPEventHandlerBus.fog / fogRed / fogGreen / fogBlue} statics.
  *
  * <p>The original sent the packet only while the density was still ramping, which is exactly when the
- * client's copy changes; {@link alku.csrp.world.ParasiteBiomeFogServer} keeps that rule.</p>
+ * client's copy changes; {@link alku.csrp.world.ParasiteBiomeAmbienceServer} keeps that rule.</p>
  */
 public record BiomeFogPayload(float density, float red, float green, float blue)
         implements CustomPacketPayload {

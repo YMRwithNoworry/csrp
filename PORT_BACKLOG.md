@@ -17,7 +17,7 @@
   - 本环境的 Niubash 无法执行 `gradlew.bat`（会静默挂起），改用
     `"$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain <task>`；
     `scripts/build-locked.sh` 已同步改为这一调用方式。
-- 静态校验套件：**130 / 130 通过**。
+- 静态校验套件：**131 / 131 通过**。
 - 运行期验证：`runGameTestServer` → **186 / 186 GameTests 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 4 个 harlequin + 2 个寄生群系雾），服务器完整启动到测试结束。
 - 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2911 键 / zh_cn 2927 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
@@ -140,22 +140,13 @@
 
 - ✅ **寄生群系雾（`SRPPacketFog` + `SRPConfigWorld.biomeFogDensity`）——两个分支全部完成**：原件对每个玩家逐 tick 推送「雾浓度 → `biomeFogDensity`（默认 `0.06F`，范围 0..1）」与「雾色 = 当前寄生群系的 red/green/blue」（`SRPEventHandlerBus.java:2257,2274`），离开寄生群系后以 `8.0E-4F`/tick 退雾；客户端 `FogDensity` / `FogColors` 两个钩子在 `fog > 0` 且玩家**没有夜视**时改用 `FogMode.EXP`（`density = fog`）并把雾色换成群系色。
   - ✅ **血液分支**：玩家浸在寄生血液里时 `EXP + density 1.0F`、雾色 `(0.1, 0.6, 0.2)`（`SRPEventHandlerBus.java:342-375`）。`client/weather/ClientParasiteFog` 用 `LocalPlayer#isInFluidType(csrp:deadblood)` 判定（原件 `SRPBlocks.PARASITEBLOOD` 是流体 Material）。
-  - ✅ **群系分支**：`world/ParasiteBiomeFogServer` 逐玩家把浓度以 `4.5E-4F`/tick 推向 `biomeFogDensity`、以 `8.0E-4F`/tick 退雾，判定为原件 `canBiomeStillExist(pos,false) < 1 && !(biome instanceof BiomeParasiteBase)`；颜色取地形群系或 `nearestHeartType` 经 `SRPReference#getBiomeFromInt` 映射的群系；`network/BiomeFogPayload`（`csrp:biome_fog`）只在浓度仍在变化时发送，与原件一致。客户端在 `fog > biomeFogDensity × 0.2` 时换色，两分支共用 `sqrt(ln 50)/能见度` → 线性 near/far 的换算。
+  - ✅ **群系分支**：`world/ParasiteBiomeAmbienceServer` 逐玩家把浓度以 `4.5E-4F`/tick 推向 `biomeFogDensity`、以 `8.0E-4F`/tick 退雾，判定为原件 `canBiomeStillExist(pos,false) < 1 && !(biome instanceof BiomeParasiteBase)`；颜色取地形群系或 `nearestHeartType` 经 `SRPReference#getBiomeFromInt` 映射的群系；`network/BiomeFogPayload`（`csrp:biome_fog`）只在浓度仍在变化时发送，与原件一致。客户端在 `fog > biomeFogDensity × 0.2` 时换色，两分支共用 `sqrt(ln 50)/能见度` → 线性 near/far 的换算。
   - 前置全部补齐：`WorldConfig` 新增 `biomeFogDensity` + 12 个群系雾色（38/36/36、81/107/8、199/201/91、100/100/100）+ `nodeTwoTime`/`nodeThreeTime`（10/40）+ `nodeRangeEffectsOne/Two/Three`（400/1600/8000）+ `nodeRangeSpreadOne/Two/Three`（200/800/4000）；`SrpWorldData#convertDayToAgeNode` / `getDistanceEffectByAge` / `getDistanceSpreadByAge` / `nearestHeartAge` / `nearestHeartType`（保留原件「覆盖范围内最远的节点胜出」的怪癖）；`SrpCoreSystems.nodeStage` 改走可配置阈值；`ParasiteBiomeDecorator#parasiteBiomeIndex` / `nodeBiomeIndex`。
   - **按原件保留的怪癖**：`fog` 是原件 `SRPEventHandlerBus` 的 **static** 字段，服务端全体玩家（与所有维度）共用同一个累加值，最后一个被 tick 的玩家决定所有人看到的浓度；本工程按原样保留，并在代码注释与 `PORTING_NOTES.md` §3.8 写明。
   - 校验：`scripts/verify-parasite-fog.cjs` + `scripts/verify-biome-fog.cjs` + 2 个 GameTest（`biome_fog/node_influence`、`biome_fog/node_stage_thresholds`）。
-- ❌ **节点心跳音（`biomeHeartFreq` + `SRPPacketMovingSound`）**：原件在 `SRPEventHandlerBus#playerTick` 里用 `this.heart` 计数，每 `SRPConfigWorld.biomeHeartFreq`（默认 **30**，范围 0..100）个玩家 tick、且玩家处在寄生群系内时：
-  ```
-  age    = data.nearestHeartAge(pos, spread = true, 0)      // 注意用的是「扩散」半径而非雾用的「影响」半径
-  if (age > 0):
-      totalS = data.getDistanceSpreadByAge(age, true)        // 已平方的扩散半径
-      distSq = data.isInRangeOfHeart(pos, totalS)            // 见下
-      vol    = ((float) distSq / totalS - 1.0F) * -1.0F      // = 1 - distSq/totalS，越近越响
-      send SRPPacketMovingSound(-1, vol)                     // 客户端循环播放节点心跳
-  ```
-  `SRPWorldData#isInRangeOfHeart(pos, distance)`（`SRPWorldData.java:842-860`）先把 `distance` **自增 1**，再返回**第一个**满足 `distSq < distance²` 的节点的平方距离（是「第一个」而非「最近的」，又一处原件怪癖），无命中返回 -1。
-  - 现状：工程 `grep isInRangeOfHeart` / 心跳音**零命中**（`PARASITERUBBLEDENSE_HEART` 只是方块 id，与声音无关）；`nearestHeartAge` 目前只移植了 `spread = false` 变体。
-  - 待补：配置 `biomeHeartFreq`(30) + `SrpWorldData.isInRangeOfHeart` + `nearestHeartAge(pos, spread=true)` 变体 + 服务端每 N tick 的判定与同步包 + 客户端循环音（可参照工程既有 `client/sound/ScentMusicSound` / `SoundBlizzardReverse` 的循环音写法）。
+- ✅ **节点心跳音（`biomeHeartFreq` + `SRPPacketMovingSound`）**：已按原件实现——每 `biomeHeartFreq`（30，0..100）个玩家 tick 重置计数器，玩家在寄生群系内时取 `nearestHeartAge(pos, spread = true)` 的档位与 `getDistanceSpreadByAge(age, true)` 的平方扩散半径 `totalS`，用 `isInRangeOfHeart(pos, totalS)` 取节点平方距离算出音量 `1 - distSq/totalS`，发 `csrp:node_heart` 包；客户端 `ClientNodeHeart` 以 `pitch 1.0F、volume v × biomeHeartVol`(0.4) 播放 `csrp:biome.heart`——该音效与 sounds.json 条目原本就在仓库里，却从未被播放过。新增 `world/ParasiteBiomeAmbienceServer`（雾 + 心跳，对应原件同一个 `playerTick`）、`network/NodeHeartPayload`、`client/sound/ClientNodeHeart`；配置补 `biomeHeartFreq`(30) / `biomeHeartVol`(0.4)；`SrpWorldData` 补 `isInRangeOfHeart`（保留「半径先自增 1、取**第一个**命中」两处怪癖）与 `nearestHeartAge`/`nearestHeartType` 的 `spread` 重载。
+  - 校验：`scripts/verify-node-heart.cjs` + GameTest `biome_fog/node_influence` 里的 `isInRangeOfHeart` / spread 重载断言。
+  - 注：心跳计数器与雾累加值同样按原件保留为共享静态量（多人下按玩家人数成比例加快）；`nodeRangeSpread*` 被配置成 0 时原件会除以 0，本工程在该处直接跳过并注明。
 - ⚠️ 待复核一项：`SRPPacketMusicTrackCancelUpdateClientEvoPhase`（进化阶段变化时停 MUSIC 轨、重置音效计时、写 `clientCurrentEvoPhase`，发送点 `SRPSaveData.java:1282`）在工程中零命中，而工程已有 `client/ScentMusicEvents` + `client/sound/ScentMusicSound`，需逐项核对相位切换时是否同样停轨。
 
 

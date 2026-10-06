@@ -87,6 +87,12 @@ public final class WorldConfig {
     private static final ModConfigSpec.DoubleValue BIOME_FOG_DENSITY = BUILDER
             .comment("Amount of fog a parasite biome has (original: Biome Fog Density).")
             .defineInRange("biomeFogDensity", 0.06D, 0.0D, 1.0D);
+    private static final ModConfigSpec.IntValue BIOME_HEART_FREQ = BUILDER
+            .comment("Player ticks between two plays of the core block node sound (original: Biome Node Heart Frequency).")
+            .defineInRange("biomeHeartFreq", 30, 0, 100);
+    private static final ModConfigSpec.DoubleValue BIOME_HEART_VOL = BUILDER
+            .comment("Volume of the core block node sound (original: Biome Node Heart Volume).")
+            .defineInRange("biomeHeartVol", 0.4D, 0.0D, 1000.0D);
     private static final ModConfigSpec.DoubleValue BIOME_ONE_FOG_RED = fogColor("biomeOneFogRed", 38.0D);
     private static final ModConfigSpec.DoubleValue BIOME_ONE_FOG_GREEN = fogColor("biomeOneFogGreen", 36.0D);
     private static final ModConfigSpec.DoubleValue BIOME_ONE_FOG_BLUE = fogColor("biomeOneFogBlue", 36.0D);
@@ -201,6 +207,16 @@ public final class WorldConfig {
     /** {@code SRPConfigWorld.biomeFogDensity} — how thick the parasite biome fog gets, 0..1. */
     public static float biomeFogDensity() {
         return BIOME_FOG_DENSITY.get().floatValue();
+    }
+
+    /** {@code SRPConfigWorld.biomeHeartFreq} — player ticks between two node heart sounds. */
+    public static int biomeHeartFreq() {
+        return BIOME_HEART_FREQ.get();
+    }
+
+    /** {@code SRPConfigWorld.biomeHeartVol} — volume of the node heart sound. */
+    public static float biomeHeartVol() {
+        return BIOME_HEART_VOL.get().floatValue();
     }
 
     /** {@code BiomeParasiteShrouded/Boils/Harlequin/Demen#getRedValue()} — {@code biome} is 1..4. */

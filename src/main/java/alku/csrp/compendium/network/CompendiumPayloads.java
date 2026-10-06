@@ -10,6 +10,7 @@ import alku.csrp.network.CitadelAnimationTriggerPayload;
 import alku.csrp.network.ExtremeSnowStatePayload;
 import alku.csrp.network.GuiDistortionStatePayload;
 import alku.csrp.network.MeteorShakePayload;
+import alku.csrp.network.NodeHeartPayload;
 import alku.csrp.relay.network.RelayReportOpenPayload;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -49,5 +50,7 @@ public final class CompendiumPayloads {
                 ExtremeSnowStatePayload::handle);
         registrar.playToClient(BiomeFogPayload.TYPE, BiomeFogPayload.STREAM_CODEC,
                 BiomeFogPayload::handle);
+        registrar.playToClient(NodeHeartPayload.TYPE, NodeHeartPayload.STREAM_CODEC,
+                NodeHeartPayload::handle);
     }
 }
