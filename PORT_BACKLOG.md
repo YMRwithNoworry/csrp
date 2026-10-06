@@ -144,7 +144,19 @@
   - 前置全部补齐：`WorldConfig` 新增 `biomeFogDensity` + 12 个群系雾色（38/36/36、81/107/8、199/201/91、100/100/100）+ `nodeTwoTime`/`nodeThreeTime`（10/40）+ `nodeRangeEffectsOne/Two/Three`（400/1600/8000）+ `nodeRangeSpreadOne/Two/Three`（200/800/4000）；`SrpWorldData#convertDayToAgeNode` / `getDistanceEffectByAge` / `getDistanceSpreadByAge` / `nearestHeartAge` / `nearestHeartType`（保留原件「覆盖范围内最远的节点胜出」的怪癖）；`SrpCoreSystems.nodeStage` 改走可配置阈值；`ParasiteBiomeDecorator#parasiteBiomeIndex` / `nodeBiomeIndex`。
   - **按原件保留的怪癖**：`fog` 是原件 `SRPEventHandlerBus` 的 **static** 字段，服务端全体玩家（与所有维度）共用同一个累加值，最后一个被 tick 的玩家决定所有人看到的浓度；本工程按原样保留，并在代码注释与 `PORTING_NOTES.md` §3.8 写明。
   - 校验：`scripts/verify-parasite-fog.cjs` + `scripts/verify-biome-fog.cjs` + 2 个 GameTest（`biome_fog/node_influence`、`biome_fog/node_stage_thresholds`）。
-- ⚠️ 待复核两项：`SRPConfigWorld.biomeHeartFreq`（默认 30，「Frequency of the Core Block Node Sound」，`SRPConfigWorld.java:59`）在工程中零命中，节点心跳音可能被写成固定间隔；`SRPPacketMusicTrackCancelUpdateClientEvoPhase`（进化阶段变化时停 MUSIC 轨、重置音效计时、写 `clientCurrentEvoPhase`，发送点 `SRPSaveData.java:1282`）在工程中零命中，而工程已有 `client/ScentMusicEvents` + `client/sound/ScentMusicSound`，需逐项核对相位切换时是否同样停轨。
+- ❌ **节点心跳音（`biomeHeartFreq` + `SRPPacketMovingSound`）**：原件在 `SRPEventHandlerBus#playerTick` 里用 `this.heart` 计数，每 `SRPConfigWorld.biomeHeartFreq`（默认 **30**，范围 0..100）个玩家 tick、且玩家处在寄生群系内时：
+  ```
+  age    = data.nearestHeartAge(pos, spread = true, 0)      // 注意用的是「扩散」半径而非雾用的「影响」半径
+  if (age > 0):
+      totalS = data.getDistanceSpreadByAge(age, true)        // 已平方的扩散半径
+      distSq = data.isInRangeOfHeart(pos, totalS)            // 见下
+      vol    = ((float) distSq / totalS - 1.0F) * -1.0F      // = 1 - distSq/totalS，越近越响
+      send SRPPacketMovingSound(-1, vol)                     // 客户端循环播放节点心跳
+  ```
+  `SRPWorldData#isInRangeOfHeart(pos, distance)`（`SRPWorldData.java:842-860`）先把 `distance` **自增 1**，再返回**第一个**满足 `distSq < distance²` 的节点的平方距离（是「第一个」而非「最近的」，又一处原件怪癖），无命中返回 -1。
+  - 现状：工程 `grep isInRangeOfHeart` / 心跳音**零命中**（`PARASITERUBBLEDENSE_HEART` 只是方块 id，与声音无关）；`nearestHeartAge` 目前只移植了 `spread = false` 变体。
+  - 待补：配置 `biomeHeartFreq`(30) + `SrpWorldData.isInRangeOfHeart` + `nearestHeartAge(pos, spread=true)` 变体 + 服务端每 N tick 的判定与同步包 + 客户端循环音（可参照工程既有 `client/sound/ScentMusicSound` / `SoundBlizzardReverse` 的循环音写法）。
+- ⚠️ 待复核一项：`SRPPacketMusicTrackCancelUpdateClientEvoPhase`（进化阶段变化时停 MUSIC 轨、重置音效计时、写 `clientCurrentEvoPhase`，发送点 `SRPSaveData.java:1282`）在工程中零命中，而工程已有 `client/ScentMusicEvents` + `client/sound/ScentMusicSound`，需逐项核对相位切换时是否同样停轨。
 
 
 ### 已核实的"backlog 误报"（不再作为待办）
