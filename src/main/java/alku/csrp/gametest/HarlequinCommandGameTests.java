@@ -10,6 +10,7 @@ import alku.csrp.world.gen.HarlequinBlockConverter;
 import com.mojang.serialization.MapCodec;
 import java.util.List;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.QuartPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.gametest.framework.FunctionGameTestInstance;
@@ -26,6 +27,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.RegisterGameTestsEvent;
@@ -108,11 +110,18 @@ public final class HarlequinCommandGameTests {
             Holder<Biome> harlequin = HarlequinCommand.harlequinBiome(level);
             BlockPos origin = helper.absolutePos(BlockPos.ZERO);
 
-            int changed = HarlequinCommand.applyHarlequinBiome(level, origin.getX() >> 4,
-                    origin.getZ() >> 4, 0, harlequin);
+            int chunkX = origin.getX() >> 4;
+            int chunkZ = origin.getZ() >> 4;
+            LevelChunk chunk = level.getChunk(chunkX, chunkZ);
+            int changed = HarlequinCommand.applyHarlequinBiome(level, chunkX, chunkZ, 0, harlequin);
             helper.assertTrue(changed == 1,
                     Component.literal("expected one rewritten chunk but got " + changed));
-            helper.assertTrue(level.getBiome(origin).is(ParasiteBiomeDecorator.HARLEQUIN_BIOME),
+            // Read the biome back through the same chunk the command wrote to: a gametest level keeps
+            // generating chunks while a test runs, so `level.getBiome` can land on a chunk that was
+            // (re)generated after the write and lose it.
+            helper.assertTrue(chunk.getNoiseBiome(QuartPos.fromBlock(origin.getX()),
+                            QuartPos.fromBlock(origin.getY()), QuartPos.fromBlock(origin.getZ()))
+                            .is(ParasiteBiomeDecorator.HARLEQUIN_BIOME),
                     Component.literal("the biome at the test origin was not changed to Harlequin"));
             helper.succeed();
         }
