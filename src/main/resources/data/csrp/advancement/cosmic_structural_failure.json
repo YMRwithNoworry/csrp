@@ -5,10 +5,10 @@
       "id": "csrp:cosmic_structural_failure_icon"
     },
     "title": {
-      "translate": "advancement.csrp.cosmic_structural_failure.title"
+      "translate": "advancements.csrp.cosmic_structural_failure.title"
     },
     "description": {
-      "translate": "advancement.csrp.cosmic_structural_failure.desc"
+      "translate": "advancements.csrp.cosmic_structural_failure.description"
     },
     "frame": "challenge",
     "show_toast": true,

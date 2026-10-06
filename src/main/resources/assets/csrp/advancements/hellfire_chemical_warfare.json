@@ -5,10 +5,10 @@
       "item": "csrp:hellfire_chemical_warfare_icon"
     },
     "title": {
-      "translate": "advancement.csrp.hellfire_chemical_warfare.title"
+      "translate": "advancements.csrp.hellfire_chemical_warfare.title"
     },
     "description": {
-      "translate": "advancement.csrp.hellfire_chemical_warfare.desc"
+      "translate": "advancements.csrp.hellfire_chemical_warfare.description"
     },
     "frame": "challenge",
     "show_toast": true,

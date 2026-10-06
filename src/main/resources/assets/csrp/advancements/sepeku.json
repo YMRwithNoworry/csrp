@@ -5,10 +5,10 @@
       "item": "csrp:bough"
     },
     "title": {
-      "translate": "advancement.csrp.sepeku.title"
+      "translate": "advancements.csrp.sepeku.title"
     },
     "description": {
-      "translate": "advancement.csrp.sepeku.desc"
+      "translate": "advancements.csrp.sepeku.description"
     },
     "frame": "task",
     "show_toast": true,
