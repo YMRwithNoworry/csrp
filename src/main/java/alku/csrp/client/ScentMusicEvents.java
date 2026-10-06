@@ -1,6 +1,7 @@
 package alku.csrp.client;
 
 import alku.csrp.Csrp;
+import alku.csrp.client.sound.ClientPhaseMusicScheduler;
 import alku.csrp.client.sound.ScentMusicSound;
 import alku.csrp.entity.ParasiticScentEntity;
 import net.minecraft.client.Minecraft;
@@ -25,6 +26,7 @@ public final class ScentMusicEvents {
         if (current == null || current.isStopped()) {
             current = new ScentMusicSound();
             Minecraft.getInstance().getSoundManager().play(current);
+            ClientPhaseMusicScheduler.scentMusicStarted();
         }
     }
 }

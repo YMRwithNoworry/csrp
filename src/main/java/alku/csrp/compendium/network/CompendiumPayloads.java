@@ -9,7 +9,9 @@ import alku.csrp.network.ParasiteDeathFxPayload;
 import alku.csrp.network.CitadelAnimationTriggerPayload;
 import alku.csrp.network.ExtremeSnowStatePayload;
 import alku.csrp.network.GuiDistortionStatePayload;
+import alku.csrp.network.EvolutionPhaseClientPayload;
 import alku.csrp.network.MeteorShakePayload;
+import alku.csrp.network.RequestEvolutionPhasePayload;
 import alku.csrp.network.NodeHeartPayload;
 import alku.csrp.relay.network.RelayReportOpenPayload;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -52,5 +54,9 @@ public final class CompendiumPayloads {
                 BiomeFogPayload::handle);
         registrar.playToClient(NodeHeartPayload.TYPE, NodeHeartPayload.STREAM_CODEC,
                 NodeHeartPayload::handle);
+        registrar.playToServer(RequestEvolutionPhasePayload.TYPE, RequestEvolutionPhasePayload.STREAM_CODEC,
+                RequestEvolutionPhasePayload::handle);
+        registrar.playToClient(EvolutionPhaseClientPayload.TYPE, EvolutionPhaseClientPayload.STREAM_CODEC,
+                EvolutionPhaseClientPayload::handle);
     }
 }

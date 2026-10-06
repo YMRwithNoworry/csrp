@@ -17,7 +17,7 @@
   - 本环境的 Niubash 无法执行 `gradlew.bat`（会静默挂起），改用
     `"$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain <task>`；
     `scripts/build-locked.sh` 已同步改为这一调用方式。
-- 静态校验套件：**131 / 131 通过**。
+- 静态校验套件：**132 / 132 通过**。
 - 运行期验证：`runGameTestServer` → **186 / 186 GameTests 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 4 个 harlequin + 2 个寄生群系雾），服务器完整启动到测试结束。
 - 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2911 键 / zh_cn 2927 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
@@ -148,7 +148,8 @@
   - 校验：`scripts/verify-node-heart.cjs` + GameTest `biome_fog/node_influence` 里的 `isInRangeOfHeart` / spread 重载断言。
   - 注：心跳计数器与雾累加值同样按原件保留为共享静态量（多人下按玩家人数成比例加快）；`nodeRangeSpread*` 被配置成 0 时原件会除以 0，本工程在该处直接跳过并注明。
 - ✅ **进化阶段音乐（`SRPPacketMovingSound(1..10)`）**：已实现，但用的是 26.3 原生包而非原件的自定义包——`EvolutionSystem#announcePhaseChange` 在阶段**上升**到 1..10 时向该维度每个玩家发 `ClientboundSoundPacket(Holder.direct(ModSounds.evolutionPhase(current)), SoundSource.NEUTRAL, x, y, z, 0.75F, 1.0F, seed)`，与原件 `ClientProxy#playMovingSound` 的 `case 1..10`（`pitch 1.0F、volume 0.75F`、`SoundCategory.NEUTRAL`）逐参数一致；原件 `warning = 0`（-1→0）与 `warning = -7`（1→0 下降）在客户端 switch 里**没有对应 case**，故不发声，工程的 `advanced && current >= 1` 条件与之一致。本轮修正了此前 `volume 1.0F / SoundSource.MASTER` 两处偏差。
-  - ⚠️ 仍未复核：原件在每次 `SRPSaveData#setEvolutionPhase` 时发 `SRPPacketMusicTrackCancelUpdateClientEvoPhase`，客户端停 MUSIC 轨、`resetSouncTicker(200)` 并写 `clientCurrentEvoPhase`；同一套客户端状态还被 `SRPPacketUpdateEvoPhaseClient`（写 `clientVector = 200`）与 `SRPEventHandlerBus.musicTimer / clientScent / clientVector` 的客户端音乐调度使用。工程 `grep musicTimer|clientScent|clientVector|resetSouncTicker` **零命中**，只有 `ScentMusicSound` 一条 MUSIC 轨（由 `ParasiticScentEntity` 驱动），需确认是否还缺「阶段变化时停 MUSIC + 客户端音乐调度计时」这一层。
+
+  - ✅ **已补齐（本轮）**：原件每次 `setEvolutionPhase` 发的 `SRPPacketMusicTrackCancelUpdateClientEvoPhase`（停 MUSIC 轨、`resetSouncTicker(200)`、写 `clientCurrentEvoPhase`）与整套客户端 OST 调度（`musicTimer` 到点播放 `getMusicPhase()`、`clientVector` 计数、scent 优先、vanilla 音乐压制、每 20 tick 请求阶段）现由 `client/sound/ClientPhaseMusicScheduler` + `csrp:request_evolution_phase` / `csrp:evolution_phase_client` 两个包实现，配置新增 `musicEnabled`(true) / `musicPhaseMin`(14420) / `musicPhaseMax`(18200)。校验：`scripts/verify-phase-music.cjs`。
 
 
 ### 已核实的"backlog 误报"（不再作为待办）

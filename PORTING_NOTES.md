@@ -37,7 +37,7 @@
 | 可加载运行的构建产物 | `build/libs/csrp-1.10.9.jar`（约 134 MB，含全部资源） |
 | 移植说明 | 本文件 |
 | 各子系统详细报告 | `docs/gap/R2_REPORT.md`、`R2_BLIZZARD_REPORT.md`、`R3_WORLDGEN_REPORT.md`、`R4_BLOCKS_REPORT.md`、`R5_ITEMS_REPORT.md`、`R6_ENTITY_MATRIX.md`、`LANG_REPORT.md` |
-| 自动化校验 | `scripts/run-all-verifications.cjs`（131 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
+| 自动化校验 | `scripts/run-all-verifications.cjs`（132 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
 
 规模：569 个 Java 文件、88 个方块类、128 个实体文件、44 个物品类、7 个 Mixin、362 个 blockstate、2236 张纹理、1008 个音效、55 个结构 NBT、33 套语言。
 
@@ -120,6 +120,13 @@
   - 按原件保留的怪癖：心跳计数器与雾累加值一样是共享的（原件 `SRPEventHandlerBus.heart`），多人下按玩家人数成比例加快。另：`nodeRangeSpread*` 被配置成 0 时原件会除以 0，本工程在该处直接跳过并注明。
   - 校验：`scripts/verify-node-heart.cjs` + GameTest `biome_fog/node_influence` 中的 `isInRangeOfHeart` 与 spread 重载断言。
 - **进化阶段音乐（原件 `SRPPacketMovingSound(1..10)`）**：`EvolutionSystem#announcePhaseChange` 在阶段上升到 1..10 时向该维度每个玩家发原生 `ClientboundSoundPacket(Holder.direct(ModSounds.evolutionPhase(current)), SoundSource.NEUTRAL, x, y, z, 0.75F, 1.0F, seed)`——与原件 `ClientProxy#playMovingSound` 的 `case 1..10`（`pitch 1.0F`、`volume 0.75F`、`SoundCategory.NEUTRAL`）逐参数一致（26.3 用原生声音包替代原件的自定义包）；原件 `warning = 0`（-1→0）与 `-7`（1→0 下降）在客户端 switch 里**没有对应 case**，即不发声，工程的 `advanced && current >= 1` 条件与之一致。本轮修正了此前 `volume 1.0F` / `SoundSource.MASTER` 两处偏差。校验：`scripts/verify-node-heart.cjs`。
+- **OST 调度（原件 `SRPEventHandlerBus#soundTwo` / `soundThree` / `getMusicPhase` / `resetSouncTicker`）**：原件客户端唯一会主动播放 OST 的地方，此前完全缺失——10 首阶段曲、`srparasites.biome`、`srparasites.scent` 与对应 sounds.json 条目都在仓库里，却没有任何代码播放它们。现已按原件实现（新增 `client/sound/ClientPhaseMusicScheduler`）：
+  - 每 tick 递减 `clientVector`（收到 `vector = true` 的答复时置 200）；`clientVector <= 0` 时整段调度跳过，并在刚跨过 0 的那一 tick 停掉 MUSIC 轨（对应原件 `originActivated && clientVector <= 0` 分支——工程没有 `originActivated` 开关，故始终走原件默认值 true 的分支）。
+  - `musicTimer` 到点、无待清理曲目且 `clientCurrentEvoPhase > 0` 时：先 `stop(null, SoundSource.MUSIC)`，再播放当前处境的曲子——寄生群系内 `srparasites.biome`，否则 `srparasites.phaseone..phaseten`（原件 `getMusicPhase` 的 1..10 映射），随后按 `musicPhaseMin..musicPhaseMax`（新增配置，默认 14420..18200）重掷下一次延迟。
+  - `ScentMusicSound` 开始时把 `clientScent` 置 5000（对应原件 `ClientProxy#playMovingSound case 102`），scent 曲优先于阶段曲；`clientScent` 归 -1 时停 MUSIC 并置 -10。
+  - vanilla 背景音乐在「有寄生曲该播」时由 `PlaySoundEvent` 直接丢弃（原件把流式曲目排队到下一 tick 再移除，26.3 里等价于不让它开始）。
+  - 网络：新增 `csrp:request_evolution_phase`（客户端每 20 tick 询问）与 `csrp:evolution_phase_client`（服务端回 `(维度阶段, 是否处于感染向量半径内)`，对应原件 `SRPSaveData#getEvolutionPhase` + `SRPWorldData#nearestInfectionPosition(false, pos) != null`）。
+  - 校验：`scripts/verify-phase-music.cjs`。
 - **文档与工具**：`AGENTS.md` 的三节过时描述（1.21.1 / NeoForge 21.1 / Java 21 / `gameTestServer`）改为实际的 26.3 / NeoForge 26.3.0.1-beta / Java 25 / `runGameTestServer`；`scripts/build-locked.sh` 改用 `java -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain`（本环境 Niubash 无法执行 `gradlew.bat`，会静默挂起）。
 
 ---
@@ -199,14 +206,14 @@ export JAVA_HOME="D:/MC/jdk/graalvm-community-25.3.4.1+1.1"
 GRADLE=("$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain)
 
 "${GRADLE[@]}" build -x test             # BUILD SUCCESSFUL → build/libs/csrp-1.10.9.jar
-node scripts/run-all-verifications.cjs   # {"total":131,"passed":131,"failed":0}
+node scripts/run-all-verifications.cjs   # {"total":132,"passed":132,"failed":0}
 "${GRADLE[@]}" runGameTestServer         # All 184 required tests passed
 ```
 
 | 检查 | 结果 |
 | --- | --- |
 | 编译与打包 | **BUILD SUCCESSFUL**，产物 `build/libs/csrp-1.10.9.jar` |
-| 静态契约校验 | **131 / 131 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape/失真/注入熔炉/JEI/抓钩/harlequin 命令契约等） |
+| 静态契约校验 | **132 / 132 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape/失真/注入熔炉/JEI/抓钩/harlequin 命令契约等） |
 | 运行期 GameTest | **186 / 186 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 4 个 harlequin + 2 个寄生群系雾） |
 | 服务器启动 | GameTest 服务器完整启动至测试结束，无启动崩溃 |
 | 世界生成运行期 | 225 区块实证：四类寄生群系 + 36 种寄生体方块落地，零 decoration 失败 |
