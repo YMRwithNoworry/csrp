@@ -85,6 +85,14 @@ expect(client, /SoundSource\.NEUTRAL, volume \* WorldConfig\.biomeHeartVol\(\), 
 const catalog = read("src/main/java/alku/csrp/registry/SoundEventCatalog.java");
 expect(catalog, /"biome\.heart"/, "the biome.heart sound event is no longer registered");
 
+// The same original packet also carried the evolution phase jingles (cases 1..10).  The port plays
+// them through the vanilla ClientboundSoundPacket, so the four values it carries must still match
+// ClientProxy#playMovingSound: EVPHASE_<phase>, SoundCategory.NEUTRAL, pitch 1.0F, volume 0.75F.
+const evolution = read("src/main/java/alku/csrp/world/EvolutionSystem.java");
+expect(evolution, /if \(advanced && current >= 1\)/, "the phase jingle is no longer gated on advancing to phase 1+");
+expect(evolution, /Holder\.direct\(ModSounds\.evolutionPhase\(current\)\), SoundSource\.NEUTRAL, player\.getX\(\), player\.getY\(\), player\.getZ\(\), 0\.75F, 1\.0F,/,
+        "the phase jingle no longer matches EVPHASE_n / NEUTRAL / volume 0.75F / pitch 1.0F");
+
 if (failures.length) {
     for (const failure of failures) console.error(failure);
     process.exit(1);

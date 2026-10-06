@@ -119,6 +119,7 @@
   - 前置补齐：配置 `biomeHeartFreq`(30) 与 `biomeHeartVol`(0.4)；`SrpWorldData#isInRangeOfHeart`（保留原件「半径先自增 1、取**第一个**命中而非最近」两处怪癖）与 `nearestHeartAge`/`nearestHeartType` 的 `spread` 重载。
   - 按原件保留的怪癖：心跳计数器与雾累加值一样是共享的（原件 `SRPEventHandlerBus.heart`），多人下按玩家人数成比例加快。另：`nodeRangeSpread*` 被配置成 0 时原件会除以 0，本工程在该处直接跳过并注明。
   - 校验：`scripts/verify-node-heart.cjs` + GameTest `biome_fog/node_influence` 中的 `isInRangeOfHeart` 与 spread 重载断言。
+- **进化阶段音乐（原件 `SRPPacketMovingSound(1..10)`）**：`EvolutionSystem#announcePhaseChange` 在阶段上升到 1..10 时向该维度每个玩家发原生 `ClientboundSoundPacket(Holder.direct(ModSounds.evolutionPhase(current)), SoundSource.NEUTRAL, x, y, z, 0.75F, 1.0F, seed)`——与原件 `ClientProxy#playMovingSound` 的 `case 1..10`（`pitch 1.0F`、`volume 0.75F`、`SoundCategory.NEUTRAL`）逐参数一致（26.3 用原生声音包替代原件的自定义包）；原件 `warning = 0`（-1→0）与 `-7`（1→0 下降）在客户端 switch 里**没有对应 case**，即不发声，工程的 `advanced && current >= 1` 条件与之一致。本轮修正了此前 `volume 1.0F` / `SoundSource.MASTER` 两处偏差。校验：`scripts/verify-node-heart.cjs`。
 - **文档与工具**：`AGENTS.md` 的三节过时描述（1.21.1 / NeoForge 21.1 / Java 21 / `gameTestServer`）改为实际的 26.3 / NeoForge 26.3.0.1-beta / Java 25 / `runGameTestServer`；`scripts/build-locked.sh` 改用 `java -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain`（本环境 Niubash 无法执行 `gradlew.bat`，会静默挂起）。
 
 ---

@@ -250,8 +250,11 @@ public final class EvolutionSystem {
                 ? "message.csrp.evolution.phase_advanced" : "message.csrp.evolution.phase_decreased", current);
         for (ServerPlayer player : level.players()) {
             player.sendSystemMessage(message);
+            // ClientProxy#playMovingSound cases 1..10: EVPHASE_n at pitch 1.0F, volume 0.75F,
+            // SoundCategory.NEUTRAL.  The original pushed that through its own packet; 26.3 has
+            // ClientboundSoundPacket, which carries the same four values.
             if (advanced && current >= 1) {
-                player.connection.send(new net.minecraft.network.protocol.game.ClientboundSoundPacket(net.minecraft.core.Holder.direct(ModSounds.evolutionPhase(current)), SoundSource.MASTER, player.getX(), player.getY(), player.getZ(), 1.0F, 1.0F, player.getRandom().nextLong()));
+                player.connection.send(new net.minecraft.network.protocol.game.ClientboundSoundPacket(net.minecraft.core.Holder.direct(ModSounds.evolutionPhase(current)), SoundSource.NEUTRAL, player.getX(), player.getY(), player.getZ(), 0.75F, 1.0F, player.getRandom().nextLong()));
             }
         }
         if (!advanced) {
