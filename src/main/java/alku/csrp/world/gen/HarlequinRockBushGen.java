@@ -21,9 +21,11 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemp
  *
  * <p>For every newly generated Harlequin chunk it places one of seven {@code harlequin_rock_*}
  * templates with a 1-in-10 chance and a 3..6 piece {@code harlequin_bush_*} cluster with a 1-in-8
- * chance.  Every candidate is validated against the original rules: the ground must be sand / red
- * sand / gravel / grass / dirt (or the SRP harlequin ground ids), the top block must not be
- * water/lava/ice/leaves, and the 7-block neighbourhood must stay within a 3-block height delta.</p>
+ * chance.  Every candidate is validated against the original rules: the ground must be sand /
+ * sandstone / red sandstone / grass / dirt (or the SRP harlequin ground ids), the top block must not
+ * be water, lava or leaves, and the 7-block neighbourhood must stay within a 3-block height delta.
+ * Heights come from the {@code MOTION_BLOCKING} heightmap — the original's
+ * {@code World#getHeight(BlockPos)}.</p>
  *
  * <p>The 1.12.2 {@code IWorldGenerator} hook does not exist in 26.3, so this is driven from
  * {@link ParasiteBiomeDecorator} while a Harlequin chunk is being decorated.</p>
@@ -49,7 +51,7 @@ public final class HarlequinRockBushGen {
     public static void generate(ServerLevel level, RandomSource random, ChunkPos chunkPos) {
         int baseX = (chunkPos.x() << 4) + 8 + random.nextInt(6) - 3;
         int baseZ = (chunkPos.z() << 4) + 8 + random.nextInt(6) - 3;
-        int baseY = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, baseX, baseZ);
+        int baseY = level.getHeight(Heightmap.Types.MOTION_BLOCKING, baseX, baseZ);
         BlockPos base = new BlockPos(baseX, baseY, baseZ);
 
         if (!isHarlequin(level, base)) {
@@ -104,7 +106,7 @@ public final class HarlequinRockBushGen {
     }
 
     private static BlockPos findSurface(ServerLevel level, BlockPos xz) {
-        int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, xz.getX(), xz.getZ());
+        int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING, xz.getX(), xz.getZ());
         BlockPos pos = new BlockPos(xz.getX(), y, xz.getZ());
         if (!isGoodGround(level, pos.below())) {
             return null;
@@ -113,12 +115,12 @@ public final class HarlequinRockBushGen {
     }
 
     private static boolean isGoodGround(ServerLevel level, BlockPos pos) {
-        Block block = ParasiteGenContext.get(level, pos).getBlock();
-        if (block == Blocks.SAND || block == Blocks.RED_SAND || block == Blocks.GRAVEL
-                || block == Blocks.GRASS_BLOCK || block == Blocks.DIRT) {
+        BlockState state = ParasiteGenContext.get(level, pos);
+        if (state.is(Blocks.SAND) || state.is(Blocks.SANDSTONE) || state.is(Blocks.RED_SANDSTONE)
+                || state.is(Blocks.GRASS_BLOCK) || state.is(Blocks.DIRT)) {
             return true;
         }
-        Identifier id = net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(block);
+        Identifier id = net.minecraft.core.registries.BuiltInRegistries.BLOCK.getKey(state.getBlock());
         String path = id.getPath();
         return ("csrp".equals(id.getNamespace()) || "srparasites".equals(id.getNamespace()))
                 && ("harlequinn_grass".equals(path) || "harleskinn_block".equals(path));
@@ -127,8 +129,7 @@ public final class HarlequinRockBushGen {
     private static boolean isBadTop(ServerLevel level, BlockPos pos) {
         BlockState state = ParasiteGenContext.get(level, pos);
         Block block = state.getBlock();
-        if (block == Blocks.WATER || block == Blocks.LAVA || block == Blocks.ICE
-                || block == Blocks.FROSTED_ICE) {
+        if (block == Blocks.WATER || block == Blocks.LAVA) {
             return true;
         }
         return block instanceof LeavesBlock;
@@ -140,7 +141,7 @@ public final class HarlequinRockBushGen {
         int max = Integer.MIN_VALUE;
         for (int dx = -radius; dx <= radius; dx += radius) {
             for (int dz = -radius; dz <= radius; dz += radius) {
-                int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES,
+                int y = level.getHeight(Heightmap.Types.MOTION_BLOCKING,
                         center.getX() + dx, center.getZ() + dz);
                 min = Math.min(min, y);
                 max = Math.max(max, y);

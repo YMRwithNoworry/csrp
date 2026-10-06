@@ -73,8 +73,11 @@ public final class SrpCommands {
         for (LiteralArgumentBuilder<CommandSourceStack> alias : GuiDistortionCommand.aliasCommands()) {
             dispatcher.register(alias);
         }
-        // CommandHarlequinHere, registered as its own root command like the original.
+        // The three CommandHarlequin* classes were registered as their own root commands in
+        // CommonProxy#registerServerCommand, in this order: here, convert, scatter.
         dispatcher.register(HarlequinCommand.hereCommand());
+        dispatcher.register(HarlequinConvertCommand.command());
+        dispatcher.register(HarlequinScatterCommand.command());
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> srMeteor() {
