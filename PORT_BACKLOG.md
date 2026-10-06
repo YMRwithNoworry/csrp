@@ -138,12 +138,13 @@
 
 **本轮新发现的缺口**
 
-- ❌ **寄生群系雾（`SRPPacketFog` + `SRPConfigWorld.biomeFogDensity`）**：原件对每个玩家逐 tick 推送「雾浓度 → `biomeFogDensity`（默认 `0.06F`，范围 0..1）」与「雾色 = 当前寄生群系的 red/green/blue」（`SRPEventHandlerBus.java:2257,2274`），离开寄生群系后以 `8.0E-4F`/tick 退雾；客户端 `FogDensity` / `FogColors` 两个钩子在 `fog > 0` 且玩家**没有夜视**时改用 `FogMode.EXP`（`density = fog`）并把雾色换成群系色，玩家浸在寄生血液里时固定 `EXP + density 1.0F` / 雾色 `(0.1, 0.6, 0.2)`（`SRPEventHandlerBus.java:342-375`）。本工程 `grep biomeFogDensity` **零命中**：客户端只有暴风雪 / 极端降雪 / 星空三条雾路径（`SRPBlizzardFogRenderer`、`ClientExtremeSnow`），**寄生群系本身没有雾**。
-  - 实施前置（本轮查清，均为零命中，需一并补）：
+- 🟡 **寄生群系雾（`SRPPacketFog` + `SRPConfigWorld.biomeFogDensity`）——血液分支已实现，群系分支仍缺**：原件对每个玩家逐 tick 推送「雾浓度 → `biomeFogDensity`（默认 `0.06F`，范围 0..1）」与「雾色 = 当前寄生群系的 red/green/blue」（`SRPEventHandlerBus.java:2257,2274`），离开寄生群系后以 `8.0E-4F`/tick 退雾；客户端 `FogDensity` / `FogColors` 两个钩子在 `fog > 0` 且玩家**没有夜视**时改用 `FogMode.EXP`（`density = fog`）并把雾色换成群系色。
+  - ✅ **已实现（本轮）**：同一对钩子的**寄生血液分支**——玩家浸在寄生血液里时 `EXP + density 1.0F`、雾色 `(0.1, 0.6, 0.2)`（`SRPEventHandlerBus.java:342-375`）。新增 `client/weather/ClientParasiteFog`（原件 `SRPBlocks.PARASITEBLOOD` 是流体 Material，故 26.3 用 `LocalPlayer#isInFluidType(csrp:deadblood)` 判定；密度经工程既有换算 `sqrt(ln 50)/能见度` 折算为线性 near/far 平面；原件对所有雾模式都覆盖，故不加 `FogType` 过滤）。校验：`scripts/verify-parasite-fog.cjs`。
+  - ❌ **仍缺：群系分支**。实施前置（本轮查清，均为零命中，需一并补）：
     1. 配置：`biomeFogDensity`（0.06F）与四组群系雾色 `biomeOneFogRed/Green/Blue` … `biomeFourFogRed/Green/Blue`（原件按 Shrouded=1 / Boils=2 / Harlequin=3 / Demen=4 编号，`BiomeParasite*#getRedValue()` 读的就是它们）；
     2. 节点影响半径：`nodeRangeEffectsOne/Two/Three`（400 / 1600 / 8000）与 `nodeRangeSpreadOne/Two/Three`（200 / 800 / 4000），以及 `SRPWorldData#getDistanceEffectByAge` / `getDistanceSpreadByAge`（按 `convertDayToAgeNode(age)` 的 1..3 档返回半径，越界返回 -1）与 `nearestHeartAge` / `nearestHeartType`（`SRPWorldData.java:862-929`）。工程目前只有 `SrpCoreSystems.tooCloseToNode(data, pos, distance)` 这种「调用点自带距离」的写法，没有这套按节点档位算半径的查询；
-    3. 判定入口 `ParasiteEventWorld.canBiomeStillExist(pos, false) < 1 && !(biome instanceof BiomeParasiteBase)` → 退雾，否则按 `nearestHeartType` 映射回群系取色（`SRPReference.getBiomeFromInt`）。
-  - 26.3 改写点：原件用 `FogMode.EXP` + `event.setDensity`，而 26.3 的 `ViewportEvent.RenderFog` 只暴露线性 near/far 平面，需按工程既有换算（`ClientExtremeSnow.density()`：`sqrt(ln 50) / 能见度`）把密度折算成 far 平面并注明是近似。
+    3. 判定入口 `ParasiteEventWorld.canBiomeStillExist(pos, false) < 1 && !(biome instanceof BiomeParasiteBase)` → 退雾，否则按 `nearestHeartType` 映射回群系取色（`SRPReference.getBiomeFromInt`）；
+    4. 服务端逐玩家推进 + 同步包（原件 `SRPPacketFog`）。
   - 另需注意原件把 `fog` 记在 `SRPEventHandlerBus` 的 **static** 字段上（服务端全体玩家共用一个累加值），多人下会互相覆盖；移植时按原件保留该语义还是改为按玩家，需在交付说明里明确写出。
 - ⚠️ 待复核两项：`SRPConfigWorld.biomeHeartFreq`（默认 30，「Frequency of the Core Block Node Sound」，`SRPConfigWorld.java:59`）在工程中零命中，节点心跳音可能被写成固定间隔；`SRPPacketMusicTrackCancelUpdateClientEvoPhase`（进化阶段变化时停 MUSIC 轨、重置音效计时、写 `clientCurrentEvoPhase`，发送点 `SRPSaveData.java:1282`）在工程中零命中，而工程已有 `client/ScentMusicEvents` + `client/sound/ScentMusicSound`，需逐项核对相位切换时是否同样停轨。
 
