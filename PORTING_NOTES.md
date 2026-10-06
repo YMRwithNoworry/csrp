@@ -33,11 +33,11 @@
 
 | 交付物 | 位置 |
 | --- | --- |
-| 完整工程（源码 + 资源 + 构建脚本） | 本仓库（Gradle 工程，`./gradlew.bat build` 即可编译） |
+| 完整工程（源码 + 资源 + 构建脚本） | 本仓库（Gradle 工程；Windows 下 `gradlew.bat build`，Niubash 下见 §7） |
 | 可加载运行的构建产物 | `build/libs/csrp-1.10.9.jar`（约 134 MB，含全部资源） |
 | 移植说明 | 本文件 |
 | 各子系统详细报告 | `docs/gap/R2_REPORT.md`、`R2_BLIZZARD_REPORT.md`、`R3_WORLDGEN_REPORT.md`、`R4_BLOCKS_REPORT.md`、`R5_ITEMS_REPORT.md`、`R6_ENTITY_MATRIX.md`、`LANG_REPORT.md` |
-| 自动化校验 | `scripts/run-all-verifications.cjs`（127 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
+| 自动化校验 | `scripts/run-all-verifications.cjs`（128 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
 
 规模：569 个 Java 文件、88 个方块类、128 个实体文件、44 个物品类、7 个 Mixin、362 个 blockstate、2236 张纹理、1008 个音效、55 个结构 NBT、33 套语言。
 
@@ -100,6 +100,15 @@
 ### 3.7 资源
 结构 NBT 55/55、音效 1008/1008、纹理 2236 张（与原件 1:1，`textures/blocks/` 按 26.3 规范改为 `textures/block/`）、33 套语言、全部 blockstate / 模型 / 物品定义。**未新增任何写实渲染或网页式 UI**；新增界面沿用原件 16×16 像素纹理与既有调色板（世界预览面板直接使用原件 `textures/gui/worldsettings/*.png`）。
 
+### 3.8 收尾轮：harlequin 命令补全、进度语言键归一、映射表核实
+
+- **`/harlequin_convert`**（权限 2，原件 `network/CommandHarlequinConvert` 176 行 + `util/convert/HarlequinBlockConverter` 164 行）：斑块播种 + 逐列向下转换两遍，参数默认值 16/1/32/18/3/5、上界 256/128/256/256/64/64、30% `lipoma_mass` 副产、`max(5, top-depth)` 深度限制全部按原件。新增 `world/gen/HarlequinBlockConverter` 与 `command/HarlequinConvertCommand`。
+- **`/harlequin_scatter`**（权限 2，原件 `network/CommandHarlequinScatter` 225 行）：六种类型、`tries`/`radius` 默认 32/32 与 1..4096 / 8..512 上界、四类模板清单（20 个，`data/csrp/structure/` 下全部存在）、地面/顶面规则、四种平坦度阈值（5/3、3/3、6/3、10/4）与 `both`/`all` 的组合数量全部按原件。新增 `command/HarlequinScatterCommand`。至此原件 `CommonProxy#registerServerCommand` 的 18 条命令全部核对完毕。
+- **1.12.2 方块映射不再靠推断**：用官方 MCP stable_39 的 `fields.csv` 逐个查表确认原件比较的 SRG 名（`field_150354_m`=SAND、`field_150322_A`=SANDSTONE、`field_180395_cM`=RED_SANDSTONE、`field_150344_f`=PLANKS、`field_150347_e`=COBBLESTONE、`field_150341_Y`=MOSSY_COBBLESTONE、`field_150348_b`=STONE、`field_150349_c`=GRASS、`field_150346_d`=DIRT、`field_150355_j`/`field_150358_i`=WATER/FLOWING_WATER、`field_150353_l`/`field_150356_k`=LAVA/FLOWING_LAVA）。据此修正 `world/gen/HarlequinRockBushGen` 三处偏差：地面由「红沙/砂砾」改回**砂岩/红砂岩**、高度图由 `MOTION_BLOCKING_NO_LEAVES` 改回原件的 `MOTION_BLOCKING`、冰不再被当作坏顶面。
+- **原件的 `maybePlaceHair` 是死代码**（证据：`Block#canSustainPlant` 的 Forge 默认值为 `false`，1.10.9 全树对该方法的引用只有转换器自己这一处），故 `harlequin_convert` 在原版从不长出发丝/硬毛。本工程**按原样保留这道关闭的闸门**（`canSustain` 恒 `false`），未改成 `canSurvive`——否则会凭空长出原件没有的植物。GameTest 断言转换后的草上方仍是空气。
+- **进度（advancement）语言键归一**：原件有 4 个进度文件写的是单数 `advancement.<ns>.<id>.title/.desc`（1.12.2 的笔误），工程的转换器（`scripts/convert-lang-109.cjs`）把它们归一为 `advancements.csrp.<id>.title/.description`。本轮把数据文件也改成同一套键（`cosmic_structural_failure`、`hellfire_chemical_warfare`、`sepeku`、`thornshade_self_destruct`，`data/` 与 `assets/` 两份），并清掉 67 个**原模组没有、也没有任何数据/代码引用**的臆造别名键（`advancements.csrp.<语义名>.desc` 等）。现每个语言文件的 `advancement(s).csrp.*` 键集合 = 原件 `advancement(s).srparasites.*` 经同一规则映射后的集合（`en_us` 82 键、`hr_hr` 78、`ko_kr` 80、`zh_cn` 82 …），既无缺键也无多余键；`en_us` 2911 键、`zh_cn` 2927 键。
+- **文档与工具**：`AGENTS.md` 的三节过时描述（1.21.1 / NeoForge 21.1 / Java 21 / `gameTestServer`）改为实际的 26.3 / NeoForge 26.3.0.1-beta / Java 25 / `runGameTestServer`；`scripts/build-locked.sh` 改用 `java -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain`（本环境 Niubash 无法执行 `gradlew.bat`，会静默挂起）。
+
 ---
 
 ## 4. 因目标版本 API 缺失而改写或省略的部分
@@ -160,6 +169,7 @@
 - `noderelay` / `relaycontroller` / `relay_controller_dummy` / `dermoid_cyst` / `parasite_barrier` 的 1.12.2 tile entity 层未复刻：工程既有 relay / cyst 体系语义已覆盖，且原 `TileEntityRelayController`（1043 行）与既有实现耦合到不同方块，重复注册会产生半可用方块。
 - **复仇之书抓钩已按原件对齐**（此前数值成簇偏差）：现为原件的三阶段（蓄力 20 tick → 拉近 1.8 速度、接触 2.2 格或 40 tick → 首次冲击 **14.0F / 半径 5 的 AoE** + 沿视线弹射 + 对范围内每个实体施加 100 tick 减益 + 玩家水平速度 ×0.15 → 弹跳 14 tick 三段速度曲线 → 二次冲击 **6.0F** + 半径 3.5 的缩放 AoE（最高 10.0F）+ 落雷）。触发方式也改为原件语义（右键自动取 **32 格视线目标**，冷却 60；潜行右键为击退爆发，冷却 80 存于物品 `srp_kb_next` 标签）。同时补齐原件的 5 个 `VENGEANCE_*` 音效事件——**ogg 文件与 sounds.json 条目一直在仓库里，却从未注册音效事件**。规格与逐行对照见 `docs/gap/VENGEANCE_GRAPPLE_REPORT.md`。
 - 两个既有保真缺陷在移植中顺手修正（均有证据）：`ParasiteGenContext.sideCurse` 的 10/11、20/21 两对对角线互换；`canGrowInto` 把 `field_150345_g` 当 podzol 且丢失 SAPLING/VINE/LOG2 映射。
+- **进度键写法归一（唯一一处"改了原件写法"）**：原件有 4 个进度文件把展示键写成单数 `advancement.srparasites.<id>.title` / `.desc`（同一模组其余 36 个用的是复数 `advancements.*.description`），属原件的笔误。本工程的数据文件与语言文件统一为复数 + `.description`，因此这 4 个进度在 26.3 下的展示键名与原件的字面写法不同（**显示文本完全一致**，仍取原件同一条语言条目）。若要逐字复刻原件键名，改回单数即可，但会让 4 个进度在原件语言表里找不到对应键（1.10.9 的 `.lang` 里同时存在单数与复数两套写法，故原件本身可正常显示）。
 
 ### 5.6 11 个实现辅助实体 id
 `crux_block_damage`、`haunter_damage`、`haunter_homing`、`marauder_tendril`、`meteor_satellite`、`parasite_projectile`、`pulling_ball`、`scary_orb`、`shockwave`、`sim_dragonhead`、`warden_waveshock`。
@@ -173,17 +183,18 @@
 
 ```bash
 export JAVA_HOME="D:/MC/jdk/graalvm-community-25.3.4.1+1.1"
+GRADLE=("$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain)
 
-./gradlew.bat build -x test          # BUILD SUCCESSFUL → build/libs/csrp-1.10.9.jar
-node scripts/run-all-verifications.cjs   # {"total":118,"passed":118,"failed":0}
-./gradlew.bat runGameTestServer      # All 173 required tests passed
+"${GRADLE[@]}" build -x test             # BUILD SUCCESSFUL → build/libs/csrp-1.10.9.jar
+node scripts/run-all-verifications.cjs   # {"total":128,"passed":128,"failed":0}
+"${GRADLE[@]}" runGameTestServer         # All 184 required tests passed
 ```
 
 | 检查 | 结果 |
 | --- | --- |
 | 编译与打包 | **BUILD SUCCESSFUL**，产物 `build/libs/csrp-1.10.9.jar` |
-| 静态契约校验 | **127 / 127 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape/失真/注入熔炉/JEI/抓钩契约等） |
-| 运行期 GameTest | **182 / 182 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 2 个 harlequin） |
+| 静态契约校验 | **128 / 128 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape/失真/注入熔炉/JEI/抓钩/harlequin 命令契约等） |
+| 运行期 GameTest | **184 / 184 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 4 个 harlequin） |
 | 服务器启动 | GameTest 服务器完整启动至测试结束，无启动崩溃 |
 | 世界生成运行期 | 225 区块实证：四类寄生群系 + 36 种寄生体方块落地，零 decoration 失败 |
 | 实体 id 对齐 | 原件 158 个 id **全部命中**（缺失 0） |
@@ -202,7 +213,10 @@ node scripts/run-all-verifications.cjs   # {"total":118,"passed":118,"failed":0}
 git clone https://github.com/YMRwithNoworry/csrp.git
 cd csrp && git checkout port/neoforge-26.3
 export JAVA_HOME="D:/MC/jdk/graalvm-community-25.3.4.1+1.1"
-./gradlew.bat build
+"$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar \
+    org.gradle.wrapper.GradleWrapperMain build
 ```
+
+在 Windows 的 PowerShell / cmd 里也可以用 `.\gradlew.bat build`；在 Niubash（`niu -c`）里 `gradlew.bat` 无法执行（进程挂起且不启动 Gradle 守护进程），必须用上面的 wrapper jar 调用方式，或用等价的 `scripts/build-locked.sh build`。
 
 需要 JDK 25 与可访问 NeoForged Maven 的网络（首次构建会下载 NeoForge 26.3.0.1-beta 与 NeoForm 产物）。

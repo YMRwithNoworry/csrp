@@ -14,9 +14,12 @@
 ## 当前基线
 
 - `gradlew clean build`：**成功**（GraalVM 25.3.4.1 / Gradle 9.2.1），产物 `build/libs/csrp-1.10.9.jar`。
-- 静态校验套件：**127 / 127 通过**。
-- 运行期验证：`runGameTestServer` → **182 / 182 GameTests 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 2 个 harlequin），服务器完整启动到测试结束。
-- 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2978 键 / zh_cn 2994 键）。
+  - 本环境的 Niubash 无法执行 `gradlew.bat`（会静默挂起），改用
+    `"$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain <task>`；
+    `scripts/build-locked.sh` 已同步改为这一调用方式。
+- 静态校验套件：**128 / 128 通过**。
+- 运行期验证：`runGameTestServer` → **184 / 184 GameTests 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 4 个 harlequin），服务器完整启动到测试结束。
+- 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2911 键 / zh_cn 2927 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
 - 本轮由 `runGameTestServer` 抓出并修复的运行期加载失败：方块状态定义读取 `super()` 前未赋值的实例字段（`LegacyVariantSlabBlock` / `LegacyRelayBlock`，改为工厂预发布）、`JukeboxSong` 是数据包注册表故 `discone` / `disctwo` 需要 `data/csrp/jukebox_song/*.json`（见 commit `d7f7ca5c`）。
 
@@ -82,19 +85,20 @@
 
 验证：`scripts/verify-vengeance-grapple.cjs`（钉住全部原件数值与结构）+ 2 个 GameTest（5 个音效已注册、击退衰减公式）。**速度与 AoE 手感仍需真机确认**。
 
-### 管理命令：harlequin 家族（部分完成）
+### 管理命令：harlequin 家族（✅ 已完成 3/3）
 
-原件 `proxy/CommonProxy` 注册的 18 个命令已全部核对；本轮又完成一条：
+原件 `proxy/CommonProxy` 注册的 18 个命令已全部核对；三条 harlequin 命令（`registerServerCommand` 第 253–255 行，注册顺序 here → convert → scatter）全部到位：
 
 - ✅ **`harlequin_here [radiusChunks=1]`**（权限 2）：把调用者周围 (2r+1)² 个区块的生物群系改为 Harlequin 并推送给客户端，然后回报变更区块数与当前位置的实际群系名。
   - 26.3 改写：原件直接写 `Chunk#getBiomeArray()` 并自建区块群系包；26.3 群系按 4×4×4 段存储，故改用 `ChunkAccess#fillBiomesFromNoise`（即 `/fillbiome` 用的同一原语）+ `ChunkMap#resendBiomesForChunks`。
   - **刻意不用** 原版的 `FillBiomeCommand.fill`：它有 **32768 方块**的体积上限，而整高的区块方块远超该值（原件无此限制）。
   - 验证：GameTest `csrp:harlequin_command/biome_fill` 直接调用命令自身的写入路径并断言地形群系确实变成 Harlequin；`csrp:harlequin_command/registered` 断言命令与群系均已注册。
-
-仍缺 2 条（规格已核实）：
-
-1. **`harlequin_convert [radius=16] [sampleChance=1] [depth=32] [blotchChance=18] [blotchMinDiam=3] [blotchMaxDiam=5]`**（权限 2，原件 176 行）：按 `HarlequinBlockConverter.Config(HarleskinnBlock, HarlequinnGrass, Alveoli, AlveoliGrowth, LipomaMass, TressesHair, HirsuteHair)` 做斑块式地形转换。需先移植 `util/convert/HarlequinBlockConverter`（164 行：`convert` / `maybePlaceHair` / `canSustain` / `placeDoublePlant` 等）。
-2. **`harlequin_scatter [...]`**（权限 2，原件 225 行）：在合适地面上散布 Harlequin 结构，结构名清单 `harlequin_rock_01..07`、`harlequin_bush_00..02`、`harlequin_tree_01..07`、`harlequin_ruin_01..03`（工程 `data/csrp/structure/` 下**全部存在**），地面判定接受沙子/红沙/黏土/草/泥土以及 `harlequinn_grass` / `harleskinn_block`。
+- ✅ **`harlequin_convert [radius=16] [sampleChance=1] [depth=32] [blotchChance=18] [blotchMinDiam=3] [blotchMaxDiam=5]`**（权限 2，原件 176 行）：两遍处理——先按 `1/blotchChance`（`blotchChance<=1` 时必中）播种斑块、标记圆内「草，或本身会变成 Harlequin 的顶层」（阳光可直射 + 沙/砂岩/红砂岩/石头）；再自地形顶向下 `max(5, top-depth)` 逐格调用 `HarlequinBlockConverter.convert`（命中条件：本列已标记、或树叶、或 1-in-`sampleChance`）。被转换的方块有 30% 概率在下方补 `lipoma_mass`（`alveoli` 除外），标记列由草变 `harleskinn_block` 计入「cells converted」。新增 `world/gen/HarlequinBlockConverter`（原件 164 行的 `convert` / `maybePlaceHair` / `canSustain` / `placeDoublePlant` / `setFacingIfPresent`）与 `command/HarlequinConvertCommand`。
+  - **1.12.2 → 26.3 方块映射按官方 MCP stable_39 `fields.csv` 逐个查表核实**（不再靠推断）：`field_150354_m`=SAND、`field_150322_A`=SANDSTONE、`field_180395_cM`=RED_SANDSTONE、`field_150349_c`=GRASS、`field_150346_d`=DIRT、`field_150348_b`=STONE、`field_150344_f`=PLANKS（26.3 用 `minecraft:planks` 标签，因 1.12.2 六种木板同属一个方块）、`field_150347_e`=COBBLESTONE、`field_150341_Y`=MOSSY_COBBLESTONE、`field_150355_j`/`field_150358_i`=WATER/FLOWING_WATER、`field_150353_l`/`field_150356_k`=LAVA/FLOWING_LAVA。
+  - **原件的 `maybePlaceHair` 是死代码**：闸门是 `Block#canSustainPlant`，Forge 默认返回 `false`，而 1.10.9 全树只有该调用点本身（`grep -rn canSustainPlant` 命中 1 处），因此 `harlequin_convert` 在原版**从不**长出发丝/硬毛。本工程按原样保留该闸门（`canSustain` 恒为 `false`）而非改写成 `canSurvive`——否则会凭空长出原件没有的植物。GameTest `convert_palette` 直接断言转换后的草上方仍是空气。
+- ✅ **`harlequin_scatter <rock|bush|tree|ruin|both|all> [tries=32] [radius=32]`**（权限 2，原件 225 行）：在 Harlequin 群系内随机取列，地面必须是沙/砂岩/红砂岩/草/泥土（或 `harlequinn_grass` / `harleskinn_block`）、顶面不是水/岩浆/树叶、且邻域够平（rock 5/3、bush 3/3、tree 6/3、ruin 10/4），再按 `both` / `all` 的组合与数量放置 20 个模板（`harlequin_rock_01..07` / `bush_00..02` / `tree_01..07` / `ruin_01..03`，工程 `data/csrp/structure/` 下全部存在）。26.3 差异：原件的 `PlacementSettings#setKeepLiquids(true)` 无对应 API（`StructurePlaceSettings` 只有 `LiquidSettings`，且 1.12.2 的默认值本就是 `true`），故保持 26.3 默认的 `APPLY_WATERLOGGING`。
+  - 顺带修正同一套规则的另一处：`world/gen/HarlequinRockBushGen` 此前把地面写成「红沙/砂砾」、高度图用 `MOTION_BLOCKING_NO_LEAVES`、并把冰也算作坏顶面；现按同一份 `fields.csv` 与原件 `func_175645_m`（= MOTION_BLOCKING）改回砂岩/红砂岩，冰不再是坏顶面。
+  - 验证：`scripts/verify-harlequin-convert-scatter.cjs`（钉住全部原件数值、模板清单、地面/顶面集合、映射表来源）+ 2 个 GameTest（`convert_palette`、`scatter_contract`——后者断言三条命令均已注册、地面/顶面规则，并真实放置 `harlequin_rock_01`）。
 
 ### 极端降雪（`/srp_extremesnow`）：原件为死代码
 
@@ -110,9 +114,9 @@
 - `command/ExtremeSnowCommand` 保留为 parity 但**不注册**，由 `scripts/verify-harlequin-and-snow.cjs` 断言它不在 dispatcher 上——注册它等于给玩家一个原版从未有过的管理命令。
 - 注：原件的 `ExtremeSnowData` setter **不标 dirty**（改动不会存盘），本工程补了 `setDirty()`。
 
-### 文档一致性（待办）
+### 文档一致性（✅ 已完成）
 
-`AGENTS.md` 的“Project Structure / Build, Test, and Development Commands / Testing Guidelines”三节仍写着 **Minecraft 1.21.1 / NeoForge 21.1 / Java 21**，与工程实际（26.3 / NeoForge 26.3.0.1-beta / Java 25，见 `gradle.properties`）不符；其中 `gradlew gameTestServer` 的实际任务名是 **`runGameTestServer`**。该文件同时被 DSH 的 global-system-prompt 插件托管（会反复注入一段本机配置块），因此本轮未直接改动它，仅在此登记，供人工按实际修订。
+`AGENTS.md` 的「Project Structure / Build, Test, and Development Commands / Testing Guidelines」三节此前写着 **Minecraft 1.21.1 / NeoForge 21.1 / Java 21**，与工程实际（26.3 / NeoForge 26.3.0.1-beta / Java 25，见 `gradle.properties`）不符，且任务名写成了不存在的 `gameTestServer`。现已改为 26.3 / NeoForge 26.3.0.1-beta / Java 25、任务名 `runGameTestServer`，并补上本环境必须使用的 Gradle 调用方式（Niubash 下 `gradlew.bat` 会挂起）与静态校验套件入口。文件末尾由 DSH global-system-prompt 插件托管的本机配置块保持原样。
 ### 已核实的"backlog 误报"（不再作为待办）
 - `BlockParasiteBush.THORN`：out109 的 `BlockParasiteBush.EnumType` 无 THORN、无荆棘伤害；thorn 行为属 `BlockThornshade` + `ThornshadeThornsEvents`（已实现）。证据见 `docs/gap/R4_BLOCKS_REPORT.md` §3.1。
 - `ada_burrower_drop`：1.10.9 的 `SRPItems.java` 未注册该 id，仅存在于 lang 与掉落表引用（`SRPConfigMobs.java:74,81`）；注册它会让原模组本就不生效的掉落条目生效，属改变行为，故不注册。证据见 `docs/gap/R5_ITEMS_REPORT.md`。

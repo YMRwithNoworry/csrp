@@ -55,7 +55,11 @@ echo "build-locked: lock acquired, running: gradlew $*"
 
 export JAVA_HOME="${JAVA_HOME:-D:/MC/jdk/graalvm-community-25.3.4.1+1.1}"
 cd "$REPO_ROOT" || exit 1
-./gradlew.bat "$@"
+# `./gradlew.bat` cannot be executed from Niubash (the shell this project's agents run in): the
+# process hangs with no output and no Gradle daemon ever starts.  The wrapper jar accepts the same
+# arguments, so drive it through the Java 25 toolchain directly.
+"$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar \
+    org.gradle.wrapper.GradleWrapperMain "$@"
 status=$?
 echo "build-locked: gradlew exited with $status"
 exit $status
