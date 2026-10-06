@@ -147,7 +147,10 @@
 - ✅ **节点心跳音（`biomeHeartFreq` + `SRPPacketMovingSound`）**：已按原件实现——每 `biomeHeartFreq`（30，0..100）个玩家 tick 重置计数器，玩家在寄生群系内时取 `nearestHeartAge(pos, spread = true)` 的档位与 `getDistanceSpreadByAge(age, true)` 的平方扩散半径 `totalS`，用 `isInRangeOfHeart(pos, totalS)` 取节点平方距离算出音量 `1 - distSq/totalS`，发 `csrp:node_heart` 包；客户端 `ClientNodeHeart` 以 `pitch 1.0F、volume v × biomeHeartVol`(0.4) 播放 `csrp:biome.heart`——该音效与 sounds.json 条目原本就在仓库里，却从未被播放过。新增 `world/ParasiteBiomeAmbienceServer`（雾 + 心跳，对应原件同一个 `playerTick`）、`network/NodeHeartPayload`、`client/sound/ClientNodeHeart`；配置补 `biomeHeartFreq`(30) / `biomeHeartVol`(0.4)；`SrpWorldData` 补 `isInRangeOfHeart`（保留「半径先自增 1、取**第一个**命中」两处怪癖）与 `nearestHeartAge`/`nearestHeartType` 的 `spread` 重载。
   - 校验：`scripts/verify-node-heart.cjs` + GameTest `biome_fog/node_influence` 里的 `isInRangeOfHeart` / spread 重载断言。
   - 注：心跳计数器与雾累加值同样按原件保留为共享静态量（多人下按玩家人数成比例加快）；`nodeRangeSpread*` 被配置成 0 时原件会除以 0，本工程在该处直接跳过并注明。
-- ⚠️ 待复核一项：`SRPPacketMusicTrackCancelUpdateClientEvoPhase`（进化阶段变化时停 MUSIC 轨、重置音效计时、写 `clientCurrentEvoPhase`，发送点 `SRPSaveData.java:1282`）在工程中零命中，而工程已有 `client/ScentMusicEvents` + `client/sound/ScentMusicSound`，需逐项核对相位切换时是否同样停轨。
+- ❌ **进化阶段音乐（`SRPPacketMovingSound(1..10)` + `SRPPacketMusicTrackCancelUpdateClientEvoPhase`）**：
+  - 原件 `ParasiteEventEntity#alertAllPlayerDim(world, message, warning)`（`ParasiteEventEntity.java:1156-1175`）在进化阶段变化时向该维度广播 `SRPPacketMovingSound(warning)`；客户端 `ClientProxy#playMovingSound` 的 `case 1..10` 播放 `SRPSounds.EVPHASE_1..10`，参数为 `pitch 1.0F、volume 0.75F`（`ClientProxy.java:127-155`；同一 switch 里的 `-1` 是节点心跳、`100..104` 是 scent/唱片等）。另有 `SRPSaveData#setEvolutionPhase` 每次设置维度阶段时发 `SRPPacketMusicTrackCancelUpdateClientEvoPhase(in)`，客户端停掉 MUSIC 轨、`resetSouncTicker(200)` 并把 `clientCurrentEvoPhase` 设为该阶段（`SRPSaveData.java:1282`）。
+  - 现状：音效与映射**已注册但无人播放**——`ModSounds.EVOLUTION_PHASE_1..10` 与 `ModSounds#evolutionPhase(int)` 都在，`grep "evolutionPhase("` **零调用点**；`clientCurrentEvoPhase` / `resetSouncTicker` 亦零命中（工程只有 `ScentMusicSound` 这一条 MUSIC 轨，由 `ParasiticScentEntity` 驱动）。
+  - 待补：阶段变化时向维度广播阶段音乐（`pitch 1.0F / volume 0.75F`）+ 停 MUSIC 与音效计时重置的同步包 + 客户端 `clientCurrentEvoPhase` 状态；注意工程阶段音效注册名是 `evolution.phase1..10`（原件 `SRPSounds` 用的是 `evolution.phaseone..ten`，两者在 sounds.json 里都存在）。
 
 
 ### 已核实的"backlog 误报"（不再作为待办）
