@@ -117,6 +117,31 @@
 ### 文档一致性（✅ 已完成）
 
 `AGENTS.md` 的「Project Structure / Build, Test, and Development Commands / Testing Guidelines」三节此前写着 **Minecraft 1.21.1 / NeoForge 21.1 / Java 21**，与工程实际（26.3 / NeoForge 26.3.0.1-beta / Java 25，见 `gradle.properties`）不符，且任务名写成了不存在的 `gameTestServer`。现已改为 26.3 / NeoForge 26.3.0.1-beta / Java 25、任务名 `runGameTestServer`，并补上本环境必须使用的 Gradle 调用方式（Niubash 下 `gradlew.bat` 会挂起）与静态校验套件入口。文件末尾由 DSH global-system-prompt 插件托管的本机配置块保持原样。
+### 网络包对照审计（收尾轮）
+
+原件 `network/` 共 35 个非命令类（`SRPNetwork` / `SRPProgressSnapshot` / `AbstractPacket` 属基础设施）。逐个判定结果：
+
+**已由 26.3 原生机制取代（不需要专用包）**
+
+| 原件包 | 26.3 对应 |
+| --- | --- |
+| `SRPPacketParticle`、`MsgSpawnPureParticles`、`PacketVengeanceFX` | `ServerLevel#sendParticles`（工程 97 处调用；复仇抓钩的 4 类粒子表现已逐项对应） |
+| `SRPPacketMovingSound` | `ClientboundSoundPacket` / `Level#playSound` |
+| `SRPPacketMeleeRange`（客户端→服务端转发「超出原版距离的攻击」） | `LivingWeaponItem` 直接给主手加 `ENTITY_INTERACTION_RANGE` 属性修饰符（`csrp:living_weapon_reach`），服务端按属性自行校验距离，无需转发 |
+| `HitboxHit`（1.12.2 无多部件实体，客户端 `EntityHitbox` 代打） | 工程把躯体各段做成真实实体（`bodyPredecessor` 链），伤害直接落在实体上 |
+| `SRPPacketCompass`（服务端把 Node/Colony/Origin 坐标推给客户端静态字段） | `SrpCompassItem` 把目标写进物品栈标签（`srp_compass_target_pos`），客户端用物品属性 `compassAngle` 读取——随物品同步 |
+| `MsgScanCooldown`（中继扫描冷却） | `RelayTerminalMenu#cooldownTicks()` 走原版 `ContainerData` 同步，界面直接读 |
+| `SRPPacketBiomeChange` / `SRPPacketBiomeChangeBatch` | `ChunkMap#resendBiomesForChunks`（与 `/harlequin_here` 同一路径） |
+| `MessageSyncCelestialPhase`、`PacketScanRelay` | 原件中即为死代码（全树零引用），不移植 |
+
+**已移植为 `CustomPacketPayload`（16 个 TYPE）**：`celestial_state`、`star_world_state`、`meteor_shake`（原 `MsgQlipShake`）、`overlast_evolution_hud`、`parasite_death_fx`、`gui_distortion_state`、`extreme_snow_state`、`escape_offer` / `escape_request`、`compendium_open` / `compendium_request` / `compendium_unlock`（原 `MsgRequestProgressSnapshot` / `MsgSyncProgressSnapshot` / `MsgReconfigureProgressUnlock`）、`relay_report_open`（原 `MsgRequestScan`）、`citadel_animation_trigger`，以及按原名保留的 `MsgSyncStarType` / `MsgSyncBlizzardReverse`。
+
+**本轮新发现的缺口**
+
+- ❌ **寄生群系雾（`SRPPacketFog` + `SRPConfigWorld.biomeFogDensity`）**：原件对每个玩家逐 tick 推送「雾浓度 → `biomeFogDensity`（默认 `0.06F`，范围 0..1）」与「雾色 = 当前寄生群系的 red/green/blue」（`SRPEventHandlerBus.java:2257,2274`），离开寄生群系后以 `8.0E-4F`/tick 退雾。本工程 `grep biomeFogDensity` **零命中**：客户端只有暴风雪 / 极端降雪 / 星空三条雾路径（`SRPBlizzardFogRenderer`、`ClientExtremeSnow`），**寄生群系本身没有雾**。需补：配置项 + 服务端浓度/颜色推进与同步 + 客户端雾事件接线。
+- ⚠️ 待复核两项：`SRPConfigWorld.biomeHeartFreq`（默认 30，「Frequency of the Core Block Node Sound」，`SRPConfigWorld.java:59`）在工程中零命中，节点心跳音可能被写成固定间隔；`SRPPacketMusicTrackCancelUpdateClientEvoPhase`（进化阶段变化时停 MUSIC 轨、重置音效计时、写 `clientCurrentEvoPhase`，发送点 `SRPSaveData.java:1282`）在工程中零命中，而工程已有 `client/ScentMusicEvents` + `client/sound/ScentMusicSound`，需逐项核对相位切换时是否同样停轨。
+
+
 ### 已核实的"backlog 误报"（不再作为待办）
 - `BlockParasiteBush.THORN`：out109 的 `BlockParasiteBush.EnumType` 无 THORN、无荆棘伤害；thorn 行为属 `BlockThornshade` + `ThornshadeThornsEvents`（已实现）。证据见 `docs/gap/R4_BLOCKS_REPORT.md` §3.1。
 - `ada_burrower_drop`：1.10.9 的 `SRPItems.java` 未注册该 id，仅存在于 lang 与掉落表引用（`SRPConfigMobs.java:74,81`）；注册它会让原模组本就不生效的掉落条目生效，属改变行为，故不注册。证据见 `docs/gap/R5_ITEMS_REPORT.md`。
