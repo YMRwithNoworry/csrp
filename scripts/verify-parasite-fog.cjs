@@ -54,8 +54,20 @@ expect(fog, /event\.setRed\(BLOOD_RED\);\s*event\.setGreen\(BLOOD_GREEN\);\s*eve
 // The original overrode the fog for every fog mode (EntityViewRenderEvent.FogDensity fires for all of
 // them), so the port must not filter on FogType here.
 refute(codeOnly(fog), /FogType/, "the parasite-blood fog grew a FogType filter the original did not have");
-// And the biome branch must not be faked in without its prerequisites.
-refute(codeOnly(fog), /biomeFogDensity/, "the biome fog branch was wired up without its node-radius prerequisite");
+
+// --- the biome branch of the same two hooks --------------------------------------------------------
+expect(fog, /biomeFog > WorldConfig\.biomeFogDensity\(\) \* 0\.2F && !hasNightVision\(\)/,
+        "the FogColors threshold is no longer biomeFogDensity * 0.2 with the night-vision exemption");
+expect(fog, /biomeFog > 0\.0F && !hasNightVision\(\) \? biomeFog : 0\.0F/,
+        "the FogDensity branch is no longer `fog > 0 && !nightVision`");
+expect(fog, /player\.hasEffect\(MobEffects\.NIGHT_VISION\)/,
+        "the night-vision check no longer uses MobEffects.NIGHT_VISION");
+expect(fog, /public static void setBiomeFog\(float density, float red, float green, float blue\)/,
+        "the SRPPacketFog handler entry point is gone");
+expect(fog, /if \(level != trackedLevel\)/, "the world-unload reset of the fog statics is gone");
+// The original exempts only the biome branch from night vision; the blood branch is checked first.
+expect(fog, /if \(inParasiteBlood\(\)\) \{\s*return BLOOD_DENSITY;\s*\}\s*return biomeFog > 0\.0F && !hasNightVision\(\)/,
+        "the blood branch is no longer evaluated before the night-vision exemption");
 
 if (failures.length) {
     for (const failure of failures) console.error(failure);

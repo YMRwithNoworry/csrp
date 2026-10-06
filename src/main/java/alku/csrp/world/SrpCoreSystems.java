@@ -274,8 +274,8 @@ public final class SrpCoreSystems {
     }
 
     private static int nodeStage(int age) {
-        if (age >= 40) return 3;
-        return age >= 10 ? 2 : 1;
+        // SRPWorldData#convertDayToAgeNode, i.e. timeNeedeToNodeTwo / timeNeedeToNodeThree.
+        return SrpWorldData.nodeStageFor(age);
     }
 
     private static int colonyStage(int points) {

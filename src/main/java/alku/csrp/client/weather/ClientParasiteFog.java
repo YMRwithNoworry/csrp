@@ -1,10 +1,13 @@
 package alku.csrp.client.weather;
 
 import alku.csrp.Csrp;
+import alku.csrp.config.WorldConfig;
 import alku.csrp.registry.ModFluidTypes;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.util.Mth;
+import net.minecraft.world.effect.MobEffects;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -44,6 +47,14 @@ public final class ClientParasiteFog {
     /** The near plane the project's other fog paths use, as a fraction of the far plane. */
     private static final double NEAR_PLANE_RATIO = 0.08D;
 
+    /** {@code SRPEventHandlerBus.fog / fogRed / fogGreen / fogBlue} — the synced biome fog. */
+    private static float biomeFog;
+    private static float biomeRed;
+    private static float biomeGreen;
+    private static float biomeBlue;
+    /** The level the synced values belong to; the original cleared the statics on world unload. */
+    private static ClientLevel trackedLevel;
+
     private ClientParasiteFog() {
     }
 
@@ -57,22 +68,67 @@ public final class ClientParasiteFog {
 
     @SubscribeEvent
     public static void renderFog(ViewportEvent.RenderFog event) {
-        if (!inParasiteBlood()) {
+        float density = activeDensity();
+        if (density <= 0.0F) {
             return;
         }
-        float far = visibilityFor(BLOOD_DENSITY);
+        float far = visibilityFor(density);
         event.setFarPlaneDistance(far);
         event.setNearPlaneDistance((float) (far * NEAR_PLANE_RATIO));
     }
 
     @SubscribeEvent
     public static void computeFogColor(ViewportEvent.ComputeFogColor event) {
-        if (!inParasiteBlood()) {
+        if (inParasiteBlood()) {
+            event.setRed(BLOOD_RED);
+            event.setGreen(BLOOD_GREEN);
+            event.setBlue(BLOOD_BLUE);
             return;
         }
-        event.setRed(BLOOD_RED);
-        event.setGreen(BLOOD_GREEN);
-        event.setBlue(BLOOD_BLUE);
+        // `if (fog > SRPConfigWorld.biomeFogDensity * 0.2 && !nightVision)`.
+        if (biomeFog > WorldConfig.biomeFogDensity() * 0.2F && !hasNightVision()) {
+            event.setRed(biomeRed);
+            event.setGreen(biomeGreen);
+            event.setBlue(biomeBlue);
+        }
+    }
+
+    /**
+     * The density both hooks act on: {@code 1.0F} inside parasite blood (the original exempts only the
+     * biome branch from night vision), otherwise the synced biome fog while it is non-zero.
+     */
+    private static float activeDensity() {
+        forgetOtherLevels();
+        if (inParasiteBlood()) {
+            return BLOOD_DENSITY;
+        }
+        return biomeFog > 0.0F && !hasNightVision() ? biomeFog : 0.0F;
+    }
+
+    /** {@code SRPPacketFog.Handler}: {@code SRPEventHandlerBus.fog = message.rFog}, and its three colours. */
+    public static void setBiomeFog(float density, float red, float green, float blue) {
+        biomeFog = density;
+        biomeRed = red;
+        biomeGreen = green;
+        biomeBlue = blue;
+    }
+
+    /** {@code SRPEventHandlerBus#onWorldLoad(Unload)} cleared the fog statics. */
+    private static void forgetOtherLevels() {
+        ClientLevel level = Minecraft.getInstance().level;
+        if (level != trackedLevel) {
+            trackedLevel = level;
+            biomeFog = 0.0F;
+            biomeRed = 0.0F;
+            biomeGreen = 0.0F;
+            biomeBlue = 0.0F;
+        }
+    }
+
+    /** {@code !Minecraft.getMinecraft().thePlayer.isPotionActive(MobEffects.field_76440_q)} (night vision). */
+    private static boolean hasNightVision() {
+        LocalPlayer player = Minecraft.getInstance().player;
+        return player != null && player.hasEffect(MobEffects.NIGHT_VISION);
     }
 
     /** {@code entity.isInsideOfMaterial(SRPBlocks.PARASITEBLOOD)}. */

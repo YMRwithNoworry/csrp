@@ -90,6 +90,37 @@ public final class ParasiteBiomeDecorator {
         return ResourceKey.create(Registries.BIOME, Identifier.fromNamespaceAndPath("csrp", path));
     }
 
+    /**
+     * The 1.10.9 parasite biome numbering behind {@code BiomeParasiteBase}: 1 shrouded, 2 boils,
+     * 3 harlequin, 4 demen, 0 for anything else.  The biome fog picks its {@code biomeOne..FourFog*}
+     * colour triple with it.
+     */
+    public static int parasiteBiomeIndex(Holder<Biome> biome) {
+        ResourceKey<Biome> biomeKey = biome.unwrapKey().orElse(null);
+        if (biomeKey == null) {
+            return 0;
+        }
+        if (biomeKey.equals(SHROUDED)) {
+            return 1;
+        }
+        if (biomeKey.equals(BOILS)) {
+            return 2;
+        }
+        if (biomeKey.equals(HARLEQUIN_BIOME)) {
+            return 3;
+        }
+        return biomeKey.equals(DEMEN) ? 4 : 0;
+    }
+
+    /**
+     * {@code SRPReference#getBiomeFromInt} — the biome a node type stands for.  The original mapped
+     * only {@code 3} onto harlequin and everything else onto shrouded, so those two are the only
+     * colour triples node-driven fog can use.
+     */
+    public static int nodeBiomeIndex(int nodeType) {
+        return nodeType == 3 ? 3 : 1;
+    }
+
     /** Which of the two 1.10.9 palettes (if any) applies to a chunk. */
     public enum Flask {
         /** Boils/Demen: the original left every block table null, so nothing is converted. */

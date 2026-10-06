@@ -4,6 +4,7 @@ import alku.csrp.Csrp;
 import alku.csrp.celestial.network.CelestialStatePayload;
 import alku.csrp.celestial.network.StarWorldStatePayload;
 import alku.csrp.overlast.network.EvolutionHudPayload;
+import alku.csrp.network.BiomeFogPayload;
 import alku.csrp.network.ParasiteDeathFxPayload;
 import alku.csrp.network.CitadelAnimationTriggerPayload;
 import alku.csrp.network.ExtremeSnowStatePayload;
@@ -46,5 +47,7 @@ public final class CompendiumPayloads {
                 GuiDistortionStatePayload::handle);
         registrar.playToClient(ExtremeSnowStatePayload.TYPE, ExtremeSnowStatePayload.STREAM_CODEC,
                 ExtremeSnowStatePayload::handle);
+        registrar.playToClient(BiomeFogPayload.TYPE, BiomeFogPayload.STREAM_CODEC,
+                BiomeFogPayload::handle);
     }
 }

@@ -1,6 +1,7 @@
 package alku.csrp.world;
 
 import alku.csrp.Config;
+import alku.csrp.config.WorldConfig;
 import com.mojang.serialization.Codec;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -466,6 +467,61 @@ public final class SrpWorldData extends SavedData {
     public void clearNodes() {
         nodes.clear();
         setDirty();
+    }
+
+    /**
+     * {@code SRPWorldData#convertDayToAgeNode} — a node's stored age mapped onto the 1..3 stage the
+     * effect and spread range tables are indexed by ({@code timeNeedeToNodeTwo} / {@code Three}).
+     */
+    public static int nodeStageFor(int nodeAge) {
+        if (nodeAge >= WorldConfig.nodeThreeTime()) {
+            return 3;
+        }
+        return nodeAge >= WorldConfig.nodeTwoTime() ? 2 : 1;
+    }
+
+    /** {@code SRPWorldData#getDistanceEffectByAge} — the effect radius of a stage, squared when asked. */
+    public int getDistanceEffectByAge(int age, boolean squared) {
+        return radiusOf(WorldConfig.nodeRangeEffects(age), squared);
+    }
+
+    /** {@code SRPWorldData#getDistanceSpreadByAge} — the spread radius of a stage, squared when asked. */
+    public int getDistanceSpreadByAge(int age, boolean squared) {
+        return radiusOf(WorldConfig.nodeRangeSpread(age), squared);
+    }
+
+    private static int radiusOf(int range, boolean squared) {
+        return range < 0 ? -1 : (squared ? range * range : range);
+    }
+
+    /**
+     * {@code SRPWorldData#nearestHeartAge(pos, false, 0)} — the stage of the node whose effect range
+     * covers {@code pos}, or -1 when none does.  The original keeps the <em>farthest</em> covering node
+     * ({@code distance <= distanceSQ}) rather than the nearest one; that quirk is preserved.
+     */
+    public int nearestHeartAge(BlockPos pos) {
+        NodeEntry heart = coveringHeart(pos);
+        return heart == null ? -1 : nodeStageFor(heart.age());
+    }
+
+    /** {@code SRPWorldData#nearestHeartType(pos, false, 0)} — that node's type, or -1. */
+    public int nearestHeartType(BlockPos pos) {
+        NodeEntry heart = coveringHeart(pos);
+        return heart == null ? -1 : heart.type();
+    }
+
+    private NodeEntry coveringHeart(BlockPos pos) {
+        NodeEntry covered = null;
+        double distance = -1.0;
+        for (NodeEntry node : nodes) {
+            double distanceSquared = node.pos().distSqr(pos);
+            int effectRange = getDistanceEffectByAge(nodeStageFor(node.age()), true);
+            if (distanceSquared <= effectRange && (distance == -1.0 || distance <= distanceSquared)) {
+                covered = node;
+                distance = distanceSquared;
+            }
+        }
+        return covered;
     }
 
     public List<ColonyEntry> colonies() {
