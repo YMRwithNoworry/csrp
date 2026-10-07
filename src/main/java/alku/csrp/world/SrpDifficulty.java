@@ -4,10 +4,13 @@ import java.util.Locale;
 
 /** Per-world SRP balance profile introduced by SRP 1.10. */
 public enum SrpDifficulty {
-    EASY(1.0D, 1.0D, 1.0D, 0.5D, 0.5D),
+    // Original SRPEventHandlerBus#setNewParasiteTask: choice 2 multiplies health/armor/damage/knockback
+    // by 4 (changeAttribute bonus 3.0) and choice 3 by 11 (bonus 10.0); choice 0/1 leave them at 1.
+    // SRPSaveData#setTotalKills scales positive point gains by 0.5 / 1 / 3 / 10.
+    EASY(1.0D, 1.0D, 1.0D, 1.0D, 0.5D),
     NORMAL(1.0D, 1.0D, 1.0D, 1.0D, 1.0D),
-    HARD(4.0D, 4.0D, 4.0D, 1.0D, 1.5D),
-    IMPOSSIBLE(11.0D, 11.0D, 6.0D, 1.0D, 10.0D);
+    HARD(4.0D, 4.0D, 4.0D, 4.0D, 3.0D),
+    IMPOSSIBLE(11.0D, 11.0D, 11.0D, 11.0D, 10.0D);
 
     private final double healthMultiplier;
     private final double damageMultiplier;

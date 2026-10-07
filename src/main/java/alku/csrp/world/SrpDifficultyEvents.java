@@ -56,9 +56,6 @@ public final class SrpDifficultyEvents {
         multiply(entity.getAttribute(Attributes.ARMOR), ARMOR, difficulty.armorMultiplier());
         multiply(entity.getAttribute(Attributes.KNOCKBACK_RESISTANCE), KNOCKBACK,
                 difficulty.knockbackMultiplier());
-        if (difficulty == SrpDifficulty.IMPOSSIBLE) {
-            add(entity.getAttribute(Attributes.KNOCKBACK_RESISTANCE), KNOCKBACK, 1.0D);
-        }
         entity.setHealth(Mth.clamp(entity.getMaxHealth() * healthFraction, 1.0F, entity.getMaxHealth()));
     }
 
@@ -71,12 +68,6 @@ public final class SrpDifficultyEvents {
         return true;
     }
 
-    private static void add(AttributeInstance attribute, Identifier id, double amount) {
-        if (attribute == null || attribute.getModifier(id) != null) {
-            return;
-        }
-        attribute.addPermanentModifier(new AttributeModifier(id, amount, AttributeModifier.Operation.ADD_VALUE));
-    }
 
     private static void remove(AttributeInstance attribute, Identifier id) {
         if (attribute != null) {
