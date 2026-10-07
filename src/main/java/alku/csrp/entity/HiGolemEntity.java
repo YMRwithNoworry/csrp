@@ -5,12 +5,14 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
@@ -85,7 +87,44 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
                 chargeCooldown--;
             }
             updateParasiteStatus();
+            tickPassengerGrab();
         }
+    }
+
+    /**
+     * Original {@code EntityHiGolem#func_184232_k}: while a passenger is held the golem is slowed
+     * and, every 20 ticks (the original {@code srpTicks == 10}), hits the passenger. Creative
+     * players are only shaken, not damaged.
+     */
+    private void tickPassengerGrab() {
+        if (getPassengers().isEmpty()) {
+            return;
+        }
+        addEffect(new MobEffectInstance(MobEffects.SLOWNESS, 20, 200, false, false));
+        if (tickCount % 20 != 10) {
+            return;
+        }
+        for (Entity passenger : getPassengers()) {
+            if (passenger instanceof Player player && player.getAbilities().instabuild) {
+                continue;
+            }
+            if (passenger instanceof LivingEntity living) {
+                doHurtTarget((net.minecraft.server.level.ServerLevel) level(), living);
+            }
+        }
+    }
+
+    /** Original {@code EntityHiGolem#func_184232_k}: hold the passenger 1.5 blocks in front.
+     */
+    @Override
+    protected void positionRider(Entity passenger, Entity.MoveFunction moveFunction) {
+        if (!hasPassenger(passenger)) {
+            return;
+        }
+        Vec3 look = getViewVector(1.0F);
+        moveFunction.accept(passenger, getX() + look.x * 1.5D,
+                getY() + getEyeHeight(), getZ() + look.z * 1.5D);
+        passenger.setDeltaMovement(0.0D, 0.0D, 0.0D);
     }
 
     private void updateParasiteStatus() {
@@ -222,6 +261,10 @@ public final class HiGolemEntity extends HijackedParasiteEntity {
             setDeltaMovement(getDeltaMovement().multiply(0.25D, 0.75D, 0.25D)
                     .add(direction.x * 0.38D, 0.0D, direction.z * 0.38D));
             strikeTargets(direction);
+            // Original EntityHiGolem#chargeMoving: force the target to ride when it is within 9 blocks.
+            if (getPassengers().isEmpty() && distanceToSqr(target) <= 9.0D) {
+                target.startRiding(HiGolemEntity.this, true, true);
+            }
             chargeTicks++;
         }
 
