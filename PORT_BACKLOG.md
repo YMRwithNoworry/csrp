@@ -17,8 +17,8 @@
   - 本环境的 Niubash 无法执行 `gradlew.bat`（会静默挂起），改用
     `"$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain <task>`；
     `scripts/build-locked.sh` 已同步改为这一调用方式。
-- 静态校验套件：**134 / 134 通过**。
-- 运行期验证：`runGameTestServer` → **186 / 186 GameTests 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 4 个 harlequin + 2 个寄生群系雾），服务器完整启动到测试结束。
+- 静态校验套件：**135 / 135 通过**。
+- 运行期验证：`runGameTestServer` → **187 / 187 GameTests 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 4 个 harlequin + 2 个寄生群系雾 + 1 个掉落表），服务器完整启动到测试结束。
 - 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2911 键 / zh_cn 2927 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
 - 本轮由 `runGameTestServer` 抓出并修复的运行期加载失败：方块状态定义读取 `super()` 前未赋值的实例字段（`LegacyVariantSlabBlock` / `LegacyRelayBlock`，改为工厂预发布）、`JukeboxSong` 是数据包注册表故 `discone` / `disctwo` 需要 `data/csrp/jukebox_song/*.json`（见 commit `d7f7ca5c`）。
@@ -55,6 +55,10 @@
 > 注：原件的 `mobAttackingFull` 只在 `canAttackClass` 里生效，而各家族的目标选择谓词本身已经无条件排除黑名单（`!ParasiteEventEntity.checkEntity(...)`），因此该配置在原件里对"是否锁定黑名单怪"实际是冗余的。本工程按原样保留这层冗余（`MobAttacking` 仍完整实现 `canAttackClass` 的判定），未"顺手修正"为让它产生原件没有的效果。
 
 校验：`scripts/verify-mob-attacking-and-beckon-tables.cjs`、`scripts/verify-generation-genes-and-nexus-gates.cjs`。
+
+### 寄生体掉落表回归原件（✅ 已完成）
+
+1.10.9 的寄生体掉落不是原版掉落表，而是 `SRPEventHandlerBus#setLoot` 按 `SRPConfigMobs.<x>Loot` 自己掷骰（98 个数组）。本工程早期继承了 1.20.1 兄弟分支的数据驱动掉落表，多个条目与原件不符（缺 `lurecomponent2`/`ada_*_drop`/`bone`、用别名物品 `rupter_viscera`、多出 `killed_by_player` 限制等）。现新增 `world/ParasiteLootTables`（98 个数组逐字转写、按 `getParasiteIDRegister()` 经 `extends` 链解析到 105 个实体）与 `event/ParasiteLootEvents`（`HIGHEST` 优先级的 `LivingDropsEvent`，复刻原件 `loot()` 的 always/pooled 两段掷骰与 `doMobLoot`/`DEBAR`/dislodgment-18 闸门）。校验：`scripts/verify-parasite-loot-tables.cjs` + GameTest `csrp:parasite_loot/legacy_roll`。
 
 ### JEI 配方查看器集成（✅ 已完成）
 

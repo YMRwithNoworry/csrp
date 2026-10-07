@@ -746,7 +746,7 @@ public final class DislodgmentSystem {
         return level.getRandom().nextBoolean() ? value : -value;
     }
 
-    private static int activeValue(SrpWorldData data, int code) {
+    public static int activeValue(SrpWorldData data, int code) {
         DislodgmentCode entry = data.dislodgmentCode(code);
         return entry == null ? 0 : entry.value();
     }

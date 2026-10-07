@@ -37,7 +37,7 @@
 | 可加载运行的构建产物 | `build/libs/csrp-1.10.9.jar`（约 134 MB，含全部资源） |
 | 移植说明 | 本文件 |
 | 各子系统详细报告 | `docs/gap/R2_REPORT.md`、`R2_BLIZZARD_REPORT.md`、`R3_WORLDGEN_REPORT.md`、`R4_BLOCKS_REPORT.md`、`R5_ITEMS_REPORT.md`、`R6_ENTITY_MATRIX.md`、`LANG_REPORT.md` |
-| 自动化校验 | `scripts/run-all-verifications.cjs`（134 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
+| 自动化校验 | `scripts/run-all-verifications.cjs`（135 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
 
 规模：569 个 Java 文件、88 个方块类、128 个实体文件、44 个物品类、7 个 Mixin、362 个 blockstate、2236 张纹理、1008 个音效、55 个结构 NBT、33 套语言。
 
@@ -139,7 +139,25 @@ R6 实体矩阵 §5.2 登记的 6 条"记录为不一致、本轮不改"中，4 
 - **`EntityAINexusGrow` 的三个配置闸门**：`Config` 新增 `evolutionNests`(11) / `deveNestsUse`(3) / `maximumStageList`({"1;3"})，并提供 `nexusStageLock(Level)`（含 1.12.2 数字维度 id → 26.3 维度的映射）与 `legacyDimensionId(Level)`；`NexusParasiteEntity` 构造时求 `dimensionStageLock`，`evolve()` 应用原件 `dimLock >= stage+1` 的停长闸门，`trySpawnRooterSi` 应用 `evolutionNests` / `deveNestsUse` 的 nest 解锁闸门。
 - **gene 系统缺的 3 个开关**：`EvolutionSystem.GenerationProfile` 此前缺 `lookWalls`(2) / `waterLeap`(4) / `residue`(8)（原件 `SRPConfigSystems.generation*0..5` 共 13 项，工程只有 10 项）。现补齐三张默认表并接入：`lookWalls` → `PrimitiveParasiteEntity` 的目标感知（原件 `shouldCheckSight || !getGeneMod(2)`，因 26.3 的 `mustSee` 在构造期固定，改在逐候选谓词里判定）；`waterLeap` → `DredgeEntity` 的液体跃击；`residue` → `AdaptedVariantEntity.BlockResidueGoal`。
 
-校验：`scripts/verify-mob-attacking-and-beckon-tables.cjs`、`scripts/verify-generation-genes-and-nexus-gates.cjs`（静态校验总数 132 → **134**）；`runGameTestServer` 仍 **186 / 186 通过**，`build` 产出 `build/libs/csrp-1.10.9.jar`。
+校验：`scripts/verify-mob-attacking-and-beckon-tables.cjs`、`scripts/verify-generation-genes-and-nexus-gates.cjs`（静态校验总数 132 → **134**）；`runGameTestServer` 仍 **187 / 187 通过**，`build` 产出 `build/libs/csrp-1.10.9.jar`。
+
+### 3.10 寄生体掉落表回归原件（1.20.1 简化版 → 1.10.9 配置驱动）
+
+原件 1.10.9 **不使用原版掉落表**：所有寄生体的掉落都由 `util/handlers/SRPEventHandlerBus#setLoot`（out109 1583-2175 行）在 `LivingDropsEvent` 里按 `SRPConfigMobs.<x>Loot` 字符串数组自己掷骰。本工程早期直接继承了 1.20.1 兄弟分支的数据驱动掉落表（`ref1201/src/main/resources/data/csrp/loot_tables`），其中不少条目与 1.10.9 配置不符：
+
+- `sim_human` / `sim_cow` / `sim_sheep` / `sim_wolf` / `sim_pig` / `sim_villager` / `sim_horse` / `sim_bear` 等缺少 `lurecomponent2`（以及 `false_apple` / `fishlin`）；
+- `rupter` 等本应掉 `lurecomponent1` 的怪改掉了别名物品 `rupter_viscera`；
+- `pri_longarms` / `pri_manducater` / `pri_reeker` / `pri_summoner` / `pri_bolster` / `pri_arachnida` 等本应同时掉 `ada_*_drop` 与 `bone`，工程只掉了 lurecomponent；
+- 多张表还多了 `killed_by_player` 限制（原件对任何击杀都掉落）。
+
+现按原件恢复：
+
+- 新增 `world/ParasiteLootTables`：把 `setLoot` switch 引用的 **98 个** `SRPConfigMobs.*Loot` 数组逐字转写成 `entry -> (item, chance, count, always)`，按注册实体路径索引（**105 个**实体；`getParasiteIDRegister()` 通过 `extends` 链解析，因此像 `ada_burrower`（id 57）会正确继承 `shycoLoot`，而 `pri_burrower`（id 318）在原件 switch 里没有 case、无掉落）。
+- 新增 `event/ParasiteLootEvents`：`LivingDropsEvent`（`HIGHEST` 优先级，先于其他掉落追加者）里复刻原件 `loot()` 算法——`always=true` 逐条 `rand.nextInt(100) <= chance-1` 后掉 `rand.nextInt(count)+1`；`always=false` 的条目先等概率抽一条再掷骰；同时保留原件 `doMobLoot`、`DEBAR`、dislodgment 代码 18 三个闸门。
+- **命名空间改写**：原件用 `srparasites:`，本工程为 `csrp:`，`resolve()` 在查表前改写；查不到的 id（未注册的 `ada_burrower_drop`、附属模组的 `srpmeshi:*`）与原件的 `Item.func_111206_d` 返回 `null` 一致，不掉落。
+- 因为 `setLoot` 是寄生体掉落的唯一来源，处理器会先清空数据驱动表的结果再按配置掷骰；数据驱动 JSON 保留作为其他未覆盖实体的来源。
+
+校验：`scripts/verify-parasite-loot-tables.cjs` + GameTest `csrp:parasite_loot/legacy_roll`（用固定种子真实跑 `ParasiteLootEvents.roll`，断言 rupter 只掉 `lurecomponent1` 且数量 1-2、sim_human 两种结果都能出现且数量为 1、ada_burrower 继承三条 shycoLoot 且不掉未注册的 `ada_burrower_drop`、pri_burrower 无表）。静态校验 134 → **135**，GameTest 186 → **187**。
 
 ---
 
@@ -218,15 +236,15 @@ export JAVA_HOME="D:/MC/jdk/graalvm-community-25.3.4.1+1.1"
 GRADLE=("$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain)
 
 "${GRADLE[@]}" build -x test             # BUILD SUCCESSFUL → build/libs/csrp-1.10.9.jar
-node scripts/run-all-verifications.cjs   # {"total":134,"passed":134,"failed":0}
-"${GRADLE[@]}" runGameTestServer         # All 186 required tests passed
+node scripts/run-all-verifications.cjs   # {"total":135,"passed":135,"failed":0}
+"${GRADLE[@]}" runGameTestServer         # All 187 required tests passed
 ```
 
 | 检查 | 结果 |
 | --- | --- |
 | 编译与打包 | **BUILD SUCCESSFUL**，产物 `build/libs/csrp-1.10.9.jar` |
-| 静态契约校验 | **134 / 134 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape/失真/注入熔炉/JEI/抓钩/harlequin 命令契约等） |
-| 运行期 GameTest | **186 / 186 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 4 个 harlequin + 2 个寄生群系雾） |
+| 静态契约校验 | **135 / 135 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape/失真/注入熔炉/JEI/抓钩/harlequin 命令契约等） |
+| 运行期 GameTest | **187 / 187 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 4 个 harlequin + 2 个寄生群系雾 + 1 个掉落表） |
 | 服务器启动 | GameTest 服务器完整启动至测试结束，无启动崩溃 |
 | 世界生成运行期 | 225 区块实证：四类寄生群系 + 36 种寄生体方块落地，零 decoration 失败 |
 | 实体 id 对齐 | 原件 158 个 id **全部命中**（缺失 0） |
