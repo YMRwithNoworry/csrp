@@ -157,6 +157,15 @@ public final class WorldConfig {
     private static final ModConfigSpec.DoubleValue BIOME_FOUR_HEAL_PENALTY = BUILDER
             .comment("Healing multiplier for non-parasites in a demen biome (original: biomeFourHealPenalty).")
             .defineInRange("biomeFourHealPenalty", 0.5D, 0.0D, 1000.0D);
+    // Original SRPConfigWorld.potionEffectForNodes: parasite spawn buffs from node points.
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> NODE_POTION_EFFECTS = BUILDER
+            .comment("Potion effects granted to parasites spawned under nodes, \"points;effect;amplifier\" "
+                    + "(original: potionEffectForNodes).")
+            .defineList("potionEffectForNodes", List.of(
+                    "3;minecraft:speed;2",
+                    "4;minecraft:fire_resistance;1",
+                    "7;minecraft:invisibility;1"),
+                    value -> value instanceof String entry && entry.split(";", -1).length == 3);
     private static final ModConfigSpec.ConfigValue<List<? extends String>> BIOME_HEAL_PENALTY_BLACKLIST = BUILDER
             .comment("Entity ids exempt from the parasite-biome healing penalty (original: biomeHealPenaltyBlackList).")
             .defineList("biomeHealPenaltyBlackList", List.of("minecraft:villager_golem"),
@@ -373,6 +382,10 @@ public final class WorldConfig {
         };
     }
 
+    /** {@code SRPConfigWorld.potionEffectForNodes} — raw {@code points;effect;amplifier} rows. */
+    public static List<? extends String> nodePotionEffects() {
+        return NODE_POTION_EFFECTS.get();
+    }
     /** {@code SRPConfigWorld.biomeHealPenaltyBlackList}. */
     public static boolean biomeHealPenaltyExempt(String entityId) {
         boolean listed = false;

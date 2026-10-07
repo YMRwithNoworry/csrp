@@ -597,6 +597,17 @@ public final class SrpWorldData extends SavedData {
         return Math.min(Config.colonyTotalPointCap(), colonies.stream().mapToInt(ColonyEntry::points).sum());
     }
 
+    /**
+     * Original {@code SRPWorldData#totalNodePoints}: the sum of every node's 1..3 stage
+     * ({@code convertDayToAgeNode}), used by {@code SRPEventHandlerBus#applyNode}.
+     */
+    public int totalNodePoints() {
+        int points = 0;
+        for (NodeEntry entry : nodes) {
+            points += nodeStageFor(entry.age());
+        }
+        return points;
+    }
     public boolean reinforcementReady(ServerLevel level) {
         return level.getGameTime() >= reinforcementCooldownEnd;
     }

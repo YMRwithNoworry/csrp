@@ -7,6 +7,7 @@ import alku.csrp.entity.PrimitiveParasiteEntity;
 import alku.csrp.entity.SimAdventurerEntity;
 import alku.csrp.entity.ThrallEntity;
 import alku.csrp.registry.ModEntities;
+import alku.csrp.config.WorldConfig;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.world.SrpWorldData.GlobalAdaptation;
 import net.minecraft.server.level.ServerLevel;
@@ -15,6 +16,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -44,6 +47,8 @@ public final class ColonyEvents {
         SrpWorldData data = SrpWorldData.get(level);
         int points = data.totalColonyPoints();
         entity.getPersistentData().putBoolean(BONUSES_APPLIED, true);
+        // Original SRPEventHandlerBus#applyNode runs independently of the colony bonus.
+        applyNodeEffects(entity, data.totalNodePoints());
         if (points <= 0) {
             return;
         }
@@ -67,6 +72,36 @@ public final class ColonyEvents {
         }
     }
 
+    /**
+     * Port of {@code SRPEventHandlerBus#applyNode} (out109 1337-1353): for every
+     * {@code potionEffectForNodes} row whose point threshold is met, apply that effect for 7777 ticks.
+     */
+    private static void applyNodeEffects(LivingEntity entity, int totalNodePoints) {
+        if (totalNodePoints <= 0) {
+            return;
+        }
+        for (String row : WorldConfig.nodePotionEffects()) {
+            String[] parts = row.split(";", -1);
+            if (parts.length != 3) {
+                continue;
+            }
+            try {
+                if (totalNodePoints < Integer.parseInt(parts[0].trim())) {
+                    continue;
+                }
+                Identifier key = Identifier.tryParse(parts[1].trim());
+                if (key == null) {
+                    continue;
+                }
+                int amplifier = Integer.parseInt(parts[2].trim());
+                BuiltInRegistries.MOB_EFFECT.getOptional(key).ifPresent(effect ->
+                        entity.addEffect(new MobEffectInstance(
+                                BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect), 7777, amplifier)));
+            } catch (NumberFormatException ignored) {
+                // Mirrors the original's malformed-entry tolerance.
+            }
+        }
+    }
     @SubscribeEvent
     public static void preventParasiteInfighting(LivingChangeTargetEvent event) {
         if (event.getEntity() instanceof Parasite
