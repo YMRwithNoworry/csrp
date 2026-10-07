@@ -1,6 +1,7 @@
 package alku.csrp.event;
 
 import alku.csrp.Csrp;
+import alku.csrp.Config;
 import alku.csrp.effect.DistortedEnlightenmentMobEffect;
 import alku.csrp.entity.AbominationEntity;
 import alku.csrp.entity.DraconiteEntity;
@@ -74,9 +75,33 @@ public final class StatusEffectEvents {
         if (attackerDistorted && victim instanceof Parasite) {
             event.setAmount(event.getAmount() * 0.8F);
         }
+        // Original SRPEventHandlerBus#mobFear (out109 1050-1088).
         var fear = victim.getEffect(ModMobEffects.FEAR);
-        if (fear != null && (!victim.onGround() || event.getSource().is(DamageTypes.FALL))) {
-            event.setAmount(event.getAmount() * 1.5F * (fear.getAmplifier() + 1));
+        if (Config.fearActive() && fear != null) {
+            int fearAmp = fear.getAmplifier() + 1;
+            if (event.getSource().is(DamageTypes.FALL) && Config.fearFallDamage() != 0.0F) {
+                event.setAmount(event.getAmount() * (Config.fearFallDamage() * fearAmp));
+            }
+            if (Config.fearAirDamage() != 0.0F) {
+                if (Config.fearUnfair()) {
+                    if (!victim.onGround()) {
+                        event.setAmount(event.getAmount() * (Config.fearAirDamage() * fearAmp));
+                    }
+                } else {
+                    boolean inFluidOrSupport = victim.isInWater() || victim.isInLava()
+                            || victim.onClimbable() || victim.isPassenger();
+                    if (!inFluidOrSupport) {
+                        boolean creativeFlying = victim instanceof Player player && player.getAbilities().flying;
+                        boolean elytraFlying = victim.isFallFlying();
+                        boolean descending = victim.getDeltaMovement().y < 0.0D;
+                        boolean trueAirborne = creativeFlying || elytraFlying
+                                || (!victim.onGround() && descending && victim.fallDistance >= 2.0F);
+                        if (trueAirborne) {
+                            event.setAmount(event.getAmount() * (Config.fearAirDamage() * fearAmp));
+                        }
+                    }
+                }
+            }
         }
         var overheating = victim.getEffect(ModMobEffects.OVERHEATING);
         if (overheating != null && event.getSource().is(DamageTypeTags.IS_FIRE)) {

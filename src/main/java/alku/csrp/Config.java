@@ -148,6 +148,36 @@ public final class Config {
             .defineInRange("mobSpawningCothChanceEight", 0.8D, 0.0D, 1.0D);
     // Original SRPConfigSystems.COTHItemPrevent: using one of these items on a mob can mark it with
     // Repel ("item;chance;seconds").
+    // Original SRPConfigSystems fear block (out109 util/config/SRPConfigSystems.java:78-86).
+    private static final ModConfigSpec.BooleanValue FEAR_ACTIVE = BUILDER
+            .comment("Enable the Fear effect (original: fearActive).")
+            .define("fearActive", true);
+    private static final ModConfigSpec.BooleanValue FEAR_UNFAIR = BUILDER
+            .comment("Fear air damage only checks 'not on ground' instead of a real airborne state "
+                    + "(original: fearUnfair).")
+            .define("fearUnfair", true);
+    private static final ModConfigSpec.DoubleValue FEAR_FALL_DAMAGE = BUILDER
+            .comment("Fear fall-damage multiplier, scaled by the amplifier (original: fearFallDamage).")
+            .defineInRange("fearFallDamage", 1.5D, 0.0D, 100.0D);
+    private static final ModConfigSpec.DoubleValue FEAR_AIR_DAMAGE = BUILDER
+            .comment("Fear air-damage multiplier, scaled by the amplifier (original: fearAirDamage).")
+            .defineInRange("fearAirDamage", 1.5D, 0.0D, 100.0D);
+    private static final ModConfigSpec.DoubleValue FEAR_BLOCK_CHANCE = BUILDER
+            .comment("Chance a Fear III+ player fails to use a block (original: fearBlockChance).")
+            .defineInRange("fearBlockChance", 0.0D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue FEAR_ITEM_CHANCE = BUILDER
+            .comment("Chance a Fear II+ player fails to use an item (original: fearItemChance).")
+            .defineInRange("fearItemChance", 0.0D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue FEAR_INV_CHANCE = BUILDER
+            .comment("Chance a Fear IV+ player has their open container closed (original: fearInvChance).")
+            .defineInRange("fearInvChance", 0.0D, 0.0D, 1.0D);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> FEAR_ITEM_BLACKLIST = BUILDER
+            .comment("Items exempt from the Fear item-use failure (original: fearItemBlackList).")
+            .defineList("fearItemBlackList", List.of(),
+                    value -> value instanceof String entry && !entry.isBlank());
+    private static final ModConfigSpec.BooleanValue FEAR_ITEM_BLACKLIST_INVERTED = BUILDER
+            .comment("Treat fearItemBlackList as a whitelist (original: fearItemBlackListWhite).")
+            .define("fearItemBlackListInverted", false);
     private static final ModConfigSpec.ConfigValue<List<? extends String>> COTH_ITEM_PREVENT = BUILDER
             .comment("Items that can mark a mob with Repel when used on it, \"item;chance;seconds\" "
                     + "(original: COTHItemPrevent).")
@@ -725,6 +755,21 @@ public final class Config {
     public static List<? extends String> cothVictimParasites() { return COTH_VICTIM_PARASITES.get(); }
     public static List<? extends String> cothImmuneEntities() { return COTH_IMMUNE_ENTITIES.get(); }
     public static List<? extends String> cothItemPrevent() { return COTH_ITEM_PREVENT.get(); }
+    public static boolean fearActive() { return FEAR_ACTIVE.get(); }
+    public static boolean fearUnfair() { return FEAR_UNFAIR.get(); }
+    public static float fearFallDamage() { return FEAR_FALL_DAMAGE.get().floatValue(); }
+    public static float fearAirDamage() { return FEAR_AIR_DAMAGE.get().floatValue(); }
+    public static double fearBlockChance() { return FEAR_BLOCK_CHANCE.get(); }
+    public static double fearItemChance() { return FEAR_ITEM_CHANCE.get(); }
+    public static double fearInvChance() { return FEAR_INV_CHANCE.get(); }
+
+    /** Original {@code ParasiteEventEntity#checkName}: {@code anyMatch != isWhitelist}. */
+    public static boolean fearItemExempt(String itemId) {
+        boolean listed = FEAR_ITEM_BLACKLIST.get().stream()
+                .filter(entry -> entry != null && !entry.isEmpty())
+                .anyMatch(itemId::contains);
+        return listed != FEAR_ITEM_BLACKLIST_INVERTED.get();
+    }
     public static boolean cothActive() { return COTH_ACTIVE.get(); }
 
     /**
