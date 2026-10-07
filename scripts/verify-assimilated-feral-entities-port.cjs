@@ -51,6 +51,10 @@ expect(assimilated, /COTH_DURATION_TICKS\s*=\s*4_800/, "Assimilated COTH duratio
 expect(assimilated, /CowChargeGoal/, "Assimilated Cow charge is missing");
 expect(assimilated, /PREPARE_TICKS\s*=\s*40/, "Assimilated Cow charge wind-up is missing");
 expect(assimilated, /RandomSwimmingGoal/, "Assimilated Squid water movement is missing");
+// SRPAttributes.INFSQUID_* defaults (out109 util/SRPAttributes.java:22-25):
+// health 15, armor 5, attack damage 7, knockback resistance 0.1.
+expect(assimilated, /SQUID\("sim_squid", 15\.0D, 7\.0D, 5\.0D, 0\.1D/,
+  "Assimilated Squid attributes no longer match INFSQUID_HEALTH/ATTACK_DAMAGE/ARMOR/KD_RESISTANCE");
 expect(assimilated, /getBoundingBox\(\)\.inflate\(1\.75D\)/, "Assimilated Squid area attack is missing");
 expect(squidBreathingTag, /"csrp:sim_squid"/, "Assimilated Squid water-breathing tag is missing");
 expect(assimilated, /rollSheepTextureVariant/, "Assimilated Sheep variants are missing");
