@@ -17,7 +17,7 @@
   - 本环境的 Niubash 无法执行 `gradlew.bat`（会静默挂起），改用
     `"$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain <task>`；
     `scripts/build-locked.sh` 已同步改为这一调用方式。
-- 静态校验套件：**138 / 138 通过**。
+- 静态校验套件：**139 / 139 通过**。
 - 运行期验证：`runGameTestServer` → **187 / 187 GameTests 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 4 个 harlequin + 2 个寄生群系雾 + 1 个掉落表），服务器完整启动到测试结束。
 - 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2911 键 / zh_cn 2927 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
@@ -71,6 +71,10 @@
 ### 生物生成时的 COTH（✅ 已完成）
 
 原件 `SRPEventHandlerBus#onEntitySpawn`/`#writeCOTHTag`/`#setCOTH` 会在生物生成时施加 COTH：节点范围内无条件 COTH(3600,0)，否则非寄生且未免疫的生物按 `mobSpawningCOTHChanceOne..Eight`（相位 6/7/8 = 0.2/0.4/0.8）掷骰。工程此前只有攻击路径。现补 `Config.cothActive` + 三个相位概率 + `WorldConfig.nodesActivated`/`coloniesActivated`，新增 `event/CothSpawnEvents`（EntityJoinLevelEvent，先节点后相位，复用 `InfectionMechanics.isCothImmune`）。校验：`scripts/verify-coth-spawn.cjs`。
+
+### 死血邻居转换（✅ 已完成）
+
+原件 `SRPEventHandlerBus#onNeighborNotify` 会把死血周围的水→`parasitestain` MUD、岩浆→`parasiterubble` OBSIDIAN、海绵→Diseased Sponge（死血自身变化时转换全部邻居）。工程此前只有放海绵一种情况。现新增 `event/DeadBloodConversionEvents`（`BlockEvent.NeighborNotifyEvent`，保留 `srpSoakGuard` 防重入）。校验：`scripts/verify-deadblood-conversion.cjs`。
 
 ### JEI 配方查看器集成（✅ 已完成）
 
