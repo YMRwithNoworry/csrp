@@ -146,6 +146,15 @@ public final class Config {
     private static final ModConfigSpec.DoubleValue MOB_SPAWNING_COTH_CHANCE_EIGHT = BUILDER
             .comment("Chance a mob spawning at evolution phase 8 already carries COTH (original: mobSpawningCOTHChanceEight).")
             .defineInRange("mobSpawningCothChanceEight", 0.8D, 0.0D, 1.0D);
+    // Original SRPConfigSystems.COTHItemPrevent: using one of these items on a mob can mark it with
+    // Repel ("item;chance;seconds").
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> COTH_ITEM_PREVENT = BUILDER
+            .comment("Items that can mark a mob with Repel when used on it, \"item;chance;seconds\" "
+                    + "(original: COTHItemPrevent).")
+            .defineList("cothItemPrevent", List.of(
+                    "minecraft:golden_apple;0.1;300",
+                    "minecraft:golden_carrot;0.03;150"),
+                    value -> value instanceof String entry && entry.split(";", -1).length == 3);
     private static final ModConfigSpec.ConfigValue<List<? extends String>> COTH_IMMUNE_ENTITIES = BUILDER
             .comment("Entity ids or whole namespaces whose normal COTH effect cannot advance or create an Incomplete Form.")
             .defineList("cothImmuneEntities", List.of(
@@ -715,6 +724,7 @@ public final class Config {
     public static String overlastHudPosition() { return OVERLAST_HUD_POSITION.get(); }
     public static List<? extends String> cothVictimParasites() { return COTH_VICTIM_PARASITES.get(); }
     public static List<? extends String> cothImmuneEntities() { return COTH_IMMUNE_ENTITIES.get(); }
+    public static List<? extends String> cothItemPrevent() { return COTH_ITEM_PREVENT.get(); }
     public static boolean cothActive() { return COTH_ACTIVE.get(); }
 
     /**
