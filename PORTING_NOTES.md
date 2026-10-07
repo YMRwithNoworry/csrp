@@ -37,7 +37,7 @@
 | 可加载运行的构建产物 | `build/libs/csrp-1.10.9.jar`（约 134 MB，含全部资源） |
 | 移植说明 | 本文件 |
 | 各子系统详细报告 | `docs/gap/R2_REPORT.md`、`R2_BLIZZARD_REPORT.md`、`R3_WORLDGEN_REPORT.md`、`R4_BLOCKS_REPORT.md`、`R5_ITEMS_REPORT.md`、`R6_ENTITY_MATRIX.md`、`LANG_REPORT.md` |
-| 自动化校验 | `scripts/run-all-verifications.cjs`（137 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
+| 自动化校验 | `scripts/run-all-verifications.cjs`（138 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
 
 规模：569 个 Java 文件、88 个方块类、128 个实体文件、44 个物品类、7 个 Mixin、362 个 blockstate、2236 张纹理、1008 个音效、55 个结构 NBT、33 套语言。
 
@@ -179,6 +179,20 @@ R6 实体矩阵 §5.2 登记的 6 条"记录为不一致、本轮不改"中，4 
 
 校验：`scripts/verify-crop-and-heal-penalty.cjs`。静态校验 136 → **137**，GameTest 仍 **187 / 187**。
 
+### 3.13 生物生成时的 COTH 补齐
+
+原件的 `SRPEventHandlerBus#onEntitySpawn`（out109 1089-1135）+ `#writeCOTHTag` + `#setCOTH`（1137-1443）会给新生成的生物施加 Call of the Hive：
+
+1. 若 `SRPConfigWorld.nodesActivated && SRPConfigSystems.cothActive && nearestHeartAge(pos, false, 0) != -1`，直接给 COTH（3600 tick, amp 0）——该分支对所有非玩家 `EntityLivingBase` 生效；
+2. 否则，无 `srpcothimmunity` 标签的非寄生生物会写标签并按 `setCOTH(in, phase)` 掷骰：`mobSpawningCOTHChanceOne..Eight`，相位 1..5 为 0.0、6/7/8 为 0.2/0.4/0.8，而 `Nine/Ten` 虽然存在但 switch 没有 case（相位 9/10 不施加）。
+
+工程此前只在攻击路径调 `InfectionMechanics.applyCothEffect`，没有生成路径。现补：
+
+- `Config` 新增 `cothActive`(true) 与 `mobSpawningCothChanceSix/Seven/Eight`(0.2/0.4/0.8) + `mobSpawningCothChance(int phase)`（只有相位 6/7/8 非 0，其余 0.0）；`WorldConfig` 新增 `nodesActivated`(true) / `coloniesActivated`(true)（原件 `SRPConfigWorld` 开关，此前工程完全没有）。
+- 新增 `event/CothSpawnEvents`：`EntityJoinLevelEvent` 上按原件顺序（先节点后相位），免疫判定复用已有的 `InfectionMechanics.isCothImmune`，`srpcothimmunity` 标签用等价的 persistent-data 标记代替（原标签只用于防重复处理）。
+
+校验：`scripts/verify-coth-spawn.cjs`。静态校验 137 → **138**，GameTest 仍 **187 / 187**。
+
 ---
 
 ## 4. 因目标版本 API 缺失而改写或省略的部分
@@ -256,14 +270,14 @@ export JAVA_HOME="D:/MC/jdk/graalvm-community-25.3.4.1+1.1"
 GRADLE=("$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain)
 
 "${GRADLE[@]}" build -x test             # BUILD SUCCESSFUL → build/libs/csrp-1.10.9.jar
-node scripts/run-all-verifications.cjs   # {"total":137,"passed":137,"failed":0}
+node scripts/run-all-verifications.cjs   # {"total":138,"passed":138,"failed":0}
 "${GRADLE[@]}" runGameTestServer         # All 187 required tests passed
 ```
 
 | 检查 | 结果 |
 | --- | --- |
 | 编译与打包 | **BUILD SUCCESSFUL**，产物 `build/libs/csrp-1.10.9.jar` |
-| 静态契约校验 | **137 / 137 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape/失真/注入熔炉/JEI/抓钩/harlequin 命令契约等） |
+| 静态契约校验 | **138 / 138 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape/失真/注入熔炉/JEI/抓钩/harlequin 命令契约等） |
 | 运行期 GameTest | **187 / 187 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 4 个 harlequin + 2 个寄生群系雾 + 1 个掉落表） |
 | 服务器启动 | GameTest 服务器完整启动至测试结束，无启动崩溃 |
 | 世界生成运行期 | 225 区块实证：四类寄生群系 + 36 种寄生体方块落地，零 decoration 失败 |

@@ -132,6 +132,20 @@ public final class Config {
                     "wyrmsofnyrus:creepedbiter;csrp:sim_cow",
                     "wyrmsofnyrus:crawler;csrp:sim_bigspider"),
                     value -> value instanceof String && ((String) value).split(";", -1).length == 2);
+    // Original SRPConfigSystems.cothActive and the per-phase mob-spawning COTH chances
+    // (SRPEventHandlerBus#onEntitySpawn -> #writeCOTHTag -> #setCOTH, cases 1..8).
+    private static final ModConfigSpec.BooleanValue COTH_ACTIVE = BUILDER
+            .comment("Enable the Call of the Hive infection effect (original: cothActive).")
+            .define("cothActive", true);
+    private static final ModConfigSpec.DoubleValue MOB_SPAWNING_COTH_CHANCE_SIX = BUILDER
+            .comment("Chance a mob spawning at evolution phase 6 already carries COTH (original: mobSpawningCOTHChanceSix).")
+            .defineInRange("mobSpawningCothChanceSix", 0.2D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue MOB_SPAWNING_COTH_CHANCE_SEVEN = BUILDER
+            .comment("Chance a mob spawning at evolution phase 7 already carries COTH (original: mobSpawningCOTHChanceSeven).")
+            .defineInRange("mobSpawningCothChanceSeven", 0.4D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue MOB_SPAWNING_COTH_CHANCE_EIGHT = BUILDER
+            .comment("Chance a mob spawning at evolution phase 8 already carries COTH (original: mobSpawningCOTHChanceEight).")
+            .defineInRange("mobSpawningCothChanceEight", 0.8D, 0.0D, 1.0D);
     private static final ModConfigSpec.ConfigValue<List<? extends String>> COTH_IMMUNE_ENTITIES = BUILDER
             .comment("Entity ids or whole namespaces whose normal COTH effect cannot advance or create an Incomplete Form.")
             .defineList("cothImmuneEntities", List.of(
@@ -668,6 +682,20 @@ public final class Config {
     public static String overlastHudPosition() { return OVERLAST_HUD_POSITION.get(); }
     public static List<? extends String> cothVictimParasites() { return COTH_VICTIM_PARASITES.get(); }
     public static List<? extends String> cothImmuneEntities() { return COTH_IMMUNE_ENTITIES.get(); }
+    public static boolean cothActive() { return COTH_ACTIVE.get(); }
+
+    /**
+     * Original {@code SRPEventHandlerBus#setCOTH}: only phases 1..8 have a case; 1..5 are 0.0 and
+     * 9/10 fall through to no COTH at all (the One..Ten configs beyond Eight are never referenced).
+     */
+    public static double mobSpawningCothChance(int phase) {
+        return switch (phase) {
+            case 6 -> MOB_SPAWNING_COTH_CHANCE_SIX.get();
+            case 7 -> MOB_SPAWNING_COTH_CHANCE_SEVEN.get();
+            case 8 -> MOB_SPAWNING_COTH_CHANCE_EIGHT.get();
+            default -> 0.0D;
+        };
+    }
     public static boolean cothImmuneListInverted() { return COTH_IMMUNE_LIST_INVERTED.get(); }
     public static double cothConvertAtKillChance() { return COTH_CONVERT_AT_KILL_CHANCE.get(); }
     public static double cothAssimilatedSpreadChance() { return COTH_ASSIMILATED_SPREAD_CHANCE.get(); }

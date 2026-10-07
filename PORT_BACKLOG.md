@@ -17,7 +17,7 @@
   - 本环境的 Niubash 无法执行 `gradlew.bat`（会静默挂起），改用
     `"$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain <task>`；
     `scripts/build-locked.sh` 已同步改为这一调用方式。
-- 静态校验套件：**137 / 137 通过**。
+- 静态校验套件：**138 / 138 通过**。
 - 运行期验证：`runGameTestServer` → **187 / 187 GameTests 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 4 个 harlequin + 2 个寄生群系雾 + 1 个掉落表），服务器完整启动到测试结束。
 - 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2911 键 / zh_cn 2927 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
@@ -67,6 +67,10 @@
 ### 作物抑制与寄生群系治疗惩罚（✅ 已完成）
 
 补齐 `SRPEventHandlerBus#cropGrow` 的节点分支（`nodeCropStopNodeOne/Two/Three` 0.3/0.6/1.0，先节点后相位）与相位表尾错误（原件 `cropGrowStunnedOne..Eight` 只有 9 元素、相位 9/10 不抑制，工程此前为 1.0）；补齐 `#entityHeal` 的 `biomeOne..FourHealPenalty`(0.5) + `biomeHealPenaltyBlackList`(`minecraft:villager_golem`) + `evolutionNoParasiteHealing`(9)/`evolutionNoParasiteHealingValue`(0.5)（此前只硬编码相位≥9 的 0.5 倍）。校验：`scripts/verify-crop-and-heal-penalty.cjs`。
+
+### 生物生成时的 COTH（✅ 已完成）
+
+原件 `SRPEventHandlerBus#onEntitySpawn`/`#writeCOTHTag`/`#setCOTH` 会在生物生成时施加 COTH：节点范围内无条件 COTH(3600,0)，否则非寄生且未免疫的生物按 `mobSpawningCOTHChanceOne..Eight`（相位 6/7/8 = 0.2/0.4/0.8）掷骰。工程此前只有攻击路径。现补 `Config.cothActive` + 三个相位概率 + `WorldConfig.nodesActivated`/`coloniesActivated`，新增 `event/CothSpawnEvents`（EntityJoinLevelEvent，先节点后相位，复用 `InfectionMechanics.isCothImmune`）。校验：`scripts/verify-coth-spawn.cjs`。
 
 ### JEI 配方查看器集成（✅ 已完成）
 

@@ -108,6 +108,13 @@ public final class WorldConfig {
     // Original SRPConfigWorld origin / EIV creation section (SRPEventHandlerBus#worldTick ->
     // EIVUtil.createRandomOrigin). The world rolls once per in-game day for a new Emerging
     // Infestation Vector around a random player.
+    // Original SRPConfigWorld.nodesActivated / coloniesActivated.
+    private static final ModConfigSpec.BooleanValue NODES_ACTIVATED = BUILDER
+            .comment("Enable the node (Biome Heart) system (original: nodesActivated).")
+            .define("nodesActivated", true);
+    private static final ModConfigSpec.BooleanValue COLONIES_ACTIVATED = BUILDER
+            .comment("Enable the colony (Colony Heart) system (original: coloniesActivated).")
+            .define("coloniesActivated", true);
     private static final ModConfigSpec.BooleanValue ORIGIN_ACTIVATED = BUILDER
             .comment("Allow the world to create random Emerging Infestation Vectors (origins) over time.")
             .define("originActivated", true);
@@ -305,6 +312,15 @@ public final class WorldConfig {
             case 4 -> BIOME_FOUR_FOG_BLUE.get();
             default -> 0.0D;
         };
+    }
+    /** {@code SRPConfigWorld.nodesActivated}. */
+    public static boolean nodesActivated() {
+        return NODES_ACTIVATED.get();
+    }
+
+    /** {@code SRPConfigWorld.coloniesActivated}. */
+    public static boolean coloniesActivated() {
+        return COLONIES_ACTIVATED.get();
     }
     /** {@code SRPConfigWorld.originActivated} — whether random origins may be created. */
     public static boolean originActivated() {
