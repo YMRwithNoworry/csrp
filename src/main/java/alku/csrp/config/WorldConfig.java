@@ -126,6 +126,37 @@ public final class WorldConfig {
     private static final ModConfigSpec.IntValue ORIGIN_HEALTH = BUILDER
             .comment("Initial health of a randomly created origin (original: originHealth).")
             .defineInRange("originHealth", 350, 0, 2000000000);
+
+    // Original SRPConfigWorld: node-age crop suppression and the per-biome heal penalty
+    // (SRPEventHandlerBus#cropGrow / #entityHeal).
+    private static final ModConfigSpec.DoubleValue NODE_CROP_STOP_ONE = BUILDER
+            .comment("Chance a stage 1 node stops crop growth (original: nodeCropStopNodeOne).")
+            .defineInRange("nodeCropStopNodeOne", 0.3D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue NODE_CROP_STOP_TWO = BUILDER
+            .comment("Chance a stage 2 node stops crop growth (original: nodeCropStopNodeTwo).")
+            .defineInRange("nodeCropStopNodeTwo", 0.6D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue NODE_CROP_STOP_THREE = BUILDER
+            .comment("Chance a stage 3 node stops crop growth (original: nodeCropStopNodeThree).")
+            .defineInRange("nodeCropStopNodeThree", 1.0D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue BIOME_ONE_HEAL_PENALTY = BUILDER
+            .comment("Healing multiplier for non-parasites in a shrouded biome (original: biomeOneHealPenalty).")
+            .defineInRange("biomeOneHealPenalty", 0.5D, 0.0D, 1000.0D);
+    private static final ModConfigSpec.DoubleValue BIOME_TWO_HEAL_PENALTY = BUILDER
+            .comment("Healing multiplier for non-parasites in a boils biome (original: biomeTwoHealPenalty).")
+            .defineInRange("biomeTwoHealPenalty", 0.5D, 0.0D, 1000.0D);
+    private static final ModConfigSpec.DoubleValue BIOME_THREE_HEAL_PENALTY = BUILDER
+            .comment("Healing multiplier for non-parasites in a harlequin biome (original: biomeThreeHealPenalty).")
+            .defineInRange("biomeThreeHealPenalty", 0.5D, 0.0D, 1000.0D);
+    private static final ModConfigSpec.DoubleValue BIOME_FOUR_HEAL_PENALTY = BUILDER
+            .comment("Healing multiplier for non-parasites in a demen biome (original: biomeFourHealPenalty).")
+            .defineInRange("biomeFourHealPenalty", 0.5D, 0.0D, 1000.0D);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> BIOME_HEAL_PENALTY_BLACKLIST = BUILDER
+            .comment("Entity ids exempt from the parasite-biome healing penalty (original: biomeHealPenaltyBlackList).")
+            .defineList("biomeHealPenaltyBlackList", List.of("minecraft:villager_golem"),
+                    value -> value instanceof String entry && !entry.isBlank());
+    private static final ModConfigSpec.BooleanValue BIOME_HEAL_PENALTY_BLACKLIST_INVERTED = BUILDER
+            .comment("Treat the biome healing-penalty blacklist as a whitelist (original: biomeHealPenaltyBlackListWhite).")
+            .define("biomeHealPenaltyBlackListInverted", false);
     private static final ModConfigSpec.IntValue ORIGIN_RADIUS = BUILDER
             .comment("Initial radius of a randomly created origin (original: originRadius).")
             .defineInRange("originRadius", 200, 0, 2000000000);
@@ -305,7 +336,39 @@ public final class WorldConfig {
         return ORIGIN_HEALTH.get();
     }
 
-    /** {@code SRPConfigWorld.originRadius} — initial origin radius. */
+
+    /** {@code SRPConfigWorld.nodeCropStopNodeOne/Two/Three} — {@code nodeAge} is 1..3. */
+    public static float nodeCropStopChance(int nodeAge) {
+        return (float) switch (nodeAge) {
+            case 1 -> NODE_CROP_STOP_ONE.get();
+            case 2 -> NODE_CROP_STOP_TWO.get();
+            case 3 -> NODE_CROP_STOP_THREE.get();
+            default -> 0.0D;
+        };
+    }
+
+    /** {@code SRPConfigWorld.biomeOne..FourHealPenalty} — {@code biome} is 1..4. */
+    public static float biomeHealPenalty(int biome) {
+        return switch (biome) {
+            case 2 -> BIOME_TWO_HEAL_PENALTY.get().floatValue();
+            case 3 -> BIOME_THREE_HEAL_PENALTY.get().floatValue();
+            case 4 -> BIOME_FOUR_HEAL_PENALTY.get().floatValue();
+            default -> BIOME_ONE_HEAL_PENALTY.get().floatValue();
+        };
+    }
+
+    /** {@code SRPConfigWorld.biomeHealPenaltyBlackList}. */
+    public static boolean biomeHealPenaltyExempt(String entityId) {
+        boolean listed = false;
+        for (String entry : BIOME_HEAL_PENALTY_BLACKLIST.get()) {
+            if (entry != null && !entry.isEmpty() && entityId.contains(entry)) {
+                listed = true;
+                break;
+            }
+        }
+        // Original ParasiteEventEntity#checkName: anyMatch != isWhitelist, and a true result skips the penalty.
+        return listed != BIOME_HEAL_PENALTY_BLACKLIST_INVERTED.get();
+    }    /** {@code SRPConfigWorld.originRadius} — initial origin radius. */
     public static int originRadius() {
         return ORIGIN_RADIUS.get();
     }

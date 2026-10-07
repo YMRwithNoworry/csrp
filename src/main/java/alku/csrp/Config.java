@@ -79,6 +79,13 @@ public final class Config {
     private static final ModConfigSpec.BooleanValue USE_EVOLUTION_PHASES = BUILDER
             .comment("Use SRP evolution phases instead of the legacy difficulty killcount behavior.")
             .define("useEvolutionPhases", true);
+    // Original SRPConfigSystems.evolutionNoParasiteHealing / evolutionNoParasiteHealingValue.
+    private static final ModConfigSpec.IntValue EVOLUTION_NO_PARASITE_HEALING = BUILDER
+            .comment("Evolution phase from which non-parasites heal less (original: evolutionNoParasiteHealing).")
+            .defineInRange("evolutionNoParasiteHealing", 9, -2, 10);
+    private static final ModConfigSpec.DoubleValue EVOLUTION_NO_PARASITE_HEALING_VALUE = BUILDER
+            .comment("Healing multiplier for non-parasites from that phase on (original: evolutionNoParasiteHealingValue).")
+            .defineInRange("evolutionNoParasiteHealingValue", 0.5D, 0.0D, 1000.0D);
     private static final ModConfigSpec.BooleanValue GENERATION_ENABLED = BUILDER
             .comment("Use parasite generations. When disabled, parasites retain their full gene abilities.")
             .define("generationEnabled", true);
@@ -605,6 +612,10 @@ public final class Config {
     public static double killcountPlus() { return KILLCOUNT_PLUS.get(); }
     public static float primitiveMinimumDamage() { return PRIMITIVE_MINIMUM_DAMAGE.get().floatValue(); }
     public static boolean useEvolutionPhases() { return USE_EVOLUTION_PHASES.get(); }
+    public static int evolutionNoParasiteHealing() { return EVOLUTION_NO_PARASITE_HEALING.get(); }
+    public static float evolutionNoParasiteHealingValue() {
+        return EVOLUTION_NO_PARASITE_HEALING_VALUE.get().floatValue();
+    }
     public static boolean generationEnabled() { return GENERATION_ENABLED.get(); }
     public static int evolutionNests() { return EVOLUTION_NESTS.get(); }
     public static int deveNestsUse() { return DEVE_NESTS_USE.get(); }

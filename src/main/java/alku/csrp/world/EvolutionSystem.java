@@ -43,7 +43,7 @@ public final class EvolutionSystem {
             0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.20F, 0.40F, 0.80F, 0.90F, 1.0F
     };
     private static final float[] CROP_BLOCK_CHANCE = {
-            0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.10F, 0.30F, 0.60F, 1.0F, 1.0F
+            0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.10F, 0.30F, 0.60F, 0.0F, 0.0F
     };
     private static final int[] GENERATION_TIME_TICKS = {25_000, 45_000, 72_000, 72_000, 72_000};
     private static final int[][] GENERATION_PHASES = {

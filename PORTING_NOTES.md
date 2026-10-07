@@ -37,7 +37,7 @@
 | 可加载运行的构建产物 | `build/libs/csrp-1.10.9.jar`（约 134 MB，含全部资源） |
 | 移植说明 | 本文件 |
 | 各子系统详细报告 | `docs/gap/R2_REPORT.md`、`R2_BLIZZARD_REPORT.md`、`R3_WORLDGEN_REPORT.md`、`R4_BLOCKS_REPORT.md`、`R5_ITEMS_REPORT.md`、`R6_ENTITY_MATRIX.md`、`LANG_REPORT.md` |
-| 自动化校验 | `scripts/run-all-verifications.cjs`（136 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
+| 自动化校验 | `scripts/run-all-verifications.cjs`（137 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
 
 规模：569 个 Java 文件、88 个方块类、128 个实体文件、44 个物品类、7 个 Mixin、362 个 blockstate、2236 张纹理、1008 个音效、55 个结构 NBT、33 套语言。
 
@@ -170,6 +170,15 @@ R6 实体矩阵 §5.2 登记的 6 条"记录为不一致、本轮不改"中，4 
 
 校验：`scripts/verify-origin-creation.cjs`。静态校验 135 → **136**，GameTest 仍 **187 / 187**。
 
+### 3.12 作物抑制与寄生群系治疗惩罚回归原件
+
+对照 `SRPEventHandlerBus#cropGrow` 与 `#entityHeal`（out109 377-408 / 606-653）发现两处缺失，现补齐：
+
+- **作物生长抑制**：原件先取 `nearestHeartAge(pos, false, 0)`，当 `nodeAge` 在 1..3 且 `rand < nodeCropStopNodeX` 时拒绝生长；只有节点没拦下才走相位表（`cropGrowStunnedOne..Eight`，9 元素数组，因此只有相位 1..8 生效，`cropGrowStunnedNine/Ten` 是死配置）。工程此前只有相位表，且表尾多了相位 9/10 = 1.0（原件不抑制）。现补 `WorldConfig.nodeCropStopNodeOne/Two/Three`(0.3/0.6/1.0) + `nodeCropStopChance(int)`，`EvolutionEvents#slowCropGrowth` 先节点后相位，并把 `EvolutionSystem.CROP_BLOCK_CHANCE` 的相位 9/10 改回 0.0。
+- **寄生群系治疗惩罚**：原件在玩家/生物处于 `BiomeParasiteBase` 时按 `canBiomeStillExistType` 选 `biomeOne..FourHealPenalty`（默认均 0.5）缩放治疗量；玩家不做名单检查，其他生物命中 `biomeHealPenaltyBlackList`（默认 `minecraft:villager_golem`，非白名单）时 **直接 return，连后续的进化禁疗也一起跳过**；随后 `phase >= evolutionNoParasiteHealing`（默认 9）时再乘 `evolutionNoParasiteHealingValue`（0.5）。工程此前只硬编码了相位 ≥ 9 的 0.5 倍。现补 `WorldConfig.biomeOne..FourHealPenalty` + `biomeHealPenaltyBlackList` / `biomeHealPenaltyBlackListInverted` + `biomeHealPenalty(int)` / `biomeHealPenaltyExempt(String)`（`listed != inverted`，复刻 `checkName`），`Config.evolutionNoParasiteHealing`(9) / `evolutionNoParasiteHealingValue`(0.5)，`EvolutionEvents#halveNonParasiteHealing` 按原件顺序重写。
+
+校验：`scripts/verify-crop-and-heal-penalty.cjs`。静态校验 136 → **137**，GameTest 仍 **187 / 187**。
+
 ---
 
 ## 4. 因目标版本 API 缺失而改写或省略的部分
@@ -247,14 +256,14 @@ export JAVA_HOME="D:/MC/jdk/graalvm-community-25.3.4.1+1.1"
 GRADLE=("$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain)
 
 "${GRADLE[@]}" build -x test             # BUILD SUCCESSFUL → build/libs/csrp-1.10.9.jar
-node scripts/run-all-verifications.cjs   # {"total":136,"passed":136,"failed":0}
+node scripts/run-all-verifications.cjs   # {"total":137,"passed":137,"failed":0}
 "${GRADLE[@]}" runGameTestServer         # All 187 required tests passed
 ```
 
 | 检查 | 结果 |
 | --- | --- |
 | 编译与打包 | **BUILD SUCCESSFUL**，产物 `build/libs/csrp-1.10.9.jar` |
-| 静态契约校验 | **136 / 136 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape/失真/注入熔炉/JEI/抓钩/harlequin 命令契约等） |
+| 静态契约校验 | **137 / 137 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape/失真/注入熔炉/JEI/抓钩/harlequin 命令契约等） |
 | 运行期 GameTest | **187 / 187 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 4 个 harlequin + 2 个寄生群系雾 + 1 个掉落表） |
 | 服务器启动 | GameTest 服务器完整启动至测试结束，无启动崩溃 |
 | 世界生成运行期 | 225 区块实证：四类寄生群系 + 36 种寄生体方块落地，零 decoration 失败 |

@@ -171,11 +171,24 @@ public final class EvolutionEvents {
         }
     }
 
+    /**
+     * Port of {@code SRPEventHandlerBus#cropGrow}.  The original checks the nearest node stage first
+     * ({@code nodeCropStopNodeOne/Two/Three}) and only falls through to the evolution-phase table
+     * ({@code cropGrowStunnedOne..Eight}) when the node roll did not fire.
+     */
     @SubscribeEvent
     public static void slowCropGrowth(CropGrowEvent.Pre event) {
-        if (event.getLevel() instanceof ServerLevel level
-                && level.getRandom().nextFloat() < EvolutionSystem.cropGrowthBlockChance(
-                        SrpWorldData.get(level).evolutionPhase())) {
+        if (!(event.getLevel() instanceof ServerLevel level)) {
+            return;
+        }
+        SrpWorldData data = SrpWorldData.get(level);
+        int nodeAge = data.nearestHeartAge(event.getPos());
+        if (nodeAge >= 1 && nodeAge <= 3
+                && level.getRandom().nextFloat() < WorldConfig.nodeCropStopChance(nodeAge)) {
+            event.setResult(CropGrowEvent.Pre.Result.DO_NOT_GROW);
+            return;
+        }
+        if (level.getRandom().nextFloat() < EvolutionSystem.cropGrowthBlockChance(data.evolutionPhase())) {
             event.setResult(CropGrowEvent.Pre.Result.DO_NOT_GROW);
         }
     }
@@ -217,12 +230,33 @@ public final class EvolutionEvents {
         }
     }
 
+    /**
+     * Port of {@code SRPEventHandlerBus#entityHeal}: non-parasites heal less inside a parasite biome
+     * ({@code biomeOne..FourHealPenalty}, with the {@code biomeHealPenaltyBlackList} exemption that in
+     * the original returns from the whole handler), and from {@code evolutionNoParasiteHealing} on the
+     * amount is further scaled by {@code evolutionNoParasiteHealingValue}.
+     */
     @SubscribeEvent
     public static void halveNonParasiteHealing(LivingHealEvent event) {
-        if (!(event.getEntity() instanceof Parasite)
-                && event.getEntity().level() instanceof ServerLevel level
-                && SrpWorldData.get(level).evolutionPhase() >= 9) {
-            event.setAmount(event.getAmount() * 0.5F);
+        if (event.getEntity() instanceof Parasite
+                || !(event.getEntity().level() instanceof ServerLevel level)) {
+            return;
+        }
+        int biome = ParasiteBiomeDecorator.parasiteBiomeIndex(
+                level.getBiome(event.getEntity().blockPosition()));
+        if (biome >= 1) {
+            if (event.getEntity() instanceof Player) {
+                event.setAmount(event.getAmount() * WorldConfig.biomeHealPenalty(biome));
+            } else {
+                String id = BuiltInRegistries.ENTITY_TYPE.getKey(event.getEntity().getType()).toString();
+                if (WorldConfig.biomeHealPenaltyExempt(id)) {
+                    return;
+                }
+                event.setAmount(event.getAmount() * WorldConfig.biomeHealPenalty(biome));
+            }
+        }
+        if (SrpWorldData.get(level).evolutionPhase() >= Config.evolutionNoParasiteHealing()) {
+            event.setAmount(event.getAmount() * Config.evolutionNoParasiteHealingValue());
         }
     }
 
