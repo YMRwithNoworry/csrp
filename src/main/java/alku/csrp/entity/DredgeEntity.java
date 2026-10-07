@@ -146,7 +146,11 @@ public final class DredgeEntity extends CrudeParasiteEntity {
         String namespace = id.getNamespace();
         boolean listed = Config.mobAttackingBlacklist().stream()
                 .anyMatch(entry -> entry.indexOf(':') >= 0 ? entry.equals(value) : entry.equals(namespace));
-        return Config.mobAttackingBlacklistInverted() ? listed : !listed;
+        if (Config.mobAttackingBlacklistInverted() ? listed : !listed) {
+            return false;
+        }
+        // Original EntityParasiteBase#canAttackClass also honours mobAttackingFull.
+        return MobAttacking.canAttackEntity(target);
     }
 
     @Override
@@ -203,6 +207,15 @@ public final class DredgeEntity extends CrudeParasiteEntity {
 
     private void tickLiquidLeap() {
         LivingEntity target = getTarget();
+        // Original EntityParasiteBase#handleWater: the leap itself only fires while gene 4
+        // (generationWaterLeap) is enabled; otherwise the stored counter just decays.
+        if (!(level() instanceof ServerLevel serverLevel)
+                || !EvolutionSystem.generationProfile(serverLevel).waterLeap()) {
+            if (liquidLeap > 0) {
+                liquidLeap--;
+            }
+            return;
+        }
         boolean inLiquid = isInWater() || level().getBlockState(blockPosition()).is(Blocks.BUBBLE_COLUMN)
                 || isInLava();
         if (tickCount % LIQUID_LEAP_INTERVAL_TICKS == 0 && inLiquid && target != null && target.isAlive()) {

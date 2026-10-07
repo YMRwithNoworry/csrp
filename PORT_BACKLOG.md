@@ -17,7 +17,7 @@
   - 本环境的 Niubash 无法执行 `gradlew.bat`（会静默挂起），改用
     `"$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain <task>`；
     `scripts/build-locked.sh` 已同步改为这一调用方式。
-- 静态校验套件：**132 / 132 通过**。
+- 静态校验套件：**134 / 134 通过**。
 - 运行期验证：`runGameTestServer` → **186 / 186 GameTests 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 4 个 harlequin + 2 个寄生群系雾），服务器完整启动到测试结束。
 - 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2911 键 / zh_cn 2927 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
@@ -39,11 +39,22 @@
 
 ## 待办
 
-### R6 剩余（低影响，已在矩阵登记）
+### R6 剩余（本轮已全部补齐）
 
-### R6 剩余（低影响，已在矩阵登记）
+全部 73 个 AI 类已逐条判定，无"缺失"项。R6 矩阵 §5.2 登记的 6 条"记录为不一致"本轮逐条收敛：
 
-全部 73 个 AI 类已逐条判定，无"缺失"项；剩余登记项为：`EntityAIDodAttack` 的黑/白名单过滤、`EntityAIVenkrolSummon` 的 mob 表逐条复刻、`EntityAIFollowBodies` 的架构差异（本工程用 `bodyPredecessor` 实体链，语义等价）、gene 系统（本工程用 Kind 分支替代 `EntityPMalleable` 的 10 个开关）。详见 `docs/gap/R6_ENTITY_MATRIX.md` §5.2。
+| R6 登记项 | 原件事实来源 | 本轮落点 |
+| --- | --- | --- |
+| `EntityAIDodAttack` / `EntityAIFlightAttack` 等的 `mobattackingBlackList` / `mobattackingBlackListWhite` / `mobAttackingFull` | `util/ParasiteEventEntity#checkEntity` / `#checkName`、`EntityParasiteBase#canAttackClass`（out109:1094-1117） | 新增 `entity/MobAttacking`（`checkName` 的 `contains` 匹配 + `srparasites` 命名空间自排除 + `mobAttackingFull` 分支）；`ArchitectEntity` / `DredgeEntity` / `HeedEntity` / `PureParasiteEntity` 4 处手写黑名单改为统一调用。新增配置 `Config.mobAttackingFull`（原件 `SRPConfig.mobAttackingFull`，默认 false） |
+| `EntityAIVenkrolSummon` 的 `SRPAttributes.VENKROL*_MOBTABLEG/A` mob 表 | `util/config/SRPConfigMobs.java:1068-1150` 的 `venkrolmoblist` / `venkrolsiimoblist` / `venkrolsiiimoblist` / `venkrolsivmoblist` | `MobsConfig` 新增 4 张 beckon 召唤表（逐行复刻原件默认值，含 `ground;air` 前缀、chance、capacity cost）+ `venkrolCAMinimumV`(4) / `venkrolCAExtraM`(0.5)；`NexusParasiteEntity#summonBeckonParasites` 改为读表并按原件"随机起点 + 最多两圈 + 地面/空中按高度切换"选怪 |
+| `EntityAINexusGrow` 的 `SRPConfigSystems.evolutionNests` / `deveNestsUse` / `maximumStageList` 维度上限锁 | `util/config/SRPConfigSystems.java:184,1102,46`；`entity/ai/EntityAINexusGrow.java:42-55,69-98` | `Config` 新增 `evolutionNests`(11) / `deveNestsUse`(3) / `maximumStageList`({"1;3"}) + `nexusStageLock` / `legacyDimensionId`；`NexusParasiteEntity` 构造时求 `dimensionStageLock`、`evolve()` 应用 `dimLock >= stage+1` 闸门、`trySpawnRooterSi` 应用 nest phase/dev 闸门 |
+| gene 系统（`EntityPMalleable` 的 10 个 gene 开关） | `util/config/SRPConfigSystems.java:1445-1500` 的 `generation*0..5` | `EvolutionSystem.GenerationProfile` 补上此前缺失的 3 个开关 `lookWalls`(2) / `waterLeap`(4) / `residue`(8)，默认表逐项对齐原件；`lookWalls` 接入 `PrimitiveParasiteEntity` 的目标感知（原件 `shouldCheckSight \|\| !getGeneMod(2)`）、`waterLeap` 接入 `DredgeEntity` 的液体跃击、`residue` 接入 `AdaptedVariantEntity.BlockResidueGoal` |
+| `EntityAIFollowBodies` 的 `getFollowing()`/`getHead()` 单体 AI 形态 | `entity/ai/EntityAIFollowBodies.java` | **保持不变**：本工程用"每节身体一个实体 + `bodyPredecessor` UUID 链"，语义等价、结构不同（已在 R6 矩阵说明） |
+| `EntityParasiteBase` 的 skin 120 特殊态 / `canChangeVariant` / `getaSize`/`getTHeigh` | `entity/ai/misc/EntityParasiteBase.java` | **保持不变**：由 26.3 的 `EntityDimensions` + 各实体自己的同步数据承担，非 1:1 |
+
+> 注：原件的 `mobAttackingFull` 只在 `canAttackClass` 里生效，而各家族的目标选择谓词本身已经无条件排除黑名单（`!ParasiteEventEntity.checkEntity(...)`），因此该配置在原件里对"是否锁定黑名单怪"实际是冗余的。本工程按原样保留这层冗余（`MobAttacking` 仍完整实现 `canAttackClass` 的判定），未"顺手修正"为让它产生原件没有的效果。
+
+校验：`scripts/verify-mob-attacking-and-beckon-tables.cjs`、`scripts/verify-generation-genes-and-nexus-gates.cjs`。
 
 ### JEI 配方查看器集成（✅ 已完成）
 

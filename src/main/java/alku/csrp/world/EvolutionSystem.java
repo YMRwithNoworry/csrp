@@ -61,6 +61,10 @@ public final class EvolutionSystem {
     private static final boolean[] GENERATION_MINIMUM_DAMAGE = {false, false, true, true, true, true};
     private static final boolean[] GENERATION_BLOCK_SEARCH = {false, false, false, false, false, true};
     private static final boolean[] GENERATION_ORDINARY_ORB = {false, false, false, false, false, true};
+    // Original SRPConfigSystems generationLookWalls0..5 / generationWaterLeap0..5 / generationResidue0..5.
+    private static final boolean[] GENERATION_LOOK_WALLS = {false, false, false, false, true, true};
+    private static final boolean[] GENERATION_WATER_LEAP = {false, false, false, true, true, true};
+    private static final boolean[] GENERATION_RESIDUE = {false, false, false, false, true, true};
     private static final float[] GENERATION_POISON_HEALING = {0.0F, 0.3F, 1.0F, 1.5F, 2.0F, 2.5F};
     private static final float[] GENERATION_MOB_HEALING = {0.0F, 0.0F, 0.5F, 1.0F, 2.0F, 3.0F};
     private static final float[] GENERATION_ATTACK_SPEED = {1.0F, 1.0F, 1.0F, 0.9F, 0.7F, 0.5F};
@@ -132,6 +136,9 @@ public final class EvolutionSystem {
                 GENERATION_MINIMUM_DAMAGE[generation],
                 GENERATION_BLOCK_SEARCH[generation],
                 GENERATION_ORDINARY_ORB[generation],
+                GENERATION_LOOK_WALLS[generation],
+                GENERATION_WATER_LEAP[generation],
+                GENERATION_RESIDUE[generation],
                 GENERATION_POISON_HEALING[generation],
                 GENERATION_MOB_HEALING[generation],
                 GENERATION_ATTACK_SPEED[generation]);
@@ -299,6 +306,7 @@ public final class EvolutionSystem {
     public record GenerationProfile(float cothChance, boolean sprinting, boolean adaptation,
             boolean specialMoves, boolean damageCap, boolean minimumDamage,
             boolean blockSearch, boolean ordinaryOrb,
+            boolean lookWalls, boolean waterLeap, boolean residue,
             float poisonHealing, float mobHealing, float attackSpeedMultiplier) {
     }
 }

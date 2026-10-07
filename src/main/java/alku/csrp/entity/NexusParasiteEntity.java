@@ -1,6 +1,8 @@
 package alku.csrp.entity;
 
+import alku.csrp.config.MobsConfig;
 import alku.csrp.config.RuntimeToggles;
+import alku.csrp.Config;
 import alku.csrp.Csrp;
 import alku.csrp.block.FogBlock;
 import alku.csrp.event.StatusEffectEvents;
@@ -107,11 +109,15 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     private int rooterSummonCooldown = NEXUS_ROOTER_INTERVAL;
     private boolean canGrow = true;
     private boolean dispatcherFogDissipationStarted;
+    /** Original EntityAINexusGrow.dimLock — highest stage allowed in this dimension, or -1. */
+    private final int dimensionStageLock;
 
     public NexusParasiteEntity(EntityType<? extends NexusParasiteEntity> type, Level level, Kind kind) {
         super(type, level);
         this.kind = kind;
         xpReward = kind.experience;
+        // Original EntityAINexusGrow constructor: maximumStageList locks a per-dimension stage cap.
+        this.dimensionStageLock = Config.nexusStageLock(level);
         growthDelayTicks = kind.stage == 0 || kind.stage == 4 ? -1
                 : STAGE_ONE_MIN_GROWTH + random.nextInt(STAGE_ONE_GROWTH_VARIANCE);
     }
@@ -612,34 +618,71 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
             int points = 12;
             int spawnedCount = 0;
             int availableSlots = Math.max(0, activeKind.activeCap - nearbyParasiteCount(18.0D));
+            java.util.List<BiomassEntity.SummonOption> options =
+                    MobsConfig.beckonSummonMobs(4, false);
             while (points >= 3 && spawnedCount < 4 && spawnedCount < availableSlots) {
-                float roll = random.nextFloat();
-                int stage = roll < 0.30F ? 1 : roll < 0.70F ? 2 : 3;
-                int cost = stage == 3 ? 4 : 3;
-                if (cost > points) {
-                    stage = random.nextBoolean() ? 1 : 2;
-                    cost = 3;
+                // Original: pick a random entry, then walk forward until an affordable one is found
+                // (util/ParasiteEventEntity#spawnBiomassFromBeckon), wrapping at most twice.
+                BiomassEntity.SummonOption chosen = null;
+                int index = options.isEmpty() ? 0 : random.nextInt(options.size());
+                for (int wraps = 0; wraps < 2 && !options.isEmpty(); wraps++) {
+                    for (int step = 0; step < options.size(); step++) {
+                        BiomassEntity.SummonOption candidate = options.get((index + step) % options.size());
+                        if (candidate.cost() <= points) {
+                            chosen = candidate;
+                            break;
+                        }
+                    }
+                    if (chosen != null) {
+                        break;
+                    }
                 }
-                NexusParasiteEntity spawned = createNexus(serverLevel, Family.BECKON, stage);
-                if (!spawnNexus(spawned, target, 5.0D + spawnedCount)) {
+                if (chosen == null) {
                     break;
                 }
-                points -= cost;
+                Mob spawned = chosen.type().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+                if (spawned == null) {
+                    break;
+                }
+                double angle = random.nextDouble() * Math.PI * 2.0D;
+                double distance = 5.0D + spawnedCount;
+                spawned.snapTo(target.getX() + Math.cos(angle) * distance, target.getY(),
+                        target.getZ() + Math.sin(angle) * distance, getYRot(), 0.0F);
+                spawned.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(spawned.blockPosition()),
+                        EntitySpawnReason.MOB_SUMMONED, null);
+                if (spawned instanceof Mob mob) {
+                    mob.setTarget(target);
+                }
+                serverLevel.addFreshEntity(spawned);
+                points -= chosen.cost();
                 spawnedCount++;
             }
             return spawnedCount > 0;
         }
-        EntityType<? extends Mob> type = switch (activeKind.stage) {
-            case 1 -> ModEntities.RUPTER.get();
-            case 2 -> random.nextBoolean() ? ModEntities.RUPTER.get() : ModEntities.BUGLIN.get();
-            default -> switch (random.nextInt(4)) {
-                case 0 -> ModEntities.PRI_SUMMONER.get();
-                case 1 -> ModEntities.PRI_LONGARMS.get();
-                case 2 -> ModEntities.PRI_REEKER.get();
-                default -> ModEntities.RUPTER.get();
-            };
-        };
-        return spawnMob(type, target, 4.0D);
+        // Original EntityAIVenkrolSummon: ground or air list depending on how far above the target the
+        // beckon sits (entityin.getY() + 3 > target.getY() selects the air table), then one biomass body.
+        boolean airborne = getY() + 3.0D > target.getY();
+        java.util.List<BiomassEntity.SummonOption> options =
+                MobsConfig.beckonSummonMobs(activeKind.stage, airborne);
+        if (options.isEmpty()) {
+            return false;
+        }
+        BiomassEntity.SummonOption chosen = options.get(random.nextInt(options.size()));
+        if (getRandom().nextDouble() > chosen.chance()) {
+            return false;
+        }
+        Mob spawned = chosen.type().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+        if (spawned == null) {
+            return false;
+        }
+        double angle = random.nextDouble() * Math.PI * 2.0D;
+        spawned.snapTo(target.getX() + Math.cos(angle) * 4.0D, target.getY() + (activeKind.stage == 3 ? 0.5D : 0.0D),
+                target.getZ() + Math.sin(angle) * 4.0D, getYRot(), 0.0F);
+        spawned.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(spawned.blockPosition()),
+                EntitySpawnReason.MOB_SUMMONED, null);
+        spawned.setTarget(target);
+        serverLevel.addFreshEntity(spawned);
+        return true;
     }
 
     private boolean forceEvolveNearbyParasite() {
@@ -999,6 +1042,13 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         if (random.nextDouble() >= NEXUS_ROOTER_CHANCE) {
             return;
         }
+        // Original EntityAINexusGrow.spawnLeem gate: the nest only calls rooters once the dimension has
+        // reached the configured nest phase or development level.
+        SrpWorldData data = SrpWorldData.get(serverLevel);
+        if (data.evolutionPhase() < Config.evolutionNests()
+                && data.ubiquitousDevelopmentOverride() < Config.deveNestsUse()) {
+            return;
+        }
         int rooterCount = 0;
         double nearestDistanceSqr = Double.MAX_VALUE;
         for (Entity entity : serverLevel.getAllEntities()) {
@@ -1058,6 +1108,10 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         // Original EntityAINexusGrow required ParasiteEventEntity.canSpawnNext before every stage upgrade.
         if (!RuntimeToggles.mobEvolution()
                 || !(level() instanceof ServerLevel serverLevel) || activeKind.stage <= 0 || activeKind.stage >= 4) {
+            return false;
+        }
+        // Original EntityAINexusGrow.checkPhase dimLock: `dimLock >= currentStage + 1` stops growth.
+        if (dimensionStageLock >= activeKind.stage + 1) {
             return false;
         }
         NexusParasiteEntity next = createNexus(serverLevel, activeKind.family, activeKind.stage + 1);

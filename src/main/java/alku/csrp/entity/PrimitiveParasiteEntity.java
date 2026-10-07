@@ -305,9 +305,25 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
         goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         if (usesDefaultTargetGoals()) {
             targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
+            // Original EntityAINearestAttackableTargetStatus: the sight check runs when
+            // shouldCheckSight || !getGeneMod(2). The malleable families leave shouldCheckSight false,
+            // so the effective rule is "require line of sight unless generationLookWalls is set".
+            // 26.3's mustSee flag is fixed at construction, so the dynamic gene is applied in the
+            // per-candidate predicate instead.
             targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
-                    true, false, (target, level) -> isValidParasiteTarget(target)));
+                    false, false, (target, level) -> isValidParasiteTarget(target) && canPerceiveTarget(target)));
         }
+    }
+
+    /**
+     * Original {@code getGeneMod(2)} ({@code geneLookwall}): when the generation enables it, parasites
+     * acquire targets through walls, otherwise a line-of-sight check is required.
+     */
+    protected boolean canPerceiveTarget(LivingEntity target) {
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return true;
+        }
+        return EvolutionSystem.generationProfile(serverLevel).lookWalls() || hasLineOfSight(target);
     }
 
     /**

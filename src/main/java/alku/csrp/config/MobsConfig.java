@@ -376,6 +376,76 @@ public final class MobsConfig {
     private static final ModConfigSpec.IntValue OVERSEER_MAX_Y = intValue(
             "srparasites:overseer", "overseerFlightHeightLimit", 256, 0, 256,
             "Maximum number of air blocks the Overseer may fly above terrain.");
+    // Original SRPConfigMobs.venkrolmoblist / venkrolsiimoblist / venkrolsiiimoblist / venkrolsivmoblist.
+    // Each entry is "ground|air;entity_id;chance;capacity_cost". The original parsed the same shape into
+    // SRPAttributes.VENKROL*_MOBTABLEG / ..._MOBTABLEA and picked greedily until two full wraps
+    // (util/ParasiteEventEntity#spawnBiomassFromBeckon), which is exactly what BiomassEntity#selectSummon does.
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> BECKON_STAGE1_MOBS = stringList(
+            "srparasites:beckon_si", "beckonMobList", List.of(
+                    "ground;csrp:rupter;1;1"),
+            "Beckon stage 1 summon table: ground|air;entity_id;chance;capacity_cost.",
+            MobsConfig::validBeckonMobEntry);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> BECKON_STAGE2_MOBS = stringList(
+            "srparasites:beckon_sii", "beckonMobList", List.of(
+                    "ground;csrp:sim_human;0.2;3",
+                    "ground;csrp:sim_cow;0.2;3",
+                    "ground;csrp:sim_sheep;0.2;3",
+                    "ground;csrp:sim_wolf;0.2;3",
+                    "ground;csrp:sim_bigspider;0.2;3",
+                    "ground;csrp:sim_pig;0.2;3",
+                    "ground;csrp:sim_villager;0.2;3",
+                    "ground;csrp:sim_horse;0.2;3",
+                    "ground;csrp:sim_bear;0.2;3",
+                    "ground;csrp:sim_enderman;0.2;3",
+                    "ground;csrp:rupter;0.1;1",
+                    "air;csrp:carrier_flying;0.3;3"),
+            "Beckon stage 2 summon table: ground|air;entity_id;chance;capacity_cost.",
+            MobsConfig::validBeckonMobEntry);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> BECKON_STAGE3_MOBS = stringList(
+            "srparasites:beckon_siii", "beckonMobList", List.of(
+                    "ground;csrp:pri_summoner;0.2;6",
+                    "ground;csrp:pri_manducater;0.4;6",
+                    "ground;csrp:pri_bolster;0.1;6",
+                    "ground;csrp:pri_reeker;0.4;6",
+                    "ground;csrp:pri_longarms;0.4;6",
+                    "ground;csrp:pri_arachnida;0.4;6",
+                    "ground;csrp:pri_vermin;0.3;6",
+                    "ground;csrp:pri_tozoon;0.3;3",
+                    "ground;csrp:sim_human;0.2;3",
+                    "ground;csrp:sim_cow;0.2;3",
+                    "ground;csrp:sim_sheep;0.2;3",
+                    "ground;csrp:sim_wolf;0.2;3",
+                    "ground;csrp:sim_bigspider;0.2;3",
+                    "ground;csrp:sim_pig;0.2;3",
+                    "ground;csrp:sim_villager;0.2;3",
+                    "ground;csrp:sim_horse;0.2;3",
+                    "ground;csrp:sim_bear;0.2;3",
+                    "ground;csrp:sim_enderman;0.2;3",
+                    "ground;csrp:carrier_heavy;0.2;6",
+                    "ground;csrp:rupter;0.1;1",
+                    "ground;csrp:vigilante;0.2;6",
+                    "ground;csrp:warden;0.2;6",
+                    "air;csrp:overseer;0.2;6",
+                    "air;csrp:bomber_light;0.2;6",
+                    "air;csrp:carrier_flying;0.5;3",
+                    "air;csrp:pri_yelloweye;0.5;6"),
+            "Beckon stage 3 summon table: ground|air;entity_id;chance;capacity_cost.",
+            MobsConfig::validBeckonMobEntry);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> BECKON_STAGE4_MOBS = stringList(
+            "srparasites:beckon_siv", "beckonMobList", List.of(
+                    "ground;csrp:beckon_si;0.3;3",
+                    "ground;csrp:beckon_sii;0.4;3",
+                    "ground;csrp:beckon_siii;0.3;4"),
+            "Beckon stage 4 summon table: ground|air;entity_id;chance;capacity_cost. Stage 4 Beckons also "
+                    + "re-raise their own bodyguards through this table.",
+            MobsConfig::validBeckonMobEntry);
+    private static final ModConfigSpec.IntValue BECKON_CAPACITY_MINIMUM = intValue(
+            "srparasites:beckon_siv", "venkrolCAMinimumV", 4, 0, 10000,
+            "Original venkrolCAMinimumV: capacity points a beckon keeps in reserve before it starts "
+                    + "calling extra bodyguards.");
+    private static final ModConfigSpec.DoubleValue BECKON_CAPACITY_EXTRA = doubleValue(
+            "srparasites:beckon_siv", "venkrolCAExtraM", 0.5D, 0.0D, 100.0D,
+            "Original venkrolCAExtraM: extra bodyguard budget multiplier once the reserve is exhausted.");
     private static final ModConfigSpec.DoubleValue VIGILANTE_HEALTH_MULTIPLIER = value(
             "srparasites:vigilante", "vigilanteHealthMultiplier", 1.0D, 0.01D, 100.0D,
             "Health multiplier for the Vigilante.");
@@ -518,6 +588,11 @@ public final class MobsConfig {
                 .defineInRange(name, defaultValue, 0.0D, 128.0D);
         BUILDER.pop();
         return value;
+    }
+
+    private static ModConfigSpec.DoubleValue doubleValue(String category, String name, double defaultValue,
+                                                         double min, double max, String comment) {
+        return value(category, name, defaultValue, min, max, comment);
     }
 
     private static ModConfigSpec.DoubleValue value(String category, String name, double defaultValue,
@@ -987,6 +1062,74 @@ public final class MobsConfig {
         return OVERSEER_MAX_Y.get();
     }
 
+    /**
+     * Parses the original {@code venkrol*moblist} for a beckon stage into the summon-option shape used by
+     * {@code BiomassEntity}. Entries whose id is not registered are skipped, mirroring the original's
+     * {@code null} hole handling ({@code SRPAttributes} left unparsable slots as {@code null} and the
+     * spawn loop skipped them).
+     */
+    public static java.util.List<alku.csrp.entity.BiomassEntity.SummonOption> beckonSummonMobs(int stage,
+                                                                                               boolean airborne) {
+        String wanted = airborne ? "air" : "ground";
+        java.util.List<alku.csrp.entity.BiomassEntity.SummonOption> options = new java.util.ArrayList<>();
+        for (String entry : beckonMobList(stage)) {
+            if (entry == null) {
+                continue;
+            }
+            String[] parts = entry.split(";", -1);
+            if (parts.length != 4 || !wanted.equals(parts[0].trim())) {
+                continue;
+            }
+            net.minecraft.resources.Identifier id = net.minecraft.resources.Identifier.tryParse(parts[1].trim());
+            if (id == null) {
+                continue;
+            }
+            net.minecraft.world.entity.EntityType<?> rawType =
+                    net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getOptional(id).orElse(null);
+            net.minecraft.world.entity.EntityType<? extends net.minecraft.world.entity.Mob> mobType =
+                    asMobType(rawType);
+            if (mobType == null) {
+                continue;
+            }
+            try {
+                options.add(new alku.csrp.entity.BiomassEntity.SummonOption(mobType,
+                        Double.parseDouble(parts[2].trim()), Integer.parseInt(parts[3].trim())));
+            } catch (NumberFormatException ignored) {
+                // Mirrors the original's malformed-entry guard: skip that single row.
+            }
+        }
+        return options;
+    }
+
+    public static java.util.List<? extends String> beckonMobList(int stage) {
+        return switch (stage) {
+            case 1 -> BECKON_STAGE1_MOBS.get();
+            case 2 -> BECKON_STAGE2_MOBS.get();
+            case 3 -> BECKON_STAGE3_MOBS.get();
+            default -> BECKON_STAGE4_MOBS.get();
+        };
+    }
+
+    public static int beckonCapacityMinimum() {
+        return BECKON_CAPACITY_MINIMUM.get();
+    }
+
+    @SuppressWarnings("unchecked")
+    private static net.minecraft.world.entity.EntityType<? extends net.minecraft.world.entity.Mob> asMobType(
+            net.minecraft.world.entity.EntityType<?> type) {
+        if (type == null) {
+            return null;
+        }
+        // The original beckon tables were free-form strings resolved at spawn time; anything that is not a
+        // living mob was simply skipped there too, so this guard preserves that behaviour.
+        return net.minecraft.world.entity.Mob.class.isAssignableFrom(type.getBaseClass())
+                ? (net.minecraft.world.entity.EntityType<? extends net.minecraft.world.entity.Mob>) type : null;
+    }
+
+    public static float beckonCapacityExtraMultiplier() {
+        return (float) (double) BECKON_CAPACITY_EXTRA.get();
+    }
+
     public static double vigilanteHealth() {
         return 70.0D * VIGILANTE_HEALTH_MULTIPLIER.get();
     }
@@ -1096,6 +1239,35 @@ public final class MobsConfig {
             case "hi_golem" -> HI_GOLEM_NEEDED_ASSIMILATION.get();
             default -> -1;
         };
+    }
+
+    /**
+     * Validates the original {@code venkrol*moblist} entry shape: {@code ground|air;entity_id;chance;cost}.
+     * The 1.12.2 config used the same four-field form; the {@code ground}/{@code air} prefix is what
+     * {@code SRPAttributes} split the list by, so it is required here too.
+     */
+    private static boolean validBeckonMobEntry(Object value) {
+        if (!(value instanceof String entry)) {
+            return false;
+        }
+        String[] parts = entry.split(";", -1);
+        if (parts.length != 4) {
+            return false;
+        }
+        String side = parts[0].trim();
+        if (!side.equals("ground") && !side.equals("air")) {
+            return false;
+        }
+        if (net.minecraft.resources.Identifier.tryParse(parts[1].trim()) == null) {
+            return false;
+        }
+        try {
+            double chance = Double.parseDouble(parts[2].trim());
+            int cost = Integer.parseInt(parts[3].trim());
+            return chance >= 0.0D && chance <= 1.0D && cost > 0;
+        } catch (NumberFormatException ignored) {
+            return false;
+        }
     }
 
     private static boolean validOrbEffect(Object value) {

@@ -636,7 +636,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
         @Override
         public boolean canUse() {
-            return blockResidueRange(activeKind()) > 0 && getTarget() == null && !isInWater();
+            // Original EntityAIBlockResidue#shouldExecute also requires gene 8 (generationResidue).
+            return blockResidueRange(activeKind()) > 0 && getTarget() == null && !isInWater()
+                    && level() instanceof ServerLevel serverLevel
+                    && EvolutionSystem.generationProfile(serverLevel).residue();
         }
 
         @Override

@@ -175,7 +175,11 @@ public final class ArchitectEntity extends PrimitiveParasiteEntity {
         boolean listed = Config.mobAttackingBlacklist().stream().anyMatch(entry ->
                 entry.indexOf(':') >= 0 ? entry.equals(id) : entry.equals(
                         net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getKey(target.getType()).getNamespace()));
-        return Config.mobAttackingBlacklistInverted() ? listed : !listed;
+        if (Config.mobAttackingBlacklistInverted() ? listed : !listed) {
+            return false;
+        }
+        // Original EntityParasiteBase#canAttackClass also honours mobAttackingFull.
+        return MobAttacking.canAttackEntity(target);
     }
 
     @Override

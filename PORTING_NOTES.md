@@ -37,7 +37,7 @@
 | 可加载运行的构建产物 | `build/libs/csrp-1.10.9.jar`（约 134 MB，含全部资源） |
 | 移植说明 | 本文件 |
 | 各子系统详细报告 | `docs/gap/R2_REPORT.md`、`R2_BLIZZARD_REPORT.md`、`R3_WORLDGEN_REPORT.md`、`R4_BLOCKS_REPORT.md`、`R5_ITEMS_REPORT.md`、`R6_ENTITY_MATRIX.md`、`LANG_REPORT.md` |
-| 自动化校验 | `scripts/run-all-verifications.cjs`（132 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
+| 自动化校验 | `scripts/run-all-verifications.cjs`（134 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
 
 规模：569 个 Java 文件、88 个方块类、128 个实体文件、44 个物品类、7 个 Mixin、362 个 blockstate、2236 张纹理、1008 个音效、55 个结构 NBT、33 套语言。
 
@@ -129,6 +129,18 @@
   - 校验：`scripts/verify-phase-music.cjs`。
 - **文档与工具**：`AGENTS.md` 的三节过时描述（1.21.1 / NeoForge 21.1 / Java 21 / `gameTestServer`）改为实际的 26.3 / NeoForge 26.3.0.1-beta / Java 25 / `runGameTestServer`；`scripts/build-locked.sh` 改用 `java -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain`（本环境 Niubash 无法执行 `gradlew.bat`，会静默挂起）。
 
+### 3.9 R6 遗留项收敛轮：mobAttackingFull、beckon 召唤表、gene 三开关、nexus 生长闸门
+
+R6 实体矩阵 §5.2 登记的 6 条"记录为不一致、本轮不改"中，4 条在本轮补齐（另 2 条为有意的结构性等价，保持不变）：
+
+- **`mobAttackingFull`**（原件 `SRPConfig.mobAttackingFull`，默认 false）：新增 `Config.mobAttackingFull` 与 `entity/MobAttacking`，后者逐字复刻 `ParasiteEventEntity#checkName` 的 `String#contains` 匹配、`checkEntity` 的实体 id 取值，以及 `EntityParasiteBase#canAttackClass` 的 `!mobAttackingFull || !checkName(...)` 判定。`ArchitectEntity` / `DredgeEntity` / `HeedEntity` / `PureParasiteEntity` 4 处此前各自手写的黑名单比较改为统一调用。
+  - **按原件保留的冗余**：原件的 `mobAttackingFull` 只在 `canAttackClass` 里生效，而各家族的目标选择谓词本身已经无条件排除黑名单（`!ParasiteEventEntity.checkEntity(...)`），所以该配置对"是否锁定黑名单怪"实际没有额外效果。本工程未"顺手修正"，保留了同一层冗余。
+- **`EntityAIVenkrolSummon` 的 mob 表**（原件 `SRPConfigMobs.venkrolmoblist` / `venkrolsiimoblist` / `venkrolsiiimoblist` / `venkrolsivmoblist`）：`MobsConfig` 新增 4 张 beckon 召唤表，逐行复刻原件默认值（含 `ground;air` 前缀、chance、capacity cost），并补 `venkrolCAMinimumV`(4) / `venkrolCAExtraM`(0.5)。`NexusParasiteEntity#summonBeckonParasites` 由硬编码 switch 改为读表：地面/空中按原件 `getY()+3 > target.getY()` 切换，选怪按原件"随机起点 + 最多两圈 + 容量足够才取"的 `spawnBiomassFromBeckon` 流程。
+- **`EntityAINexusGrow` 的三个配置闸门**：`Config` 新增 `evolutionNests`(11) / `deveNestsUse`(3) / `maximumStageList`({"1;3"})，并提供 `nexusStageLock(Level)`（含 1.12.2 数字维度 id → 26.3 维度的映射）与 `legacyDimensionId(Level)`；`NexusParasiteEntity` 构造时求 `dimensionStageLock`，`evolve()` 应用原件 `dimLock >= stage+1` 的停长闸门，`trySpawnRooterSi` 应用 `evolutionNests` / `deveNestsUse` 的 nest 解锁闸门。
+- **gene 系统缺的 3 个开关**：`EvolutionSystem.GenerationProfile` 此前缺 `lookWalls`(2) / `waterLeap`(4) / `residue`(8)（原件 `SRPConfigSystems.generation*0..5` 共 13 项，工程只有 10 项）。现补齐三张默认表并接入：`lookWalls` → `PrimitiveParasiteEntity` 的目标感知（原件 `shouldCheckSight || !getGeneMod(2)`，因 26.3 的 `mustSee` 在构造期固定，改在逐候选谓词里判定）；`waterLeap` → `DredgeEntity` 的液体跃击；`residue` → `AdaptedVariantEntity.BlockResidueGoal`。
+
+校验：`scripts/verify-mob-attacking-and-beckon-tables.cjs`、`scripts/verify-generation-genes-and-nexus-gates.cjs`（静态校验总数 132 → **134**）；`runGameTestServer` 仍 **186 / 186 通过**，`build` 产出 `build/libs/csrp-1.10.9.jar`。
+
 ---
 
 ## 4. 因目标版本 API 缺失而改写或省略的部分
@@ -206,14 +218,14 @@ export JAVA_HOME="D:/MC/jdk/graalvm-community-25.3.4.1+1.1"
 GRADLE=("$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain)
 
 "${GRADLE[@]}" build -x test             # BUILD SUCCESSFUL → build/libs/csrp-1.10.9.jar
-node scripts/run-all-verifications.cjs   # {"total":132,"passed":132,"failed":0}
-"${GRADLE[@]}" runGameTestServer         # All 184 required tests passed
+node scripts/run-all-verifications.cjs   # {"total":134,"passed":134,"failed":0}
+"${GRADLE[@]}" runGameTestServer         # All 186 required tests passed
 ```
 
 | 检查 | 结果 |
 | --- | --- |
 | 编译与打包 | **BUILD SUCCESSFUL**，产物 `build/libs/csrp-1.10.9.jar` |
-| 静态契约校验 | **132 / 132 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape/失真/注入熔炉/JEI/抓钩/harlequin 命令契约等） |
+| 静态契约校验 | **134 / 134 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape/失真/注入熔炉/JEI/抓钩/harlequin 命令契约等） |
 | 运行期 GameTest | **186 / 186 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 4 个 harlequin + 2 个寄生群系雾） |
 | 服务器启动 | GameTest 服务器完整启动至测试结束，无启动崩溃 |
 | 世界生成运行期 | 225 区块实证：四类寄生群系 + 36 种寄生体方块落地，零 decoration 失败 |

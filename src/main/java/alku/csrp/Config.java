@@ -42,6 +42,10 @@ public final class Config {
     private static final ModConfigSpec.BooleanValue MOB_ATTACKING_BLACKLIST_INVERTED = BUILDER
             .comment("Treat the mob-attacking blacklist as a whitelist.")
             .define("mobAttackingBlacklistInverted", false);
+    private static final ModConfigSpec.BooleanValue MOB_ATTACKING_FULL = BUILDER
+            .comment("Original SRPConfig.mobAttackingFull: make parasites fully friendly with every mob matched "
+                    + "by the mob-attacking blacklist. Only consulted while mobAttackingEnabled is true.")
+            .define("mobAttackingFull", false);
     private static final ModConfigSpec.BooleanValue COLLECTIVE_CONSCIOUSNESS_ENABLED = BUILDER
             .comment("Allow parasite target acquisition without direct line of sight.")
             .define("collectiveConsciousnessEnabled", true);
@@ -78,6 +82,17 @@ public final class Config {
     private static final ModConfigSpec.BooleanValue GENERATION_ENABLED = BUILDER
             .comment("Use parasite generations. When disabled, parasites retain their full gene abilities.")
             .define("generationEnabled", true);
+    // Original SRPConfigSystems.evolutionNests / deveNestsUse / maximumStageList (EntityAINexusGrow).
+    private static final ModConfigSpec.IntValue EVOLUTION_NESTS = BUILDER
+            .comment("Original 'Phase Nest Unlock': from this phase onward Nexus nests may call rooters.")
+            .defineInRange("evolutionNests", 11, -1, 11);
+    private static final ModConfigSpec.IntValue DEVE_NESTS_USE = BUILDER
+            .comment("Original deveNestsUse: development level from which Nexus nests may call rooters.")
+            .defineInRange("deveNestsUse", 3, 0, 4);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> MAXIMUM_STAGE_LIST = BUILDER
+            .comment("Original maximumStageList: per-dimension Nexus growth cap, 'dimension;maxStage'.")
+            .defineList("maximumStageList", List.of("1;3"), value -> value instanceof String entry
+                    && entry.matches("-?\\d+;\\d+"));
     private static final ModConfigSpec.BooleanValue PEARL_DESTROYED_ON_BEHOLDER_KILL = BUILDER
             .comment("Destroy dropped Eyes of the Beholder when their owner is slain by a beholder.")
             .define("pearlDestroyedOnBeholderKill", true);
@@ -572,6 +587,7 @@ public final class Config {
     public static boolean derivedTextDistortionEnabled() { return DERIVED_TEXT_DISTORTION_ENABLED.get(); }
     public static List<? extends String> mobAttackingBlacklist() { return MOB_ATTACKING_BLACKLIST.get(); }
     public static boolean mobAttackingBlacklistInverted() { return MOB_ATTACKING_BLACKLIST_INVERTED.get(); }
+    public static boolean mobAttackingFull() { return MOB_ATTACKING_FULL.get(); }
     public static boolean collectiveConsciousnessEnabled() { return COLLECTIVE_CONSCIOUSNESS_ENABLED.get(); }
     public static int worldGnatCap() { return WORLD_GNAT_CAP.get(); }
 
@@ -590,6 +606,51 @@ public final class Config {
     public static float primitiveMinimumDamage() { return PRIMITIVE_MINIMUM_DAMAGE.get().floatValue(); }
     public static boolean useEvolutionPhases() { return USE_EVOLUTION_PHASES.get(); }
     public static boolean generationEnabled() { return GENERATION_ENABLED.get(); }
+    public static int evolutionNests() { return EVOLUTION_NESTS.get(); }
+    public static int deveNestsUse() { return DEVE_NESTS_USE.get(); }
+
+    /**
+     * Original {@code EntityAINexusGrow} constructor: the highest Nexus stage allowed in a dimension,
+     * or {@code -1} when the dimension is not listed in {@code maximumStageList}.
+     */
+    public static int nexusStageLock(Level level) {
+        // 1.12.2 compared raw numeric dimension ids; 26.3 dimensions are resource locations, so the
+        // legacy numeric ids used by the shipped default (End = 1) are matched by their location.
+        for (String entry : MAXIMUM_STAGE_LIST.get()) {
+            String[] parts = entry.split(";", -1);
+            if (parts.length != 2) {
+                continue;
+            }
+            int listed;
+            try {
+                listed = Integer.parseInt(parts[0].trim());
+            } catch (NumberFormatException ignored) {
+                continue;
+            }
+            if (legacyDimensionId(level) == listed) {
+                try {
+                    return Integer.parseInt(parts[1].trim());
+                } catch (NumberFormatException ignored) {
+                    return -1;
+                }
+            }
+        }
+        return -1;
+    }
+
+    /** Maps a 26.3 dimension to the 1.12.2 numeric id the legacy configs were written against. */
+    public static int legacyDimensionId(Level level) {
+        if (level.dimension() == Level.OVERWORLD) {
+            return 0;
+        }
+        if (level.dimension() == Level.NETHER) {
+            return -1;
+        }
+        if (level.dimension() == Level.END) {
+            return 1;
+        }
+        return Integer.MIN_VALUE;
+    }
     public static boolean pearlDestroyedOnBeholderKill() { return PEARL_DESTROYED_ON_BEHOLDER_KILL.get(); }
     public static double overlastNaturalEvolutionScale() { return OVERLAST_NATURAL_EVOLUTION_SCALE.get(); }
     public static boolean overlastHudRequiresClock() { return OVERLAST_HUD_REQUIRES_CLOCK.get(); }

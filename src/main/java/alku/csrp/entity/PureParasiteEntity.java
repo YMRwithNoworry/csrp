@@ -2464,7 +2464,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         private boolean isAllowedByMobAttackingList(LivingEntity candidate) {
             String id = BuiltInRegistries.ENTITY_TYPE.getKey(candidate.getType()).toString();
             boolean listed = Config.mobAttackingBlacklist().stream().anyMatch(id::contains);
-            return Config.mobAttackingBlacklistInverted() ? listed : !listed;
+            if (Config.mobAttackingBlacklistInverted() ? listed : !listed) {
+                return false;
+            }
+            // Original EntityParasiteBase#canAttackClass also honours mobAttackingFull.
+            return MobAttacking.canAttackEntity(candidate);
         }
 
         private void validateTarget(LivingEntity target) {

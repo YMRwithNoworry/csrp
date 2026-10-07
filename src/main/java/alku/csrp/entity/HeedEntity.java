@@ -127,7 +127,11 @@ public final class HeedEntity extends CrudeParasiteEntity {
         String namespace = BuiltInRegistries.ENTITY_TYPE.getKey(target.getType()).getNamespace();
         boolean listed = Config.mobAttackingBlacklist().stream()
                 .anyMatch(entry -> entry.indexOf(':') >= 0 ? entry.equals(id) : entry.equals(namespace));
-        return Config.mobAttackingBlacklistInverted() ? listed : !listed;
+        if (Config.mobAttackingBlacklistInverted() ? listed : !listed) {
+            return false;
+        }
+        // Original EntityParasiteBase#canAttackClass also honours mobAttackingFull.
+        return MobAttacking.canAttackEntity(target);
     }
 
     @Override
