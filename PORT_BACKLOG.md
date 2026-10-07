@@ -1,6 +1,6 @@
 # csrp-26.3 移植待办（对齐原模组 SRParasites 1.10.9）
 
-目标：把原模组（1.12.2 Forge，本任务附件 `[逃逸：寄生体] SRParasites-1.10.9.jar`）完整移植到 **MC 26.3 / NeoForge 26.3.0.1-beta**（本工程）。
+目标：把原模组（1.12.2 Forge，本任务附件 `[逃逸：寄生体] SRParasites-1.10.9.jar`）完整移植到 **MC 26.3 / NeoForge 26.3.0.52-beta**（本工程）。
 
 ## 参照源
 
@@ -147,7 +147,7 @@
 
 ### 文档一致性（✅ 已完成）
 
-`AGENTS.md` 的「Project Structure / Build, Test, and Development Commands / Testing Guidelines」三节此前写着 **Minecraft 1.21.1 / NeoForge 21.1 / Java 21**，与工程实际（26.3 / NeoForge 26.3.0.1-beta / Java 25，见 `gradle.properties`）不符，且任务名写成了不存在的 `gameTestServer`。现已改为 26.3 / NeoForge 26.3.0.1-beta / Java 25、任务名 `runGameTestServer`，并补上本环境必须使用的 Gradle 调用方式（Niubash 下 `gradlew.bat` 会挂起）与静态校验套件入口。文件末尾由 DSH global-system-prompt 插件托管的本机配置块保持原样。
+`AGENTS.md` 的「Project Structure / Build, Test, and Development Commands / Testing Guidelines」三节此前写着 **Minecraft 1.21.1 / NeoForge 21.1 / Java 21**，与工程实际（26.3 / NeoForge 26.3.x-beta / Java 25，见 `gradle.properties`）不符，且任务名写成了不存在的 `gameTestServer`。现已改为 26.3 / NeoForge 26.3.x-beta / Java 25、任务名 `runGameTestServer`，并补上本环境必须使用的 Gradle 调用方式（Niubash 下 `gradlew.bat` 会挂起）与静态校验套件入口。文件末尾由 DSH global-system-prompt 插件托管的本机配置块保持原样。
 ### 网络包对照审计（收尾轮）
 
 原件 `network/` 共 35 个非命令类（`SRPNetwork` / `SRPProgressSnapshot` / `AbstractPacket` 属基础设施）。逐个判定结果：

@@ -162,7 +162,7 @@ public final class SrpCommands {
      */
     private static int readConfigurationFile(CommandSourceStack source) {
         try {
-            ConfigTracker.INSTANCE.loadConfigs(ModConfig.Type.COMMON, FMLPaths.CONFIGDIR.get());
+            ConfigTracker.INSTANCE.loadConfigs(ModConfig.Type.LOCAL, FMLPaths.CONFIGDIR.get());
             RuntimeToggles.resetParasiteBlockDrops();
             return success(source, "Configutarion files were read successfully "
                     + "\n NOTE: Does not work for all options, such as registry or client-side options");

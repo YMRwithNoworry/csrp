@@ -202,11 +202,11 @@ public final class Csrp {
         BuglinEvolutionTarget.registerRupter(ModEntities.RUPTER);
         ManglerEvolutionTarget.registerMangler(ModEntities.MANGLER);
         modEventBus.addListener(this::addCreativeItems);
-        modContainer.registerConfig(ModConfig.Type.COMMON, GeneralConfig.SPEC, "csrp-general.toml");
-        modContainer.registerConfig(ModConfig.Type.COMMON, MobsConfig.SPEC, "csrp-mobs.toml");
-        modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC, "csrp-systems.toml");
-        modContainer.registerConfig(ModConfig.Type.COMMON, WorldConfig.SPEC, "csrp-world.toml");
-        modContainer.registerConfig(ModConfig.Type.COMMON, BlockConversionsConfig.SPEC,
+        modContainer.registerConfig(ModConfig.Type.LOCAL, GeneralConfig.SPEC, "csrp-general.toml");
+        modContainer.registerConfig(ModConfig.Type.LOCAL, MobsConfig.SPEC, "csrp-mobs.toml");
+        modContainer.registerConfig(ModConfig.Type.LOCAL, Config.SPEC, "csrp-systems.toml");
+        modContainer.registerConfig(ModConfig.Type.LOCAL, WorldConfig.SPEC, "csrp-world.toml");
+        modContainer.registerConfig(ModConfig.Type.LOCAL, BlockConversionsConfig.SPEC,
                 "csrp-block-conversions.toml");
     }
 

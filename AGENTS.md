@@ -2,7 +2,7 @@
 
 ## Project Structure & Module Organization
 
-This is a single-module Minecraft 26.3 mod built for NeoForge 26.3.0.1-beta with Java 25. Production Java code lives under `src/main/java/alku/csrp`; keep the `alku.csrp` package aligned with `mod_group_id`. Static assets belong in `src/main/resources/assets/csrp`, while `src/main/templates/META-INF/neoforge.mods.toml` is expanded during the build. Data-generator output goes to `src/generated/resources` and is included in the main resource set. Gradle wrapper files and version properties remain at the repository root.
+This is a single-module Minecraft 26.3 mod built for NeoForge 26.3.0.52-beta with Java 25. Production Java code lives under `src/main/java/alku/csrp`; keep the `alku.csrp` package aligned with `mod_group_id`. Static assets belong in `src/main/resources/assets/csrp`, while `src/main/templates/META-INF/neoforge.mods.toml` is expanded during the build. Data-generator output goes to `src/generated/resources` and is included in the main resource set. Gradle wrapper files and version properties remain at the repository root.
 
 ## Build, Test, and Development Commands
 

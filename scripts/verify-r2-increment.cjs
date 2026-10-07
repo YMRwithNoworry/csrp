@@ -61,8 +61,8 @@ expect(commands, /Commands\.literal\("toggle_domobevolution"\)/,
         "/srparasites toggle_domobevolution is not registered");
 expect(commands, /Commands\.literal\("readconfigurationfile"\)/,
         "/srparasites readconfigurationfile is not registered");
-expect(commands, /ConfigTracker\.INSTANCE\.loadConfigs\(ModConfig\.Type\.COMMON/,
-        "readconfigurationfile does not reload the COMMON configuration files");
+expect(commands, /ConfigTracker\.INSTANCE\.loadConfigs\(ModConfig\.Type\.LOCAL/,
+        "readconfigurationfile does not reload the LOCAL configuration files");
 expect(commands, /RuntimeToggles\.toggleParasiteBlockDrops\(\)/,
         "toggle_dotiledrops does not flip the runtime toggle");
 expect(commands, /RuntimeToggles\.toggleMobEvolution\(\)/,

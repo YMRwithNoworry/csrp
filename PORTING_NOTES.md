@@ -9,7 +9,7 @@
 | 项 | 值 | 依据 |
 | --- | --- | --- |
 | 目标 Minecraft 版本 | **26.3** | `gradle.properties` → `minecraft_version=26.3`、`minecraft_version_range=[26.3,26.4)` |
-| 模组加载器 | **NeoForge 26.3.0.1-beta** | `neo_version=26.3.0.1-beta`、`loader_version_range=[12,)`；构建用 `net.neoforged.moddev` 2.0.147 |
+| 模组加载器 | **NeoForge 26.3.0.52-beta**（FancyModLoader 12.0.8） | `neo_version=26.3.0.52-beta`、`loader_version_range=[12,)`；构建用 `net.neoforged.moddev` 2.0.147 |
 | Java | **25**（GraalVM Community 25.3.4.1） | `java.toolchain.languageVersion = JavaLanguageVersion.of(25)` |
 | 原模组 | **SRParasites 1.10.9**（Minecraft 1.12.2 / Forge） | 附件 jar；反编译产物 `_scratch/vf/out109` |
 | 差异基线 | SRParasites **1.10.8**（本工程原移植基线） | 反编译产物 `_scratch/vf/out108` |
@@ -127,7 +127,7 @@
   - vanilla 背景音乐在「有寄生曲该播」时由 `PlaySoundEvent` 直接丢弃（原件把流式曲目排队到下一 tick 再移除，26.3 里等价于不让它开始）。
   - 网络：新增 `csrp:request_evolution_phase`（客户端每 20 tick 询问）与 `csrp:evolution_phase_client`（服务端回 `(维度阶段, 是否处于感染向量半径内)`，对应原件 `SRPSaveData#getEvolutionPhase` + `SRPWorldData#nearestInfectionPosition(false, pos) != null`）。
   - 校验：`scripts/verify-phase-music.cjs`。
-- **文档与工具**：`AGENTS.md` 的三节过时描述（1.21.1 / NeoForge 21.1 / Java 21 / `gameTestServer`）改为实际的 26.3 / NeoForge 26.3.0.1-beta / Java 25 / `runGameTestServer`；`scripts/build-locked.sh` 改用 `java -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain`（本环境 Niubash 无法执行 `gradlew.bat`，会静默挂起）。
+- **文档与工具**：`AGENTS.md` 的三节过时描述（1.21.1 / NeoForge 21.1 / Java 21 / `gameTestServer`）改为实际的 26.3 / NeoForge 26.3.x-beta / Java 25 / `runGameTestServer`；`scripts/build-locked.sh` 改用 `java -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain`（本环境 Niubash 无法执行 `gradlew.bat`，会静默挂起）。
 
 ### 3.9 R6 遗留项收敛轮：mobAttackingFull、beckon 召唤表、gene 三开关、nexus 生长闸门
 
@@ -217,6 +217,21 @@ R6 实体矩阵 §5.2 登记的 6 条"记录为不一致、本轮不改"中，4 
 工程此前的 `convertKilledPlayer` 是另一套设计：要求 `attacker instanceof Parasite` 且过 COTH 概率掷骰，且永远只生成 Adventurer，没有 COTH I 的 Incomplete Form 分支，也不继承原件的三个槽。现按原件重写该方法（仍是 `LivingDeathEvent` → `convertTerminalCothHost` → `convertKilledPlayer` 同一调用点，`convertKilledHost` 本身已排除玩家，故不会双重转化），并同步更新 `scripts/verify-infection-conversion-port.cjs` 的断言。
 
 校验：静态校验仍 **139 / 139**，GameTest 仍 **187 / 187**。
+
+### 3.16 对齐运行时 NeoForge 26.3.0.52-beta（FancyModLoader 配置类型重命名）
+
+用户在 `D:\MC\.minecraft\versions\26.3模组开发测试` 运行 `csrp-1.10.9.jar` 时在 Bootstrap 阶段崩溃：
+
+```
+java.lang.NoSuchFieldError: Class net.neoforged.fml.config.ModConfig$Type does not have member field
+  'net.neoforged.fml.config.ModConfig$Type COMMON'
+```
+
+原因是 FancyModLoader 在 12.0.x 内部重命名了配置类型枚举：`loader 12.0.0`（NeoForge 26.3.0.1-beta ~ 26.3.0.16-beta）为 `COMMON / CLIENT / SERVER / STARTUP`，而 `loader 12.0.8`（NeoForge 26.3.0.42-beta 起）改为 `LOCAL / CLIENT / SYNCED / STARTUP`。语义承接关系为 `COMMON → LOCAL`（两端都加载、不跨端同步，默认后缀由 `-common` 变 `-local`）、`SERVER → SYNCED`（服务端定义、连接时同步给客户端）。工程此前编译目标是 26.3.0.1-beta，`Csrp` 与 `SrpCommands` 的字节码里是 `getstatic ModConfig$Type.COMMON`，因此在只提供 `LOCAL` 的运行时上解析失败。
+
+处理：`gradle.properties` 的 `neo_version` 提到 **26.3.0.52-beta**（与用户实例一致，loader 12.0.8），`Csrp` 的 5 处 `modContainer.registerConfig` 与 `SrpCommands#readConfigurationFile` 的 `ConfigTracker.INSTANCE.loadConfigs` 改用 `ModConfig.Type.LOCAL`，并同步 `scripts/verify-r2-increment.cjs` 的断言。工程给 5 个配置文件都显式传了文件名（`csrp-general.toml`、`csrp-mobs.toml`、`csrp-systems.toml`、`csrp-world.toml`、`csrp-block-conversions.toml`），FML 只对默认文件名套用类型后缀，所以磁盘上既有配置文件的名字与内容不受影响。26.3.0.52-beta 相对 26.3.0.1-beta 的其余 API 变更没有影响本工程：切换后 `compileJava` 零错误。
+
+验证：`build` 通过；`node scripts/run-all-verifications.cjs` **144 / 144**；`runGameTestServer` **187 / 187**；`javap` 复核产物 jar，`alku/csrp/Csrp.class` 与 `alku/csrp/command/SrpCommands.class` 只引用 `ModConfig$Type.LOCAL`，`COMMON` 残留计数为 0。
 
 ---
 
@@ -328,4 +343,4 @@ export JAVA_HOME="D:/MC/jdk/graalvm-community-25.3.4.1+1.1"
 
 在 Windows 的 PowerShell / cmd 里也可以用 `.\gradlew.bat build`；在 Niubash（`niu -c`）里 `gradlew.bat` 无法执行（进程挂起且不启动 Gradle 守护进程），必须用上面的 wrapper jar 调用方式，或用等价的 `scripts/build-locked.sh build`。
 
-需要 JDK 25 与可访问 NeoForged Maven 的网络（首次构建会下载 NeoForge 26.3.0.1-beta 与 NeoForm 产物）。
+需要 JDK 25 与可访问 NeoForged Maven 的网络（首次构建会下载 NeoForge 26.3.0.52-beta 与 NeoForm 产物）。
