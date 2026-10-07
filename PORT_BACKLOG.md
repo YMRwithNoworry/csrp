@@ -17,7 +17,7 @@
   - 本环境的 Niubash 无法执行 `gradlew.bat`（会静默挂起），改用
     `"$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain <task>`；
     `scripts/build-locked.sh` 已同步改为这一调用方式。
-- 静态校验套件：**135 / 135 通过**。
+- 静态校验套件：**136 / 136 通过**。
 - 运行期验证：`runGameTestServer` → **187 / 187 GameTests 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 4 个 harlequin + 2 个寄生群系雾 + 1 个掉落表），服务器完整启动到测试结束。
 - 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2911 键 / zh_cn 2927 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
@@ -59,6 +59,10 @@
 ### 寄生体掉落表回归原件（✅ 已完成）
 
 1.10.9 的寄生体掉落不是原版掉落表，而是 `SRPEventHandlerBus#setLoot` 按 `SRPConfigMobs.<x>Loot` 自己掷骰（98 个数组）。本工程早期继承了 1.20.1 兄弟分支的数据驱动掉落表，多个条目与原件不符（缺 `lurecomponent2`/`ada_*_drop`/`bone`、用别名物品 `rupter_viscera`、多出 `killed_by_player` 限制等）。现新增 `world/ParasiteLootTables`（98 个数组逐字转写、按 `getParasiteIDRegister()` 经 `extends` 链解析到 105 个实体）与 `event/ParasiteLootEvents`（`HIGHEST` 优先级的 `LivingDropsEvent`，复刻原件 `loot()` 的 always/pooled 两段掷骰与 `doMobLoot`/`DEBAR`/dislodgment-18 闸门）。校验：`scripts/verify-parasite-loot-tables.cjs` + GameTest `csrp:parasite_loot/legacy_roll`。
+
+### 随机起源（EIV）创建（✅ 已完成）
+
+原件 `SRPEventHandlerBus#worldTick` 每 24000 tick（一天）后对每个维度调用 `EIVUtil.createRandomOrigin`，在随机玩家周围 `originCreatingDistanceMin..Max` 处创建 vector。工程此前只能通过陨石撞击/命令产生 vector。现补 `WorldConfig` 的 7 项 origin 配置与 `SrpCoreSystems#createRandomOrigin`（逐行复刻原件：首个 1/`originCreatingRandZero`、已有 1/`originCreatingRand`、随机玩家+随机角度+距离、位置 `player+(dx,64,dz)`、`placeVector(originHealth, originRadius)`），挂在每日 `advanceDailyState`。校验：`scripts/verify-origin-creation.cjs`。
 
 ### JEI 配方查看器集成（✅ 已完成）
 

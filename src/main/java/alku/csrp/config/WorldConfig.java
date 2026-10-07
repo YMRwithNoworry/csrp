@@ -105,6 +105,30 @@ public final class WorldConfig {
     private static final ModConfigSpec.DoubleValue BIOME_FOUR_FOG_RED = fogColor("biomeFourFogRed", 100.0D);
     private static final ModConfigSpec.DoubleValue BIOME_FOUR_FOG_GREEN = fogColor("biomeFourFogGreen", 100.0D);
     private static final ModConfigSpec.DoubleValue BIOME_FOUR_FOG_BLUE = fogColor("biomeFourFogBlue", 100.0D);
+    // Original SRPConfigWorld origin / EIV creation section (SRPEventHandlerBus#worldTick ->
+    // EIVUtil.createRandomOrigin). The world rolls once per in-game day for a new Emerging
+    // Infestation Vector around a random player.
+    private static final ModConfigSpec.BooleanValue ORIGIN_ACTIVATED = BUILDER
+            .comment("Allow the world to create random Emerging Infestation Vectors (origins) over time.")
+            .define("originActivated", true);
+    private static final ModConfigSpec.IntValue ORIGIN_CREATING_RAND = BUILDER
+            .comment("1-in-N chance per day to create an origin while one already exists (original: originCreatingRand).")
+            .defineInRange("originCreatingRand", 10, 0, 1000000);
+    private static final ModConfigSpec.IntValue ORIGIN_CREATING_RAND_ZERO = BUILDER
+            .comment("1-in-N chance per day to create the first origin (original: originCreatingRandZero).")
+            .defineInRange("originCreatingRandZero", 3, 0, 1000000);
+    private static final ModConfigSpec.IntValue ORIGIN_CREATING_DISTANCE_MIN = BUILDER
+            .comment("Minimum distance from a random player for a new origin (original: originCreatingDistanceMin).")
+            .defineInRange("originCreatingDistanceMin", 1000, 0, 100000000);
+    private static final ModConfigSpec.IntValue ORIGIN_CREATING_DISTANCE_MAX = BUILDER
+            .comment("Maximum distance from a random player for a new origin (original: originCreatingDistanceMax).")
+            .defineInRange("originCreatingDistanceMax", 10000, 0, 100000000);
+    private static final ModConfigSpec.IntValue ORIGIN_HEALTH = BUILDER
+            .comment("Initial health of a randomly created origin (original: originHealth).")
+            .defineInRange("originHealth", 350, 0, 2000000000);
+    private static final ModConfigSpec.IntValue ORIGIN_RADIUS = BUILDER
+            .comment("Initial radius of a randomly created origin (original: originRadius).")
+            .defineInRange("originRadius", 200, 0, 2000000000);
 
     private static ModConfigSpec.DoubleValue fogColor(String name, double defaultValue) {
         return BUILDER.comment("Parasite biome fog colour channel, 0..255 (original: " + name + ").")
@@ -250,5 +274,39 @@ public final class WorldConfig {
             case 4 -> BIOME_FOUR_FOG_BLUE.get();
             default -> 0.0D;
         };
+    }
+    /** {@code SRPConfigWorld.originActivated} — whether random origins may be created. */
+    public static boolean originActivated() {
+        return ORIGIN_ACTIVATED.get();
+    }
+
+    /** {@code SRPConfigWorld.originCreatingRand} — 1-in-N daily chance once an origin exists. */
+    public static int originCreatingRand() {
+        return ORIGIN_CREATING_RAND.get();
+    }
+
+    /** {@code SRPConfigWorld.originCreatingRandZero} — 1-in-N daily chance for the first origin. */
+    public static int originCreatingRandZero() {
+        return ORIGIN_CREATING_RAND_ZERO.get();
+    }
+
+    /** {@code SRPConfigWorld.originCreatingDistanceMin}. */
+    public static int originCreatingDistanceMin() {
+        return ORIGIN_CREATING_DISTANCE_MIN.get();
+    }
+
+    /** {@code SRPConfigWorld.originCreatingDistanceMax}. */
+    public static int originCreatingDistanceMax() {
+        return ORIGIN_CREATING_DISTANCE_MAX.get();
+    }
+
+    /** {@code SRPConfigWorld.originHealth} — initial origin health. */
+    public static int originHealth() {
+        return ORIGIN_HEALTH.get();
+    }
+
+    /** {@code SRPConfigWorld.originRadius} — initial origin radius. */
+    public static int originRadius() {
+        return ORIGIN_RADIUS.get();
     }
 }

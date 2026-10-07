@@ -1,6 +1,7 @@
 package alku.csrp.world;
 
 import alku.csrp.Csrp;
+import alku.csrp.config.WorldConfig;
 import alku.csrp.Config;
 import alku.csrp.block.SrpCoreBlock;
 import alku.csrp.entity.ArchitectEntity;
@@ -13,8 +14,10 @@ import alku.csrp.world.SrpWorldData.ColonyEntry;
 import alku.csrp.world.SrpWorldData.NodeEntry;
 import alku.csrp.world.SrpWorldData.VectorEntry;
 import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.block.Block;
@@ -235,6 +238,7 @@ public final class SrpCoreSystems {
             updateActiveState(level, entry.pos(), ModBlocks.COLONYHEART.get(), colonyStage(points));
         }
         growVectors(level, data);
+        createRandomOrigin(level);
     }
 
     private static void growVectors(ServerLevel level, SrpWorldData data) {
@@ -258,6 +262,36 @@ public final class SrpCoreSystems {
         }
     }
 
+    /**
+     * Port of {@code util/EIVUtil#createRandomOrigin} (out109 12-72), called once per in-game day from
+     * {@code SRPEventHandlerBus#worldTick}. Picks a random player, a random angle and a distance in
+     * {@code originCreatingDistanceMin..Max}, then asks {@link #placeVector} to create the origin.
+     * The original alerted the dimension through {@code originNewMess}/{@code originNewOutbreakMess},
+     * but both default to an empty string, so an empty message stays silent here too.
+     */
+    public static void createRandomOrigin(ServerLevel level) {
+        if (!WorldConfig.originActivated()) {
+            return;
+        }
+        SrpWorldData data = SrpWorldData.get(level);
+        int chance = data.vectors().isEmpty() ? WorldConfig.originCreatingRandZero() : WorldConfig.originCreatingRand();
+        if (chance <= 0 || level.getRandom().nextInt(chance) != 0) {
+            return;
+        }
+        List<ServerPlayer> players = level.players();
+        if (players.isEmpty()) {
+            return;
+        }
+        ServerPlayer player = players.get(level.getRandom().nextInt(players.size()));
+        int min = WorldConfig.originCreatingDistanceMin();
+        int max = WorldConfig.originCreatingDistanceMax();
+        double distance = max <= min ? min : min + level.getRandom().nextDouble() * (max - min);
+        double angle = level.getRandom().nextDouble() * Math.PI * 2.0D;
+        int dx = (int) Math.round(Math.cos(angle) * distance);
+        int dz = (int) Math.round(Math.sin(angle) * distance);
+        BlockPos pos = player.blockPosition().offset(dx, 64, dz);
+        placeVector(level, pos, WorldConfig.originHealth(), WorldConfig.originRadius());
+    }
     private static int saturatingGrowth(int current, int basis, double rate, int cap) {
         long growth = (long) Math.floor(basis * rate);
         return (int) Math.min(cap, Math.max(1L, (long) current + growth));
