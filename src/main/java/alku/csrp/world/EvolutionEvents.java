@@ -150,7 +150,10 @@ public final class EvolutionEvents {
 
     @SubscribeEvent
     public static void addSleepPoints(SleepFinishedTimeEvent event) {
-        if (event.getLevel() instanceof ServerLevel level) {
+        // Original SRPEventHandlerBus#playerUp only penalised waking while the day was still young
+        // (world.getDayTime() % dayTickValue < 13000).
+        if (event.getLevel() instanceof ServerLevel level
+                && Math.floorMod(level.getOverworldClockTime(), 24_000L) < 13_000L) {
             int points = EvolutionSystem.sleepPoints(SrpWorldData.get(level).evolutionPhase());
             if (points > 0) {
                 EvolutionSystem.addPoints(level, points, EvolutionSystem.PointSource.SLEEP);
