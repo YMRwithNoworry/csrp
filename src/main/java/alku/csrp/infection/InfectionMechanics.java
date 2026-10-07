@@ -506,46 +506,60 @@ public final class InfectionMechanics {
     }
 
     /** A COTH-infected player killed by a parasite leaves an Assimilated Adventurer behind. */
+    /**
+     * Port of {@code SRPEventHandlerBus#playerDeath} (out109 2297-2336): a player who dies while
+     * carrying COTH leaves an Assimilated Adventurer behind at amplifier 2+, or an Incomplete Form
+     * (medium) at amplifier 1.  The original did not require a parasite killer, only the effect, and
+     * it inherited just the head/legs/feet equipment slots onto the Adventurer.
+     */
     public static boolean convertKilledPlayer(Player player, Entity attacker) {
-        if (!(attacker instanceof Parasite) || player.level().isClientSide() || player.isRemoved()
+        if (player.level().isClientSide() || player.isRemoved()
                 || !(player.level() instanceof ServerLevel serverLevel)) {
             return false;
         }
-        int phase = SrpWorldData.get(serverLevel).evolutionPhase();
-        boolean guaranteed = attacker instanceof RupterEntity
-                || attacker instanceof FeralParasiteEntity && phase >= ASSIMILATION_FERAL_PHASE;
-        if (!guaranteed && !passesCothKillConversion(player)) {
+        MobEffectInstance coth = player.getEffect(ModMobEffects.COTH);
+        if (coth == null) {
             return false;
         }
-        SimAdventurerEntity converted = ModEntities.SIM_ADVENTURER.get().create(serverLevel,
-                EntitySpawnReason.MOB_SUMMONED);
-        if (converted == null) {
-            return false;
-        }
-        converted.snapTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
-        converted.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(player.blockPosition()),
-                EntitySpawnReason.CONVERSION, null);
-        converted.setCustomName(player.getName().copy());
-        converted.setCustomNameVisible(true);
-        converted.setPersistenceRequired();
-        boolean keepInventory = serverLevel.getGameRules().get(GameRules.KEEP_INVENTORY);
-        EquipmentSlot[] inheritedSlots = {
-                EquipmentSlot.MAINHAND, EquipmentSlot.OFFHAND,
-                EquipmentSlot.HEAD, EquipmentSlot.LEGS, EquipmentSlot.FEET
-        };
-        for (EquipmentSlot slot : inheritedSlots) {
-            ItemStack equipment = player.getItemBySlot(slot);
-            if (equipment.isEmpty()) {
-                continue;
+        int amplifier = coth.getAmplifier();
+        if (amplifier >= 2) {
+            SimAdventurerEntity converted = ModEntities.SIM_ADVENTURER.get().create(serverLevel,
+                    EntitySpawnReason.MOB_SUMMONED);
+            if (converted == null) {
+                return false;
             }
-            converted.setItemSlot(slot, equipment.copy());
-            converted.setDropChance(slot, 1.0F);
-            if (!keepInventory) {
-                player.setItemSlot(slot, ItemStack.EMPTY);
+            converted.snapTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
+            converted.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(player.blockPosition()),
+                    EntitySpawnReason.CONVERSION, null);
+            // Original EntityInfPlayer inheritance: only HEAD, LEGS and FEET.
+            for (EquipmentSlot slot : new EquipmentSlot[] {EquipmentSlot.HEAD, EquipmentSlot.LEGS, EquipmentSlot.FEET}) {
+                ItemStack equipment = player.getItemBySlot(slot);
+                if (!equipment.isEmpty()) {
+                    converted.setItemSlot(slot, equipment.copy());
+                }
             }
+            converted.setCustomName(player.getName().copy());
+            converted.setCustomNameVisible(true);
+            serverLevel.addFreshEntity(converted);
+            serverLevel.levelEvent(1026, converted.blockPosition(), 0);
+            return true;
         }
-        serverLevel.addFreshEntity(converted);
-        return true;
+        if (amplifier == 1) {
+            Mob converted = ModEntities.INCOMPLETEFORM_MEDIUM.get().create(serverLevel,
+                    EntitySpawnReason.MOB_SUMMONED);
+            if (converted == null) {
+                return false;
+            }
+            converted.snapTo(player.getX(), player.getY(), player.getZ(), player.getYRot(), player.getXRot());
+            converted.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(player.blockPosition()),
+                    EntitySpawnReason.CONVERSION, null);
+            converted.setCustomName(player.getName().copy());
+            converted.setCustomNameVisible(true);
+            serverLevel.addFreshEntity(converted);
+            serverLevel.levelEvent(1026, converted.blockPosition(), 0);
+            return true;
+        }
+        return false;
     }
 
     private static boolean passesCothKillConversion(LivingEntity host) {

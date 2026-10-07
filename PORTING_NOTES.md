@@ -206,6 +206,18 @@ R6 实体矩阵 §5.2 登记的 6 条"记录为不一致、本轮不改"中，4 
 
 校验：`scripts/verify-deadblood-conversion.cjs`。静态校验 138 → **139**，GameTest 仍 **187 / 187**。
 
+### 3.15 玩家死亡转化回归原件（COTH 等级驱动）
+
+原件 `SRPEventHandlerBus#playerDeath`（out109 2297-2336）是原版唯一的玩家死亡转化入口，触发条件是玩家带着 COTH 死亡（不要求被寄生体杀死）：
+
+- `cothActive && infadventurerEnabled && infadventurerSpawnBy && player.hasEffect(COTH_E)`；
+- COTH 等级 ≥ 2 → 生成 `EntityInfPlayer`（`sim_adventurer`），继承 **头/腿/脚** 三个装备槽（原件的 `func_184201_a` 只搬了 HEAD/LEGS/FEET），并命名与显示玩家名；
+- COTH 等级 == 1 → 生成 `EntityInhooM`（`incompleteform_medium`），同样命名与显示。
+
+工程此前的 `convertKilledPlayer` 是另一套设计：要求 `attacker instanceof Parasite` 且过 COTH 概率掷骰，且永远只生成 Adventurer，没有 COTH I 的 Incomplete Form 分支，也不继承原件的三个槽。现按原件重写该方法（仍是 `LivingDeathEvent` → `convertTerminalCothHost` → `convertKilledPlayer` 同一调用点，`convertKilledHost` 本身已排除玩家，故不会双重转化），并同步更新 `scripts/verify-infection-conversion-port.cjs` 的断言。
+
+校验：静态校验仍 **139 / 139**，GameTest 仍 **187 / 187**。
+
 ---
 
 ## 4. 因目标版本 API 缺失而改写或省略的部分

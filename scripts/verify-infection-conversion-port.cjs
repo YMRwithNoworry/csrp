@@ -42,8 +42,16 @@ expect(killedHost, /attacker instanceof FeralParasiteEntity\s*&&\s*phase >= ASSI
         "phase 7 Feral kills are not guaranteed host conversions");
 expect(killedHost, /!guaranteed\s*&&\s*!passesCothKillConversion\(host\)/,
         "ordinary parasite kills no longer require COTH");
-expect(killedPlayer, /!guaranteed\s*&&\s*!passesCothKillConversion\(player\)/,
-        "player parasite-kill conversion does not use the shared COTH roll");
+// Original SRPEventHandlerBus#playerDeath (out109 2297-2336): the trigger is the COTH amplifier,
+// not the killer; COTH II+ leaves an Assimilated Adventurer, COTH I an Incomplete Form (medium).
+expect(killedPlayer, /int amplifier = coth\.getAmplifier\(\);/,
+        "player death conversion no longer reads the COTH amplifier");
+expect(killedPlayer, /if \(amplifier >= 2\)/,
+        "player death at COTH II+ no longer spawns an Assimilated Adventurer");
+expect(killedPlayer, /ModEntities\.INCOMPLETEFORM_MEDIUM\.get\(\)/,
+        "player death at COTH I no longer spawns an Incomplete Form (medium)");
+expect(killedPlayer, /EquipmentSlot\.HEAD, EquipmentSlot\.LEGS, EquipmentSlot\.FEET/,
+        "the Adventurer no longer inherits the original head/legs/feet slots");
 expect(killConversionRoll, /getEffect\(ModMobEffects\.COTH\)[\s\S]*if \(coth == null\)[\s\S]*return false;/,
         "ordinary parasite kills no longer require pre-existing COTH");
 expect(killConversionRoll, /Config\.cothConvertAtKillChance\(\)/,
