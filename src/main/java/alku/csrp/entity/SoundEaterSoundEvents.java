@@ -1,9 +1,13 @@
 package alku.csrp.entity;
 
 import alku.csrp.Csrp;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.HitResult;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.event.entity.ProjectileImpactEvent;
 import net.neoforged.neoforge.event.level.BlockEvent;
 import net.neoforged.neoforge.event.level.block.BreakBlockEvent;
 
@@ -27,6 +31,19 @@ public final class SoundEaterSoundEvents {
         }
     }
 
+    /** Original {@code events/SoundEaterArrowImpactHandler}: any projectile impact is a noise. */
+    @SubscribeEvent
+    public static void onProjectileImpact(ProjectileImpactEvent event) {
+        if (!(event.getProjectile().level() instanceof ServerLevel level)) {
+            return;
+        }
+        HitResult hit = event.getRayTraceResult();
+        BlockPos hitPos = hit instanceof BlockHitResult blockHit
+                ? blockHit.getBlockPos()
+                : BlockPos.containing(hit.getLocation());
+        SimHumanEntity.broadcastSound(level, hitPos, SimHumanEntity.PROJECTILE_SOUND_RADIUS,
+                SimHumanEntity.PROJECTILE_SOUND_LIFE_TICKS);
+    }
     @SubscribeEvent
     public static void onBlockPlace(BlockEvent.EntityPlaceEvent event) {
         if (event.getLevel() instanceof ServerLevel level) {

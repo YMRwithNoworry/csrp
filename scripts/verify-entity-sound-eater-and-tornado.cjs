@@ -60,6 +60,12 @@ expect(soundEvents, /SimHumanEntity\.broadcastSound\(level, event\.getPos\(\),\s
   "block break does not broadcast with the original radius/lifetime");
 expect(soundEvents, /SimHumanEntity\.broadcastSound\(level, event\.getPos\(\),\s*SimHumanEntity\.BLOCK_PLACE_SOUND_RADIUS, SimHumanEntity\.BLOCK_PLACE_SOUND_LIFE_TICKS\)/,
   "block place does not broadcast with the original radius/lifetime");
+// Original events/SoundEaterArrowImpactHandler: any projectile impact broadcasts radius 18 / life 120.
+expect(human, /PROJECTILE_SOUND_RADIUS = 18\.0D/, "projectile broadcast radius is not 18");
+expect(human, /PROJECTILE_SOUND_LIFE_TICKS = 120/, "projectile broadcast lifetime is not 120");
+expect(soundEvents, /ProjectileImpactEvent event/, "projectile impact is not handled");
+expect(soundEvents, /SimHumanEntity\.broadcastSound\(level, hitPos, SimHumanEntity\.PROJECTILE_SOUND_RADIUS,\s*SimHumanEntity\.PROJECTILE_SOUND_LIFE_TICKS\)/,
+  "projectile impact does not broadcast with the original radius/lifetime");
 
 // ---------------------------------------------------------------------------
 // 2. Venkrol tornado (out109 entity/logic/VenkrolTornadoLogic.java:15-171)

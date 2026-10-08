@@ -106,6 +106,8 @@ public final class SimHumanEntity extends Monster implements CitadelAnimatedEnti
     static final int BLOCK_BREAK_SOUND_LIFE_TICKS = 100;
     static final double BLOCK_PLACE_SOUND_RADIUS = 12.0D;
     static final int BLOCK_PLACE_SOUND_LIFE_TICKS = 80;
+    static final double PROJECTILE_SOUND_RADIUS = 18.0D;
+    static final int PROJECTILE_SOUND_LIFE_TICKS = 120;
 
     private static final int STILL_ANIMATION_DELAY_TICKS = 25;
     private final CitadelRawAnimation AGE = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
