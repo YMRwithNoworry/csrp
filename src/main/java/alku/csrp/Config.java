@@ -178,6 +178,14 @@ public final class Config {
     private static final ModConfigSpec.BooleanValue FEAR_ITEM_BLACKLIST_INVERTED = BUILDER
             .comment("Treat fearItemBlackList as a whitelist (original: fearItemBlackListWhite).")
             .define("fearItemBlackListInverted", false);
+    // Original SRPConfigSystems.rsBlockParticleS / rsBlockParticleF: the per-tick chance a
+    // parasite block emits its spore / fog particle (out109 util/config/SRPConfigSystems.java:44-45).
+    private static final ModConfigSpec.DoubleValue RS_BLOCK_PARTICLE_SPORE = BUILDER
+            .comment("Chance a parasite block emits a spore particle each tick (original: rsBlockParticleS).")
+            .defineInRange("rsBlockParticleS", 0.05D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue RS_BLOCK_PARTICLE_FOG = BUILDER
+            .comment("Chance a stage-3 parasite block emits a fog particle each tick (original: rsBlockParticleF).")
+            .defineInRange("rsBlockParticleF", 0.05D, 0.0D, 1.0D);
     private static final ModConfigSpec.ConfigValue<List<? extends String>> COTH_ITEM_PREVENT = BUILDER
             .comment("Items that can mark a mob with Repel when used on it, \"item;chance;seconds\" "
                     + "(original: COTHItemPrevent).")
@@ -755,6 +763,8 @@ public final class Config {
     public static List<? extends String> cothVictimParasites() { return COTH_VICTIM_PARASITES.get(); }
     public static List<? extends String> cothImmuneEntities() { return COTH_IMMUNE_ENTITIES.get(); }
     public static List<? extends String> cothItemPrevent() { return COTH_ITEM_PREVENT.get(); }
+    public static double blockParticleSporeChance() { return RS_BLOCK_PARTICLE_SPORE.get(); }
+    public static double blockParticleFogChance() { return RS_BLOCK_PARTICLE_FOG.get(); }
     public static boolean fearActive() { return FEAR_ACTIVE.get(); }
     public static boolean fearUnfair() { return FEAR_UNFAIR.get(); }
     public static float fearFallDamage() { return FEAR_FALL_DAMAGE.get().floatValue(); }

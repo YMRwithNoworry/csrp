@@ -1,6 +1,14 @@
 package alku.csrp.client;
 
 import alku.csrp.Csrp;
+import alku.csrp.client.particle.BloodParticle;
+import alku.csrp.client.particle.DotParticle;
+import alku.csrp.client.particle.EenParticle;
+import alku.csrp.client.particle.FlashParticle;
+import alku.csrp.client.particle.RHappyParticle;
+import alku.csrp.client.particle.RageParticle;
+import alku.csrp.client.particle.SporeParticle;
+import alku.csrp.client.particle.WindParticle;
 import alku.csrp.client.particle.AssimilationSplashParticle;
 import alku.csrp.client.particle.BiomassParticle;
 import alku.csrp.client.particle.CoolerFogParticle;
@@ -387,6 +395,15 @@ public final class ClientModEvents {
         event.registerSpriteSet(ModParticles.GORE_CLOUD.get(), GoreCloudParticle.Provider::new);
         event.registerSpriteSet(ModParticles.BIOMASS.get(), BiomassParticle.Provider::new);
         event.registerSpriteSet(ModParticles.FOG.get(), CoolerFogParticle.Provider::new);
+        // Original SRPEnumParticle entries that had no 26.3 counterpart before.
+        event.registerSpriteSet(ModParticles.SPORE.get(), SporeParticle.Provider::new);
+        event.registerSpriteSet(ModParticles.RHAPPY.get(), RHappyParticle.Provider::new);
+        event.registerSpriteSet(ModParticles.EEN.get(), EenParticle.Provider::new);
+        event.registerSpriteSet(ModParticles.RAGE.get(), RageParticle.Provider::new);
+        event.registerSpriteSet(ModParticles.WIND.get(), WindParticle.Provider::new);
+        event.registerSpriteSet(ModParticles.DOT.get(), DotParticle.Provider::new);
+        event.registerSpriteSet(ModParticles.FLASH.get(), FlashParticle.Provider::new);
+        event.registerSpriteSet(ModParticles.BLOOD.get(), BloodParticle.Provider::new);
     }
 
     @SubscribeEvent

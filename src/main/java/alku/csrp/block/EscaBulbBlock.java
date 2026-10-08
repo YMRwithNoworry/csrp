@@ -18,11 +18,8 @@ public final class EscaBulbBlock extends Block {
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
         if (random.nextFloat() < 0.5F) {
-            level.addParticle(ParticleTypes.FALLING_LAVA,
-                    pos.getX() + 0.2D + random.nextDouble() * 0.6D,
-                    pos.getY() + 3.05D + random.nextDouble() * 0.9D,
-                    pos.getZ() + 0.2D + random.nextDouble() * 0.6D,
-                    0.0D, 0.0D, 0.0D);
+            // Original BlockEscaBulb#randomDisplayTick used SRPEnumParticle.BLOOD, not a vanilla particle.
+            SrpBlockParticles.spawnBlood(level, pos, random);
         }
     }
 }

@@ -1,6 +1,7 @@
 package alku.csrp.registry;
 
 import alku.csrp.Csrp;
+import alku.csrp.particle.SrpColorParticleType;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
@@ -22,6 +23,23 @@ public final class ModParticles {
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> FOG =
             PARTICLES.register("fog", () -> new SimpleParticleType(false));
 
+    // Original SRPEnumParticle entries (out109 client/particle/SRPEnumParticle.java).
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> SPORE =
+            PARTICLES.register("spore", () -> new SimpleParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> RHAPPY =
+            PARTICLES.register("rhappy", () -> new SimpleParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> EEN =
+            PARTICLES.register("een", () -> new SimpleParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> RAGE =
+            PARTICLES.register("rage", () -> new SimpleParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> WIND =
+            PARTICLES.register("wind", () -> new SimpleParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, SrpColorParticleType> DOT =
+            PARTICLES.register("dot", () -> new SrpColorParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, SrpColorParticleType> FLASH =
+            PARTICLES.register("flash", () -> new SrpColorParticleType(false));
+    public static final DeferredHolder<ParticleType<?>, SrpColorParticleType> BLOOD =
+            PARTICLES.register("blood", () -> new SrpColorParticleType(false));
     private ModParticles() {
     }
 }

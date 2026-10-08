@@ -2,6 +2,8 @@ package alku.csrp.block;
 
 import alku.csrp.block.entity.ParasiteLootBlockEntity;
 import javax.annotation.Nullable;
+import alku.csrp.Config;
+import alku.csrp.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
@@ -63,10 +65,13 @@ public final class ParasiteLootBlock extends Block implements EntityBlock {
 
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
-        if (random.nextFloat() < 0.2F && level.getBlockState(pos.above()).isAir()) {
-            level.addParticle(ParticleTypes.CRIMSON_SPORE,
-                    pos.getX() + random.nextDouble(), pos.getY() + 1.05D,
-                    pos.getZ() + random.nextDouble(), 0.0D, 0.02D, 0.0D);
+        // Original BlockParasiteLoot#randomDisplayTick: open to the sky, roll rsBlockParticleS.
+        BlockState above = level.getBlockState(pos.above());
+        if (!above.isAir() && !above.is(ModBlocks.legacyBlock("parasitebush").get())) {
+            return;
+        }
+        if (random.nextDouble() <= Config.blockParticleSporeChance()) {
+            SrpBlockParticles.spawnSpore(level, pos, random);
         }
     }
 

@@ -1,10 +1,13 @@
 package alku.csrp.block;
 
+import alku.csrp.Config;
 import alku.csrp.infection.BlockInfestation;
 import alku.csrp.infection.InfestationSpreadLimiter;
+import alku.csrp.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
@@ -53,6 +56,21 @@ public class ParasiteSpreadingBlock extends Block {
         return infested;
     }
 
+    /**
+     * Original {@code BlockParasiteStain/BlockParasiteRubble#randomDisplayTick}: while the block is
+     * open to the sky (air or a parasite bush above), roll {@code rsBlockParticleS} for a spore puff
+     * 2.5 blocks above the block.
+     */
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        BlockState above = level.getBlockState(pos.above());
+        if (!above.isAir() && !above.is(ModBlocks.legacyBlock("parasitebush").get())) {
+            return;
+        }
+        if (random.nextDouble() <= Config.blockParticleSporeChance()) {
+            SrpBlockParticles.spawnSpore(level, pos, random);
+        }
+    }
     @Override
     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (!level.isAreaLoaded(pos, 3)) {

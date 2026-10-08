@@ -1,7 +1,12 @@
 package alku.csrp.block;
 
 import java.util.Locale;
+import alku.csrp.Config;
+import alku.csrp.registry.ModBlocks;
+import net.minecraft.core.BlockPos;
 import net.minecraft.util.StringRepresentable;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
@@ -61,4 +66,16 @@ public final class InfestedOreBlock extends Block {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(VARIANT);
     }
+    /** Original {@code #randomDisplayTick}: open to the sky, roll {@code rsBlockParticleS}. */
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        BlockState above = level.getBlockState(pos.above());
+        if (!above.isAir() && !above.is(ModBlocks.legacyBlock("parasitebush").get())) {
+            return;
+        }
+        if (random.nextDouble() <= Config.blockParticleSporeChance()) {
+            SrpBlockParticles.spawnSpore(level, pos, random);
+        }
+    }
+
 }
