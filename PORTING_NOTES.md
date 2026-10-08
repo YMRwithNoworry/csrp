@@ -233,6 +233,20 @@ java.lang.NoSuchFieldError: Class net.neoforged.fml.config.ModConfig$Type does n
 
 验证：`build` 通过；`node scripts/run-all-verifications.cjs` **144 / 144**；`runGameTestServer` **187 / 187**；`javap` 复核产物 jar，`alku/csrp/Csrp.class` 与 `alku/csrp/command/SrpCommands.class` 只引用 `ModConfig$Type.LOCAL`，`COMMON` 残留计数为 0。
 
+### 3.17 补齐 8 种缺失粒子并接入方块
+
+原件 `client/particle/SRPEnumParticle` 共 13 种粒子（fog / spore / gcloud / gsplash / rhappy / biomass / een / flash / dot / wind / coolerfog / rage / blood），工程此前只注册了 5 种（kirin_warning / assimilation_splash / gore_cloud / biomass / fog），其中 **spore 在原件被引用 11 次**（残骸/矿石/木板的随机粒子），rhappy(3) / een(2) / dot(2) / flash(1) / rage(1) / blood(1) / wind 则全部缺失，并被原版粒子（CRIMSON_SPORE / FALLING_LAVA 等）替代。现按 1.12.2 类逐行移植：
+
+- `SporeParticle`（4 帧白色孢子，0→0.7 生长到 175t、之后收缩变淡到 200t）、`RHappyParticle`、`EenParticle`（向 `origin+velocity` 的二次下落曲线）、`RageParticle`（3 帧、缩小淡出、随机旋转）、`WindParticle`（13 帧风）。
+- `DotParticle` / `FlashParticle` / `BloodParticle` 需要 `(r,g,b)` 或 variant 数据，为此新增 `alku.csrp.particle.SrpColorParticleOptions` + `SrpColorParticleType`（自定义 `ParticleOptions` / `MapCodec` / `StreamCodec`，与原版 `BlockParticleOption` 同模式）；`BloodParticle` variant 0 下落、1 上升，并在落地时切 landing 帧。
+- `ModParticles` 注册 8 个类型，`ClientModEvents` 注册 8 个 provider，新增 `assets/csrp/particles/{spore,rhappy,een,rage,wind,dot,flash,blood}.json`（**纹理本就在仓库里却从未被引用**）。
+
+接线（新增 `block/SrpBlockParticles` 生成器）：`Config` 补原件 `rsBlockParticleS` / `rsBlockParticleF`（0.05），`ParasiteSpreadingBlock`（`parasitestain`/`parasiterubble` 基类）、`InfestedBlock`（stage 2 孢子 / stage 3 雾+孢子）、`ParasiteLootBlock`（原本用 `CRIMSON_SPORE` 替代）、`ParasitePlankBlock`、`InfestedOreBlock` 加 `animateTick`，`EscaBulbBlock` 的 `FALLING_LAVA` 改为原件 `BLOOD`。
+
+校验：`scripts/verify-particles.cjs`。静态校验 146 → **147**，GameTest 仍 **187 / 187**。
+
+> **未完成（已登记）**：原件 62 处 `GCLOUD` / 36 处 `GSPLASH` / 12 处 `BIOMASS` 调用点中，工程只在少数位置使用自定义粒子（`ModParticles.GORE_CLOUD` 2 处 / `ASSIMILATION_SPLASH` 5 处 / `BIOMASS` 5 处），其余仍以原版粒子近似（如 `ParasiteDeathFxClient` 用红色 dust + POOF）。这些均属客户端视觉，本环境无法图形目视验证；后续可按原件 `EntityParasiteBase#spawnParticlesGore` 的参数逐个替换。
+
 ---
 
 ## 4. 因目标版本 API 缺失而改写或省略的部分
