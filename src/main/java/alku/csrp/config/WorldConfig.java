@@ -12,19 +12,19 @@ public final class WorldConfig {
     private static final ForgeConfigSpec.IntValue WORLD_SPAWNING_MOB_CAP = BUILDER
             .comment("Base number of parasites allowed to spawn naturally in one dimension. Set to 0 to disable the cap.",
                     "Beckons, Dispatchers and Rooters are world structures and never count towards this cap.")
-            .defineInRange("worldSpawningMobCap", 50, 0, 50000);
+            .defineInRange("worldSpawningMobCap", 100, 0, 50000);
     private static final ForgeConfigSpec.IntValue WORLD_MOB_CAP_PLUS_PLAYER = BUILDER
             .comment("Natural parasite cap added for each player in the dimension.")
-            .defineInRange("worldMobCapPlusPlayer", 10, 0, 50000);
+            .defineInRange("worldMobCapPlusPlayer", 20, 0, 50000);
     private static final ForgeConfigSpec.BooleanValue MOB_CLEANER_ENABLED = BUILDER
             .comment("Remove excess parasites when their count exceeds twice the current natural mob cap.",
                     "Beckons, Dispatchers and Rooters are world structures and are never removed by the cleaner.")
             .define("mobCleanerEnabled", true);
     private static final ForgeConfigSpec.DoubleValue NATURAL_SPAWN_WEIGHT_MULTIPLIER = BUILDER
             .comment("Multiplier applied to every CSRP entry of the natural spawn tables.",
-                    "1.0 keeps the original SRP 1.10.8 weights; values slightly above 1.0 make the",
-                    "mod's parasites appear more often without touching the vanilla spawn pool.")
-            .defineInRange("naturalSpawnWeightMultiplier", 3.0D, 0.0D, 10.0D);
+                    "1.0 keeps the original SRP 1.10.8 weights; the default 6.0 doubles the previous 3.0 setting.",
+                    "Only weights change; spawn types, phase gates, placements and group sizes stay original.")
+            .defineInRange("naturalSpawnWeightMultiplier", 6.0D, 0.0D, 10.0D);
     private static final ForgeConfigSpec.IntValue BECKON_INFESTATION_BLOCK_LIMIT = BUILDER
             .comment("Transformed blocks before Beckon infestation enters its cooldown.")
             .defineInRange("beckonInfestationBlockLimit", 1000, 0, 8192);

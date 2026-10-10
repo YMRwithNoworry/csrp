@@ -56,9 +56,9 @@ expect(events, /private static boolean isNexusWorldStructure\(Entity entity\)[\s
 expect(events, /if \(!\(entity instanceof Parasite\) \|\| isNexusWorldStructure\(entity\)\) \{\s*continue;\s*\}[\s\S]*?\+\+count >= cap/,
   "The natural spawn cap still counts Beckons, Dispatchers and Rooters");
 
-// The mod's parasites appear slightly more often through a configurable weight multiplier.
-expect(config, /defineInRange\("naturalSpawnWeightMultiplier", 1\.25D, 0\.0D, 10\.0D\)/,
-  "naturalSpawnWeightMultiplier is not defined with a 1.25 default");
+// The mod's parasites appear more often through a configurable weight multiplier.
+expect(config, /defineInRange\("naturalSpawnWeightMultiplier", 6\.0D, 0\.0D, 10\.0D\)/,
+  "naturalSpawnWeightMultiplier is not defined with a 6.0 default");
 expect(config, /public static double naturalSpawnWeightMultiplier\(\)/,
   "The naturalSpawnWeightMultiplier getter is missing");
 expect(tables, /WorldConfig\.naturalSpawnWeightMultiplier\(\)/,
