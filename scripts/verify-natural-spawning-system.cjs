@@ -85,7 +85,7 @@ for (const id of [
   expect(common.includes(`"${id}"`), `Air spawn id ${id} is missing`);
 }
 expectPattern(common,
-  /(?:IN_AIR|NO_RESTRICTIONS)[\s\S]*?isWithinBounds\(pos\)[\s\S]*?isEmptyBlock\(pos\.below\(\)\)[\s\S]*?isEmptyBlock\(pos\)[\s\S]*?isEmptyBlock\(pos\.above\(\)\)/,
+  /(?:IN_AIR|NO_RESTRICTIONS)[\s\S]*?isWithinBounds\(pos\)[\s\S]*?isEmptyBlock\(pos\)[\s\S]*?isEmptyBlock\(pos\.above\(\)\)[\s\S]*?isEmptyBlock\(pos\.above\(2\)\)/,
   "Air placement does not require an in-border three-block air column");
 expectPattern(common,
   /NaturalSpawnTables\.allSpawnTypes\(\)[\s\S]*?WATER_SPAWN_IDS\.contains\(id\)[\s\S]*?(?:SpawnPlacementTypes\.IN_WATER|SpawnPlacements\.Type\.IN_WATER)[\s\S]*?AIR_SPAWN_IDS\.contains\(id\) \? (?:IN_AIR|SpawnPlacements\.Type\.NO_RESTRICTIONS) : (?:SpawnPlacementTypes\.ON_GROUND|SpawnPlacements\.Type\.ON_GROUND)/,

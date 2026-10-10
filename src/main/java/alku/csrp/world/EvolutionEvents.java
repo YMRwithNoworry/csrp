@@ -13,6 +13,7 @@ import alku.csrp.entity.ParasiteTransformation;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModMobEffects;
+import alku.csrp.registry.ModMobCategories;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -221,7 +222,8 @@ public final class EvolutionEvents {
 
     @SubscribeEvent
     public static void replaceNaturalSpawnCandidates(LevelEvent.PotentialSpawns event) {
-        if (!(event.getLevel() instanceof ServerLevel level) || event.getMobCategory() != MobCategory.MONSTER) {
+        if (!(event.getLevel() instanceof ServerLevel level) || event.getMobCategory() != MobCategory.MONSTER
+                && event.getMobCategory() != ModMobCategories.PARASITE) {
             return;
         }
         for (var entry : List.copyOf(event.getSpawnerDataList())) {
@@ -230,7 +232,9 @@ public final class EvolutionEvents {
                 event.removeSpawnerData(entry);
             }
         }
-        if (!GeneralConfig.allowMobs() || !WorldConfig.dimensionAllowsNaturalSpawning(level)) {
+        // Remove legacy biome entries from MONSTER, but spawn parasites only in their own pool.
+        if (event.getMobCategory() != ModMobCategories.PARASITE
+                || !GeneralConfig.allowMobs() || !WorldConfig.dimensionAllowsNaturalSpawning(level)) {
             return;
         }
         for (var entry : NaturalSpawnTables.select(level, event.getPos())) {

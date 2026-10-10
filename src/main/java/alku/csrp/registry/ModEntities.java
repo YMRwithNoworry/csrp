@@ -129,13 +129,13 @@ public final class ModEntities {
                     .build(new ResourceLocation(Csrp.MODID, "warden_waveshock").toString()));
 
     public static final RegistryObject<EntityType<BuglinEntity>> BUGLIN =
-            ENTITIES.register("buglin", () -> EntityType.Builder.of(BuglinEntity::new, MobCategory.MONSTER)
+            ENTITIES.register("buglin", () -> EntityType.Builder.of(BuglinEntity::new, ModMobCategories.PARASITE)
                     .sized(0.5F, 0.3F)
                     .clientTrackingRange(8)
                     .build(new ResourceLocation(Csrp.MODID, "buglin").toString()));
 
     public static final RegistryObject<EntityType<RupterEntity>> RUPTER =
-            ENTITIES.register("rupter", () -> EntityType.Builder.of(RupterEntity::new, MobCategory.MONSTER)
+            ENTITIES.register("rupter", () -> EntityType.Builder.of(RupterEntity::new, ModMobCategories.PARASITE)
                     .sized(0.85F, 1.0F)
                     .clientTrackingRange(8)
                     .build(new ResourceLocation(Csrp.MODID, "rupter").toString()));
@@ -245,7 +245,7 @@ public final class ModEntities {
     public static final RegistryObject<EntityType<DraconiteEntity>> DRACONITE =
             monster("draconite", DraconiteEntity::new, 2.4F, 3.8F);
     public static final RegistryObject<EntityType<KirinEntity>> KIRIN =
-            ENTITIES.register("kirin", () -> EntityType.Builder.of(KirinEntity::new, MobCategory.MONSTER)
+            ENTITIES.register("kirin", () -> EntityType.Builder.of(KirinEntity::new, ModMobCategories.PARASITE)
                     .sized(2.1271334F, 8.85F).clientTrackingRange(8)
                     .build(new ResourceLocation(Csrp.MODID, "kirin").toString()));
     public static final RegistryObject<EntityType<KirinSlashEntity>> KIRIN_SLASH =
@@ -622,7 +622,7 @@ public final class ModEntities {
 
     private static <T extends net.minecraft.world.entity.Mob> RegistryObject<EntityType<T>> monster(
             String id, EntityType.EntityFactory<T> factory, float width, float height) {
-        return ENTITIES.register(id, () -> EntityType.Builder.of(factory, MobCategory.MONSTER)
+        return ENTITIES.register(id, () -> EntityType.Builder.of(factory, ModMobCategories.PARASITE)
                 .sized(width, height).clientTrackingRange(8)
                 .build(new ResourceLocation(Csrp.MODID, id).toString()));
     }
@@ -663,7 +663,7 @@ public final class ModEntities {
 
     private static <T extends net.minecraft.world.entity.Mob> RegistryObject<EntityType<T>> monster(
             String id, EntityType.EntityFactory<T> factory, float width, float height, float eyeHeight) {
-        return ENTITIES.register(id, () -> EntityType.Builder.of(factory, MobCategory.MONSTER)
+        return ENTITIES.register(id, () -> EntityType.Builder.of(factory, ModMobCategories.PARASITE)
                 // Forge 1.20.1 has no EntityType.Builder eyeHeight method; entities override getEyeHeight(Pose).
                 .sized(width, height).clientTrackingRange(8)
                 .build(new ResourceLocation(Csrp.MODID, id).toString()));
