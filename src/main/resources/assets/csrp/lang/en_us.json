@@ -1,4 +1,5 @@
 {
+  "options.csrp.world_options": "CSRP World Options",
   "itemGroup.csrp": "CSRP",
   "block.csrp.srpweb": "SRP Webbing",
   "block.csrp.srpweb.kind.thin": "Thin Webbing",

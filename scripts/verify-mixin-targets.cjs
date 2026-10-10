@@ -116,6 +116,8 @@ const loadMappings = () => {
 const readSource = (relative) => fs.readFileSync(path.join(root, relative), 'utf8');
 
 const resolveTarget = (java, file) => {
+    const namedTarget = java.match(/@Mixin\(targets\s*=\s*"([\w.$]+)"/);
+    if (namedTarget) return namedTarget[1].replace(/\./g, '/');
     const match = java.match(/@Mixin\(\s*([A-Za-z0-9_$.]+)\s*\.class/);
     if (!match) {
         fail(file + ': no @Mixin(<class>.class) target found');
@@ -250,6 +252,14 @@ const checkMixins = (java, target, file) => {
                 continue;
             }
             const label = '@' + annotation + ' ' + selectors.join(' | ');
+            // Constructors have the same JVM name in official and SRG mappings.
+            if (selectors.every((selector) => splitSelector(selector)[0] === '<init>')) {
+                selectors.forEach((selector) => {
+                    const [name, descriptor] = splitSelector(selector);
+                    checkMethod(target, name, descriptor, file);
+                });
+                continue;
+            }
             if (!selectors.some((selector) => SRG_MEMBER.test(splitSelector(selector)[0]))) {
                 fail(file + ': ' + label + ' has no SRG selector, so Forge production cannot match it');
             }

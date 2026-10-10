@@ -1,4 +1,5 @@
 {
+  "options.csrp.world_options": "CSRP 世界选项",
   "itemGroup.csrp": "逃逸：寄生体",
   "block.csrp.srpweb": "薄蛛网",
   "block.csrp.srpweb.kind.thin": "§8纤细网膜",
