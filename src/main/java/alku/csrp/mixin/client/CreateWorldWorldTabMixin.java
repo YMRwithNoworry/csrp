@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(targets = "net.minecraft.client.gui.screens.worldselection.CreateWorldScreen$WorldTab")
 public abstract class CreateWorldWorldTabMixin extends GridLayoutTab {
     private static final int CSRP_ENTRY_ROW = 4;
+    private static final int WORLD_TAB_ROW_SPACING = 1;
 
     protected CreateWorldWorldTabMixin(Component title) {
         super(title);
@@ -22,8 +23,9 @@ public abstract class CreateWorldWorldTabMixin extends GridLayoutTab {
 
     @Inject(method = "<init>", at = @At("RETURN"), require = 1)
     private void csrp$addWorldOptions(CreateWorldScreen parent, CallbackInfo callback) {
-        // WorldTab uses rows 0-3: world type, seed, and two generation switches.
-        // Use the next row so the entry cannot cover the second vanilla switch.
+        // The extra row needs a compact outer grid; the nested vanilla controls retain
+        // their own spacing, while the entry stays above the create/cancel footer.
+        layout.rowSpacing(WORLD_TAB_ROW_SPACING);
         layout.addChild(Button.builder(Component.translatable("options.csrp.world_options"),
                         button -> Minecraft.getInstance().setScreen(new SrpWorldOptionsScreen(parent)))
                 .width(310)
