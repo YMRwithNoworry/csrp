@@ -7,6 +7,7 @@ import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.effect.EffectStacking;
 import alku.csrp.entity.ai.BlockLightSearchGoal;
+import alku.csrp.entity.ai.PrimitiveAdaptedTargetGoal;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModItems;
@@ -54,6 +55,7 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -78,6 +80,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /** Shared 1.12 primitive-parasite state: hostile targeting, kills, and repeated-damage adaptation. */
 public abstract class PrimitiveParasiteEntity extends Monster implements GeoEntity, Parasite {
+    private static final Set<String> PRIMITIVE_ADAPTED_TARGET_IDS = Set.of(
+            "pri_longarms", "pri_manducater", "pri_reeker", "pri_yelloweye", "pri_summoner",
+            "pri_bolster", "pri_tozoon", "pri_arachnida", "pri_devourer", "pri_vermin",
+            "pri_viscera", "pri_burrower", "ada_longarms", "ada_manducater", "ada_reeker",
+            "ada_yelloweye", "ada_summoner", "ada_bolster", "ada_tozoon", "ada_arachnida",
+            "ada_devourer", "ada_vermin", "ada_viscera", "ada_burrower");
     private static final Map<String, BlockBreakProfile> BLOCK_BREAK_PROFILES = createBlockBreakProfiles();
     private int blockBreakCooldown;
     private static final EntityDataAccessor<Byte> ADAPTATION_HIT_STATUS = SynchedEntityData.defineId(
@@ -431,12 +439,22 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         if (usesDefaultTargetGoals()) {
             targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
-            boolean checkSight = !ignoresLineOfSight();
-            targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 0,
-                    checkSight, false, target -> target instanceof Player player && isValidPlayerTarget(player)));
-            if (Config.mobAttackingEnabled()) {
-                targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 0,
-                        checkSight, false, this::isValidMobTarget));
+            if (usesPrimitiveAdaptedTargetGoals()) {
+                targetSelector.addGoal(4, new PrimitiveAdaptedTargetGoal(this, true,
+                        target -> target instanceof Player player && isValidPlayerTarget(player),
+                        !ignoresLineOfSight()));
+                if (Config.mobAttackingEnabled()) {
+                    targetSelector.addGoal(4, new PrimitiveAdaptedTargetGoal(this, false,
+                            this::isValidMobTarget, !ignoresLineOfSight()));
+                }
+            } else {
+                boolean checkSight = !ignoresLineOfSight();
+                targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 0,
+                        checkSight, false, target -> target instanceof Player player && isValidPlayerTarget(player)));
+                if (Config.mobAttackingEnabled()) {
+                    targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 0,
+                            checkSight, false, this::isValidMobTarget));
+                }
             }
         }
     }
@@ -453,6 +471,12 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         return true;
     }
 
+    /** Whether this entity uses the 1.10.9 primitive/adapted target scanner. */
+    protected boolean usesPrimitiveAdaptedTargetGoals() {
+        ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(getType());
+        return id != null && PRIMITIVE_ADAPTED_TARGET_IDS.contains(id.getPath());
+    }
+
     protected boolean isValidParasiteTarget(LivingEntity target) {
         boolean totalSlaughter = level() instanceof ServerLevel serverLevel
                 && SrpWorldData.get(serverLevel).evolutionPhase() >= 9;
@@ -466,7 +490,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
 
     private boolean isValidMobTarget(LivingEntity target) {
         if (!(target instanceof Mob) || target instanceof Animal || target instanceof WaterAnimal
-                || target instanceof Villager || !isValidParasiteTarget(target)) {
+                || target instanceof AbstractVillager || !isValidParasiteTarget(target)) {
             return false;
         }
         return isAllowedMobAttackTarget(target);

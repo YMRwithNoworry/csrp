@@ -532,7 +532,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     @Override
     protected boolean usesDefaultTargetGoals() {
-        return activeKind() != Kind.VERMIN;
+        return true;
     }
 
     @Override
@@ -589,7 +589,6 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 goalSelector.addGoal(3, new GenerationMeleeAttackGoal(this, 1.05D, false));
             }
             case VERMIN -> {
-                registerVerminTargetGoals();
                 if (MobsConfig.yelloweyeMaxFlightHeight() != 256) {
                     goalSelector.addGoal(3,
                             new VerminFlightHeightGoal(MobsConfig.yelloweyeMaxFlightHeight()));

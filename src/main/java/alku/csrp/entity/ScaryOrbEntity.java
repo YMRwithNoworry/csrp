@@ -32,14 +32,22 @@ public final class ScaryOrbEntity extends Entity {
     private static final int ADAPTED_FUSE_TICKS = 16;
     private static final int BURST_TICKS = 35;
     private static final int DISCARD_TICKS = 45;
+    private static final float INITIAL_WIDTH = 0.5F;
+    private static final float INITIAL_HEIGHT = 0.5F;
+    private static final float FUSE_WIDTH_GROWTH = 0.8F;
+    private static final float FUSE_HEIGHT_GROWTH = 0.482F;
+    private static final float BURST_WIDTH_SHRINK = 0.1F;
+    private static final float BURST_HEIGHT_SHRINK = 0.32F;
     private UUID ownerId;
     private UUID targetId;
     private int activeTicks;
     private int travelTicks;
     private int startTicks = DEFAULT_START_TICKS;
     private int fuseTicks = DEFAULT_FUSE_TICKS;
+    private int fuseProgress;
     private int burstTicks;
-    private float burstScale = 1.0F;
+    private float orbWidth = INITIAL_WIDTH;
+    private float orbHeight = INITIAL_HEIGHT;
     private boolean ignited;
     private boolean burstApplied;
     private boolean launched;
@@ -72,11 +80,13 @@ public final class ScaryOrbEntity extends Entity {
         launched = false;
         anchored = true;
         activeTicks = 0;
+        fuseProgress = 0;
         burstTicks = 0;
-        burstScale = 1.0F;
         ignited = false;
         burstApplied = false;
-        entityData.set(BURST_SCALE, burstScale);
+        orbWidth = INITIAL_WIDTH;
+        orbHeight = INITIAL_HEIGHT;
+        entityData.set(BURST_SCALE, 1.0F);
         anchorX = anchor.x;
         anchorY = anchor.y;
         anchorZ = anchor.z;
@@ -96,11 +106,13 @@ public final class ScaryOrbEntity extends Entity {
         anchored = false;
         activeTicks = 0;
         travelTicks = 0;
+        fuseProgress = 0;
         burstTicks = 0;
-        burstScale = 1.0F;
         ignited = false;
         burstApplied = false;
-        entityData.set(BURST_SCALE, burstScale);
+        orbWidth = INITIAL_WIDTH;
+        orbHeight = INITIAL_HEIGHT;
+        entityData.set(BURST_SCALE, 1.0F);
         targetId = targetEntity == null ? null : targetEntity.getUUID();
         anchorX = target.x;
         anchorY = target.y;
@@ -144,26 +156,33 @@ public final class ScaryOrbEntity extends Entity {
             return;
         }
         if (!anchored) return;
-        int age = activeTicks++;
-        if (!ignited) {
-            if (age <= startTicks) {
-                return;
-            }
-            ignited = true;
-        }
-        if (burstApplied) {
-            tickBurst();
-            return;
-        }
-        int activeAge = age - startTicks - 1;
-        if (activeAge >= fuseTicks) {
-            burstApplied = true;
-            burstTicks = 0;
-            burst(owner);
-            return;
-        }
+        int age = ++activeTicks;
+        // The original orb pulse cadence is based on absolute orb age. It is
+        // intentionally independent of the warm-up timer, so age 10 pulses
+        // even when the orb is still waiting to ignite.
         if (age % 10 == 0) {
             applyOrbEffects(owner);
+        }
+        if (age <= startTicks) {
+            return;
+        }
+        ignited = true;
+        if (burstApplied) {
+            tickBurst(owner);
+            return;
+        }
+
+        // The tick which reaches the fuse enters terminal state without a
+        // growth step. The preceding fuse-1 ticks each grow the orb.
+        if (fuseProgress + 1 < fuseTicks) {
+            fuseProgress++;
+            orbWidth += FUSE_WIDTH_GROWTH;
+            orbHeight += FUSE_HEIGHT_GROWTH;
+            refreshDimensions();
+        } else {
+            fuseProgress = fuseTicks;
+            burstApplied = true;
+            burstTicks = 1;
         }
     }
 
@@ -186,17 +205,6 @@ public final class ScaryOrbEntity extends Entity {
         }
     }
 
-    private void burst(PrimitiveParasiteEntity owner) {
-        if (owner == null || !owner.isAlive()) {
-            return;
-        }
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(3.0D));
-        for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
-                getBoundingBox().inflate(3.0D), LivingEntity::isAlive)) {
-            owner.applyScaryOrbMinimumDamage(target, 5.0F);
-        }
-    }
-
     private void applyOwnerlessCooldown(Player player) {
         Set<Item> cooledItems = new HashSet<>();
         for (ItemStack stack : player.getInventory().items) {
@@ -212,13 +220,20 @@ public final class ScaryOrbEntity extends Entity {
         }
     }
 
-    private void tickBurst() {
+    private void tickBurst(PrimitiveParasiteEntity owner) {
         burstTicks++;
         if (burstTicks > BURST_TICKS) {
-            burstScale = Math.max(0.0F, 1.0F
-                    - (burstTicks - BURST_TICKS) * 0.1F);
-            entityData.set(BURST_SCALE, burstScale);
+            orbWidth = Math.max(0.1F, orbWidth - BURST_WIDTH_SHRINK);
+            orbHeight = Math.max(0.1F, orbHeight - BURST_HEIGHT_SHRINK);
+            entityData.set(BURST_SCALE, orbWidth / INITIAL_WIDTH);
             refreshDimensions();
+            if (owner != null && owner.isAlive()) {
+                DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox());
+                for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
+                        getBoundingBox(), LivingEntity::isAlive)) {
+                    owner.applyScaryOrbMinimumDamage(target, 5.0F);
+                }
+            }
         }
         if (burstTicks > DISCARD_TICKS) {
             discard();
@@ -253,8 +268,10 @@ public final class ScaryOrbEntity extends Entity {
         travelTicks = tag.getInt("travel_ticks");
         startTicks = tag.contains("start_ticks") ? tag.getInt("start_ticks") : DEFAULT_START_TICKS;
         fuseTicks = tag.contains("fuse_ticks") ? tag.getInt("fuse_ticks") : DEFAULT_FUSE_TICKS;
+        fuseProgress = Math.max(0, tag.getInt("fuse_progress"));
         burstTicks = Math.max(0, tag.getInt("burst_ticks"));
-        burstScale = tag.contains("burst_scale") ? tag.getFloat("burst_scale") : 1.0F;
+        orbWidth = tag.contains("orb_width") ? tag.getFloat("orb_width") : INITIAL_WIDTH;
+        orbHeight = tag.contains("orb_height") ? tag.getFloat("orb_height") : INITIAL_HEIGHT;
         ignited = tag.contains("ignited") ? tag.getBoolean("ignited") : activeTicks > startTicks;
         burstApplied = tag.getBoolean("burst_applied");
         launched = tag.getBoolean("launched");
@@ -263,7 +280,7 @@ public final class ScaryOrbEntity extends Entity {
         anchorY = tag.getDouble("anchor_y");
         anchorZ = tag.getDouble("anchor_z");
         entityData.set(BOLSTER_ORB, tag.getBoolean("bolster_orb"));
-        entityData.set(BURST_SCALE, burstScale);
+        entityData.set(BURST_SCALE, orbWidth / INITIAL_WIDTH);
         refreshDimensions();
     }
 
@@ -274,8 +291,10 @@ public final class ScaryOrbEntity extends Entity {
         tag.putInt("travel_ticks", travelTicks);
         tag.putInt("start_ticks", startTicks);
         tag.putInt("fuse_ticks", fuseTicks);
+        tag.putInt("fuse_progress", fuseProgress);
         tag.putInt("burst_ticks", burstTicks);
-        tag.putFloat("burst_scale", burstScale);
+        tag.putFloat("orb_width", orbWidth);
+        tag.putFloat("orb_height", orbHeight);
         tag.putBoolean("ignited", ignited);
         tag.putBoolean("burst_applied", burstApplied);
         tag.putBoolean("launched", launched);
@@ -288,8 +307,7 @@ public final class ScaryOrbEntity extends Entity {
 
     @Override
     public EntityDimensions getDimensions(Pose pose) {
-        float scale = Math.max(0.01F, burstScale);
-        return EntityDimensions.scalable(0.5F * scale, 0.5F * scale);
+        return EntityDimensions.scalable(Math.max(0.1F, orbWidth), Math.max(0.1F, orbHeight));
     }
 
     @Override

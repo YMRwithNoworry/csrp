@@ -74,7 +74,6 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
 
     @Override protected void registerGoals() {
         super.registerGoals();
-        registerVerminTargetGoals();
         if (MobsConfig.yelloweyeMaxFlightHeight() != 256) {
             goalSelector.addGoal(3, new FlightHeightLimitGoal(MobsConfig.yelloweyeMaxFlightHeight()));
         }
@@ -113,7 +112,7 @@ public final class VerminEntity extends PrimitiveParasiteEntity {
 
     @Override
     protected boolean usesDefaultTargetGoals() {
-        return false;
+        return true;
     }
 
     @Override
