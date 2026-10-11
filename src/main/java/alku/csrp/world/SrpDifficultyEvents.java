@@ -1,92 +1,26 @@
 package alku.csrp.world;
 
 import alku.csrp.Csrp;
-import alku.csrp.entity.Parasite;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.Mth;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 
-/** Applies the selected per-world SRP difficulty to every parasite instance. */
+/**
+ * Compatibility hook retained for worlds that store an SRP difficulty selection.
+ * SRP 1.10.9 uses that selection for evolution progress, not mob attribute multipliers.
+ */
 @EventBusSubscriber(modid = Csrp.MODID)
 public final class SrpDifficultyEvents {
-    private static final ResourceLocation HEALTH = id("difficulty_health");
-    private static final ResourceLocation DAMAGE = id("difficulty_damage");
-    private static final ResourceLocation ARMOR = id("difficulty_armor");
-    private static final ResourceLocation KNOCKBACK = id("difficulty_knockback");
-
     private SrpDifficultyEvents() {
     }
 
     @SubscribeEvent
     public static void applyDifficulty(EntityJoinLevelEvent event) {
-        if (!(event.getLevel() instanceof ServerLevel level)
-                || !(event.getEntity() instanceof LivingEntity entity)
-                || !(entity instanceof Parasite)) {
-            return;
-        }
-
-        applyDifficulty(entity, SrpWorldData.get(level).difficulty());
+        // The original mod does not scale parasite attributes from the world difficulty choice.
     }
 
     public static void refreshDifficulty(ServerLevel level) {
-        SrpDifficulty difficulty = SrpWorldData.get(level).difficulty();
-        for (var entity : level.getAllEntities()) {
-            if (entity instanceof LivingEntity living && living.isAlive() && living instanceof Parasite) {
-                applyDifficulty(living, difficulty);
-            }
-        }
-    }
-
-    private static void applyDifficulty(LivingEntity entity, SrpDifficulty difficulty) {
-        float healthFraction = entity.getMaxHealth() <= 0.0F
-                ? 1.0F : entity.getHealth() / entity.getMaxHealth();
-        remove(entity.getAttribute(Attributes.MAX_HEALTH), HEALTH);
-        remove(entity.getAttribute(Attributes.ATTACK_DAMAGE), DAMAGE);
-        remove(entity.getAttribute(Attributes.ARMOR), ARMOR);
-        remove(entity.getAttribute(Attributes.KNOCKBACK_RESISTANCE), KNOCKBACK);
-        multiply(entity.getAttribute(Attributes.MAX_HEALTH), HEALTH, difficulty.healthMultiplier());
-        multiply(entity.getAttribute(Attributes.ATTACK_DAMAGE), DAMAGE, difficulty.damageMultiplier());
-        multiply(entity.getAttribute(Attributes.ARMOR), ARMOR, difficulty.armorMultiplier());
-        multiply(entity.getAttribute(Attributes.KNOCKBACK_RESISTANCE), KNOCKBACK,
-                difficulty.knockbackMultiplier());
-        if (difficulty == SrpDifficulty.IMPOSSIBLE) {
-            add(entity.getAttribute(Attributes.KNOCKBACK_RESISTANCE), KNOCKBACK, 1.0D);
-        }
-        entity.setHealth(Mth.clamp(entity.getMaxHealth() * healthFraction, 1.0F, entity.getMaxHealth()));
-    }
-
-    private static boolean multiply(AttributeInstance attribute, ResourceLocation id, double multiplier) {
-        java.util.UUID uuid = java.util.UUID.nameUUIDFromBytes(id.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8));
-        if (attribute == null || multiplier == 1.0D || attribute.getModifier(uuid) != null) {
-            return false;
-        }
-        attribute.addPermanentModifier(new AttributeModifier(uuid, id.toString(), multiplier - 1.0D,
-                AttributeModifier.Operation.MULTIPLY_TOTAL));
-        return true;
-    }
-
-    private static void add(AttributeInstance attribute, ResourceLocation id, double amount) {
-        java.util.UUID uuid = java.util.UUID.nameUUIDFromBytes(id.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8));
-        if (attribute == null || attribute.getModifier(uuid) != null) {
-            return;
-        }
-        attribute.addPermanentModifier(new AttributeModifier(uuid, id.toString(), amount, AttributeModifier.Operation.ADDITION));
-    }
-
-    private static void remove(AttributeInstance attribute, ResourceLocation id) {
-        if (attribute != null) {
-            attribute.removeModifier(java.util.UUID.nameUUIDFromBytes(id.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8)));
-        }
-    }
-
-    private static ResourceLocation id(String path) {
-        return new ResourceLocation(Csrp.MODID, path);
+        // Kept as a no-op API for the in-game difficulty command.
     }
 }

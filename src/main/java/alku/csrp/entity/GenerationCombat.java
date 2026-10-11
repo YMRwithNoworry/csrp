@@ -70,6 +70,37 @@ public final class GenerationCombat {
     }
 
     /**
+     * Resolves the original EntityParasiteBase tier for parasite entities that use a
+     * compatibility-specific Minecraft base class instead of PrimitiveParasiteEntity.
+     */
+    public static ParasiteTier tierOf(LivingEntity entity) {
+        if (entity instanceof FeralParasiteEntity) {
+            return ParasiteTier.FERAL;
+        }
+        if (entity instanceof AssimilatedParasiteEntity
+                || entity instanceof AssimilatedVariantEntity
+                || entity instanceof AssimilatedHeadEntity
+                || entity instanceof AssimilatedDragonEntity
+                || entity instanceof AssimilatedDragonHeadEntity
+                || entity instanceof AssimilatedEndermanEntity
+                || entity instanceof AssimilatedWolfEntity
+                || entity instanceof SimHumanEntity
+                || entity instanceof SimAdventurerEntity
+                || entity instanceof SimAdventurerHeadEntity) {
+            return ParasiteTier.INFECTED;
+        }
+        return ParasiteTier.PRIMITIVE;
+    }
+
+    /** Applies the original minimum-damage gene to an entity outside the shared parasite base. */
+    public static boolean applyCompatibilityMinimumDamage(LivingEntity attacker, LivingEntity target) {
+        if (attacker instanceof PrimitiveParasiteEntity) {
+            return false;
+        }
+        return applyMinimumDamage(attacker, target, tierOf(attacker).minimumDamage());
+    }
+
+    /**
      * Original {@code EntityParasiteBase#hurt} damage-cap black list: blacklisted damage sources are
      * never reduced to {@code maxHealth / damageCap}.
      */
