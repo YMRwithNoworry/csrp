@@ -849,6 +849,23 @@ public final class MobsConfig {
         return (0.7D + ADAPTED_TOZOON_ADDITIONAL_KNOCKBACK.get()) * TOZOON_KNOCKBACK_MULTIPLIER.get();
     }
 
+    public static double adaptedBurrowerHealth() {
+        return (45.0D + ADAPTED_BURROWER_ADDITIONAL_HEALTH.get()) * BURROWER_HEALTH_MULTIPLIER.get();
+    }
+
+    public static double adaptedBurrowerDamage() {
+        return (15.0D + ADAPTED_BURROWER_ADDITIONAL_DAMAGE.get()) * BURROWER_DAMAGE_MULTIPLIER.get();
+    }
+
+    public static double adaptedBurrowerArmor() {
+        return (9.0D + ADAPTED_BURROWER_ADDITIONAL_ARMOR.get()) * BURROWER_ARMOR_MULTIPLIER.get();
+    }
+
+    public static double adaptedBurrowerKnockbackResistance() {
+        return Math.min(1.0D, (0.7D + ADAPTED_BURROWER_ADDITIONAL_KNOCKBACK.get())
+                * BURROWER_KNOCKBACK_MULTIPLIER.get());
+    }
+
     public static double reekerHealth() {
         return 40.0D * REEKER_HEALTH_MULTIPLIER.get();
     }
@@ -882,7 +899,7 @@ public final class MobsConfig {
     }
 
     public static double yelloweyeNadeDamage() {
-        return 3.5D * YELLOWEYE_ARMOR_MULTIPLIER.get();
+        return 3.5D * YELLOWEYE_DAMAGE_MULTIPLIER.get();
     }
 
     public static float yelloweyeRangedDamage() {

@@ -333,9 +333,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
                 followRange = 32.0D;
             }
             case BURROWER -> {
-                health = 115.0D;
-                armor = 24.0D;
-                damage = 45.0D;
+                health = 95.0D;
+                armor = 16.0D;
+                damage = 27.0D;
                 speed = 0.32D;
                 knockbackResistance = 1.0D;
                 followRange = 32.0D;
@@ -441,7 +441,10 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             case ARACHNIDA -> applyConfiguredAttributes(
                     MobsConfig.adaptedArachnidaHealth(), MobsConfig.adaptedArachnidaArmor(),
                     MobsConfig.adaptedArachnidaDamage(), MobsConfig.adaptedArachnidaKnockbackResistance());
-            case BURROWER, TOZOON -> applyConfiguredAttributes(
+            case BURROWER -> applyConfiguredAttributes(
+                    MobsConfig.adaptedBurrowerHealth(), MobsConfig.adaptedBurrowerArmor(),
+                    MobsConfig.adaptedBurrowerDamage(), MobsConfig.adaptedBurrowerKnockbackResistance());
+            case TOZOON -> applyConfiguredAttributes(
                     MobsConfig.adaptedTozoonHealth(), MobsConfig.adaptedTozoonArmor(),
                     MobsConfig.adaptedTozoonDamage(),
                     Math.min(1.0D, MobsConfig.adaptedTozoonConfiguredKnockbackResistance()));
@@ -877,7 +880,8 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         if (activeKind() != Kind.BOLSTER) {
             return super.applyScaryOrbEffect(target, nearbyEntities);
         }
-        if (target == this || target instanceof Player player && player.getAbilities().instabuild) {
+        if (target == this || target instanceof Player player && player.getAbilities().instabuild
+                || target instanceof DerivedParasiteEntity derived && derived.isShadowClone()) {
             return false;
         }
         if (target instanceof Parasite) {
@@ -2065,14 +2069,18 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     private void registerVerminTargetGoals() {
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, 0,
-                true, false, this::isValidParasiteTarget));
-        targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Mob.class, 0,
-                true, false, this::isValidVerminBaseMobTarget));
+                !ignoresLineOfSight(), false,
+                target -> target instanceof Player player && isValidVerminPlayerTarget(player)));
+        if (Config.mobAttackingEnabled()) {
+            targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Mob.class, 0,
+                    !ignoresLineOfSight(), false, this::isValidVerminBaseMobTarget));
+        }
     }
 
     private boolean isValidVerminBaseMobTarget(LivingEntity target) {
         return isValidParasiteTarget(target) && !(target instanceof WaterAnimal)
-                && !(target instanceof Animal) && !(target instanceof Villager);
+                && !(target instanceof Animal) && !(target instanceof Villager)
+                && isAllowedMobAttackTarget(target);
     }
 
     private boolean isValidVerminFlightMobTarget(LivingEntity target) {
@@ -2540,7 +2548,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             if (++castTicks == 25) {
                 ScaryOrbEntity orb = new ScaryOrbEntity(ModEntities.SCARY_ORB.get(), level(),
                         AdaptedVariantEntity.this);
-                orb.setTimings(20, 10);
+                orb.setTimings(15, 16);
                 orb.setAnchor(position().add(0.0D, getBbHeight() + 1.0D, 0.0D));
                 level().addFreshEntity(orb);
             }

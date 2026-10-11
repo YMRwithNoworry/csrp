@@ -58,6 +58,27 @@ const english = read("src/main/resources/assets/csrp/lang/en_us.json");
 const chinese = read("src/main/resources/assets/csrp/lang/zh_cn.json");
 const soundsJson = parseJson("src/main/resources/assets/csrp/sounds.json");
 
+// The Citadel Tabula model class must expose exactly the bones its geo file
+// declares. ModelTabula_sim_adventurer was once generated from the unrelated
+// ModelMudo (Rupter) source, which left the entity rendering as a Rupter.
+for (const id of ["sim_adventurer", "sim_adventurerhead"]) {
+  const javaPath = `src/main/java/alku/csrp/client/model/tabula/generated/ModelTabula_${id}.java`;
+  const javaSource = read(javaPath);
+  if (!javaSource) continue;
+  const javaBones = new Set(
+    [...javaSource.matchAll(/public AdvancedModelBox (\w+);/gu)].map((match) => match[1]));
+  const geometry = parseJson(`src/main/resources/assets/csrp/geo/${id}.geo.json`);
+  if (!geometry) continue;
+  const geoBones = new Set(geometry["minecraft:geometry"][0].bones.map((bone) => bone.name));
+  geoBones.delete("srp_coordinate_root");
+  for (const bone of geoBones) {
+    if (!javaBones.has(bone)) failures.push(`${id}: Citadel model is missing bone ${bone}`);
+  }
+  for (const bone of javaBones) {
+    if (!geoBones.has(bone)) failures.push(`${id}: Citadel model declares unknown bone ${bone}`);
+  }
+}
+
 const creatures = [
   ["sim_adventurer", "SIM_ADVENTURER", "SIM_ADVENTURER", 64, 55],
   ["sim_adventurerhead", "SIM_ADVENTURER_HEAD", "SIM_ADVENTURER_HEAD", 64, 40],

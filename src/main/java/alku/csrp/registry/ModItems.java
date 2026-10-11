@@ -1113,6 +1113,7 @@ public final class ModItems {
             "evolutionlure_ten", EvolutionLureBlock.Tier.TEN);
 
     public static final RegistryObject<Item> ASSIMILATED_FLESH = simple("assimilated_flesh");
+    public static final RegistryObject<Item> INFECTED_DROP = simple("infected_drop");
     public static final RegistryObject<Item> BONE = simple("bone");
     public static final RegistryObject<Item> BECKON_DROP = simple("beckon_drop");
     public static final RegistryObject<Item> DISPATCHER_DROP = simple("dispatcher_drop");

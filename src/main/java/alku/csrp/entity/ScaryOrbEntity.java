@@ -6,19 +6,30 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import java.util.UUID;
 
 public final class ScaryOrbEntity extends Entity {
     private static final EntityDataAccessor<Boolean> BOLSTER_ORB = SynchedEntityData.defineId(
             ScaryOrbEntity.class, EntityDataSerializers.BOOLEAN);
-    private static final int DEFAULT_START_TICKS = 40;
-    private static final int DEFAULT_FUSE_TICKS = 7;
+    private static final EntityDataAccessor<Float> BURST_SCALE = SynchedEntityData.defineId(
+            ScaryOrbEntity.class, EntityDataSerializers.FLOAT);
+    private static final int DEFAULT_START_TICKS = 30;
+    private static final int DEFAULT_FUSE_TICKS = 11;
+    private static final int ADAPTED_START_TICKS = 15;
+    private static final int ADAPTED_FUSE_TICKS = 16;
     private static final int BURST_TICKS = 35;
     private static final int DISCARD_TICKS = 45;
     private UUID ownerId;
@@ -27,6 +38,10 @@ public final class ScaryOrbEntity extends Entity {
     private int travelTicks;
     private int startTicks = DEFAULT_START_TICKS;
     private int fuseTicks = DEFAULT_FUSE_TICKS;
+    private int burstTicks;
+    private float burstScale = 1.0F;
+    private boolean ignited;
+    private boolean burstApplied;
     private boolean launched;
     private boolean anchored;
     private double anchorX;
@@ -42,6 +57,10 @@ public final class ScaryOrbEntity extends Entity {
     public ScaryOrbEntity(EntityType<? extends ScaryOrbEntity> type, Level level, PrimitiveParasiteEntity owner) {
         this(type, level);
         ownerId = owner.getUUID();
+        if (owner.tier() == ParasiteTier.ADAPTED) {
+            startTicks = ADAPTED_START_TICKS;
+            fuseTicks = ADAPTED_FUSE_TICKS;
+        }
         entityData.set(BOLSTER_ORB, owner instanceof AdaptedVariantEntity adapted && adapted.isAdaptedBolster());
     }
 
@@ -52,11 +71,18 @@ public final class ScaryOrbEntity extends Entity {
     public void setAnchor(Vec3 anchor) {
         launched = false;
         anchored = true;
+        activeTicks = 0;
+        burstTicks = 0;
+        burstScale = 1.0F;
+        ignited = false;
+        burstApplied = false;
+        entityData.set(BURST_SCALE, burstScale);
         anchorX = anchor.x;
         anchorY = anchor.y;
         anchorZ = anchor.z;
         setDeltaMovement(Vec3.ZERO);
         setPos(anchor);
+        refreshDimensions();
     }
 
     public void setTimings(int startTicks, int fuseTicks) {
@@ -70,11 +96,17 @@ public final class ScaryOrbEntity extends Entity {
         anchored = false;
         activeTicks = 0;
         travelTicks = 0;
+        burstTicks = 0;
+        burstScale = 1.0F;
+        ignited = false;
+        burstApplied = false;
+        entityData.set(BURST_SCALE, burstScale);
         targetId = targetEntity == null ? null : targetEntity.getUUID();
         anchorX = target.x;
         anchorY = target.y;
         anchorZ = target.z;
         setPos(start);
+        refreshDimensions();
         Vec3 direction = target.subtract(start);
         setDeltaMovement(direction.lengthSqr() > 0.001D ? direction.normalize().scale(0.55D) : Vec3.ZERO);
     }
@@ -112,36 +144,89 @@ public final class ScaryOrbEntity extends Entity {
             return;
         }
         if (!anchored) return;
-        if (activeTicks < startTicks) {
-            activeTicks++;
+        int age = activeTicks++;
+        if (!ignited) {
+            if (age <= startTicks) {
+                return;
+            }
+            ignited = true;
+        }
+        if (burstApplied) {
+            tickBurst();
             return;
         }
-        int elapsed = activeTicks - startTicks;
-        activeTicks++;
-        if (elapsed % 10 == 0 && owner != null) applyOrbEffects(owner, elapsed % 20 == 0);
-        if (elapsed == fuseTicks + BURST_TICKS && owner != null) burst(owner);
-        if (elapsed >= fuseTicks + DISCARD_TICKS || owner == null || !owner.isAlive()) discard();
+        int activeAge = age - startTicks - 1;
+        if (activeAge >= fuseTicks) {
+            burstApplied = true;
+            burstTicks = 0;
+            burst(owner);
+            return;
+        }
+        if (age % 10 == 0) {
+            applyOrbEffects(owner);
+        }
     }
 
-    private void applyOrbEffects(PrimitiveParasiteEntity owner, boolean damagePulse) {
-        DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(2.5D));
+    private void applyOrbEffects(PrimitiveParasiteEntity owner) {
         List<LivingEntity> targets = level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(2.5D), LivingEntity::isAlive);
+        if (owner == null || !owner.isAlive()) {
+            for (LivingEntity target : targets) {
+                if (target instanceof Player player && !player.getAbilities().instabuild) {
+                    applyOwnerlessCooldown(player);
+                }
+            }
+            return;
+        }
+        DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(2.5D));
         int nearbyEntities = targets.size();
         for (LivingEntity target : targets) {
             owner.applyScaryOrbEffect(target, nearbyEntities);
-            if (damagePulse) {
-                owner.applyScaryOrbMinimumDamage(target, 0.5F);
-            }
+            owner.applyScaryOrbMinimumDamage(target, 0.5F);
         }
     }
 
     private void burst(PrimitiveParasiteEntity owner) {
+        if (owner == null || !owner.isAlive()) {
+            return;
+        }
         DragonEggAssimilationEntity.assimilateDragonEggs(level(), getBoundingBox().inflate(3.0D));
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class,
                 getBoundingBox().inflate(3.0D), LivingEntity::isAlive)) {
             owner.applyScaryOrbMinimumDamage(target, 5.0F);
         }
+    }
+
+    private void applyOwnerlessCooldown(Player player) {
+        Set<Item> cooledItems = new HashSet<>();
+        for (ItemStack stack : player.getInventory().items) {
+            if (!stack.isEmpty() && cooledItems.add(stack.getItem())
+                    && player.getCooldowns().getCooldownPercent(stack.getItem(), 0.0F) <= 0.0F) {
+                player.getCooldowns().addCooldown(stack.getItem(), 100);
+            }
+        }
+        ItemStack offhand = player.getOffhandItem();
+        if (!offhand.isEmpty() && cooledItems.add(offhand.getItem())
+                && player.getCooldowns().getCooldownPercent(offhand.getItem(), 0.0F) <= 0.0F) {
+            player.getCooldowns().addCooldown(offhand.getItem(), 100);
+        }
+    }
+
+    private void tickBurst() {
+        burstTicks++;
+        if (burstTicks > BURST_TICKS) {
+            burstScale = Math.max(0.0F, 1.0F
+                    - (burstTicks - BURST_TICKS) * 0.1F);
+            entityData.set(BURST_SCALE, burstScale);
+            refreshDimensions();
+        }
+        if (burstTicks > DISCARD_TICKS) {
+            discard();
+        }
+    }
+
+    public float burstScale() {
+        return entityData.get(BURST_SCALE);
     }
 
     private PrimitiveParasiteEntity owner() {
@@ -158,6 +243,7 @@ public final class ScaryOrbEntity extends Entity {
 
     @Override protected void defineSynchedData() {
         entityData.define(BOLSTER_ORB, false);
+        entityData.define(BURST_SCALE, 1.0F);
     }
 
     @Override protected void readAdditionalSaveData(CompoundTag tag) {
@@ -167,12 +253,18 @@ public final class ScaryOrbEntity extends Entity {
         travelTicks = tag.getInt("travel_ticks");
         startTicks = tag.contains("start_ticks") ? tag.getInt("start_ticks") : DEFAULT_START_TICKS;
         fuseTicks = tag.contains("fuse_ticks") ? tag.getInt("fuse_ticks") : DEFAULT_FUSE_TICKS;
+        burstTicks = Math.max(0, tag.getInt("burst_ticks"));
+        burstScale = tag.contains("burst_scale") ? tag.getFloat("burst_scale") : 1.0F;
+        ignited = tag.contains("ignited") ? tag.getBoolean("ignited") : activeTicks > startTicks;
+        burstApplied = tag.getBoolean("burst_applied");
         launched = tag.getBoolean("launched");
         anchored = tag.getBoolean("anchored");
         anchorX = tag.getDouble("anchor_x");
         anchorY = tag.getDouble("anchor_y");
         anchorZ = tag.getDouble("anchor_z");
         entityData.set(BOLSTER_ORB, tag.getBoolean("bolster_orb"));
+        entityData.set(BURST_SCALE, burstScale);
+        refreshDimensions();
     }
 
     @Override protected void addAdditionalSaveData(CompoundTag tag) {
@@ -182,11 +274,26 @@ public final class ScaryOrbEntity extends Entity {
         tag.putInt("travel_ticks", travelTicks);
         tag.putInt("start_ticks", startTicks);
         tag.putInt("fuse_ticks", fuseTicks);
+        tag.putInt("burst_ticks", burstTicks);
+        tag.putFloat("burst_scale", burstScale);
+        tag.putBoolean("ignited", ignited);
+        tag.putBoolean("burst_applied", burstApplied);
         tag.putBoolean("launched", launched);
         tag.putBoolean("anchored", anchored);
         tag.putDouble("anchor_x", anchorX);
         tag.putDouble("anchor_y", anchorY);
         tag.putDouble("anchor_z", anchorZ);
         tag.putBoolean("bolster_orb", entityData.get(BOLSTER_ORB));
+    }
+
+    @Override
+    public EntityDimensions getDimensions(Pose pose) {
+        float scale = Math.max(0.01F, burstScale);
+        return EntityDimensions.scalable(0.5F * scale, 0.5F * scale);
+    }
+
+    @Override
+    public boolean isPickable() {
+        return false;
     }
 }

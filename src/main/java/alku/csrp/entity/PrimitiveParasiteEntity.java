@@ -5,9 +5,11 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraft.network.syncher.SynchedEntityData;
 import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
+import alku.csrp.effect.EffectStacking;
 import alku.csrp.entity.ai.BlockLightSearchGoal;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
+import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
@@ -25,6 +27,8 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.Difficulty;
@@ -47,8 +51,13 @@ import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.GameRules;
@@ -64,6 +73,7 @@ import java.util.LinkedHashMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /** Shared 1.12 primitive-parasite state: hostile targeting, kills, and repeated-damage adaptation. */
@@ -83,6 +93,9 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     private static final int DEFAULT_MAX_LEARNABLE_DAMAGE_SOURCES = 5;
     private static final int NEW_DAMAGE_COOLDOWN_TICKS = 20;
     private static final int FIRE_ADAPTATION_BLOCK_TICKS = 10;
+    private static final Set<String> RANDOM_BLOCK_IDS = Set.of(
+            "pri_longarms", "pri_manducater", "pri_reeker", "pri_summoner", "pri_tozoon",
+            "pri_arachnida", "pri_devourer", "pri_vermin", "pri_viscera", "pri_burrower");
     private static final TagKey<DamageType> TACZ_BULLET_DAMAGE = TagKey.create(Registries.DAMAGE_TYPE,
             new ResourceLocation("tacz", "bullets"));
     private static final Map<Class<?>, Optional<Method>> TACZ_BULLET_GUN_ID_METHODS = new ConcurrentHashMap<>();
@@ -98,6 +111,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     private boolean adaptedFormSpawned;
     private int adaptationLearningCooldown;
     private int fireAdaptationBlockTicks;
+    private int regenerationUses = 1;
 
     protected PrimitiveParasiteEntity(EntityType<? extends PrimitiveParasiteEntity> type, Level level) {
         super(type, level);
@@ -144,7 +158,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
             if (currentKills > previousKills) {
                 parasiteKills = Math.max(parasiteKills, currentKills);
                 int requiredKills = requiredAdaptationKills();
-                if (previousKills < requiredKills && currentKills >= requiredKills
+                if (requiredKills >= 0 && previousKills <= requiredKills && currentKills > requiredKills
                         && level() instanceof ServerLevel serverLevel) {
                     onParasiteKill(serverLevel, this, parasiteKills);
                 }
@@ -160,6 +174,40 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
             if (fireAdaptationBlockTicks > 0) {
                 fireAdaptationBlockTicks--;
             }
+            tickRegeneration();
+            tickGrowthTransition();
+        }
+    }
+
+    private void tickRegeneration() {
+        if (tickCount % 20 != 10 || isOnFire() || parasiteKills <= 1
+                || getHealth() <= 0.0F || getHealth() >= getMaxHealth()) {
+            return;
+        }
+        float amount = switch (tier()) {
+            case PRIMITIVE -> 4.0F;
+            case ADAPTED -> 7.0F;
+            default -> 0.0F;
+        };
+        if (amount <= 0.0F) {
+            return;
+        }
+        heal(amount);
+        if (--regenerationUses <= 0) {
+            consumeParasiteKill();
+            regenerationUses = tier() == ParasiteTier.ADAPTED ? 10 : 5;
+        }
+    }
+
+    private void tickGrowthTransition() {
+        if (adaptedFormSpawned || requiredAdaptationKills() < 0 || parasiteKills <= 30) {
+            return;
+        }
+        String path = BuiltInRegistries.ENTITY_TYPE.getKey(getType()).getPath();
+        int period = ("pri_manducater".equals(path) || "pri_yelloweye".equals(path)) ? 21 : 20;
+        int phase = period == 21 ? 10 : 0;
+        if (tickCount % period == phase && level() instanceof ServerLevel serverLevel) {
+            onParasiteKill(serverLevel, this, parasiteKills);
         }
     }
 
@@ -383,8 +431,13 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         goalSelector.addGoal(8, new RandomLookAroundGoal(this));
         if (usesDefaultTargetGoals()) {
             targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
-            targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
-                    true, false, this::isValidParasiteTarget));
+            boolean checkSight = !ignoresLineOfSight();
+            targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, 0,
+                    checkSight, false, target -> target instanceof Player player && isValidPlayerTarget(player)));
+            if (Config.mobAttackingEnabled()) {
+                targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Mob.class, 0,
+                        checkSight, false, this::isValidMobTarget));
+            }
         }
     }
 
@@ -407,6 +460,25 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
                 && (totalSlaughter || !target.hasEffect(ModMobEffects.THE_SIGN.get()));
     }
 
+    private boolean isValidPlayerTarget(Player target) {
+        return isValidParasiteTarget(target) && !target.getAbilities().instabuild && !target.isSpectator();
+    }
+
+    private boolean isValidMobTarget(LivingEntity target) {
+        if (!(target instanceof Mob) || target instanceof Animal || target instanceof WaterAnimal
+                || target instanceof Villager || !isValidParasiteTarget(target)) {
+            return false;
+        }
+        return isAllowedMobAttackTarget(target);
+    }
+
+    protected final boolean isAllowedMobAttackTarget(LivingEntity target) {
+        ResourceLocation id = BuiltInRegistries.ENTITY_TYPE.getKey(target.getType());
+        boolean listed = Config.mobAttackingBlacklist().stream().anyMatch(entry ->
+                entry.indexOf(':') >= 0 ? entry.equals(id.toString()) : entry.equals(id.getNamespace()));
+        return Config.mobAttackingBlacklistInverted() ? listed : !listed;
+    }
+
     @Override
     public boolean hurt(DamageSource source, float amount) {
         lastDamageAdaptationReduction = 0.0F;
@@ -417,6 +489,20 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         Entity direct = source.getDirectEntity();
         if ((attacker instanceof Parasite && attacker != this)
                 || (direct instanceof Parasite && direct != this)) {
+            return false;
+        }
+        if (canRandomBlock(source, amount)) {
+            level().playSound(null, getX(), getY() + getBbHeight() * 0.5D, getZ(),
+                    SoundEvents.SHIELD_BLOCK, SoundSource.HOSTILE, 0.7F,
+                    1.15F + random.nextFloat() * 0.15F);
+            if (level() instanceof ServerLevel serverLevel) {
+                serverLevel.sendParticles(ParticleTypes.CRIT, getX(), getY() + getBbHeight() * 0.6D, getZ(),
+                        6, 0.08D, 0.08D, 0.08D, 0.01D);
+            }
+            if (attacker instanceof LivingEntity living) {
+                setLastHurtByMob(living);
+                setTarget(living);
+            }
             return false;
         }
         MobEffect resistanceEffect = killingResistanceEffect();
@@ -460,6 +546,13 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         return hurt;
     }
 
+    private boolean canRandomBlock(DamageSource source, float amount) {
+        String id = BuiltInRegistries.ENTITY_TYPE.getKey(getType()).getPath();
+        return RANDOM_BLOCK_IDS.contains(id) && amount > 0.0F
+                && !source.is(DamageTypeTags.BYPASSES_ARMOR) && tickCount > 5
+                && random.nextFloat() < 0.10F;
+    }
+
     /** Marker potion this parasite's tier reacts to; null when the tier has no "killing" mark. */
     public MobEffect killingResistanceEffect() {
         if (this instanceof CrudeParasiteEntity) {
@@ -489,12 +582,18 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
                 && !minimumDamageSuppressedByHealth(living)) {
             GenerationCombat.applyMinimumDamage(this, living, generationMinimumDamage());
         }
+        float before = target instanceof LivingEntity living
+                ? living.getHealth() + living.getAbsorptionAmount() : 0.0F;
         boolean hit = !(target instanceof Parasite) && super.doHurtTarget(target);
         if (hit) {
             if (!swinging) {
                 swing(InteractionHand.MAIN_HAND);
             }
             spawnAttackParticles(target);
+            if (target instanceof LivingEntity living && (tier() == ParasiteTier.PRIMITIVE
+                    || tier() == ParasiteTier.ADAPTED)) {
+                ParasiteCombatEffects.applyFearFromDamage(living, before, this);
+            }
         }
         return hit;
     }
@@ -562,9 +661,60 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         if (target == this || target instanceof Player player && player.getAbilities().instabuild) {
             return false;
         }
+        if (target != this && target instanceof DerivedParasiteEntity derived && derived.isShadowClone()) {
+            return false;
+        }
+        if (target instanceof Player player) {
+            player.causeFoodExhaustion(tier() == ParasiteTier.ADAPTED ? 5.0F : 2.5F);
+            applyOrbItemCooldowns(player, tier() == ParasiteTier.ADAPTED ? 200 : 100);
+            contaminateFood(player, tier() == ParasiteTier.ADAPTED ? 5 : 3);
+        }
         InfectionMechanics.applyCothEffect(target, this, 1200, 3, false, false);
-        target.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 100, 0, false, false), this);
+        EffectStacking.apply(target, MobEffects.POISON, 100, 0);
         return true;
+    }
+
+    private void applyOrbItemCooldowns(Player player, int ticks) {
+        Set<Item> cooled = new java.util.HashSet<>();
+        for (ItemStack stack : player.getInventory().items) {
+            if (!stack.isEmpty() && cooled.add(stack.getItem())
+                    && player.getCooldowns().getCooldownPercent(stack.getItem(), 0.0F) <= 0.0F) {
+                player.getCooldowns().addCooldown(stack.getItem(), ticks);
+            }
+        }
+        ItemStack offhand = player.getOffhandItem();
+        if (!offhand.isEmpty() && cooled.add(offhand.getItem())
+                && player.getCooldowns().getCooldownPercent(offhand.getItem(), 0.0F) <= 0.0F) {
+            player.getCooldowns().addCooldown(offhand.getItem(), ticks);
+        }
+    }
+
+    private void contaminateFood(Player player, int maximum) {
+        if (maximum <= 0) {
+            return;
+        }
+        ItemStack food = null;
+        for (ItemStack stack : player.getInventory().items) {
+            if (!stack.isEmpty() && stack.getItem().isEdible()) {
+                food = stack;
+                break;
+            }
+        }
+        if (food == null && player.getOffhandItem().getItem().isEdible()) {
+            food = player.getOffhandItem();
+        }
+        if (food == null) {
+            return;
+        }
+        int amount = random.nextInt(maximum) + 1;
+        int consumed = Math.min(amount, food.getCount());
+        food.shrink(consumed);
+        if (level() instanceof ServerLevel serverLevel) {
+            ItemEntity drop = new ItemEntity(serverLevel, player.getX(), player.getY(), player.getZ(),
+                    new ItemStack(ModItems.INFECTED_DROP.get(), consumed));
+            drop.setDefaultPickUpDelay();
+            serverLevel.addFreshEntity(drop);
+        }
     }
 
     public float scaryOrbMinimumDamage() {
@@ -837,7 +987,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
 
     protected void onParasiteKill(ServerLevel level, LivingEntity victim, int kills) {
         int requiredKills = requiredAdaptationKills();
-        if (kills < requiredKills || adaptedFormSpawned || isRemoved()) {
+        if (requiredKills < 0 || kills <= requiredKills || adaptedFormSpawned || isRemoved()) {
             return;
         }
         Mob adapted = createAdaptedForm(level);
@@ -860,22 +1010,23 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
     }
 
     private int requiredAdaptationKills() {
-        return getType() == ModEntities.PRI_BOLSTER.get() ? 30 : 10;
+        EntityType<?> type = getType();
+        return type == ModEntities.PRI_LONGARMS.get() || type == ModEntities.PRI_SUMMONER.get()
+                || type == ModEntities.PRI_VISCERA.get()
+                || type == ModEntities.PRI_ARACHNIDA.get() || type == ModEntities.PRI_BOLSTER.get()
+                || type == ModEntities.PRI_MANDUCATER.get() || type == ModEntities.PRI_REEKER.get()
+                || type == ModEntities.PRI_YELLOWEYE.get() ? 30 : -1;
     }
 
     private Mob createAdaptedForm(ServerLevel level) {
         EntityType<?> type = getType();
         if (type == ModEntities.PRI_LONGARMS.get()) return ModEntities.ADA_LONGARMS.get().create(level);
         if (type == ModEntities.PRI_SUMMONER.get()) return ModEntities.ADA_SUMMONER.get().create(level);
-        if (type == ModEntities.PRI_VERMIN.get()) return ModEntities.ADA_VERMIN.get().create(level);
         if (type == ModEntities.PRI_VISCERA.get()) return ModEntities.ADA_VISCERA.get().create(level);
         if (type == ModEntities.PRI_ARACHNIDA.get()) return ModEntities.ADA_ARACHNIDA.get().create(level);
         if (type == ModEntities.PRI_BOLSTER.get()) return ModEntities.ADA_BOLSTER.get().create(level);
-        if (type == ModEntities.PRI_BURROWER.get()) return ModEntities.ADA_BURROWER.get().create(level);
-        if (type == ModEntities.PRI_DEVOURER.get()) return ModEntities.ADA_DEVOURER.get().create(level);
         if (type == ModEntities.PRI_MANDUCATER.get()) return ModEntities.ADA_MANDUCATER.get().create(level);
         if (type == ModEntities.PRI_REEKER.get()) return ModEntities.ADA_REEKER.get().create(level);
-        if (type == ModEntities.PRI_TOZOON.get()) return ModEntities.ADA_TOZOON.get().create(level);
         if (type == ModEntities.PRI_YELLOWEYE.get()) return ModEntities.ADA_YELLOWEYE.get().create(level);
         return null;
     }
@@ -918,6 +1069,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         tag.putInt(KILLS_TAG, parasiteKills);
         tag.putDouble(LEGACY_KILLCOUNT_TAG, legacyKillCount);
         tag.putBoolean(COLONY_SPAWNED_TAG, colonySpawned);
+        tag.putInt("regeneration_uses", regenerationUses);
         ListTag adaptations = new ListTag();
         damageAdaptations.forEach((id, hits) -> {
             CompoundTag entry = new CompoundTag();
@@ -934,6 +1086,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements GeoEnti
         parasiteKills = tag.getInt(KILLS_TAG);
         legacyKillCount = tag.contains(LEGACY_KILLCOUNT_TAG) ? tag.getDouble(LEGACY_KILLCOUNT_TAG) : parasiteKills;
         colonySpawned = tag.getBoolean(COLONY_SPAWNED_TAG);
+        regenerationUses = tag.contains("regeneration_uses") ? Math.max(1, tag.getInt("regeneration_uses")) : 1;
         damageAdaptations.clear();
         for (Tag raw : tag.getList(ADAPTATIONS_TAG, Tag.TAG_COMPOUND)) {
             CompoundTag entry = (CompoundTag) raw;

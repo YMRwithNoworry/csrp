@@ -13,10 +13,16 @@ let source_files = ($source_result.stdout | lines)
 
 let source_records = ($source_files | each {|file|
     let raw = (open --raw $file)
-    if not ($raw | str contains "extends ModelSRP") {
+    # Some infected models extend SRPModelArmorBase, which itself extends
+    # ModelSRP and contributes two extra ModelRenderer fields. Skipping those
+    # made the scorer fall back to an unrelated model (ModelInfPlayer used to
+    # be generated from ModelMudo), so accept both bases.
+    let armor_base = ($raw | str contains "extends SRPModelArmorBase")
+    if not ($raw | str contains "extends ModelSRP") and not $armor_base {
         return null
     }
-    let fields = ($raw | parse -r "public ModelRenderer (?<name>[A-Za-z0-9_]+);" | get name | uniq)
+    let declared = ($raw | parse -r "public ModelRenderer (?<name>[A-Za-z0-9_]+);" | get name | uniq)
+    let fields = (if $armor_base { $declared | append [jointH jointLL] | uniq } else { $declared })
     {path: $file, fields: $fields}
 } | compact)
 
