@@ -5,6 +5,7 @@ import alku.csrp.config.ClientConfig;
 import alku.csrp.config.GeneralConfig;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.config.WorldConfig;
+import alku.csrp.item.ItemMobSpawner;
 
 import alku.csrp.entity.BuglinEvolutionTarget;
 import alku.csrp.entity.ManglerEvolutionTarget;
@@ -138,6 +139,7 @@ public final class Csrp {
                         output.accept(ModItems.ABO_BODIES_SPAWN_EGG.get());
                         output.accept(ModItems.ABO_HEAD_SPAWN_EGG.get());
                         ModItems.ITEMS.getEntries().stream()
+                                .filter(item -> !(item.get() instanceof ItemMobSpawner))
                                 .filter(item -> item != ModItems.BUGLIN_SPAWN_EGG && item != ModItems.RUPTER_SPAWN_EGG
                                         && item != ModItems.PRI_LONGARMS_SPAWN_EGG && item != ModItems.PRI_SUMMONER_SPAWN_EGG
                                         && item != ModItems.PRI_VERMIN_SPAWN_EGG && item != ModItems.PRI_VISCERA_SPAWN_EGG
@@ -362,6 +364,12 @@ public final class Csrp {
             event.accept(ModItems.ROOTERBALL_SPAWN_EGG.get());
             event.accept(ModItems.ABO_BODIES_SPAWN_EGG.get());
             event.accept(ModItems.ABO_HEAD_SPAWN_EGG.get());
+            var entries = event.getEntries().iterator();
+            while (entries.hasNext()) {
+                if (entries.next().getKey().getItem() instanceof ItemMobSpawner) {
+                    entries.remove();
+                }
+            }
         }
     }
 }
