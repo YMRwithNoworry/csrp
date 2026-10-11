@@ -11,20 +11,20 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/** Adds the CSRP world-options entry to vanilla's More tab. */
-@Mixin(targets = "net.minecraft.client.gui.screens.worldselection.CreateWorldScreen$MoreTab")
-public abstract class CreateWorldMoreTabMixin extends GridLayoutTab {
-    protected CreateWorldMoreTabMixin(Component title) {
+/** Adds the CSRP entry to the vanilla World options tab. */
+@Mixin(targets = "net.minecraft.client.gui.screens.worldselection.CreateWorldScreen$WorldTab")
+public abstract class CreateWorldWorldTabMixin extends GridLayoutTab {
+    protected CreateWorldWorldTabMixin(Component title) {
         super(title);
     }
 
     @Inject(method = "<init>", at = @At("RETURN"), require = 1)
     private void csrp$addWorldOptions(CreateWorldScreen parent, CallbackInfo callback) {
-        // GridLayout coordinates are row, column. Vanilla MoreTab occupies rows 0-2;
-        // add a complete fourth row so the entry stays below the vanilla controls.
+        // WorldTab uses rows 0-2 for vanilla controls. A new row keeps the entry clear
+        // of the seed and generation settings while the tab layout handles resizing.
         layout.addChild(Button.builder(Component.translatable("options.csrp.world_options"),
                         button -> Minecraft.getInstance().setScreen(new SrpWorldOptionsScreen(parent)))
-                .width(210)
-                .build(), 3, 0, 1, 1);
+                .width(310)
+                .build(), 3, 0, 1, 2);
     }
 }
