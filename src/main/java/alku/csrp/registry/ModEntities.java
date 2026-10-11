@@ -515,7 +515,7 @@ public final class ModEntities {
                     .build(new ResourceLocation(Csrp.MODID, "scary_orb").toString()));
     public static final RegistryObject<EntityType<VoidOrbEntity>> VOID_ORB =
             ENTITIES.register("orbvoid", () -> EntityType.Builder.<VoidOrbEntity>of(VoidOrbEntity::new, MobCategory.MISC)
-                    .sized(0.5F, 0.5F).clientTrackingRange(16).updateInterval(1)
+                    .sized(0.5F, 0.5F).clientTrackingRange(64).updateInterval(1)
                     .build(new ResourceLocation(Csrp.MODID, "orbvoid").toString()));
     public static final RegistryObject<EntityType<ParasiticScentEntity>> SCENT =
             ENTITIES.register("scent", () -> EntityType.Builder

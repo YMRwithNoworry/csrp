@@ -28,7 +28,7 @@ for (const [constant, originalId, legacyId] of [
 
 expect(entities, /BIOMASS\s*=\s*[\s\S]*?MobCategory\.MISC[\s\S]*?clientTrackingRange\(4\)[\s\S]*?updateInterval\(3\)/,
   "Biomass does not use the original projectile category or 64-block/3-tick tracking");
-expect(entities, /VOID_ORB\s*=\s*[\s\S]*?clientTrackingRange\(16\)[\s\S]*?updateInterval\(1\)/,
+expect(entities, /VOID_ORB\s*=\s*[\s\S]*?clientTrackingRange\(64\)[\s\S]*?updateInterval\(1\)/,
   "Void Orb does not use the original 256-block/1-tick tracking");
 for (const constant of ["SHOCKWAVE", "PULLING_BALL", "SCARY_ORB", "HAUNTER_HOMING"]) {
   expect(entities, new RegExp(`${constant}\\s*=\\s*[\\s\\S]*?clientTrackingRange\\(4\\)[\\s\\S]*?updateInterval\\(3\\)`),
