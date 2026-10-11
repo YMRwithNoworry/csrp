@@ -9,7 +9,7 @@
   "client": [
     "client.ChatComponentMixin",
     "client.CreateWorldScreenMixin",
-    "client.CreateWorldWorldTabMixin",
+    "client.CreateWorldMoreTabMixin",
     "client.FontMixin",
     "client.GuiMixin",
     "client.SignRendererMixin"

@@ -13,15 +13,18 @@ import java.util.Map;
 import java.util.WeakHashMap;
 import net.minecraft.client.gui.components.CycleButton;
 import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.client.gui.layouts.GridLayout;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.worldselection.CreateWorldScreen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
-/** Keeps world selections on the create-world screen while its world tab edits them. */
+/** Keeps world selections on the create-world screen while a dedicated page edits them. */
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class SrpDifficultyScreenEvents {
+    private static final ResourceLocation METEOR_ORBIT = new ResourceLocation(Csrp.MODID,
+            "textures/gui/worldsettings/meteor_orbit.png");
     private static final Map<CreateWorldScreen, SrpDifficulty> SELECTIONS = new WeakHashMap<>();
     private static final Map<CreateWorldScreen, SrpStarType> STAR_SELECTIONS = new WeakHashMap<>();
     private static final Map<CreateWorldScreen, Boolean> METEOR_SELECTIONS = new WeakHashMap<>();
@@ -31,85 +34,94 @@ public final class SrpDifficultyScreenEvents {
     private SrpDifficultyScreenEvents() {
     }
 
-    /** Adds a full-width block below vanilla's world controls. */
-    public static void addWorldTabSelectors(GridLayout layout, CreateWorldScreen screen) {
-        GridLayout options = new GridLayout().rowSpacing(4);
-        GridLayout.RowHelper rows = options.createRowHelper(1);
-        int width = 310;
+    public static void addSelectors(SrpWorldOptionsScreen options, CreateWorldScreen screen) {
+        int width = Math.min(310, Math.max(120, options.width - 20));
+        int leftX = (options.width - width) / 2;
+        int firstY = Math.max(36, (options.height - 120) / 2);
 
         SrpDifficulty selected = SELECTIONS.getOrDefault(screen, SrpDifficulty.NORMAL);
         CycleButton<SrpDifficulty> selector = CycleButton.<SrpDifficulty>builder(
                         difficulty -> Component.translatable(difficulty.translationKey()))
                 .withValues(List.of(SrpDifficulty.values()))
                 .withInitialValue(selected)
-                .create(0, 0, width, 20,
+                .create(leftX, firstY, width, 20,
                         Component.translatable("options.csrp.difficulty"),
                         (button, difficulty) -> {
                             SELECTIONS.put(screen, difficulty);
                             updateTooltip(button, difficulty);
                         });
         updateTooltip(selector, selected);
-        rows.addChild(selector);
+        options.addOption(selector);
 
         SrpStarType selectedStar = STAR_SELECTIONS.getOrDefault(screen, SrpStarType.NORMAL);
         CycleButton<SrpStarType> starSelector = CycleButton.<SrpStarType>builder(
                         starType -> Component.translatable(starType.translationKey()))
                 .withValues(List.of(SrpStarType.values()))
                 .withInitialValue(selectedStar)
-                .create(0, 0, width, 20,
+                .create(leftX, firstY + 24, width, 20,
                         Component.translatable("options.csrp.star_type"),
                         (button, starType) -> {
                             STAR_SELECTIONS.put(screen, starType);
                             updateStarTooltip(button, starType);
                         });
         updateStarTooltip(starSelector, selectedStar);
-        rows.addChild(starSelector);
+        options.addOption(starSelector);
 
         boolean meteorsEnabled = METEOR_SELECTIONS.getOrDefault(screen, WorldConfig.meteorsEnabled());
         CycleButton<Boolean> meteorSelector = CycleButton.<Boolean>builder(enabled -> Component.translatable(
                         enabled ? "options.csrp.meteors.enabled" : "options.csrp.meteors.disabled"))
                 .withValues(List.of(Boolean.TRUE, Boolean.FALSE))
                 .withInitialValue(meteorsEnabled)
-                .create(0, 0, width, 20,
+                .create(leftX, firstY + 48, width, 20,
                         Component.translatable("options.csrp.meteors"),
                         (button, enabled) -> {
                             METEOR_SELECTIONS.put(screen, enabled);
                             updateMeteorTooltip(button, enabled);
                         });
         updateMeteorTooltip(meteorSelector, meteorsEnabled);
-        rows.addChild(meteorSelector);
+        options.addOption(meteorSelector);
 
         boolean fracturedEnabled = FRACTURED_SELECTIONS.getOrDefault(screen, WorldConfig.fracturedTerrainEnabled());
         CycleButton<Boolean> fracturedSelector = CycleButton.<Boolean>builder(enabled -> Component.translatable(
                         enabled ? "options.csrp.fractured_terrain.enabled" : "options.csrp.fractured_terrain.disabled"))
                 .withValues(List.of(Boolean.TRUE, Boolean.FALSE))
                 .withInitialValue(fracturedEnabled)
-                .create(0, 0, width, 20,
+                .create(leftX, firstY + 72, width, 20,
                         Component.translatable("options.csrp.fractured_terrain"),
                         (button, enabled) -> {
                             FRACTURED_SELECTIONS.put(screen, enabled);
                             updateToggleTooltip(button, enabled, "options.csrp.fractured_terrain");
                         });
         updateToggleTooltip(fracturedSelector, fracturedEnabled, "options.csrp.fractured_terrain");
-        rows.addChild(fracturedSelector);
+        options.addOption(fracturedSelector);
 
         boolean mushroomEnabled = MUSHROOM_SELECTIONS.getOrDefault(screen, WorldConfig.mushroomTreesEnabled());
         CycleButton<Boolean> mushroomSelector = CycleButton.<Boolean>builder(enabled -> Component.translatable(
                         enabled ? "options.csrp.mushroom_trees.enabled" : "options.csrp.mushroom_trees.disabled"))
                 .withValues(List.of(Boolean.TRUE, Boolean.FALSE))
                 .withInitialValue(mushroomEnabled)
-                .create(0, 0, width, 20,
+                .create(leftX, firstY + 96, width, 20,
                         Component.translatable("options.csrp.mushroom_trees"),
                         (button, enabled) -> {
                             MUSHROOM_SELECTIONS.put(screen, enabled);
                             updateToggleTooltip(button, enabled, "options.csrp.mushroom_trees");
                         });
         updateToggleTooltip(mushroomSelector, mushroomEnabled, "options.csrp.mushroom_trees");
-        rows.addChild(mushroomSelector);
+        options.addOption(mushroomSelector);
+    }
 
-        // WorldTab's vanilla grid has rows 0-2. Span both columns so the CSRP
-        // buttons form one stable block below the seed and generation controls.
-        layout.addChild(options, 3, 0, 1, 2);
+    public static void renderMeteorPreview(SrpWorldOptionsScreen options, CreateWorldScreen screen,
+            GuiGraphics graphics) {
+        if (!METEOR_SELECTIONS.getOrDefault(screen, WorldConfig.meteorsEnabled())) {
+            return;
+        }
+
+        int width = Math.min(310, Math.max(120, options.width - 20));
+        int x = (options.width - width) / 2 - 36;
+        int y = Math.max(36, (options.height - 120) / 2) + 48;
+        if (x >= 2) {
+            graphics.blit(METEOR_ORBIT, x, y, 0.0F, 0.0F, 32, 32, 32, 32);
+        }
     }
 
     public static void stageSelection(CreateWorldScreen screen) {
