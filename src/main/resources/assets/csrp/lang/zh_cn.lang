@@ -1,6 +1,8 @@
 
 ##Entities
 
+message.csrp.early_infection_warning=光照之外有什么东西正在移动……
+
 entity.csrp.scent.name=循质袭击
 
 entity.csrp.abo_bodies.name=缀合多体

@@ -328,6 +328,9 @@ public final class NaturalSpawnTables {
     private static List<MobSpawnSettings.SpawnerData> scaledWeights(
             List<MobSpawnSettings.SpawnerData> entries) {
         double multiplier = WorldConfig.naturalSpawnWeightMultiplier();
+        if (Config.earlyThreatPreset() && (entries == PHASE_MINUS_ONE || entries == PHASE_ZERO)) {
+            multiplier *= Config.earlySpawnWeightMultiplier();
+        }
         if (multiplier == 1.0D || entries.isEmpty()) {
             return entries;
         }

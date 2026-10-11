@@ -20,7 +20,8 @@ public final class SrpWorldData extends SavedData {
     private static final String DATA_NAME = "csrp_world_data";
     // 7: the generation timer moved from the per-second counter "generation_ticks" to the absolute
     // world total time "generation_started_at" at which the current generation started.
-    private static final int DATA_VERSION = 7;
+    // 8: early threat event scheduling fields are persisted alongside the existing world state.
+    private static final int DATA_VERSION = 8;
     private static final int[] DISLODGMENT_PHASE_COOLDOWN_MULTIPLIER = {1, 4, 3, 3, 4, 5, 6, 7, 8, 9, 10};
     /** Upper bound kept on the stored generation start time so the command math cannot overflow. */
     private static final long MAX_GENERATION_CLOCK = Long.MAX_VALUE / 2L;
@@ -56,6 +57,9 @@ public final class SrpWorldData extends SavedData {
     private boolean eveMode;
     private long dislodgmentTriggerCooldownEnd;
     private long reinforcementCooldownEnd;
+    private long earlyEventCooldownEnd;
+    private long earlyEventWarningEnd;
+    private BlockPos earlyEventPosition = BlockPos.ZERO;
     private final List<Integer> lockedParasites = new ArrayList<>();
     private final List<NodeEntry> nodes = new ArrayList<>();
     private final List<ColonyEntry> colonies = new ArrayList<>();
@@ -115,6 +119,12 @@ public final class SrpWorldData extends SavedData {
         data.eveMode = tag.getBoolean("eve_mode");
         data.dislodgmentTriggerCooldownEnd = tag.getLong("dislodgment_trigger_cooldown_end");
         data.reinforcementCooldownEnd = tag.getLong("reinforcement_cooldown_end");
+        data.earlyEventCooldownEnd = tag.getLong("early_event_cooldown_end");
+        data.earlyEventWarningEnd = tag.getLong("early_event_warning_end");
+        if (tag.contains("early_event_x")) {
+            data.earlyEventPosition = new BlockPos(tag.getInt("early_event_x"), tag.getInt("early_event_y"),
+                    tag.getInt("early_event_z"));
+        }
         long[] dislodgmentCooldowns = tag.getLongArray("dislodgment_cooldown_ends");
         System.arraycopy(dislodgmentCooldowns, 0, data.dislodgmentCooldownEnds, 0,
                 Math.min(dislodgmentCooldowns.length, data.dislodgmentCooldownEnds.length));
@@ -153,6 +163,11 @@ public final class SrpWorldData extends SavedData {
         tag.putBoolean("eve_mode", eveMode);
         tag.putLong("dislodgment_trigger_cooldown_end", dislodgmentTriggerCooldownEnd);
         tag.putLong("reinforcement_cooldown_end", reinforcementCooldownEnd);
+        tag.putLong("early_event_cooldown_end", earlyEventCooldownEnd);
+        tag.putLong("early_event_warning_end", earlyEventWarningEnd);
+        tag.putInt("early_event_x", earlyEventPosition.getX());
+        tag.putInt("early_event_y", earlyEventPosition.getY());
+        tag.putInt("early_event_z", earlyEventPosition.getZ());
         tag.putLongArray("dislodgment_cooldown_ends", dislodgmentCooldownEnds);
         tag.putIntArray("locked_parasites", lockedParasites);
         writeNodes(tag, nodes);
@@ -517,6 +532,36 @@ public final class SrpWorldData extends SavedData {
         return Math.min(Config.colonyTotalPointCap(), colonies.stream().mapToInt(ColonyEntry::points).sum());
     }
 
+    public boolean earlyEventCooldownReady(ServerLevel level) {
+        return level.getGameTime() >= earlyEventCooldownEnd;
+    }
+
+    public boolean earlyEventWarningPending() {
+        return earlyEventWarningEnd > 0L;
+    }
+
+    public boolean earlyEventWarningReady(ServerLevel level) {
+        return earlyEventWarningPending() && level.getGameTime() >= earlyEventWarningEnd;
+    }
+
+    public BlockPos earlyEventPosition() {
+        return earlyEventPosition;
+    }
+
+    public void scheduleEarlyEvent(ServerLevel level, BlockPos position, int warningTicks, int cooldownSeconds) {
+        earlyEventPosition = position.immutable();
+        earlyEventWarningEnd = level.getGameTime() + Math.max(1, warningTicks);
+        earlyEventCooldownEnd = level.getGameTime() + Math.max(1, cooldownSeconds) * 20L;
+        setDirty();
+    }
+
+    public void clearEarlyEventWarning() {
+        if (earlyEventWarningEnd != 0L) {
+            earlyEventWarningEnd = 0L;
+            setDirty();
+        }
+    }
+
     public boolean reinforcementReady(ServerLevel level) {
         return level.getGameTime() >= reinforcementCooldownEnd;
     }
@@ -734,6 +779,9 @@ public final class SrpWorldData extends SavedData {
         passivePointRemainder = 0.0D;
         ubiquitousDevelopment = 0;
         dislodgmentTriggerCooldownEnd = 0L;
+        earlyEventCooldownEnd = 0L;
+        earlyEventWarningEnd = 0L;
+        earlyEventPosition = BlockPos.ZERO;
         // Back to the 1.10.9 creation defaults; fractured terrain stays off unless the star is COLD.
         fracturedTerrain = starType == SrpStarType.COLD;
         mushroomTrees = true;
@@ -780,6 +828,9 @@ public final class SrpWorldData extends SavedData {
         assimilatedEndermen = 0;
         passivePointRemainder = 0.0D;
         cooldownEnd = 0L;
+        earlyEventCooldownEnd = 0L;
+        earlyEventWarningEnd = 0L;
+        earlyEventPosition = BlockPos.ZERO;
         setDirty();
     }
 

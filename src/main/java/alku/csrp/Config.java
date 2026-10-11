@@ -83,6 +83,48 @@ public final class Config {
     private static final ForgeConfigSpec.BooleanValue PARASITE_GEN_RESIDUE = BUILDER
             .comment("Allow adapted parasites to place infested remains while idle.")
             .define("parasiteGenResidue", true);
+    // ------------------------------------------------------------------
+    // Early threat addon - conservative, configurable pressure for the first phase.
+    // ------------------------------------------------------------------
+    private static final ForgeConfigSpec.BooleanValue EARLY_THREAT_PRESET = BUILDER
+            .comment("Enable the enhanced threat preset for the first two evolution phases.",
+                    "Set false for the classic early-game pace.")
+            .define("earlyThreatPreset", true);
+    private static final ForgeConfigSpec.DoubleValue EARLY_EVOLUTION_SPEED = BUILDER
+            .comment("Early evolution speed used by the enhanced preset.",
+                    "1.5 lowers only phase 1 and 2 thresholds to about 67 percent of their original values.")
+            .defineInRange("earlyEvolutionSpeed", 1.5D, 1.0D, 2.0D);
+    private static final ForgeConfigSpec.IntValue EARLY_PHASE_DELAY_SECONDS = BUILDER
+            .comment("Point gain lock after entering phase 1 or 2 in the enhanced preset.",
+                    "This is a short 4 minute breathing window and does not affect later phases.")
+            .defineInRange("earlyPhaseDelaySeconds", 240, 0, 1200);
+    private static final ForgeConfigSpec.DoubleValue EARLY_SPAWN_WEIGHT_MULTIPLIER = BUILDER
+            .comment("Additional natural spawn weight multiplier for the phase -1 and phase 0 tables.")
+            .defineInRange("earlySpawnWeightMultiplier", 1.5D, 1.0D, 3.0D);
+    private static final ForgeConfigSpec.BooleanValue EARLY_EVENT_ENABLED = BUILDER
+            .comment("Allow the warned early infection scout event in the enhanced preset.")
+            .define("earlyEventEnabled", true);
+    private static final ForgeConfigSpec.IntValue EARLY_EVENT_MINIMUM_WORLD_TICKS = BUILDER
+            .comment("Minimum world age before an early scout event can be scheduled.")
+            .defineInRange("earlyEventMinimumWorldTicks", 2400, 0, Integer.MAX_VALUE);
+    private static final ForgeConfigSpec.DoubleValue EARLY_EVENT_CHANCE = BUILDER
+            .comment("Chance per 10-second early event check, after the minimum world age.")
+            .defineInRange("earlyEventChance", 0.12D, 0.0D, 1.0D);
+    private static final ForgeConfigSpec.IntValue EARLY_EVENT_COOLDOWN_SECONDS = BUILDER
+            .comment("World cooldown after an early scout event is scheduled.")
+            .defineInRange("earlyEventCooldownSeconds", 360, 30, 7200);
+    private static final ForgeConfigSpec.IntValue EARLY_EVENT_MAX_SCOUTS = BUILDER
+            .comment("Maximum nearby Buglins created by one early scout event.")
+            .defineInRange("earlyEventMaxScouts", 2, 1, 4);
+    private static final ForgeConfigSpec.IntValue EARLY_EVENT_MINIMUM_DISTANCE = BUILDER
+            .comment("Minimum distance from a player for the early scout warning and spawn.")
+            .defineInRange("earlyEventMinimumDistance", 18, 12, 64);
+    private static final ForgeConfigSpec.IntValue EARLY_EVENT_MAXIMUM_DISTANCE = BUILDER
+            .comment("Maximum distance from a player for the early scout warning and spawn.")
+            .defineInRange("earlyEventMaximumDistance", 30, 18, 96);
+    private static final ForgeConfigSpec.IntValue EARLY_EVENT_LOCAL_CAP = BUILDER
+            .comment("Nearby parasite count which suppresses an early scout event.")
+            .defineInRange("earlyEventLocalCap", 3, 1, 32);
 
     // ------------------------------------------------------------------
     // Evolution Phases - original SRP "Phase # Delay" options.
@@ -1118,14 +1160,42 @@ public final class Config {
             return 0;
         }
         List<? extends Integer> delays = PHASE_DELAY_SECONDS.get();
-        if (phase >= delays.size()) {
-            return 0;
+        if (phase < delays.size()) {
+            Integer seconds = delays.get(phase);
+            if (seconds != null && seconds > 0) {
+                return seconds;
+            }
         }
-        Integer seconds = delays.get(phase);
-        return seconds == null ? 0 : Math.max(0, seconds);
+        if (phase == 1 || phase == 2) {
+            return earlyPhaseDelaySeconds();
+        }
+        return 0;
     }
 
     public static boolean generationEnabled() { return GENERATION_ENABLED.get(); }
+    public static boolean earlyThreatPreset() { return EARLY_THREAT_PRESET.get(); }
+    public static double earlyEvolutionSpeed() {
+        return EARLY_THREAT_PRESET.get() ? EARLY_EVOLUTION_SPEED.get() : 1.0D;
+    }
+    public static double earlySpawnWeightMultiplier() {
+        return EARLY_THREAT_PRESET.get() ? EARLY_SPAWN_WEIGHT_MULTIPLIER.get() : 1.0D;
+    }
+    public static int earlyPhaseDelaySeconds() {
+        return EARLY_THREAT_PRESET.get() ? EARLY_PHASE_DELAY_SECONDS.get() : 0;
+    }
+    public static boolean earlyEventEnabled() {
+        return EARLY_THREAT_PRESET.get() && EARLY_EVENT_ENABLED.get();
+    }
+    public static int earlyEventMinimumWorldTicks() { return EARLY_EVENT_MINIMUM_WORLD_TICKS.get(); }
+    public static double earlyEventChance() { return EARLY_EVENT_CHANCE.get(); }
+    public static int earlyEventCooldownSeconds() { return EARLY_EVENT_COOLDOWN_SECONDS.get(); }
+    public static int earlyEventMaxScouts() { return EARLY_EVENT_MAX_SCOUTS.get(); }
+    public static int earlyEventMinimumDistance() { return EARLY_EVENT_MINIMUM_DISTANCE.get(); }
+    public static int earlyEventMaximumDistance() {
+        return Math.max(EARLY_EVENT_MINIMUM_DISTANCE.get(), EARLY_EVENT_MAXIMUM_DISTANCE.get());
+    }
+    public static int earlyEventLocalCap() { return EARLY_EVENT_LOCAL_CAP.get(); }
+
     public static int generationDefaultValue() { return GENERATION_DEFAULT_VALUE.get(); }
     public static List<? extends String> generationDimensionStartingList() {
         return GENERATION_DIMENSION_STARTING_LIST.get();

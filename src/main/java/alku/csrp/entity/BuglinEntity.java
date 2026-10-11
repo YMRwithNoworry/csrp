@@ -22,13 +22,16 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
 import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
@@ -107,6 +110,10 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
     @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
+        if (Config.earlyThreatPreset()) {
+            goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.1D, true));
+            targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        }
         goalSelector.addGoal(1, new AvoidEntityGoal<>(this, LivingEntity.class, 8.0F, 1.0, 1.0,
                 this::shouldAvoid));
         goalSelector.addGoal(6, new ParasiteFollowGoal(this));
@@ -120,7 +127,8 @@ public class BuglinEntity extends Monster implements GeoEntity, Parasite {
                 && !(entity instanceof WaterAnimal)
                 && !(entity instanceof Creeper)
                 && !(entity instanceof Parasite)
-                && !(entity instanceof Animal);
+                && !(entity instanceof Animal)
+                && !(Config.earlyThreatPreset() && entity instanceof Player);
     }
 
     @Override

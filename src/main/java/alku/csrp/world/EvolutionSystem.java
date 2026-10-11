@@ -79,7 +79,12 @@ public final class EvolutionSystem {
         if (phase == -1) {
             return -100;
         }
-        return PHASE_THRESHOLDS[Math.max(0, Math.min(10, phase))];
+        int clamped = Math.max(0, Math.min(10, phase));
+        int threshold = PHASE_THRESHOLDS[clamped];
+        if (clamped >= 1 && clamped <= 2) {
+            threshold = (int) Math.max(1L, Math.round(threshold / Config.earlyEvolutionSpeed()));
+        }
+        return threshold;
     }
 
     public static int phaseForPoints(int points) {
@@ -87,7 +92,7 @@ public final class EvolutionSystem {
             return -1;
         }
         int phase = 0;
-        while (phase < 10 && points >= PHASE_THRESHOLDS[phase + 1]) {
+        while (phase < 10 && points >= thresholdForPhase(phase + 1)) {
             phase++;
         }
         return phase;
