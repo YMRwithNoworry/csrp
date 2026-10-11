@@ -28,6 +28,9 @@ public final class ParasiteCombatEvents {
         if (!(attackerEntity instanceof LivingEntity attacker)
                 || !(attacker instanceof Parasite)
                 || attacker instanceof PrimitiveParasiteEntity
+                || attacker instanceof RupterEntity
+                || attacker instanceof FeralEndermanEntity
+                || attacker instanceof SimAdventurerHeadEntity
                 || target instanceof Parasite
                 || !EvolutionSystem.generationProfile(level).minimumDamage()) {
             return;
