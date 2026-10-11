@@ -54,7 +54,7 @@ public final class PrimitiveAdaptedTargetGoal extends Goal {
     @Override
     public boolean canContinueToUse() {
         LivingEntity target = owner.getTarget();
-        if (!isSuitable(target) || owner.distanceToSqr(target) > range() * range()) {
+        if (!isSuitable(target, false) || owner.distanceToSqr(target) > range() * range()) {
             return false;
         }
         if (checkSight && !owner.hasLineOfSight(target)) {
@@ -79,6 +79,7 @@ public final class PrimitiveAdaptedTargetGoal extends Goal {
 
     @Override
     public void stop() {
+        owner.setTarget(null);
         selected = null;
         unseenTicks = 0;
     }
@@ -101,17 +102,12 @@ public final class PrimitiveAdaptedTargetGoal extends Goal {
             if (player.getAbilities().instabuild || !isSuitable(player)) {
                 continue;
             }
-            double horizontalDistance = owner.distanceToSqr(player.getX(), owner.getY(), player.getZ());
-            double adjustedRange = player.isShiftKeyDown() ? range : range;
-            if (player.isInvisible()) {
-                adjustedRange *= 1.0D;
-            }
-            if (horizontalDistance >= adjustedRange * adjustedRange
-                    || Math.abs(player.getY() - owner.getEyeY()) >= range) {
+            double distance = owner.distanceToSqr(player.getX(), owner.getEyeY(), player.getZ());
+            if (!isWithinTargetRange(player, range, distance)) {
                 continue;
             }
-            if (horizontalDistance < bestDistance) {
-                bestDistance = horizontalDistance;
+            if (distance < bestDistance) {
+                bestDistance = distance;
                 best = player;
             }
         }
@@ -121,12 +117,28 @@ public final class PrimitiveAdaptedTargetGoal extends Goal {
     private LivingEntity findMob(double range) {
         AABB area = owner.getBoundingBox().inflate(range);
         List<Mob> candidates = owner.level().getEntitiesOfClass(Mob.class, area,
-                candidate -> isSuitable(candidate));
-        candidates.sort(Comparator.comparingDouble(owner::distanceToSqr));
+                candidate -> isSuitable(candidate)
+                        && isWithinTargetRange(candidate, range, distanceFromSearchOrigin(candidate)));
+        candidates.sort(Comparator.comparingDouble(this::distanceFromSearchOrigin));
         return candidates.isEmpty() ? null : candidates.get(0);
     }
 
+    private double distanceFromSearchOrigin(LivingEntity target) {
+        return owner.distanceToSqr(target.getX(), owner.getEyeY(), target.getZ());
+    }
+
+    /** Mirrors vanilla TargetingConditions' visibility-aware search radius. */
+    private boolean isWithinTargetRange(LivingEntity target, double range, double distance) {
+        double visibility = target.getVisibilityPercent(owner);
+        double effectiveRange = Math.max(range * visibility, 2.0D);
+        return distance <= effectiveRange * effectiveRange;
+    }
+
     private boolean isSuitable(LivingEntity target) {
+        return isSuitable(target, checkSight);
+    }
+
+    private boolean isSuitable(LivingEntity target, boolean requireSight) {
         if (target == null || target == owner || !target.isAlive() || target.isSpectator()
                 || owner.isAlliedTo(target) || !owner.isWithinRestriction(target.blockPosition())
                 || !candidateFilter.test(target)) {
@@ -136,6 +148,6 @@ public final class PrimitiveAdaptedTargetGoal extends Goal {
         if (!(target instanceof Player) && id != null && id.toString().contains("srparasites")) {
             return false;
         }
-        return !checkSight || owner.hasLineOfSight(target);
+        return !requireSight || owner.hasLineOfSight(target);
     }
 }

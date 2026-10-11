@@ -8,10 +8,8 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
@@ -24,8 +22,9 @@ import java.util.UUID;
 public final class VoidOrbEntity extends Entity {
     private static final int DEFAULT_START_TICKS = 40;
     private static final int DEFAULT_FUSE_TICKS = 7;
-    private static final int BURST_TICKS = 80;
-    private static final int DISCARD_TICKS = 90;
+    private static final int ACTIVE_DURATION_TICKS = 150;
+    private static final int SHRINK_DURATION_TICKS = 10;
+    private static final int SHRINK_START_TICKS = ACTIVE_DURATION_TICKS - SHRINK_DURATION_TICKS;
     private static final double PULL_RADIUS = 42.0D;
     private static final double PULL_STRENGTH = 0.2D;
     private static final double CENTER_DISTANCE_SQR = 2.0D * 2.0D;
@@ -99,7 +98,6 @@ public final class VoidOrbEntity extends Entity {
         }
 
         if (level().isClientSide) {
-            refreshDimensions();
             spawnPortalParticles();
             return;
         }
@@ -110,24 +108,19 @@ public final class VoidOrbEntity extends Entity {
         }
 
         pullNearbyEntities(owner);
-        if (collapseTicks == 0 && fuseProgress + 1 < getFuseTicks()) {
+        int activeTicks = lifetimeTicks - getStartTicks();
+        if (fuseProgress < getFuseTicks()) {
             fuseProgress++;
-            refreshDimensions();
-        } else if (collapseTicks == 0) {
-            fuseProgress = getFuseTicks();
-            collapseTicks = 1;
-        } else {
-            collapseTicks++;
-            if (collapseTicks > BURST_TICKS) {
-                damageDuringCollapse(owner);
-                if (collapseTicks == BURST_TICKS + 1) {
-                    playSound(ModSounds.ORB_END.get(), 1.0F, 1.0F);
-                }
-                refreshDimensions();
+        }
+        collapseTicks = Math.max(0, activeTicks - getFuseTicks());
+        if (activeTicks > SHRINK_START_TICKS) {
+            damageDuringCollapse(owner, activeTicks - SHRINK_START_TICKS);
+            if (activeTicks == SHRINK_START_TICKS + 1) {
+                playSound(ModSounds.ORB_END.get(), 1.0F, 1.0F);
             }
-            if (collapseTicks > DISCARD_TICKS) {
-                discard();
-            }
+        }
+        if (activeTicks >= ACTIVE_DURATION_TICKS) {
+            discard();
         }
     }
 
@@ -155,19 +148,22 @@ public final class VoidOrbEntity extends Entity {
             }
             if (distanceSqr < DAMAGE_DISTANCE_SQR && owner != null) {
                 target.invulnerableTime = 0;
-                owner.applyMinimumDamage(target, owner.scaryOrbMinimumDamage() / 10.0F);
+                owner.applyMinimumDamage(target, 1.4F);
                 target.hurt(damageSources().fellOutOfWorld(), 10.0F);
                 target.invulnerableTime = 0;
             }
         }
     }
 
-    private void damageDuringCollapse(DerivedParasiteEntity owner) {
+    private void damageDuringCollapse(DerivedParasiteEntity owner, int shrinkTicks) {
         if (owner == null) {
             return;
         }
-        float width = getOrbWidth(getLifetimeTicks());
-        float height = getOrbHeight(getLifetimeTicks());
+        int growthTicks = Math.max(0, getFuseTicks() - 1);
+        float width = Math.max(0.1F,
+                INITIAL_WIDTH + growthTicks * FUSE_WIDTH_GROWTH - shrinkTicks * FUSE_WIDTH_GROWTH);
+        float height = Math.max(0.1F,
+                INITIAL_HEIGHT + growthTicks * FUSE_HEIGHT_GROWTH - shrinkTicks * FUSE_HEIGHT_GROWTH);
         AABB damageBox = new AABB(
                 getX() - width * 0.5D, getY() - height, getZ() - width * 0.5D,
                 getX() + width * 0.5D, getY() + height, getZ() + width * 0.5D);
@@ -175,29 +171,9 @@ public final class VoidOrbEntity extends Entity {
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, damageBox,
                 target -> canPull(target) && isUncovered(target))) {
             target.invulnerableTime = 0;
-            owner.applyMinimumDamage(target, owner.scaryOrbMinimumDamage() * 5.0F);
+            owner.applyMinimumDamage(target, 70.0F);
             target.invulnerableTime = 0;
         }
-    }
-
-    private float getOrbWidth(float lifetimeTicks) {
-        float activeAge = lifetimeTicks - getStartTicks();
-        int growthTicks = Math.min(Math.max(0, (int) Math.floor(activeAge)),
-                Math.max(0, getFuseTicks() - 1));
-        int collapseAge = Math.max(0, (int) Math.floor(activeAge) - getFuseTicks() + 1);
-        int shrinkTicks = Math.max(0, collapseAge - BURST_TICKS);
-        return Math.max(0.1F, INITIAL_WIDTH + growthTicks * FUSE_WIDTH_GROWTH
-                - shrinkTicks * FUSE_WIDTH_GROWTH);
-    }
-
-    private float getOrbHeight(float lifetimeTicks) {
-        float activeAge = lifetimeTicks - getStartTicks();
-        int growthTicks = Math.min(Math.max(0, (int) Math.floor(activeAge)),
-                Math.max(0, getFuseTicks() - 1));
-        int collapseAge = Math.max(0, (int) Math.floor(activeAge) - getFuseTicks() + 1);
-        int shrinkTicks = Math.max(0, collapseAge - BURST_TICKS);
-        return Math.max(0.1F, INITIAL_HEIGHT + growthTicks * FUSE_HEIGHT_GROWTH
-                - shrinkTicks * FUSE_HEIGHT_GROWTH);
     }
 
     private boolean canPull(LivingEntity target) {
@@ -259,19 +235,11 @@ public final class VoidOrbEntity extends Entity {
         if (activeAge <= getFuseTicks()) {
             return 1.0F + activeAge / Math.max(1.0F, getFuseTicks()) * 2.0F;
         }
-        float collapseAge = activeAge - getFuseTicks() + 1.0F;
-        if (collapseAge <= BURST_TICKS) {
+        if (activeAge <= SHRINK_START_TICKS) {
             return 3.0F;
         }
-        float shrinkProgress = (collapseAge - BURST_TICKS)
-                / Math.max(1.0F, DISCARD_TICKS - BURST_TICKS);
+        float shrinkProgress = (activeAge - SHRINK_START_TICKS) / SHRINK_DURATION_TICKS;
         return Math.max(0.1F, 3.0F * (1.0F - shrinkProgress));
-    }
-
-    @Override
-    public EntityDimensions getDimensions(Pose pose) {
-        return EntityDimensions.scalable(getOrbWidth(getLifetimeTicks()),
-                getOrbHeight(getLifetimeTicks()));
     }
 
     @Override
