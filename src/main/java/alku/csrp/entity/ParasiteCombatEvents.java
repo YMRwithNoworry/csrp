@@ -24,6 +24,21 @@ public final class ParasiteCombatEvents {
         }
 
         LivingEntity target = event.getEntity();
+        if (target instanceof Parasite
+                && !(target instanceof PrimitiveParasiteEntity)
+                && EvolutionSystem.generationProfile(level).damageCap()
+                && !event.getSource().is(net.minecraft.tags.DamageTypeTags.IS_FIRE)
+                && !event.getSource().is(net.minecraft.world.damagesource.DamageTypes.FELL_OUT_OF_WORLD)
+                && !GenerationCombat.ignoresDamageCap(event.getSource())
+                && !target.isInvulnerableTo(event.getSource())) {
+            float cappedDamage = GenerationCombat.compatibilityDamageCap(target, event.getAmount());
+            if (cappedDamage < event.getAmount()) {
+                event.setCanceled(true);
+                GenerationCombat.applyCompatibilityCapDamage(target, event.getSource(), cappedDamage);
+                return;
+            }
+        }
+
         Entity attackerEntity = event.getSource().getEntity();
         if (!(attackerEntity instanceof LivingEntity attacker)
                 || !(attacker instanceof Parasite)

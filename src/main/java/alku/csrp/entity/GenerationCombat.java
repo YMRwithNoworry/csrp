@@ -92,12 +92,34 @@ public final class GenerationCombat {
         return ParasiteTier.PRIMITIVE;
     }
 
+    /** Returns the original incoming-damage cap for an entity outside the shared parasite base. */
+    public static float compatibilityDamageCap(LivingEntity entity, float amount) {
+        ParasiteTier tier = tierOf(entity);
+        int divisor = tier.damageCap();
+        if (divisor <= 1) {
+            return amount;
+        }
+        float maximumHealth = entity.getMaxHealth();
+        return Math.min(amount, maximumHealth / divisor + maximumHealth % divisor * 0.5F);
+    }
+
     /** Applies the original minimum-damage gene to an entity outside the shared parasite base. */
     public static boolean applyCompatibilityMinimumDamage(LivingEntity attacker, LivingEntity target) {
         if (attacker instanceof PrimitiveParasiteEntity) {
             return false;
         }
         return applyMinimumDamage(attacker, target, tierOf(attacker).minimumDamage());
+    }
+
+    /** Applies a cap hit after the original source bypassed armor at the cap threshold. */
+    public static void applyCompatibilityCapDamage(LivingEntity target, DamageSource source, float amount) {
+        float absorbed = Math.min(target.getAbsorptionAmount(), amount);
+        target.setAbsorptionAmount(target.getAbsorptionAmount() - absorbed);
+        target.setHealth(target.getHealth() - (amount - absorbed));
+        target.level().broadcastEntityEvent(target, (byte) 2);
+        if (target.getHealth() <= 0.0F) {
+            target.die(source);
+        }
     }
 
     /**
