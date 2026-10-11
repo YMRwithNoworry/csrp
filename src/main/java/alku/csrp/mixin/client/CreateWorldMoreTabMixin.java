@@ -20,11 +20,11 @@ public abstract class CreateWorldMoreTabMixin extends GridLayoutTab {
 
     @Inject(method = "<init>", at = @At("RETURN"), require = 1)
     private void csrp$addWorldOptions(CreateWorldScreen parent, CallbackInfo callback) {
-        // GridLayout coordinates are column, row. Vanilla MoreTab occupies rows 0-2;
+        // GridLayout coordinates are row, column. Vanilla MoreTab occupies rows 0-2;
         // add a complete fourth row so the entry stays below the vanilla controls.
         layout.addChild(Button.builder(Component.translatable("options.csrp.world_options"),
                         button -> Minecraft.getInstance().setScreen(new SrpWorldOptionsScreen(parent)))
                 .width(210)
-                .build(), 0, 3, 1, 1);
+                .build(), 3, 0, 1, 1);
     }
 }
