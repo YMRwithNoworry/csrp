@@ -18,8 +18,7 @@ public final class ScaryOrbRenderer extends EntityRenderer<ScaryOrbEntity> {
             "textures/entity/orbscary.png");
     private static final ResourceLocation AURA_TEXTURE = new ResourceLocation(Csrp.MODID,
             "textures/entity/orbscary_armor.png");
-    private static final float ORB_DIAMETER = 2.4F;
-    private static final float SPHERE_RADIUS = ORB_DIAMETER * 0.5F;
+    private static final float SPHERE_RADIUS = 0.317F;
     private static final int SPHERE_STACKS = 18;
     private static final int SPHERE_SLICES = 18;
     private static final int FULL_BRIGHT = 0xF000F0;
@@ -32,23 +31,18 @@ public final class ScaryOrbRenderer extends EntityRenderer<ScaryOrbEntity> {
     @Override
     public void render(ScaryOrbEntity entity, float entityYaw, float partialTick, PoseStack poseStack,
                        MultiBufferSource bufferSource, int packedLight) {
-        float age = entity.tickCount + partialTick;
-        float appear = Mth.clamp(age / 10.0F, 0.25F, 1.0F);
-        float pulse = 1.0F + Mth.sin(age * 0.3F) * 0.08F;
-        float burstScale = entity.burstScale();
+        float scale = entity.getRenderScale(partialTick);
 
         poseStack.pushPose();
-        poseStack.scale(appear * pulse * burstScale, appear * pulse * burstScale,
-                appear * pulse * burstScale);
-        poseStack.mulPose(Axis.YP.rotation(age * 0.05F));
+        poseStack.scale(scale, scale, scale);
+        poseStack.mulPose(Axis.YP.rotation((entity.tickCount + partialTick) * 0.05F));
         renderSphere(poseStack, bufferSource.getBuffer(RenderType.entityTranslucentEmissive(CORE_TEXTURE)),
                 SPHERE_RADIUS, 1.0F, 1.0F, 1.0F, 220);
         poseStack.popPose();
 
         poseStack.pushPose();
-        poseStack.scale(appear * 1.12F * burstScale, appear * 1.12F * burstScale,
-                appear * 1.12F * burstScale);
-        poseStack.mulPose(Axis.YP.rotation(-age * 0.07F));
+        poseStack.scale(scale * 1.12F, scale * 1.12F, scale * 1.12F);
+        poseStack.mulPose(Axis.YP.rotation(-(entity.tickCount + partialTick) * 0.07F));
         renderSphere(poseStack, bufferSource.getBuffer(RenderType.entityTranslucentEmissive(AURA_TEXTURE)),
                 SPHERE_RADIUS, 1.0F, 1.0F, 1.0F, 135);
         poseStack.popPose();

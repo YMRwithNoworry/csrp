@@ -5,6 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
@@ -21,12 +22,20 @@ public final class ScaryOrbEntity extends Entity {
             ScaryOrbEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Float> BURST_SCALE = SynchedEntityData.defineId(
             ScaryOrbEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> VISUAL_WIDTH = SynchedEntityData.defineId(
+            ScaryOrbEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Float> VISUAL_HEIGHT = SynchedEntityData.defineId(
+            ScaryOrbEntity.class, EntityDataSerializers.FLOAT);
     private static final int DEFAULT_START_TICKS = 40;
     private static final int DEFAULT_FUSE_TICKS = 7;
     private static final int BURST_TICKS = 35;
     private static final int DISCARD_TICKS = 45;
     private static final float INITIAL_WIDTH = 0.5F;
     private static final float INITIAL_HEIGHT = 0.5F;
+    private static final float FUSE_WIDTH_GROWTH = 0.8F;
+    private static final float FUSE_HEIGHT_GROWTH = 0.482F;
+    private static final float BURST_WIDTH_SHRINK = 0.8F;
+    private static final float BURST_HEIGHT_SHRINK = 0.32F;
     private UUID ownerId;
     private UUID targetId;
     private int activeTicks;
@@ -59,13 +68,12 @@ public final class ScaryOrbEntity extends Entity {
         launched = false;
         anchored = true;
         activeTicks = 0;
-        entityData.set(BURST_SCALE, 1.0F);
+        setVisualDimensions(INITIAL_WIDTH, INITIAL_HEIGHT);
         anchorX = anchor.x;
         anchorY = anchor.y;
         anchorZ = anchor.z;
         setDeltaMovement(Vec3.ZERO);
         setPos(anchor);
-        refreshDimensions();
     }
 
     public void setTimings(int startTicks, int fuseTicks) {
@@ -79,7 +87,7 @@ public final class ScaryOrbEntity extends Entity {
         anchored = false;
         activeTicks = 0;
         travelTicks = 0;
-        entityData.set(BURST_SCALE, 1.0F);
+        setVisualDimensions(INITIAL_WIDTH, INITIAL_HEIGHT);
         targetId = targetEntity == null ? null : targetEntity.getUUID();
         anchorX = target.x;
         anchorY = target.y;
@@ -129,6 +137,15 @@ public final class ScaryOrbEntity extends Entity {
         }
         int activeAge = activeTicks - startTicks;
         activeTicks++;
+        if (activeAge > 0 && activeAge < fuseTicks) {
+            setVisualDimensions(getVisualWidth() + FUSE_WIDTH_GROWTH,
+                    getVisualHeight() + FUSE_HEIGHT_GROWTH);
+        } else if (activeAge > fuseTicks + BURST_TICKS) {
+            setVisualDimensions(Math.max(INITIAL_WIDTH,
+                            getVisualWidth() - BURST_WIDTH_SHRINK),
+                    Math.max(INITIAL_HEIGHT,
+                            getVisualHeight() - BURST_HEIGHT_SHRINK));
+        }
         if (activeAge % 10 == 0 && owner != null) {
             applyOrbEffects(owner, activeAge % 20 == 0);
         }
@@ -167,6 +184,35 @@ public final class ScaryOrbEntity extends Entity {
         return entityData.get(BURST_SCALE);
     }
 
+    public float getVisualWidth() {
+        return entityData.get(VISUAL_WIDTH);
+    }
+
+    public float getVisualHeight() {
+        return entityData.get(VISUAL_HEIGHT);
+    }
+
+    /** Matches the original renderer's size curve, including its warm-up and burst bounce. */
+    public float getRenderScale(float partialTick) {
+        float age = tickCount + partialTick;
+        float base = Math.max(getVisualWidth() * 2.0F, getVisualHeight() * 1.9F) * 0.8F;
+        float progress = Mth.clamp(age / 35.0F, 0.0F, 1.0F);
+        progress = progress * progress * (3.0F - 2.0F * progress);
+        float normalScale = base * (0.35F + 0.95F * progress);
+        float bounce = 0.28F * (float) Math.exp(-5.0F * progress)
+                * Mth.sin(10.0F * progress * (float) Math.PI);
+        return Math.max(0.001F, normalScale * (1.0F + bounce));
+    }
+
+    private void setVisualDimensions(float width, float height) {
+        float clampedWidth = Math.max(0.1F, width);
+        float clampedHeight = Math.max(0.1F, height);
+        entityData.set(VISUAL_WIDTH, clampedWidth);
+        entityData.set(VISUAL_HEIGHT, clampedHeight);
+        entityData.set(BURST_SCALE, clampedWidth / INITIAL_WIDTH);
+        refreshDimensions();
+    }
+
     private PrimitiveParasiteEntity owner() {
         if (ownerId == null || !(level() instanceof ServerLevel serverLevel)) return null;
         Entity entity = serverLevel.getEntity(ownerId);
@@ -182,6 +228,8 @@ public final class ScaryOrbEntity extends Entity {
     @Override protected void defineSynchedData() {
         entityData.define(BOLSTER_ORB, false);
         entityData.define(BURST_SCALE, 1.0F);
+        entityData.define(VISUAL_WIDTH, INITIAL_WIDTH);
+        entityData.define(VISUAL_HEIGHT, INITIAL_HEIGHT);
     }
 
     @Override protected void readAdditionalSaveData(CompoundTag tag) {
@@ -197,7 +245,8 @@ public final class ScaryOrbEntity extends Entity {
         anchorY = tag.getDouble("anchor_y");
         anchorZ = tag.getDouble("anchor_z");
         entityData.set(BOLSTER_ORB, tag.getBoolean("bolster_orb"));
-        entityData.set(BURST_SCALE, 1.0F);
+        setVisualDimensions(tag.contains("visual_width") ? tag.getFloat("visual_width") : INITIAL_WIDTH,
+                tag.contains("visual_height") ? tag.getFloat("visual_height") : INITIAL_HEIGHT);
     }
 
     @Override protected void addAdditionalSaveData(CompoundTag tag) {
@@ -213,11 +262,13 @@ public final class ScaryOrbEntity extends Entity {
         tag.putDouble("anchor_y", anchorY);
         tag.putDouble("anchor_z", anchorZ);
         tag.putBoolean("bolster_orb", entityData.get(BOLSTER_ORB));
+        tag.putFloat("visual_width", getVisualWidth());
+        tag.putFloat("visual_height", getVisualHeight());
     }
 
     @Override
     public EntityDimensions getDimensions(Pose pose) {
-        return EntityDimensions.scalable(INITIAL_WIDTH, INITIAL_HEIGHT);
+        return EntityDimensions.scalable(getVisualWidth(), getVisualHeight());
     }
 
     @Override
