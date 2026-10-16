@@ -248,7 +248,9 @@ public final class MeteorEntity extends Entity {
 
     @Override
     public boolean shouldRenderAtSqrDistance(double distance) {
-        return distance < 65536.0D;
+        // The satellite starts near Y=320. Keep it visible throughout the descent instead of
+        // letting the client discover it halfway down and render a large apparent teleport.
+        return distance < 1024.0D * 1024.0D;
     }
 
     @Override

@@ -545,7 +545,8 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<MeteorEntity>> HIVE_SATELLITE =
             ENTITIES.register("meteor", () -> EntityType.Builder
                     .<MeteorEntity>of(MeteorEntity::new, MobCategory.MISC)
-                    .sized(4.5F, 4.5F).clientTrackingRange(16).updateInterval(1)
+                    .sized(4.5F, 4.5F).clientTrackingRange(64).updateInterval(1)
+                    .setShouldReceiveVelocityUpdates(true)
                     .fireImmune()
                     .build(ResourceLocation.fromNamespaceAndPath(Csrp.MODID, "meteor").toString()));
     public static final DeferredHolder<EntityType<?>, EntityType<ParasiteProjectileEntity>> SALIVA_BALL =
