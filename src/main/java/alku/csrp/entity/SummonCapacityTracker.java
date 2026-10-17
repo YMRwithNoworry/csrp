@@ -60,4 +60,9 @@ final class SummonCapacityTracker {
             }
         }
     }
+
+    void copyTo(SummonCapacityTracker target) {
+        target.trackedSummons.clear();
+        target.trackedSummons.putAll(trackedSummons);
+    }
 }

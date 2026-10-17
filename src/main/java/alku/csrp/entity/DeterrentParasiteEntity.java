@@ -101,6 +101,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     private int wormMaximumPayload = 3;
     private final List<String> wormPayloadTypes = new ArrayList<>();
     private UUID dispatchTarget;
+    private UUID dispatcherParentId;
     private String dispatchEntityId;
     private UUID seizerTarget;
     private boolean kyphosisAttackUp = false;
@@ -258,6 +259,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
 
     @Override
     public void die(DamageSource source) {
+        returnStoredParasite();
         super.die(source);
         if (activeKind() == Kind.SEIZER) {
             clearSeizerTarget();
@@ -279,6 +281,9 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         tag.put("deterrent_worm_types", payloadTypes);
         if (dispatchTarget != null) {
             tag.putUUID("deterrent_dispatch_target", dispatchTarget);
+        }
+        if (dispatcherParentId != null) {
+            tag.putUUID("deterrent_dispatcher_parent", dispatcherParentId);
         }
         if (dispatchEntityId != null) {
             tag.putString("deterrent_dispatch_entity", dispatchEntityId);
@@ -314,6 +319,8 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
             wormPayloadTypes.add(payloadTypes.getString(index));
         }
         dispatchTarget = tag.hasUUID("deterrent_dispatch_target") ? tag.getUUID("deterrent_dispatch_target") : null;
+        dispatcherParentId = tag.hasUUID("deterrent_dispatcher_parent")
+                ? tag.getUUID("deterrent_dispatcher_parent") : null;
         dispatchEntityId = tag.contains("deterrent_dispatch_entity")
                 ? tag.getString("deterrent_dispatch_entity") : null;
         seizerTarget = tag.hasUUID("deterrent_seizer_target") ? tag.getUUID("deterrent_seizer_target") : null;
@@ -339,6 +346,18 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
 
     public void setDispatchTarget(LivingEntity target) {
         dispatchTarget = target == null ? null : target.getUUID();
+    }
+
+    public void setDispatcherParent(NexusParasiteEntity parent) {
+        dispatcherParentId = parent == null ? null : parent.getUUID();
+    }
+
+    public void hideForDispatcher() {
+        if (activeKind() == Kind.SENTRY) {
+            setSentryParasiteStatus(9);
+        } else if (activeKind() == Kind.SEIZER || activeKind() == Kind.DISPATCHER_TENTACLE) {
+            setSpecialAction(SpecialAction.DISPATCHER_DEPLOY);
+        }
     }
 
     /** Configures a Dispatcher-created tentacle to deploy a registered parasite type. */
@@ -470,8 +489,12 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
             discard();
             return;
         }
+        if (dispatchEntityId != null) {
+            returnStoredParasite();
+        }
         LivingEntity target = findEntity(dispatchTarget);
         if (target == null || distanceToSqr(target) > 1024.0D) {
+            returnStoredParasite();
             discard();
             return;
         }
@@ -483,6 +506,17 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         }
         level().addParticle(ParticleTypes.PORTAL, getX(), getY() + getBbHeight() * 0.5D, getZ(), 0.0D, 0.2D, 0.0D);
         discard();
+    }
+
+    private void returnStoredParasite() {
+        if (dispatchEntityId == null || dispatcherParentId == null || !(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        Entity parent = serverLevel.getEntity(dispatcherParentId);
+        if (parent instanceof NexusParasiteEntity dispatcher && dispatcher.isAlive()) {
+            dispatcher.recallParasite(dispatchEntityId);
+            dispatchEntityId = null;
+        }
     }
 
     private boolean spawnDispatchedEntity() {
@@ -505,8 +539,35 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
             mob.setHealth(Math.max(1.0F, mob.getMaxHealth() * 0.5F));
             mob.igniteForSeconds(8.0F);
         }
-        serverLevel.addFreshEntity(mob);
+        if (!serverLevel.addFreshEntity(mob)) {
+            mob.discard();
+            return false;
+        }
+        applyDispatcherEffects(mob);
+        dispatchEntityId = null;
         return true;
+    }
+
+    private void applyDispatcherEffects(Mob mob) {
+        int stage = 1;
+        if (dispatcherParentId != null && level() instanceof ServerLevel serverLevel
+                && serverLevel.getEntity(dispatcherParentId) instanceof NexusParasiteEntity dispatcher) {
+            stage = dispatcher.getKind().stage();
+        }
+        int duration = stage * 100;
+        mob.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, duration, stage - 1));
+        mob.addEffect(new MobEffectInstance(ModMobEffects.DEBAR, duration, 0));
+        mob.addEffect(new MobEffectInstance(ModMobEffects.LINK, duration + 100, stage - 1));
+        mob.addEffect(new MobEffectInstance(ModMobEffects.SENSES, duration, stage - 1));
+        if (stage >= 2) {
+            mob.addEffect(new MobEffectInstance(MobEffects.REGENERATION, duration, stage));
+        }
+        if (stage >= 3) {
+            mob.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, duration, stage));
+        }
+        if (stage >= 4) {
+            mob.addEffect(new MobEffectInstance(MobEffects.ABSORPTION, duration, stage));
+        }
     }
 
     private void maintainSeizerGrip() {

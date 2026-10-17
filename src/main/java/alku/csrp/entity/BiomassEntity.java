@@ -95,11 +95,50 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
             return false;
         }
         return spawnBiomass(level, summoner, owner, null, selected.get(), skin,
-                summoner.getTarget(), spawnPosition, summoner.getYRot(), summoner.getXRot());
+                summoner.getTarget(), spawnPosition, summoner.getYRot(), summoner.getXRot(), Vec3.ZERO);
+    }
+
+    public static boolean spawnFromNexus(Mob summoner, SummonCapacityOwner owner, int skin,
+                                         List<SummonOption> options, LivingEntity target) {
+        return spawnFromNexus(summoner, owner, skin, options, target, false);
+    }
+
+    public static boolean spawnFromNexus(Mob summoner, SummonCapacityOwner owner, int skin,
+                                         List<SummonOption> options, LivingEntity target,
+                                         boolean ignoreCapacity) {
+        if (!(summoner.level() instanceof ServerLevel level) || options.isEmpty()) {
+            return false;
+        }
+        Optional<SummonOption> selected = selectSummon(summoner, owner, options, !ignoreCapacity);
+        if (selected.isEmpty()) {
+            return false;
+        }
+        SummonOption option = selected.get();
+        if (ignoreCapacity) {
+            option = new SummonOption(option.type(), option.chance(), 0);
+        }
+
+        Vec3 spawnPosition = summoner.position().add(0.0D, summoner.getEyeHeight(), 0.0D);
+        if (!level.isEmptyBlock(net.minecraft.core.BlockPos.containing(spawnPosition))) {
+            return false;
+        }
+        Vec3 direction = target == null ? summoner.getViewVector(1.0F)
+                : target.getEyePosition().subtract(spawnPosition);
+        if (direction.lengthSqr() < 1.0E-6D) {
+            direction = summoner.getViewVector(1.0F);
+        }
+        Vec3 motion = direction.normalize().scale(0.45D).add(0.0D, 0.18D, 0.0D);
+        return spawnBiomass(level, summoner, owner, null, option, skin,
+                target, spawnPosition, summoner.getYRot(), summoner.getXRot(), motion);
     }
 
     public static Optional<SummonOption> selectSummon(Mob summoner, SummonCapacityOwner owner,
                                                        List<SummonOption> options) {
+        return selectSummon(summoner, owner, options, true);
+    }
+
+    private static Optional<SummonOption> selectSummon(Mob summoner, SummonCapacityOwner owner,
+                                                        List<SummonOption> options, boolean requireCapacity) {
         if (options.isEmpty()) {
             return Optional.empty();
         }
@@ -114,7 +153,8 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
                 return Optional.empty();
             }
             SummonOption option = options.get(index);
-            if (summoner.getRandom().nextDouble() > option.chance() || !owner.canReserveSummon(option.cost())) {
+            if (summoner.getRandom().nextDouble() > option.chance()
+                    || requireCapacity && !owner.canReserveSummon(option.cost())) {
                 index++;
                 continue;
             }
@@ -130,12 +170,13 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
             return false;
         }
         return spawnBiomass(level, summoner, owner, reservationId, option, skin, target,
-                position, yaw, pitch);
+                position, yaw, pitch, Vec3.ZERO);
     }
 
     private static boolean spawnBiomass(ServerLevel level, Mob summoner, SummonCapacityOwner owner,
                                         UUID reservationId, SummonOption option, int skin,
-                                        LivingEntity target, Vec3 position, float yaw, float pitch) {
+                                        LivingEntity target, Vec3 position, float yaw, float pitch,
+                                        Vec3 initialMotion) {
         BiomassEntity biomass = ModEntities.BIOMASS.get().create(level);
         if (biomass == null) {
             if (reservationId != null) {
@@ -145,6 +186,7 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
         }
         biomass.configure(summoner, option.type(), option.cost(), skin, target);
         biomass.moveTo(position.x, position.y, position.z, yaw, pitch);
+        biomass.setDeltaMovement(initialMotion);
         if (summoner.isOnFire()) {
             biomass.igniteForSeconds(8.0F);
         }

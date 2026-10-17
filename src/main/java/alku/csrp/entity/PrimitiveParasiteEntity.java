@@ -892,6 +892,21 @@ public abstract class PrimitiveParasiteEntity extends Monster
         return super.killedEntity(level, victim);
     }
 
+    public void addEvolutionKillCount(double amount) {
+        if (amount <= 0.0D || level().isClientSide) {
+            return;
+        }
+        double previous = legacyKillCount;
+        legacyKillCount += amount;
+        int currentKills = (int) Math.floor(legacyKillCount);
+        int previousKills = (int) Math.floor(previous);
+        parasiteKills = Math.max(parasiteKills, currentKills);
+        int requiredKills = requiredAdaptationKills();
+        if (previousKills < requiredKills && currentKills >= requiredKills && level() instanceof ServerLevel serverLevel) {
+            onParasiteKill(serverLevel, this, parasiteKills);
+        }
+    }
+
     protected void onParasiteKill(ServerLevel level, LivingEntity victim, int kills) {
         int requiredKills = requiredAdaptationKills();
         if (kills < requiredKills || adaptedFormSpawned || isRemoved()) {
