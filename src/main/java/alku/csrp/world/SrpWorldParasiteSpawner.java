@@ -272,9 +272,8 @@ public final class SrpWorldParasiteSpawner {
     }
 
     /**
-     * Original {@code SRPSpawning.getSpawns} plus {@code WeightedRandom.getRandomItem}. Phase and
-     * ubiquitous-development gating, including the phase -1 EIV requirement and the 50% UD roll,
-     * lives in {@link NaturalSpawnTables}.
+     * Original {@code SRPSpawning.getSpawns} plus {@code WeightedRandom.getRandomItem}. The active
+     * dimension's phase table and the phase -1 EIV requirement live in {@link NaturalSpawnTables}.
      */
     private static MobSpawnSettings.SpawnerData pickSpawnEntry(ServerLevel level, BlockPos pos) {
         var entries = NaturalSpawnTables.select(level, pos);

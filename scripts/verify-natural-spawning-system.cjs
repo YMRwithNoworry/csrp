@@ -14,6 +14,14 @@ const events = read("src/main/java/alku/csrp/world/EvolutionEvents.java");
 const system = read("src/main/java/alku/csrp/world/EvolutionSystem.java");
 const common = read("src/main/java/alku/csrp/registry/CommonModEvents.java");
 const entities = read("src/main/java/alku/csrp/registry/ModEntities.java");
+const blocks = read("src/main/java/alku/csrp/registry/ModBlocks.java");
+const blockLanguage = JSON.parse(read("src/main/resources/assets/csrp/lang/zh_cn.json"));
+
+const blockstateDirectory = path.join(root, "src/main/resources/assets/csrp/blockstates");
+for (const filename of fs.readdirSync(blockstateDirectory).filter((name) => name.endsWith(".json"))) {
+  const id = filename.slice(0, -5);
+  expect(Object.hasOwn(blockLanguage, `block.csrp.${id}`), `Block csrp:${id} has no Chinese name`);
+}
 
 const spawnIds = [...tables.matchAll(/spawn\("([a-z0-9_]+)"/g)].map((match) => match[1]);
 for (const id of new Set(spawnIds)) {
@@ -27,19 +35,12 @@ for (const phase of [
 ]) {
   expect(tables.includes(phase), `Natural spawn table ${phase} is missing`);
 }
-for (const development of ["UD_TWO", "UD_THREE", "UD_FOUR"]) {
-  expect(tables.includes(development), `Ubiquitous development table ${development} is missing`);
-}
-
 expectPattern(tables,
   /spawn\("buglin", 2, 6, 30\)/,
   "Phase 0 Buglin group or weight is not original");
 expectPattern(tables,
   /spawn\("pri_devourer", 1, 2, 1\)/,
   "Phase -1 Primitive Devourer group or weight is not original");
-expectPattern(tables,
-  /spawn\("grunt", 3, 6, 30\)[\s\S]*?spawn\("grunt", 6, 10, 40\)/,
-  "UD4 dual Grunt entries are not original");
 expectPattern(tables,
   /PHASE_EIGHT = latePhase\(false, false\)[\s\S]*?PHASE_NINE = latePhase\(true, true\)[\s\S]*?PHASE_TEN = latePhase\(true, false\)/,
   "Late phase Dragon, Architect or preeminent group variants are wrong");
@@ -51,13 +52,15 @@ expectPattern(tables,
   /vector\.health\(\) > 0 && vector\.pos\(\)\.distSqr\(pos\) <= radius \* radius/,
   "Natural spawning does not require a living EIV within its radius");
 expectPattern(tables,
-  /usesUbiquitousTable\(level\)[\s\S]*?getGameTime\(\)[\s\S]*?sample < UBIQUITOUS_TABLE_CHANCE/,
-  "UD 50 percent selection is not stable within a game tick");
-expect(!tables.includes("level.random.nextDouble()"),
-  "UD selection still rerolls whenever spawn candidates are queried");
+  /return phaseEntries\(phase\);/,
+  "Natural spawning can still replace the local phase table with a global development table");
+expect(!tables.includes("ubiquitousEntries") && !tables.includes("usesUbiquitousTable"),
+  "Natural spawning still has a cross-dimension table override");
+expect(!tables.includes("UD_TWO") && !tables.includes("UD_THREE") && !tables.includes("UD_FOUR"),
+  "Cross-stage ubiquitous-development mobs remain in the natural spawn registry");
 expectPattern(tables,
   /canSpawnNaturally\([\s\S]*?contains\(select\(level, pos\), path\)[\s\S]*?crossDimensionUnlocked/,
-  "Position checks do not validate the same selected phase or UD table");
+  "Position checks do not validate the selected phase table");
 
 expectPattern(events,
   /LevelEvent\.PotentialSpawns[\s\S]*?MobCategory\.MONSTER[\s\S]*?removeSpawnerData[\s\S]*?NaturalSpawnTables\.select[\s\S]*?addSpawnerData/,
@@ -73,6 +76,9 @@ expectPattern(system,
 expectPattern(system,
   /path\.equals\("kirin"\)[\s\S]*?Level\.END[\s\S]*?requiredPhase = 7[\s\S]*?path\.equals\("draconite"\)[\s\S]*?Level\.NETHER[\s\S]*?requiredPhase = 7/,
   "Kirin or Draconite cross-dimension phase 7 unlock is missing");
+expectPattern(blocks,
+  /LEGACY_NO_COLLISION_BLOCKS = java\.util\.Set\.of\([\s\S]*?"harlequinn_grass"[\s\S]*?"infestedbush"[\s\S]*?"parasitebush"[\s\S]*?"parasitesapling"[\s\S]*?LEGACY_NO_COLLISION_BLOCKS\.contains\(id\)[\s\S]*?properties\.noCollission\(\)/,
+  "Legacy grass and bush blocks still have full-block collision");
 
 for (const id of ["sim_squid", "pri_devourer", "ada_devourer"]) {
   expect(common.includes(`"${id}"`), `Water spawn id ${id} is missing`);

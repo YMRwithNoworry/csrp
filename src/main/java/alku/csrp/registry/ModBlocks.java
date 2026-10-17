@@ -1074,6 +1074,19 @@ public final class ModBlocks {
             "potted_consumed_assimilated_blossom",
             "relaycontroller");
 
+    private static final java.util.Set<String> LEGACY_NO_COLLISION_BLOCKS = java.util.Set.of(
+            "assimilated_blossom",
+            "consumed_pot",
+            "harlequinn_grass",
+            "hirsute_hair",
+            "infested_pot",
+            "infestedbush",
+            "lipoma_mass",
+            "parasitebush",
+            "parasitesapling",
+            "potted_assimilated_blossom",
+            "potted_consumed_assimilated_blossom");
+
     /** Base properties shared by the compatibility ids. */
     private static BlockBehaviour.Properties legacyProperties() {
         return BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
@@ -1083,6 +1096,9 @@ public final class ModBlocks {
     /** Properties for a legacy id, adding {@code noOcclusion} when the model is not a full cube. */
     private static BlockBehaviour.Properties legacyProperties(String id) {
         BlockBehaviour.Properties properties = legacyProperties();
+        if (LEGACY_NO_COLLISION_BLOCKS.contains(id)) {
+            properties.noCollission();
+        }
         return LEGACY_THIN_BLOCKS.contains(id) ? properties.noOcclusion() : properties;
     }
 

@@ -11,10 +11,8 @@ import net.minecraft.world.level.biome.MobSpawnSettings;
 import java.util.List;
 import java.util.stream.Stream;
 
-/** SRP phase and ubiquitous-development natural spawn tables, with Architect spawning disabled. */
+/** SRP phase natural spawn tables, with Architect spawning disabled. */
 public final class NaturalSpawnTables {
-    private static final double UBIQUITOUS_TABLE_CHANCE = 0.5D;
-
     private static final List<MobSpawnSettings.SpawnerData> PHASE_MINUS_ONE = List.of(
             spawn("rupter", 3, 6, 30),
             spawn("sim_squid", 1, 2, 15),
@@ -218,53 +216,6 @@ public final class NaturalSpawnTables {
     private static final List<MobSpawnSettings.SpawnerData> PHASE_NINE = latePhase(true, true);
     private static final List<MobSpawnSettings.SpawnerData> PHASE_TEN = latePhase(true, false);
 
-    private static final List<MobSpawnSettings.SpawnerData> UD_TWO = List.of(
-            spawn("pri_devourer", 1, 2, 5),
-            spawn("pri_longarms", 2, 3, 15),
-            spawn("pri_manducater", 2, 3, 15),
-            spawn("pri_reeker", 2, 3, 15),
-            spawn("pri_yelloweye", 2, 3, 10),
-            spawn("pri_summoner", 2, 3, 15),
-            spawn("pri_bolster", 2, 3, 15),
-            spawn("pri_arachnida", 2, 3, 15),
-            spawn("thrall", 3, 5, 25));
-
-    private static final List<MobSpawnSettings.SpawnerData> UD_THREE = List.of(
-            spawn("pri_devourer", 1, 2, 5),
-            spawn("pri_longarms", 2, 3, 15),
-            spawn("pri_manducater", 2, 3, 15),
-            spawn("pri_reeker", 2, 3, 15),
-            spawn("pri_yelloweye", 2, 3, 10),
-            spawn("pri_summoner", 2, 3, 15),
-            spawn("pri_bolster", 2, 3, 15),
-            spawn("pri_arachnida", 2, 3, 15),
-            spawn("thrall", 3, 5, 25),
-            spawn("ada_devourer", 1, 2, 10),
-            spawn("ada_longarms", 2, 3, 20),
-            spawn("ada_manducater", 2, 3, 20),
-            spawn("ada_reeker", 2, 3, 20),
-            spawn("ada_yelloweye", 2, 3, 15),
-            spawn("ada_summoner", 2, 3, 20),
-            spawn("ada_bolster", 2, 3, 20),
-            spawn("ada_arachnida", 2, 3, 20));
-
-    private static final List<MobSpawnSettings.SpawnerData> UD_FOUR = List.of(
-            spawn("ada_devourer", 1, 2, 10),
-            spawn("ada_longarms", 2, 3, 20),
-            spawn("ada_manducater", 2, 3, 20),
-            spawn("ada_reeker", 2, 3, 20),
-            spawn("ada_yelloweye", 2, 3, 15),
-            spawn("ada_summoner", 2, 3, 20),
-            spawn("ada_bolster", 2, 3, 20),
-            spawn("ada_arachnida", 2, 3, 20),
-            spawn("grunt", 3, 6, 30),
-            spawn("monarch", 1, 2, 10),
-            spawn("warden", 1, 2, 10),
-            spawn("overseer", 1, 2, 10),
-            spawn("vigilante", 1, 2, 10),
-            spawn("marauder", 1, 2, 10),
-            spawn("grunt", 6, 10, 40));
-
     private NaturalSpawnTables() {
     }
 
@@ -272,10 +223,6 @@ public final class NaturalSpawnTables {
         int phase = SrpWorldData.get(level).evolutionPhase();
         if (phase == -2 || phase == -1 && !isInsideVector(level, pos)) {
             return List.of();
-        }
-        List<MobSpawnSettings.SpawnerData> ubiquitous = ubiquitousEntries(level);
-        if (!ubiquitous.isEmpty() && usesUbiquitousTable(level)) {
-            return ubiquitous;
         }
         return phaseEntries(phase);
     }
@@ -292,8 +239,7 @@ public final class NaturalSpawnTables {
     public static List<EntityType<?>> allSpawnTypes() {
         return Stream.of(
                         PHASE_MINUS_ONE, PHASE_ZERO, PHASE_ONE, PHASE_TWO, PHASE_THREE, PHASE_FOUR,
-                        PHASE_FIVE, PHASE_SIX, PHASE_SEVEN, PHASE_EIGHT, PHASE_NINE, PHASE_TEN,
-                        UD_TWO, UD_THREE, UD_FOUR)
+                        PHASE_FIVE, PHASE_SIX, PHASE_SEVEN, PHASE_EIGHT, PHASE_NINE, PHASE_TEN)
                 .flatMap(List::stream)
                 .<EntityType<?>>map(entry -> entry.type)
                 .distinct()
@@ -325,28 +271,6 @@ public final class NaturalSpawnTables {
             case 9 -> PHASE_NINE;
             default -> phase >= 10 ? PHASE_TEN : List.of();
         };
-    }
-
-    private static List<MobSpawnSettings.SpawnerData> ubiquitousEntries(ServerLevel level) {
-        return switch (EvolutionSystem.ubiquitousDevelopment(level.getServer())) {
-            case 2 -> UD_TWO;
-            case 3 -> UD_THREE;
-            case 4 -> UD_FOUR;
-            default -> List.of();
-        };
-    }
-
-    private static boolean usesUbiquitousTable(ServerLevel level) {
-        long hash = level.getSeed();
-        hash ^= level.getGameTime() * 0x9E3779B97F4A7C15L;
-        hash ^= (long) level.dimension().location().hashCode() * 0xC2B2AE3D27D4EB4FL;
-        hash ^= hash >>> 33;
-        hash *= 0xFF51AFD7ED558CCDL;
-        hash ^= hash >>> 33;
-        hash *= 0xC4CEB9FE1A85EC53L;
-        hash ^= hash >>> 33;
-        double sample = (hash >>> 11) * 0x1.0p-53;
-        return sample < UBIQUITOUS_TABLE_CHANCE;
     }
 
     private static boolean contains(List<MobSpawnSettings.SpawnerData> entries, String path) {
