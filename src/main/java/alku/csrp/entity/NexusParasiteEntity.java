@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import alku.csrp.Csrp;
 import alku.csrp.block.FogBlock;
+import alku.csrp.block.InfestedBlock;
 import alku.csrp.event.StatusEffectEvents;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModBlocks;
@@ -67,6 +68,8 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
             NexusParasiteEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Float> FLOOR_TIMER = SynchedEntityData.defineId(
             NexusParasiteEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Boolean> ROOTER_GROUND_COVERED = SynchedEntityData.defineId(
+            NexusParasiteEntity.class, EntityDataSerializers.BOOLEAN);
 
     private final CitadelRawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
     private final CitadelRawAnimation BECKON_ATTACK_AGE = ParasiteAnimations.loop(this,
@@ -77,8 +80,8 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
     private final CitadelRawAnimation BECKON_FLOOR_TIMER = ParasiteAnimations.loop(this, "get_floor_timer");
     private final CitadelRawAnimation BECKON_ATTACK_FLOOR_TIMER = ParasiteAnimations.loop(this,
             "get_floor_timer.get_parasite_status_1");
-    private static final int ROOTER_SUPPORT_TICKS = 12 * 20;
     private static final int DISPATCHER_ATTACK_INTERVAL = 10;
+    private static final int DISPATCHER_GLOBAL_DEFENDER_CAP = 7;
     private static final int STAGE_FOUR_UPGRADE_INFECTED_CAP = 30;
     private static final int DISPATCHER_FOG_MIN_Y_OFFSET = -2;
     private static final int DISPATCHER_FOG_MAX_Y_OFFSET = 4;
@@ -117,7 +120,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
     private boolean collectiveAttack;
     private boolean canGrow = true;
     private boolean rooterGroundCovered;
-    private boolean dispatcherFogDissipationStarted;
+
 
     public NexusParasiteEntity(EntityType<? extends NexusParasiteEntity> type, Level level, Kind kind) {
         super(type, level);
@@ -155,6 +158,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         builder.define(BODY, 0.5F);
         builder.define(PARASITE_STATUS, 0);
         builder.define(FLOOR_TIMER, -1.0F);
+        builder.define(ROOTER_GROUND_COVERED, false);
     }
 
     public float getBODY() {
@@ -186,6 +190,15 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
 
     public void setFloorTimer(float value) {
         entityData.set(FLOOR_TIMER, value);
+    }
+
+    public boolean getRooterGroundCovered() {
+        return entityData.get(ROOTER_GROUND_COVERED);
+    }
+
+    private void setRooterGroundCovered(boolean value) {
+        rooterGroundCovered = value;
+        entityData.set(ROOTER_GROUND_COVERED, value);
     }
 
     @Override
@@ -240,7 +253,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
 
         if (level() instanceof ServerLevel serverLevel) {
             summonCapacityTracker.prune(serverLevel);
-            if (activeKind.stage < 4 && tickGrowth(serverLevel, activeKind)) {
+            if (activeKind.stage > 0 && activeKind.stage < 4 && tickGrowth(serverLevel, activeKind)) {
                 return;
             }
             switch (activeKind.family) {
@@ -257,8 +270,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
                     tickDispatcher(serverLevel, activeKind);
                 }
                 case ROOTER -> tickRooter(activeKind);
-                case ROOTERBALL -> {
-                }
+                case ROOTERBALL -> tickRooterBall();
             }
         }
     }
@@ -293,7 +305,30 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
             return false;
         }
         growthAttemptActive = true;
-        return ++growthTicks >= growthDelayTicks && evolve();
+        if (++growthTicks < growthDelayTicks || !canUpgradeToNextStage(serverLevel, activeKind)) {
+            return false;
+        }
+        return evolve();
+    }
+
+    private boolean canUpgradeToNextStage(ServerLevel serverLevel, Kind activeKind) {
+        if (activeKind.stage != 3) {
+            return true;
+        }
+
+        SrpWorldData data = SrpWorldData.get(serverLevel);
+        if (alku.csrp.Config.useEvolutionPhases()
+                && data.evolutionPhase() < 11 && data.ubiquitousDevelopmentOverride() < 4) {
+            return false;
+        }
+        if (activeKind.family == Family.DISPATCHER
+                && data.nearestColonyInEffectRange(blockPosition()) != null) {
+            return false;
+        }
+        // CSRP represents the original parasite biome with infested terrain rather than a
+        // separate biome class; every Nexus family pauses its stage-IV upgrade there.
+        return activeKind.family == Family.ROOTERBALL
+                || !(serverLevel.getBlockState(blockPosition().below()).getBlock() instanceof InfestedBlock);
     }
 
     private boolean growthAllowedAtPhase(int phase, int stage) {
@@ -577,7 +612,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         LivingEntity target = getTarget();
         int storagePeriod = target == null ? 81 : 11;
         if (tickCount % storagePeriod == 0) {
+            unhideNearbyHosts(serverLevel, activeKind);
             storeNearbyParasite();
+            placeNestFog(activeKind.stage);
         }
         if (activeKind.stage == 4) {
             tryPlaceFirstColony();
@@ -613,15 +650,36 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
                 entity -> entity.getKind() == DeterrentParasiteEntity.Kind.SEIZER && entity.isAlive()).isEmpty();
     }
 
+    private boolean globalDefenderCapReached(ServerLevel serverLevel,
+                                             EntityType<DeterrentParasiteEntity> type) {
+        if (type != ModEntities.SEIZER.get() && type != ModEntities.SENTRY.get()) {
+            return false;
+        }
+        DeterrentParasiteEntity.Kind defenderKind = type == ModEntities.SEIZER.get()
+                ? DeterrentParasiteEntity.Kind.SEIZER : DeterrentParasiteEntity.Kind.SENTRY;
+        int count = 0;
+        for (Entity entity : serverLevel.getAllEntities()) {
+            if (entity instanceof DeterrentParasiteEntity defender
+                    && defender.getKind() == defenderKind && defender.isAlive()
+                    && ++count >= DISPATCHER_GLOBAL_DEFENDER_CAP) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private boolean spawnDispatcherDefender(ServerLevel serverLevel, LivingEntity target,
                                             EntityType<DeterrentParasiteEntity> type,
                                             int cost, int maxOffset, int minOffset) {
         if (!canReserveSummon(cost)) {
             return false;
         }
+        if (globalDefenderCapReached(serverLevel, type)) {
+            return false;
+        }
         for (int attempt = 0; attempt < 5; attempt++) {
-            int distanceX = minOffset + random.nextInt(maxOffset - minOffset);
-            int distanceZ = minOffset + random.nextInt(maxOffset - minOffset);
+            int distanceX = minOffset + random.nextInt(maxOffset);
+            int distanceZ = minOffset + random.nextInt(maxOffset);
             if (random.nextBoolean()) distanceX = -distanceX;
             if (random.nextBoolean()) distanceZ = -distanceZ;
             BlockPos requested = BlockPos.containing(target.getX() + distanceX, target.getY(),
@@ -643,8 +701,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
             }
             defender.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(spawnPos),
                     MobSpawnType.MOB_SUMMONED, null);
-            defender.setTarget(target);
             defender.hideForDispatcher();
+            defender.setDispatchTarget(target);
+            defender.setTarget(target);
             if (!serverLevel.addFreshEntity(defender)) {
                 continue;
             }
@@ -672,6 +731,25 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         };
     }
 
+    private void unhideNearbyHosts(ServerLevel serverLevel, Kind activeKind) {
+        double range = getAttributeValue(Attributes.FOLLOW_RANGE);
+        List<LivingEntity> nearby = serverLevel.getEntitiesOfClass(LivingEntity.class,
+                getBoundingBox().inflate(range), Entity::isAlive);
+        for (LivingEntity host : nearby) {
+            if (host == this || host instanceof Parasite || !host.onGround() || host.isInWater()
+                    || host instanceof Player) {
+                continue;
+            }
+            if (nearby.size() < storedParasiteIds.size()) {
+                spawnDispatcherTentacle(serverLevel, host, activeKind.stage);
+            }
+            if (host.hasEffect(ModMobEffects.COTH)) {
+                host.addEffect(new MobEffectInstance(ModMobEffects.COTH, 600, 5,
+                        false, false), this);
+            }
+        }
+    }
+
     private void spawnDispatcherTentacle(ServerLevel serverLevel, LivingEntity target, int stage) {
         dispatcherTentacleIds.removeIf(id -> {
             Entity entity = serverLevel.getEntity(id);
@@ -681,8 +759,8 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
             return;
         }
         for (int attempt = 0; attempt < 5; attempt++) {
-            int offsetX = 1 + random.nextInt(4);
-            int offsetZ = 1 + random.nextInt(4);
+            int offsetX = 3 + random.nextInt(5);
+            int offsetZ = 3 + random.nextInt(5);
             if (random.nextBoolean()) offsetX = -offsetX;
             if (random.nextBoolean()) offsetZ = -offsetZ;
             BlockPos requested = BlockPos.containing(target.getX() + offsetX, target.getY(), target.getZ() + offsetZ);
@@ -729,7 +807,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         boolean hasOpenGround = false;
         for (int x = -activeKind.rooterBlockRange(); x <= activeKind.rooterBlockRange(); x++) {
             for (int z = -activeKind.rooterBlockRange(); z <= activeKind.rooterBlockRange(); z++) {
-                if (level().isEmptyBlock(BlockPos.containing(getX() + x, getY() - 0.5D, getZ() + z))) {
+                if (level().getBlockState(BlockPos.containing(getX() + x, getY() - 0.5D, getZ() + z)).isAir()) {
                     hasOpenGround = true;
                     break;
                 }
@@ -738,7 +816,13 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
                 break;
             }
         }
-        rooterGroundCovered = !hasOpenGround;
+        setRooterGroundCovered(!hasOpenGround);
+    }
+
+    private void tickRooterBall() {
+        if (tickCount == 5) {
+            removeEffect(ModMobEffects.PIVOT);
+        }
     }
 
     private void tickBeckonStageFour(ServerLevel serverLevel) {
@@ -855,7 +939,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
                 getX() + 120.0D, getY() + 50.0D, getZ() + 120.0D);
         for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area,
                 living -> living != this && living.isAlive() && !(living instanceof Parasite)
-                        && living.getY() >= getY())) {
+                        && living.getY() >= getY() && !living.isPassenger())) {
             if (target instanceof Player player) {
                 if (player.getItemBySlot(EquipmentSlot.FEET).is(ModItems.VENKROL_BOOTS)
                         || player.isSpectator() || player.getAbilities().invulnerable
@@ -913,6 +997,8 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         String path = type.getPath();
         if (path.startsWith("sim_")) {
             dispatcherInfected--;
+        } else if (path.equals("movingflesh")) {
+            dispatcherFlesh--;
         } else if (path.equals("incompleteform_small")) {
             dispatcherCrude--;
         } else if (path.equals("incompleteform_medium")) {
@@ -925,8 +1011,8 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
     @Override
     public void die(DamageSource source) {
         super.die(source);
-        if (!level().isClientSide && isDeadOrDying() && activeKind() == Kind.DISPATCHER_SIV) {
-            dissipateDispatcherFog();
+        if (!level().isClientSide && isDeadOrDying() && !activeKind().isRooterBall()) {
+            dissipateNexusFog();
         }
     }
 
@@ -1086,6 +1172,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         tag.putInt("nexus_dispatcher_flesh", dispatcherFlesh);
         tag.putInt("nexus_dispatcher_mangler", dispatcherMangler);
         tag.putDouble("nexus_buried", buried);
+        tag.putBoolean("nexus_rooter_ground_covered", getRooterGroundCovered());
         summonCapacityTracker.save(tag, "nexus_summon_capacity");
         tag.putFloat("nexus_body", getBODY());
         tag.putInt("nexus_parasite_status", getParasiteStatus());
@@ -1133,6 +1220,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         dispatcherFlesh = tag.getInt("nexus_dispatcher_flesh");
         dispatcherMangler = tag.getInt("nexus_dispatcher_mangler");
         buried = tag.getDouble("nexus_buried");
+        setRooterGroundCovered(tag.getBoolean("nexus_rooter_ground_covered"));
         summonCapacityTracker.load(tag, "nexus_summon_capacity");
         if (tag.contains("nexus_body")) {
             entityData.set(BODY, tag.getFloat("nexus_body"));
@@ -1235,8 +1323,28 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
     }
 
     public boolean recallParasite(String entityTypeId) {
-        return isDispatcherFamily() && ResourceLocation.tryParse(entityTypeId) != null
-                && storedParasiteIds.add(entityTypeId);
+        if (!isDispatcherFamily()) {
+            return false;
+        }
+        ResourceLocation id = ResourceLocation.tryParse(entityTypeId);
+        if (id == null) {
+            return false;
+        }
+        String path = id.getPath();
+        int stage = activeKind().stage;
+        if (!storedParasiteIds.add(entityTypeId)) {
+            return false;
+        }
+        if (path.equals("movingflesh")) {
+            dispatcherFlesh++;
+        } else if (stage >= 2 && path.startsWith("sim_")) {
+            dispatcherInfected++;
+        } else if (stage >= 2 && path.startsWith("incompleteform_")) {
+            dispatcherCrude += path.endsWith("medium") ? 2 : 1;
+        } else if (stage >= 3 && path.equals("mangler")) {
+            dispatcherMangler++;
+        }
+        return true;
     }
 
     private void storeNearbyParasite() {
@@ -1300,39 +1408,18 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         }
     }
 
-    private void dissipateDispatcherFog() {
+    private void dissipateNexusFog() {
         if (!(level() instanceof ServerLevel serverLevel)) {
             return;
         }
         BlockPos origin = blockPosition();
-        int radius = dispatcherFogRadius(activeKind().stage);
-        List<NexusParasiteEntity> otherDispatchers = serverLevel.getEntitiesOfClass(
-                NexusParasiteEntity.class,
-                getBoundingBox().inflate(radius * 2.0D + 1.0D,
-                        DISPATCHER_FOG_MAX_Y_OFFSET - DISPATCHER_FOG_MIN_Y_OFFSET + 1.0D,
-                        radius * 2.0D + 1.0D),
-                entity -> entity != this && entity.isAlive()
-                        && entity.activeKind().family == Family.DISPATCHER);
         for (BlockPos candidate : BlockPos.betweenClosed(
-                origin.offset(-radius, DISPATCHER_FOG_MIN_Y_OFFSET, -radius),
-                origin.offset(radius, DISPATCHER_FOG_MAX_Y_OFFSET, radius))) {
+                origin.offset(-2, -2, -2), origin.offset(2, 2, 2))) {
             BlockState state = serverLevel.getBlockState(candidate);
-            if (state.is(ModBlocks.FOG.get()) && state.getValue(FogBlock.AIR) != 2
-                    && otherDispatchers.stream().noneMatch(dispatcher ->
-                            isInsideDispatcherFogVolume(dispatcher, candidate))) {
+            if (state.is(ModBlocks.FOG.get()) && state.getValue(FogBlock.AIR) != 2) {
                 serverLevel.setBlock(candidate, state.setValue(FogBlock.AIR, 2), 3);
             }
         }
-    }
-
-    private static boolean isInsideDispatcherFogVolume(NexusParasiteEntity dispatcher, BlockPos pos) {
-        BlockPos origin = dispatcher.blockPosition();
-        int radius = dispatcherFogRadius(dispatcher.activeKind().stage);
-        int yOffset = pos.getY() - origin.getY();
-        return Math.abs(pos.getX() - origin.getX()) <= radius
-                && Math.abs(pos.getZ() - origin.getZ()) <= radius
-                && yOffset >= DISPATCHER_FOG_MIN_Y_OFFSET
-                && yOffset <= DISPATCHER_FOG_MAX_Y_OFFSET;
     }
 
     private static int dispatcherFogRadius(int stage) {
@@ -1486,6 +1573,19 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
     private void storeDispatcherParasite(Mob candidate, ResourceLocation id) {
         String path = id.getPath();
         int stage = activeKind().stage;
+        if (path.equals("buglin")) {
+            storedParasiteIds.add(Csrp.MODID + ":rupter");
+            candidate.discard();
+            return;
+        }
+        if (path.equals("movingflesh")) {
+            candidate.discard();
+            if (++dispatcherFlesh >= 2) {
+                dispatcherFlesh -= 2;
+                storedParasiteIds.add(randomPrimitiveTypeId());
+            }
+            return;
+        }
         if (stage >= 2 && path.startsWith("sim_")) {
             storedParasiteIds.add(id.toString());
             candidate.discard();
@@ -1507,15 +1607,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
             }
             return;
         }
-        if (stage >= 3 && path.equals("movingflesh")) {
-            candidate.discard();
-            if (++dispatcherFlesh >= 2) {
-                dispatcherFlesh -= 2;
-                storedParasiteIds.add(randomPrimitiveTypeId());
-            }
-            return;
-        }
-        if (stage >= 3 && path.equals("mudo")) {
+        if (stage >= 3 && path.equals("rupter")) {
             storedParasiteIds.add(Csrp.MODID + ":mangler");
             candidate.discard();
             return;
@@ -1582,17 +1674,42 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         }
         int count = 1 + random.nextInt(Math.max(1, maximum));
         for (int index = 0; index < count; index++) {
+            if (!canReserveSummon(1)) {
+                return;
+            }
             NexusParasiteEntity rooterBall = ModEntities.ROOTERBALL.get().create(serverLevel);
             if (rooterBall == null) {
                 continue;
             }
-            double angle = random.nextDouble() * Math.PI * 2.0D;
-            double distance = 2.0D + random.nextDouble() * 3.0D;
-            rooterBall.moveTo(getX() + Math.cos(angle) * distance, getY(),
-                    getZ() + Math.sin(angle) * distance, getYRot(), 0.0F);
-            rooterBall.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(rooterBall.blockPosition()),
-                    MobSpawnType.MOB_SUMMONED, null);
-            serverLevel.addFreshEntity(rooterBall);
+            boolean spawned = false;
+            for (int attempt = 0; attempt < 8; attempt++) {
+                int offsetX = 2 + random.nextInt(4);
+                int offsetZ = 2 + random.nextInt(4);
+                if (random.nextBoolean()) offsetX = -offsetX;
+                if (random.nextBoolean()) offsetZ = -offsetZ;
+                BlockPos spawnPos = blockPosition().offset(offsetX, 0, offsetZ);
+                if (!serverLevel.getBlockState(spawnPos).isAir()
+                        || serverLevel.getBlockState(spawnPos.below()).isAir()
+                        || !serverLevel.getEntitiesOfClass(LivingEntity.class,
+                        new AABB(spawnPos).inflate(0.25D), Entity::isAlive).isEmpty()) {
+                    continue;
+                }
+                rooterBall.moveTo(spawnPos.getX() + 0.5D, spawnPos.getY(), spawnPos.getZ() + 0.5D,
+                        getYRot(), 0.0F);
+                if (!serverLevel.noCollision(rooterBall)) {
+                    continue;
+                }
+                rooterBall.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(spawnPos),
+                        MobSpawnType.MOB_SUMMONED, null);
+                if (serverLevel.addFreshEntity(rooterBall)) {
+                    reserveTrackedSummon(rooterBall.getUUID(), 1);
+                    spawned = true;
+                    break;
+                }
+            }
+            if (!spawned) {
+                rooterBall.discard();
+            }
         }
     }
 

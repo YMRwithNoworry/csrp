@@ -101,6 +101,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     private int wormMaximumPayload = 3;
     private final List<String> wormPayloadTypes = new ArrayList<>();
     private UUID dispatchTarget;
+    private int dispatcherBuriedTicks;
     private UUID dispatcherParentId;
     private String dispatchEntityId;
     private UUID seizerTarget;
@@ -169,6 +170,20 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         }
         if (attackFlashTicks > 0) {
             attackFlashTicks--;
+        }
+        if (dispatcherBuriedTicks > 0) {
+            dispatcherBuriedTicks--;
+            if (dispatcherBuriedTicks == 0) {
+                setSpecialAction(SpecialAction.NONE);
+                if (activeKind() == Kind.SENTRY) {
+                    setSentryParasiteStatus(0);
+                }
+                LivingEntity target = findEntity(dispatchTarget);
+                if (target != null && isValidParasiteTarget(target)) {
+                    super.setTarget(target);
+                }
+            }
+            return;
         }
         if (activeKind() == Kind.DISPATCHER_TENTACLE) {
             tickDispatcherTentacle();
@@ -271,6 +286,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         super.addAdditionalSaveData(tag);
         tag.putInt("deterrent_ability_cooldown", abilityCooldown);
         tag.putInt("deterrent_lifetime", lifetimeTicks);
+        tag.putInt("deterrent_dispatcher_buried", dispatcherBuriedTicks);
         tag.putInt("deterrent_attack_flash", attackFlashTicks);
         tag.putInt("deterrent_worm_minimum", wormMinimumPayload);
         tag.putInt("deterrent_worm_maximum", wormMaximumPayload);
@@ -310,6 +326,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         super.readAdditionalSaveData(tag);
         abilityCooldown = tag.getInt("deterrent_ability_cooldown");
         lifetimeTicks = tag.getInt("deterrent_lifetime");
+        dispatcherBuriedTicks = tag.getInt("deterrent_dispatcher_buried");
         attackFlashTicks = tag.getInt("deterrent_attack_flash");
         wormMinimumPayload = tag.contains("deterrent_worm_minimum") ? tag.getInt("deterrent_worm_minimum") : 3;
         wormMaximumPayload = tag.contains("deterrent_worm_maximum") ? tag.getInt("deterrent_worm_maximum") : 3;
@@ -344,6 +361,14 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         controllers.add(new CitadelAnimationController<>(this, "movement_controller", 4, this::movementAnimation));
     }
 
+    @Override
+    public void setTarget(LivingEntity target) {
+        if (dispatcherBuriedTicks > 0) {
+            return;
+        }
+        super.setTarget(target);
+    }
+
     public void setDispatchTarget(LivingEntity target) {
         dispatchTarget = target == null ? null : target.getUUID();
     }
@@ -353,9 +378,12 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     public void hideForDispatcher() {
+        super.setTarget(null);
         if (activeKind() == Kind.SENTRY) {
+            dispatcherBuriedTicks = 64;
             setSentryParasiteStatus(9);
-        } else if (activeKind() == Kind.SEIZER || activeKind() == Kind.DISPATCHER_TENTACLE) {
+        } else if (activeKind() == Kind.SEIZER) {
+            dispatcherBuriedTicks = 50;
             setSpecialAction(SpecialAction.DISPATCHER_DEPLOY);
         }
     }
@@ -491,6 +519,8 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         }
         if (dispatchEntityId != null) {
             returnStoredParasite();
+            discard();
+            return;
         }
         LivingEntity target = findEntity(dispatchTarget);
         if (target == null || distanceToSqr(target) > 1024.0D) {
@@ -556,9 +586,9 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         }
         int duration = stage * 100;
         mob.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, duration, stage - 1));
-        mob.addEffect(new MobEffectInstance(ModMobEffects.DEBAR, duration, 0));
-        mob.addEffect(new MobEffectInstance(ModMobEffects.LINK, duration + 100, stage - 1));
-        mob.addEffect(new MobEffectInstance(ModMobEffects.SENSES, duration, stage - 1));
+        mob.addEffect(new MobEffectInstance(ModMobEffects.DEBAR, duration, 1));
+        mob.addEffect(new MobEffectInstance(ModMobEffects.LINK, duration + 100, Math.max(1, stage - 1)));
+        mob.addEffect(new MobEffectInstance(ModMobEffects.SENSES, duration, stage));
         if (stage >= 2) {
             mob.addEffect(new MobEffectInstance(MobEffects.REGENERATION, duration, stage));
         }
