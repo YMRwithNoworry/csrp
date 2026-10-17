@@ -15,12 +15,27 @@ const system = read("src/main/java/alku/csrp/world/EvolutionSystem.java");
 const common = read("src/main/java/alku/csrp/registry/CommonModEvents.java");
 const entities = read("src/main/java/alku/csrp/registry/ModEntities.java");
 const blocks = read("src/main/java/alku/csrp/registry/ModBlocks.java");
+const items = read("src/main/java/alku/csrp/registry/ModItems.java");
 const blockLanguage = JSON.parse(read("src/main/resources/assets/csrp/lang/zh_cn.json"));
 
 const blockstateDirectory = path.join(root, "src/main/resources/assets/csrp/blockstates");
 for (const filename of fs.readdirSync(blockstateDirectory).filter((name) => name.endsWith(".json"))) {
   const id = filename.slice(0, -5);
   expect(Object.hasOwn(blockLanguage, `block.csrp.${id}`), `Block csrp:${id} has no Chinese name`);
+}
+
+const blockItemIds = new Set([
+  ...[...items.matchAll(/registerSimpleBlockItem\s*\(\s*"([a-z0-9_]+)"/g)].map((match) => match[1]),
+  ...[...items.matchAll(/parasiteLootBlockItem\s*\(\s*"([a-z0-9_]+)"/g)].map((match) => match[1]),
+]);
+const escaColors = blocks.match(/String\[\] colors = \{([^}]+)\};/);
+if (escaColors) {
+  for (const [, color] of escaColors[1].matchAll(/"([a-z0-9_]*)"/g)) {
+    blockItemIds.add(color ? `esca_bulb_${color}` : "esca_bulb");
+  }
+}
+for (const id of blockItemIds) {
+  expect(Object.hasOwn(blockLanguage, `item.csrp.${id}`), `Block item csrp:${id} has no Chinese name`);
 }
 
 const spawnIds = [...tables.matchAll(/spawn\("([a-z0-9_]+)"/g)].map((match) => match[1]);
@@ -77,8 +92,17 @@ expectPattern(system,
   /path\.equals\("kirin"\)[\s\S]*?Level\.END[\s\S]*?requiredPhase = 7[\s\S]*?path\.equals\("draconite"\)[\s\S]*?Level\.NETHER[\s\S]*?requiredPhase = 7/,
   "Kirin or Draconite cross-dimension phase 7 unlock is missing");
 expectPattern(blocks,
-  /LEGACY_NO_COLLISION_BLOCKS = java\.util\.Set\.of\([\s\S]*?"harlequinn_grass"[\s\S]*?"infestedbush"[\s\S]*?"parasitebush"[\s\S]*?"parasitesapling"[\s\S]*?LEGACY_NO_COLLISION_BLOCKS\.contains\(id\)[\s\S]*?properties\.noCollission\(\)/,
+  /LEGACY_THIN_BLOCKS = java\.util\.Set\.of\([\s\S]*?"harlequinn_grass"[\s\S]*?"infestedbush"[\s\S]*?"parasitebush"[\s\S]*?"parasitesapling"[\s\S]*?LEGACY_THIN_BLOCKS\.contains\(id\)[\s\S]*?properties\.noCollission\(\)[\s\S]*?properties\.noOcclusion\(\)/,
   "Legacy grass and bush blocks still have full-block collision");
+for (const [name, pattern] of [
+  ["assimilated reed", /ASSIMILATED_REED = BLOCKS\.register\([\s\S]*?new AssimilatedReedBlock\([\s\S]*?\.noCollission\(\)/],
+  ["residue plants", /RESIDUE_PLANTS = BLOCKS\.register\([\s\S]*?\.noCollission\(\)/],
+  ["thornshade", /THORNSHADE = BLOCKS\.register\([\s\S]*?\.noCollission\(\)/],
+  ["Gothshroom", /GOTHSHROOM = BLOCKS\.register\([\s\S]*?\.noCollission\(\)/],
+  ["SRP web", /SRP_WEB = BLOCKS\.register\([\s\S]*?\.noCollission\(\)/],
+]) {
+  expectPattern(blocks, pattern, `${name} has no non-colliding plant properties`);
+}
 
 for (const id of ["sim_squid", "pri_devourer", "ada_devourer"]) {
   expect(common.includes(`"${id}"`), `Water spawn id ${id} is missing`);

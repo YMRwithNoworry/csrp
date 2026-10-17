@@ -1053,7 +1053,8 @@ public final class ModBlocks {
     /**
      * Legacy ids whose 1.10.8 model is not a full cube (a carpet-thin layer, a cross plant, a
      * pot, a small prop).  They must be non-occluding, otherwise the neighbouring blocks cull
-     * the faces that touch them and the remains end up looking straight through the ground.
+     * the faces that touch them and the remains end up looking straight through the ground. These
+     * models also must not inherit the generic full-cube collision shape.
      */
     private static final java.util.Set<String> LEGACY_THIN_BLOCKS = java.util.Set.of(
             "assimilated_blossom",
@@ -1064,6 +1065,7 @@ public final class ModBlocks {
             "gorepri",
             "gorepur",
             "goresim",
+            "harlequinn_grass",
             "hirsute_hair",
             "infested_pot",
             "infestedbush",
@@ -1074,32 +1076,20 @@ public final class ModBlocks {
             "potted_consumed_assimilated_blossom",
             "relaycontroller");
 
-    private static final java.util.Set<String> LEGACY_NO_COLLISION_BLOCKS = java.util.Set.of(
-            "assimilated_blossom",
-            "consumed_pot",
-            "harlequinn_grass",
-            "hirsute_hair",
-            "infested_pot",
-            "infestedbush",
-            "lipoma_mass",
-            "parasitebush",
-            "parasitesapling",
-            "potted_assimilated_blossom",
-            "potted_consumed_assimilated_blossom");
-
     /** Base properties shared by the compatibility ids. */
     private static BlockBehaviour.Properties legacyProperties() {
         return BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
                 .strength(1.5F, 6.0F).sound(SoundType.ROOTED_DIRT);
     }
 
-    /** Properties for a legacy id, adding {@code noOcclusion} when the model is not a full cube. */
+    /** Disables full-cube collision and occlusion for legacy thin models. */
     private static BlockBehaviour.Properties legacyProperties(String id) {
         BlockBehaviour.Properties properties = legacyProperties();
-        if (LEGACY_NO_COLLISION_BLOCKS.contains(id)) {
+        if (LEGACY_THIN_BLOCKS.contains(id)) {
             properties.noCollission();
+            properties.noOcclusion();
         }
-        return LEGACY_THIN_BLOCKS.contains(id) ? properties.noOcclusion() : properties;
+        return properties;
     }
 
     /**
