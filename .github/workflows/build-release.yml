@@ -53,7 +53,11 @@ jobs:
           test -n "$jar_path"
 
           asset_name="csrp-${mod_version}-mc${minecraft_version}-neoforge${neo_version}.jar"
-          release_tag="csrp-${mod_version}-build.${GITHUB_RUN_NUMBER}"
+          if [[ "$GITHUB_REF" == "refs/heads/main" ]]; then
+            release_tag="csrp-${mod_version}-build.${GITHUB_RUN_NUMBER}"
+          else
+            release_tag="csrp-${mod_version}-test-build.${GITHUB_RUN_NUMBER}"
+          fi
           mkdir -p release-files
           cp "$jar_path" "release-files/$asset_name"
 
@@ -95,7 +99,7 @@ jobs:
           retention-days: 30
 
   release:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch'
     needs: build
     runs-on: ubuntu-latest
     permissions:
@@ -125,4 +129,6 @@ jobs:
           files: release-files/*.jar
           fail_on_unmatched_files: true
           overwrite_files: true
+          prerelease: ${{ github.ref != 'refs/heads/main' }}
+          make_latest: ${{ github.ref == 'refs/heads/main' }}
           target_commitish: ${{ github.sha }}
