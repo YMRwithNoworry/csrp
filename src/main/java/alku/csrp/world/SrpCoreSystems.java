@@ -13,11 +13,13 @@ import alku.csrp.registry.ModSounds;
 import alku.csrp.world.SrpWorldData.ColonyEntry;
 import alku.csrp.world.SrpWorldData.NodeEntry;
 import alku.csrp.world.SrpWorldData.VectorEntry;
+import alku.csrp.world.gen.WorldGenParasiteNodeCore;
 import java.util.ArrayList;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.block.Block;
@@ -76,6 +78,7 @@ public final class SrpCoreSystems {
         data.setNode(pos, 1, type);
         if (level.setBlock(pos, ModBlocks.BIOMEHEART.get().defaultBlockState()
                 .setValue(SrpCoreBlock.ACTIVE, 1), Block.UPDATE_ALL)) {
+            new WorldGenParasiteNodeCore(1, type).generate(level, RandomSource.create(), pos);
             BlockInfestation.infestAround(level, pos, 1, InfestationSpreadLimiter.Type.BECKON);
             return true;
         }
@@ -184,7 +187,7 @@ public final class SrpCoreSystems {
                 continue;
             }
             int stage = nodeStage(entry.age());
-            updateActiveState(level, entry.pos(), ModBlocks.BIOMEHEART.get(), stage);
+            updateNodeStage(level, entry, stage);
             BlockInfestation.infestAround(level, entry.pos(), stage, InfestationSpreadLimiter.Type.BECKON);
             ParasiteBiomeGenerator.generateAround(level, entry.pos(), stage);
         }
@@ -230,7 +233,7 @@ public final class SrpCoreSystems {
             int age = entry.age() + 1;
             int stage = nodeStage(age);
             data.updateNode(entry.pos(), age, entry.type());
-            updateActiveState(level, entry.pos(), ModBlocks.BIOMEHEART.get(), stage);
+            updateNodeStage(level, entry, stage);
         }
         for (ColonyEntry entry : new ArrayList<>(data.colonies())) {
             int points = Math.min(Config.colonyPointCap(), entry.points() + 1);
@@ -295,6 +298,25 @@ public final class SrpCoreSystems {
     private static int saturatingGrowth(int current, int basis, double rate, int cap) {
         long growth = (long) Math.floor(basis * rate);
         return (int) Math.min(cap, Math.max(1L, (long) current + growth));
+    }
+
+    private static void updateNodeStage(ServerLevel level, NodeEntry entry, int stage) {
+        BlockPos pos = entry.pos();
+        if (!level.hasChunkAt(pos)) {
+            return;
+        }
+        BlockState state = level.getBlockState(pos);
+        if (!state.is(ModBlocks.BIOMEHEART.get())) {
+            return;
+        }
+        int previousStage = state.getValue(SrpCoreBlock.ACTIVE);
+        if (stage <= previousStage
+                || !level.setBlock(pos, state.setValue(SrpCoreBlock.ACTIVE, stage), Block.UPDATE_ALL)) {
+            return;
+        }
+        if (stage >= 2) {
+            new WorldGenParasiteNodeCore(stage, entry.type()).generate(level, RandomSource.create(), pos.above());
+        }
     }
 
     private static void updateActiveState(ServerLevel level, BlockPos pos, Block block, int stage) {
