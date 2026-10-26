@@ -29,9 +29,10 @@ const dredge = read("src/main/java/alku/csrp/entity/DredgeEntity.java");
 const heed = read("src/main/java/alku/csrp/entity/HeedEntity.java");
 const pure = read("src/main/java/alku/csrp/entity/PureParasiteEntity.java");
 const nexus = read("src/main/java/alku/csrp/entity/NexusParasiteEntity.java");
+const primitive = read("src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java");
 
 // ---- R6 gap: SRPConfig.mobAttackingFull (out109 util/config/SRPConfig.java:65, default false) ----
-// Original EntityParasiteBase#canAttackClass rejects a blacklisted mob only when mobAttackingFull is false.
+// 原版 EntityParasiteBase#canAttackClass 仅在 mobAttackingFull 为 true 时拒绝黑名单生物。
 expect(config, /\.define\("mobAttackingFull", false\)/,
         "mobAttackingFull is missing or no longer defaults to false");
 expect(config, /public static boolean mobAttackingFull\(\)/,
@@ -51,10 +52,12 @@ expect(helper, /if \(!Config\.mobAttackingFull\(\)\) \{\s*return true;\s*\}/s,
 // Every family that used to hand-roll the blacklist must now defer to the shared helper so the
 // full-friendly switch applies uniformly, as it did through the single original base method.
 for (const [name, source] of [["ArchitectEntity", architect], ["DredgeEntity", dredge],
-        ["HeedEntity", heed], ["PureParasiteEntity", pure]]) {
+        ["HeedEntity", heed], ["PureParasiteEntity", pure], ["PrimitiveParasiteEntity", primitive]]) {
     expect(source, /MobAttacking\.canAttackEntity\(/,
             `${name} no longer routes mob targeting through MobAttacking`);
 }
+expect(primitive, /protected boolean isValidParasiteTarget\(LivingEntity target\)[\s\S]*?return MobAttacking\.canAttackEntity\(target\)/,
+        "PrimitiveParasiteEntity's shared target predicate no longer applies MobAttacking");
 
 // ---- R6 gap: EntityAIVenkrolSummon mob tables (out109 util/config/SRPConfigMobs.java:1068-1150) ----
 // Original venkrolmoblist = {"ground;srparasites:rupter;1;1"}.

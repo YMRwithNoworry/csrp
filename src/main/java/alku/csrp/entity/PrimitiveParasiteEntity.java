@@ -508,7 +508,8 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
     protected boolean isValidParasiteTarget(LivingEntity target) {
         boolean totalSlaughter = level() instanceof ServerLevel serverLevel
                 && SrpWorldData.get(serverLevel).evolutionPhase() >= 9;
-        return target != this && target.isAlive() && !(target instanceof Parasite)
+        return MobAttacking.canAttackEntity(target) && target != this && target.isAlive()
+                && !(target instanceof Parasite)
                 && (totalSlaughter || !target.hasEffect(ModMobEffects.THE_SIGN));
     }
 

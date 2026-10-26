@@ -25,7 +25,7 @@ import net.minecraft.resources.Identifier;
  * <p>Read literally: a blacklisted ("listed" under the default non-inverted list) mob is <b>rejected</b> only when
  * {@code mobAttackingFull} is <b>false</b>. Setting {@code Mob Attacking Friendly = true} therefore
  * makes parasites leave every blacklisted mob alone ("fully friendly with mobs from Mob Attacking blacklist"),
- * while the default {@code false} keeps the plain blacklist behaviour that this project already implemented.
+ * 当 {@code mobAttackingFull} 为 true 时，寄生体会避开所有黑名单生物；默认值 false 会绕过黑名单，使这些生物仍可被选为目标，与原版表达式一致。
  *
  * <p>Note the original lists use the <b>1.12.2 entity name</b> and match with {@code String#contains}, so entries such
  * as {@code "srmonstress"} match a whole namespace rather than an exact id. The port keeps that substring rule
