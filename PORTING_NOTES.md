@@ -37,7 +37,7 @@
 | 可加载运行的构建产物 | `build/libs/csrp-1.10.9.jar`（约 134 MB，含全部资源） |
 | 移植说明 | 本文件 |
 | 各子系统详细报告 | `docs/gap/R2_REPORT.md`、`R2_BLIZZARD_REPORT.md`、`R3_WORLDGEN_REPORT.md`、`R4_BLOCKS_REPORT.md`、`R5_ITEMS_REPORT.md`、`R6_ENTITY_MATRIX.md`、`LANG_REPORT.md` |
-| 自动化校验 | `scripts/run-all-verifications.cjs`（147 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
+| 自动化校验 | `scripts/run-all-verifications.cjs`（148 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
 
 规模：569 个 Java 文件、88 个方块类、128 个实体文件、44 个物品类、7 个 Mixin、362 个 blockstate、2236 张纹理、1008 个音效、55 个结构 NBT、33 套语言。
 
@@ -246,6 +246,12 @@ java.lang.NoSuchFieldError: Class net.neoforged.fml.config.ModConfig$Type does n
 校验：`scripts/verify-particles.cjs`。静态校验 146 → **147**，GameTest 仍 **187 / 187**。
 
 > **未完成（已登记）**：原件 62 处 `GCLOUD` / 36 处 `GSPLASH` / 12 处 `BIOMASS` 调用点中，工程只在少数位置使用自定义粒子（`ModParticles.GORE_CLOUD` 2 处 / `ASSIMILATION_SPLASH` 5 处 / `BIOMASS` 5 处），其余仍以原版粒子近似（如 `ParasiteDeathFxClient` 用红色 dust + POOF）。这些均属客户端视觉，本环境无法图形目视验证；后续可按原件 `EntityParasiteBase#spawnParticlesGore` 的参数逐个替换。
+
+### 3.18 感染骨粉球形转换与装饰
+
+原件 `item/ItemInfestedBonemeal#boneMealEffect` 会以点击方块为中心处理距离平方 ≤ 9 的球体，并跳过方块实体、液体、空气与已有 scheduled tick 的方块。此前工程只在点击点处理感染残骸与矿石。本轮按原件转换顺序补齐方块路径映射（含任意命名空间的 `ore` / `cobblestone` / `dirt` / `wall` / `fence` 等路径匹配）、花藤作物清除、矿石归类、楼梯朝向/上下半部/形状复制、感染植物随机装饰及 harleskinn 发丝/lipoma 分支，并保留原件对所有 sandstone 路径先处理、因此 sandstone stairs 实际转换为 `inf_ss` 的顺序怪癖。转换写入仅在 `setBlock` 成功时计为有效；液体保护按 26.3 非空 FluidState 对应旧版 Material.isLiquid。
+
+特殊的 Thornshade 与寄生树苗仍先进入 `BoneMealItem` 的原生催长路径；其余目标使用自定义球体转换。新增 `scripts/verify-infested-bonemeal.cjs` 与 GameTest `csrp:infested_bonemeal/sphere_and_guards`，覆盖半径边界、scheduled tick、液体、方块实体、分类矿石、未分类矿石、黏土与木板运行时映射；红沙在 GameTest 中会有 scheduled tick，按原件保护规则跳过，其映射另由静态校验断言。验证：`compileJava` 与 `build` 成功；GameTest **188 / 188** 通过。全静态套件共 148 项，其中 140 项通过，8 项受机器外部基线缺失影响（1.10.8 反编译文件与资源提取 `manifest.json` 不在本机指定路径）。
 
 ---
 
