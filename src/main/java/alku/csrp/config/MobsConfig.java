@@ -439,13 +439,67 @@ public final class MobsConfig {
             "Beckon stage 4 summon table: ground|air;entity_id;chance;capacity_cost. Stage 4 Beckons also "
                     + "re-raise their own bodyguards through this table.",
             MobsConfig::validBeckonMobEntry);
-    private static final ModConfigSpec.IntValue BECKON_CAPACITY_MINIMUM = intValue(
-            "srparasites:beckon_siv", "venkrolCAMinimumV", 4, 0, 10000,
-            "Original venkrolCAMinimumV: capacity points a beckon keeps in reserve before it starts "
-                    + "calling extra bodyguards.");
-    private static final ModConfigSpec.DoubleValue BECKON_CAPACITY_EXTRA = doubleValue(
-            "srparasites:beckon_siv", "venkrolCAExtraM", 0.5D, 0.0D, 100.0D,
-            "Original venkrolCAExtraM: extra bodyguard budget multiplier once the reserve is exhausted.");
+    private static final ModConfigSpec.IntValue BECKON_STAGE1_BATCH_LIMIT = intValue(
+            "srparasites:beckon_si", "venkrollimit", 4, 0, 10000,
+            "Maximum successful Biomass launches in one stage-1 Beckon batch.");
+    private static final ModConfigSpec.IntValue BECKON_STAGE1_COOLDOWN_SECONDS = intValue(
+            "srparasites:beckon_si", "venkrolCooldown", 10, 0, 10000,
+            "Cooldown in seconds after a stage-1 Beckon batch.");
+    private static final ModConfigSpec.IntValue BECKON_STAGE1_TOTAL_CAPACITY = intValue(
+            "srparasites:beckon_si", "venkrolTotalActiveMobs", 4, 0, 10000,
+            "Maximum summon capacity points tracked by a stage-1 Beckon.");
+    private static final ModConfigSpec.IntValue BECKON_STAGE1_GROUP_MINIMUM = intValue(
+            "srparasites:beckon_si", "venkrolCAMinimumV", 4, 0, 10000,
+            "Visible stage-1 Beckons required before a group receives extra summon pulses.");
+    private static final ModConfigSpec.DoubleValue BECKON_STAGE1_GROUP_EXTRA = doubleValue(
+            "srparasites:beckon_si", "venkrolCAExtraM", 0.5D, 0.0D, 100.0D,
+            "Extra stage-1 summon pulses per visible group member.");
+    private static final ModConfigSpec.IntValue BECKON_STAGE2_BATCH_LIMIT = intValue(
+            "srparasites:beckon_sii", "venkrolsiilimit", 3, 0, 10000,
+            "Maximum successful Biomass launches in one stage-2 Beckon batch.");
+    private static final ModConfigSpec.IntValue BECKON_STAGE2_COOLDOWN_SECONDS = intValue(
+            "srparasites:beckon_sii", "venkrolsiiCooldown", 12, 0, 10000,
+            "Cooldown in seconds after a stage-2 Beckon batch.");
+    private static final ModConfigSpec.IntValue BECKON_STAGE2_TOTAL_CAPACITY = intValue(
+            "srparasites:beckon_sii", "venkrolsiiTotalActiveMobs", 9, 0, 10000,
+            "Maximum summon capacity points tracked by a stage-2 Beckon.");
+    private static final ModConfigSpec.IntValue BECKON_STAGE2_GROUP_MINIMUM = intValue(
+            "srparasites:beckon_sii", "venkrolsiiCAMinimumV", 4, 0, 10000,
+            "Visible stage-2 Beckons required before a group receives extra summon pulses.");
+    private static final ModConfigSpec.DoubleValue BECKON_STAGE2_GROUP_EXTRA = doubleValue(
+            "srparasites:beckon_sii", "venkrolsiiCAExtraM", 0.5D, 0.0D, 100.0D,
+            "Extra stage-2 summon pulses per visible group member.");
+    private static final ModConfigSpec.IntValue BECKON_STAGE3_BATCH_LIMIT = intValue(
+            "srparasites:beckon_siii", "venkrolsiiilimit", 2, 0, 10000,
+            "Maximum successful Biomass launches in one stage-3 Beckon batch.");
+    private static final ModConfigSpec.IntValue BECKON_STAGE3_COOLDOWN_SECONDS = intValue(
+            "srparasites:beckon_siii", "venkrolsiiiCooldown", 14, 0, 10000,
+            "Cooldown in seconds after a stage-3 Beckon batch.");
+    private static final ModConfigSpec.IntValue BECKON_STAGE3_TOTAL_CAPACITY = intValue(
+            "srparasites:beckon_siii", "venkrolsiiiTotalActiveMobs", 12, 0, 10000,
+            "Maximum summon capacity points tracked by a stage-3 Beckon.");
+    private static final ModConfigSpec.IntValue BECKON_STAGE3_GROUP_MINIMUM = intValue(
+            "srparasites:beckon_siii", "venkrolsiiiCAMinimumV", 4, 0, 10000,
+            "Visible stage-3 Beckons required before a group receives extra summon pulses.");
+    private static final ModConfigSpec.DoubleValue BECKON_STAGE3_GROUP_EXTRA = doubleValue(
+            "srparasites:beckon_siii", "venkrolsiiiCAExtraM", 0.35D, 0.0D, 100.0D,
+            "Extra stage-3 summon pulses per visible group member.");
+    private static final ModConfigSpec.IntValue BECKON_STAGE4_BATCH_LIMIT = intValue(
+            "srparasites:beckon_siv", "venkrolsivlimit", 4, 0, 10000,
+            "Maximum successful stage-4 Beckon summons in one batch.");
+    private static final ModConfigSpec.IntValue BECKON_STAGE4_COOLDOWN_SECONDS = intValue(
+            "srparasites:beckon_siv", "venkrolsivCooldown", 8, 0, 10000,
+            "Cooldown in seconds after a stage-4 Beckon batch.");
+    private static final ModConfigSpec.IntValue BECKON_STAGE4_TOTAL_CAPACITY = intValue(
+            "srparasites:beckon_siv", "venkrolsivTotalActiveMobs", 12, 0, 10000,
+            "Maximum summon capacity points tracked by a stage-4 Beckon.");
+    private static final ModConfigSpec.IntValue BECKON_STAGE4_GROUP_MINIMUM = intValue(
+            "srparasites:beckon_siv", "venkrolsivCAMinimumV", 4, 0, 10000,
+            "Visible stage-4 Beckons required before a group receives extra summon pulses.");
+    private static final ModConfigSpec.DoubleValue BECKON_STAGE4_GROUP_EXTRA = doubleValue(
+            "srparasites:beckon_siv", "venkrolsivCAExtraM", 0.35D, 0.0D, 100.0D,
+            "Extra stage-4 summon pulses per visible group member.");
+
     private static final ModConfigSpec.DoubleValue VIGILANTE_HEALTH_MULTIPLIER = value(
             "srparasites:vigilante", "vigilanteHealthMultiplier", 1.0D, 0.01D, 100.0D,
             "Health multiplier for the Vigilante.");
@@ -1063,21 +1117,27 @@ public final class MobsConfig {
     }
 
     /**
-     * Parses the original {@code venkrol*moblist} for a beckon stage into the summon-option shape used by
-     * {@code BiomassEntity}. Entries whose id is not registered are skipped, mirroring the original's
-     * {@code null} hole handling ({@code SRPAttributes} left unparsable slots as {@code null} and the
-     * spawn loop skipped them).
+     * Parses the original {@code venkrol*moblist} for a Beckon stage into the summon-option shape used by
+     * {@code BiomassEntity}. Each ground/air table retains the full configured table length; entries for the
+     * other side and invalid rows remain {@code null}, preserving the original random-index distribution.
      */
     public static java.util.List<alku.csrp.entity.BiomassEntity.SummonOption> beckonSummonMobs(int stage,
                                                                                                boolean airborne) {
         String wanted = airborne ? "air" : "ground";
-        java.util.List<alku.csrp.entity.BiomassEntity.SummonOption> options = new java.util.ArrayList<>();
-        for (String entry : beckonMobList(stage)) {
+        java.util.List<? extends String> entries = beckonMobList(stage);
+        java.util.List<alku.csrp.entity.BiomassEntity.SummonOption> options =
+                new java.util.ArrayList<>(java.util.Collections.nCopies(entries.size(), null));
+        int sideIndex = 0;
+        for (String entry : entries) {
             if (entry == null) {
                 continue;
             }
             String[] parts = entry.split(";", -1);
-            if (parts.length != 4 || !wanted.equals(parts[0].trim())) {
+            if (parts.length == 0 || !wanted.equals(parts[0].trim())) {
+                continue;
+            }
+            int optionIndex = sideIndex++;
+            if (parts.length != 4) {
                 continue;
             }
             net.minecraft.resources.Identifier id = net.minecraft.resources.Identifier.tryParse(parts[1].trim());
@@ -1092,10 +1152,10 @@ public final class MobsConfig {
                 continue;
             }
             try {
-                options.add(new alku.csrp.entity.BiomassEntity.SummonOption(mobType,
+                options.set(optionIndex, new alku.csrp.entity.BiomassEntity.SummonOption(mobType,
                         Double.parseDouble(parts[2].trim()), Integer.parseInt(parts[3].trim())));
             } catch (NumberFormatException ignored) {
-                // Mirrors the original's malformed-entry guard: skip that single row.
+                // Matches the original parser's null-slot behavior for malformed values.
             }
         }
         return options;
@@ -1110,11 +1170,51 @@ public final class MobsConfig {
         };
     }
 
-    public static int beckonCapacityMinimum() {
-        return BECKON_CAPACITY_MINIMUM.get();
+    public static int beckonBatchLimit(int stage) {
+        return switch (stage) {
+            case 1 -> BECKON_STAGE1_BATCH_LIMIT.get();
+            case 2 -> BECKON_STAGE2_BATCH_LIMIT.get();
+            case 3 -> BECKON_STAGE3_BATCH_LIMIT.get();
+            default -> BECKON_STAGE4_BATCH_LIMIT.get();
+        };
     }
 
-    @SuppressWarnings("unchecked")
+    public static int beckonCooldownSeconds(int stage) {
+        return switch (stage) {
+            case 1 -> BECKON_STAGE1_COOLDOWN_SECONDS.get();
+            case 2 -> BECKON_STAGE2_COOLDOWN_SECONDS.get();
+            case 3 -> BECKON_STAGE3_COOLDOWN_SECONDS.get();
+            default -> BECKON_STAGE4_COOLDOWN_SECONDS.get();
+        };
+    }
+
+    public static int beckonTotalCapacity(int stage) {
+        return switch (stage) {
+            case 1 -> BECKON_STAGE1_TOTAL_CAPACITY.get();
+            case 2 -> BECKON_STAGE2_TOTAL_CAPACITY.get();
+            case 3 -> BECKON_STAGE3_TOTAL_CAPACITY.get();
+            default -> BECKON_STAGE4_TOTAL_CAPACITY.get();
+        };
+    }
+
+    public static int beckonCapacityMinimum(int stage) {
+        return switch (stage) {
+            case 1 -> BECKON_STAGE1_GROUP_MINIMUM.get();
+            case 2 -> BECKON_STAGE2_GROUP_MINIMUM.get();
+            case 3 -> BECKON_STAGE3_GROUP_MINIMUM.get();
+            default -> BECKON_STAGE4_GROUP_MINIMUM.get();
+        };
+    }
+
+    public static double beckonCapacityExtra(int stage) {
+        return switch (stage) {
+            case 1 -> BECKON_STAGE1_GROUP_EXTRA.get();
+            case 2 -> BECKON_STAGE2_GROUP_EXTRA.get();
+            case 3 -> BECKON_STAGE3_GROUP_EXTRA.get();
+            default -> BECKON_STAGE4_GROUP_EXTRA.get();
+        };
+    }
+
     private static net.minecraft.world.entity.EntityType<? extends net.minecraft.world.entity.Mob> asMobType(
             net.minecraft.world.entity.EntityType<?> type) {
         if (type == null) {
@@ -1124,10 +1224,6 @@ public final class MobsConfig {
         // living mob was simply skipped there too, so this guard preserves that behaviour.
         return net.minecraft.world.entity.Mob.class.isAssignableFrom(type.getBaseClass())
                 ? (net.minecraft.world.entity.EntityType<? extends net.minecraft.world.entity.Mob>) type : null;
-    }
-
-    public static float beckonCapacityExtraMultiplier() {
-        return (float) (double) BECKON_CAPACITY_EXTRA.get();
     }
 
     public static double vigilanteHealth() {

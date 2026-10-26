@@ -63,9 +63,10 @@ import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /** Legacy Nexus families: stationary stage growth, reinforcement, and battlefield support. */
-public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
+public final class NexusParasiteEntity extends PrimitiveParasiteEntity implements SummonCapacityOwner {
     private static final EntityDataAccessor<Float> BODY = SynchedEntityData.defineId(
             NexusParasiteEntity.class, EntityDataSerializers.FLOAT);
     private static final EntityDataAccessor<Integer> PARASITE_STATUS = SynchedEntityData.defineId(
@@ -82,10 +83,15 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     private final CitadelRawAnimation BECKON_FLOOR_TIMER = ParasiteAnimations.loop(this, "get_floor_timer");
     private final CitadelRawAnimation BECKON_ATTACK_FLOOR_TIMER = ParasiteAnimations.loop(this,
             "get_floor_timer.get_parasite_status_1");
+    private final CitadelRawAnimation BECKON_BURIED = ParasiteAnimations.play(this, "get_floor_timer");
+    private static final byte BECKON_BURIED_EVENT = 50;
     private static final int STAGE_ONE_MIN_GROWTH = 4_800;
     private static final int STAGE_ONE_GROWTH_VARIANCE = 1_201;
     private static final int TEMPORARY_BECKON_LIFETIME = 300;
-    private static final int BECKON_CAPACITY_FALLBACK_INTERVAL = 20;
+    private static final int BECKON_PULSE_INTERVAL = 20;
+    private static final int BECKON_LOCK_RELEASE_TICKS = 200;
+    private static final int BECKON_SIV_INITIAL_RANGE = 12;
+    private static final int BECKON_SIV_EXTRA_RANGE = 5;
 
     /** Original SRPConfig.nexusLeemCap. */
     private static final int NEXUS_ROOTER_CAP = 5;
@@ -100,9 +106,16 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
 
     private final Kind kind;
     private final List<String> storedParasiteIds = new ArrayList<>();
+    private final SummonCapacityTracker summonTracker = new SummonCapacityTracker();
     private int growthTicks;
     private int growthDelayTicks;
     private int summonCooldown;
+    private int beckonAttackTimer;
+    private int beckonBatchCount;
+    private double beckonExtraBudget;
+    private boolean beckonGroupActive;
+    private boolean beckonLocked;
+    private boolean beckonCounted;
     private int bombCooldown;
     private int supportCooldown;
     private int blockBreakCooldown;
@@ -123,6 +136,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         this.dimensionStageLock = Config.nexusStageLock(level);
         growthDelayTicks = kind.stage == 0 || kind.stage == 4 ? -1
                 : STAGE_ONE_MIN_GROWTH + random.nextInt(STAGE_ONE_GROWTH_VARIANCE);
+        if (kind.family == Family.BECKON && !Config.useEvolutionPhases() && !Config.ignoreCooldownAtSpawn()) {
+            beckonAttackTimer = -MobsConfig.beckonCooldownSeconds(kind.stage) * 20;
+        }
     }
 
     public static AttributeSupplier.Builder createAttributes(Kind kind) {
@@ -175,6 +191,27 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     @Override
+    public void handleEntityEvent(byte id) {
+        Kind activeKind = activeKind();
+        if (id == BECKON_BURIED_EVENT && activeKind.family == Family.BECKON
+                && activeKind.stage < 4) {
+            setFloorTimer(beckonBuriedDepth(activeKind.stage));
+            triggerAnim("floor_controller", "beckon_buried");
+            return;
+        }
+        super.handleEntityEvent(id);
+    }
+
+    private static float beckonBuriedDepth(int stage) {
+        return switch (stage) {
+            case 1 -> 2.6F;
+            case 2 -> 4.4F;
+            case 3 -> 5.8F;
+            default -> 0.0F;
+        };
+    }
+
+    @Override
     protected void registerGoals() {
         goalSelector.addGoal(0, new FloatGoal(this));
         if (activeKind().isRooterBall()) {
@@ -189,6 +226,11 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     public void tick() {
         super.tick();
         if (level().isClientSide()) {
+            float buried = getFloorTimer();
+            if (buried > 0.0F) {
+                float remaining = buried - 0.08F;
+                setFloorTimer(remaining > 0.0F ? remaining : -0.1F);
+            }
             return;
         }
         getNavigation().stop();
@@ -241,7 +283,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         if (activeKind.family == Family.DISPATCHER && activeKind.stage == 4) {
             tryPlaceFirstColony();
         }
-        if (summonCooldown <= 0 && performFamilyAbility(activeKind)) {
+        if (activeKind.family == Family.BECKON) {
+            tickBeckonSummoning(activeKind);
+        } else if (summonCooldown <= 0 && performFamilyAbility(activeKind)) {
             setParasiteStatus(1);
             summonCooldown = activeKind.summonCooldown;
         } else if (summonCooldown > 0 && getParasiteStatus() == 1) {
@@ -406,7 +450,8 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         controllers.add(new CitadelAnimationController<>(this, "age_controller", 0, this::ageAnimation));
         if (activeKind.family == Family.BECKON && activeKind.stage < 4) {
             controllers.add(new CitadelAnimationController<>(this, "body_controller", 0, this::bodyAnimation));
-            controllers.add(new CitadelAnimationController<>(this, "floor_controller", 0, this::floorAnimation));
+            controllers.add(new CitadelAnimationController<>(this, "floor_controller", 0, this::floorAnimation)
+                    .triggerableAnim("beckon_buried", BECKON_BURIED));
         }
     }
 
@@ -426,6 +471,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         tag.putInt("nexus_parasite_status", getParasiteStatus());
         tag.putFloat("nexus_floor_timer", getFloorTimer());
         ValueOutput.TypedOutputList<String> storedParasites = tag.list("nexus_dispatcher_stored", Codec.STRING);
+
         for (String id : storedParasiteIds) {
             storedParasites.add(id);
         }
@@ -462,6 +508,31 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
 
     public Kind getKind() {
         return activeKind();
+    }
+
+    @Override
+    public int getSummonCapacity() {
+        return activeKind().family == Family.BECKON ? MobsConfig.beckonTotalCapacity(activeKind().stage) : 0;
+    }
+
+    @Override
+    public int getUsedSummonCapacity() {
+        return summonTracker.usedCapacity();
+    }
+
+    @Override
+    public void reserveTrackedSummon(UUID entityId, int cost) {
+        summonTracker.reserve(entityId, cost);
+    }
+
+    @Override
+    public void replaceTrackedSummon(UUID previousId, UUID replacementId, int cost) {
+        summonTracker.replace(previousId, replacementId, cost);
+    }
+
+    @Override
+    public void releaseTrackedSummon(UUID entityId) {
+        summonTracker.release(entityId);
     }
 
     private CitadelPlayState ageAnimation(CitadelAnimationState<NexusParasiteEntity> state) {
@@ -613,88 +684,265 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
                 && !(candidate instanceof MarauderTendrilEntity);
     }
 
-    private boolean summonBeckonParasites(Kind activeKind, LivingEntity target) {
-        if (!(level() instanceof ServerLevel serverLevel) || nearbyParasiteCount(18.0D) >= activeKind.activeCap) {
+    private void tickBeckonSummoning(Kind activeKind) {
+        LivingEntity target = getTarget();
+        if (target == null) {
+            beckonBatchCount = 0;
+            if (getParasiteStatus() != 0) {
+                setParasiteStatus(0);
+            }
+        }
+        if (beckonLocked) {
+            if (--beckonAttackTimer <= -BECKON_LOCK_RELEASE_TICKS) {
+                beckonLocked = false;
+                beckonAttackTimer = -beckonCooldownTicks(activeKind);
+            }
+            return;
+        }
+        if (target == null) {
+            return;
+        }
+        if (getParasiteStatus() != 1) {
+            setParasiteStatus(1);
+        }
+        if (!target.isAlive() || !hasLineOfSight(target)) {
+            if (beckonAttackTimer > 0) {
+                beckonAttackTimer--;
+            }
+            return;
+        }
+        if (!(level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+
+        serverLevel.broadcastEntityEvent(this, (byte) 12);
+        beckonAttackTimer++;
+        if (beckonAttackTimer <= 0 || beckonAttackTimer % BECKON_PULSE_INTERVAL != 0) {
+            return;
+        }
+        if (beckonAttackTimer == BECKON_PULSE_INTERVAL) {
+            prepareBeckonGroup(activeKind);
+        }
+        summonTracker.prune(serverLevel);
+        int maximumBatch = MobsConfig.beckonBatchLimit(activeKind.stage);
+        if (beckonBatchCount < maximumBatch
+                && getUsedSummonCapacity() < getSummonCapacity()
+                && summonBeckonPulse(activeKind, target, false)) {
+            beckonBatchCount++;
+            if (beckonGroupActive) {
+                lockNearbyBeckons(activeKind);
+            }
+        }
+        if (beckonBatchCount >= maximumBatch) {
+            if (beckonGroupActive && beckonExtraBudget > 0.0D
+                    && beckonAttackTimer > maximumBatch * BECKON_PULSE_INTERVAL) {
+                if (summonBeckonPulse(activeKind, target, true)) {
+                    beckonExtraBudget -= 1.0D;
+                }
+            } else if (!beckonGroupActive || beckonExtraBudget <= 0.0D) {
+                finishBeckonBatch(activeKind);
+            }
+        }
+    }
+
+    private boolean summonBeckonPulse(Kind activeKind, LivingEntity target, boolean extra) {
+        if (!(level() instanceof ServerLevel serverLevel)) {
             return false;
         }
         if (activeKind.stage == 4) {
-            int points = 12;
-            int spawnedCount = 0;
-            int availableSlots = Math.max(0, activeKind.activeCap - nearbyParasiteCount(18.0D));
-            java.util.List<BiomassEntity.SummonOption> options =
-                    MobsConfig.beckonSummonMobs(4, false);
-            while (points >= 3 && spawnedCount < 4 && spawnedCount < availableSlots) {
-                // Original: pick a random entry, then walk forward until an affordable one is found
-                // (util/ParasiteEventEntity#spawnBiomassFromBeckon), wrapping at most twice.
-                BiomassEntity.SummonOption chosen = null;
-                int index = options.isEmpty() ? 0 : random.nextInt(options.size());
-                for (int wraps = 0; wraps < 2 && !options.isEmpty(); wraps++) {
-                    for (int step = 0; step < options.size(); step++) {
-                        BiomassEntity.SummonOption candidate = options.get((index + step) % options.size());
-                        if (candidate.cost() <= points) {
-                            chosen = candidate;
-                            break;
-                        }
-                    }
-                    if (chosen != null) {
-                        break;
-                    }
-                }
-                if (chosen == null) {
-                    break;
-                }
-                Mob spawned = chosen.type().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
-                if (spawned == null) {
-                    break;
-                }
-                double angle = random.nextDouble() * Math.PI * 2.0D;
-                double distance = 5.0D + spawnedCount;
-                spawned.snapTo(target.getX() + Math.cos(angle) * distance, target.getY(),
-                        target.getZ() + Math.sin(angle) * distance, getYRot(), 0.0F);
-                spawned.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(spawned.blockPosition()),
-                        EntitySpawnReason.MOB_SUMMONED, null);
-                if (spawned instanceof Mob mob) {
-                    mob.setTarget(target);
-                }
-                serverLevel.addFreshEntity(spawned);
-                points -= chosen.cost();
-                spawnedCount++;
-            }
-            return spawnedCount > 0;
+            int range = extra ? BECKON_SIV_EXTRA_RANGE : BECKON_SIV_INITIAL_RANGE;
+            LivingEntity center = extra ? this : target;
+            return summonStageFour(serverLevel, center, target, range);
         }
-        // Original: entityY + 3 <= targetY uses the air pool; stage 1 has no air summon path.
         boolean airborne = getY() + 3.0D <= target.getY();
         if (activeKind.stage == 1 && airborne) {
             return false;
         }
-        java.util.List<BiomassEntity.SummonOption> options =
-                MobsConfig.beckonSummonMobs(activeKind.stage, airborne);
+        return BiomassEntity.spawnFromBeckon(this, target, activeKind.stage,
+                MobsConfig.beckonSummonMobs(activeKind.stage, airborne));
+    }
+
+    private boolean summonStageFour(ServerLevel serverLevel, LivingEntity center, LivingEntity target, int range) {
+        List<BiomassEntity.SummonOption> options = MobsConfig.beckonSummonMobs(4, false);
         if (options.isEmpty()) {
             return false;
         }
-        BiomassEntity.SummonOption chosen = options.get(random.nextInt(options.size()));
-        // Original spawnBiomassFromBeckon reads the configured chance but does not roll it here.
-        if (!hasBeckonWorldCapacity(serverLevel)) {
-            // The original AI retries this non-counting Bomb fallback on its 20-tick summon pulse.
-            summonCooldown = BECKON_CAPACITY_FALLBACK_INTERVAL;
-            spawnBeckonCapacityBomb(serverLevel, activeKind.stage);
-            return false;
+
+        java.util.Random selection = new java.util.Random();
+        int xOffset = selection.nextInt(range);
+        int zOffset = selection.nextInt(range);
+        if (selection.nextBoolean()) {
+            xOffset = -xOffset;
         }
-        Mob spawned = chosen.type().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
-        if (spawned == null) {
-            return false;
+        if (selection.nextBoolean()) {
+            zOffset = -zOffset;
         }
-        double angle = random.nextDouble() * Math.PI * 2.0D;
-        spawned.snapTo(target.getX() + Math.cos(angle) * 4.0D, target.getY() + (activeKind.stage == 3 ? 0.5D : 0.0D),
-                target.getZ() + Math.sin(angle) * 4.0D, getYRot(), 0.0F);
-        spawned.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(spawned.blockPosition()),
-                EntitySpawnReason.MOB_SUMMONED, null);
-        spawned.setTarget(target);
-        serverLevel.addFreshEntity(spawned);
-        return true;
+        int index = selection.nextInt(options.size());
+        int wraps = 0;
+        while (true) {
+            if (index >= options.size()) {
+                index = 0;
+                wraps++;
+            }
+            if (wraps == 2) {
+                return false;
+            }
+
+            BiomassEntity.SummonOption option = options.get(index);
+            if (option == null) {
+                index++;
+                continue;
+            }
+            if (selection.nextDouble() <= option.chance()) {
+                if (!canReserveSummon(option.cost())) {
+                    index++;
+                    continue;
+                }
+                BlockPos position = BlockPos.containing(center.getX() + xOffset,
+                        center.getY(), center.getZ() + zOffset);
+                if (serverLevel.isEmptyBlock(position) && !serverLevel.isEmptyBlock(position.below())) {
+                    Mob spawned = option.type().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+                    if (spawned == null) {
+                        return false;
+                    }
+                    spawned.snapTo(position.getX(), position.getY(), position.getZ(), getYRot(), getXRot());
+                    spawned.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(position),
+                            EntitySpawnReason.MOB_SUMMONED, null);
+                    var followRange = spawned.getAttribute(Attributes.FOLLOW_RANGE);
+                    if (followRange != null) {
+                        followRange.setBaseValue(16.0D);
+                    }
+                    boolean temporaryBeckon = false;
+                    if (activeKind().stage == 4 && spawned instanceof NexusParasiteEntity nexus
+                            && nexus.activeKind().family == Family.BECKON) {
+                        nexus.makeTemporaryBeckon();
+                        temporaryBeckon = true;
+                    }
+                    if (spawned.getType() == ModEntities.BECKON_SI.get()
+                            && serverLevel.getBlockState(position.below()).is(ModBlocks.INFESTED_STAIN.get())) {
+                        return false;
+                    }
+                    if (!serverLevel.addFreshEntity(spawned)) {
+                        return false;
+                    }
+                    if (temporaryBeckon) {
+                        serverLevel.broadcastEntityEvent(spawned, BECKON_BURIED_EVENT);
+                    }
+                    reserveTrackedSummon(spawned.getUUID(), option.cost());
+                    spawned.setTarget(target);
+                    return true;
+                }
+                xOffset = selection.nextInt(range);
+                zOffset = selection.nextInt(range);
+                if (selection.nextBoolean()) {
+                    xOffset = -xOffset;
+                }
+                if (selection.nextBoolean()) {
+                    zOffset = -zOffset;
+                }
+            }
+            index++;
+        }
     }
 
-    private boolean hasBeckonWorldCapacity(ServerLevel serverLevel) {
+
+    private void prepareBeckonGroup(Kind activeKind) {
+        int groupSize = countNearbyBeckons(activeKind);
+        beckonGroupActive = groupSize >= MobsConfig.beckonCapacityMinimum(activeKind.stage);
+        beckonExtraBudget = beckonGroupActive
+                ? Math.floor(groupSize * MobsConfig.beckonCapacityExtra(activeKind.stage)) : 0.0D;
+        beckonBatchCount = 0;
+    }
+
+    private void finishBeckonBatch(Kind activeKind) {
+        beckonExtraBudget = 0.0D;
+        beckonGroupActive = false;
+        beckonBatchCount = 0;
+        beckonAttackTimer = -beckonCooldownTicks(activeKind);
+        unlockNearbyBeckons(activeKind);
+    }
+
+    private int beckonCooldownTicks(Kind activeKind) {
+        return MobsConfig.beckonCooldownSeconds(activeKind.stage) * 20;
+    }
+
+    private int countNearbyBeckons(Kind activeKind) {
+        if (activeKind.stage == 4) {
+            return 1;
+        }
+        int count = countConnectedBeckons(activeKind.stage, getUUID());
+        clearBeckonCounted(activeKind.stage, getUUID());
+        return count;
+    }
+
+    private int countConnectedBeckons(int stage, UUID sourceId) {
+        int count = 1;
+        for (NexusParasiteEntity other : nearbyBeckons(stage)) {
+            if (!other.getUUID().equals(sourceId) && !other.beckonCounted && other.hasLineOfSight(this)) {
+                other.beckonCounted = true;
+                count += other.countConnectedBeckons(stage, sourceId);
+            }
+        }
+        return count;
+    }
+
+    private void clearBeckonCounted(int stage, UUID sourceId) {
+        for (NexusParasiteEntity other : nearbyBeckons(stage)) {
+            if (!other.getUUID().equals(sourceId) && other.beckonCounted && other.hasLineOfSight(this)) {
+                other.beckonCounted = false;
+                other.clearBeckonCounted(stage, sourceId);
+            }
+        }
+    }
+
+    private List<NexusParasiteEntity> nearbyBeckons(int stage) {
+        AABB area = new AABB(getX(), getY(), getZ(), getX() + 1.0D, getY() + 1.0D, getZ() + 1.0D)
+                .inflate(getAttributeValue(Attributes.FOLLOW_RANGE) + 5.0D);
+        return level().getEntitiesOfClass(NexusParasiteEntity.class, area,
+                other -> other != this && other.isAlive()
+                        && other.activeKind().family == Family.BECKON
+                        && other.activeKind().stage == stage);
+    }
+
+    private void lockNearbyBeckons(Kind activeKind) {
+        lockNearbyBeckons(activeKind.stage, getUUID());
+    }
+
+    private void lockNearbyBeckons(int stage, UUID sourceId) {
+        if (stage == 4) {
+            return;
+        }
+        for (NexusParasiteEntity other : nearbyBeckons(stage)) {
+            if (!other.getUUID().equals(sourceId) && !other.beckonLocked && other.hasLineOfSight(this)) {
+                other.beckonLocked = true;
+                other.beckonAttackTimer = -1;
+                other.lockNearbyBeckons(stage, sourceId);
+            }
+        }
+    }
+
+    private void unlockNearbyBeckons(Kind activeKind) {
+        unlockNearbyBeckons(activeKind.stage, getUUID(), beckonCooldownTicks(activeKind));
+    }
+
+    private void unlockNearbyBeckons(int stage, UUID sourceId, int cooldownTicks) {
+        if (stage == 4) {
+            return;
+        }
+        for (NexusParasiteEntity other : nearbyBeckons(stage)) {
+            if (!other.getUUID().equals(sourceId) && other.beckonLocked && other.hasLineOfSight(this)) {
+                other.beckonLocked = false;
+                other.beckonAttackTimer = -cooldownTicks;
+                other.unlockNearbyBeckons(stage, sourceId, cooldownTicks);
+            }
+        }
+    }
+
+    private boolean summonBeckonParasites(Kind activeKind, LivingEntity target) {
+        return summonBeckonPulse(activeKind, target, false);
+    }
+
+    boolean hasBeckonWorldCapacity(ServerLevel serverLevel) {
         int parasiteCount = 0;
         for (Entity entity : serverLevel.getAllEntities()) {
             if (entity instanceof Parasite) {
@@ -704,7 +952,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         return parasiteCount < WorldConfig.beckonSummonLimit(serverLevel);
     }
 
-    private void spawnBeckonCapacityBomb(ServerLevel serverLevel, int stage) {
+    void spawnBeckonCapacityBomb(ServerLevel serverLevel, int stage) {
         // Original signed nextInt() threshold is intentionally preserved (~50%, not nextInt(100) 40%).
         if (serverLevel.getRandom().nextInt() < 40) {
             return;
@@ -737,6 +985,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         if (!serverLevel.addFreshEntity(bomb)) {
             return;
         }
+        serverLevel.broadcastEntityEvent(bomb, (byte) 0);
         SrpParticleEffects.spawnType10(serverLevel, getX(), getY(), getZ());
     }
 
@@ -1222,7 +1471,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         if (spawned == null || !(level() instanceof ServerLevel serverLevel)) {
             return false;
         }
-        if (activeKind().family == Family.BECKON && spawned.activeKind().family == Family.BECKON) {
+        boolean temporaryBeckon = activeKind().family == Family.BECKON
+                && spawned.activeKind().family == Family.BECKON;
+        if (temporaryBeckon) {
             spawned.makeTemporaryBeckon();
         }
         double angle = random.nextDouble() * Math.PI * 2.0D;
@@ -1231,7 +1482,12 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         spawned.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(spawned.blockPosition()),
                 EntitySpawnReason.MOB_SUMMONED, null);
         spawned.setTarget(target);
-        serverLevel.addFreshEntity(spawned);
+        if (!serverLevel.addFreshEntity(spawned)) {
+            return false;
+        }
+        if (temporaryBeckon) {
+            serverLevel.broadcastEntityEvent(spawned, BECKON_BURIED_EVENT);
+        }
         return true;
     }
 

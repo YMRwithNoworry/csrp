@@ -98,6 +98,14 @@ public final class BombEntity extends Entity {
     }
 
     @Override
+    public void handleEntityEvent(byte id) {
+        strength = id;
+        if (id >= 2) {
+            canGrief = true;
+        }
+    }
+
+    @Override
     public void tick() {
         super.tick();
         Vec3 movement = getDeltaMovement();

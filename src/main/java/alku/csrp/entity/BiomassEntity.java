@@ -1,5 +1,6 @@
 package alku.csrp.entity;
 
+import alku.csrp.Config;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
@@ -137,6 +138,85 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
                 position, yaw, pitch);
     }
 
+    /** Original EntityAIVenkrolSummon path: Biomass, not the configured chance roll, chooses an entry. */
+    public static boolean spawnFromBeckon(NexusParasiteEntity parent, LivingEntity target, int stage,
+                                          List<SummonOption> options) {
+        if (!(parent.level() instanceof ServerLevel level) || target == null || options.isEmpty()) {
+            return false;
+        }
+
+        java.util.Random selection = new java.util.Random();
+        int index = selection.nextInt(options.size());
+        int wraps = 0;
+        while (true) {
+            if (index >= options.size()) {
+                index = 0;
+                wraps++;
+            }
+            if (wraps == 2) {
+                return false;
+            }
+
+            SummonOption option = options.get(index);
+            if (option == null) {
+                index++;
+                continue;
+            }
+            int cost = option.cost();
+            if (parent.getSummonCapacity() - parent.getUsedSummonCapacity() < cost) {
+                // The original increments the index here but continues processing this same row.
+                index++;
+            }
+
+            if (parent.hasBeckonWorldCapacity(level)) {
+                BiomassEntity biomass = ModEntities.BIOMASS.get().create(level, EntitySpawnReason.MOB_SUMMONED);
+                if (biomass == null) {
+                    return false;
+                }
+                double stageOffset = stage == 3 ? 0.5D : 0.0D;
+                biomass.configure(parent, option.type(), cost, stage, target);
+                biomass.entityData.set(STAGE, (float) stage);
+                biomass.snapTo(parent.getX(), parent.getY() + parent.getEyeHeight() + stageOffset,
+                        parent.getZ(), parent.getYRot(), parent.getXRot());
+
+                double sampleX = (float) parent.getX() + level.getRandom().nextFloat();
+                double sampleY = (float) parent.getY() + parent.getEyeHeight() + level.getRandom().nextFloat();
+                double sampleZ = (float) parent.getZ() + level.getRandom().nextFloat();
+                double dx = sampleX - parent.getX();
+                double dy = sampleY - parent.getY();
+                double dz = sampleZ - parent.getZ();
+                double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+                dx /= distance;
+                dy /= distance;
+                dz /= distance;
+                double strength = 0.5D / (distance / 4.0D + 0.1D);
+                strength *= level.getRandom().nextFloat() * level.getRandom().nextFloat() + 1.7F;
+                double horizontalScale = stage == 3 ? 5.0D : 3.0D;
+                biomass.setBeckonMotion(dx * strength * horizontalScale, dy * strength * 2.0D,
+                        strength * horizontalScale, 0.4D, 0.5D);
+                if (parent.isOnFire()) {
+                    biomass.igniteForSeconds(8.0F);
+                }
+                if (!level.addFreshEntity(biomass)) {
+                    return false;
+                }
+                parent.reserveTrackedSummon(biomass.getUUID(), cost);
+                return true;
+            }
+
+            parent.spawnBeckonCapacityBomb(level, stage);
+            index++;
+        }
+    }
+
+    private void setBeckonMotion(double xSpeed, double ySpeed, double zSpeed, double capX, double capY) {
+        xSpeed = Math.min(xSpeed, capX);
+        ySpeed = Math.min(ySpeed, capY);
+        zSpeed = Math.min(zSpeed, capX);
+        setDeltaMovement(xSpeed * (random.nextDouble() * 2.0D - 1.0D), ySpeed,
+                zSpeed * (random.nextDouble() * 2.0D - 1.0D));
+    }
+
     private static boolean spawnBiomass(ServerLevel level, Mob summoner, SummonCapacityOwner owner,
                                         UUID reservationId, SummonOption option, int skin,
                                         LivingEntity target, Vec3 position, float yaw, float pitch) {
@@ -268,7 +348,9 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
         if (followRange != null) {
             followRange.setBaseValue(16.0D + (getStage() - 1.0F) * 8.0D);
         }
-        spawned.addEffect(new MobEffectInstance(ModMobEffects.RAGE, 1200, 1, false, false), this);
+        if (Config.rageEnabled()) {
+            spawned.addEffect(new MobEffectInstance(ModMobEffects.RAGE, 1200, 1, false, false), this);
+        }
         spawned.addEffect(new MobEffectInstance(ModMobEffects.DEBAR, 120000, 1, false, false), this);
         if (isOnFire()) {
             spawned.setHealth(spawned.getMaxHealth() * 0.5F);

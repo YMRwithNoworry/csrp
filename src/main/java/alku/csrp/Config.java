@@ -79,6 +79,9 @@ public final class Config {
     private static final ModConfigSpec.BooleanValue USE_EVOLUTION_PHASES = BUILDER
             .comment("Use SRP evolution phases instead of the legacy difficulty killcount behavior.")
             .define("useEvolutionPhases", true);
+    private static final ModConfigSpec.BooleanValue IGNORE_COOLDOWN_AT_SPAWN = BUILDER
+            .comment("Skip the initial Nexus cooldown when evolution phases are disabled (original: rsIgnoreCooldownAtSpawn).")
+            .define("rsIgnoreCooldownAtSpawn", true);
     // Original SRPConfigSystems.evolutionNoParasiteHealing / evolutionNoParasiteHealingValue.
     private static final ModConfigSpec.IntValue EVOLUTION_NO_PARASITE_HEALING = BUILDER
             .comment("Evolution phase from which non-parasites heal less (original: evolutionNoParasiteHealing).")
@@ -706,6 +709,7 @@ public final class Config {
     public static double killcountPlus() { return KILLCOUNT_PLUS.get(); }
     public static float primitiveMinimumDamage() { return PRIMITIVE_MINIMUM_DAMAGE.get().floatValue(); }
     public static boolean useEvolutionPhases() { return USE_EVOLUTION_PHASES.get(); }
+    public static boolean ignoreCooldownAtSpawn() { return IGNORE_COOLDOWN_AT_SPAWN.get(); }
     public static int evolutionNoParasiteHealing() { return EVOLUTION_NO_PARASITE_HEALING.get(); }
     public static float evolutionNoParasiteHealingValue() {
         return EVOLUTION_NO_PARASITE_HEALING_VALUE.get().floatValue();

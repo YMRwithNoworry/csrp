@@ -87,6 +87,17 @@ expect(mobsConfig, /case 1 -> BECKON_STAGE1_MOBS\.get\(\);/,
         "the beckon stage dispatcher no longer maps stage 1");
 expect(mobsConfig, /default -> BECKON_STAGE4_MOBS\.get\(\);/,
         "the beckon stage dispatcher no longer maps stage 4");
+const beckonParser = mobsConfig.match(/beckonSummonMobs\(int stage,\s*boolean airborne\) \{([\s\S]*?)\n    public static java\.util\.List<\? extends String> beckonMobList/);
+if (!beckonParser) {
+    failures.push("Beckon table parser body is missing");
+} else {
+    expect(beckonParser[1], /new java\.util\.ArrayList<>\(java\.util\.Collections\.nCopies\(entries\.size\(\), null\)\)/,
+            "ground/air tables no longer preserve the full configured table length and null slots");
+    expect(beckonParser[1], /if \(parts\.length == 0 \|\| !wanted\.equals\(parts\[0\]\.trim\(\)\)\) \{\s*continue;\s*\}[\s\S]*?int optionIndex = sideIndex\+\+;[\s\S]*?options\.set\(optionIndex,/,
+            "entries no longer fill a compact per-side prefix while preserving original null-slot distribution");
+    reject(beckonParser[1], /options\.add\(/,
+            "Beckon table parser compacts entries and changes original random-index distribution");
+}
 
 // The summon site must consume the configured table instead of a hard-coded switch, and must
 // pick the air table when the target is at least three blocks above the beckon
