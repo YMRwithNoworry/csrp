@@ -16,6 +16,7 @@ import net.minecraft.world.phys.Vec3;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import java.util.Arrays;
 import net.neoforged.neoforge.client.event.SubmitCustomGeometryEvent;
 
 /**
@@ -23,32 +24,18 @@ import net.neoforged.neoforge.client.event.SubmitCustomGeometryEvent;
  *
  * <p>The original mixed a hand-written column scan ({@code World#getPrecipitationHeight} per block
  * column) with an immediate-mode {@code Tessellator} draw inside the
- * {@code EntityRenderer#renderRainSnow} mixin. 26.3 has neither the mixin nor immediate mode, so:</p>
- * <ul>
- *   <li>the column scan is kept but now uses
- *       {@code Level#getHeight(Heightmap.Types.MOTION_BLOCKING, x, z)} - exactly the heightmap
- *       {@code WeatherEffectRenderer#extractRenderState} uses for the vanilla weather columns;</li>
- *   <li>the quads are submitted through {@link SubmitCustomGeometryEvent} with
- *       {@code RenderTypes.entityTranslucent} over the vanilla
- *       {@code textures/environment/snow.png}, the same texture the original bound.</li>
- * </ul>
- *
- * <p>Two deliberate 26.3 adaptations, both documented in
- * {@code docs/gap/R2_BLIZZARD_REPORT.md}: streaks are emitted double-sided (the 1.12.2 renderer
- * ran with culling disabled via {@code GlStateManager.disableCull}, and the modern render type used
- * here keeps culling on), and the per-frame streak budget is capped so a radius-14 blizzard cannot
- * submit tens of thousands of quads.</p>
+ * {@code EntityRenderer#renderRainSnow} mixin. 26.3 has neither the mixin nor immediate mode, so:
+ * the same column scan uses {@code Level#getHeight(Heightmap.Types.MOTION_BLOCKING, x, z)}, and
+ * quads are submitted through {@link SubmitCustomGeometryEvent} with the original snow texture.
+ * A growable primitive buffer preserves the original radius-8-to-14 scan without a streak budget.</p>
  */
 @EventBusSubscriber(modid = Csrp.MODID, value = Dist.CLIENT)
 public final class SRPBlizzardRenderer {
     private static final Identifier SNOW_TEXTURE =
             Identifier.withDefaultNamespace("textures/environment/snow.png");
     private static final int FULL_BRIGHT = 0xF000F0;
-    private static final int MAX_RADIUS = 12;
-    private static final int MAX_STREAKS = 1500;
     private static final int STRIDE = 10;
-
-    private static final double[] STREAKS = new double[MAX_STREAKS * STRIDE];
+    private static final int INITIAL_STREAK_CAPACITY = 2048;
 
     private SRPBlizzardRenderer() {
     }
@@ -91,12 +78,14 @@ public final class SRPBlizzardRenderer {
         double windX = Math.cos(windAngle) * windStrength;
         double windZ = Math.sin(windAngle) * windStrength;
 
-        int streakCount = collectStreaks(level, camera, intensity, time, snowTime, windX, windZ,
+        StreakBuffer streaks = collectStreaks(level, camera, intensity, time, snowTime, windX, windZ,
                 cameraRightX, cameraRightZ);
-        if (streakCount == 0) {
+        if (streaks.count == 0) {
             return;
         }
 
+        int streakCount = streaks.count;
+        double[] vertices = streaks.values;
         SubmitNodeCollector collector = event.getSubmitNodeCollector();
         RenderType renderType = RenderTypes.entityTranslucent(SNOW_TEXTURE);
         PoseStack poseStack = event.getPoseStack();
@@ -104,16 +93,16 @@ public final class SRPBlizzardRenderer {
             float color = brightness * (1.0F - blackBlend);
             for (int streak = 0; streak < streakCount; streak++) {
                 int base = streak * STRIDE;
-                addStreak(buffer, pose, STREAKS[base], STREAKS[base + 1], STREAKS[base + 2],
-                        STREAKS[base + 3], STREAKS[base + 4], STREAKS[base + 5], STREAKS[base + 6],
-                        STREAKS[base + 7], STREAKS[base + 8], (float) STREAKS[base + 9], color);
+                addStreak(buffer, pose, vertices[base], vertices[base + 1], vertices[base + 2],
+                        vertices[base + 3], vertices[base + 4], vertices[base + 5], vertices[base + 6],
+                        vertices[base + 7], vertices[base + 8], (float) vertices[base + 9], color);
             }
         });
     }
 
-    private static int collectStreaks(ClientLevel level, Vec3 camera, float intensity, double time,
+    private static StreakBuffer collectStreaks(ClientLevel level, Vec3 camera, float intensity, double time,
             double snowTime, double windX, double windZ, double cameraRightX, double cameraRightZ) {
-        int radius = Math.min(8 + Mth.floor(intensity * 6.0F), MAX_RADIUS);
+        int radius = 8 + Mth.floor(intensity * 6.0F);
         int cameraBlockX = Mth.floor(camera.x);
         int cameraBlockY = Mth.floor(camera.y);
         int cameraBlockZ = Mth.floor(camera.z);
@@ -121,10 +110,10 @@ public final class SRPBlizzardRenderer {
         int maxRenderY = cameraBlockY + 14;
         int laneCount = intensity > 0.7F ? 3 : 2;
         int baseSpacing = intensity > 0.55F ? 1 : 2;
-        int count = 0;
+        StreakBuffer streaks = new StreakBuffer();
 
-        for (int x = cameraBlockX - radius; x <= cameraBlockX + radius && count < MAX_STREAKS; x++) {
-            for (int z = cameraBlockZ - radius; z <= cameraBlockZ + radius && count < MAX_STREAKS; z++) {
+        for (int x = cameraBlockX - radius; x <= cameraBlockX + radius; x++) {
+            for (int z = cameraBlockZ - radius; z <= cameraBlockZ + radius; z++) {
                 double dx = x + 0.5 - camera.x;
                 double dz = z + 0.5 - camera.z;
                 double distance = Math.sqrt(dx * dx + dz * dz);
@@ -138,7 +127,7 @@ public final class SRPBlizzardRenderer {
                 }
                 float distanceFade = 1.0F - Mth.clamp((float) (distance / radius), 0.0F, 1.0F);
 
-                for (int lane = 0; lane < laneCount && count < MAX_STREAKS; lane++) {
+                for (int lane = 0; lane < laneCount; lane++) {
                     float randomA = hash01(x, z, lane * 11);
                     float randomB = hash01(x, z, lane * 11 + 1);
                     float randomC = hash01(x, z, lane * 11 + 2);
@@ -148,25 +137,26 @@ public final class SRPBlizzardRenderer {
                     int laneSpacing = baseSpacing + (randomD > 0.82F ? 1 : 0);
                     int phase = Mth.floor(randomC * (laneSpacing + 1));
 
-                    for (int y = startY + phase; y < maxRenderY && count < MAX_STREAKS; y += laneSpacing) {
+                    for (int y = startY + phase; y < maxRenderY; y += laneSpacing) {
                         if (randomF > 0.84F) {
                             continue;
                         }
-                        int base = count * STRIDE;
-                        if (!buildStreak(base, x, z, y, camera, intensity, time, snowTime, windX,
+                        streaks.ensureCapacity();
+                        int base = streaks.count * STRIDE;
+                        if (!buildStreak(streaks.values, base, x, z, y, camera, intensity, time, snowTime, windX,
                                 windZ, cameraRightX, cameraRightZ, distance, distanceFade, randomA,
                                 randomB, randomC, randomD, randomE, lane, laneSpacing)) {
                             continue;
                         }
-                        count++;
+                        streaks.count++;
                     }
                 }
             }
         }
-        return count;
+        return streaks;
     }
 
-    private static boolean buildStreak(int base, int x, int z, int y, Vec3 camera, float intensity,
+    private static boolean buildStreak(double[] streaks, int base, int x, int z, int y, Vec3 camera, float intensity,
             double time, double snowTime, double windX, double windZ, double cameraRightX,
             double cameraRightZ, double distance, float distanceFade, float randomA, float randomB,
             float randomC, float randomD, float randomE, int lane, int laneSpacing) {
@@ -216,16 +206,16 @@ public final class SRPBlizzardRenderer {
             alpha *= 0.92F;
         }
 
-        STREAKS[base] = baseX - camera.x;
-        STREAKS[base + 1] = bottomWorldY - camera.y;
-        STREAKS[base + 2] = baseZ - camera.z;
-        STREAKS[base + 3] = endWorldX - camera.x;
-        STREAKS[base + 4] = topWorldY - camera.y;
-        STREAKS[base + 5] = endWorldZ - camera.z;
-        STREAKS[base + 6] = widthX;
-        STREAKS[base + 7] = widthZ;
-        STREAKS[base + 8] = time * 0.09 + randomC * 8.0 + lane * 0.37;
-        STREAKS[base + 9] = alpha;
+        streaks[base] = baseX - camera.x;
+        streaks[base + 1] = bottomWorldY - camera.y;
+        streaks[base + 2] = baseZ - camera.z;
+        streaks[base + 3] = endWorldX - camera.x;
+        streaks[base + 4] = topWorldY - camera.y;
+        streaks[base + 5] = endWorldZ - camera.z;
+        streaks[base + 6] = widthX;
+        streaks[base + 7] = widthZ;
+        streaks[base + 8] = time * 0.09 + randomC * 8.0 + lane * 0.37;
+        streaks[base + 9] = alpha;
         return true;
     }
 
@@ -265,6 +255,20 @@ public final class SRPBlizzardRenderer {
                 .setUv((float) u, (float) v)
                 .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setLight(FULL_BRIGHT);
+    }
+
+    private static final class StreakBuffer {
+        private double[] values = new double[INITIAL_STREAK_CAPACITY * STRIDE];
+        private int count;
+
+        private void ensureCapacity() {
+            int required = Math.multiplyExact(count + 1, STRIDE);
+            if (required <= values.length) {
+                return;
+            }
+            int expanded = values.length + Math.max(values.length / 2, STRIDE);
+            values = Arrays.copyOf(values, Math.max(required, expanded));
+        }
     }
 
     private static double positiveModulo(double value, double modulus) {

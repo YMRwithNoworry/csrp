@@ -16,8 +16,10 @@ public final class ModParticles {
             PARTICLES.register("kirin_warning", () -> new SimpleParticleType(true));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> ASSIMILATION_SPLASH =
             PARTICLES.register("assimilation_splash", () -> new SimpleParticleType(true));
-    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> GORE_CLOUD =
-            PARTICLES.register("gore_cloud", () -> new SimpleParticleType(true));
+    public static final DeferredHolder<ParticleType<?>, SrpColorParticleType> GORE_CLOUD =
+            PARTICLES.register("gore_cloud", () -> new SrpColorParticleType(true));
+    public static final DeferredHolder<ParticleType<?>, SrpColorParticleType> GORE_SPLASH =
+            PARTICLES.register("gore_splash", () -> new SrpColorParticleType(true));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> BIOMASS =
             PARTICLES.register("biomass", () -> new SimpleParticleType(true));
     public static final DeferredHolder<ParticleType<?>, SimpleParticleType> FOG =

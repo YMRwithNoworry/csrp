@@ -12,9 +12,15 @@ public final class WorldConfig {
     private static final ModConfigSpec.IntValue WORLD_SPAWNING_MOB_CAP = BUILDER
             .comment("Base number of parasites allowed to spawn naturally in one dimension. Set to 0 to disable the cap.")
             .defineInRange("worldSpawningMobCap", 20, 0, 50000);
+    private static final ModConfigSpec.IntValue WORLD_MOB_CAP = BUILDER
+            .comment("Base world-wide parasite limit used by Beckon biomass summons (original: worldMobCap).")
+            .defineInRange("worldMobCap", 40, 0, 50000);
     private static final ModConfigSpec.IntValue WORLD_MOB_CAP_PLUS_PLAYER = BUILDER
-            .comment("Natural parasite cap added for each player in the dimension.")
+            .comment("Parasite cap added for each player to natural spawning and Beckon summons.")
             .defineInRange("worldMobCapPlusPlayer", 5, 0, 50000);
+    private static final ModConfigSpec.IntValue WORLD_BECKON_SPAWNS_CAP = BUILDER
+            .comment("Additional world-wide parasite capacity reserved for Beckon summons (original: worldBeckonSpawnsCap).")
+            .defineInRange("worldBeckonSpawnsCap", 20, 0, 50000);
     private static final ModConfigSpec.BooleanValue MOB_CLEANER_ENABLED = BUILDER
             .comment("Remove excess parasites when their count exceeds twice the current natural mob cap.")
             .define("mobCleanerEnabled", true);
@@ -190,6 +196,12 @@ public final class WorldConfig {
     public static int naturalMobCap(ServerLevel level) {
         int base = WORLD_SPAWNING_MOB_CAP.get();
         return base == 0 ? 0 : base + level.players().size() * WORLD_MOB_CAP_PLUS_PLAYER.get();
+    }
+
+    /** {@code SRPConfig.worldMobCap + players * worldMobCapPlusPlayer + worldBeckonSpawnsCap}. */
+    public static int beckonSummonLimit(ServerLevel level) {
+        return WORLD_MOB_CAP.get() + level.players().size() * WORLD_MOB_CAP_PLUS_PLAYER.get()
+                + WORLD_BECKON_SPAWNS_CAP.get();
     }
 
     public static boolean mobCleanerEnabled() {

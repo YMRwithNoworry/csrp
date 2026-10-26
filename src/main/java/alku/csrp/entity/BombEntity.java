@@ -82,6 +82,15 @@ public final class BombEntity extends Entity {
         xRotO = getXRot();
     }
 
+    /** Original EntityBomb#setMotion used by a Beckon when the world-wide parasite cap is full. */
+    public void setBeckonMotion(double xSpeed, double ySpeed, double zSpeed, double capX, double capY) {
+        xSpeed = Math.min(xSpeed, capX);
+        ySpeed = Math.min(ySpeed, capY);
+        zSpeed = Math.min(zSpeed, capX);
+        setDeltaMovement(xSpeed * (random.nextDouble() * 2.0D - 1.0D), ySpeed,
+                zSpeed * (random.nextDouble() * 2.0D - 1.0D));
+    }
+
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         builder.define(FUSE, 80);

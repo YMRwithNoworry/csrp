@@ -43,6 +43,13 @@ public final class SRPBlizzardClient {
         return isColdWorld() || ClientExtremeSnow.isEnabled();
     }
 
+    /** Original 1.10.9 weather redirects disabled vanilla rain and snow in a wet cold-star world. */
+    public static boolean shouldSuppressVanillaPrecipitation() {
+        Minecraft minecraft = Minecraft.getInstance();
+        ClientLevel level = minecraft.level;
+        return level != null && isColdWorld() && level.getRainLevel(1.0F) > 0.001F;
+    }
+
     /** 1.10.9 {@code getIntensity}: vanilla rain strength, clamped, cold star only. */
     public static float getIntensity(float partialTicks) {
         Minecraft minecraft = Minecraft.getInstance();

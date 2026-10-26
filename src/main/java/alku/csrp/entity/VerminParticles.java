@@ -1,6 +1,6 @@
 package alku.csrp.entity;
 
-import alku.csrp.registry.ModParticles;
+import alku.csrp.particle.SrpParticleEffects;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
@@ -9,11 +9,6 @@ import net.minecraft.world.phys.Vec3;
 
 final class VerminParticles {
     private static final int AMBIENT_SPLASH_COUNT = 5;
-    private static final int PAYLOAD_SPLASH_COUNT = 3;
-    private static final int PAYLOAD_SPRAY_COUNT = 5;
-    private static final int PAYLOAD_CLOUD_COUNT = 5;
-    private static final int LARGE_SPRAY_COUNT = 33;
-    private static final int LARGE_CLOUD_COUNT = 13;
 
     private VerminParticles() {
     }
@@ -22,9 +17,8 @@ final class VerminParticles {
         RandomSource random = level.getRandom();
         for (int index = 0; index < AMBIENT_SPLASH_COUNT; index++) {
             Vec3 velocity = sprayVelocity(source, random, 0.2D, 0.0D);
-            level.addParticle(ModParticles.ASSIMILATION_SPLASH.get(),
-                    source.getX(), source.getY(), source.getZ(),
-                    velocity.x, velocity.y, velocity.z);
+            SrpParticleEffects.spawnGoreSplash(level, source.getX(), source.getY(), source.getZ(),
+                    velocity.x, velocity.y, velocity.z, 0);
         }
     }
 
@@ -33,31 +27,11 @@ final class VerminParticles {
     }
 
     static void sendType10Burst(ServerLevel level, Entity source) {
-        double x = source.getX();
-        double y = source.getY();
-        double z = source.getZ();
-        level.sendParticles(ModParticles.ASSIMILATION_SPLASH.get(), x, y + 0.75D, z,
-                PAYLOAD_SPLASH_COUNT, 0.5D, 0.25D, 0.5D, 0.02D);
-        for (int index = 0; index < PAYLOAD_SPRAY_COUNT; index++) {
-            Vec3 velocity = sprayVelocity(source, level.getRandom(), 1.0D, 4.0D);
-            level.sendParticles(ModParticles.ASSIMILATION_SPLASH.get(), x, y + 1.2D, z,
-                    0, velocity.x, velocity.y, velocity.z, 1.0D);
-        }
-        level.sendParticles(ModParticles.GORE_CLOUD.get(), x, y + 0.75D, z,
-                PAYLOAD_CLOUD_COUNT, 0.5D, 0.25D, 0.5D, 0.02D);
+        SrpParticleEffects.spawnType10(level, source.getX(), source.getY(), source.getZ());
     }
 
     static void sendType11Burst(ServerLevel level, Entity source) {
-        double x = source.getX();
-        double y = source.getY();
-        double z = source.getZ();
-        for (int index = 0; index < LARGE_SPRAY_COUNT; index++) {
-            Vec3 velocity = sprayVelocity(source, level.getRandom(), 1.0D, 4.0D);
-            level.sendParticles(ModParticles.ASSIMILATION_SPLASH.get(), x, y + 1.2D, z,
-                    0, velocity.x, velocity.y, velocity.z, 1.0D);
-        }
-        level.sendParticles(ModParticles.GORE_CLOUD.get(), x, y + 0.75D, z,
-                LARGE_CLOUD_COUNT, 0.5D, 0.25D, 0.5D, 0.02D);
+        SrpParticleEffects.spawnType11(level, source.getX(), source.getY(), source.getZ());
     }
 
     static void sendContactBursts(ServerLevel level, Entity source, boolean converted) {

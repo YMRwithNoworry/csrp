@@ -19,10 +19,15 @@ const entities = read("src/main/java/alku/csrp/registry/ModEntities.java");
 const renderers = read("src/main/java/alku/csrp/client/ClientModEvents.java");
 const particles = read("src/main/java/alku/csrp/registry/ModParticles.java");
 const payloadParticles = read("src/main/java/alku/csrp/entity/VerminParticles.java");
+const particleEffects = read("src/main/java/alku/csrp/particle/SrpParticleEffects.java");
+const clientParticleEffects = read("src/main/java/alku/csrp/client/SrpParticleEffectsClient.java");
+const goreSplash = read("src/main/java/alku/csrp/client/particle/GoreSplashParticle.java");
 const splash = read("src/main/java/alku/csrp/client/particle/AssimilationSplashParticle.java");
 const cloud = read("src/main/java/alku/csrp/client/particle/GoreCloudParticle.java");
 const cloudDescription = JSON.parse(
   read("src/main/resources/assets/csrp/particles/gore_cloud.json"));
+const goreSplashDescription = JSON.parse(
+  read("src/main/resources/assets/csrp/particles/gore_splash.json"));
 
 expectPattern(shared, /protected boolean usesDefaultTargetGoals\(\)[\s\S]*?return true;/,
   "shared target-goal opt-out hook is missing");
@@ -93,18 +98,39 @@ expect(!adaptedVerminGoals.includes("onGround"),
 expectPattern(adapted, /case VERMIN -> ModEntities\.MOVINGFLESH/,
   "Adapted Vermin colony death protection does not create EntityLesh/Moving Flesh");
 
-expectPattern(particles, /GORE_CLOUD[\s\S]*?register\("gore_cloud"/,
-  "original GCLOUD particle is not registered");
-expectPattern(renderers, /ModParticles\.GORE_CLOUD[\s\S]*?GoreCloudParticle\.Provider/,
-  "GCLOUD particle provider is not registered");
-expectPattern(payloadParticles,
-  /PAYLOAD_SPLASH_COUNT = 3[\s\S]*?PAYLOAD_SPRAY_COUNT = 5[\s\S]*?PAYLOAD_CLOUD_COUNT = 5/,
-  "payload packet type 10 does not retain its original 3 + 5 + 5 particle composition");
-expectPattern(payloadParticles,
-  /sendParticles\(ModParticles\.GORE_CLOUD[\s\S]*?PAYLOAD_CLOUD_COUNT/,
-  "payload burst does not emit the five red GCLOUD particles");
+expectPattern(particles, /GORE_CLOUD[\s\S]*?register\("gore_cloud"[\s\S]*?GORE_SPLASH[\s\S]*?register\("gore_splash"/,
+  "original GCLOUD or GSPLASH particle type is not registered");
+expectPattern(renderers,
+  /ModParticles\.GORE_CLOUD[\s\S]*?GoreCloudParticle\.Provider[\s\S]*?ModParticles\.GORE_SPLASH[\s\S]*?GoreSplashParticle\.Provider/,
+  "GCLOUD or GSPLASH particle provider is not registered");
+expectPattern(clientParticleEffects,
+  /TYPE10_SPLASH_COUNT = 3[\s\S]*?TYPE10_SPRAY_COUNT = 5[\s\S]*?TYPE10_CLOUD_COUNT = 5[\s\S]*?TYPE11_SPRAY_COUNT = 33[\s\S]*?TYPE11_CLOUD_COUNT = 13/,
+  "SRPPacketParticle type 10/11 counts differ from the original");
+expectPattern(clientParticleEffects,
+  /case 10 -> \{[\s\S]*?goreSplash\(0\)[\s\S]*?TYPE10_SPLASH_COUNT[\s\S]*?TYPE10_SPRAY_COUNT[\s\S]*?goreCloud\(127, 0, 0\)[\s\S]*?TYPE10_CLOUD_COUNT/,
+  "payload type 10 does not emit assimilated GSPLASH and red GCLOUD particles");
+expectPattern(clientParticleEffects,
+  /case 11 -> \{[\s\S]*?TYPE11_SPRAY_COUNT[\s\S]*?goreCloud\(127, 0, 0\)[\s\S]*?TYPE11_CLOUD_COUNT/,
+  "payload type 11 does not emit the original spray and cloud particles");
+expectPattern(clientParticleEffects,
+  /case 1 -> spawnVolume\(level, random, goreSplash\(0\), x, y, z, 1,/,
+  "SRPPacketParticle type 1 does not spawn the original assimilated GSPLASH");
+expectPattern(clientParticleEffects,
+  /case 2 -> spawnVolume\(level, random, goreCloud\(0, 0, 0\), x, y, z, 4,/,
+  "SRPPacketParticle type 2 does not spawn four black GCLOUDs");
+expectPattern(clientParticleEffects,
+  /case 4 -> spawnVolume\(level, random, goreCloud\(125, 227, 118\), x, y, z, 24,/,
+  "SRPPacketParticle type 4 does not spawn 24 green GCLOUDs");
+expectPattern(particleEffects,
+  /spawnType10\(ServerLevel level, double x, double y, double z\)[\s\S]*?send\(level, x, y, z, 0\.5F, 0\.5F, 10\)/,
+  "server does not transmit the original packet type 10");
+expectPattern(particleEffects,
+  /spawnType11\(ServerLevel level, double x, double y, double z\)[\s\S]*?send\(level, x, y, z, 0\.5F, 0\.5F, 11\)/,
+  "server does not transmit the original packet type 11");
+expectPattern(payloadParticles, /SrpParticleEffects\.spawnType10\(level, source\.getX\(\), source\.getY\(\), source\.getZ\(\)\)/,
+  "Vermin type 10 burst does not use the exact particle dispatcher");
 expectPattern(payloadParticles, /AMBIENT_SPLASH_COUNT = 5/,
-  "Vermin ambient mouth drip count is not the original five");
+  "Vermin ambient mouth-drip count is not the original five");
 for (const source of [primitive, adapted]) {
   expectPattern(source, /VerminParticles\.spawnMouthDrips/,
     "Vermin does not use the original mouth-drip burst");
@@ -112,12 +138,9 @@ for (const source of [primitive, adapted]) {
     "Vermin does not use the original payload particle burst");
 }
 expectPattern(splash, /int previousAge = age\+\+[\s\S]*?lifetime-- <= 0/,
-  "GSPLASH does not preserve the original independent age and lifetime countdown");
-expectPattern(cloud,
-  /setColor\(127\.0F \/ 255\.0F, 0\.0F, 0\.0F\)[\s\S]*?quadSize \*= 0\.75F[\s\S]*?quadSize \*= 2\.5F/,
-  "payload GCLOUD does not use the original red color and scale");
+  "assimilation splash does not preserve the original age and lifetime countdown");
 expectPattern(cloud, /getNearestPlayer[\s\S]*?getBoundingBox\(\)\.minY/,
-  "payload GCLOUD does not preserve the original player-relative drift");
+  "GCLOUD does not preserve the original player-relative drift");
 expect(cloudDescription.textures.join(",") ===
   Array.from({length: 8}, (_, index) => "minecraft:generic_" + (7 - index)).join(","),
   "GCLOUD sprite order does not match the original smoke animation");

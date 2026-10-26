@@ -42,8 +42,10 @@ expect(events, /stack\.shrink\(1\)/,
         "the non-creative item consumption is missing");
 expect(events, /player\.getRandom\(\)\.nextDouble\(\) < chance/,
         "the configured chance roll is missing");
-expect(events, /new MobEffectInstance\(ModMobEffects\.REPEL, seconds \* 20, 0\)/,
+expect(events, /private static void applyRepel\(ServerLevel level, LivingEntity target, int durationTicks\)[\s\S]*?new MobEffectInstance\(ModMobEffects\.REPEL, durationTicks, 0\)/,
         "the Repel (original EPEL_E) application is missing");
+expect(events, /SrpParticleEffects\.spawnType3\(level, target\.getX\(\), target\.getY\(\), target\.getZ\(\),/,
+        "successful Repel application no longer emits original type-3 RHAPPY particles");
 
 if (failures.length) {
     for (const failure of failures) console.error(failure);

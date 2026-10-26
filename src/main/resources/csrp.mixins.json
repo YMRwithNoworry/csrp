@@ -11,7 +11,8 @@
     "client.CreateWorldScreenMixin",
     "client.FontMixin",
     "client.GuiMixin",
-    "client.SignRendererMixin"
+    "client.SignRendererMixin",
+    "client.WeatherEffectRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

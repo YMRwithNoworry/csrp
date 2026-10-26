@@ -50,11 +50,11 @@
 | `network/MsgSyncBlizzardReverse.java`(39) | `network/MsgSyncBlizzardReverse.java` | 完整移植 | SimpleImpl `IMessage`/`IMessageHandler` → `CustomPacketPayload` record + `StreamCodec`；`writeBoolean/readBoolean` 不变；handler 在 `context.enqueueWork` 里调 `SRPBlizzardDirectionClient.setReverseRequested` |
 | `network/MsgSyncStarType.java`(39) | `network/MsgSyncStarType.java` | 完整移植 | `writeVarInt(starType.value())`；handler 写 `celestial.client.StarWorldClientState`（与既有 `StarWorldStatePayload` 同一状态对象、同一服务器数据源 `SrpWorldData`，因此重复同步是幂等的） |
 
-### 1.4 1.12.2 mixin / shader（**全部不适用**）
+### 1.4 1.12.2 mixin / shader
 
 | 1.12.2 文件 | 状态 | 替代方案 / 理由 |
 | --- | --- | --- |
-| `mixins/MixinEntityRendererBlizzard.java` | **不适用** → 拆成 3 处 26.3 事件 | ①`EntityRenderer#renderRainSnow` 注入（画雾壳 + 雪条）→ `SubmitCustomGeometryEvent`（`SRPBlizzardFogRenderer` / `SRPBlizzardRenderer`），与工程既有 `AuroraSkyRenderer` / `CelestialSkyRenderer` 同一通道。②`renderRainSnow` 里的 `@Redirect`（关掉原版雨雪）→ 26.3 的等价物是 `CustomWeatherEffectRenderer`（`RegisterCustomEnvironmentEffectRendererEvent` + 维度环境属性 `CUSTOM_WEATHER_EFFECTS`），需要注册新的维度属性/渲染 pass，属 `registry/**` 写范围，**本批不做**：冷星会把主世界生物群系整体换成雪原/冰原（既有 `StarBiomeGenerationEvents`），原版雪与暴风雪雪条同向叠加，视觉上不冲突。③`setupFog` TAIL（`fogEnd = 72 - 56i`、`fogStart = fogEnd*0.08`、水/岩浆内跳过）→ `ViewportEvent.RenderFog` + `FogType.ATMOSPHERIC` 判断，数值与判断条件原样保留 |
+| `mixins/MixinEntityRendererBlizzard.java` | **拆成 26.3 事件与客户端 mixin** | ①`EntityRenderer#renderRainSnow` 注入（雾壳 + 雪条）→ `SubmitCustomGeometryEvent`（`SRPBlizzardFogRenderer` / `SRPBlizzardRenderer`）。②原件两处 `@Redirect`（冷星降雨时关闭 vanilla 雨雪）→ 客户端 `WeatherEffectRendererMixin`，分别在 26.3 的 `WeatherEffectRenderer#render` 与 `#renderOit` 入口取消绘制；门槛仍是冷星世界且 `getRainLevel(1.0F) > 0.001F`，不覆盖群系 JSON。③`setupFog` TAIL（`fogEnd = 72 - 56i`、`fogStart = fogEnd*0.08`、水/岩浆内跳过）→ `ViewportEvent.RenderFog` + `FogType.ATMOSPHERIC` 判断，数值与判断条件原样保留 |
 | `mixins/MixinRenderGlobalBlizzardSky.java` | **不适用** → 雾色洗白 | 原 mixin 把 `WorldProvider#calcSunriseSunsetColors` 重定向为 `null`，隐藏暴风雪里的日出/日落暖色。26.3 的 `SkyRenderState.sunriseAndSunsetColor` 在任何 mod 渲染事件之前就已烘焙进 render state，公开的替换手段只有维度级 `CustomSkyboxRenderer`（同样落在 `registry/**`）。因此改用 `ViewportEvent.ComputeFogColor` 把雾色按暴风雪强度与 `blackBlend` 洗向暴风雪自己的灰白/黑，达到“地平线暖光被压掉”的同等观感 |
 | `mixins/accessor/AccessorShaderGroup.java` | **不适用** | 只为 `StarWorldShaderManager` 反射取 `ShaderGroup#listShaders` 而存在；26.3 删除了 `ShaderGroup`/`Shader`/`ShaderUniform`，无替代也不需要 |
 | `client/shader/star/StarWorldShaderManager.java` | **不适用** | 它做的是 `EntityRenderer#loadShader(ResourceLocation("srparasites:shaders/post/star_cold.json"))`——1.12.2 的 GLSL post-processing 管线。26.3 无此管线，后处理只能走资源包/外部 shader（Iris 等）。本工程对“冷星视觉”的既有实现是 `world/StarBiomeGenerationEvents` 的生物群系替换 + 本批的暴风雪雾/雪/雾色，不引入新的后处理注册 |
@@ -113,15 +113,15 @@ BlockTags.DIRT ∪ BlockTags.SAND ∪ {GRASS_BLOCK, MYCELIUM, CLAY, GRAVEL,
 
 | # | 差异 | 原因与影响 |
 | --- | --- | --- |
-| D1 | 雪条按**双面**提交（每条 8 个顶点而非 4） | 1.12.2 用 `GlStateManager.disableCull()` 画雪条；本批用的 `entityTranslucent` 保留剔除，因此显式提交正反两遍。代价是顶点量翻倍，已在 `MAX_STREAKS` 预算内 |
-| D2 | 每帧雪条上限 `MAX_STREAKS = 1500`、半径上限 `MAX_RADIUS = 12` | 原版在 radius=14 时不设上限，最坏情况每帧数万四边形。26.3 的自定义几何走 submit 缓冲，故设上限并在达到上限时停止继续扫描；观感为“密度封顶”而非“突发卡顿” |
+| D1 | 雪条按**双面**提交（每条 8 个顶点而非 4） | 1.12.2 用 `GlStateManager.disableCull()` 画雪条；本批用的 `entityTranslucent` 保留剔除，因此显式提交正反两遍，保持原来双面可见的结果 |
+| D2 | ~~每帧雪条上限 `MAX_STREAKS = 1500`、半径上限 `MAX_RADIUS = 12`~~ | **已解决**：删除两个人为限幅，恢复原件 `8 + floor(intensity × 6)`（8–14）扫描半径，并用按需扩容的原始数值缓冲完整提交雪条。无固定预算；高强度下客户端帧耗时仍需实测 |
 | D3 | 地面裁剪高度图用 `Heightmap.Types.WORLD_SURFACE`（列扫描）/ `MOTION_BLOCKING`（雪条裁剪） | 原 `World#getPrecipitationHeight` 在 26.3 客户端不存在（仅服务端 `WeatherEffectRenderer` 用 `MOTION_BLOCKING`）。`SRPFracturedTerrainHandler.findSurfaceY` 严格对应 1.12.2 的**区块自带**高度图（`WORLD_SURFACE`）；雪条裁剪对应原版天气管线自己用的 `MOTION_BLOCKING` |
 | D4 | `daylight` 用 `getOverworldClockTime` + 原公式重建 | 26.3 删除 `Level#getSunBrightness(float)`，改用 `SUN_ANGLE` 环境属性的等价公式（含雨/雷衰减、`*0.8+0.2`） |
 | D5 | 雾色被 `ComputeFogColor` 主动洗白/洗黑 | 原 1.12.2 **没有**雾色改写；这是 §1.4 里替代 `MixinRenderGlobalBlizzardSky` 的代价，强度用 `smoothStep(intensity)` 插值，`intensity<=0.001` 时完全不生效 |
 | D6 | `getProfile` 中 `field_150432_aD`/`field_150403_cj` 判为冰对（`ICE`/`PACKED_ICE`），`field_150433_aE` 判为雪方块（与 `Blocks.SNOW` 合并到同一分支） | 这两个 1.12.2 混淆字段的确切身份无法从原始反编译产物直接读出；取“与本工程既有雪/冰映射一致”（`block/ParasiteRubbleBlock`、`HarlequinnGrassBlock` 均为 `SNOW || SNOW_BLOCK`）且“在只用于冷星的表里语义成立”的解释。仅影响该默认关闭功能的填充方块选择 |
 | D7 | 碎裂地形在 `ChunkEvent.Load`（FULL 状态，光照已算完）改写方块 | 1.12.2 的 `PopulateChunkEvent.Pre` 在光照之前。26.3 里该钩子是工程既有的生成后改写点；为弥补光照，改动过的列会补一次 `LightEngine#checkBlock`，`LevelChunk#setBlockState` 本身也会更新高度图并在区段空/非空变化时刷新光照 |
 | D8 | `SRPStarTypeSyncHandler` 与既有 `SrpStarWorldEvents` 都会发星型同步 | 前者是 1.10.9 的原语义（login/respawn/dimension），后者是工程基线（login/dimension）。两者写同一个 `StarWorldClientState`、读同一个 `SrpWorldData`，重复包幂等；本批顺带补齐了基线缺的 **respawn** 同步 |
-| D9 | Heblu 通过注册表 id `csrp:heblu` 解析 | 本工程尚未移植 `EntityHeblu`（`registry/ModEntities.java` 里只有 `heblu_light` 投射物），`entity/**` 属其它工作流写范围。解析失败时该分支静默为 `false`，Kirin 分支照常工作；Heblu 一旦落地即自动生效 |
+| D9 | 通过实体 id `csrp:draconite` 解析 Heblu 分支 | 原件注册表把 `draconite` id 绑定到 `EntityHeblu` 类；本工程对应既有 `DraconiteEntity`，查找已按实际注册表 id 接线 |
 
 ---
 
@@ -169,14 +169,8 @@ node scripts/run-all-verifications.cjs           → {"total":109,"passed":109,"
 
 ## 5. 遗留项 / 已知限制
 
-1. **未做运行期客户端验证**：本批没有执行 `runClient`（无图形环境），雪条/雾壳/雾色的最终观感、以及 `SubmitCustomGeometryEvent` 提交量对帧率的影响需要在真实客户端确认；`MAX_STREAKS`/`MAX_RADIUS` 是当前的上限护栏，必要时可调。
-2. **原版雨雪未关闭**：见 §1.4②。Lead 已核实 26.3 的确切 API 路径与为何本轮不实施，结论如下（供后续批次直接接手）：
-   - 正确入口是 `net.neoforged.neoforge.client.event.RegisterCustomEnvironmentEffectRendererEvent#registerWeatherEffectRenderer(Identifier, CustomWeatherEffectRenderer)`（mod 事件总线、仅客户端），配合 `net.neoforged.neoforge.common.world.NeoForgeEnvironmentAttributes.CUSTOM_WEATHER_EFFECTS`；`CustomWeatherEffectRenderer#renderSnowAndRain(...)` 返回 `true` 即阻止原版雨雪渲染，返回 `false` 则原版照常 —— 所以**动态开关本身没问题**（暴风雪激活时返回 true，否则 false）。
-   - 阻塞点在于**该属性是 biome/datapack 静态值**：26.3 的 `EnvironmentAttributeMap` 挂在 `ModifiableBiomeInfo` 上，而 NeoForge 的 `BiomeModifiers` 只提供 AddFeatures/RemoveFeatures/AddSpawns/RemoveSpawns/AddCarvers/RemoveCarvers/AddSpawnCosts/RemoveSpawnCosts 八种修饰器，**没有环境属性修饰器**，也没有 `ModifyBiomeEvent`。因此只能改 biome JSON 的 `attributes` 段。
-   - 若只给 4 个 `csrp:srp_*` 寄生群系加属性，冷星世界里的原版群系仍会下雨；要做到原版级替换就必须覆盖 vanilla 的 `data/minecraft/worldgen/biome/*.json` 或维度定义，与其它模组冲突风险高。
-   - 当前缓解：`SRPBlizzardFogRenderer` 已用 `ViewportEvent.ComputeFogColor` 洗白/洗黑地平线（见 §1.4②），观感上压住了大部分差异。
-   - **结论**：保留为已知差异，不做侵入式覆盖；若后续要做，建议先确认 26.3 是否允许维度级环境属性（`data/<ns>/dimension*` 的 attributes 段）。
-3. **Heblu 缺席**：**已解决**（Lead，commit `94327ecd`）。1.10.9 的 `init/SRPEntities.java:385` 把 mob id `draconite` 注册到类 `EntityHeblu`，lang `itemmobspawner_heblu` = "Spawn Draconite" —— 即 `EntityHeblu` 就是本工程既有的 `DraconiteEntity`，`csrp:heblu` 这个 id 根本不存在。`SRPBlizzardDerivedHandler` 的实体查找已从 `csrp:heblu` 改为 `csrp:draconite`（同批修正 `LegacyMobSpawnerItem` 的 `heblu → wraith` 误映射）。
+1. **未做运行期客户端验证**：本批没有执行 `runClient`（无图形环境），雪条/雾壳/雾色的最终观感仍需真实客户端确认。雪条已恢复原半径 8–14 的完整扫描且不再限量；高强度降雪时的帧耗时尚未实测。
+2. **原版雨雪抑制已接入**：客户端 `WeatherEffectRendererMixin` 在经典透明度和 OIT 两条渲染路径的入口执行与原件一致的冷星降雨门槛检查，达到门槛时取消原版雨雪绘制；不覆盖 vanilla biome JSON。
+3. **Heblu 缺席已解决**（commit `94327ecd`）：1.10.9 的 `init/SRPEntities.java:385` 把 mob id `draconite` 注册到类 `EntityHeblu`，lang `itemmobspawner_heblu` = "Spawn Draconite" —— 即 `EntityHeblu` 就是本工程既有的 `DraconiteEntity`，`csrp:heblu` 这个 id 根本不存在。`SRPBlizzardDerivedHandler` 的实体查找已改为 `csrp:draconite`（同批修正 `LegacyMobSpawnerItem` 的 `heblu → wraith` 误映射）。
 4. **碎裂地形光照**：见 D7，`checkBlock` 只对改动过的列顶端触发，理论上极端地形（深谷底部）仍可能有局部光照延迟到邻近方块更新时修正。
 5. **`field_150432_aD`/`field_150403_cj`/`field_150433_aE` 身份**：见 D6，若后续能取到 1.12.2 MCP 映射表，应回头核对 `getProfile` 的冰/雪分支。
-6. **未 push**：两个 commit（`bfd9ef75`、`300578d3`）只在本地 `port/neoforge-26.3`，按约定由 Lead 统一推送。

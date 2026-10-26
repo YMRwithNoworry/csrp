@@ -16,7 +16,7 @@ import alku.csrp.entity.RupterEntity;
 import alku.csrp.entity.SimAdventurerEntity;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
-import alku.csrp.registry.ModParticles;
+import alku.csrp.particle.SrpParticleEffects;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.DislodgmentSystem;
 import alku.csrp.world.EvolutionSystem;
@@ -241,7 +241,11 @@ public final class InfectionMechanics {
             return false;
         }
         Mob converted = createIncompleteForm(host, serverLevel);
-        return converted != null && replaceHost(host, converted, serverLevel);
+        if (converted == null) {
+            return false;
+        }
+        playAssimilationStart(serverLevel, host, ASSIMILATION_NAUSEA_TICKS);
+        return replaceHost(host, converted, serverLevel);
     }
 
     public static boolean convertInfectedHost(LivingEntity host) {
@@ -258,6 +262,7 @@ public final class InfectionMechanics {
             return false;
         }
 
+        playAssimilationStart(serverLevel, host, ASSIMILATION_NAUSEA_TICKS);
         return replaceHost(host, converted, serverLevel);
     }
 
@@ -634,9 +639,8 @@ public final class InfectionMechanics {
     private static void playAssimilationStart(ServerLevel level, LivingEntity entity, int nauseaTicks) {
         entity.addEffect(new MobEffectInstance(MobEffects.NAUSEA, nauseaTicks,
                 ASSIMILATION_NAUSEA_AMPLIFIER, false, false));
-        level.sendParticles(ModParticles.ASSIMILATION_SPLASH.get(),
-                entity.getX(), entity.getY() + entity.getBbHeight() * 0.5D, entity.getZ(), 1,
-                entity.getBbWidth(), entity.getBbHeight() * 0.5D, entity.getBbWidth(), 0.02D);
+        SrpParticleEffects.spawnType1(level, entity.getX(), entity.getY(), entity.getZ(),
+                entity.getBbWidth(), entity.getBbHeight());
     }
 
     private static void playAssimilationCompletion(ServerLevel level, LivingEntity entity) {

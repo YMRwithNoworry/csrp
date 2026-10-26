@@ -86,10 +86,11 @@ expect(mobsConfig, /default -> BECKON_STAGE4_MOBS\.get\(\);/,
         "the beckon stage dispatcher no longer maps stage 4");
 
 // The summon site must consume the configured table instead of a hard-coded switch, and must
-// pick the air table when the beckon sits above its target (original: entityin.getY() + 3 > target.getY()).
+// pick the air table when the target is at least three blocks above the beckon
+// (original: entityin.getY() + 3 <= target.getY()).
 expect(nexus, /MobsConfig\.beckonSummonMobs\(activeKind\.stage, airborne\)/,
         "summonBeckonParasites no longer reads the configured beckon table");
-expect(nexus, /boolean airborne = getY\(\) \+ 3\.0D > target\.getY\(\);/,
+expect(nexus, /boolean airborne = getY\(\) \+ 3\.0D <= target\.getY\(\);/,
         "the beckon ground/air selection no longer matches the original height test");
 expect(nexus, /MobsConfig\.beckonSummonMobs\(4, false\)/,
         "the stage-4 beckon re-summon no longer reads the configured table");

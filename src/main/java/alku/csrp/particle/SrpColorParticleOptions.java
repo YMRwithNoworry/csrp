@@ -10,13 +10,13 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 
 /**
- * Coloured particle payload for the original {@code ParticleDot}, {@code ParticleFlash} and
- * {@code ParticleBlood}, which took their {@code (r, g, b)} or variant index as extra constructor
- * arguments ({@code ParticleSpawner#spawnParticle}).
+ * Payload for original particles whose constructor carried extra values: {@code ParticleDot},
+ * {@code ParticleFlash}, {@code ParticleBlood}, {@code ParticleMultipleGore}, and
+ * {@code ParticleRGBSmoke}. The RGB fields colour GCLOUD; {@code variant} carries the GSPLASH
+ * texture family (0 assimilated, 1 pure, 2 primitive, 3 adapted, 4 vomit) or the BLOOD motion type.
  *
- * <p>1.12.2 sent those extras through its own particle packet; 26.3 sends a {@code ParticleOptions}
- * instance instead, so the values travel as part of the payload. The {@code variant} field carries
- * the original {@code ParticleBlood} type (0 falling, 1 rising).</p>
+ * <p>1.12.2 sent these extras through its own particle packet; 26.3 sends a {@code ParticleOptions}
+ * instance instead, so they travel as part of the particle payload.</p>
  */
 public record SrpColorParticleOptions(ParticleType<SrpColorParticleOptions> type,
                                       int red, int green, int blue, int variant) implements ParticleOptions {

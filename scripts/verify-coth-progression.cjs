@@ -51,6 +51,10 @@ expect(conversion, /convertIncompleteCothHost\(host\)/,
         "COTH II does not create an Incomplete Form");
 expect(conversion, /createIncompleteForm\(host, serverLevel\)[\s\S]*replaceHost/,
         "COTH II conversion does not use the host-sized Incomplete Form");
+expect(infection, /Mob converted = createIncompleteForm\(host, serverLevel\);[\s\S]*playAssimilationStart\(serverLevel, host, ASSIMILATION_NAUSEA_TICKS\)[\s\S]*replaceHost\(host, converted, serverLevel\)/,
+        "COTH II conversion no longer emits the original type-1 assimilation feedback");
+expect(infection, /Mob converted = createAssimilatedHost\(host, serverLevel\);[\s\S]*playAssimilationStart\(serverLevel, host, ASSIMILATION_NAUSEA_TICKS\)[\s\S]*replaceHost\(host, converted, serverLevel\)/,
+        "COTH III conversion no longer emits the original type-1 assimilation feedback");
 
 if (failures.length) {
     console.error("COTH progression verification failed:");

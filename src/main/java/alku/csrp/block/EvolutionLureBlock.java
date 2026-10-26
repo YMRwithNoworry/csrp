@@ -1,13 +1,13 @@
 package alku.csrp.block;
 
 import alku.csrp.entity.ParasiticScentEntity;
+import alku.csrp.particle.SrpParticleEffects;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.SrpWorldData;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -72,8 +72,10 @@ public final class EvolutionLureBlock extends Block {
 
         data.addCooldown(level, tier.cooldownSeconds());
         level.removeBlock(center, false);
-        level.sendParticles(ParticleTypes.SMOKE, center.getX() + 0.5D, center.getY() + 0.5D,
-                center.getZ() + 0.5D, 24, 0.35D, 0.35D, 0.35D, 0.02D);
+        for (int index = 0; index < 4; index++) {
+            SrpParticleEffects.spawnType2(level, center.getX() + 0.5D, center.getY(),
+                    center.getZ() + 0.5D, 0.5F, 0.5F);
+        }
         level.playSound(null, center, ModSounds.LURE_USE.get(), net.minecraft.sounds.SoundSource.BLOCKS,
                 1.0F, 0.9F + level.getRandom().nextFloat() * 0.2F);
         player.sendOverlayMessage(Component.translatable("message.csrp.lure_cooldown_added",
@@ -92,16 +94,22 @@ public final class EvolutionLureBlock extends Block {
         }
 
         removeCarcass(level, center);
+        for (BlockPos corner : new BlockPos[] {
+                center.offset(CARCASS_OFFSET, 0, CARCASS_OFFSET),
+                center.offset(CARCASS_OFFSET, 0, -CARCASS_OFFSET),
+                center.offset(-CARCASS_OFFSET, 0, CARCASS_OFFSET),
+                center.offset(-CARCASS_OFFSET, 0, -CARCASS_OFFSET)}) {
+            spawnType2Burst(level, corner);
+        }
         spawnVisualLightning(level, center);
         if (!(player instanceof ServerPlayer serverPlayer) || !serverPlayer.isCreative()) {
             spawnScent(level, player, tier);
         }
-        level.sendParticles(ParticleTypes.LARGE_SMOKE, center.getX() + 0.5D, center.getY() + 0.8D,
-                center.getZ() + 0.5D, 60, 1.5D, 0.8D, 1.5D, 0.03D);
         level.playSound(null, center, ModSounds.CARCASS_USE.get(), net.minecraft.sounds.SoundSource.BLOCKS,
                 2.0F, 1.0F);
         player.sendOverlayMessage(Component.translatable("message.csrp.lure_points_reduced",
                 tier.carcassReduction()));
+        spawnType2Bursts(level, center, 4);
     }
 
     private static boolean isCarcass(ServerLevel level, BlockPos center) {
@@ -121,6 +129,17 @@ public final class EvolutionLureBlock extends Block {
         level.removeBlock(center.offset(CARCASS_OFFSET, 0, -CARCASS_OFFSET), false);
         level.removeBlock(center.offset(-CARCASS_OFFSET, 0, CARCASS_OFFSET), false);
         level.removeBlock(center.offset(-CARCASS_OFFSET, 0, -CARCASS_OFFSET), false);
+    }
+
+    private static void spawnType2Bursts(ServerLevel level, BlockPos pos, int count) {
+        for (int index = 0; index < count; index++) {
+            spawnType2Burst(level, pos);
+        }
+    }
+
+    private static void spawnType2Burst(ServerLevel level, BlockPos pos) {
+        SrpParticleEffects.spawnType2(level, pos.getX() + 0.5D, pos.getY(), pos.getZ() + 0.5D,
+                0.5F, 0.5F);
     }
 
     private static void spawnVisualLightning(ServerLevel level, BlockPos center) {

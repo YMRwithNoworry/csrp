@@ -8,6 +8,9 @@ const expect = (condition, message) => {
 
 const fog = read("src/main/java/alku/csrp/client/weather/SRPBlizzardFogRenderer.java");
 const snow = read("src/main/java/alku/csrp/client/weather/SRPBlizzardRenderer.java");
+const weatherMixin = read("src/main/java/alku/csrp/mixin/client/WeatherEffectRendererMixin.java");
+const blizzardClient = read("src/main/java/alku/csrp/client/weather/SRPBlizzardClient.java");
+const mixinConfig = read("src/main/resources/csrp.mixins.json");
 
 // --- fog shells: 1.12.2 Tessellator -> 26.3 submitCustomGeometry ------------------------
 for (const token of ["SHELL_COUNT = 8", "LONGITUDE_SEGMENTS = 32", "LATITUDE_SEGMENTS = 14",
@@ -36,11 +39,22 @@ for (const token of ["ViewportEvent.ComputeFogColor", "setRed", "setGreen", "set
   "Mth.lerp(blend, event.getRed()"])
   expect(fog.includes(token), `the 1.12.2 blizzard sky override is missing: ${token}`);
 
+for (const token of ["WeatherEffectRendererMixin", "shouldSuppressVanillaPrecipitation", "renderOit", "callback.cancel()"])
+  expect(weatherMixin.includes(token), `vanilla precipitation suppression is missing: ${token}`);
+expect(mixinConfig.includes("client.WeatherEffectRendererMixin"),
+  "WeatherEffectRendererMixin is not registered in the client mixin config");
+expect(blizzardClient.includes("level != null && isColdWorld() && level.getRainLevel(1.0F) > 0.001F"),
+  "vanilla precipitation suppression no longer matches the original cold-world rain threshold");
+
 // --- snow streaks -----------------------------------------------------------------------
 for (const token of ["textures/environment/snow.png", "SubmitCustomGeometryEvent",
   "RenderTypes.entityTranslucent(SNOW_TEXTURE)", "Heightmap.Types.MOTION_BLOCKING",
-  "MAX_STREAKS = 1500", "SRPBlizzardDirectionClient.getMotionPhase(partialTicks)"])
+  "INITIAL_STREAK_CAPACITY = 2048", "streaks.ensureCapacity()",
+  "SRPBlizzardDirectionClient.getMotionPhase(partialTicks)"])
   expect(snow.includes(token), `SRPBlizzardRenderer is missing original snow behaviour: ${token}`);
+expect(snow.includes("int radius = 8 + Mth.floor(intensity * 6.0F)")
+  && !snow.includes("MAX_RADIUS") && !snow.includes("MAX_STREAKS"),
+  "snow scan must retain the original radius 8–14 without a per-frame streak cap");
 for (const token of ["time * 0.0012", "Math.sin(time * 0.065)", "Math.sin(time * 0.017)",
   "(0.8 + intensity * 2.2)", "0.16 + intensity * 0.24", "0.34F + distanceFade * 0.58F",
   "0.11 + randomB * 0.12 + intensity * 0.03", "intensity > 0.7F ? 3 : 2",

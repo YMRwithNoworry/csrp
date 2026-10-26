@@ -2,8 +2,10 @@ package alku.csrp.event;
 
 import alku.csrp.Csrp;
 import alku.csrp.Config;
+import alku.csrp.particle.SrpParticleEffects;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -27,7 +29,8 @@ public final class CothItemPreventEvents {
 
     @SubscribeEvent
     public static void applyRepelItem(PlayerInteractEvent.EntityInteract event) {
-        if (event.getLevel().isClientSide() || !(event.getTarget() instanceof LivingEntity target)) {
+        if (!(event.getLevel() instanceof ServerLevel level)
+                || !(event.getTarget() instanceof LivingEntity target)) {
             return;
         }
         ItemStack stack = event.getItemStack();
@@ -50,13 +53,19 @@ public final class CothItemPreventEvents {
                 continue;
             }
             if (player.getAbilities().instabuild) {
-                target.addEffect(new MobEffectInstance(ModMobEffects.REPEL, seconds * 20, 0));
+                applyRepel(level, target, seconds * 20);
             } else {
                 stack.shrink(1);
                 if (player.getRandom().nextDouble() < chance) {
-                    target.addEffect(new MobEffectInstance(ModMobEffects.REPEL, seconds * 20, 0));
+                    applyRepel(level, target, seconds * 20);
                 }
             }
         }
+    }
+
+    private static void applyRepel(ServerLevel level, LivingEntity target, int durationTicks) {
+        target.addEffect(new MobEffectInstance(ModMobEffects.REPEL, durationTicks, 0));
+        SrpParticleEffects.spawnType3(level, target.getX(), target.getY(), target.getZ(),
+                target.getBbWidth(), target.getBbHeight());
     }
 }

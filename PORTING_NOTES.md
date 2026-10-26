@@ -37,7 +37,7 @@
 | 可加载运行的构建产物 | `build/libs/csrp-1.10.9.jar`（约 134 MB，含全部资源） |
 | 移植说明 | 本文件 |
 | 各子系统详细报告 | `docs/gap/R2_REPORT.md`、`R2_BLIZZARD_REPORT.md`、`R3_WORLDGEN_REPORT.md`、`R4_BLOCKS_REPORT.md`、`R5_ITEMS_REPORT.md`、`R6_ENTITY_MATRIX.md`、`LANG_REPORT.md` |
-| 自动化校验 | `scripts/run-all-verifications.cjs`（148 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
+| 自动化校验 | `scripts/run-all-verifications.cjs`（149 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
 
 规模：569 个 Java 文件、88 个方块类、128 个实体文件、44 个物品类、7 个 Mixin、362 个 blockstate、2236 张纹理、1008 个音效、55 个结构 NBT、33 套语言。
 
@@ -135,7 +135,7 @@ R6 实体矩阵 §5.2 登记的 6 条"记录为不一致、本轮不改"中，4 
 
 - **`mobAttackingFull`**（原件 `SRPConfig.mobAttackingFull`，默认 false）：新增 `Config.mobAttackingFull` 与 `entity/MobAttacking`，后者逐字复刻 `ParasiteEventEntity#checkName` 的 `String#contains` 匹配、`checkEntity` 的实体 id 取值，以及 `EntityParasiteBase#canAttackClass` 的 `!mobAttackingFull || !checkName(...)` 判定。`ArchitectEntity` / `DredgeEntity` / `HeedEntity` / `PureParasiteEntity` 4 处此前各自手写的黑名单比较改为统一调用。
   - **按原件保留的冗余**：原件的 `mobAttackingFull` 只在 `canAttackClass` 里生效，而各家族的目标选择谓词本身已经无条件排除黑名单（`!ParasiteEventEntity.checkEntity(...)`），所以该配置对"是否锁定黑名单怪"实际没有额外效果。本工程未"顺手修正"，保留了同一层冗余。
-- **`EntityAIVenkrolSummon` 的 mob 表**（原件 `SRPConfigMobs.venkrolmoblist` / `venkrolsiimoblist` / `venkrolsiiimoblist` / `venkrolsivmoblist`）：`MobsConfig` 新增 4 张 beckon 召唤表，逐行复刻原件默认值（含 `ground;air` 前缀、chance、capacity cost），并补 `venkrolCAMinimumV`(4) / `venkrolCAExtraM`(0.5)。`NexusParasiteEntity#summonBeckonParasites` 由硬编码 switch 改为读表：地面/空中按原件 `getY()+3 > target.getY()` 切换，选怪按原件"随机起点 + 最多两圈 + 容量足够才取"的 `spawnBiomassFromBeckon` 流程。
+- **`EntityAIVenkrolSummon` 的 mob 表**（原件 `SRPConfigMobs.venkrolmoblist` / `venkrolsiimoblist` / `venkrolsiiimoblist` / `venkrolsivmoblist`）：`MobsConfig` 新增 4 张 beckon 召唤表，逐行复刻原件默认值（含 `ground;air` 前缀、chance、capacity cost），并补 `venkrolCAMinimumV`(4) / `venkrolCAExtraM`(0.5)。`NexusParasiteEntity#summonBeckonParasites` 由硬编码 switch 改为读表：原件以 `entityY + 3 <= targetY` 选 air 表（stage 1 对该情况直接返回），否则用 ground；选怪按原件随机起点与列表顺序选取。原件虽解析配置 chance，但这条 `spawnBiomassFromBeckon` 路径不执行 chance roll。
 - **`EntityAINexusGrow` 的三个配置闸门**：`Config` 新增 `evolutionNests`(11) / `deveNestsUse`(3) / `maximumStageList`({"1;3"})，并提供 `nexusStageLock(Level)`（含 1.12.2 数字维度 id → 26.3 维度的映射）与 `legacyDimensionId(Level)`；`NexusParasiteEntity` 构造时求 `dimensionStageLock`，`evolve()` 应用原件 `dimLock >= stage+1` 的停长闸门，`trySpawnRooterSi` 应用 `evolutionNests` / `deveNestsUse` 的 nest 解锁闸门。
 - **gene 系统缺的 3 个开关**：`EvolutionSystem.GenerationProfile` 此前缺 `lookWalls`(2) / `waterLeap`(4) / `residue`(8)（原件 `SRPConfigSystems.generation*0..5` 共 13 项，工程只有 10 项）。现补齐三张默认表并接入：`lookWalls` → `PrimitiveParasiteEntity` 的目标感知（原件 `shouldCheckSight || !getGeneMod(2)`，因 26.3 的 `mustSee` 在构造期固定，改在逐候选谓词里判定）；`waterLeap` → `DredgeEntity` 的液体跃击；`residue` → `AdaptedVariantEntity.BlockResidueGoal`。
 
@@ -247,11 +247,24 @@ java.lang.NoSuchFieldError: Class net.neoforged.fml.config.ModConfig$Type does n
 
 > **未完成（已登记）**：原件 62 处 `GCLOUD` / 36 处 `GSPLASH` / 12 处 `BIOMASS` 调用点中，工程只在少数位置使用自定义粒子（`ModParticles.GORE_CLOUD` 2 处 / `ASSIMILATION_SPLASH` 5 处 / `BIOMASS` 5 处），其余仍以原版粒子近似（如 `ParasiteDeathFxClient` 用红色 dust + POOF）。这些均属客户端视觉，本环境无法图形目视验证；后续可按原件 `EntityParasiteBase#spawnParticlesGore` 的参数逐个替换。
 
+
 ### 3.18 感染骨粉球形转换与装饰
 
 原件 `item/ItemInfestedBonemeal#boneMealEffect` 会以点击方块为中心处理距离平方 ≤ 9 的球体，并跳过方块实体、液体、空气与已有 scheduled tick 的方块。此前工程只在点击点处理感染残骸与矿石。本轮按原件转换顺序补齐方块路径映射（含任意命名空间的 `ore` / `cobblestone` / `dirt` / `wall` / `fence` 等路径匹配）、花藤作物清除、矿石归类、楼梯朝向/上下半部/形状复制、感染植物随机装饰及 harleskinn 发丝/lipoma 分支，并保留原件对所有 sandstone 路径先处理、因此 sandstone stairs 实际转换为 `inf_ss` 的顺序怪癖。转换写入仅在 `setBlock` 成功时计为有效；液体保护按 26.3 非空 FluidState 对应旧版 Material.isLiquid。
 
 特殊的 Thornshade 与寄生树苗仍先进入 `BoneMealItem` 的原生催长路径；其余目标使用自定义球体转换。新增 `scripts/verify-infested-bonemeal.cjs` 与 GameTest `csrp:infested_bonemeal/sphere_and_guards`，覆盖半径边界、scheduled tick、液体、方块实体、分类矿石、未分类矿石、黏土与木板运行时映射；红沙在 GameTest 中会有 scheduled tick，按原件保护规则跳过，其映射另由静态校验断言。验证：`compileJava` 与 `build` 成功；GameTest **188 / 188** 通过。全静态套件共 148 项，其中 140 项通过，8 项受机器外部基线缺失影响（1.10.8 反编译文件与资源提取 `manifest.json` 不在本机指定路径）。
+
+### 3.19 保真移植 SRPPacketParticle 粒子包
+
+原件 `network/SRPPacketParticle` 将坐标、范围和 type 从服务器发送到每个客户端；客户端按 type 1、2、3、4、10、11、12 生成 GSPLASH、GCLOUD、RHAPPY、RAGE。此前工程只在部分调用点直接生成固定粒子，无法保留 GCLOUD 的任意 RGB、GSPLASH 贴图族及 packet 的客户端随机位置/速度。
+
+本轮新增 `SrpParticleBurstPayload` 与 `SrpParticlePayloads`，保留原件字段顺序（double x/y/z、float width/height、byte particleType），服务器入口 `SrpParticleEffects` 向所有在线玩家发送 payload，客户端 `SrpParticleEffectsClient` 按 type 复现原件数量、颜色、体积采样和定向喷射公式。`GORE_CLOUD` 使用 `SrpColorParticleOptions` 携带 RGB，新增 `GORE_SPLASH` 携带 assimilated/pure/primitive/adapted/vomit 贴图族；`GoreSplashParticle` 保留原件 18 张贴图、重力、随机寿命、淡出与落地衰减。
+
+已接线：同化开始及 COTH II/III 宿主转化的 type 1、进化诱饵四角/中心与活体囊肿消化物品时的 type 2、COTH 防护物品成功生效时的 type 3、Colony adaptation type 4、Vermin/Gnat/Lice 的 type 10/11 与口部 GSPLASH，以及 RAGE 效果每 tick 按原概率发出的 type 12/2（仅发给追踪实体的客户端）。旧源码 `EntityIki` / `EntityIkiAdapted` 的 type 10 对应当前 `VerminEntity` / `AdaptedVariantEntity` 的召唤与炸弹投放路径，已由共用 payload burst 接入；`verify-coth-progression.cjs` 额外断言 COTH II/III 转化会播放原件的恶心效果与 type-1 GSPLASH。验证：`compileJava` 成功；`verify-particles.cjs`、`verify-evolution-lures-port.cjs`、`verify-vermin-entities-port.cjs`、`verify-gnat-lice-port.cjs` 均通过。
+
+### 3.20 Beckon 全局容量上限与 Bomb 回退
+
+本轮补齐原件 `ParasiteEventEntity#getWorldBeckonSpawnLimit` 漏项：按当前维度统计寄生体，限额为 `worldMobCap + 玩家数 × worldMobCapPlusPlayer + worldBeckonSpawnsCap`（默认 40 + 5/玩家 + 20）；超限时仅 stage 1–3 的普通 Beckon biomass 召唤路径回退为 skin 1、fuse 60、strength 0、damage 为 Beckon 基础攻击伤害、range 2 的 Bomb，并保留原件有符号 `nextInt() < 40` 门槛、弹道与 stage 3 偏移；回退尝试按原 AI 的 20 tick pulse 重试，且不计作一次已成功的 biomass 召唤。成功加入世界后才发送 type 10；stage 4 召唤、Nexus 齐射与其他通用 Bomb 不会触发此效果。`WorldConfig` 新增原件对应的 `worldMobCap` / `worldBeckonSpawnsCap` 键并复用玩家增量配置。静态合同由 `verify-beckon-capacity-fallback.cjs` 覆盖。
 
 ---
 
@@ -267,7 +280,7 @@ java.lang.NoSuchFieldError: Class net.neoforged.fml.config.ModConfig$Type does n
 | `NBTTagCompound` 手写序列化 | 数据组件 / `Codec` / `ValueInput`-`ValueOutput` | 存档用 `SavedData` + `CompoundTag`；实体用 `addAdditionalSaveData(ValueOutput)` |
 | 1.12.2 `Material` / `BlockState` 元数据 | `Material` 已移除；元数据变体改为 BlockState 属性 | 方块行为改用 `BlockState` 属性（如 `decay_age`、`variant`、`type`、`air`）表达 |
 | 原版「More World Options...」按钮 | 26.3 创建世界界面改为 `HeaderAndFooterLayout` + 标签页，无该按钮 | 入口按钮改为**按位置定位页脚行**（不引用任何 vanilla 语言键），左对齐避开居中的原版按钮 |
-| 原版雨雪抑制 | 需要 `CustomWeatherEffectRenderer` + 逐群系环境属性；26.3 的 `BiomeModifiers` **没有**环境属性修饰器，也无 `ModifyBiomeEvent` | **保留差异**：未做侵入式覆盖 vanilla 群系 JSON；现以 `ComputeFogColor` 洗色缓解。API 路径已记录在 `docs/gap/R2_BLIZZARD_REPORT.md` §5 |
+| 原版雨雪抑制 | 26.3 `WeatherEffectRenderer` 同时使用经典透明度与 OIT 两条渲染路径 | 已新增客户端 `WeatherEffectRendererMixin`，仅冷星世界且原版降雨强度大于 0.001 时取消两条路径的原版雨雪绘制；不覆盖 vanilla 群系 JSON，且与 1.10.9 原件对 `renderRainSnow` 的降水判断重定向一致 |
 | 死亡界面替换（`GuiOpenEvent` + 子类） | `DeathScreen` 的退出按钮列表为私有 | 改为在 `ScreenEvent.Init.Post` 中给已打开的 `DeathScreen` **追加**同一按钮（位置算法与原件一致：最低按钮下方 6px），保留原版死亡文案 |
 | `@GameTest` 注解式测试 API | 26.3 改为数据驱动注册（`RegisterGameTestsEvent`） | 测试改为 `GameTestInstance` 子类注册 |
 
@@ -330,23 +343,22 @@ export JAVA_HOME="D:/MC/jdk/graalvm-community-25.3.4.1+1.1"
 GRADLE=("$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain)
 
 "${GRADLE[@]}" build -x test             # BUILD SUCCESSFUL → build/libs/csrp-1.10.9.jar
-node scripts/run-all-verifications.cjs   # {"total":147,"passed":147,"failed":0}
-"${GRADLE[@]}" runGameTestServer         # All 187 required tests passed
+node scripts/run-all-verifications.cjs   # {"total":148,"passed":140,"failed":8}；失败项依赖缺失的外部 1.10.8 源码 / 资源基准
+"${GRADLE[@]}" runGameTestServer         # All 188 required tests passed
 ```
 
 | 检查 | 结果 |
 | --- | --- |
 | 编译与打包 | **BUILD SUCCESSFUL**，产物 `build/libs/csrp-1.10.9.jar` |
-| 静态契约校验 | **147 / 147 通过**（含实体 id 级对齐、纹理引用全量解析、方块专用类、语言覆盖率、配置项、Escape/失真/注入熔炉/JEI/抓钩/harlequin 命令契约等） |
-| 运行期 GameTest | **187 / 187 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 4 个 harlequin + 2 个寄生群系雾 + 1 个掉落表） |
+| 静态契约校验 | **140 / 148 通过**；8 项依赖本机不可用的 1.10.8 反编译源码或实体资源提取 `manifest.json`，相关移植结论尚未由这 8 项验证器确认 |
+| 运行期 GameTest | **188 / 188 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 4 个 harlequin + 2 个寄生群系雾 + 1 个掉落表 + 1 个感染骨粉球体转换） |
 | 服务器启动 | GameTest 服务器完整启动至测试结束，无启动崩溃 |
 | 世界生成运行期 | 225 区块实证：四类寄生群系 + 36 种寄生体方块落地，零 decoration 失败 |
 | 实体 id 对齐 | 原件 158 个 id **全部命中**（缺失 0） |
 | 语言覆盖 | `en_us` 2332/2332、`zh_cn` 2140/2140 |
 
 ### 尚未验证的部分（如实说明）
-- **未做 `runClient` 图形化目视验证**（本环境无图形界面）：暴风雪观感、世界预览动画、Kirin 光束、Escape 死亡界面按钮的最终呈现需要真机确认。这些均有静态契约与运行期逻辑测试覆盖，但"看起来对不对"未验证。
-- 原版雨雪在暴风雪期间仍会渲染（见 §4 对应行）。
+- **未做 `runClient` 图形化目视验证**（本环境无图形界面）：暴风雪观感、世界预览动画、Kirin 光束、Escape 死亡界面按钮的最终呈现需要真机确认。暴风雪原版雨雪已通过 `WeatherEffectRendererMixin` 在冷星降水期间抑制；雪条现在按原半径 8–14 完整扫描、不再限制每帧数量，但无图形客户端，最终观感及全量提交的帧耗时仍未目视确认。
 - 1.12.2 存档迁移（见 §5.1，属不可迁移，非未验证）。
 
 ---

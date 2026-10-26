@@ -28,6 +28,7 @@ const expectOrder = (source, tokens, message) => {
 const gnat = read("src/main/java/alku/csrp/entity/GnatEntity.java");
 const lice = read("src/main/java/alku/csrp/entity/LiceEntity.java");
 const particles = read("src/main/java/alku/csrp/entity/VerminParticles.java");
+const clientParticleEffects = read("src/main/java/alku/csrp/client/SrpParticleEffectsClient.java");
 const entities = read("src/main/java/alku/csrp/registry/ModEntities.java");
 const client = read("src/main/java/alku/csrp/client/ClientModEvents.java");
 const common = read("src/main/java/alku/csrp/registry/CommonModEvents.java");
@@ -119,9 +120,15 @@ expectPattern(common,
   /NaturalSpawnTables\.allSpawnTypes\(\)[\s\S]*?AIR_SPAWN_IDS\.contains\(id\)[\s\S]*?IN_AIR/,
   "EntityViin is not registered with the shared air spawn placement");
 
-expectPattern(particles,
-  /PAYLOAD_SPLASH_COUNT = 3[\s\S]*?PAYLOAD_SPRAY_COUNT = 5[\s\S]*?PAYLOAD_CLOUD_COUNT = 5[\s\S]*?LARGE_SPRAY_COUNT = 33[\s\S]*?LARGE_CLOUD_COUNT = 13/,
+expectPattern(clientParticleEffects,
+  /TYPE10_SPLASH_COUNT = 3[\s\S]*?TYPE10_SPRAY_COUNT = 5[\s\S]*?TYPE10_CLOUD_COUNT = 5[\s\S]*?TYPE11_SPRAY_COUNT = 33[\s\S]*?TYPE11_CLOUD_COUNT = 13/,
   "EntityAta/EntityViin packet type 10 or 11 particle counts are wrong");
+expectPattern(clientParticleEffects,
+  /case 10 -> \{[\s\S]*?TYPE10_SPLASH_COUNT[\s\S]*?TYPE10_SPRAY_COUNT[\s\S]*?TYPE10_CLOUD_COUNT/,
+  "SRPPacketParticle type 10 burst mapping changed");
+expectPattern(clientParticleEffects,
+  /case 11 -> \{[\s\S]*?TYPE11_SPRAY_COUNT[\s\S]*?TYPE11_CLOUD_COUNT/,
+  "SRPPacketParticle type 11 burst mapping changed");
 expectPattern(particles,
   /if \(converted\) \{[\s\S]*?repeat\(level, source, 2, true\)[\s\S]*?repeat\(level, source, 3, false\)[\s\S]*?else \{[\s\S]*?repeat\(level, source, 4, false\)/,
   "EntityAta/EntityViin contact particle repetitions are wrong");

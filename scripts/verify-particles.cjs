@@ -26,23 +26,66 @@ const loot = read("src/main/java/alku/csrp/block/ParasiteLootBlock.java");
 const plank = read("src/main/java/alku/csrp/block/ParasitePlankBlock.java");
 const ore = read("src/main/java/alku/csrp/block/InfestedOreBlock.java");
 const bulb = read("src/main/java/alku/csrp/block/EscaBulbBlock.java");
+const burstPayload = read("src/main/java/alku/csrp/network/SrpParticleBurstPayload.java");
+const payloadHandlers = read("src/main/java/alku/csrp/network/SrpParticlePayloads.java");
+const serverEffects = read("src/main/java/alku/csrp/particle/SrpParticleEffects.java");
+const clientEffects = read("src/main/java/alku/csrp/client/SrpParticleEffectsClient.java");
+const goreSplash = read("src/main/java/alku/csrp/client/particle/GoreSplashParticle.java");
+const rageEffect = read("src/main/java/alku/csrp/effect/RageMobEffect.java");
+const canister = read("src/main/java/alku/csrp/block/entity/ParasiteCanisterBlockEntity.java");
+const repelEvents = read("src/main/java/alku/csrp/event/CothItemPreventEvents.java");
 
 // Original SRPEnumParticle (out109 client/particle/SRPEnumParticle.java): fog, spore, gcloud,
 // gsplash, rhappy, biomass, een, flash, dot, wind, coolerfog, rage, blood.
-for (const id of ["spore", "rhappy", "een", "rage", "wind", "dot", "flash", "blood"]) {
+for (const id of ["spore", "rhappy", "een", "rage", "wind", "dot", "flash", "blood",
+        "gore_cloud", "gore_splash"]) {
     expect(registry, new RegExp(`register\\("${id}"`), `particle type ${id} is not registered`);
 }
 for (const provider of ["SporeParticle", "RHappyParticle", "EenParticle", "RageParticle",
-        "WindParticle", "DotParticle", "FlashParticle", "BloodParticle"]) {
+        "WindParticle", "DotParticle", "FlashParticle", "BloodParticle", "GoreCloudParticle",
+        "GoreSplashParticle"]) {
     expect(client, new RegExp(`${provider}\\.Provider::new`),
             `${provider} is not registered as a particle provider`);
 }
 
-// The coloured payload must survive the network round trip.
+// Original SRPEnumParticle entries that have data-bearing sprite providers.
 const options = read("src/main/java/alku/csrp/particle/SrpColorParticleOptions.java");
 expect(options, /RecordCodecBuilder\.mapCodec/, "the colour particle codec is missing");
 expect(options, /StreamCodec\.composite/, "the colour particle stream codec is missing");
 expect(options, /public ParticleType<\?> getType\(\)/, "the colour particle getType is missing");
+
+expect(goreSplash, /family == 4[\s\S]*?for \(int texture = 1; texture < 6; texture\+\+\)[\s\S]*?return familyStart;/,
+        "GSPLASH vomit texture selection does not match the original weighted chain");
+expect(burstPayload, /record SrpParticleBurstPayload\(double x, double y, double z, float width, float height, byte particleType\)/,
+        "SRPPacketParticle coordinate, bounds or type fields are missing");
+expect(burstPayload, /writeDouble\(x\)[\s\S]*?writeDouble\(y\)[\s\S]*?writeDouble\(z\)[\s\S]*?writeFloat\(width\)[\s\S]*?writeFloat\(height\)[\s\S]*?writeByte\(particleType\)/,
+        "SRPPacketParticle wire field order does not match the original");
+expect(payloadHandlers, /playToClient\(SrpParticleBurstPayload\.TYPE,[\s\S]*?SrpParticleBurstPayload\.STREAM_CODEC,[\s\S]*?SrpParticleBurstPayload::handle/,
+        "SRPPacketParticle client payload is not registered");
+expect(serverEffects, /spawnType1[\s\S]*?send\(level, x, y, z, width, height, 1\)[\s\S]*?spawnType2[\s\S]*?send\(level, x, y, z, width, height, 2\)[\s\S]*?spawnType3[\s\S]*?send\(level, x, y, z, width, height, 3\)[\s\S]*?spawnType4[\s\S]*?send\(level, x, y, z, width, height, 4\)/,
+        "server particle dispatcher does not preserve original packet types 1-4");
+expect(serverEffects, /spawnType10[\s\S]*?send\(level, x, y, z, 0\.5F, 0\.5F, 10\)[\s\S]*?spawnType11[\s\S]*?send\(level, x, y, z, 0\.5F, 0\.5F, 11\)/,
+        "server particle dispatcher does not preserve original packet types 10/11");
+expect(serverEffects, /spawnType12Tracking\(Entity entity\)[\s\S]*?sendTracking\(entity, 12\)[\s\S]*?spawnType2Tracking\(Entity entity\)[\s\S]*?sendTracking\(entity, 2\)[\s\S]*?sendToPlayersTrackingEntityAndSelf\(entity, payload\)/,
+        "Rage status particles do not use the original tracking audience");
+expect(serverEffects, /for \(ServerPlayer player : level\.getServer\(\)\.getPlayerList\(\)\.getPlayers\(\)\)[\s\S]*?PacketDistributor\.sendToPlayer\(player, payload\)/,
+        "particle burst is not sent to every connected player");
+expect(clientEffects, /case 1 -> spawnVolume\(level, random, goreSplash\(0\), x, y, z, 1,[\s\S]*?case 2 -> spawnVolume\(level, random, goreCloud\(0, 0, 0\), x, y, z, 4,[\s\S]*?case 3 -> spawnVolume\(level, random, ModParticles\.RHAPPY\.get\(\), x, y, z, 6,[\s\S]*?case 4 -> spawnVolume\(level, random, goreCloud\(125, 227, 118\), x, y, z, 24,/,
+        "client packet types 1-4 do not match the original particle counts and colors");
+expect(rageEffect, /for \(int index = 0; index < 4; index\+\+\)[\s\S]*?random\.nextFloat\(\) < 0\.1F[\s\S]*?spawnType12Tracking\(entity\)[\s\S]*?random\.nextFloat\(\) < 0\.8F[\s\S]*?spawnType2Tracking\(entity\)[\s\S]*?return true;[\s\S]*?shouldApplyEffectTickThisTick[\s\S]*?return true;/,
+        "RAGE no longer emits original probabilistic type-12/type-2 particles each tick");
+expect(canister, /if \(cyst\.consumeOne\(\)\)[\s\S]*?SrpParticleEffects\.spawnType2\(\(ServerLevel\) level,[\s\S]*?pos\.getY\(\) \+ 0\.7D[\s\S]*?0\.5F, 0\.5F\)/,
+        "canister consumption does not emit original type-2 GCLOUD particles");
+expect(repelEvents, /private static void applyRepel\(ServerLevel level, LivingEntity target, int durationTicks\)[\s\S]*?SrpParticleEffects\.spawnType3\(level, target\.getX\(\), target\.getY\(\), target\.getZ\(\),[\s\S]*?target\.getBbWidth\(\), target\.getBbHeight\(\)\)/,
+        "successful COTH-prevent item use does not emit original type-3 RHAPPY particles");
+expect(clientEffects, /TYPE10_SPLASH_COUNT = 3[\s\S]*?TYPE10_SPRAY_COUNT = 5[\s\S]*?TYPE10_CLOUD_COUNT = 5[\s\S]*?TYPE11_SPRAY_COUNT = 33[\s\S]*?TYPE11_CLOUD_COUNT = 13/,
+        "client packet burst particle counts differ from the original");
+expect(clientEffects, /case 10 -> \{[\s\S]*?TYPE10_SPLASH_COUNT[\s\S]*?TYPE10_SPRAY_COUNT[\s\S]*?TYPE10_CLOUD_COUNT[\s\S]*?case 11 -> \{[\s\S]*?TYPE11_SPRAY_COUNT[\s\S]*?TYPE11_CLOUD_COUNT[\s\S]*?case 12 -> spawnVolume\(level, random, ModParticles\.RAGE\.get\(\), x, y, z, 1,/,
+        "client packet types 10-12 do not match the original particle counts");
+expect(clientEffects, /random\.nextGaussian\(\) \* 0\.02D[\s\S]*?random\.nextFloat\(\) \* width \* 2\.0F - width[\s\S]*?y \+ 0\.5D \+ random\.nextFloat\(\) \* height/,
+        "particle burst position or Gaussian velocity differs from the original");
+expect(clientEffects, /sampleX = \(float\) x \+ random\.nextFloat\(\)[\s\S]*?strength = 0\.5D \/ \(distance \/ 4\.0D \+ 0\.1D\)[\s\S]*?y \+ 1\.2D/,
+        "directed GSPLASH velocity sampling differs from the original");
 
 // Original SRPConfigSystems.rsBlockParticleS / rsBlockParticleF (out109 44-45) default to 0.05.
 expect(config, /\.defineInRange\("rsBlockParticleS", 0\.05D, 0\.0D, 1\.0D\)/,

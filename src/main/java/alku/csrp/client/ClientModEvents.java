@@ -13,6 +13,7 @@ import alku.csrp.client.particle.AssimilationSplashParticle;
 import alku.csrp.client.particle.BiomassParticle;
 import alku.csrp.client.particle.CoolerFogParticle;
 import alku.csrp.client.particle.GoreCloudParticle;
+import alku.csrp.client.particle.GoreSplashParticle;
 import alku.csrp.client.particle.KirinWarningParticle;
 import alku.csrp.celestial.client.AuroraSkyRenderer;
 import alku.csrp.client.renderer.AirscrewRenderer;
@@ -393,6 +394,7 @@ public final class ClientModEvents {
         event.registerSpriteSet(ModParticles.KIRIN_WARNING.get(), KirinWarningParticle.Provider::new);
         event.registerSpriteSet(ModParticles.ASSIMILATION_SPLASH.get(), AssimilationSplashParticle.Provider::new);
         event.registerSpriteSet(ModParticles.GORE_CLOUD.get(), GoreCloudParticle.Provider::new);
+        event.registerSpriteSet(ModParticles.GORE_SPLASH.get(), GoreSplashParticle.Provider::new);
         event.registerSpriteSet(ModParticles.BIOMASS.get(), BiomassParticle.Provider::new);
         event.registerSpriteSet(ModParticles.FOG.get(), CoolerFogParticle.Provider::new);
         // Original SRPEnumParticle entries that had no 26.3 counterpart before.

@@ -1,6 +1,7 @@
 package alku.csrp.world;
 
 import alku.csrp.Csrp;
+import alku.csrp.particle.SrpParticleEffects;
 import alku.csrp.Config;
 import alku.csrp.entity.Parasite;
 import alku.csrp.entity.PrimitiveParasiteEntity;
@@ -183,6 +184,8 @@ public final class ColonyEvents {
         String damage = parasite.mostCommonAdaptedDamage();
         if (damage != null) {
             data.addGlobalResistance(damage);
+            SrpParticleEffects.spawnType4(level, parasite.getX(), parasite.getY(), parasite.getZ(),
+                    parasite.getBbWidth(), parasite.getBbHeight());
         }
     }
 

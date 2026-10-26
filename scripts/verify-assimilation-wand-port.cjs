@@ -77,8 +77,8 @@ expect(infection, /addFreshEntity\(disguise\)[\s\S]*assimilated\.discard\(\)/,
 // 26.3 renamed MobEffects.CONFUSION to MobEffects.NAUSEA; the nausea amplitude is unchanged.
 expect(infection, /MobEffects\.NAUSEA[\s\S]*ASSIMILATION_NAUSEA_AMPLIFIER/,
   "original conversion nausea is missing");
-expect(infection, /ModParticles\.ASSIMILATION_SPLASH/,
-  "original assimilation splash feedback is missing");
+expect(infection, /SrpParticleEffects\.spawnType1\(level, entity\.getX\(\), entity\.getY\(\), entity\.getZ\(\)/,
+  "original GSPLASH type-1 assimilation feedback is missing");
 expect(infection, /ParticleTypes\.EXPLOSION[\s\S]*levelEvent\(null, 1026/,
   "original completion particles or conversion event are missing");
 expect(particles, /ASSIMILATION_SPLASH[\s\S]*"assimilation_splash"/,

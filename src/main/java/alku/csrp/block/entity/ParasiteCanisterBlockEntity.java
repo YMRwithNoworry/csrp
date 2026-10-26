@@ -2,6 +2,7 @@ package alku.csrp.block.entity;
 
 import alku.csrp.registry.ModBlockEntities;
 import alku.csrp.registry.ModItems;
+import alku.csrp.particle.SrpParticleEffects;
 import alku.csrp.world.EvolutionSystem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -44,11 +45,8 @@ public final class ParasiteCanisterBlockEntity extends BlockEntity implements Co
         }
         if (cyst.consumeOne()) {
             EvolutionSystem.addPoints((ServerLevel) level, 2, EvolutionSystem.PointSource.CYST);
-            if (level.getRandom().nextFloat() < 0.5F) {
-                ((ServerLevel) level).sendParticles(ParticleTypes.PORTAL,
-                        pos.getX() + 0.5D, pos.getY() + 0.4D, pos.getZ() + 0.5D,
-                        4, 0.2D, 0.2D, 0.2D, 0.02D);
-            }
+            SrpParticleEffects.spawnType2((ServerLevel) level,
+                    pos.getX() + 0.5D, pos.getY() + 0.7D, pos.getZ() + 0.5D, 0.5F, 0.5F);
             return;
         }
         level.removeBlock(pos, false);

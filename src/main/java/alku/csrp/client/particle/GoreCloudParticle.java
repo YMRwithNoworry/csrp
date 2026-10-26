@@ -1,11 +1,11 @@
 package alku.csrp.client.particle;
 
+import alku.csrp.particle.SrpColorParticleOptions;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
 import net.minecraft.client.particle.SingleQuadParticle;
 import net.minecraft.client.particle.SpriteSet;
-import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
@@ -16,13 +16,13 @@ public final class GoreCloudParticle extends SingleQuadParticle {
 
     private GoreCloudParticle(ClientLevel level, double x, double y, double z,
                               double velocityX, double velocityY, double velocityZ,
-                              SpriteSet sprites) {
+                              SpriteSet sprites, int red, int green, int blue) {
         super(level, x, y, z, 0.0D, 0.0D, 0.0D, sprites.first());
         this.sprites = sprites;
         xd = xd * 0.1D + velocityX;
         yd = yd * 0.1D + velocityY;
         zd = zd * 0.1D + velocityZ;
-        setColor(127.0F / 255.0F, 0.0F, 0.0F);
+        setColor(red / 255.0F, green / 255.0F, blue / 255.0F);
         quadSize *= 0.75F;
         quadSize *= 2.5F;
         originalSize = quadSize * 0.5F;
@@ -67,7 +67,7 @@ public final class GoreCloudParticle extends SingleQuadParticle {
         return SingleQuadParticle.Layer.TRANSLUCENT;
     }
 
-    public static final class Provider implements ParticleProvider<SimpleParticleType> {
+    public static final class Provider implements ParticleProvider<SrpColorParticleOptions> {
         private final SpriteSet sprites;
 
         public Provider(SpriteSet sprites) {
@@ -75,12 +75,13 @@ public final class GoreCloudParticle extends SingleQuadParticle {
         }
 
         @Override
-        public Particle createParticle(SimpleParticleType type, ClientLevel level,
+        public Particle createParticle(SrpColorParticleOptions options, ClientLevel level,
                                        double x, double y, double z,
                                        double velocityX, double velocityY, double velocityZ,
                                        RandomSource random) {
             return new GoreCloudParticle(level, x, y, z,
-                    velocityX, velocityY, velocityZ, sprites);
+                    velocityX, velocityY, velocityZ, sprites,
+                    options.red(), options.green(), options.blue());
         }
     }
 }

@@ -2,6 +2,7 @@ package alku.csrp.entity;
 
 import alku.csrp.config.MobsConfig;
 import alku.csrp.config.RuntimeToggles;
+import alku.csrp.config.WorldConfig;
 import alku.csrp.Config;
 import alku.csrp.Csrp;
 import alku.csrp.block.FogBlock;
@@ -13,6 +14,7 @@ import alku.csrp.infection.InfestationSpreadLimiter;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModSounds;
+import alku.csrp.particle.SrpParticleEffects;
 import alku.csrp.world.SrpCoreSystems;
 import alku.csrp.world.SrpWorldData;
 import alku.csrp.world.gen.WorldGenParasiteNexusProtection1;
@@ -83,6 +85,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
     private static final int STAGE_ONE_MIN_GROWTH = 4_800;
     private static final int STAGE_ONE_GROWTH_VARIANCE = 1_201;
     private static final int TEMPORARY_BECKON_LIFETIME = 300;
+    private static final int BECKON_CAPACITY_FALLBACK_INTERVAL = 20;
 
     /** Original SRPConfig.nexusLeemCap. */
     private static final int NEXUS_ROOTER_CAP = 5;
@@ -659,16 +662,22 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
             }
             return spawnedCount > 0;
         }
-        // Original EntityAIVenkrolSummon: ground or air list depending on how far above the target the
-        // beckon sits (entityin.getY() + 3 > target.getY() selects the air table), then one biomass body.
-        boolean airborne = getY() + 3.0D > target.getY();
+        // Original: entityY + 3 <= targetY uses the air pool; stage 1 has no air summon path.
+        boolean airborne = getY() + 3.0D <= target.getY();
+        if (activeKind.stage == 1 && airborne) {
+            return false;
+        }
         java.util.List<BiomassEntity.SummonOption> options =
                 MobsConfig.beckonSummonMobs(activeKind.stage, airborne);
         if (options.isEmpty()) {
             return false;
         }
         BiomassEntity.SummonOption chosen = options.get(random.nextInt(options.size()));
-        if (getRandom().nextDouble() > chosen.chance()) {
+        // Original spawnBiomassFromBeckon reads the configured chance but does not roll it here.
+        if (!hasBeckonWorldCapacity(serverLevel)) {
+            // The original AI retries this non-counting Bomb fallback on its 20-tick summon pulse.
+            summonCooldown = BECKON_CAPACITY_FALLBACK_INTERVAL;
+            spawnBeckonCapacityBomb(serverLevel, activeKind.stage);
             return false;
         }
         Mob spawned = chosen.type().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
@@ -683,6 +692,52 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity {
         spawned.setTarget(target);
         serverLevel.addFreshEntity(spawned);
         return true;
+    }
+
+    private boolean hasBeckonWorldCapacity(ServerLevel serverLevel) {
+        int parasiteCount = 0;
+        for (Entity entity : serverLevel.getAllEntities()) {
+            if (entity instanceof Parasite) {
+                parasiteCount++;
+            }
+        }
+        return parasiteCount < WorldConfig.beckonSummonLimit(serverLevel);
+    }
+
+    private void spawnBeckonCapacityBomb(ServerLevel serverLevel, int stage) {
+        // Original signed nextInt() threshold is intentionally preserved (~50%, not nextInt(100) 40%).
+        if (serverLevel.getRandom().nextInt() < 40) {
+            return;
+        }
+        BombEntity bomb = ModEntities.BOMB.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+        if (bomb == null) {
+            return;
+        }
+
+        float baseAttackDamage = (float) getAttribute(Attributes.ATTACK_DAMAGE).getBaseValue();
+        bomb.configure(this, 60, 0.0F, baseAttackDamage, 2, 1, false);
+        double stageOffset = stage == 3 ? 0.5D : 0.0D;
+        bomb.snapTo(getX(), getY() + getEyeHeight() + stageOffset, getZ(), getYRot(), getXRot() + 20.0F);
+
+        double sampleX = (float) getX() + serverLevel.getRandom().nextFloat();
+        double sampleY = (float) getY() + getEyeHeight() + serverLevel.getRandom().nextFloat();
+        double sampleZ = (float) getZ() + serverLevel.getRandom().nextFloat();
+        double dx = sampleX - getX();
+        double dy = sampleY - getY();
+        double dz = sampleZ - getZ();
+        double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        dx /= distance;
+        dy /= distance;
+        dz /= distance;
+        double strength = 0.5D / (distance / 4.0D + 0.1D);
+        strength *= serverLevel.getRandom().nextFloat() * serverLevel.getRandom().nextFloat() + 1.7F;
+        double horizontalScale = stage == 3 ? 5.0D : 3.0D;
+        bomb.setBeckonMotion(dx * strength * horizontalScale, dy * strength * 2.0D,
+                strength * horizontalScale, 0.4D, 0.5D);
+        if (!serverLevel.addFreshEntity(bomb)) {
+            return;
+        }
+        SrpParticleEffects.spawnType10(serverLevel, getX(), getY(), getZ());
     }
 
     private boolean forceEvolveNearbyParasite() {
