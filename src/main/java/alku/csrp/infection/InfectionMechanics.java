@@ -14,6 +14,7 @@ import alku.csrp.entity.PrimitiveParasiteEntity;
 import alku.csrp.entity.PureParasiteEntity;
 import alku.csrp.entity.RupterEntity;
 import alku.csrp.entity.SimAdventurerEntity;
+import alku.csrp.item.InfestedBonemealItem;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.particle.SrpParticleEffects;
@@ -21,10 +22,14 @@ import alku.csrp.registry.ModSounds;
 import alku.csrp.world.DislodgmentSystem;
 import alku.csrp.world.EvolutionSystem;
 import alku.csrp.world.SrpWorldData;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
@@ -37,17 +42,17 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.gamerules.GameRules;
-import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.phys.AABB;
 
 /** Server-side COTH and Viral infection progression, spread, and host conversion. */
 public final class InfectionMechanics {
     public static final int COTH_BASE_DURATION_TICKS = 3_600;
+    public static final int COTH_SPREAD_DURATION_TICKS = 4_800;
     public static final int COTH_REFRESH_THRESHOLD_TICKS = 200;
     public static final int COTH_INCOMPLETE_AMPLIFIER = 1;
     public static final int COTH_MAX_AMPLIFIER = 2;
-    public static final double COTH_SPREAD_RADIUS = 4.0D;
-    public static final float COTH_CONVERSION_HEALTH_FRACTION = 0.35F;
     public static final float ASSIMILATED_UNHIDE_HEALTH_FRACTION = 0.30F;
+    private static final String COTH_IMMUNITY_TAG = "srpcothimmunity";
     private static final String ASSIMILATION_HOST_TAG = "csrp_assimilation_host";
     private static final String HIDDEN_ASSIMILATED_TAG = "csrp_hidden_assimilated";
     private static final int ASSIMILATION_FERAL_PHASE = 7;
@@ -170,8 +175,48 @@ public final class InfectionMechanics {
                 1.0F, 0.9F + target.getRandom().nextFloat() * 0.2F);
     }
 
-    public static boolean isCothImmune(LivingEntity entity) {
+    public static void initializeCothImmunity(LivingEntity entity) {
+        var data = entity.getPersistentData();
+        if (data.contains(COTH_IMMUNITY_TAG)) {
+            return;
+        }
         String entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString();
+        if (entityId.equals("minecraft:armor_stand")) {
+            data.putInt(COTH_IMMUNITY_TAG, 0);
+            return;
+        }
+        boolean listed = Config.cothImmuneEntities().stream()
+                .map(String::trim)
+                .filter(entry -> !entry.isEmpty())
+                .anyMatch(entityId::contains);
+        data.putInt(COTH_IMMUNITY_TAG, listed != Config.cothImmuneListInverted() ? 0 : 1);
+    }
+
+    public static int cothImmunityKey(LivingEntity entity) {
+        return entity.getPersistentData().getIntOr(COTH_IMMUNITY_TAG, -1);
+    }
+
+    private static boolean hasCothImmunityKey(LivingEntity entity) {
+        return entity.getPersistentData().contains(COTH_IMMUNITY_TAG);
+    }
+
+    private static int advanceCothImmunityKey(LivingEntity entity) {
+        int nextKey = cothImmunityKey(entity) + 1;
+        entity.getPersistentData().putInt(COTH_IMMUNITY_TAG, nextKey);
+        return nextKey;
+    }
+
+    public static boolean isCothImmune(LivingEntity entity) {
+        if (hasCothImmunityKey(entity)) {
+            return cothImmunityKey(entity) <= 0;
+        }
+        if (entity instanceof Player) {
+            return false;
+        }
+        String entityId = BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()).toString();
+        if (entityId.equals("minecraft:armor_stand")) {
+            return true;
+        }
         boolean listed = Config.cothImmuneEntities().stream()
                 .map(String::trim)
                 .filter(entry -> !entry.isEmpty())
@@ -180,45 +225,107 @@ public final class InfectionMechanics {
     }
 
     public static void tickCoth(LivingEntity entity, int amplifier) {
-        if (entity.level().isClientSide() || !isInfectable(entity)) {
+        if (entity.level().isClientSide() || entity instanceof Player && !Config.cothPlayer()) {
             return;
         }
         MobEffectInstance coth = entity.getEffect(ModMobEffects.COTH);
         if (coth == null) {
             return;
         }
+        if (isCothImmune(entity)) {
+            entity.removeEffect(ModMobEffects.COTH);
+            return;
+        }
+        if (Config.cothPopping() && amplifier >= COTH_MAX_AMPLIFIER) {
+            return;
+        }
 
+        boolean pulse = entity.tickCount % 20 == 0;
         int effectiveAmplifier = Math.min(COTH_MAX_AMPLIFIER, amplifier);
-        if (Config.disloCothIgnoreAmplifier() && amplifier <= 1 && entity.tickCount % 20 == 0
+        if (Config.disloCothIgnoreAmplifier() && amplifier <= 1 && pulse
                 && entity.level() instanceof ServerLevel level
                 && DislodgmentSystem.activeCodeValue(level, 0) > 0) {
             entity.forceAddEffect(new MobEffectInstance(ModMobEffects.COTH, 6_666, 10,
-                    coth.isAmbient(), coth.isVisible(), true), null);
-            effectiveAmplifier = COTH_MAX_AMPLIFIER;
-        } else if (!isCothImmune(entity) && coth.getDuration() > 0
-                && coth.getDuration() <= COTH_REFRESH_THRESHOLD_TICKS) {
-            int nextAmplifier = Math.max(amplifier,
-                    Math.min(COTH_MAX_AMPLIFIER, effectiveAmplifier + 1));
-            entity.forceAddEffect(new MobEffectInstance(ModMobEffects.COTH, COTH_BASE_DURATION_TICKS,
-                    nextAmplifier, coth.isAmbient(), coth.isVisible(), true), null);
+                    false, true, true), null);
+            if (hasCothImmunityKey(entity) && cothImmunityKey(entity) > 0
+                    && advanceCothImmunityKey(entity) >= 3 && convertInfectedHost(entity)) {
+                return;
+            }
+        }
+        if (amplifier > 0 && !(entity instanceof Player) && !hasCothImmunityKey(entity)) {
+            entity.removeEffect(ModMobEffects.COTH);
+            return;
+        }
+        if (amplifier == 0 || pulse) {
+            if (coth.getDuration() > 0 && coth.getDuration() < COTH_REFRESH_THRESHOLD_TICKS) {
+                if (!(entity instanceof Player) && !hasCothImmunityKey(entity)) {
+                    entity.removeEffect(ModMobEffects.COTH);
+                    return;
+                }
+                int nextAmplifier = Math.min(amplifier + 1, COTH_MAX_AMPLIFIER);
+                entity.forceAddEffect(new MobEffectInstance(ModMobEffects.COTH, COTH_BASE_DURATION_TICKS,
+                        nextAmplifier, false, false, true), null);
+                if (Config.useEvolutionPhases() && !(entity instanceof Player) && cothImmunityKey(entity) > 0
+                        && entity.level() instanceof ServerLevel level
+                        && SrpWorldData.get(level).evolutionPhase() >= ASSIMILATION_DEHIDE_PHASE) {
+                    advanceCothImmunityKey(entity);
+                }
+            }
+        }
+        if (!pulse || amplifier == 0) {
+            return;
         }
         if (effectiveAmplifier >= 1) {
             spreadCoth(entity);
         }
-        boolean forceAssimilation = entity.level() instanceof ServerLevel serverLevel
-                && SrpWorldData.get(serverLevel).evolutionPhase() >= ASSIMILATION_DEHIDE_PHASE;
         if (isHiddenAssimilated(entity)) {
             tickHiddenAssimilated(entity);
             return;
         }
-        boolean belowConversionHealth = entity.getHealth()
-                <= entity.getMaxHealth() * COTH_CONVERSION_HEALTH_FRACTION;
-        if (effectiveAmplifier == COTH_INCOMPLETE_AMPLIFIER && belowConversionHealth
-                && !isCothImmune(entity)) {
-            convertIncompleteCothHost(entity);
-        } else if (effectiveAmplifier >= COTH_MAX_AMPLIFIER
-                && (belowConversionHealth || forceAssimilation)) {
+        if (entity instanceof Player || !hasCothImmunityKey(entity)) {
+            return;
+        }
+        boolean belowConversionHealth = entity.getHealth() > 0.0F
+                && entity.getMaxHealth() * Config.cothUnhide() > entity.getHealth();
+        boolean conversionReady = belowConversionHealth || cothImmunityKey(entity) > 1;
+        if (!conversionReady) {
+            return;
+        }
+        if (effectiveAmplifier == COTH_INCOMPLETE_AMPLIFIER) {
+            if (advanceCothImmunityKey(entity) >= 3) {
+                convertIncompleteCothHost(entity);
+            }
+        } else if (effectiveAmplifier >= COTH_MAX_AMPLIFIER && advanceCothImmunityKey(entity) >= 3) {
             convertInfectedHost(entity);
+        }
+    }
+
+    /** Original PotionCOTH sent type-1 packets every tick while the conversion predicate held. */
+    public static void tickCothParticles(LivingEntity entity) {
+        if (entity.level().isClientSide() || entity instanceof Player && !Config.cothPlayer()) {
+            return;
+        }
+        MobEffectInstance coth = entity.getEffect(ModMobEffects.COTH);
+        if (coth == null) {
+            return;
+        }
+        if (cothImmunityKey(entity) == 0) {
+            entity.removeEffect(ModMobEffects.COTH);
+            return;
+        }
+        if (!hasCothImmunityKey(entity) || Config.cothPopping()
+                && coth.getAmplifier() >= COTH_MAX_AMPLIFIER) {
+            return;
+        }
+        if (coth.getAmplifier() < 1 || entity instanceof Player
+                || !(entity.level() instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        boolean belowConversionHealth = entity.getHealth() > 0.0F
+                && entity.getMaxHealth() * Config.cothUnhide() > entity.getHealth();
+        if (belowConversionHealth || cothImmunityKey(entity) > 1) {
+            SrpParticleEffects.spawnType1(serverLevel, entity.getX(), entity.getY(), entity.getZ(),
+                    entity.getBbWidth(), entity.getBbHeight());
         }
     }
 
@@ -567,6 +674,26 @@ public final class InfectionMechanics {
         return false;
     }
 
+    /** Original COTHPopping consumes a dead COTH III player's effect after infesting solid ground. */
+    public static boolean popCothOnPlayerDeath(Player player) {
+        if (!Config.cothPlayer() || !Config.cothPopping()
+                || !(player.level() instanceof ServerLevel serverLevel)) {
+            return false;
+        }
+        MobEffectInstance coth = player.getEffect(ModMobEffects.COTH);
+        if (coth == null || coth.getAmplifier() < COTH_MAX_AMPLIFIER) {
+            return false;
+        }
+        BlockPos position = BlockPos.containing(player.getX(), player.getY() - 1.0D, player.getZ());
+        if (serverLevel.isEmptyBlock(position)) {
+            return false;
+        }
+        InfestedBonemealItem.boneMealEffect(serverLevel, position, Direction.DOWN);
+        serverLevel.playSound(null, position, SoundEvents.BONE_MEAL_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
+        player.removeEffect(ModMobEffects.COTH);
+        return true;
+    }
+
     private static boolean passesCothKillConversion(LivingEntity host) {
         MobEffectInstance coth = host.getEffect(ModMobEffects.COTH);
         if (coth == null) {
@@ -579,10 +706,19 @@ public final class InfectionMechanics {
     }
 
     private static void spreadCoth(LivingEntity source) {
-        for (LivingEntity target : source.level().getEntitiesOfClass(LivingEntity.class,
-                source.getBoundingBox().inflate(COTH_SPREAD_RADIUS), InfectionMechanics::isInfectable)) {
-            if (target != source && source.hasLineOfSight(target)) {
-                applyCoth(target, source);
+        int range = Config.cothAura();
+        if (range <= 0 || source.hasEffect(ModMobEffects.REPEL)
+                || source instanceof Player player && player.getAbilities().instabuild) {
+            return;
+        }
+        AABB area = new AABB(source.getX(), source.getY(), source.getZ(),
+                source.getX() + 1.0D, source.getY() + 1.0D, source.getZ() + 1.0D).inflate(range);
+        for (LivingEntity target : source.level().getEntitiesOfClass(LivingEntity.class, area)) {
+            if (target != source && source.hasLineOfSight(target)
+                    && !target.hasEffect(ModMobEffects.COTH)
+                    && !target.hasEffect(ModMobEffects.REPEL)) {
+                target.addEffect(new MobEffectInstance(ModMobEffects.COTH, COTH_SPREAD_DURATION_TICKS,
+                        0, false, false, true), source);
             }
         }
     }

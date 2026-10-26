@@ -53,12 +53,6 @@ public final class InfectionEvents {
                 InfectionMechanics.applyCoth(target, attacker);
             }
         }
-        MobEffectInstance coth = target.getEffect(ModMobEffects.COTH);
-        if (coth != null && coth.getAmplifier() >= InfectionMechanics.COTH_INCOMPLETE_AMPLIFIER
-                && target.getHealth() <= target.getMaxHealth()
-                * InfectionMechanics.COTH_CONVERSION_HEALTH_FRACTION) {
-            InfectionMechanics.convertCothHost(target);
-        }
     }
 
     @SubscribeEvent
@@ -80,6 +74,9 @@ public final class InfectionEvents {
         Entity attacker = event.getSource().getEntity();
         if (InfectionMechanics.revealHiddenAssimilated(host, attacker)) {
             event.setCanceled(true);
+            return;
+        }
+        if (host instanceof Player player && InfectionMechanics.popCothOnPlayerDeath(player)) {
             return;
         }
         if (host instanceof Player player && InfectionMechanics.convertKilledPlayer(player, attacker)) {

@@ -24,7 +24,10 @@ function method(content, start, end) {
 }
 
 const infection = read("src/main/java/alku/csrp/infection/InfectionMechanics.java");
+const cothEffect = read("src/main/java/alku/csrp/effect/CothMobEffect.java");
+const particleEvents = read("src/main/java/alku/csrp/event/CothParticleEvents.java");
 const tick = method(infection, "public static void tickCoth", "/** COTH II creates an Incomplete Form");
+const particleTick = method(infection, "public static void tickCothParticles", "/** COTH II creates an Incomplete Form");
 const conversion = method(infection, "public static boolean convertCothHost", "public static boolean convertInfectedHost");
 
 expect(infection, /COTH_REFRESH_THRESHOLD_TICKS\s*=\s*200;/,
@@ -33,16 +36,24 @@ expect(infection, /COTH_INCOMPLETE_AMPLIFIER\s*=\s*1;/,
         "COTH II amplifier marker is missing");
 expect(infection, /COTH_MAX_AMPLIFIER\s*=\s*2;/,
         "COTH III amplifier marker is missing");
-expect(tick, /coth\.getDuration\(\) > 0[\s\S]*coth\.getDuration\(\) <= COTH_REFRESH_THRESHOLD_TICKS/,
-        "COTH expiry does not enter the stage refresh path");
-expect(tick, /Math\.min\(COTH_MAX_AMPLIFIER, effectiveAmplifier \+ 1\)/,
-        "COTH expiry does not advance to the next stage");
+expect(cothEffect, /shouldApplyEffectTickThisTick\(int duration, int amplifier\)[\s\S]*return true;/,
+        "COTH effect callback does not run every tick as in the original");
+expect(tick, /boolean pulse = entity\.tickCount % 20 == 0;/,
+        "COTH spread and conversion are not gated by the original 20-tick pulse");
+expect(particleEvents, /EntityTickEvent\.Post event[\s\S]*tickCothParticles\(living\)/,
+        "the independent per-tick COTH particle check is not registered");
+expect(particleTick, /coth\.getAmplifier\(\) < 1[\s\S]*belowConversionHealth \|\| cothImmunityKey\(entity\) > 1[\s\S]*spawnType1/,
+        "original type-1 conversion preparation particles are missing");
+expect(tick, /coth\.getDuration\(\) > 0[\s\S]*coth\.getDuration\(\) < COTH_REFRESH_THRESHOLD_TICKS/,
+        "COTH expiry does not enter the original strict stage refresh path");
+expect(tick, /Math\.min\(amplifier \+ 1, COTH_MAX_AMPLIFIER\)/,
+        "COTH expiry does not advance to the original next stage");
 expect(tick, /forceAddEffect\(new MobEffectInstance\(ModMobEffects\.COTH, COTH_BASE_DURATION_TICKS/,
         "COTH stage refresh still relies on an in-place merge that can expire immediately");
-expect(tick, /effectiveAmplifier == COTH_INCOMPLETE_AMPLIFIER\s*&&\s*belowConversionHealth[\s\S]*convertIncompleteCothHost/,
-        "low-health COTH II hosts do not create an Incomplete Form");
-expect(tick, /effectiveAmplifier >= COTH_MAX_AMPLIFIER[\s\S]*belowConversionHealth \|\| forceAssimilation[\s\S]*convertInfectedHost/,
-        "low-health COTH III hosts do not create an Assimilated form");
+expect(tick, /belowConversionHealth \|\| cothImmunityKey\(entity\) > 1[\s\S]*effectiveAmplifier == COTH_INCOMPLETE_AMPLIFIER[\s\S]*advanceCothImmunityKey\(entity\) >= 3[\s\S]*convertIncompleteCothHost/,
+        "COTH II hosts do not follow the original health/key gate before creating an Incomplete Form");
+expect(tick, /effectiveAmplifier >= COTH_MAX_AMPLIFIER[\s\S]*advanceCothImmunityKey\(entity\) >= 3[\s\S]*convertInfectedHost/,
+        "COTH III hosts do not follow the original key progression before creating an Assimilated form");
 expect(conversion, /getAmplifier\(\) < COTH_INCOMPLETE_AMPLIFIER[\s\S]*return false;/,
         "COTH I can incorrectly trigger health-based conversion");
 expect(conversion, /getAmplifier\(\) >= COTH_MAX_AMPLIFIER[\s\S]*convertInfectedHost\(host\)/,

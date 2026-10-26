@@ -19,6 +19,6 @@ public final class CothMobEffect extends MobEffect {
 
     @Override
     public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
-        return duration % 20 == 0;
+        return true;
     }
 }

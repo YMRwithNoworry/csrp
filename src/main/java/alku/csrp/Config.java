@@ -140,6 +140,18 @@ public final class Config {
     private static final ModConfigSpec.BooleanValue COTH_ACTIVE = BUILDER
             .comment("Enable the Call of the Hive infection effect (original: cothActive).")
             .define("cothActive", true);
+    private static final ModConfigSpec.BooleanValue COTH_PLAYER = BUILDER
+            .comment("Allow COTH's periodic logic to affect players (original: cothPlayer).")
+            .define("cothPlayer", true);
+    private static final ModConfigSpec.IntValue COTH_AURA = BUILDER
+            .comment("COTH spread range (original: cothAura).")
+            .defineInRange("cothAura", 3, 0, 10);
+    private static final ModConfigSpec.DoubleValue COTH_UNHIDE = BUILDER
+            .comment("COTH conversion health threshold (original: cothUnhide).")
+            .defineInRange("cothUnhide", 0.3D, 0.0D, 1.0D);
+    private static final ModConfigSpec.BooleanValue COTH_POPPING = BUILDER
+            .comment("A player dying with COTH amplifier III can infest the ground below them (original: COTHPopping).")
+            .define("cothPopping", false);
     private static final ModConfigSpec.DoubleValue MOB_SPAWNING_COTH_CHANCE_SIX = BUILDER
             .comment("Chance a mob spawning at evolution phase 6 already carries COTH (original: mobSpawningCOTHChanceSix).")
             .defineInRange("mobSpawningCothChanceSix", 0.2D, 0.0D, 1.0D);
@@ -785,6 +797,10 @@ public final class Config {
         return listed != FEAR_ITEM_BLACKLIST_INVERTED.get();
     }
     public static boolean cothActive() { return COTH_ACTIVE.get(); }
+    public static boolean cothPlayer() { return COTH_PLAYER.get(); }
+    public static int cothAura() { return COTH_AURA.get(); }
+    public static double cothUnhide() { return COTH_UNHIDE.get(); }
+    public static boolean cothPopping() { return COTH_POPPING.get(); }
 
     /**
      * Original {@code SRPEventHandlerBus#setCOTH}: only phases 1..8 have a case; 1..5 are 0.0 and

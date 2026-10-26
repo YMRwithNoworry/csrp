@@ -53,6 +53,9 @@ public final class CothSpawnEvents {
         if (!Config.cothActive()) {
             return;
         }
+        if (!(entity instanceof Parasite)) {
+            InfectionMechanics.initializeCothImmunity(entity);
+        }
 
         SrpWorldData data = SrpWorldData.get(level);
         if (WorldConfig.nodesActivated() && data.nearestHeartAge(entity.blockPosition()) != -1) {

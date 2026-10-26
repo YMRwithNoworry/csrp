@@ -26,6 +26,7 @@ function method(content, start, end) {
 }
 
 const infection = read("src/main/java/alku/csrp/infection/InfectionMechanics.java");
+const config = read("src/main/java/alku/csrp/Config.java");
 const infectionEvents = read("src/main/java/alku/csrp/infection/InfectionEvents.java");
 const evolutionEvents = read("src/main/java/alku/csrp/world/EvolutionEvents.java");
 const tickCoth = method(infection, "public static void tickCoth", "public static boolean convertInfectedHost");
@@ -40,10 +41,10 @@ const reveal = method(infection, "public static boolean revealHiddenAssimilated"
 
 expect(infection, /ASSIMILATED_UNHIDE_HEALTH_FRACTION\s*=\s*0\.30F;/,
         "Assimilated disguise threshold is not the original strict 30 percent");
-expect(infection, /COTH_CONVERSION_HEALTH_FRACTION\s*=\s*0\.35F;/,
-        "ordinary COTH conversion threshold was changed by the disguise implementation");
-expect(tickCoth, /getHealth\(\)[\s\S]*<=\s*entity\.getMaxHealth\(\)\s*\*\s*COTH_CONVERSION_HEALTH_FRACTION/,
-        "ordinary COTH conversion no longer retains its existing 35 percent boundary");
+expect(config, /defineInRange\("cothUnhide",\s*0\.3D/,
+        "ordinary COTH conversion does not retain the original cothUnhide default");
+expect(tickCoth, /entity\.getMaxHealth\(\)\s*\*\s*Config\.cothUnhide\(\)\s*>\s*entity\.getHealth\(\)/,
+        "ordinary COTH conversion does not use the original strict cothUnhide threshold");
 expect(hiddenTick, /getHealth\(\)[\s\S]*<\s*disguise\.getMaxHealth\(\)\s*\*\s*ASSIMILATED_UNHIDE_HEALTH_FRACTION/,
         "hidden Assimilated forms do not reveal strictly below 30 percent health");
 expect(hiddenTick, /evolutionPhase\(\)\s*>=\s*ASSIMILATION_DEHIDE_PHASE[\s\S]*\|\|\s*\(threat != null/,
