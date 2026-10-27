@@ -2,10 +2,12 @@ package alku.csrp.entity;
 
 import alku.csrp.Config;
 import alku.csrp.infection.InfectionMechanics;
+import alku.csrp.particle.SrpEntityParticleEffects;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModParticles;
 import alku.csrp.registry.ModSounds;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;
@@ -297,20 +299,55 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
     }
 
     private void spawnClientParticles() {
-        int stage = Mth.clamp((int) getStage(), 1, 6);
+        int stage = (int) getStage();
+        if (stage < 1 || stage > 6) {
+            return;
+        }
         int interval = stage == 3 ? 3 : stage == 2 || stage == 6 ? 5 : 10;
         int count = stage == 3 ? 3 : 2;
         if (tickCount % interval != 0) {
             return;
         }
-        for (int index = 0; index < count; index++) {
-            double x = getX() + (random.nextDouble() - 0.5D) * getBbWidth();
-            double y = getY() + random.nextDouble() * getBbHeight();
-            double z = getZ() + (random.nextDouble() - 0.5D) * getBbWidth();
-            level().addParticle(ModParticles.BIOMASS.get(), x, y, z,
-                    (random.nextDouble() - 0.5D) * 0.04D,
-                    random.nextDouble() * 0.025D,
-                    (random.nextDouble() - 0.5D) * 0.04D);
+        SrpEntityParticleEffects.spawnVolume(this, random, ModParticles.BIOMASS.get(), count);
+    }
+
+    @Override
+    public void handleEntityEvent(byte id) {
+        if (id == 7) {
+            SrpEntityParticleEffects.spawnVolume(this, random, ParticleTypes.EXPLOSION, 11);
+        } else if (id == 18) {
+            spawnExplosionParticles();
+        } else {
+            super.handleEntityEvent(id);
+        }
+    }
+
+    private void spawnExplosionParticles() {
+        double intensity = switch ((int) getStage()) {
+            case 2, 4, 6 -> 0.3D;
+            case 3 -> 0.6D;
+            default -> 0.0D;
+        };
+        for (int index = 0; index < 11; index++) {
+            double x = (float) getX() + random.nextFloat();
+            double y = (float) getY() + random.nextFloat() + 1.0D;
+            double z = (float) getZ() + random.nextFloat();
+            double dx = x - getX();
+            double dy = y - getY();
+            double dz = z - getZ();
+            double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+            if (distance < 1.0E-7D) {
+                continue;
+            }
+            dx /= distance;
+            dy /= distance;
+            dz /= distance;
+            double strength = 0.5D / (distance + 0.1D);
+            strength *= level().getRandom().nextFloat() * level().getRandom().nextFloat() + 0.7F;
+            dx *= strength * intensity;
+            dy *= strength * (intensity * 0.5D);
+            dz *= strength * intensity;
+            level().addParticle(ModParticles.BIOMASS.get(), x, y, z, dx, dy, dz);
         }
     }
 
@@ -325,8 +362,7 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
         hatchHandled = true;
         applyCothAura();
         playSound(ModSounds.get("flesh.primitive"), 1.0F, 1.0F);
-        level.sendParticles(ModParticles.BIOMASS.get(), getX(), getY() + 0.5D, getZ(),
-                11, 0.5D, 0.5D, 0.5D, 0.15D);
+        level.broadcastEntityEvent(this, (byte) 7);
 
         Mob parent = resolveMob(level, entityData.get(PARENT));
         Identifier spawnTypeId = Identifier.tryParse(entityData.get(SPAWN_TYPE));
@@ -335,6 +371,7 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
                         .map(type -> type.create(level, EntitySpawnReason.MOB_SUMMONED)).orElse(null);
         if (!(created instanceof Mob spawned)) {
             releaseReservation(parent);
+            level.broadcastEntityEvent(this, (byte) 18);
             discard();
             return;
         }
@@ -362,12 +399,14 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
         }
         if (!level.addFreshEntity(spawned)) {
             releaseReservation(parent);
+            level.broadcastEntityEvent(this, (byte) 18);
             discard();
             return;
         }
         if (parent instanceof SummonCapacityOwner owner) {
             owner.replaceTrackedSummon(getUUID(), spawned.getUUID(), entityData.get(CAPACITY_COST));
         }
+        level.broadcastEntityEvent(this, (byte) 18);
         discard();
     }
 

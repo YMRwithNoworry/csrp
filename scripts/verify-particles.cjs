@@ -31,6 +31,12 @@ const payloadHandlers = read("src/main/java/alku/csrp/network/SrpParticlePayload
 const serverEffects = read("src/main/java/alku/csrp/particle/SrpParticleEffects.java");
 const clientEffects = read("src/main/java/alku/csrp/client/SrpParticleEffectsClient.java");
 const goreSplash = read("src/main/java/alku/csrp/client/particle/GoreSplashParticle.java");
+const biomassParticle = read("src/main/java/alku/csrp/client/particle/BiomassParticle.java");
+const biomassEntity = read("src/main/java/alku/csrp/entity/BiomassEntity.java");
+const adaptedEntity = read("src/main/java/alku/csrp/entity/AdaptedVariantEntity.java");
+const summonerEntity = read("src/main/java/alku/csrp/entity/SummonerEntity.java");
+const remainEntity = read("src/main/java/alku/csrp/entity/RemainEntity.java");
+const entityParticles = read("src/main/java/alku/csrp/particle/SrpEntityParticleEffects.java");
 const rageEffect = read("src/main/java/alku/csrp/effect/RageMobEffect.java");
 const canister = read("src/main/java/alku/csrp/block/entity/ParasiteCanisterBlockEntity.java");
 const repelEvents = read("src/main/java/alku/csrp/event/CothItemPreventEvents.java");
@@ -108,6 +114,58 @@ expect(ore, /SrpBlockParticles\.spawnSpore\(level, pos, random\)/,
         "InfestedOreBlock no longer spawns the spore particle");
 expect(bulb, /SrpBlockParticles\.spawnBlood\(level, pos, random\)/,
         "EscaBulbBlock no longer spawns the blood particle");
+
+// Entity particle call sites preserve the original sampling order and payloads.
+expect(entityParticles,
+        /velocityX = random\.nextGaussian\(\) \* 0\.02D;[\s\S]*?velocityY = random\.nextGaussian\(\) \* 0\.02D;[\s\S]*?velocityZ = random\.nextGaussian\(\) \* 0\.02D;[\s\S]*?x = entity\.getX\(\) \+ random\.nextFloat\(\) \* entity\.getBbWidth\(\) \* 2\.0F - entity\.getBbWidth\(\);[\s\S]*?y = entity\.getY\(\) \+ 0\.5D \+ random\.nextFloat\(\) \* sampleHeight;[\s\S]*?z = entity\.getZ\(\) \+ random\.nextFloat\(\) \* entity\.getBbWidth\(\) \* 2\.0F - entity\.getBbWidth\(\);/,
+        "entity volume particles no longer use the original Gaussian velocity and bounds sampling");
+expect(biomassEntity,
+        /int stage = \(int\) getStage\(\);[\s\S]*?int interval = stage == 3 \? 3 : stage == 2 \|\| stage == 6 \? 5 : 10;[\s\S]*?int count = stage == 3 \? 3 : 2;[\s\S]*?spawnVolume\(this, random, ModParticles\.BIOMASS\.get\(\), count\)/,
+        "Biomass stage particle intervals/counts or original volume sampling changed");
+expect(biomassEntity,
+        /case 2, 4, 6 -> 0\.3D;[\s\S]*?case 3 -> 0\.6D;[\s\S]*?for \(int index = 0; index < 11; index\+\+\)[\s\S]*?x = \(float\) getX\(\) \+ random\.nextFloat\(\);[\s\S]*?y = \(float\) getY\(\) \+ random\.nextFloat\(\) \+ 1\.0D;[\s\S]*?strength = 0\.5D \/ \(distance \+ 0\.1D\);[\s\S]*?level\(\)\.getRandom\(\)\.nextFloat\(\) \* level\(\)\.getRandom\(\)\.nextFloat\(\) \+ 0\.7F[\s\S]*?dy \*= strength \* \(intensity \* 0\.5D\)/,
+        "Biomass hatch burst lost the original 11-particle stage-scaled trajectory");
+expect(biomassEntity,
+        /broadcastEntityEvent\(this, \(byte\) 7\);[\s\S]*?broadcastEntityEvent\(this, \(byte\) 18\);/,
+        "Biomass hatch does not broadcast the original explosion and burst events");
+expect(biomassEntity,
+        /id == 7[\s\S]*?ParticleTypes\.EXPLOSION, 11[\s\S]*?id == 18[\s\S]*?spawnExplosionParticles\(\)/,
+        "Biomass entity events no longer spawn the original explosion and stage-aware burst");
+expect(biomassEntity,
+        /level\.broadcastEntityEvent\(this, \(byte\) 18\);\s*discard\(\);/,
+        "Biomass burst event is not sent immediately before entity removal");
+expect(biomassParticle,
+        /new SrpColorParticleOptions\(ModParticles\.DOT\.get\(\), 165, 255, 0, 0\)[\s\S]*?0\.0D, 0\.0D, 0\.0D\);[\s\S]*?new SrpColorParticleOptions\(ModParticles\.DOT\.get\(\), 60, 229, 27, 0\)[\s\S]*?0\.0D, 0\.0D, 0\.0D\)/,
+        "Biomass particles no longer emit both original zero-velocity DOT particles");
+expect(biomassParticle,
+        /if \(random\.nextDouble\(\) <= 0\.5D\) \{\s*return 1;\s*\}[\s\S]*?if \(random\.nextDouble\(\) <= 0\.5D\) \{\s*return 2;\s*\}[\s\S]*?return random\.nextDouble\(\) <= 0\.5D \? 3 : 0;/,
+        "Biomass texture selection no longer matches the original 50/25/12.5/12.5 weighting");
+expect(adaptedEntity,
+        /sendResidueParticles\(\) \{[\s\S]*?broadcastEntityEvent\(this, \(byte\) 13\);/,
+        "Adapted residue particles are not broadcast as original entity event 13");
+expect(adaptedEntity,
+        /spawnResidueParticles\(\) \{[\s\S]*?GORE_SPLASH\.get\(\), 4, -1, -1, 4\), 11/,
+        "Adapted residue event no longer emits 11 original vomit-family GSPLASH particles");
+expect(adaptedEntity,
+        /if \(id == 13\) \{[\s\S]*?spawnResidueParticles\(\)/,
+        "Adapted entity event 13 no longer spawns residue particles");
+for (const [name, entity] of [["Adapted", adaptedEntity], ["primitive Summoner", summonerEntity]]) {
+    expect(entity,
+            /spawnVomitCloud\(this, random,[\s\S]*?GORE_CLOUD\.get\(\), 123, 0, 196, 0\), 6/,
+            `${name} vomit no longer emits six original purple GCLOUD particles`);
+    expect(entity,
+            /spawnVolume\(this, random, ModParticles\.BIOMASS\.get\(\), 11\)/,
+            `${name} summon burst no longer uses 11 original BIOMASS particles`);
+    if (entity.includes("ParticleTypes.WITCH")) {
+        failures.push(`${name} vomit still uses vanilla Witch particles`);
+    }
+}
+expect(entityParticles,
+        /spawnVomitCloud\(LivingEntity entity[\s\S]*?baseVelocityX = -Mth\.sin\(yaw\) \* 0\.2D[\s\S]*?baseVelocityZ = Mth\.cos\(yaw\) \* 0\.2D[\s\S]*?Vec3 direction = entity\.getViewVector\(1\.0F\)[\s\S]*?entity\.getX\(\) \+ direction\.x \* 1\.2D[\s\S]*?entity\.getY\(\) \+ entity\.getEyeHeight\(\) - 0\.2D[\s\S]*?entity\.getZ\(\) \+ direction\.z \* 1\.2D[\s\S]*?velocityY = 0\.01D \+ random\.nextDouble\(\) \* 0\.1D[\s\S]*?velocityX = baseVelocityX \+ \(random\.nextDouble\(\) - 0\.5D\) \* 0\.25D[\s\S]*?velocityZ = baseVelocityZ \+ \(random\.nextDouble\(\) - 0\.5D\) \* 0\.25D/,
+        "Summoner vomit trajectory or position no longer matches EntityCanra and EntityCanraAdapted");
+expect(remainEntity,
+        /spawnVolume\(this, random, particle, 2, getBbHeight\(\) \+ 0\.5D\)/,
+        "Remain biomass event no longer uses its original extended vertical sampling range");
 
 // Every particle needs its sprite definition.
 for (const id of ["spore", "rhappy", "een", "rage", "wind", "dot", "flash", "blood"]) {

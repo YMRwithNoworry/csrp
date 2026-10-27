@@ -4,6 +4,8 @@ import alku.csrp.Config;
 import alku.csrp.config.MobsConfig;
 import alku.csrp.effect.EffectStacking;
 import alku.csrp.infection.InfectionMechanics;
+import alku.csrp.particle.SrpColorParticleOptions;
+import alku.csrp.particle.SrpEntityParticleEffects;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModMobEffects;
@@ -11,7 +13,6 @@ import alku.csrp.registry.ModParticles;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.world.EvolutionSystem;
 import alku.csrp.world.SrpWorldData;
-import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -678,16 +679,16 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
         }
     }
 
-    /** Original {@code parent.particleStatus((byte)13)} — a green spore puff around the body. */
+    /** Original parent.particleStatus((byte)13): eleven vomit-family GSPLASH particles. */
     private void sendResidueParticles() {
-        if (tickCount % 2 != 0 || !(level() instanceof ServerLevel serverLevel)) {
-            return;
+        if (level() instanceof ServerLevel serverLevel) {
+            serverLevel.broadcastEntityEvent(this, (byte) 13);
         }
-        serverLevel.sendParticles(new DustParticleOptions(
-                        net.minecraft.util.ARGB.colorFromVector3f(new org.joml.Vector3f(
-                                0.29F, 0.55F, 0.18F)), 1.0F),
-                getX(), getY() + getBbHeight() * 0.5D, getZ(), 2,
-                getBbWidth() * 0.4D, getBbHeight() * 0.3D, getBbWidth() * 0.4D, 0.0D);
+    }
+
+    private void spawnResidueParticles() {
+        SrpEntityParticleEffects.spawnVolume(this, random,
+                new SrpColorParticleOptions(ModParticles.GORE_SPLASH.get(), 4, -1, -1, 4), 11);
     }
 
     /** Original EntityAIBlockResidue:56-76. */
@@ -781,7 +782,9 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     @Override
     public void handleEntityEvent(byte id) {
-        if (id == VOMIT_EVENT && activeKind() == Kind.SUMMONER) {
+        if (id == 13) {
+            spawnResidueParticles();
+        } else if (id == VOMIT_EVENT && activeKind() == Kind.SUMMONER) {
             summonerVomitTicks = 40;
         } else if (id == SUMMON_EVENT && activeKind() == Kind.SUMMONER) {
             spawnSummonParticles();
@@ -791,26 +794,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     }
 
     private void spawnSummonerVomitParticles() {
-        Vec3 direction = getViewVector(1.0F);
-        Vec3 start = getEyePosition().add(direction.scale(1.2D));
-        for (int index = 0; index < 6; index++) {
-            level().addParticle(ParticleTypes.WITCH, start.x, start.y - 0.2D, start.z,
-                    direction.x * 0.2D + (random.nextDouble() - 0.5D) * 0.25D,
-                    0.01D + random.nextDouble() * 0.1D,
-                    direction.z * 0.2D + (random.nextDouble() - 0.5D) * 0.25D);
-        }
+        SrpEntityParticleEffects.spawnVomitCloud(this, random,
+                new SrpColorParticleOptions(ModParticles.GORE_CLOUD.get(), 123, 0, 196, 0), 6);
     }
 
     private void spawnSummonParticles() {
-        for (int index = 0; index < 11; index++) {
-            level().addParticle(ModParticles.BIOMASS.get(),
-                    getX() + (random.nextDouble() - 0.5D) * getBbWidth(),
-                    getY() + random.nextDouble() * getBbHeight(),
-                    getZ() + (random.nextDouble() - 0.5D) * getBbWidth(),
-                    (random.nextDouble() - 0.5D) * 0.08D,
-                    random.nextDouble() * 0.08D,
-                    (random.nextDouble() - 0.5D) * 0.08D);
-        }
+        SrpEntityParticleEffects.spawnVolume(this, random, ModParticles.BIOMASS.get(), 11);
     }
 
     @Override

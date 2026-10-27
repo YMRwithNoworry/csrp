@@ -2,10 +2,12 @@ package alku.csrp.entity;
 
 import alku.csrp.block.DispatcherNidusBlock;
 import alku.csrp.block.entity.ParasiticCystBlockEntity;
+import alku.csrp.particle.SrpColorParticleOptions;
 import alku.csrp.registry.ModBlocks;
+import alku.csrp.registry.ModParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.particles.DustParticleOptions;
+import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -16,7 +18,6 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
@@ -30,7 +31,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.Vec3;
-import org.joml.Vector3f;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -174,37 +174,42 @@ public final class GoreEntity extends Entity {
     }
 
     private void spawnTrailParticles() {
-        if (getSkin() < 1 || getSkin() > 4) {
-            return;
-        }
-        DustParticleOptions primary = switch (getSkin()) {
-            case 1 -> dust(0.5F, 0.0F, 0.0F);
-            case 2 -> dust(0.59F, 0.0F, 0.0F);
-            case 3 -> dust(0.78F, 0.78F, 0.0F);
-            default -> dust(0.12F, 0.02F, 0.02F);
-        };
-        DustParticleOptions secondary = switch (getSkin()) {
-            case 3 -> dust(0.05F, 0.5F, 0.05F);
-            default -> dust(0.5F, 0.0F, 0.0F);
-        };
-        addParticle(primary);
-        if (getSkin() != 4) {
-            addParticle(secondary);
+        switch (getSkin()) {
+            case 1 -> {
+                addGoreSplash(0);
+                addGoreCloud(127, 0, 0);
+            }
+            case 2 -> {
+                addGoreCloud(150, 0, 0);
+                addGoreCloud(127, 0, 0);
+            }
+            case 3 -> {
+                addGoreCloud(200, 200, 0);
+                addGoreSplash(3);
+            }
+            case 4 -> addGoreSplash(0);
+            default -> {
+            }
         }
     }
 
-    private static DustParticleOptions dust(float red, float green, float blue) {
-        return new DustParticleOptions(ARGB.colorFromFloat(1.0F, red, green, blue), 1.0F);
+    private void addGoreCloud(int red, int green, int blue) {
+        addParticle(new SrpColorParticleOptions(ModParticles.GORE_CLOUD.get(), red, green, blue, 0));
     }
 
-    private void addParticle(DustParticleOptions particle) {
+    private void addGoreSplash(int family) {
+        addParticle(new SrpColorParticleOptions(ModParticles.GORE_SPLASH.get(), family, -1, -1, family));
+    }
+
+    private void addParticle(ParticleOptions particle) {
+        double velocityX = random.nextGaussian() * 0.02D;
+        double velocityY = random.nextGaussian() * 0.02D;
+        double velocityZ = random.nextGaussian() * 0.02D;
+        double x = getX() + random.nextFloat() * getBbWidth() * 2.0F - getBbWidth();
+        double y = getY() + 0.5D + random.nextFloat() * getBbHeight();
+        double z = getZ() + random.nextFloat() * getBbWidth() * 2.0F - getBbWidth();
         level().addParticle(particle,
-                getX() + (random.nextDouble() - 0.5D) * getBbWidth() * 2.0D,
-                getY() + 0.5D + random.nextDouble() * getBbHeight(),
-                getZ() + (random.nextDouble() - 0.5D) * getBbWidth() * 2.0D,
-                random.nextGaussian() * 0.02D,
-                random.nextGaussian() * 0.02D,
-                random.nextGaussian() * 0.02D);
+                x, y, z, velocityX, velocityY, velocityZ);
     }
 
     public void setType(byte type) {

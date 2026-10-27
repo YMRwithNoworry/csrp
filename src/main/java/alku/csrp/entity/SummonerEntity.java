@@ -3,7 +3,8 @@ package alku.csrp.entity;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModParticles;
 import alku.csrp.registry.ModSounds;
-import net.minecraft.core.particles.ParticleTypes;
+import alku.csrp.particle.SrpColorParticleOptions;
+import alku.csrp.particle.SrpEntityParticleEffects;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -102,26 +103,12 @@ public final class SummonerEntity extends PrimitiveParasiteEntity implements Sum
     }
 
     private void spawnVomitParticles() {
-        Vec3 direction = getViewVector(1.0F);
-        Vec3 start = getEyePosition().add(direction.scale(1.2D));
-        for (int index = 0; index < 6; index++) {
-            level().addParticle(ParticleTypes.WITCH, start.x, start.y - 0.2D, start.z,
-                    direction.x * 0.2D + (random.nextDouble() - 0.5D) * 0.25D,
-                    0.01D + random.nextDouble() * 0.1D,
-                    direction.z * 0.2D + (random.nextDouble() - 0.5D) * 0.25D);
-        }
+        SrpEntityParticleEffects.spawnVomitCloud(this, random,
+                new SrpColorParticleOptions(ModParticles.GORE_CLOUD.get(), 123, 0, 196, 0), 6);
     }
 
     private void spawnSummonParticles() {
-        for (int index = 0; index < 11; index++) {
-            level().addParticle(ModParticles.BIOMASS.get(),
-                    getX() + (random.nextDouble() - 0.5D) * getBbWidth(),
-                    getY() + random.nextDouble() * getBbHeight(),
-                    getZ() + (random.nextDouble() - 0.5D) * getBbWidth(),
-                    (random.nextDouble() - 0.5D) * 0.08D,
-                    random.nextDouble() * 0.08D,
-                    (random.nextDouble() - 0.5D) * 0.08D);
-        }
+        SrpEntityParticleEffects.spawnVolume(this, random, ModParticles.BIOMASS.get(), 11);
     }
 
     private boolean summonBiomass() {

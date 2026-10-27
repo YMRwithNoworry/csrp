@@ -32,8 +32,19 @@ expect(gore, /movement\.add\(0\.0D, -0\.04D, 0\.0D\)/, "gore gravity is missing"
 expect(gore, /goreType == 10[\s\S]*?GLUTTONOUS_CYST/, "gore cyst payload is missing");
 expect(gore, /goreType == 11[\s\S]*?DispatcherNidusBlock\.tryPlace/,
   "gore Dispatcher Nidus payload is missing");
-expect(gore, /getSkin\(\) < 1 \|\| getSkin\(\) > 4/,
-  "non-particle Gore skins still emit an invented trail");
+expect(gore, /case 1 -> \{[\s\S]*?addGoreSplash\(0\);[\s\S]*?addGoreCloud\(127, 0, 0\);[\s\S]*?case 2 -> \{[\s\S]*?addGoreCloud\(150, 0, 0\);[\s\S]*?addGoreCloud\(127, 0, 0\);[\s\S]*?case 3 -> \{[\s\S]*?addGoreCloud\(200, 200, 0\);[\s\S]*?addGoreSplash\(3\);[\s\S]*?case 4 -> addGoreSplash\(0\)/,
+  "Gore skin trails do not match the original GSPLASH/GCLOUD variants");
+expect(gore, /case 4 -> addGoreSplash\(0\);[\s\S]*?default -> \{\s*\}/,
+  "Gore skins without original trail particles are not ignored");
+expect(gore, /ModParticles\.GORE_CLOUD\.get\(\), red, green, blue, 0/,
+  "Gore trails do not use the original RGB cloud particle");
+expect(gore, /ModParticles\.GORE_SPLASH\.get\(\), family, -1, -1, family/,
+  "Gore trails do not select the original texture family");
+expect(gore, /double velocityX = random\.nextGaussian\(\) \* 0\.02D;[\s\S]*?double velocityY = random\.nextGaussian\(\) \* 0\.02D;[\s\S]*?double velocityZ = random\.nextGaussian\(\) \* 0\.02D;[\s\S]*?double x = getX\(\) \+ random\.nextFloat\(\) \* getBbWidth\(\) \* 2\.0F - getBbWidth\(\);[\s\S]*?double y = getY\(\) \+ 0\.5D \+ random\.nextFloat\(\) \* getBbHeight\(\);[\s\S]*?double z = getZ\(\) \+ random\.nextFloat\(\) \* getBbWidth\(\) \* 2\.0F - getBbWidth\(\);/,
+  "Gore trail position/velocity sampling or random draw order differs from EntityGore#spawnParticles");
+if (gore.includes("DustParticleOptions") || gore.includes("ParticleTypes.POOF")) {
+  failures.push("Gore trails still use substitute vanilla particles");
+}
 expect(goreRenderer, /case 1, 10 -> assimilated;[\s\S]*?default -> null;/,
   "Gore skin-to-model visibility differs from the original");
 expect(inventory, /list\.size\(\) >= GoreEntity\.cystThreshold\(\)/,

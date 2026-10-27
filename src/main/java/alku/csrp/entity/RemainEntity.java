@@ -4,6 +4,7 @@ import alku.csrp.registry.ModBlocks;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModParticles;
 import alku.csrp.registry.ModSounds;
+import alku.csrp.particle.SrpEntityParticleEffects;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -134,15 +135,7 @@ public final class RemainEntity extends Entity {
             return;
         }
         ParticleOptions particle = ModParticles.BIOMASS.get();
-        for (int i = 0; i < 2; i++) {
-            level().addParticle(particle,
-                    getX() + (random.nextDouble() - 0.5D) * getBbWidth() * 2.0D,
-                    getY() + 0.5D + random.nextDouble() * (getBbHeight() + 0.5D),
-                    getZ() + (random.nextDouble() - 0.5D) * getBbWidth() * 2.0D,
-                    random.nextGaussian() * 0.02D,
-                    random.nextGaussian() * 0.02D,
-                    random.nextGaussian() * 0.02D);
-        }
+        SrpEntityParticleEffects.spawnVolume(this, random, particle, 2, getBbHeight() + 0.5D);
     }
 
     public void setParasite(String parasite) {

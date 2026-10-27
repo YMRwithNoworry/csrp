@@ -1,5 +1,7 @@
 package alku.csrp.client.particle;
 
+import alku.csrp.particle.SrpColorParticleOptions;
+import alku.csrp.registry.ModParticles;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleProvider;
@@ -13,6 +15,10 @@ public final class BiomassParticle extends SingleQuadParticle {
     private BiomassParticle(ClientLevel level, double x, double y, double z,
                             double velocityX, double velocityY, double velocityZ, SpriteSet sprites) {
         super(level, x, y, z, velocityX, velocityY, velocityZ, sprites.first());
+        level.addParticle(new SrpColorParticleOptions(ModParticles.DOT.get(), 165, 255, 0, 0),
+                x, y, z, 0.0D, 0.0D, 0.0D);
+        level.addParticle(new SrpColorParticleOptions(ModParticles.DOT.get(), 60, 229, 27, 0),
+                x, y, z, 0.0D, 0.0D, 0.0D);
         xd = velocityX;
         yd = velocityY;
         zd = velocityZ;
@@ -20,7 +26,17 @@ public final class BiomassParticle extends SingleQuadParticle {
         lifetime = 45;
         friction = 0.98F;
         gravity = -0.05F;
-        setSprite(sprites.get(random.nextInt(4), 3));
+        setSprite(sprites.get(selectTexture(random), 3));
+    }
+
+    private static int selectTexture(RandomSource random) {
+        if (random.nextDouble() <= 0.5D) {
+            return 1;
+        }
+        if (random.nextDouble() <= 0.5D) {
+            return 2;
+        }
+        return random.nextDouble() <= 0.5D ? 3 : 0;
     }
 
     @Override
