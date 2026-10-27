@@ -140,6 +140,8 @@ expect(biomassParticle,
 expect(biomassParticle,
         /if \(random\.nextDouble\(\) <= 0\.5D\) \{\s*return 1;\s*\}[\s\S]*?if \(random\.nextDouble\(\) <= 0\.5D\) \{\s*return 2;\s*\}[\s\S]*?return random\.nextDouble\(\) <= 0\.5D \? 3 : 0;/,
         "Biomass texture selection no longer matches the original 50/25/12.5/12.5 weighting");
+expect(biomassParticle, /gravity = -0\.125F/,
+        "Biomass gravity no longer matches the original +0.005 Y acceleration");
 expect(adaptedEntity,
         /sendResidueParticles\(\) \{[\s\S]*?broadcastEntityEvent\(this, \(byte\) 13\);/,
         "Adapted residue particles are not broadcast as original entity event 13");
@@ -166,6 +168,12 @@ expect(entityParticles,
 expect(remainEntity,
         /spawnVolume\(this, random, particle, 2, getBbHeight\(\) \+ 0\.5D\)/,
         "Remain biomass event no longer uses its original extended vertical sampling range");
+expect(remainEntity,
+        /applyLegacySkin\(rebuilt\)[\s\S]*?addFreshEntity\(rebuilt\)[\s\S]*?broadcastEntityEvent\(rebuilt, \(byte\) 7\)/,
+        "Remain rebuild does not preserve skin or send event 7 to the rebuilt parasite");
+expect(remainEntity,
+        /if \(count % 10 == 0\) \{\s*serverLevel\.broadcastEntityEvent\(this, \(byte\) 18\);/,
+        "Remain event 18 is not limited to the original count cadence");
 
 // Every particle needs its sprite definition.
 for (const id of ["spore", "rhappy", "een", "rage", "wind", "dot", "flash", "blood"]) {

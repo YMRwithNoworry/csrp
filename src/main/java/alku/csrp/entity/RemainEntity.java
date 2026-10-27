@@ -104,12 +104,18 @@ public final class RemainEntity extends Entity {
         rebuilt.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
                 EntitySpawnReason.MOB_SUMMONED, null);
         rebuilt.setHealth(rebuilt.getMaxHealth() * health);
-        rebuilt.addEffect(new MobEffectInstance(ModMobEffects.DEBAR, 400, 0, false, false), this);
         applyLegacySkin(rebuilt);
         serverLevel.playSound(null, blockPosition(), ModSounds.get("summoner.resurrect"),
                 SoundSource.HOSTILE, 1.0F, 1.0F);
-        serverLevel.addFreshEntity(rebuilt);
-        serverLevel.broadcastEntityEvent(this, (byte) 18);
+        if (!serverLevel.addFreshEntity(rebuilt)) {
+            rebuilt.discard();
+            return;
+        }
+        serverLevel.broadcastEntityEvent(rebuilt, (byte) 7);
+        rebuilt.addEffect(new MobEffectInstance(ModMobEffects.DEBAR, 400, 0, false, false), this);
+        if (count % 10 == 0) {
+            serverLevel.broadcastEntityEvent(this, (byte) 18);
+        }
         serverLevel.setBlockAndUpdate(blockPosition(), net.minecraft.world.level.block.Blocks.AIR.defaultBlockState());
         discard();
     }

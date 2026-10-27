@@ -25,7 +25,7 @@ public final class BiomassParticle extends SingleQuadParticle {
         quadSize = 0.3F;
         lifetime = 45;
         friction = 0.98F;
-        gravity = -0.05F;
+        gravity = -0.125F; // 26.3 的 0.04 倍对应原版每 tick +0.005 的 Y 加速度。
         setSprite(sprites.get(selectTexture(random), 3));
     }
 
