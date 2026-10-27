@@ -70,6 +70,23 @@ public final class NodeCoreGameTests {
                             .is(ModBlocks.PARASITERUBBLEDENSE_BIOME.get()),
                     Component.literal("stage-1 node crown was not generated above the heart"));
 
+            BlockPos northOne = core.north();
+            BlockPos northTwo = northOne.north();
+            BlockPos northThree = northTwo.north();
+            helper.assertTrue(helper.getLevel().getBlockState(northOne).is(ModBlocks.PARASITERUBBLEDENSE_BIOME.get())
+                            && helper.getLevel().getBlockState(northTwo).is(ModBlocks.PARASITERUBBLEDENSE_BIOME.get())
+                            && helper.getLevel().getBlockState(northThree).is(ModBlocks.PARASITERUBBLEDENSE_BIOME.get()),
+                    Component.literal("stage-1 north arm did not stop at its original three segments"));
+            helper.assertTrue(helper.getLevel().getBlockState(northOne.east()).is(ModBlocks.PARASITERUBBLEDENSE_BIOME.get())
+                            && helper.getLevel().getBlockState(northOne.west()).is(ModBlocks.PARASITERUBBLEDENSE_BIOME.get())
+                            && helper.getLevel().getBlockState(northTwo.east()).is(ModBlocks.PARASITERUBBLEDENSE_BIOME.get())
+                            && helper.getLevel().getBlockState(northTwo.west()).is(ModBlocks.PARASITERUBBLEDENSE_BIOME.get()),
+                    Component.literal("stage-1 north arm did not retain its two original side-branch rows"));
+            helper.assertTrue(!helper.getLevel().getBlockState(northThree.east()).is(ModBlocks.PARASITERUBBLEDENSE_BIOME.get())
+                            && !helper.getLevel().getBlockState(northThree.west()).is(ModBlocks.PARASITERUBBLEDENSE_BIOME.get())
+                            && !helper.getLevel().getBlockState(northThree.north()).is(ModBlocks.PARASITERUBBLEDENSE_BIOME.get()),
+                    Component.literal("stage-1 north arm contains an extra side branch or segment"));
+
             BlockPos raisedCore = core.above();
             new WorldGenParasiteNodeCore(2, 1).generate(helper.getLevel(), RandomSource.create(2L), raisedCore);
             helper.assertTrue(helper.getLevel().getBlockState(raisedCore).is(ModBlocks.BIOMEHEART.get())

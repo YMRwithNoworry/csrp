@@ -102,43 +102,18 @@ public final class WorldGenParasiteNodeCore {
 
         placeDirt(level, position.below());
 
-        // Four feeler arms of three segments; every segment grounds itself and grows two tendrils.
+        // 四条主臂各延伸至第三段，侧枝只生长在前两段。
         for (int i = 0; i <= 3; i++) {
-            helper = ParasiteGenContext.horizontal(position, i);
-            if (!ParasiteGenContext.isSolidGround(level, helper.below())) {
-                placeTrunk(level, helper.below());
-            }
-            placeTrunk(level, helper);
-            BlockPos anchor = helper;
+            BlockPos anchor = ParasiteGenContext.horizontal(position, i);
+            placeGroundedTrunk(level, anchor);
+            placeGroundedBranches(level, anchor, i);
 
-            for (int o = 0; o < 2; o++) {
-                BlockPos side = o == 0
-                        ? ParasiteGenContext.horizontal(anchor, (i + 1) % 4)
-                        : ParasiteGenContext.horizontal(anchor, (i + 3) % 4);
-                if (!ParasiteGenContext.isSolidGround(level, side.below())) {
-                    placeTrunk(level, side.below());
-                }
-                placeTrunk(level, side);
-            }
+            anchor = ParasiteGenContext.horizontal(anchor, i);
+            placeGroundedTrunk(level, anchor);
+            placeGroundedBranches(level, anchor, i);
 
-            for (int segment = 0; segment < 3; segment++) {
-                helper = ParasiteGenContext.horizontal(anchor, i);
-                if (!ParasiteGenContext.isSolidGround(level, helper.below())) {
-                    placeTrunk(level, helper.below());
-                }
-                placeTrunk(level, helper);
-                anchor = helper;
-
-                for (int o = 0; o < 2; o++) {
-                    BlockPos side = o == 0
-                            ? ParasiteGenContext.horizontal(anchor, (i + 1) % 4)
-                            : ParasiteGenContext.horizontal(anchor, (i + 3) % 4);
-                    if (!ParasiteGenContext.isSolidGround(level, side.below())) {
-                        placeTrunk(level, side.below());
-                    }
-                    placeTrunk(level, side);
-                }
-            }
+            anchor = ParasiteGenContext.horizontal(anchor, i);
+            placeGroundedTrunk(level, anchor);
         }
         position = position.above();
         placeTrunk(level, position);
@@ -159,7 +134,7 @@ public final class WorldGenParasiteNodeCore {
 
         for (int i = 0; i <= 3; i++) {
             BlockPos root = ParasiteGenContext.steps(position.below(), i, 2);
-            tendrilRun(level, random, root, i, 2, true);
+            tendrilRun(level, random, root, i, 2, false, true);
         }
 
         placeLiquid(level, position);
@@ -172,7 +147,7 @@ public final class WorldGenParasiteNodeCore {
 
         for (int i = 0; i <= 3; i++) {
             BlockPos root = ParasiteGenContext.steps(position.below(), i, 2);
-            tendrilRun(level, random, root, i, 1, false);
+            tendrilRun(level, random, root, i, 1, true, true);
         }
 
         placeLiquid(level, position);
@@ -186,14 +161,9 @@ public final class WorldGenParasiteNodeCore {
         placeTrunk(level, position);
     }
 
-    /**
-     * One {@code for (o)} arm of the stage-2 tendril loop: a 50% gate, then two feeler blocks along
-     * the diagonal, then a downward walk whose column height is {@code random.nextInt(2) + step}.
-     *
-     * @param step 2 for the first pass (which also writes an extra feeler per step), 1 for the second
-     */
+    /** 第一轮只给第二分支补 FEELER，第二轮两个分支都会补。 */
     private static void tendrilRun(ServerLevel level, RandomSource random, BlockPos root, int i, int step,
-            boolean extraFeeler) {
+            boolean extraFeelerForFirstBranch, boolean extraFeelerForSecondBranch) {
         for (int o = 0; o < 2; o++) {
             if (random.nextInt(2) != 0) {
                 continue;
@@ -205,14 +175,14 @@ public final class WorldGenParasiteNodeCore {
             placeTen(level, tip);
 
             int guard = 0;
-            while (!ParasiteGenContext.isSolidGround(level, tip.below())
+            while (!ParasiteGenContext.isFullCube(level, tip.below())
                     && tip.below().getY() >= 1 && guard++ < MAX_STEPS) {
                 if (random.nextInt(1) == 0) {
                     tip = ParasiteGenContext.sideCurse(tip, i * 10 + (o == 1 ? 1 : 0));
                 } else {
                     tip = ParasiteGenContext.horizontal(tip, i);
                 }
-                if (extraFeeler) {
+                if (o == 0 ? extraFeelerForFirstBranch : extraFeelerForSecondBranch) {
                     placeTen(level, tip);
                 }
                 tip = placeColumn(level, tip, random.nextInt(2) + step);
@@ -250,36 +220,37 @@ public final class WorldGenParasiteNodeCore {
         ParasiteGenContext.setBlock(level, pos, ModBlocks.DEAD_BLOOD.get().defaultBlockState());
     }
 
-    /** The original {@code placePeri}: four feeler arms with two grounded side tendrils each. */
-    private static void placePeri(ServerLevel level, BlockPos position) {
-        for (int i = 0; i <= 3; i++) {
-            BlockPos helper = ParasiteGenContext.horizontal(position, i);
-            if (!ParasiteGenContext.isSolidGround(level, helper.below())) {
-                placeTrunk(level, helper.below());
-            }
-            placeTrunk(level, helper);
-            BlockPos root = helper;
+    private static void placeGroundedTrunk(ServerLevel level, BlockPos pos) {
+        if (!ParasiteGenContext.isFullCube(level, pos.below())) {
+            placeTrunk(level, pos.below());
+        }
+        placeTrunk(level, pos);
+    }
 
-            for (int o = 0; o < 2; o++) {
-                BlockPos side = o == 0
-                        ? ParasiteGenContext.horizontal(root, (i + 1) % 4)
-                        : ParasiteGenContext.horizontal(root, (i + 3) % 4);
-                if (!ParasiteGenContext.isSolidGround(level, side.below())) {
-                    placeTrunk(level, side.below());
-                }
-                placeTrunk(level, side);
-            }
+    private static void placeGroundedBranches(ServerLevel level, BlockPos anchor, int direction) {
+        for (int o = 0; o < 2; o++) {
+            BlockPos side = ParasiteGenContext.horizontal(anchor, (direction + (o == 0 ? 1 : 3)) % 4);
+            placeGroundedTrunk(level, side);
         }
     }
 
-    /** The original {@code placeColumn} wrote {@code in} feeler blocks downwards. */
+    /** 原版 {@code placePeri}：四个方向各放置一格主干和两格侧枝。 */
+    private static void placePeri(ServerLevel level, BlockPos position) {
+        for (int i = 0; i <= 3; i++) {
+            BlockPos helper = ParasiteGenContext.horizontal(position, i);
+            placeGroundedTrunk(level, helper);
+            placeGroundedBranches(level, helper, i);
+        }
+    }
+
+    /** 原版 {@code placeColumn} 写入高度格，并额外写入返回位置这一格。 */
     private static BlockPos placeColumn(ServerLevel level, BlockPos pos, int height) {
         BlockPos current = pos;
-        for (int i = 0; i < height - 1; i++) {
+        for (int i = 0; i < height; i++) {
             placeTen(level, current);
             current = current.below();
         }
         placeTen(level, current);
-        return current.below();
+        return current;
     }
 }
