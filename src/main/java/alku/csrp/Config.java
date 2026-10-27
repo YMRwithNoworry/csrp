@@ -636,6 +636,23 @@ public final class Config {
                     value -> value instanceof String entry && Identifier.tryParse(entry) != null);
 
 
+    // Original SRPConfig.entitiesWillAttack / entitiesWillAvoid: non-parasite mobs that gain a
+    // parasite target/avoid task when they spawn (SRPEventHandlerBus#setNewCreatureTask).
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> ENTITIES_WILL_ATTACK = BUILDER
+            .comment("Non-parasite mobs that gain a target task against parasites (original: entitiesWillAttack).")
+            .defineList("entitiesWillAttack", List.of("minecraft:villager_golem"),
+                    value -> value instanceof String entry && !entry.isBlank());
+    private static final ModConfigSpec.BooleanValue ENTITIES_WILL_ATTACK_INVERTED = BUILDER
+            .comment("Treat entitiesWillAttack as a whitelist (original: entitiesWillAttackWhite).")
+            .define("entitiesWillAttackInverted", false);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> ENTITIES_WILL_AVOID = BUILDER
+            .comment("Non-parasite mobs that gain an avoid task against parasites (original: entitiesWillAvoid).")
+            .defineList("entitiesWillAvoid", List.of("minecraft:villager"),
+                    value -> value instanceof String entry && !entry.isBlank());
+    private static final ModConfigSpec.BooleanValue ENTITIES_WILL_AVOID_INVERTED = BUILDER
+            .comment("Treat entitiesWillAvoid as a whitelist (original: entitiesWillAvoidWhite).")
+            .define("entitiesWillAvoidInverted", false);
+
     static final ModConfigSpec SPEC = BUILDER.build();
 
     private Config() {
@@ -671,22 +688,6 @@ public final class Config {
     public static List<? extends String> mobAttackingBlacklist() { return MOB_ATTACKING_BLACKLIST.get(); }
     public static boolean mobAttackingBlacklistInverted() { return MOB_ATTACKING_BLACKLIST_INVERTED.get(); }
     public static boolean mobAttackingFull() { return MOB_ATTACKING_FULL.get(); }
-    // Original SRPConfig.entitiesWillAttack / entitiesWillAvoid: non-parasite mobs that gain a
-    // parasite target/avoid task when they spawn (SRPEventHandlerBus#setNewCreatureTask).
-    private static final ModConfigSpec.ConfigValue<List<? extends String>> ENTITIES_WILL_ATTACK = BUILDER
-            .comment("Non-parasite mobs that gain a target task against parasites (original: entitiesWillAttack).")
-            .defineList("entitiesWillAttack", List.of("minecraft:villager_golem"),
-                    value -> value instanceof String entry && !entry.isBlank());
-    private static final ModConfigSpec.BooleanValue ENTITIES_WILL_ATTACK_INVERTED = BUILDER
-            .comment("Treat entitiesWillAttack as a whitelist (original: entitiesWillAttackWhite).")
-            .define("entitiesWillAttackInverted", false);
-    private static final ModConfigSpec.ConfigValue<List<? extends String>> ENTITIES_WILL_AVOID = BUILDER
-            .comment("Non-parasite mobs that gain an avoid task against parasites (original: entitiesWillAvoid).")
-            .defineList("entitiesWillAvoid", List.of("minecraft:villager"),
-                    value -> value instanceof String entry && !entry.isBlank());
-    private static final ModConfigSpec.BooleanValue ENTITIES_WILL_AVOID_INVERTED = BUILDER
-            .comment("Treat entitiesWillAvoid as a whitelist (original: entitiesWillAvoidWhite).")
-            .define("entitiesWillAvoidInverted", false);
 
     /** Original {@code ParasiteEventEntity#checkName}: {@code anyMatch != isWhitelist}. */
     private static boolean nameListMatches(List<? extends String> list, boolean inverted, String id) {

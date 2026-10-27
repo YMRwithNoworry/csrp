@@ -32,6 +32,9 @@ expect(config, /public static boolean mobFleesParasites\(String id\)/,
         "mobFleesParasites accessor is missing");
 expect(config, /return listed != inverted;/,
         "the entity list match no longer reproduces checkName's anyMatch != isWhitelist");
+expect(config,
+        /ENTITIES_WILL_ATTACK = BUILDER[\s\S]*?ENTITIES_WILL_AVOID_INVERTED = BUILDER[\s\S]*?static final ModConfigSpec SPEC = BUILDER\.build\(\);/,
+        "the config spec is built before creature parasite task settings are attached");
 
 // Original SRPEventHandlerBus#setNewCreatureTask: attack goal else avoid goal at priority 5.
 expect(events, /class CreatureParasiteTaskEvents/,
