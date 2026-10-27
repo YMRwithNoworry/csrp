@@ -2,6 +2,7 @@ package alku.csrp.registry;
 
 import alku.csrp.Csrp;
 import alku.csrp.block.entity.DispatcherNidusBlockEntity;
+import alku.csrp.block.entity.DermoidCystBlockEntity;
 import alku.csrp.block.entity.BiomePurifierBlockEntity;
 import alku.csrp.block.entity.InfuserFurnaceBlockEntity;
 import alku.csrp.block.entity.ParasiticCystBlockEntity;
@@ -58,6 +59,10 @@ public final class ModBlockEntities {
             BLOCK_ENTITIES.register("trophy", () -> new BlockEntityType<>(
                     TrophyBlockEntity::new,
                     Set.of(ModBlocks.KIRIN_TROPHY.get(), ModBlocks.DRACONITE_TROPHY.get())));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DermoidCystBlockEntity>> DERMOID_CYST =
+            BLOCK_ENTITIES.register("dermoid_cyst", () -> new BlockEntityType<>(
+                    DermoidCystBlockEntity::new, Set.of(ModBlocks.legacyBlock("dermoid_cyst").get())));
 
     /**
      * 1.12.2 compatibility ids {@code srparasites:infested_furnace} / {@code srparasites:infested_furnace_lit}
