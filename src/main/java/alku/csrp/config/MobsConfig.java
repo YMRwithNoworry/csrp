@@ -5,6 +5,7 @@ import alku.csrp.entity.AncientParasiteEntity;
 import alku.csrp.entity.ArchitectEntity;
 import alku.csrp.entity.AssimilatedParasiteEntity;
 import alku.csrp.entity.MovingFleshEntity;
+import alku.csrp.entity.NexusParasiteEntity;
 import alku.csrp.entity.PreeminentParasiteEntity;
 import alku.csrp.entity.PrimitiveParasiteEntity;
 import alku.csrp.entity.PureParasiteEntity;
@@ -55,6 +56,26 @@ public final class MobsConfig {
             "Ancient Drop Pod effects: seconds;amplifier;effect_id.", MobsConfig::validAreaEffect);
     private static final ModConfigSpec.DoubleValue PREEMINENT_FOLLOW = followRange(
             "parasitePropertiesPreeminent", "preeminentFollow", 80.0D);
+    private static final ModConfigSpec.DoubleValue NEXUS_STAGE1_FOLLOW = followRange(
+            "parasite_properties_nexus", "nexusStage1FollowRange", 16.0D);
+    private static final ModConfigSpec.DoubleValue NEXUS_STAGE2_FOLLOW = followRange(
+            "parasite_properties_nexus", "nexusStage2FollowRange", 32.0D);
+    private static final ModConfigSpec.DoubleValue NEXUS_STAGE3_FOLLOW = followRange(
+            "parasite_properties_nexus", "nexusStage3FollowRange", 48.0D);
+    private static final ModConfigSpec.DoubleValue NEXUS_STAGE4_FOLLOW = followRange(
+            "parasite_properties_nexus", "nexusStage4FollowRange", 128.0D);
+    private static final ModConfigSpec.IntValue DISPATCHER_SI_FOLLOW_MULTIPLIER = intValue(
+            "srparasites:dispatcher_si", "dispatcherSIFollowRangeMultiplier", 2, 1, 100,
+            "原版 Dispatcher 第 I 阶段的跟随距离倍率。");
+    private static final ModConfigSpec.IntValue DISPATCHER_SII_FOLLOW_MULTIPLIER = intValue(
+            "srparasites:dispatcher_sii", "dispatcherSIIFollowRangeMultiplier", 2, 1, 100,
+            "原版 Dispatcher 第 II 阶段的跟随距离倍率。");
+    private static final ModConfigSpec.IntValue DISPATCHER_SIII_FOLLOW_MULTIPLIER = intValue(
+            "srparasites:dispatcher_siii", "dispatcherSIIIFollowRangeMultiplier", 2, 1, 100,
+            "原版 Dispatcher 第 III 阶段的跟随距离倍率。");
+    private static final ModConfigSpec.IntValue DISPATCHER_SIV_FOLLOW_MULTIPLIER = intValue(
+            "srparasites:dispatcher_siv", "dispatcherSIVFollowRangeMultiplier", 2, 1, 100,
+            "原版 Dispatcher 第 IV 阶段的跟随距离倍率。");
 
     private static final ModConfigSpec.BooleanValue RUPTER_ANIMAL_ATTACKING = booleanValue(
             "srparasites:rupter", "rupterPassiveMobAttacking", true,
@@ -682,7 +703,22 @@ public final class MobsConfig {
         return value;
     }
 
+    public static double nexusFollowRange(NexusParasiteEntity.Kind kind) {
+        return switch (kind) {
+            case BECKON_SI, ROOTER_SI -> NEXUS_STAGE1_FOLLOW.get();
+            case BECKON_SII, ROOTER_SII -> NEXUS_STAGE2_FOLLOW.get();
+            case BECKON_SIII, ROOTER_SIII -> NEXUS_STAGE3_FOLLOW.get();
+            case BECKON_SIV, ROOTER_SIV -> NEXUS_STAGE4_FOLLOW.get();
+            case DISPATCHER_SI -> NEXUS_STAGE1_FOLLOW.get() * DISPATCHER_SI_FOLLOW_MULTIPLIER.get();
+            case DISPATCHER_SII -> NEXUS_STAGE2_FOLLOW.get() * DISPATCHER_SII_FOLLOW_MULTIPLIER.get();
+            case DISPATCHER_SIII -> NEXUS_STAGE3_FOLLOW.get() * DISPATCHER_SIII_FOLLOW_MULTIPLIER.get();
+            case DISPATCHER_SIV -> NEXUS_STAGE4_FOLLOW.get() * DISPATCHER_SIV_FOLLOW_MULTIPLIER.get();
+            case ROOTERBALL -> 24.0D;
+        };
+    }
+
     public static double followRange(LivingEntity entity) {
+        if (entity instanceof NexusParasiteEntity nexus) return nexusFollowRange(nexus.getKind());
         if (entity instanceof WorkerEntity) return -1.0D;
         if (entity instanceof ArchitectEntity) return PURE_FOLLOW.get();
         if (entity instanceof MovingFleshEntity) return ADAPTED_FOLLOW.get();

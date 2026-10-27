@@ -29,6 +29,7 @@ const creative = read("src/main/java/alku/csrp/Csrp.java");
 const english = read("src/main/resources/assets/csrp/lang/en_us.json");
 const chinese = read("src/main/resources/assets/csrp/lang/zh_cn.json");
 const nexus = read("src/main/java/alku/csrp/entity/NexusParasiteEntity.java");
+const mobsConfig = read("src/main/java/alku/csrp/config/MobsConfig.java");
 const abomination = read("src/main/java/alku/csrp/entity/AbominationEntity.java");
 
 for (const feature of [
@@ -55,6 +56,26 @@ for (const feature of ["Kind.BODIES", "FastMeleeAttackGoal", "DamageTypeTags.IS_
 expect(abomination, /MAX_HEALTH, 17\.0D/, "Abomination health is missing");
 expect(abomination, /ARMOR, 10\.0D/, "Abomination armor is missing");
 expect(abomination, /ATTACK_DAMAGE, 9\.0D/, "Abomination attack damage is missing");
+for (const [stage, range] of [[1, 16], [2, 32], [3, 48], [4, 128]]) {
+  expect(mobsConfig,
+    new RegExp(`NEXUS_STAGE${stage}_FOLLOW = followRange\\([\\s\\S]*?nexusStage${stage}FollowRange", ${range}\\.0D\\)`),
+    `Nexus stage ${stage} follow-range default does not match the original`);
+}
+expect(nexus, /FOLLOW_RANGE, kind\.defaultFollowRange/,
+  "Nexus entity attribute registration reads configuration before it is loaded");
+expect(nexus, /ROOTERBALL\(Family\.ROOTERBALL,[^\n]*, 24\.0D\)/,
+  "Rooterball follow-range default does not match the original");
+const originalConfigEvents = read("src/main/java/alku/csrp/config/OriginalConfigEvents.java");
+expect(originalConfigEvents, /double followRange = MobsConfig\.followRange\(entity\);[\s\S]*?follow\.setBaseValue\(followRange\)/,
+  "Configured Nexus follow ranges are not applied after entity creation");
+expect(mobsConfig, /entity instanceof NexusParasiteEntity nexus\) return nexusFollowRange\(nexus\.getKind\(\)\)/,
+  "Nexus follow-range overrides are not applied when an entity joins the server");
+for (const [stage, kind] of [[1, "SI"], [2, "SII"], [3, "SIII"], [4, "SIV"]]) {
+  expect(mobsConfig, new RegExp(`case DISPATCHER_${kind} -> NEXUS_STAGE${stage}_FOLLOW\\.get\\(\\) \\* DISPATCHER_${kind}_FOLLOW_MULTIPLIER\\.get\\(\\)`),
+    `Dispatcher stage ${kind} does not multiply its configured Nexus follow range`);
+  expect(mobsConfig, new RegExp(`DISPATCHER_${kind}_FOLLOW_MULTIPLIER = intValue\\([\\s\\S]*?dispatcher${kind}FollowRangeMultiplier", 2, 1, 100`),
+    `Dispatcher stage ${kind} follow-range multiplier does not preserve its original default`);
+}
 
 for (const id of ids) {
   const constant = id.toUpperCase();
