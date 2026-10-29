@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "csrp:gui/brew_fear"
+    "layer0": "csrp:item/brew_fear"
   }
 }

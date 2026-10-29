@@ -138,6 +138,29 @@ for (const language of ["en_us", "zh_cn"]) {
     ]) if (!lang[key]) failures.push(`${language}: missing ${key}`);
 }
 
+const relayModel = json("src/main/resources/assets/csrp/models/block/relaycontroller.json");
+if (relayModel?.textures?.["m_54acd2a9-1b93-8c80-6bd1-4d05c195c2a9"] !== "csrp:block/arraytowertexture") {
+    failures.push("relaycontroller must bind csrp:block/arraytowertexture");
+}
+if (relayModel?.textures?.particle !== "csrp:block/arraytowertexture") {
+    failures.push("relaycontroller must bind particle to csrp:block/arraytowertexture");
+}
+if (relayModel?.mtl_override !== "csrp:models/block/arraytowerlarge.mtl") {
+    failures.push("relaycontroller must explicitly bind its MTL resource");
+}
+for (const texture of ["arraytowertexture"]) {
+    png(`src/main/resources/assets/csrp/textures/block/${texture}.png`);
+}
+for (const material of [
+    "src/main/resources/assets/csrp/models/block/arraytowerlarge.mtl",
+    "src/main/resources/assets/csrp/models/obj/arraytowerlarge.mtl"
+]) {
+    expect(read(material), material.endsWith("models/block/arraytowerlarge.mtl")
+        ? "map_Kd m_54acd2a9-1b93-8c80-6bd1-4d05c195c2a9"
+        : "map_Kd m_e1bc4043-df86-8f2c-56d5-d671a67f101b",
+        "relay OBJ material");
+}
+
 if (failures.length) {
     console.error("Relay Tower port verification failed:");
     failures.forEach((failure) => console.error(`- ${failure}`));
