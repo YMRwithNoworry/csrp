@@ -4,10 +4,20 @@ const path = require("path");
 const { isDeepStrictEqual } = require("util");
 
 const projectRoot = path.resolve(__dirname, "..");
-const sourceRoot = path.resolve(process.argv[2] ??
+const configuredSourceRoot = process.argv[2] ?? process.env.SRP_EXTRACTED_ENTITY_ROOT;
+const sourceRoot = path.resolve(configuredSourceRoot ??
   "D:/code/MC模组/srp生物模型和动画提取/提取结果");
 const assetsRoot = path.join(projectRoot, "src/main/resources/assets/csrp");
-const manifest = JSON.parse(fs.readFileSync(path.join(sourceRoot, "manifest.json"), "utf8"));
+const manifestPath = path.join(sourceRoot, "manifest.json");
+if (!fs.existsSync(manifestPath)) {
+  if (configuredSourceRoot) {
+    console.error(`Configured extracted-entity manifest is missing: ${manifestPath}`);
+    process.exit(1);
+  }
+  console.log(`SKIP: optional extracted-entity manifest is unavailable: ${manifestPath}`);
+  process.exit(77);
+}
+const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
 const failures = [];
 const hash = (file) => crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex");
 const sameFile = (source, target, label) => {

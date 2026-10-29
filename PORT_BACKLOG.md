@@ -17,7 +17,7 @@
   - 本环境的 Niubash 无法执行 `gradlew.bat`（会静默挂起），改用
     `"$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain <task>`；
     `scripts/build-locked.sh` 已同步改为这一调用方式。
-- 静态校验套件：**140 / 148 通过**；其余 8 项因本机缺少 1.10.8 反编译源文件与实体资源提取 `manifest.json` 而无法通过。
+- 静态校验套件：**155 / 156 通过，1 项可选资源审计跳过**；设置 `SRP_DECOMPILED_ROOT=D:/code/MC模组/_scratch/vf/out109` 后，实体行为合同全部通过；`verify-extracted-entity-resources.cjs` 仅在本机不存在外部提取 `manifest.json` 时以退出码 77 明确跳过，显式指定 `SRP_EXTRACTED_ENTITY_ROOT` 且路径无效仍会失败。
 - 运行期验证：`runGameTestServer` → **188 / 188 GameTests 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 4 个 harlequin + 2 个寄生群系雾 + 1 个掉落表 + 1 个感染骨粉球体转换），服务器完整启动到测试结束。
 - 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2911 键 / zh_cn 2927 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
