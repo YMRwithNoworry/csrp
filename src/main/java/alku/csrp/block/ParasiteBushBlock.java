@@ -94,6 +94,12 @@ public final class ParasiteBushBlock extends SrpBushBlock {
         return variant == Variant.TENDRIL || variant == Variant.BINE;
     }
 
+    @Override
+    protected boolean isClimbableVariant(BlockState state) {
+        Variant variant = state.getValue(VARIANT);
+        return variant == Variant.TENDRIL || variant == Variant.BINE;
+    }
+
     /** 1.12.2 {@code isLadder}: tendril and bine columns can be climbed. */
     public static boolean isClimbable(BlockState state) {
         return state.getBlock() instanceof ParasiteBushBlock bush && bush.isClimber(state);

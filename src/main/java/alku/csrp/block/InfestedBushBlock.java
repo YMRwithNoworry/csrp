@@ -75,6 +75,11 @@ public final class InfestedBushBlock extends SrpBushBlock {
         return variant == Variant.SPINE || variant == Variant.VINE;
     }
 
+    @Override
+    protected boolean isClimbableVariant(BlockState state) {
+        return state.getValue(VARIANT) == Variant.SPINE;
+    }
+
     /** {@code BlockInfestedBush.func_180671_f} / {@code checkBushV}. */
     @Override
     protected boolean mayPlaceOn(BlockState state, BlockGetter level, BlockPos pos) {

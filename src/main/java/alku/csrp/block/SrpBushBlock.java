@@ -1,6 +1,7 @@
 package alku.csrp.block;
 
 import alku.csrp.registry.ModBlocks;
+import alku.csrp.config.WorldConfig;
 import java.util.List;
 import java.util.Locale;
 import net.minecraft.core.BlockPos;
@@ -76,8 +77,20 @@ public abstract class SrpBushBlock extends BushBlock {
         super(properties);
     }
 
+    @Override
+    public boolean isLadder(BlockState state, LevelReader level, BlockPos pos,
+            net.minecraft.world.entity.LivingEntity entity) {
+        if (!WorldConfig.bushClimbingEnabled() || !(entity instanceof Player)) {
+            return false;
+        }
+        return isClimbableVariant(state);
+    }
+
     /** The subclass' {@code variant} property. */
     protected abstract EnumProperty<?> variantProperty();
+
+    /** 此变体是否允许玩家攀爬；与视觉/支撑用的藤蔓判定分开。 */
+    protected abstract boolean isClimbableVariant(BlockState state);
 
     /** {@code true} when the current variant uses {@link #REED_SHAPE} and may climb. */
     protected abstract boolean isClimber(BlockState state);

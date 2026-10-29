@@ -54,6 +54,9 @@ public final class WorldConfig {
                     && Identifier.tryParse(id) != null);
 
     // Original SRPConfigWorld "EscapeSystem" section (EscapeOnDeathHandler / EscapeRespawnHandler).
+    private static final ModConfigSpec.BooleanValue BUSH_CLIMBING_ENABLED = BUILDER
+            .comment("Allow parasite bush tendril and bine variants to act as ladders (original: bushClimbingEnabled).")
+            .define("bushClimbingEnabled", true);
     private static final ModConfigSpec.BooleanValue ESCAPE_ENABLED = BUILDER
             .comment("If false, the escape system will never trigger.")
             .define("escapeEnabled", true);
@@ -242,10 +245,16 @@ public final class WorldConfig {
         return DIMENSION_LIST_IS_BLACKLIST.get() != listed;
     }
 
+    /** {@code SRPConfigWorld.bushClimbingEnabled}. */
+    public static boolean bushClimbingEnabled() {
+        return BUSH_CLIMBING_ENABLED.get();
+    }
+
     /** {@code SRPConfigWorld.escapeEnabled}. */
     public static boolean escapeEnabled() {
         return ESCAPE_ENABLED.get();
     }
+
 
     /** {@code SRPConfigWorld.escapeMinDistance}. */
     public static int escapeMinDistance() {

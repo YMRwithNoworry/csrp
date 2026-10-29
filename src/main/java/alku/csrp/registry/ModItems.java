@@ -41,6 +41,7 @@ import alku.csrp.item.OverlastCanteenItem;
 import alku.csrp.item.OverlastFoodItem;
 import alku.csrp.item.ParasiteLootBlockItem;
 import alku.csrp.item.ParasiteEvolutionWandItem;
+import alku.csrp.item.ParasiteBarrierBlockItem;
 import alku.csrp.item.AlveolarFluidItem;
 import alku.csrp.item.AlveoliItem;
 import alku.csrp.item.VenkrolBootsItem;
@@ -1156,6 +1157,9 @@ public static final DeferredItem<BlockItem> PARASITERUBBLE_BONE = ITEMS.register
     public static final DeferredItem<BlockItem> INFESTED_POT = legacyBlockItem("infested_pot");
     public static final DeferredItem<BlockItem> INFESTEDBUSH = legacyBlockItem("infestedbush");
     public static final DeferredItem<BlockItem> LOCS_BLOCK_SLAB = legacyBlockItem("locs_block_slab");
+    public static final DeferredItem<ParasiteBarrierBlockItem> PARASITE_BARRIER = ITEMS.registerItem(
+            "parasite_barrier", properties -> new ParasiteBarrierBlockItem(
+                    ModBlocks.legacyBlock("parasite_barrier").get(), properties));
     public static final DeferredItem<BlockItem> PARASITEBUSH = legacyBlockItem("parasitebush");
     public static final DeferredItem<BlockItem> PARASITECANISTER = legacyBlockItem("parasitecanister");
     public static final DeferredItem<BlockItem> PARASITECANISTER_BAG_WALL = legacyBlockItem("parasitecanister_bag_wall");

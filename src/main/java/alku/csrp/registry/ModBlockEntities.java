@@ -8,6 +8,7 @@ import alku.csrp.block.entity.InfuserFurnaceBlockEntity;
 import alku.csrp.block.entity.ParasiticCystBlockEntity;
 import alku.csrp.block.entity.ParasiteCanisterBlockEntity;
 import alku.csrp.block.entity.ParasiteLootBlockEntity;
+import alku.csrp.block.entity.ParasiteBarrierBlockEntity;
 import alku.csrp.block.entity.RelayTerminalBlockEntity;
 import alku.csrp.block.entity.FogNullifierBlockEntity;
 import alku.csrp.block.entity.TrophyBlockEntity;
@@ -75,6 +76,10 @@ public final class ModBlockEntities {
                     InfuserFurnaceBlockEntity::new,
                     Set.of(ModBlocks.legacyBlock("infested_furnace").get(),
                             ModBlocks.legacyBlock("infested_furnace_lit").get())));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ParasiteBarrierBlockEntity>> PARASITE_BARRIER =
+            BLOCK_ENTITIES.register("parasite_barrier", () -> new BlockEntityType<>(
+                    ParasiteBarrierBlockEntity::new, Set.of(ModBlocks.legacyBlock("parasite_barrier").get())));
 
     private ModBlockEntities() {
     }
