@@ -1,6 +1,10 @@
 {
   "model": {
-    "type": "minecraft:model",
-    "model": "csrp:item/deadblood_bucket"
+    "type": "neoforge:fluid_container",
+    "textures": {
+      "base": "minecraft:item/bucket",
+      "fluid": "csrp:block/dead_blood_still"
+    },
+    "fluid": "csrp:deadblood"
   }
 }
