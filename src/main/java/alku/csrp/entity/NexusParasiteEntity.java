@@ -15,6 +15,7 @@ import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.particle.SrpParticleEffects;
+import alku.csrp.world.DislodgmentSystem;
 import alku.csrp.world.EvolutionSystem;
 import alku.csrp.world.SrpCoreSystems;
 import alku.csrp.world.SrpWorldData;
@@ -42,6 +43,7 @@ import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -54,6 +56,7 @@ import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.level.gamerules.GameRules;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
@@ -66,6 +69,7 @@ import alku.csrp.animation.CitadelRawAnimation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 /** Legacy Nexus families: stationary stage growth, reinforcement, and battlefield support. */
@@ -96,10 +100,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
     private static final int BECKON_SIV_INITIAL_RANGE = 12;
     private static final int BECKON_SIV_EXTRA_RANGE = 5;
 
-    /** Original SRPConfig.nexusLeemCap. */
-    private static final int NEXUS_ROOTER_CAP = 5;
-    /** Original SRPConfig.nexusLeemDis. */
-    private static final double NEXUS_ROOTER_DISTANCE = 32.0D;
     /** Original EntityAINexusGrow.spawnLeem 2% roll. */
     private static final double NEXUS_ROOTER_CHANCE = 0.02D;
     /** Original EntityAINexusGrow.tickss reset of 20. */
@@ -130,6 +130,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
     private int rooterSummonCooldown = NEXUS_ROOTER_INTERVAL;
     private boolean canGrow = true;
     private boolean dispatcherFogDissipationStarted;
+    private boolean creationProgressCaptured;
+    private int creationEvolutionPhase;
+    private int creationDevelopmentLevel;
     /** Original EntityAINexusGrow.dimLock — highest stage allowed in this dimension, or -1. */
     private final int dimensionStageLock;
 
@@ -142,6 +145,16 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         growthDelayTicks = MobsConfig.nexusGrowthDelayTicks(kind, random);
         if (kind.family == Family.BECKON && !Config.useEvolutionPhases() && !Config.ignoreCooldownAtSpawn()) {
             beckonAttackTimer = -MobsConfig.beckonCooldownSeconds(kind.stage) * 20;
+        }
+    }
+
+    @Override
+    public void onAddedToLevel() {
+        super.onAddedToLevel();
+        if (!creationProgressCaptured && level() instanceof ServerLevel serverLevel) {
+            creationEvolutionPhase = SrpWorldData.get(serverLevel).evolutionPhase();
+            creationDevelopmentLevel = EvolutionSystem.ubiquitousDevelopment(serverLevel.getServer());
+            creationProgressCaptured = true;
         }
     }
 
@@ -282,10 +295,10 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
                 return;
             }
         }
-        // Original EntityAINexusGrow.spawnLeem ran from shouldExecute every 20 ticks.
-        if ((activeKind.family == Family.BECKON || activeKind.family == Family.DISPATCHER)
+        // EntityAINexusGrow checks after decrementing its 20-tick counter below zero.
+        if (!isNoAi() && (activeKind.family == Family.BECKON || activeKind.family == Family.DISPATCHER)
                 && (activeKind.stage == 2 || activeKind.stage == 3)
-                && level() instanceof ServerLevel rooterLevel && --rooterSummonCooldown <= 0) {
+                && level() instanceof ServerLevel rooterLevel && --rooterSummonCooldown < 0) {
             rooterSummonCooldown = NEXUS_ROOTER_INTERVAL;
             trySpawnRooterSi(rooterLevel);
         }
@@ -487,6 +500,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         tag.putInt("nexus_forced_evolution_cooldown", forcedEvolutionCooldown);
         tag.putInt("nexus_temporary_lifetime", temporaryLifetimeTicks);
         tag.putBoolean("nexus_can_grow", canGrow);
+        tag.putBoolean("nexus_creation_captured", creationProgressCaptured);
+        tag.putInt("nexus_creation_phase", creationEvolutionPhase);
+        tag.putInt("nexus_creation_development", creationDevelopmentLevel);
         tag.putFloat("nexus_body", getBODY());
         tag.putInt("nexus_parasite_status", getParasiteStatus());
         tag.putFloat("nexus_floor_timer", getFloorTimer());
@@ -511,6 +527,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         forcedEvolutionCooldown = tag.getIntOr("nexus_forced_evolution_cooldown", 0);
         temporaryLifetimeTicks = tag.getInt("nexus_temporary_lifetime").orElse(-1);
         canGrow = tag.getBooleanOr("nexus_can_grow", true);
+        creationProgressCaptured = tag.getBooleanOr("nexus_creation_captured", false);
+        creationEvolutionPhase = tag.getIntOr("nexus_creation_phase", 0);
+        creationDevelopmentLevel = tag.getIntOr("nexus_creation_development", 0);
         if (tag.read("nexus_body", Codec.FLOAT).isPresent()) {
             entityData.set(BODY, tag.getFloatOr("nexus_body", 0.0F));
         }
@@ -1508,49 +1527,86 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         target.syncVelocity = true;
     }
 
-    /**
-     * Port of {@code EntityAINexusGrow.spawnLeem()} (out109 {@code entity/ai/EntityAINexusGrow.java:69-98}).
-     *
-     * <p>While a Dispatcher or Beckon sits at stage 2 or 3 it has a 2% chance every 20 ticks to call a
-     * {@code rooter_si}. The original refuses when more than {@code SRPConfig.nexusLeemCap} Rooters
-     * already exist or when the nearest one is closer than {@code SRPConfig.nexusLeemDis}. Those two
-     * options live in the config package in 1.10.9, so the port keeps their defaults (5 / 32) here.
-     */
+    /** Port of EntityAINexusGrow.spawnLeem and its ParasiteSummon.SummonM call. */
     private void trySpawnRooterSi(ServerLevel serverLevel) {
-        if (random.nextDouble() >= NEXUS_ROOTER_CHANCE) {
-            return;
+        trySpawnRooterSi(serverLevel, serverLevel.getRandom(), new Random());
+    }
+
+    private boolean trySpawnRooterSi(ServerLevel serverLevel, RandomSource roll, Random summonRandom) {
+        if (Config.evolutionNests() < creationEvolutionPhase
+                && Config.deveNestsUse() < creationDevelopmentLevel) {
+            return false;
         }
-        // Original EntityAINexusGrow.spawnLeem gate: the nest only calls rooters once the dimension has
-        // reached the configured nest phase or development level.
-        SrpWorldData data = SrpWorldData.get(serverLevel);
-        if (data.evolutionPhase() < Config.evolutionNests()
-                && data.ubiquitousDevelopmentOverride() < Config.deveNestsUse()) {
-            return;
+        if (roll.nextDouble() >= NEXUS_ROOTER_CHANCE) {
+            return false;
         }
         int rooterCount = 0;
-        double nearestDistanceSqr = Double.MAX_VALUE;
+        double minimumDistance = Config.nexusRooterDistance();
         for (Entity entity : serverLevel.getAllEntities()) {
-            if (entity instanceof NexusParasiteEntity other && other != this
-                    && other.activeKind().family == Family.ROOTER) {
-                rooterCount++;
-                nearestDistanceSqr = Math.min(nearestDistanceSqr, distanceToSqr(other));
+            if (entity instanceof NexusParasiteEntity other && other.activeKind().family == Family.ROOTER
+                    && (++rooterCount > Config.nexusRooterCap()
+                    || distanceToSqr(other) < minimumDistance * minimumDistance)) {
+                return false;
             }
         }
-        if (rooterCount > NEXUS_ROOTER_CAP || nearestDistanceSqr < NEXUS_ROOTER_DISTANCE * NEXUS_ROOTER_DISTANCE) {
-            return;
+        if (!summonRooterSi(serverLevel, summonRandom)) {
+            return false;
         }
-        NexusParasiteEntity rooter = createNexus(serverLevel, Family.ROOTER, 1);
-        if (rooter == null) {
-            return;
-        }
-        rooter.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
-        rooter.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(blockPosition()),
-                EntitySpawnReason.MOB_SUMMONED, null);
-        rooter.setCustomName(getCustomName());
-        rooter.setCustomNameVisible(isCustomNameVisible());
-        if (serverLevel.addFreshEntity(rooter)) {
+        if (Config.reinforcementSounds()
+                && (!Config.disloGrowlNoise()
+                || DislodgmentSystem.activeValue(SrpWorldData.get(serverLevel), 15) == 0)) {
             playSound(ModSounds.get("leem.si"), 4.0F, 1.0F);
         }
+        return true;
+    }
+
+    private boolean summonRooterSi(ServerLevel serverLevel, Random summonRandom) {
+        // SummonM initializes both offsets and a list index before entering its two passes.
+        summonRandom.nextInt(9);
+        summonRandom.nextInt(9);
+        summonRandom.nextInt(1);
+        for (int attempt = 0; attempt < 2; attempt++) {
+            summonRandom.nextDouble(); // The single configured entry has chance 1.0.
+            int offsetX = 12 + summonRandom.nextInt(9);
+            int offsetZ = 12 + summonRandom.nextInt(9);
+            if (summonRandom.nextBoolean()) offsetX = -offsetX;
+            if (summonRandom.nextBoolean()) offsetZ = -offsetZ;
+            double x = getX() + offsetX;
+            double y = getY();
+            double z = getZ() + offsetZ;
+            BlockPos position = BlockPos.containing(x, y, z);
+            if (!serverLevel.getBlockState(position).is(Blocks.AIR)
+                    || serverLevel.getBlockState(BlockPos.containing(x, y - 1.0D, z)).is(Blocks.AIR)) {
+                continue;
+            }
+            NexusParasiteEntity rooter = createNexus(serverLevel, Family.ROOTER, 1);
+            if (rooter == null) {
+                return false;
+            }
+            rooter.snapTo(x, y, z, getYRot(), getXRot());
+            if (!serverLevel.noCollision(rooter)
+                    || !serverLevel.getEntities(rooter, rooter.getBoundingBox().inflate(0.25D), Entity::isAlive).isEmpty()) {
+                rooter.discard();
+                continue;
+            }
+            rooter.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(position),
+                    EntitySpawnReason.MOB_SUMMONED, null);
+            if (getSummonCapacity() - getUsedSummonCapacity() < 0
+                    || Config.reinforcementSky() && !hasDirectSky(serverLevel,
+                            BlockPos.containing(x, y + rooter.getEyeHeight(), z))) {
+                rooter.discard();
+                continue;
+            }
+            serverLevel.addFreshEntity(rooter);
+            return true;
+        }
+        return false;
+    }
+
+    private static boolean hasDirectSky(ServerLevel level, BlockPos position) {
+        int lowestSky = level.getChunkAt(position).getSkyLightSources().getLowestSourceY(
+                position.getX() & 15, position.getZ() & 15);
+        return position.getY() >= lowestSky;
     }
 
     private void breakBlocksTowardsTarget(Kind activeKind) {

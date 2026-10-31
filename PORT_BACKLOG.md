@@ -18,7 +18,7 @@
     `"$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain <task>`；
     `scripts/build-locked.sh` 已同步改为这一调用方式。
 - 静态校验套件：指定 `SRP_DECOMPILED_ROOT=D:/code/MC模组/_scratch/vf/out109` 后 **155 通过、1 跳过、0 失败**；这使用的是目标 1.10.9 源码，不能视作对缺失 1.10.8 基线的验证。未指定目录时 7 项脚本因默认 1.10.8 源码缺失失败；资源审计因外部 `manifest.json` 缺失跳过。
-- 运行期验证：`runGameTestServer` → **214 / 214 GameTests 通过**，包括 Dispatcher IV 胞囊攻击、Rooter 支援及囊肿容量、跨已加载区块支援、伤害转移及持久化，Nexus 反击炸弹，以及世界生成地面扫描和第二个寄生口生成。
+- 运行期验证：`runGameTestServer` → **218 / 218 GameTests 通过**，包括 Dispatcher IV 胞囊攻击、Rooter 召唤快照与落点、加入事件取消及音效、Rooter 支援及囊肿容量、跨已加载区块支援、伤害转移及持久化，Nexus 反击炸弹，以及世界生成地面扫描和第二个寄生口生成。
 - 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2911 键 / zh_cn 2927 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
 - 本轮由 `runGameTestServer` 抓出并修复的运行期加载失败：方块状态定义读取 `super()` 前未赋值的实例字段（`LegacyVariantSlabBlock` / `LegacyRelayBlock`，改为工厂预发布）、`JukeboxSong` 是数据包注册表故 `discone` / `disctwo` 需要 `data/csrp/jukebox_song/*.json`（见 commit `d7f7ca5c`）。
@@ -31,7 +31,7 @@
 - 已补寄生树苗生长及失败恢复、感染骨粉树苗路径、殖民前哨结构逻辑；世界生成地面扫描已对齐原件的双向搜索和空气位置返回，修复第二个寄生口与保护柱的地面偏移。其余分支仍需逐项比对。
 - Nexus 普通状态受击已按原件乘以 0.4；Rooter 先按原始伤害向 Rootmass Cyst 分伤，囊肿自身不继承减伤。状态的实际切换时序仍需与原件核实。
 - Nexus 成长仍未对齐：原件 `EntityAINexusGrow` 每次检查按进化阶段和对应配置概率决定成长，阶段 III 升 IV 还受家族解锁及位置条件限制；当前实现使用固定进化阶段阈值，尚未实现这些概率和家族闸门。
-- `spawnLeem` 仍未对齐：原件比较实体创建时记录的阶段/发展等级，当前代码比较当前世界数据且方向不同；原件在 12–20 格随机位置检查地面及碰撞后召唤，当前实现直接放在父实体位置。早先「nest phase/dev 闸门已对齐」的记录仅表示配置已接线，不代表行为等价。
+- `spawnLeem` 已改为使用首次加入世界时记录并持久化的维度阶段及全局发展等级，比较方向与原件一致；旧移植存档缺失快照时在重新加入世界后采样。二、三级 Beckon/Dispatcher 按 2% 概率调用，检查可配置 Rooter 上限和最小距离，最多尝试两处各轴偏移 12–20 格的落点，并处理地面、碰撞、可选天空、加入事件取消和音效抑制。GameTest 覆盖快照重载、两个闸门边界、落点重试、液体地面、天空遮挡、数量/距离边界及取消事件。原版成长 AI 的完整调度顺序、零成本召唤的实体 ID 追踪、全局发展等级计算的跨维度细节，以及 `rsSky` / `rsSounds` 对其他增援路径的适用性仍待核对；现有计数器仅复现每次调用减一并在低于零时重置，不证明 AI 调度完全等价。
 - Nexus 保护结构仍未对齐：原件只在一级升二级时按配置、音效与事件条件执行概率生成；当前实现对每次升级无条件尝试概率生成。Nexus/Dispatcher 的其余召唤、其他投射物、方块破坏、其余伤害顺序及 Rootmass Cyst 生成位置等仍需与原件逐字段核实；炸弹伤害尚未接原件全局/单体倍率配置。客户端粒子调用尚未全部接齐。
 - 本项目仍有未实现或未证实等价的行为，静态合同及 GameTest 通过不能证明 100% 迁移。
 

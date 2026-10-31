@@ -52,27 +52,39 @@ expect(adapted, /getTarget\(\) == null && !isInWater\(\)/, "the residue goal con
 // ---------------------------------------------------------------------------
 // 2. EntityAINexusGrow.spawnLeem (out109 entity/ai/EntityAINexusGrow.java:69-98)
 //
-// 2% chance every 20 ticks, stage 2 or 3, not for the Rooter family;
-// refused while more than SRPConfig.nexusLeemCap (5) Rooters exist or the nearest one
-// is closer than SRPConfig.nexusLeemDis (32); summons srparasites:rooter_si.
+// The counter resets at 20 and fires below zero. Stage II/III Beckons and Dispatchers
+// use the captured creation progress, a 2% roll, configurable Rooter cap/distance,
+// and up to two 12..20 block SummonM candidates.
 // ---------------------------------------------------------------------------
 const nexus = read("src/main/java/alku/csrp/entity/NexusParasiteEntity.java");
-expect(nexus, /private static final int NEXUS_ROOTER_CAP = 5;/, "nexusLeemCap default 5 is missing");
-expect(nexus, /private static final double NEXUS_ROOTER_DISTANCE = 32\.0D;/, "nexusLeemDis default 32 is missing");
+const config = read("src/main/java/alku/csrp/Config.java");
+expect(config, /"nexusLeemCap", 5, 0, 50/, "nexusLeemCap default or bounds are missing");
+expect(config, /"nexusLeemDis", 32, 0, 50/, "nexusLeemDis default or bounds are missing");
+expect(config, /\.define\("rsSky", false\)/, "the original sky requirement default is missing");
+expect(config, /\.define\("rsSounds", true\)/, "the original reinforcement sound default is missing");
 expect(nexus, /private static final double NEXUS_ROOTER_CHANCE = 0\.02D;/, "the 2% Rooter roll is missing");
-expect(nexus, /private static final int NEXUS_ROOTER_INTERVAL = 20;/, "the 20 tick Rooter cadence is missing");
+expect(nexus, /private static final int NEXUS_ROOTER_INTERVAL = 20;/, "the Rooter counter reset is missing");
 expect(nexus, /private void trySpawnRooterSi\(ServerLevel serverLevel\)/, "trySpawnRooterSi is missing");
-expect(nexus, /\(activeKind\.family == Family\.BECKON \|\| activeKind\.family == Family\.DISPATCHER\)/,
-  "the Rooter summon is not restricted to the Dispatcher and Beckon families");
+expect(nexus, /!isNoAi\(\) && \(activeKind\.family == Family\.BECKON \|\| activeKind\.family == Family\.DISPATCHER\)/,
+  "the Rooter summon is not restricted to active Dispatcher and Beckon AI");
 expect(nexus, /activeKind\.stage == 2 \|\| activeKind\.stage == 3/,
   "the Rooter summon is not restricted to stage 2 and 3");
-expect(nexus, /rooterCount > NEXUS_ROOTER_CAP \|\| nearestDistanceSqr < NEXUS_ROOTER_DISTANCE \* NEXUS_ROOTER_DISTANCE/,
-  "the Rooter cap / minimum distance rules are missing");
+expect(nexus, /--rooterSummonCooldown < 0/, "the summon counter does not fire below zero");
+expect(nexus, /\+\+rooterCount > Config\.nexusRooterCap\(\)/,
+  "the strict Rooter cap rule is missing");
+expect(nexus, /distanceToSqr\(other\) < minimumDistance \* minimumDistance/,
+  "the strict minimum distance rule is missing");
+expect(nexus, /attempt < 2[\s\S]*?12 \+ summonRandom\.nextInt\(9\)[\s\S]*?12 \+ summonRandom\.nextInt\(9\)/,
+  "the two 12..20 block candidate attempts are missing");
 expect(nexus, /createNexus\(serverLevel, Family\.ROOTER, 1\)/, "the summon does not create a rooter_si");
-expect(nexus, /playSound\(ModSounds\.get\("leem\.si"\), 4\.0F, 1\.0F\)/,
-  "the LEEMSI cue (volume 4) is missing");
-expect(nexus, /private int rooterSummonCooldown = NEXUS_ROOTER_INTERVAL;/,
-  "the Rooter summon cadence field is missing");
+expect(nexus, /serverLevel\.noCollision\(rooter\)[\s\S]*?getEntities\(rooter, rooter\.getBoundingBox\(\)\.inflate\(0\.25D\), Entity::isAlive\)/,
+  "the original block and entity collision checks are missing");
+expect(nexus, /Config\.reinforcementSky\(\) && !hasDirectSky\(serverLevel/,
+  "the direct-sky requirement is missing");
+expect(nexus, /Config\.reinforcementSounds\(\)[\s\S]*?activeValue\(SrpWorldData\.get\(serverLevel\), 15\) == 0[\s\S]*?playSound\(ModSounds\.get\("leem\.si"\), 4\.0F, 1\.0F\)/,
+  "the LEEMSI cue or its dislodgment and config gates are missing");
+expect(nexus, /serverLevel\.addFreshEntity\(rooter\);\s*return true;/,
+  "a canceled join must still terminate the summon attempt successfully");
 
 if (failures.length) {
   console.error(`verify-entity-residue-and-nexus-leem: ${failures.length} failure(s)`);

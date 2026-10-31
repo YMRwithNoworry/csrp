@@ -57,8 +57,8 @@ expect(adapted, /EvolutionSystem\.generationProfile\(serverLevel, this\)\.ordina
 // Original SRPConfigSystems: evolutionNests (11), deveNestsUse (3), maximumStageList {"1;3"}.
 expect(config, /"evolutionNests", 11, -1, 11/,
         "evolutionNests default of 11 is missing");
-expect(config, /"deveNestsUse", 3, 0, 4/,
-        "deveNestsUse default of 3 is missing");
+expect(config, /"deveNestsUse", 3, 0, 100/,
+        "deveNestsUse default or original 0..100 bounds are missing");
 expect(config, /\.defineList\("maximumStageList", List\.of\("1;3"\)/,
         "maximumStageList default of {\"1;3\"} is missing");
 expect(config, /public static int nexusStageLock\(Level level\)/,
@@ -69,10 +69,14 @@ expect(config, /if \(level\.dimension\(\) == Level\.END\) \{\s*return 1;/s,
         "legacy dimension id 1 (End) is no longer mapped");
 expect(nexus, /dimensionStageLock >= activeKind\.stage \+ 1/,
         "the dimension stage lock is no longer applied in evolve()");
-expect(nexus, /data\.evolutionPhase\(\) < Config\.evolutionNests\(\)/,
-        "the nest phase gate is missing from trySpawnRooterSi");
-expect(nexus, /data\.ubiquitousDevelopmentOverride\(\) < Config\.deveNestsUse\(\)/,
-        "the nest development gate is missing from trySpawnRooterSi");
+expect(nexus, /Config\.evolutionNests\(\) < creationEvolutionPhase\s*&& Config\.deveNestsUse\(\) < creationDevelopmentLevel/,
+        "the original creation-phase/development OR gate or its comparison direction is missing");
+expect(nexus, /!creationProgressCaptured[\s\S]*?SrpWorldData\.get\(serverLevel\)\.evolutionPhase\(\)[\s\S]*?EvolutionSystem\.ubiquitousDevelopment\(serverLevel\.getServer\(\)\)/,
+        "Nexus creation progress is not captured from the dimension and global development");
+expect(nexus, /tag\.putBoolean\("nexus_creation_captured", creationProgressCaptured\)[\s\S]*?tag\.putInt\("nexus_creation_phase", creationEvolutionPhase\)[\s\S]*?tag\.putInt\("nexus_creation_development", creationDevelopmentLevel\)/,
+        "the Nexus creation snapshot is not saved");
+expect(nexus, /creationProgressCaptured = tag\.getBooleanOr\("nexus_creation_captured", false\)[\s\S]*?creationEvolutionPhase = tag\.getIntOr\("nexus_creation_phase", 0\)[\s\S]*?creationDevelopmentLevel = tag\.getIntOr\("nexus_creation_development", 0\)/,
+        "the Nexus creation snapshot is not restored");
 
 if (failures.length) {
     for (const failure of failures) console.error(failure);

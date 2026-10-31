@@ -97,11 +97,23 @@ public final class Config {
             .define("generationEnabled", true);
     // Original SRPConfigSystems.evolutionNests / deveNestsUse / maximumStageList (EntityAINexusGrow).
     private static final ModConfigSpec.IntValue EVOLUTION_NESTS = BUILDER
-            .comment("Original 'Phase Nest Unlock': from this phase onward Nexus nests may call rooters.")
+            .comment("Original 'Phase Nest Unlock'; spawnLeem compares this against the captured creation phase.")
             .defineInRange("evolutionNests", 11, -1, 11);
     private static final ModConfigSpec.IntValue DEVE_NESTS_USE = BUILDER
-            .comment("Original deveNestsUse: development level from which Nexus nests may call rooters.")
-            .defineInRange("deveNestsUse", 3, 0, 4);
+            .comment("Original deveNestsUse; spawnLeem compares this against captured global development.")
+            .defineInRange("deveNestsUse", 3, 0, 100);
+    private static final ModConfigSpec.IntValue NEXUS_ROOTER_CAP = BUILDER
+            .comment("Original nexusLeemCap: reject a Rooter summon when more than this many are loaded.")
+            .defineInRange("nexusLeemCap", 5, 0, 50);
+    private static final ModConfigSpec.IntValue NEXUS_ROOTER_DISTANCE = BUILDER
+            .comment("Original nexusLeemDis: minimum distance from the calling Nexus to a loaded Rooter.")
+            .defineInRange("nexusLeemDis", 32, 0, 50);
+    private static final ModConfigSpec.BooleanValue REINFORCEMENT_SKY = BUILDER
+            .comment("Original rsSky: require sky visibility for Rooter calls; other reinforcement paths are pending.")
+            .define("rsSky", false);
+    private static final ModConfigSpec.BooleanValue REINFORCEMENT_SOUNDS = BUILDER
+            .comment("Original rsSounds: enable Rooter call sounds; other reinforcement sounds are pending.")
+            .define("rsSounds", true);
     private static final ModConfigSpec.ConfigValue<List<? extends String>> MAXIMUM_STAGE_LIST = BUILDER
             .comment("Original maximumStageList: per-dimension Nexus growth cap, 'dimension;maxStage'.")
             .defineList("maximumStageList", List.of("1;3"), value -> value instanceof String entry
@@ -734,6 +746,10 @@ public final class Config {
     public static boolean generationEnabled() { return GENERATION_ENABLED.get(); }
     public static int evolutionNests() { return EVOLUTION_NESTS.get(); }
     public static int deveNestsUse() { return DEVE_NESTS_USE.get(); }
+    public static int nexusRooterCap() { return NEXUS_ROOTER_CAP.get(); }
+    public static int nexusRooterDistance() { return NEXUS_ROOTER_DISTANCE.get(); }
+    public static boolean reinforcementSky() { return REINFORCEMENT_SKY.get(); }
+    public static boolean reinforcementSounds() { return REINFORCEMENT_SOUNDS.get(); }
 
     /**
      * Original {@code EntityAINexusGrow} constructor: the highest Nexus stage allowed in a dimension,

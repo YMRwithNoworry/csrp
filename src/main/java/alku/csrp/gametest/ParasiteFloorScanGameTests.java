@@ -22,6 +22,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.RegisterGameTestsEvent;
@@ -82,8 +83,21 @@ public final class ParasiteFloorScanGameTests {
             level.setBlock(waterStart.above(), Blocks.WATER.defaultBlockState(), Block.UPDATE_CLIENTS);
             helper.assertTrue(waterStart.above(2).equals(ParasiteGenContext.floor(level, waterStart, 3)),
                     "water starting position did not search upward to air");
-            helper.assertTrue(ParasiteGenContext.floor(level, airStart.east(12), 5) == null,
-                    "floor scan found a floor in an empty column");
+            BlockPos emptyColumn = airStart.east(12);
+            BlockState[] previous = new BlockState[6];
+            for (int y = 0; y < previous.length; y++) {
+                BlockPos pos = emptyColumn.below(y);
+                previous[y] = level.getBlockState(pos);
+                level.setBlock(pos, Blocks.AIR.defaultBlockState(), Block.UPDATE_CLIENTS);
+            }
+            try {
+                helper.assertTrue(ParasiteGenContext.floor(level, emptyColumn, 5) == null,
+                        "floor scan found a floor in an empty column");
+            } finally {
+                for (int y = 0; y < previous.length; y++) {
+                    level.setBlock(emptyColumn.below(y), previous[y], Block.UPDATE_CLIENTS);
+                }
+            }
             helper.succeed();
         }
 
