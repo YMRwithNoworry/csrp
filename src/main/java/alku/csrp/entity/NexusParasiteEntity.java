@@ -113,6 +113,10 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
 
     private final Kind kind;
     private final List<String> storedParasiteIds = new ArrayList<>();
+    private int dispatcherCrude;
+    private int dispatcherInfected;
+    private int dispatcherMangler;
+    private int dispatcherFlesh;
     private final SummonCapacityTracker summonTracker = new SummonCapacityTracker();
     private int growthTicks;
     private int growthDelayTicks;
@@ -369,7 +373,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
             return;
         }
         if (activeKind.family == Family.DISPATCHER && tickCount % 40 == 0) {
-            storeNearbyParasite();
+            if (!isNoAi()) {
+                storeNearbyParasite();
+            }
             placeNestFog(activeKind.stage);
         }
         if (activeKind.family == Family.DISPATCHER && activeKind.stage == 4) {
@@ -379,7 +385,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
             if (!isNoAi()) {
                 tickBeckonSummoning(activeKind);
             }
-        } else if (summonCooldown <= 0 && performFamilyAbility(activeKind)) {
+        } else if (!isNoAi() && summonCooldown <= 0 && performFamilyAbility(activeKind)) {
             setParasiteStatus(1);
             summonCooldown = activeKind.summonCooldown;
         } else if (summonCooldown > 0 && getParasiteStatus() == 1) {
@@ -573,6 +579,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         tag.putFloat("nexus_body", getBODY());
         tag.putInt("nexus_parasite_status", getParasiteStatus());
         tag.putFloat("nexus_floor_timer", getFloorTimer());
+        tag.putInt("nexus_dispatcher_crude", dispatcherCrude);
+        tag.putInt("nexus_dispatcher_infected", dispatcherInfected);
+        tag.putInt("nexus_dispatcher_flesh", dispatcherFlesh);
         ValueOutput.TypedOutputList<String> storedParasites = tag.list("nexus_dispatcher_stored", Codec.STRING);
 
         for (String id : storedParasiteIds) {
@@ -616,6 +625,14 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
                 storedParasiteIds.add(id);
             }
         }
+        dispatcherCrude = tag.getInt("nexus_dispatcher_crude").orElseGet(() -> storedParasiteIds.stream()
+                .mapToInt(id -> id.contains("incompleteform_small") ? 1
+                        : id.contains("incompleteform_medium") ? 2 : 0).sum());
+        dispatcherInfected = tag.getInt("nexus_dispatcher_infected").orElseGet(() ->
+                (int) storedParasiteIds.stream().filter(id -> id.contains("sim_") || id.contains("mar_")).count());
+        dispatcherFlesh = tag.getIntOr("nexus_dispatcher_flesh", 0);
+        // EntityPDispatcher did not persist its mangler counter.
+        dispatcherMangler = 0;
     }
 
     public Kind getKind() {
@@ -688,33 +705,125 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         return activeKind().family == Family.DISPATCHER;
     }
 
-    /** 原版 storeBefDes：寄生体超距消失时回收入库，调度柱之后可再部署。 */
+    /** Return a previously deployed parasite to the stored list. */
     public boolean recallParasite(String entityTypeId) {
-        if (!isDispatcherFamily() || storedParasiteIds.size() >= 12) {
-            return false;
-        }
-        return storedParasiteIds.add(entityTypeId);
+        return isDispatcherFamily() && entityTypeId != null && storedParasiteIds.add(entityTypeId);
     }
 
     private void storeNearbyParasite() {
         double range = getAttributeValue(Attributes.FOLLOW_RANGE);
-        List<Mob> candidates = level().getEntitiesOfClass(Mob.class, getBoundingBox().inflate(range),
-                this::isStorableDispatcherParasite);
-        if (candidates.isEmpty()) {
-            return;
+        AABB area = new AABB(getX(), getY(), getZ(), getX() + 1.0D, getY() + 1.0D, getZ() + 1.0D)
+                .inflate(range);
+        for (Mob candidate : level().getEntitiesOfClass(Mob.class, area, this::isStorableDispatcherParasite)) {
+            storeDispatcherParasite(candidate);
         }
-        Mob candidate = candidates.get(random.nextInt(candidates.size()));
+    }
+
+    private boolean storeDispatcherParasite(Mob candidate) {
         Identifier id = BuiltInRegistries.ENTITY_TYPE.getKey(candidate.getType());
-        if (id == null || !Csrp.MODID.equals(id.getNamespace())) {
-            return;
+        if (!candidate.isAlive() || id == null || !Csrp.MODID.equals(id.getNamespace())
+                || id.getPath().equals("worker") || !dispatcherStorageGroundValid()) {
+            return false;
         }
-        storedParasiteIds.add(id.toString());
-        candidate.discard();
+        String path = id.getPath();
+        int stage = activeKind().stage;
+        if (path.equals("buglin")) {
+            storedParasiteIds.add("csrp:rupter");
+        } else if (path.equals("movingflesh")) {
+            if (++dispatcherFlesh >= 2) {
+                dispatcherFlesh -= 2;
+                addDispatcherPrimitive();
+            }
+        } else if (stage >= 2 && (path.startsWith("sim_") || path.startsWith("mar_"))) {
+            dispatcherInfected++;
+            storedParasiteIds.add(id.toString());
+            if (dispatcherInfected >= 4) {
+                dispatcherInfected -= 4;
+                if (removeStoredMatches("sim_", 4)) {
+                    addDispatcherPrimitive();
+                }
+            }
+        } else if (stage >= 2 && (path.equals("incompleteform_small") || path.equals("incompleteform_medium"))) {
+            dispatcherCrude += path.equals("incompleteform_small") ? 1 : 2;
+            storedParasiteIds.add(id.toString());
+            if (dispatcherCrude >= 6) {
+                dispatcherCrude -= 6;
+                if (removeStoredMatches("incompleteform", 6)) {
+                    storedParasiteIds.add("csrp:heed");
+                }
+            }
+        } else if (stage >= 3 && path.equals("rupter")) {
+            storedParasiteIds.add("csrp:mangler");
+        } else {
+            if (stage >= 3 && path.equals("mangler")) {
+                dispatcherMangler++;
+            }
+            storedParasiteIds.add(id.toString());
+        }
         if (level() instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(ParticleTypes.PORTAL, candidate.getX(),
+            serverLevel.sendParticles(ParticleTypes.EXPLOSION, candidate.getX(),
                     candidate.getY() + candidate.getBbHeight() * 0.5D, candidate.getZ(),
-                    12, 0.25D, 0.35D, 0.25D, 0.02D);
+                    11, 0.25D, 0.35D, 0.25D, 0.0D);
         }
+        candidate.discard();
+        return true;
+    }
+
+    private boolean dispatcherStorageGroundValid() {
+        float hardness = 0.0F;
+        for (int depth = 1; depth <= 3; depth++) {
+            BlockPos pos = blockPosition().below(depth);
+            float value = level().getBlockState(pos).getDestroySpeed(level(), pos);
+            if (value <= 0.0F) {
+                return false;
+            }
+            hardness += value;
+        }
+        return hardness < 10.0F;
+    }
+
+    private boolean removeStoredMatches(String needle, int count) {
+        for (int removed = 0; removed < count; removed++) {
+            int index = -1;
+            for (int i = 0; i < storedParasiteIds.size(); i++) {
+                if (storedParasiteIds.get(i).contains(needle)) {
+                    index = i;
+                    break;
+                }
+            }
+            if (index < 0) {
+                return false;
+            }
+            storedParasiteIds.remove(index);
+        }
+        return true;
+    }
+
+    private void addDispatcherPrimitive() {
+        String[] primitives = {"pri_yelloweye", "pri_summoner", "pri_bolster", "pri_longarms",
+                "pri_arachnida", "pri_reeker", "pri_manducater"};
+        int selected = random.nextInt(primitives.length);
+        for (int attempt = 0; attempt < 10; attempt++) {
+            if (MobsConfig.dispatcherPrimitiveEnabled(selected)) {
+                storedParasiteIds.add("csrp:" + primitives[selected]);
+                return;
+            }
+            selected = (selected + 1) % primitives.length;
+        }
+    }
+
+    private String takeStoredParasite(int index) {
+        String id = storedParasiteIds.remove(index);
+        if (id.contains("sim_")) {
+            dispatcherInfected--;
+        } else if (id.contains("incompleteform_small")) {
+            dispatcherCrude--;
+        } else if (id.contains("incompleteform_medium")) {
+            dispatcherCrude -= 2;
+        } else if (id.contains("mangler")) {
+            dispatcherMangler--;
+        }
+        return id;
     }
 
     private void placeNestFog(int stage) {
@@ -780,9 +889,11 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
     private boolean isStorableDispatcherParasite(Mob candidate) {
         return candidate != this
                 && candidate instanceof Parasite
+                && candidate.isAlive()
                 && candidate.getTarget() == null
                 && candidate.onGround()
                 && candidate.tickCount > 100
+                && DispatcherStorageCooldown.canStore(candidate)
                 && !candidate.isPassenger()
                 && !candidate.isVehicle()
                 && !(candidate instanceof NexusParasiteEntity)
@@ -1239,10 +1350,10 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
                 }
                 tentacle.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(spawnPos),
                         EntitySpawnReason.MOB_SUMMONED, null);
+                takeStoredParasite(index);
                 tentacle.setDispatchEntity(id);
                 tentacle.setTarget(target);
                 serverLevel.addFreshEntity(tentacle);
-                storedParasiteIds.remove(index);
                 return true;
             }
             return false;

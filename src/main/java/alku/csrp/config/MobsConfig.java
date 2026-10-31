@@ -128,6 +128,28 @@ public final class MobsConfig {
             "srparasites:dispatcher_siv", "dispatcherSIVFollowRangeMultiplier", 2, 1, 100,
             "原版 Dispatcher 第 IV 阶段的跟随距离倍率。");
 
+    private static final ModConfigSpec.BooleanValue DISPATCHER_PRIMITIVE_YELLOWEYE = booleanValue(
+            "srparasites:yelloweye", "primitiveYelloweyeEnabled", true,
+            "Whether Dispatcher conversion may create a Primitive Yelloweye.");
+    private static final ModConfigSpec.BooleanValue DISPATCHER_PRIMITIVE_SUMMONER = booleanValue(
+            "srparasites:summoner", "primitiveSummonerEnabled", true,
+            "Whether Dispatcher conversion may create a Primitive Summoner.");
+    private static final ModConfigSpec.BooleanValue DISPATCHER_PRIMITIVE_BOLSTER = booleanValue(
+            "srparasites:bolster", "primitiveBolsterEnabled", true,
+            "Whether Dispatcher conversion may create a Primitive Bolster.");
+    private static final ModConfigSpec.BooleanValue DISPATCHER_PRIMITIVE_LONGARMS = booleanValue(
+            "srparasites:longarms", "primitiveLongarmsEnabled", true,
+            "Whether Dispatcher conversion may create a Primitive Longarms.");
+    private static final ModConfigSpec.BooleanValue DISPATCHER_PRIMITIVE_ARACHNIDA = booleanValue(
+            "srparasites:arachnida", "primitiveArachnidaEnabled", true,
+            "Whether Dispatcher conversion may create a Primitive Arachnida.");
+    private static final ModConfigSpec.BooleanValue DISPATCHER_PRIMITIVE_REEKER = booleanValue(
+            "srparasites:reeker", "primitiveReekerEnabled", true,
+            "Whether Dispatcher conversion may create a Primitive Reeker.");
+    private static final ModConfigSpec.BooleanValue DISPATCHER_PRIMITIVE_MANDUCATER = booleanValue(
+            "srparasites:manducater", "primitiveManducaterEnabled", true,
+            "Whether Dispatcher conversion may create a Primitive Manducater.");
+
     private static final ModConfigSpec.BooleanValue RUPTER_ANIMAL_ATTACKING = booleanValue(
             "srparasites:rupter", "rupterPassiveMobAttacking", true,
             "Whether Rupters may attack passive mobs when evolution phases are disabled.");
@@ -752,6 +774,19 @@ public final class MobsConfig {
                 .defineList(name, defaults, validator);
         BUILDER.pop();
         return value;
+    }
+
+    public static boolean dispatcherPrimitiveEnabled(int index) {
+        return switch (index) {
+            case 0 -> DISPATCHER_PRIMITIVE_YELLOWEYE.get();
+            case 1 -> DISPATCHER_PRIMITIVE_SUMMONER.get();
+            case 2 -> DISPATCHER_PRIMITIVE_BOLSTER.get();
+            case 3 -> DISPATCHER_PRIMITIVE_LONGARMS.get();
+            case 4 -> DISPATCHER_PRIMITIVE_ARACHNIDA.get();
+            case 5 -> DISPATCHER_PRIMITIVE_REEKER.get();
+            case 6 -> DISPATCHER_PRIMITIVE_MANDUCATER.get();
+            default -> throw new IllegalArgumentException("Invalid Dispatcher primitive: " + index);
+        };
     }
 
     public static int nexusGrowthDelayTicks(NexusParasiteEntity.Kind kind, net.minecraft.util.RandomSource random) {

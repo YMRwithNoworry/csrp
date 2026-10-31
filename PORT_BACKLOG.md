@@ -18,7 +18,7 @@
     `"$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain <task>`；
     `scripts/build-locked.sh` 已同步改为这一调用方式。
 - 静态校验套件：指定 `SRP_DECOMPILED_ROOT=D:/code/MC模组/_scratch/vf/out109` 后 **155 通过、1 跳过、0 失败**；这使用的是目标 1.10.9 源码，不能视作对缺失 1.10.8 基线的验证。未指定目录时 7 项脚本因默认 1.10.8 源码缺失失败；资源审计因外部 `manifest.json` 缺失跳过。
-- 运行期验证：`runGameTestServer` → **229 / 229 GameTests 通过**，包括 Nexus 成长替换、概率与调度、家族解锁、Beckon 召唤表及取消事件、音效和保护结构判定，Dispatcher IV 胞囊攻击、Rooter 召唤、支援及容量、Nexus 反击炸弹和世界生成地面扫描。
+- 运行期验证：`runGameTestServer` → **235 / 235 GameTests 通过**，包括 Dispatcher 储存转换与冷却、Nexus 成长替换、概率与调度、家族解锁、Beckon 召唤表及取消事件、音效和保护结构判定，Dispatcher IV 胞囊攻击、Rooter 召唤、支援及容量、Nexus 反击炸弹和世界生成地面扫描。
 - 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2911 键 / zh_cn 2927 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
 - 本轮由 `runGameTestServer` 抓出并修复的运行期加载失败：方块状态定义读取 `super()` 前未赋值的实例字段（`LegacyVariantSlabBlock` / `LegacyRelayBlock`，改为工厂预发布）、`JukeboxSong` 是数据包注册表故 `discone` / `disctwo` 需要 `data/csrp/jukebox_song/*.json`（见 commit `d7f7ca5c`）。
@@ -34,7 +34,7 @@
 - `spawnLeem` 已改为使用首次加入世界时记录并持久化的维度阶段及全局发展等级，比较方向与原件一致；旧移植存档缺失快照时在重新加入世界后采样。二、三级 Beckon/Dispatcher 按 2% 概率调用，检查可配置 Rooter 上限和最小距离，最多尝试两处各轴偏移 12–20 格的落点，并处理地面、碰撞、可选天空、加入事件取消和音效抑制。GameTest 覆盖快照重载、两个闸门边界、落点重试、液体地面、天空遮挡、数量/距离边界及取消事件。原版成长 AI 与其他 Goal 的相互作用、零成本召唤的实体 ID 追踪、全局发展等级计算的跨维度细节，以及 `rsSky` / `rsSounds` 对其他增援路径的适用性仍待核对；成长与 Rooter 检查已共享计数器并覆盖扫描节奏，不证明全部调度完全等价。
 - Nexus 一级升二级保护结构现受 `nexusStructures`、`rsSounds` 和第 16 号 dislodgment 闸门控制，仅通过后按家族概率使用世界随机数；升级前先移除旧实体，取消加入事件仍继续处理音效及继承，保留名称、适应和燃烧状态。GameTest 覆盖三家族升级、取消事件、保护概率和实际随机数消耗；结构完整外观与客户端成长粒子仍需目视验证。现有全局寄生体音量事件会将最终音量压到 1.0，升级音效虽传入原件 9/10 音量，实际听感仍有差异。Nexus/Dispatcher 的其余召唤、其他投射物、方块破坏、其余伤害顺序及 Rootmass Cyst 生成位置等仍需与原件逐字段核实；炸弹伤害尚未接原件全局/单体倍率配置。
 - Beckon 召唤表修复 26.3 `EntityType.getBaseClass()` 恒为 `Entity.class` 导致所有表项被过滤的问题；兼容表内原版 `srparasites` 命名空间，并在实际创建时检查实体类型。普通 Biomass 的加入事件被取消时仍占用容量并推进成长，四级直接召唤和非法载荷的失败路径由 GameTest 覆盖。
-- Dispatcher 尚未按原件储存/释放：`EntityAIDodAttack` 会按其 AI 检查节奏扫描并处理符合条件的所有实体，原件还依据阶段将 Lodo、感染体、粗制体与 Mudo 转换并维护计数；当前每 40 tick 随机储存一个，不具备这些转换。父实体回收、地面硬度闸门、触须载荷与容量、目标选择和防御召唤时序也需一并对照修复。
+- Dispatcher 储存已部分对照 `EntityPDispatcher`：按阶段转换 Buglin、Moving Flesh、感染体、粗制体和 Rupter，保留 `mar_` 计数但只消耗 `sim_` 的原件边界；三层地面硬度、Worker 排除、粗制/感染/肉块计数存档、取出扣减及原件未持久化的 Mangler 计数均有 GameTest。旧 26.3 存档缺少计数时按库存近似重建；移动、进入受击事件和近战伤害事件的临时冷却已接入。扫描现处理全部候选且受 NoAI 控制，但仍为每 40 tick 而非原版 `EntityAIDodAttack` 节奏，未命中攻击及更早被拦截的伤害等冷却时序、候选类别排除也未完全核对；父实体回收、触须载荷与容量、目标选择和防御召唤仍需修复。
 - 本项目仍有未实现或未证实等价的行为，静态合同及 GameTest 通过不能证明 100% 迁移。
 
 ## 已完成（本轮 R2–R6）

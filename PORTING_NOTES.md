@@ -312,7 +312,13 @@ GameTest 覆盖创建快照和重载、阶段/发展等级闸门、两次候选�
 
 对照 1.10.9 `EntityAINexusGrow` 与 1.12.2 `EntityAITasks`，接入三个成长阶段各十项相位失败概率，使用严格的小于比较；非运行 Goal 每三次 AI 更新扫描，运行 Goal 每次更新检查续行，共享 Rooter 召唤计数器。三级寄生群系或升级闸门失败时设置 20000 次检查等待。成长进度按既有存档的 20 倍单位保存，普通 Beckon Biomass 召唤成功也推进一个原版成长单位。GameTest 覆盖阶段概率边界、NoAI、调度节奏、失败等待及重载；强制进化和其他 Goal 的相互作用仍待核实。
 
-修复 26.3 中 `EntityType.getBaseClass()` 恒为 `Entity.class` 而过滤掉全部 Beckon 配置召唤表项的问题；兼容表中的 `srparasites` 实体 ID，保持地面/空中表长度与空槽。四级直接召唤在实例化后确认类型，Biomass 的非生物载荷在孵化时释放容量；普通 Biomass 加入事件取消仍计入召唤并推进成长，与原件的事件顺序一致。Beckon 设置 `NoAI` 时不再运行召唤计时。GameTest 覆盖三阶段普通召唤、额外召唤、取消加入、`NoAI`、旧命名空间、四级实际召唤及无效载荷。Dispatcher 的存储转换和原版防御 AI 仍未迁移，详见 `PORT_BACKLOG.md`。
+修复 26.3 中 `EntityType.getBaseClass()` 恒为 `Entity.class` 而过滤掉全部 Beckon 配置召唤表项的问题；兼容表中的 `srparasites` 实体 ID，保持地面/空中表长度与空槽。四级直接召唤在实例化后确认类型，Biomass 的非生物载荷在孵化时释放容量；普通 Biomass 加入事件取消仍计入召唤并推进成长，与原件的事件顺序一致。Beckon 设置 `NoAI` 时不再运行召唤计时。GameTest 覆盖三阶段普通召唤、额外召唤、取消加入、`NoAI`、旧命名空间、四级实际召唤及无效载荷。Dispatcher 储存转换已部分补充，原版防御 AI 仍未完成，详见 3.29 节与 `PORT_BACKLOG.md`。
+
+### 3.29 Dispatcher 储存转换
+
+对照 1.10.9 `EntityPDispatcher`：Buglin 转 Rupter、两份 Moving Flesh 转随机启用的原始体；二级起感染体与粗制体分别累计，四个感染计数尝试移除四项 `sim_`，六个粗制计数尝试移除六个条目；三级起 Rupter 转 Mangler。保留 `mar_` 参与感染计数但不被 `sim_` 删除循环消费、三个中型粗制体不会产生 Heed、取出与回收不对称等原件边界。地面要求三层硬度均大于零且总和严格小于 10，Worker 不可存入。粗制、感染和肉块计数写入存档，Mangler 计数与原件一样不持久化；早期 26.3 存档缺失计数时按库存近似重建。七种原始体的启用项目前用于这一转换路径。
+
+扫描处理范围内所有候选且尊重 NoAI；水平移动、进入受击事件及近战伤害事件会触发临时收纳冷却。六个 GameTest 覆盖阶段转换、混合计数、硬度边界、启用项、旧存档重建、取出和移动/伤害冷却。当前扫描仍使用每 40 tick 的移植节奏，不是原版攻击 Goal 的节奏；未命中攻击或被事件之前拦截的伤害、候选类别排除、触须死亡返还、父实体回收和原版防御召唤仍未完全对齐。
 
 ---
 
@@ -393,14 +399,14 @@ GRADLE=("$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.g
 "${GRADLE[@]}" build --console=plain
 export SRP_DECOMPILED_ROOT="D:/code/MC模组/_scratch/vf/out109"
 node scripts/run-all-verifications.cjs   # 155 passed, 1 skipped, 0 failed；基准为目标 1.10.9
-"${GRADLE[@]}" runGameTestServer         # All 229 required tests passed
+"${GRADLE[@]}" runGameTestServer         # All 235 required tests passed
 ```
 
 | 检查 | 结果 |
 | --- | --- |
 | 编译与打包 | **BUILD SUCCESSFUL**，产物 `build/libs/csrp-1.10.9.jar` |
 | 静态契约校验 | 指定 1.10.9 反编译目录后 **155 通过、1 跳过、0 失败**；跳过项缺少外部资源 `manifest.json`。默认的 1.10.8 目录缺失，7 项基线合同无法在该默认路径下运行；1.10.9 结果不能证明 1.10.8 基线通过 |
-| 运行期 GameTest | **229 / 229 通过**，含 Nexus 成长概率与节奏、Beckon 召唤表、阶段升级和保护结构判定、实体冒烟、NBT、Dispatcher 胞囊、Rooter 支援、Nexus 状态减伤、Bomb 命中及世界生成地面扫描测试 |
+| 运行期 GameTest | **235 / 235 通过**，含 Dispatcher 储存转换、配置、持久化与冷却，Nexus 成长概率与节奏、Beckon 召唤表、阶段升级和保护结构判定、实体冒烟、NBT、Dispatcher 胞囊、Rooter 支援、Nexus 状态减伤、Bomb 命中及世界生成地面扫描测试 |
 | 服务器启动 | GameTest 服务器完整启动至测试结束，无启动崩溃 |
 | 世界生成运行期 | 225 区块实证：四类寄生群系 + 36 种寄生体方块落地，零 decoration 失败 |
 | 实体 id 对齐 | 原件 158 个 id **全部命中**（缺失 0） |
