@@ -13,6 +13,7 @@ import alku.csrp.world.EvolutionSystem;
 import alku.csrp.world.SrpWorldData;
 import com.mojang.serialization.MapCodec;
 import java.util.List;
+import java.util.function.Consumer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.gametest.framework.FunctionGameTestInstance;
@@ -36,8 +37,10 @@ import net.minecraft.world.level.storage.TagValueInput;
 import net.minecraft.world.level.storage.TagValueOutput;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.damagesource.DamageContainer;
 import net.neoforged.neoforge.event.RegisterGameTestsEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDeathEvent;
 import net.neoforged.neoforge.event.entity.living.LivingIncomingDamageEvent;
 
@@ -64,6 +67,10 @@ public final class RooterSupportGameTests {
                 new GeneTypesTest(data));
         event.registerTest(Identifier.fromNamespaceAndPath(Csrp.MODID, "rooter_support/cross_chunk"),
                 new CrossChunkTest(data));
+        event.registerTest(Identifier.fromNamespaceAndPath(Csrp.MODID, "rooter_support/cyst_capacity_and_dying"),
+                new CystCapacityTest(data));
+        event.registerTest(Identifier.fromNamespaceAndPath(Csrp.MODID, "rooter_support/canceled_cyst_join"),
+                new CanceledCystJoinTest(data));
     }
 
     private static final class CycleTest extends GameTestInstance {
@@ -134,6 +141,123 @@ public final class RooterSupportGameTests {
         @Override
         protected MutableComponent typeDescription() {
             return Component.literal("Rooter support cycle and target filtering");
+        }
+    }
+
+    private static final class CystCapacityTest extends GameTestInstance {
+        CystCapacityTest(TestData<Holder<TestEnvironmentDefinition<?>>> data) {
+            super(data);
+        }
+
+        @Override
+        public void run(GameTestHelper helper) {
+            NexusParasiteEntity rooter = helper.spawn(ModEntities.ROOTER_SI.get(), new BlockPos(0, 260, 0));
+            NexusParasiteEntity dying = helper.spawn(ModEntities.ROOTERBALL.get(), new BlockPos(3, 260, 0));
+            NexusParasiteEntity loaded = null;
+            rooter.setNoAi(true);
+            rooter.setNoGravity(true);
+            dying.setNoAi(true);
+            dying.setNoGravity(true);
+            try {
+                dying.setHealth(0.0F);
+                helper.assertFalse(dying.isAlive() || dying.isRemoved(), "test cyst is not dying in the world");
+                float healthBefore = rooter.getHealth();
+                rooter.hurtServer(helper.getLevel(), helper.getLevel().damageSources().fellOutOfWorld(), 8.0F);
+                helper.assertTrue(rooter.getHealth() == healthBefore,
+                        "a dying but not yet removed Rootmass Cyst did not intercept the hit");
+                dying.discard();
+
+                for (int i = 0; i < 3; i++) {
+                    NexusParasiteEntity cyst = helper.spawn(ModEntities.ROOTERBALL.get(), new BlockPos(i + 3, 260, 0));
+                    rooter.reserveTrackedSummon(cyst.getUUID(), 1);
+                    cyst.discard();
+                }
+                helper.assertTrue(rooter.getUsedSummonCapacity() == 3, "test cyst reservations were not recorded");
+                rooter.damageCooldownTime = 0;
+                rooter.hurtServer(helper.getLevel(), helper.getLevel().damageSources().fellOutOfWorld(), 1.0F);
+                helper.assertTrue(rooter.getUsedSummonCapacity() == 3,
+                        "Rooter reclaimed removed cyst capacity before reloading");
+                TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, rooter.registryAccess());
+                rooter.saveWithoutId(output);
+                loaded = ModEntities.ROOTER_SI.get().create(helper.getLevel(), EntitySpawnReason.STRUCTURE);
+                helper.assertTrue(loaded != null, "could not create a reloaded Rooter");
+                loaded.load(TagValueInput.create(ProblemReporter.DISCARDING, loaded.registryAccess(), output.buildResult()));
+                helper.assertTrue(loaded.getUsedSummonCapacity() == 0,
+                        "Rooter retained its original transient cyst capacity after reload");
+                helper.succeed();
+            } finally {
+                if (loaded != null) loaded.discard();
+                dying.discard();
+                rooter.discard();
+            }
+        }
+
+        @Override
+        public MapCodec<? extends GameTestInstance> codec() {
+            return FunctionGameTestInstance.CODEC;
+        }
+
+        @Override
+        protected MutableComponent typeDescription() {
+            return Component.literal("Rootmass Cyst dying and transient capacity behavior");
+        }
+    }
+
+    private static final class CanceledCystJoinTest extends GameTestInstance {
+        CanceledCystJoinTest(TestData<Holder<TestEnvironmentDefinition<?>>> data) {
+            super(data);
+        }
+
+        @Override
+        public void run(GameTestHelper helper) {
+            NexusParasiteEntity rooter = helper.spawn(ModEntities.ROOTER_SI.get(), new BlockPos(0, 260, 0));
+            rooter.setNoAi(true);
+            rooter.setNoGravity(true);
+            BlockPos floor = rooter.blockPosition().below();
+            for (int x = -5; x <= 5; x++) {
+                for (int z = -5; z <= 5; z++) {
+                    helper.getLevel().setBlockAndUpdate(floor.offset(x, 0, z), Blocks.STONE.defaultBlockState());
+                }
+            }
+            int[] canceled = {0};
+            Consumer<EntityJoinLevelEvent> rejectCyst = event -> {
+                if (event.getLevel() == helper.getLevel()
+                        && event.getEntity().getType() == ModEntities.ROOTERBALL.get()
+                        && event.getEntity().distanceToSqr(rooter) <= 50.0D) {
+                    canceled[0]++;
+                    event.setCanceled(true);
+                }
+            };
+            NeoForge.EVENT_BUS.addListener(EntityJoinLevelEvent.class, rejectCyst);
+            try {
+                rooter.hurtServer(helper.getLevel(), helper.getLevel().damageSources().fellOutOfWorld(), 1.0F);
+                helper.assertTrue(canceled[0] > 0, "no Rootmass Cyst join was attempted");
+                helper.assertTrue(rooter.getUsedSummonCapacity() == canceled[0],
+                        "a canceled cyst join did not retain its original capacity reservation");
+                helper.assertTrue(helper.getLevel().getEntitiesOfClass(NexusParasiteEntity.class,
+                                rooter.getBoundingBox().inflate(6.0D),
+                                entity -> entity.getType() == ModEntities.ROOTERBALL.get()).isEmpty(),
+                        "a canceled cyst was added to the world");
+                helper.succeed();
+            } finally {
+                NeoForge.EVENT_BUS.unregister(rejectCyst);
+                rooter.discard();
+                for (int x = -5; x <= 5; x++) {
+                    for (int z = -5; z <= 5; z++) {
+                        helper.getLevel().setBlockAndUpdate(floor.offset(x, 0, z), Blocks.AIR.defaultBlockState());
+                    }
+                }
+            }
+        }
+
+        @Override
+        public MapCodec<? extends GameTestInstance> codec() {
+            return FunctionGameTestInstance.CODEC;
+        }
+
+        @Override
+        protected MutableComponent typeDescription() {
+            return Component.literal("Rootmass Cyst capacity after a canceled entity join");
         }
     }
 

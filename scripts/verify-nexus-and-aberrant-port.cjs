@@ -34,7 +34,7 @@ const abomination = read("src/main/java/alku/csrp/entity/AbominationEntity.java"
 
 for (const feature of [
   "BECKON_SIV", "DISPATCHER_SIV", "ROOTER_SIV", "ROOTERBALL", "DamageTypeTags.IS_FIRE",
-  "spawnBombVolley", "spawnPodVolley", "spawnRootmassCysts", "rootmassCystsInRange",
+  "spawnBombVolley", "DispatcherPodGoal", "spawnRootmassCysts", "rootmassCystsInRange",
   "rooterCystRange", "rooterCystLimit", "summonBeckonParasites",
   "summonDispatcherDefenses", "applyRooterSupport", "createStormVortex", "evolve"
 ]) {
@@ -44,6 +44,26 @@ expect(nexus, /float sharedDamage = amount \/ cysts\.size\(\);[\s\S]*?float inco
   "Nexus idle damage reduction must follow Rooter cyst sharing and exclude Rootmass Cysts");
 expect(nexus, /else \{\s*spawnRootmassCysts\(MobsConfig\.rooterCystLimit\(activeKind\.stage\)\);\s*\}/,
   "Rooter does not create Rootmass Cysts before taking an unprotected hit");
+const cystSearch = nexus.match(/private List<NexusParasiteEntity> rootmassCystsInRange\(Kind rooter\) \{([\s\S]*?)\n    \}/);
+if (!cystSearch || /isAlive\(\)/.test(cystSearch[1])) {
+  failures.push("Rooter must include dying, not-yet-removed cysts in its damage split");
+}
+const cystSpawn = nexus.match(/private void spawnRootmassCysts\(int maximum\) \{([\s\S]*?)\n    \}/);
+if (!cystSpawn || /summonTracker\.prune\(/.test(cystSpawn[1])) {
+  failures.push("Rooter must not reclaim cyst capacity before its own reload");
+}
+if (!cystSpawn || !/reserveTrackedSummon\(cyst\.getUUID\(\), 1\);\s*serverLevel\.addFreshEntity\(cyst\);/.test(cystSpawn[1])) {
+  failures.push("Rooter must reserve cyst capacity before attempting the entity join");
+}
+expect(nexus, /activeKind\(\) == Kind\.DISPATCHER_SIV[\s\S]*?goalSelector\.addGoal\(4, new DispatcherPodGoal\(\)\)/,
+  "the independent ancient-pod goal is not restricted to stage-IV Dispatchers");
+expect(nexus, /class DispatcherPodGoal extends Goal[\s\S]*?requiresUpdateEveryTick\(\)[\s\S]*?attackingTicks >= 40 && attackingTicks % 20 == 0[\s\S]*?spawnedPods >= 4[\s\S]*?distanceToSqr\(target\) < 2500\.0D[\s\S]*?target\.onGround\(\) \|\| random\.nextBoolean\(\)[\s\S]*?attackTimer >= 120[\s\S]*?targetY = getY\(\) \+ 25\.0D/,
+  "Dispatcher pod timing, target gates or locked height differ from EntityAIAncientSummon");
+expect(nexus, /ModEntities\.ANC_POD\.get\(\)[\s\S]*?random\.nextInt\(10\)[\s\S]*?pod\.setOwner\(\(byte\) 0\)[\s\S]*?serverLevel\.addFreshEntity\(pod\);\s*return true;/,
+  "Dispatcher must attempt a real ancient pod with the original square offsets, owner and return semantics");
+if (/spawnPodVolley|ParasiteProjectileEntity\.Mode\.BOMB/.test(nexus)) {
+  failures.push("Dispatcher pod attack still uses the fabricated generic-bomb volley");
+}
 for (const [stage, range, effectRange, cooldown, limit] of [
   ["SI", 16, 20, 12, 3], ["SII", 32, 30, 10, 4],
   ["SIII", 48, 40, 8, 5], ["SIV", 128, 56, 6, 6]

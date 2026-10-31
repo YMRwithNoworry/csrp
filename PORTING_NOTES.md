@@ -136,7 +136,7 @@ R6 实体矩阵 §5.2 登记的 6 条"记录为不一致、本轮不改"中，4 
 - **`mobAttackingFull`**（原件 `SRPConfig.mobAttackingFull`，默认 false）：新增 `Config.mobAttackingFull` 与 `entity/MobAttacking`，后者逐字复刻 `ParasiteEventEntity#checkName` 的 `String#contains` 匹配、`checkEntity` 的实体 id 取值，以及 `EntityParasiteBase#canAttackClass` 的 `!mobAttackingFull || !checkName(...)` 判定。`ArchitectEntity` / `DredgeEntity` / `HeedEntity` / `PureParasiteEntity` 4 处此前各自手写的黑名单比较改为统一调用。
   - **按原件保留的冗余**：原件的 `mobAttackingFull` 只在 `canAttackClass` 里生效，而各家族的目标选择谓词本身已经无条件排除黑名单（`!ParasiteEventEntity.checkEntity(...)`），所以该配置对"是否锁定黑名单怪"实际没有额外效果。本工程未"顺手修正"，保留了同一层冗余。
 - **`EntityAIVenkrolSummon` 的 mob 表**（原件 `SRPConfigMobs.venkrolmoblist` / `venkrolsiimoblist` / `venkrolsiiimoblist` / `venkrolsivmoblist`）：`MobsConfig` 新增 4 张 beckon 召唤表，逐行复刻原件默认值（含 `ground;air` 前缀、chance、capacity cost），并补 `venkrolCAMinimumV`(4) / `venkrolCAExtraM`(0.5)。`NexusParasiteEntity#summonBeckonParasites` 由硬编码 switch 改为读表：原件以 `entityY + 3 <= targetY` 选 air 表（stage 1 对该情况直接返回），否则用 ground；选怪按原件随机起点与列表顺序选取。原件虽解析配置 chance，但这条 `spawnBiomassFromBeckon` 路径不执行 chance roll。
-- **`EntityAINexusGrow` 的三个配置闸门**：`Config` 新增 `evolutionNests`(11) / `deveNestsUse`(3) / `maximumStageList`({"1;3"})，并提供 `nexusStageLock(Level)`（含 1.12.2 数字维度 id → 26.3 维度的映射）与 `legacyDimensionId(Level)`；`NexusParasiteEntity` 构造时求 `dimensionStageLock`，`evolve()` 应用原件 `dimLock >= stage+1` 的停长闸门，`trySpawnRooterSi` 应用 `evolutionNests` / `deveNestsUse` 的 nest 解锁闸门。
+- **`EntityAINexusGrow` 的三个配置闸门**：`Config` 新增 `evolutionNests`(11) / `deveNestsUse`(3) / `maximumStageList`({"1;3"})，并提供 `nexusStageLock(Level)`（含 1.12.2 数字维度 id → 26.3 维度的映射）与 `legacyDimensionId(Level)`；`NexusParasiteEntity` 构造时求 `dimensionStageLock`，`evolve()` 应用原件 `dimLock >= stage+1` 的停长闸门。`trySpawnRooterSi` 虽已接入 nest 配置，但与原件的创建阶段/发展等级比较方向及随机生成位置不同，尚待修复。
 - **gene 系统缺的 3 个开关**：`EvolutionSystem.GenerationProfile` 此前缺 `lookWalls`(2) / `waterLeap`(4) / `residue`(8)（原件 `SRPConfigSystems.generation*0..5` 共 13 项，工程只有 10 项）。现补齐三张默认表并接入：`lookWalls` → `PrimitiveParasiteEntity` 的目标感知（原件 `shouldCheckSight || !getGeneMod(2)`，因 26.3 的 `mustSee` 在构造期固定，改在逐候选谓词里判定）；`waterLeap` → `DredgeEntity` 的液体跃击；`residue` → `AdaptedVariantEntity.BlockResidueGoal`。
 
 校验：`scripts/verify-mob-attacking-and-beckon-tables.cjs`、`scripts/verify-generation-genes-and-nexus-gates.cjs`（静态校验总数 132 → **134**）；`runGameTestServer` 仍 **187 / 187 通过**，`build` 产出 `build/libs/csrp-1.10.9.jar`。
@@ -286,6 +286,14 @@ Rooter 的 `applyGene` 对普通寄生体设置六个基础开关和三个数值
 
 对照 1.10.9 `ParasiteEventEntity#getFloor`，地面扫描现在返回紧邻非空气方块上方的空气位置；从固体或水开始时向上搜索，从空气开始时向下搜索，并严格按最多检查位置数终止。这一公共修正影响第二个寄生口、Beckon 保护柱和遮蔽群系植物。GameTest 覆盖双向搜索、步数边界及第二个寄生口实际生成；26.3 的空气变种按空气处理，未加载区块仍遵循项目原有的安全读取策略。
 
+### 3.25 Dispatcher 胞囊与 Rooter 容量
+
+对照 1.10.9 `EntityAIAncientSummon` 与 `ParasiteSummon`，四级 Dispatcher 的胞囊攻击已从防御召唤中分离：目标在视线内且距离小于 50 格时预热 120 tick，锁定目标坐标与自身上方 25 格高度，随后每 20 tick 投放一枚真实古代胞囊，共四枚。目标中途丢失不取消当前轮次；胞囊 owner 类型为 0，不触发 Dreadnaut 类型 62 的载荷。三个 GameTest 覆盖攻击时序、目标丢失、随机坐标、阶段和距离边界及服务端 AI 调度。
+
+对照 `EntityPRooter` 与地面召唤路径，尚未移除的濒死 Rootmass Cyst 仍参与分伤；囊肿容量在加入世界之前预留，取消加入或囊肿移除后不回收，直到 Rooter 重载时重置。GameTest 覆盖濒死分伤、容量重载和真实 `EntityJoinLevelEvent` 取消。其他囊肿位置及生成细节仍待核实。
+
+成长审计仍发现未对齐项：阶段成长概率和三级升四级的家族限制尚未实现；Rooter 召唤的创建阶段/发展等级闸门和随机落点与原件不同；保护结构目前在每次升级时尝试生成，原件则仅在一级升二级时受配置、音效和事件条件控制。这些均不能视作已完成。
+
 ---
 
 ## 4. 因目标版本 API 缺失而改写或省略的部分
@@ -365,14 +373,14 @@ GRADLE=("$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.g
 "${GRADLE[@]}" build --console=plain
 export SRP_DECOMPILED_ROOT="D:/code/MC模组/_scratch/vf/out109"
 node scripts/run-all-verifications.cjs   # 155 passed, 1 skipped, 0 failed；基准为目标 1.10.9
-"${GRADLE[@]}" runGameTestServer         # All 209 required tests passed
+"${GRADLE[@]}" runGameTestServer         # All 214 required tests passed
 ```
 
 | 检查 | 结果 |
 | --- | --- |
 | 编译与打包 | **BUILD SUCCESSFUL**，产物 `build/libs/csrp-1.10.9.jar` |
 | 静态契约校验 | 指定 1.10.9 反编译目录后 **155 通过、1 跳过、0 失败**；跳过项缺少外部资源 `manifest.json`。默认的 1.10.8 目录缺失，7 项基线合同无法在该默认路径下运行；1.10.9 结果不能证明 1.10.8 基线通过 |
-| 运行期 GameTest | **209 / 209 通过**，含实体冒烟、NBT、Rooter 伤害转移和跨已加载区块支援、Nexus 状态减伤、Bomb 命中及世界生成地面扫描测试 |
+| 运行期 GameTest | **214 / 214 通过**，含实体冒烟、NBT、Dispatcher 胞囊攻击、Rooter 伤害转移与容量、跨已加载区块支援、Nexus 状态减伤、Bomb 命中及世界生成地面扫描测试 |
 | 服务器启动 | GameTest 服务器完整启动至测试结束，无启动崩溃 |
 | 世界生成运行期 | 225 区块实证：四类寄生群系 + 36 种寄生体方块落地，零 decoration 失败 |
 | 实体 id 对齐 | 原件 158 个 id **全部命中**（缺失 0） |

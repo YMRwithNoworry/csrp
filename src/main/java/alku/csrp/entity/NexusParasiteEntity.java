@@ -49,6 +49,7 @@ import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.level.gamerules.GameRules;
@@ -232,6 +233,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         targetSelector.addGoal(1, new HurtByTargetGoal(this).setAlertOthers());
         targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, LivingEntity.class, 10,
                 true, false, (target, level) -> isValidParasiteTarget(target)));
+        if (activeKind() == Kind.DISPATCHER_SIV) {
+            goalSelector.addGoal(4, new DispatcherPodGoal());
+        }
     }
 
     @Override
@@ -1110,11 +1114,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         }
         EntityType<? extends Mob> type = random.nextFloat() < (activeKind.stage == 1 ? 0.75F : 0.50F)
                 ? ModEntities.SEIZER.get() : ModEntities.SENTRY.get();
-        boolean spawned = spawnMob(type, target, 5.0D);
-        if (spawned && activeKind.stage == 4 && random.nextFloat() < 0.30F) {
-            spawnPodVolley(target);
-        }
-        return spawned;
+        return spawnMob(type, target, 5.0D);
     }
 
     private boolean deployStoredParasite(LivingEntity target) {
@@ -1200,25 +1200,86 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         }
     }
 
-    private void spawnPodVolley(LivingEntity target) {
-        for (int index = 0; index < 5; index++) {
-            double angle = random.nextDouble() * Math.PI * 2.0D;
-            Vec3 landing = target.position().add(Math.cos(angle) * (2.0D + random.nextDouble() * 3.0D),
-                    0.0D, Math.sin(angle) * (2.0D + random.nextDouble() * 3.0D));
-            Vec3 start = landing.add(0.0D, 8.0D + random.nextDouble() * 3.0D, 0.0D);
-            fireProjectile(ParasiteProjectileEntity.Mode.BOMB, start, landing, 0.85D, 50.0F, 2.5D, 100);
-        }
-    }
+    /** EntityAIAncientSummon on the stage-IV Dispatcher, independent of its defense summoning. */
+    private final class DispatcherPodGoal extends Goal {
+        private int attackTimer;
+        private int attackingTicks;
+        private int spawnedPods;
+        private double targetX;
+        private double targetY;
+        private double targetZ;
 
-    private void fireProjectile(ParasiteProjectileEntity.Mode mode, Vec3 start, Vec3 target,
-                                double speed, float damage, double radius, int lifetime) {
-        ParasiteProjectileEntity projectile = ModEntities.PARASITE_PROJECTILE.get()
-                .create(level(), EntitySpawnReason.MOB_SUMMONED);
-        if (projectile == null) {
-            return;
+        @Override
+        public boolean canUse() {
+            return getTarget() != null || attackingTicks >= 1;
         }
-        projectile.configure(this, mode, start, target, speed, damage, radius, lifetime);
-        level().addFreshEntity(projectile);
+
+        @Override
+        public boolean requiresUpdateEveryTick() {
+            return true;
+        }
+
+        @Override
+        public void tick() {
+            if (attackingTicks >= 1) {
+                attackingTicks++;
+                if (attackingTicks == 2) {
+                    playSound(ModSounds.get("ancient.pod"), 5.0F, 1.0F);
+                }
+                if (attackingTicks >= 40 && attackingTicks % 20 == 0 && spawnDispatcherPod()) {
+                    spawnedPods++;
+                }
+                if (spawnedPods >= 4) {
+                    attackingTicks = 0;
+                    attackTimer = 0;
+                    spawnedPods = 0;
+                }
+                return;
+            }
+
+            LivingEntity target = getTarget();
+            if (target == null || target.isRemoved()) {
+                attackTimer = 0;
+                return;
+            }
+            if (hasLineOfSight(target) && distanceToSqr(target) < 2500.0D) {
+                if (target.onGround() || random.nextBoolean()) {
+                    attackTimer++;
+                }
+                if (attackTimer >= 120) {
+                    attackingTicks = 1;
+                    targetX = target.getX();
+                    targetY = getY() + 25.0D;
+                    targetZ = target.getZ();
+                }
+            } else {
+                attackTimer = 0;
+            }
+        }
+
+        @Override
+        public void stop() {
+            attackTimer = 0;
+            spawnedPods = 0;
+        }
+
+        private boolean spawnDispatcherPod() {
+            if (!(level() instanceof ServerLevel serverLevel)) {
+                return false;
+            }
+            AncientPodEntity pod = ModEntities.ANC_POD.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+            if (pod == null) {
+                return false;
+            }
+            int xOffset = random.nextInt(10);
+            int zOffset = random.nextInt(10);
+            if (random.nextBoolean()) xOffset = -xOffset;
+            if (random.nextBoolean()) zOffset = -zOffset;
+            pod.snapTo(targetX + xOffset, targetY, targetZ + zOffset, getYRot(), getXRot());
+            pod.setOwner((byte) 0);
+            serverLevel.addFreshEntity(pod);
+            return true;
+        }
     }
 
     private AABB rooterArea(double horizontalRange, double verticalRange) {
@@ -1230,14 +1291,14 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         int range = MobsConfig.rooterCystRange(rooter.stage);
         return level().getEntitiesOfClass(NexusParasiteEntity.class,
                 rooterArea(range + 1.0D, range),
-                cyst -> cyst.isAlive() && cyst.activeKind().isRooterBall());
+                cyst -> cyst.activeKind().isRooterBall());
     }
 
     private void spawnRootmassCysts(int maximum) {
         if (!(level() instanceof ServerLevel serverLevel) || maximum <= 0) {
             return;
         }
-        summonTracker.prune(serverLevel);
+        // EntityPRooter never calls checkID; occupied slots reset when the Rooter reloads.
         int count = 1 + random.nextInt(maximum);
         for (int index = 0; index < count && getUsedSummonCapacity() < getSummonCapacity(); index++) {
             for (int attempt = 0; attempt < 2; attempt++) {
@@ -1265,9 +1326,8 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
                 }
                 cyst.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(position),
                         EntitySpawnReason.MOB_SUMMONED, null);
-                if (serverLevel.addFreshEntity(cyst)) {
-                    reserveTrackedSummon(cyst.getUUID(), 1);
-                }
+                reserveTrackedSummon(cyst.getUUID(), 1);
+                serverLevel.addFreshEntity(cyst);
                 break;
             }
         }
