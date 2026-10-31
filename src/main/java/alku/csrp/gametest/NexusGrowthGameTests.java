@@ -2,8 +2,10 @@ package alku.csrp.gametest;
 
 import alku.csrp.Config;
 import alku.csrp.Csrp;
+import alku.csrp.config.MobsConfig;
 import alku.csrp.config.RuntimeToggles;
 import alku.csrp.config.WorldConfig;
+import alku.csrp.entity.BiomassEntity;
 import alku.csrp.entity.NexusParasiteEntity;
 import alku.csrp.entity.PrimitiveParasiteEntity;
 import alku.csrp.registry.ModEntities;
@@ -18,6 +20,7 @@ import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.function.Consumer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -32,12 +35,21 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.PalettedContainer;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.TagValueOutput;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.common.ModConfigSpec;
@@ -69,6 +81,18 @@ public final class NexusGrowthGameTests {
                 new SoundAndStructureTest(data));
         event.registerTest(Identifier.fromNamespaceAndPath(Csrp.MODID, "nexus_growth/no_ai"),
                 new NoAiTest(data));
+        event.registerTest(Identifier.fromNamespaceAndPath(Csrp.MODID, "nexus_growth/phase_penalties"),
+                new PhasePenaltyTest(data));
+        event.registerTest(Identifier.fromNamespaceAndPath(Csrp.MODID, "nexus_growth/legacy_cadence"),
+                new LegacyCadenceTest(data));
+        event.registerTest(Identifier.fromNamespaceAndPath(Csrp.MODID, "nexus_growth/failure_cadence"),
+                new FailureCadenceTest(data));
+        event.registerTest(Identifier.fromNamespaceAndPath(Csrp.MODID, "nexus_growth/beckon_summon_progress"),
+                new BeckonSummonProgressTest(data));
+        event.registerTest(Identifier.fromNamespaceAndPath(Csrp.MODID, "nexus_growth/beckon_summon_types"),
+                new BeckonSummonTypesTest(data));
+        event.registerTest(Identifier.fromNamespaceAndPath(Csrp.MODID, "nexus_growth/retry_and_reload"),
+                new RetryAndReloadTest(data));
     }
 
     private static Field field(Class<?> owner, String name) {
@@ -100,6 +124,25 @@ public final class NexusGrowthGameTests {
     private static boolean stageFourUnlocked(NexusParasiteEntity entity) {
         return (boolean) invoke(entity, "stageFourUnlocked",
                 new Class<?>[] {ServerLevel.class, NexusParasiteEntity.Kind.class},
+                entity.level(), entity.getKind());
+    }
+
+    private static boolean growthPhaseAllowed(NexusParasiteEntity entity) {
+        try {
+            return field(NexusParasiteEntity.class, "growthPhaseAllowed").getBoolean(entity);
+        } catch (IllegalAccessException exception) {
+            throw new IllegalStateException(exception);
+        }
+    }
+
+    private static void checkGrowthPhase(NexusParasiteEntity entity, Random roll) {
+        invoke(entity, "checkGrowthPhase",
+                new Class<?>[] {ServerLevel.class, NexusParasiteEntity.Kind.class, Random.class},
+                entity.level(), entity.getKind(), roll);
+    }
+
+    private static void tickGrowthGoal(NexusParasiteEntity entity) {
+        invoke(entity, "tickGrowthGoal", new Class<?>[] {ServerLevel.class, NexusParasiteEntity.Kind.class},
                 entity.level(), entity.getKind());
     }
 
@@ -174,14 +217,48 @@ public final class NexusGrowthGameTests {
         }
 
         void setInt(String name, int value) {
+            setInt(Config.class, name, value);
+        }
+
+        void setInt(Class<?> owner, String name, int value) {
             try {
-                ModConfigSpec.IntValue setting = (ModConfigSpec.IntValue) field(Config.class, name).get(null);
+                ModConfigSpec.IntValue setting = (ModConfigSpec.IntValue) field(owner, name).get(null);
                 int previous = setting.get();
                 restore.add(() -> setting.set(previous));
                 setting.set(value);
             } catch (IllegalAccessException exception) {
                 throw new IllegalStateException(exception);
             }
+        }
+
+        void setGrowthPenalty(int stage, int phase, double value) {
+            try {
+                ModConfigSpec.DoubleValue[][] penalties = (ModConfigSpec.DoubleValue[][])
+                        field(Config.class, "NEXUS_GROWTH_PENALTIES").get(null);
+                ModConfigSpec.DoubleValue setting = penalties[stage - 1][phase - 1];
+                double previous = setting.get();
+                restore.add(() -> setting.set(previous));
+                setting.set(value);
+            } catch (IllegalAccessException exception) {
+                throw new IllegalStateException(exception);
+            }
+        }
+
+        @SuppressWarnings("unchecked")
+        void setStringList(Class<?> owner, String name, List<String> value) {
+            try {
+                ModConfigSpec.ConfigValue<List<? extends String>> setting =
+                        (ModConfigSpec.ConfigValue<List<? extends String>>) field(owner, name).get(null);
+                List<? extends String> previous = setting.get();
+                restore.add(() -> setting.set(previous));
+                setting.set(value);
+            } catch (IllegalAccessException exception) {
+                throw new IllegalStateException(exception);
+            }
+        }
+
+        void setStageLocks(List<String> value) {
+            setStringList(Config.class, "MAXIMUM_STAGE_LIST", value);
         }
 
         @Override
@@ -427,6 +504,13 @@ public final class NexusGrowthGameTests {
                 }
                 for (NexusParasiteEntity entity : entities) {
                     helper.assertFalse(stageFourUnlocked(entity), "parasite biome permitted stage III growth");
+                    setInt(entity, "rooterSummonCooldown", 0);
+                    setInt(entity, "growthSelectorTick", 0);
+                    int before = getInt(entity, "growthTicks");
+                    tickGrowthGoal(entity);
+                    helper.assertTrue(getInt(entity, "rooterSummonCooldown") == 20_000
+                                    && getInt(entity, "growthTicks") == before,
+                            "parasite biome did not pause growth and start the retry counter");
                 }
                 helper.succeed();
             } finally {
@@ -592,25 +676,478 @@ public final class NexusGrowthGameTests {
         }
     }
 
+    private static final class FixedRandom extends Random {
+        private final double value;
+        private int calls;
+
+        FixedRandom(double value) {
+            super(0L);
+            this.value = value;
+        }
+
+        @Override
+        public double nextDouble() {
+            calls++;
+            return value;
+        }
+    }
+
+    private static final class PhasePenaltyTest extends GrowthTest {
+        PhasePenaltyTest(TestData<Holder<TestEnvironmentDefinition<?>>> data) { super(data); }
+
+        @Override
+        public void run(GameTestHelper helper) {
+            SrpWorldData data = SrpWorldData.get(helper.getLevel());
+            int oldPhase = getInt(data, "evolutionPhase");
+            boolean oldEve = data.eveMode();
+            List<NexusParasiteEntity> entities = new ArrayList<>();
+            try (ConfigScope config = new ConfigScope()) {
+                config.setBoolean(Config.class, "USE_EVOLUTION_PHASES", true);
+                config.setStageLocks(List.of());
+                data.setEveMode(false);
+                entities.add(spawn(helper, ModEntities.BECKON_SI.get()));
+                entities.add(spawn(helper, ModEntities.DISPATCHER_SII.get()));
+                entities.add(spawn(helper, ModEntities.ROOTER_SIII.get()));
+                for (int stage = 1; stage <= 3; stage++) {
+                    NexusParasiteEntity entity = entities.get(stage - 1);
+                    for (int phase = 1; phase <= 10; phase++) {
+                        double expected = phase <= 2 ? 1.0D
+                                : phase == 3 || phase == 4 && stage >= 2 || phase == 5 && stage == 3 ? 0.95D : 0.0D;
+                        helper.assertTrue(Config.nexusGrowthPenalty(stage, phase) == (double) (float) expected,
+                                "wrong default growth penalty for stage " + stage + " phase " + phase);
+                        config.setGrowthPenalty(stage, phase, 0.5D);
+                        setInt(data, "evolutionPhase", phase);
+                        FixedRandom below = new FixedRandom(Math.nextDown(0.5D));
+                        checkGrowthPhase(entity, below);
+                        helper.assertFalse(growthPhaseAllowed(entity), "roll below penalty permitted growth");
+                        FixedRandom equal = new FixedRandom(0.5D);
+                        checkGrowthPhase(entity, equal);
+                        helper.assertTrue(growthPhaseAllowed(entity) && below.calls == 1 && equal.calls == 1,
+                                "equal penalty roll did not permit growth");
+                    }
+                    FixedRandom unused = new FixedRandom(0.5D);
+                    setInt(data, "evolutionPhase", -1);
+                    checkGrowthPhase(entity, unused);
+                    helper.assertFalse(growthPhaseAllowed(entity), "phase -1 allowed growth");
+                    setInt(data, "evolutionPhase", 0);
+                    checkGrowthPhase(entity, unused);
+                    helper.assertFalse(growthPhaseAllowed(entity), "phase 0 allowed growth");
+                    setInt(data, "evolutionPhase", -2);
+                    checkGrowthPhase(entity, unused);
+                    helper.assertFalse(growthPhaseAllowed(entity), "phase -2 unexpectedly reset the prior result");
+                    config.setBoolean(Config.class, "USE_EVOLUTION_PHASES", false);
+                    checkGrowthPhase(entity, unused);
+                    helper.assertFalse(growthPhaseAllowed(entity), "disabled phases unexpectedly reset the prior result");
+                    helper.assertTrue(unused.calls == 0, "non-rolling phase consumed a growth roll");
+                    config.setBoolean(Config.class, "USE_EVOLUTION_PHASES", true);
+                }
+                config.setStageLocks(List.of("0;2"));
+                NexusParasiteEntity locked = spawn(helper, ModEntities.BECKON_SI.get());
+                entities.add(locked);
+                setInt(data, "evolutionPhase", 6);
+                FixedRandom unused = new FixedRandom(0.5D);
+                checkGrowthPhase(locked, unused);
+                helper.assertFalse(growthPhaseAllowed(locked), "dimension lock did not stop growth");
+                helper.assertTrue(unused.calls == 0, "dimension lock consumed a growth roll");
+                helper.succeed();
+            } finally {
+                setInt(data, "evolutionPhase", oldPhase);
+                data.setEveMode(oldEve);
+                for (NexusParasiteEntity entity : entities) entity.discard();
+            }
+        }
+    }
+
+    private static final class LegacyCadenceTest extends GrowthTest {
+        LegacyCadenceTest(TestData<Holder<TestEnvironmentDefinition<?>>> data) { super(data); }
+
+        @Override
+        public void run(GameTestHelper helper) {
+            NexusParasiteEntity parent = spawn(helper, ModEntities.BECKON_SI.get());
+            NexusParasiteEntity temporary = spawn(helper, ModEntities.BECKON_SI.get());
+            boolean evolutionInitiallyEnabled = RuntimeToggles.mobEvolution();
+            if (!evolutionInitiallyEnabled) RuntimeToggles.toggleMobEvolution();
+            int[] joins = {0};
+            Consumer<EntityJoinLevelEvent> cancelReplacement = event -> {
+                if (event.getLevel() == helper.getLevel() && parent.isRemoved()
+                        && event.getEntity().getType() == ModEntities.BECKON_SII.get()) {
+                    joins[0]++;
+                    event.setCanceled(true);
+                }
+            };
+            NeoForge.EVENT_BUS.addListener(EntityJoinLevelEvent.class, cancelReplacement);
+            try (ConfigScope config = new ConfigScope()) {
+                config.setBoolean(Config.class, "USE_EVOLUTION_PHASES", false);
+                config.setBoolean(Config.class, "REINFORCEMENT_SOUNDS", false);
+                setInt(parent, "growthDelayTicks", 40);
+                for (int i = 0; i < 30; i++) parent.tick();
+                helper.assertTrue(getInt(parent, "rooterSummonCooldown") == 20, "NoAI advanced the growth goal");
+                parent.setNoAi(false);
+                for (int i = 0; i < 60; i++) parent.tick();
+                helper.assertTrue(getInt(parent, "rooterSummonCooldown") == 0
+                                && getInt(parent, "growthTicks") == 0,
+                        "inactive goal did not wait for 21 scans at three-tick intervals");
+                parent.tick();
+                helper.assertTrue(getInt(parent, "growthTicks") == 20 && !parent.isRemoved(),
+                        "first growth update did not occur on AI tick 61");
+                parent.tick();
+                helper.assertTrue(getInt(parent, "rooterSummonCooldown") == 19
+                                && getInt(parent, "growthTicks") == 20,
+                        "running goal did not perform its next-tick continuation check");
+                for (int i = 0; i < 58; i++) parent.tick();
+                helper.assertTrue(getInt(parent, "growthTicks") == 20 && !parent.isRemoved(),
+                        "goal updated before the second successful check");
+                parent.tick();
+                helper.assertTrue(getInt(parent, "growthTicks") == 40 && !parent.isRemoved(),
+                        "growth at exactly neededTime should not evolve");
+                for (int i = 0; i < 60; i++) parent.tick();
+                helper.assertTrue(parent.isRemoved() && joins[0] == 1,
+                        "growth beyond neededTime did not attempt exactly one replacement");
+                try {
+                    field(NexusParasiteEntity.class, "canGrow").setBoolean(temporary, false);
+                } catch (IllegalAccessException exception) {
+                    throw new IllegalStateException(exception);
+                }
+                for (int i = 0; i < 61; i++) tickGrowthGoal(temporary);
+                helper.assertTrue(getInt(temporary, "growthTicks") == 0
+                                && getInt(temporary, "rooterSummonCooldown") == 20,
+                        "disabled growth incorrectly disabled its shared goal checks");
+                helper.succeed();
+            } finally {
+                NeoForge.EVENT_BUS.unregister(cancelReplacement);
+                if (!evolutionInitiallyEnabled) RuntimeToggles.toggleMobEvolution();
+                parent.discard();
+                temporary.discard();
+            }
+        }
+    }
+
+    private static final class FailureCadenceTest extends GrowthTest {
+        FailureCadenceTest(TestData<Holder<TestEnvironmentDefinition<?>>> data) { super(data); }
+
+        @Override
+        public void run(GameTestHelper helper) {
+            SrpWorldData data = SrpWorldData.get(helper.getLevel());
+            int oldPhase = getInt(data, "evolutionPhase");
+            boolean oldEve = data.eveMode();
+            NexusParasiteEntity entity = spawn(helper, ModEntities.ROOTER_SI.get());
+            try (ConfigScope config = new ConfigScope()) {
+                config.setBoolean(Config.class, "USE_EVOLUTION_PHASES", true);
+                config.setGrowthPenalty(1, 1, 1.0D);
+                config.setGrowthPenalty(1, 6, 0.0D);
+                data.setEveMode(false);
+                setInt(data, "evolutionPhase", 1);
+                for (int i = 0; i < 61; i++) tickGrowthGoal(entity);
+                helper.assertTrue(getInt(entity, "rooterSummonCooldown") == 20
+                                && getInt(entity, "growthTicks") == 0 && !growthPhaseAllowed(entity),
+                        "failed probability check started growth");
+                for (int i = 0; i < 62; i++) tickGrowthGoal(entity);
+                helper.assertTrue(getInt(entity, "rooterSummonCooldown") == 0
+                                && getInt(entity, "growthTicks") == 0,
+                        "failed check did not wait 63 AI ticks for another roll");
+                tickGrowthGoal(entity);
+                helper.assertTrue(getInt(entity, "rooterSummonCooldown") == 20
+                                && getInt(entity, "growthTicks") == 0,
+                        "second failed roll did not reset the shared counter");
+                setInt(data, "evolutionPhase", 6);
+                for (int i = 0; i < 63; i++) tickGrowthGoal(entity);
+                helper.assertTrue(getInt(entity, "growthTicks") == 20 && growthPhaseAllowed(entity),
+                        "next allowed phase did not resume growth on the next scheduled check");
+                helper.succeed();
+            } finally {
+                setInt(data, "evolutionPhase", oldPhase);
+                data.setEveMode(oldEve);
+                entity.discard();
+            }
+        }
+    }
+
+    private static final class BeckonSummonProgressTest extends GrowthTest {
+        BeckonSummonProgressTest(TestData<Holder<TestEnvironmentDefinition<?>>> data) { super(data); }
+
+        @Override
+        public void run(GameTestHelper helper) {
+            List<NexusParasiteEntity> entities = new ArrayList<>();
+            Mob target = helper.spawn(EntityTypes.PIG, new BlockPos(6, 200, 0));
+            target.setNoAi(true);
+            target.setNoGravity(true);
+            int[] canceled = {0};
+            Consumer<EntityJoinLevelEvent> cancelBiomass = event -> {
+                if (event.getLevel() == helper.getLevel() && event.getEntity().getType() == ModEntities.BIOMASS.get()) {
+                    canceled[0]++;
+                    event.setCanceled(true);
+                }
+            };
+            NeoForge.EVENT_BUS.addListener(EntityJoinLevelEvent.class, cancelBiomass);
+            try (ConfigScope config = new ConfigScope()) {
+                config.setInt(WorldConfig.class, "WORLD_MOB_CAP", 50_000);
+                for (var type : List.of(ModEntities.BECKON_SI.get(), ModEntities.BECKON_SII.get(),
+                        ModEntities.BECKON_SIII.get())) {
+                    NexusParasiteEntity entity = spawn(helper, type);
+                    entities.add(entity);
+                    entity.setTarget(target);
+                    setInt(entity, "beckonAttackTimer", 19);
+                    int before = canceled[0];
+                    invoke(entity, "tickBeckonSummoning", new Class<?>[] {NexusParasiteEntity.Kind.class}, entity.getKind());
+                    helper.assertTrue(canceled[0] == before + 1 && getInt(entity, "growthTicks") == 20
+                                    && getInt(entity, "beckonBatchCount") == 1
+                                    && entity.getUsedSummonCapacity() > 0,
+                            "canceled ordinary Biomass did not reserve capacity and advance growth: "
+                                    + entity.getKind() + ", canceled=" + (canceled[0] - before)
+                                    + ", growth=" + getInt(entity, "growthTicks")
+                                    + ", batch=" + getInt(entity, "beckonBatchCount")
+                                    + ", used=" + entity.getUsedSummonCapacity()
+                                    + ", capacity=" + entity.getSummonCapacity()
+                                    + ", timer=" + getInt(entity, "beckonAttackTimer")
+                                    + ", sight=" + entity.hasLineOfSight(target));
+                }
+                NexusParasiteEntity first = entities.get(0);
+                int maximumBatch = MobsConfig.beckonBatchLimit(1);
+                setInt(first, "beckonBatchCount", maximumBatch);
+                setInt(first, "beckonAttackTimer", maximumBatch * 20 + 19);
+                try {
+                    field(NexusParasiteEntity.class, "beckonGroupActive").setBoolean(first, true);
+                    field(NexusParasiteEntity.class, "beckonExtraBudget").setDouble(first, 1.0D);
+                } catch (IllegalAccessException exception) {
+                    throw new IllegalStateException(exception);
+                }
+                int beforeExtra = canceled[0];
+                invoke(first, "tickBeckonSummoning", new Class<?>[] {NexusParasiteEntity.Kind.class}, first.getKind());
+                helper.assertTrue(canceled[0] == beforeExtra + 1 && getInt(first, "growthTicks") == 20,
+                        "extra group summon incorrectly advanced growth");
+                NexusParasiteEntity temporary = spawn(helper, ModEntities.BECKON_SI.get());
+                entities.add(temporary);
+                temporary.setTarget(target);
+                setInt(temporary, "beckonAttackTimer", 19);
+                try {
+                    field(NexusParasiteEntity.class, "canGrow").setBoolean(temporary, false);
+                } catch (IllegalAccessException exception) {
+                    throw new IllegalStateException(exception);
+                }
+                int beforeTemporary = canceled[0];
+                invoke(temporary, "tickBeckonSummoning", new Class<?>[] {NexusParasiteEntity.Kind.class}, temporary.getKind());
+                helper.assertTrue(canceled[0] == beforeTemporary + 1 && getInt(temporary, "growthTicks") == 0,
+                        "temporary Beckon incorrectly gained growth from an ordinary summon");
+                NexusParasiteEntity airborne = spawn(helper, ModEntities.BECKON_SI.get());
+                entities.add(airborne);
+                target.setPos(target.getX(), airborne.getY() + 4.0D, target.getZ());
+                airborne.setTarget(target);
+                setInt(airborne, "beckonAttackTimer", 19);
+                int beforeAir = canceled[0];
+                invoke(airborne, "tickBeckonSummoning", new Class<?>[] {NexusParasiteEntity.Kind.class}, airborne.getKind());
+                helper.assertTrue(canceled[0] == beforeAir && getInt(airborne, "growthTicks") == 0,
+                        "failed stage-I airborne summon advanced growth");
+                helper.succeed();
+            } finally {
+                NeoForge.EVENT_BUS.unregister(cancelBiomass);
+                target.discard();
+                for (NexusParasiteEntity entity : entities) entity.discard();
+            }
+        }
+    }
+
+    private static final class BeckonSummonTypesTest extends GrowthTest {
+        BeckonSummonTypesTest(TestData<Holder<TestEnvironmentDefinition<?>>> data) { super(data); }
+
+        @Override
+        public void run(GameTestHelper helper) {
+            ServerLevel level = helper.getLevel();
+            NexusParasiteEntity fourth = spawn(helper, ModEntities.BECKON_SIV.get());
+            NexusParasiteEntity first = spawn(helper, ModEntities.BECKON_SI.get());
+            Mob target = helper.spawn(EntityTypes.PIG, new BlockPos(6, 200, 0));
+            target.setNoAi(true);
+            target.setNoGravity(true);
+            BlockPos ground = target.blockPosition().below();
+            BlockState previousGround = level.getBlockState(ground);
+            List<Entity> joined = new ArrayList<>();
+            Consumer<EntityJoinLevelEvent> capture = event -> {
+                if (event.getLevel() == level && (event.getEntity() instanceof BiomassEntity
+                        || event.getEntity().getType() == ModEntities.BECKON_SI.get())) {
+                    joined.add(event.getEntity());
+                }
+            };
+            NeoForge.EVENT_BUS.addListener(EntityJoinLevelEvent.class, capture);
+            try (ConfigScope config = new ConfigScope()) {
+                config.setInt(WorldConfig.class, "WORLD_MOB_CAP", 50_000);
+                config.setStringList(MobsConfig.class, "BECKON_STAGE2_MOBS", List.of(
+                        "ground;srparasites:rupter;1;1", "air;csrp:carrier_flying;1;3",
+                        "ground;minecraft:item;1;1", "ground;csrp:missing_test_entity;1;1"));
+                List<BiomassEntity.SummonOption> groundOptions = MobsConfig.beckonSummonMobs(2, false);
+                List<BiomassEntity.SummonOption> airOptions = MobsConfig.beckonSummonMobs(2, true);
+                helper.assertTrue(groundOptions.size() == 4 && groundOptions.get(0).type() == ModEntities.RUPTER.get()
+                                && groundOptions.get(1).type() == EntityTypes.ITEM && groundOptions.get(2) == null
+                                && airOptions.size() == 4 && airOptions.get(0).type() == ModEntities.CARRIER_FLYING.get()
+                                && airOptions.get(1) == null,
+                        "Beckon table lost registered types, legacy namespace, or ground/air slots");
+
+                level.setBlock(ground, Blocks.STONE.defaultBlockState(), 3);
+                config.setStringList(MobsConfig.class, "BECKON_STAGE4_MOBS",
+                        List.of("ground;srparasites:beckon_si;1;1"));
+                boolean spawned = (boolean) invoke(fourth, "summonStageFour",
+                        new Class<?>[] {ServerLevel.class, net.minecraft.world.entity.LivingEntity.class,
+                                net.minecraft.world.entity.LivingEntity.class, int.class},
+                        level, target, target, 1);
+                helper.assertTrue(spawned && joined.size() == 1 && joined.get(0).getType() == ModEntities.BECKON_SI.get()
+                                && fourth.getUsedSummonCapacity() == 1,
+                        "stage-IV Beckon could not summon a configured mob");
+
+                config.setStringList(MobsConfig.class, "BECKON_STAGE4_MOBS",
+                        List.of("ground;minecraft:item;1;1"));
+                boolean invalid = (boolean) invoke(fourth, "summonStageFour",
+                        new Class<?>[] {ServerLevel.class, net.minecraft.world.entity.LivingEntity.class,
+                                net.minecraft.world.entity.LivingEntity.class, int.class},
+                        level, target, target, 1);
+                helper.assertTrue(!invalid && fourth.getUsedSummonCapacity() == 1,
+                        "stage-IV Beckon accepted a non-mob entity");
+
+                boolean biomassSpawned = BiomassEntity.spawnFromBeckon(first, target, 1,
+                        List.of(new BiomassEntity.SummonOption(EntityTypes.ITEM, 1.0D, 1)));
+                helper.assertTrue(biomassSpawned && joined.size() == 2 && joined.get(1) instanceof BiomassEntity
+                                && first.getUsedSummonCapacity() == 1,
+                        "configured Biomass did not reserve its payload capacity");
+                BiomassEntity biomass = (BiomassEntity) joined.get(1);
+                try {
+                    Method hatch = BiomassEntity.class.getDeclaredMethod("hatch", ServerLevel.class);
+                    hatch.setAccessible(true);
+                    hatch.invoke(biomass, level);
+                } catch (ReflectiveOperationException exception) {
+                    throw new IllegalStateException(exception);
+                }
+                helper.assertTrue(biomass.isRemoved() && first.getUsedSummonCapacity() == 0,
+                        "invalid Biomass payload did not release capacity when hatching");
+                helper.succeed();
+            } finally {
+                NeoForge.EVENT_BUS.unregister(capture);
+                level.setBlock(ground, previousGround, 3);
+                fourth.discard();
+                first.discard();
+                target.discard();
+                for (Entity entity : joined) entity.discard();
+            }
+        }
+    }
+
+    private static final class RetryAndReloadTest extends GrowthTest {
+        RetryAndReloadTest(TestData<Holder<TestEnvironmentDefinition<?>>> data) { super(data); }
+
+        @Override
+        public void run(GameTestHelper helper) {
+            ServerLevel level = helper.getLevel();
+            SrpWorldData data = SrpWorldData.get(level);
+            SrpWorldData global = SrpWorldData.get(level.getServer().overworld());
+            int oldPhase = getInt(data, "evolutionPhase");
+            int oldDevelopment = getInt(global, "ubiquitousDevelopment");
+            boolean oldEve = global.eveMode();
+            boolean evolutionInitiallyEnabled = RuntimeToggles.mobEvolution();
+            if (!evolutionInitiallyEnabled) RuntimeToggles.toggleMobEvolution();
+            List<NexusParasiteEntity> entities = new ArrayList<>();
+            NexusParasiteEntity loaded = null;
+            try (ConfigScope config = new ConfigScope()) {
+                config.setBoolean(Config.class, "USE_EVOLUTION_PHASES", true);
+                config.setInt("EVOLUTION_NODE_UNLOCK", 11);
+                config.setInt("EVOLUTION_COLONY_UNLOCK", 11);
+                config.setInt("EVOLUTION_HIVES", 11);
+                config.setInt("DEVE_NODES_USE", 4);
+                config.setInt("DEVE_COLONIES_USE", 4);
+                config.setInt("DEVE_HIVES_USE", 4);
+                config.setInt("EVOLUTION_NESTS", -1);
+                config.setInt("DEVE_NESTS_USE", 0);
+                global.setEveMode(false);
+                global.setUbiquitousDevelopment(0);
+                setInt(data, "evolutionPhase", 10);
+                entities.add(spawn(helper, ModEntities.BECKON_SIII.get()));
+                entities.add(spawn(helper, ModEntities.DISPATCHER_SIII.get()));
+                entities.add(spawn(helper, ModEntities.ROOTER_SIII.get()));
+                for (NexusParasiteEntity entity : entities) {
+                    setInt(entity, "creationEvolutionPhase", 10);
+                    setInt(entity, "creationDevelopmentLevel", 1);
+                    setInt(entity, "growthDelayTicks", 20);
+                    setInt(entity, "growthTicks", 20);
+                    setInt(entity, "rooterSummonCooldown", 0);
+                    tickGrowthGoal(entity);
+                    helper.assertTrue(getInt(entity, "growthTicks") == 40
+                                    && getInt(entity, "rooterSummonCooldown") == 20_000,
+                            "locked stage IV did not start the shared retry counter");
+                    tickGrowthGoal(entity);
+                    helper.assertTrue(getInt(entity, "rooterSummonCooldown") == 19_999,
+                            "running goal did not decrement the retry counter once");
+                    for (int i = 0; i < 3; i++) tickGrowthGoal(entity);
+                    helper.assertTrue(getInt(entity, "rooterSummonCooldown") == 19_998,
+                            "inactive retry counter did not follow the three-tick scan");
+                    setInt(entity, "rooterSummonCooldown", 1);
+                    setInt(entity, "growthSelectorTick", 0);
+                    tickGrowthGoal(entity);
+                    helper.assertTrue(getInt(entity, "rooterSummonCooldown") == 0,
+                            "retry fired at zero instead of below zero");
+                    for (int i = 0; i < 3; i++) tickGrowthGoal(entity);
+                    helper.assertTrue(getInt(entity, "rooterSummonCooldown") == 20_000
+                                    && getInt(entity, "growthTicks") == 60,
+                            "failed stage-IV retry did not restart its wait");
+                }
+                NexusParasiteEntity source = entities.get(0);
+                TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, source.registryAccess());
+                source.saveWithoutId(output);
+                loaded = ModEntities.BECKON_SIII.get().create(level, EntitySpawnReason.STRUCTURE);
+                helper.assertTrue(loaded != null, "could not create a reloaded Nexus");
+                loaded.load(TagValueInput.create(ProblemReporter.DISCARDING, loaded.registryAccess(), output.buildResult()));
+                helper.assertTrue(getInt(loaded, "growthTicks") == 60 && getInt(loaded, "growthDelayTicks") == 20,
+                        "growth progress did not survive reload");
+                helper.assertTrue(getInt(loaded, "rooterSummonCooldown") == 20
+                                && getInt(loaded, "growthSelectorTick") == 0 && growthPhaseAllowed(loaded),
+                        "transient growth-goal state did not reset on reload");
+                NexusParasiteEntity disabled = spawn(helper, ModEntities.ROOTER_SIII.get());
+                entities.add(disabled);
+                setInt(disabled, "growthDelayTicks", 20);
+                setInt(disabled, "growthTicks", 20);
+                setInt(disabled, "rooterSummonCooldown", 0);
+                RuntimeToggles.toggleMobEvolution();
+                try {
+                    tickGrowthGoal(disabled);
+                    helper.assertTrue(!disabled.isRemoved() && getInt(disabled, "growthTicks") == 40
+                                    && getInt(disabled, "rooterSummonCooldown") == 20,
+                            "disabled evolution incorrectly applied the stage-IV failure wait");
+                } finally {
+                    RuntimeToggles.toggleMobEvolution();
+                }
+                helper.succeed();
+            } finally {
+                if (!evolutionInitiallyEnabled) RuntimeToggles.toggleMobEvolution();
+                setInt(data, "evolutionPhase", oldPhase);
+                global.setUbiquitousDevelopment(oldDevelopment);
+                global.setEveMode(oldEve);
+                if (loaded != null) loaded.discard();
+                for (NexusParasiteEntity entity : entities) entity.discard();
+            }
+        }
+    }
+
     private static final class NoAiTest extends GrowthTest {
         NoAiTest(TestData<Holder<TestEnvironmentDefinition<?>>> data) { super(data); }
 
         @Override
         public void run(GameTestHelper helper) {
             NexusParasiteEntity entity = spawn(helper, ModEntities.BECKON_SI.get());
+            Mob target = helper.spawn(EntityTypes.PIG, new BlockPos(6, 200, 0));
+            target.setNoAi(true);
+            target.setNoGravity(true);
+            entity.setTarget(target);
             SrpWorldData data = SrpWorldData.get(helper.getLevel());
             int oldPhase = getInt(data, "evolutionPhase");
             try {
                 setInt(data, "evolutionPhase", 10);
                 setInt(entity, "growthDelayTicks", 1);
+                setInt(entity, "beckonAttackTimer", 19);
                 int before = getInt(entity, "growthTicks");
                 for (int i = 0; i < 24; i++) entity.tick();
                 helper.assertTrue(getInt(entity, "growthTicks") == before && !entity.isRemoved(),
                         "NoAI Nexus accumulated growth or evolved");
+                helper.assertTrue(getInt(entity, "beckonAttackTimer") == 19 && entity.getUsedSummonCapacity() == 0,
+                        "NoAI Beckon advanced its summon timer or reserved capacity");
                 helper.succeed();
             } finally {
                 setInt(data, "evolutionPhase", oldPhase);
                 entity.discard();
+                target.discard();
             }
         }
     }

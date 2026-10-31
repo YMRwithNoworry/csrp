@@ -199,9 +199,7 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
                 if (parent.isOnFire()) {
                     biomass.igniteForSeconds(8.0F);
                 }
-                if (!level.addFreshEntity(biomass)) {
-                    return false;
-                }
+                level.addFreshEntity(biomass);
                 parent.reserveTrackedSummon(biomass.getUUID(), cost);
                 return true;
             }
@@ -248,7 +246,7 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
         return true;
     }
 
-    private void configure(Mob parent, EntityType<? extends Mob> spawnType, int cost, int skin,
+    private void configure(Mob parent, EntityType<?> spawnType, int cost, int skin,
                            LivingEntity target) {
         entityData.set(PARENT, Optional.of(EntityReference.<LivingEntity>of(parent.getUUID())));
         entityData.set(TARGET, target == null
@@ -530,6 +528,6 @@ public final class BiomassEntity extends Monster implements CitadelAnimatedEntit
         return animationCache;
     }
 
-    public record SummonOption(EntityType<? extends Mob> type, double chance, int cost) {
+    public record SummonOption(EntityType<?> type, double chance, int cost) {
     }
 }

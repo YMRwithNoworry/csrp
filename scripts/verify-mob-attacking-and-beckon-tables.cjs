@@ -97,7 +97,13 @@ if (!beckonParser) {
             "entries no longer fill a compact per-side prefix while preserving original null-slot distribution");
     reject(beckonParser[1], /options\.add\(/,
             "Beckon table parser compacts entries and changes original random-index distribution");
+    reject(beckonParser[1], /getBaseClass\(\)|asMobType\(/,
+            "EntityType.getBaseClass cannot identify mobs in Minecraft 26.3");
+    expect(beckonParser[1], /id\.getNamespace\(\)\.equals\("srparasites"\)/,
+            "original srparasites summon IDs are not translated to the migrated namespace");
 }
+expect(nexus, /Entity created = option\.type\(\)\.create\(serverLevel,[\s\S]*?if \(!\(created instanceof Mob spawned\)\)/,
+        "stage-IV Beckon must check the instantiated entity before treating it as a mob");
 
 // The summon site must consume the configured table instead of a hard-coded switch, and must
 // pick the air table when the target is at least three blocks above the beckon

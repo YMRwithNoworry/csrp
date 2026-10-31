@@ -142,8 +142,14 @@ expect(nexus, /case BECKON -> Config\.deveNodesUse\(\);[\s\S]*?case DISPATCHER -
   "stage-IV family-specific development thresholds are missing");
 expect(nexus, /WorldConfig\.nodesActivated\(\)[\s\S]*?WorldConfig\.biomeRegistered\(\)[\s\S]*?nearestHeartAge\(blockPosition\(\)\)[\s\S]*?nearestColonyInEffectRange\(blockPosition\(\)\)/,
   "stage-IV node or colony location restrictions are missing");
-expect(nexus, /!isNoAi\(\) && canGrow && activeKind\.supportsOrdinaryGrowth\(\)/,
-  "NoAI Nexus entities must not advance ordinary growth");
+expect(nexus, /protected void customServerAiStep\(ServerLevel serverLevel\)[\s\S]*?activeKind\.supportsOrdinaryGrowth\(\)[\s\S]*?tickGrowthGoal\(serverLevel, activeKind\)/,
+  "Nexus growth must run from the effective server AI step, not the unconditional entity tick");
+expect(nexus, /activeKind\.stage == 3 && ParasiteBiomeDecorator\.parasiteBiomeIndex\(level\.getBiome\(blockPosition\(\)\)\) != 0\) \{\s*rooterSummonCooldown = NEXUS_GROWTH_RETRY_CHECKS;/,
+  "stage-III parasite biomes must stop growth and reset the shared retry counter");
+expect(nexus, /RuntimeToggles\.mobEvolution\(\) && activeKind\.stage == 3 && !stageFourUnlocked\(level, activeKind\)\) \{\s*rooterSummonCooldown = NEXUS_GROWTH_RETRY_CHECKS;/,
+  "stage-IV gate failures must reset the shared retry counter only when evolution is enabled");
+expect(nexus, /NEXUS_GROWTH_RETRY_CHECKS = 20_000/,
+  "the original 20000-check retry value is missing");
 
 if (failures.length) {
   console.error(`verify-entity-assimilation-gate: ${failures.length} failure(s)`);

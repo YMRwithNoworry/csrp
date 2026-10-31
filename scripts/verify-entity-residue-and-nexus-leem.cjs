@@ -52,9 +52,8 @@ expect(adapted, /getTarget\(\) == null && !isInWater\(\)/, "the residue goal con
 // ---------------------------------------------------------------------------
 // 2. EntityAINexusGrow.spawnLeem (out109 entity/ai/EntityAINexusGrow.java:69-98)
 //
-// The counter resets at 20 and fires below zero. Stage II/III Beckons and Dispatchers
-// use the captured creation progress, a 2% roll, configurable Rooter cap/distance,
-// and up to two 12..20 block SummonM candidates.
+// Growth and Rooter checks share EntityAINexusGrow's counter. Inactive 1.12 goals
+// are evaluated every third AI tick; running goals check continuation every tick.
 // ---------------------------------------------------------------------------
 const nexus = read("src/main/java/alku/csrp/entity/NexusParasiteEntity.java");
 const config = read("src/main/java/alku/csrp/Config.java");
@@ -65,10 +64,12 @@ expect(config, /\.define\("rsSounds", true\)/, "the original reinforcement sound
 expect(nexus, /private static final double NEXUS_ROOTER_CHANCE = 0\.02D;/, "the 2% Rooter roll is missing");
 expect(nexus, /private static final int NEXUS_ROOTER_INTERVAL = 20;/, "the Rooter counter reset is missing");
 expect(nexus, /private void trySpawnRooterSi\(ServerLevel serverLevel\)/, "trySpawnRooterSi is missing");
-expect(nexus, /!isNoAi\(\) && \(activeKind\.family == Family\.BECKON \|\| activeKind\.family == Family\.DISPATCHER\)/,
-  "the Rooter summon is not restricted to active Dispatcher and Beckon AI");
-expect(nexus, /activeKind\.stage == 2 \|\| activeKind\.stage == 3/,
-  "the Rooter summon is not restricted to stage 2 and 3");
+expect(nexus, /protected void customServerAiStep\(ServerLevel serverLevel\)[\s\S]*?activeKind\.supportsOrdinaryGrowth\(\)[\s\S]*?tickGrowthGoal\(serverLevel, activeKind\)/,
+  "the shared growth/Rooter goal is not driven by the server's effective AI step");
+expect(nexus, /growthSelectorTick == 0[\s\S]*?growthSelectorTick = \(growthSelectorTick \+ 1\) % 3[\s\S]*?if \(growthGoalRunning\)[\s\S]*?else if \(scanGoals\)/,
+  "the legacy three-tick inactive and per-tick running goal schedule is missing");
+expect(nexus, /roll\.nextDouble\(\) >= NEXUS_ROOTER_CHANCE[\s\S]*?activeKind\.stage != 2 && activeKind\.stage != 3[\s\S]*?activeKind\.family != Family\.BECKON && activeKind\.family != Family\.DISPATCHER/,
+  "the Rooter roll must precede the stage-II/III Beckon/Dispatcher filter");
 expect(nexus, /--rooterSummonCooldown < 0/, "the summon counter does not fire below zero");
 expect(nexus, /\+\+rooterCount > Config\.nexusRooterCap\(\)/,
   "the strict Rooter cap rule is missing");

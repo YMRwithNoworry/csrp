@@ -1,5 +1,6 @@
 package alku.csrp.config;
 
+import alku.csrp.Csrp;
 import alku.csrp.entity.AdaptedVariantEntity;
 import alku.csrp.entity.AncientParasiteEntity;
 import alku.csrp.entity.ArchitectEntity;
@@ -1296,15 +1297,16 @@ public final class MobsConfig {
             if (id == null) {
                 continue;
             }
-            net.minecraft.world.entity.EntityType<?> rawType =
+            if (id.getNamespace().equals("srparasites")) {
+                id = net.minecraft.resources.Identifier.fromNamespaceAndPath(Csrp.MODID, id.getPath());
+            }
+            net.minecraft.world.entity.EntityType<?> type =
                     net.minecraft.core.registries.BuiltInRegistries.ENTITY_TYPE.getOptional(id).orElse(null);
-            net.minecraft.world.entity.EntityType<? extends net.minecraft.world.entity.Mob> mobType =
-                    asMobType(rawType);
-            if (mobType == null) {
+            if (type == null) {
                 continue;
             }
             try {
-                options.set(optionIndex, new alku.csrp.entity.BiomassEntity.SummonOption(mobType,
+                options.set(optionIndex, new alku.csrp.entity.BiomassEntity.SummonOption(type,
                         Double.parseDouble(parts[2].trim()), Integer.parseInt(parts[3].trim())));
             } catch (NumberFormatException ignored) {
                 // Matches the original parser's null-slot behavior for malformed values.
@@ -1365,17 +1367,6 @@ public final class MobsConfig {
             case 3 -> BECKON_STAGE3_GROUP_EXTRA.get();
             default -> BECKON_STAGE4_GROUP_EXTRA.get();
         };
-    }
-
-    private static net.minecraft.world.entity.EntityType<? extends net.minecraft.world.entity.Mob> asMobType(
-            net.minecraft.world.entity.EntityType<?> type) {
-        if (type == null) {
-            return null;
-        }
-        // The original beckon tables were free-form strings resolved at spawn time; anything that is not a
-        // living mob was simply skipped there too, so this guard preserves that behaviour.
-        return net.minecraft.world.entity.Mob.class.isAssignableFrom(type.getBaseClass())
-                ? (net.minecraft.world.entity.EntityType<? extends net.minecraft.world.entity.Mob>) type : null;
     }
 
     public static double vigilanteHealth() {

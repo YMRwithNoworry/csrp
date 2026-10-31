@@ -68,7 +68,17 @@ expect(config, /public static int legacyDimensionId\(Level level\)/,
 expect(config, /if \(level\.dimension\(\) == Level\.END\) \{\s*return 1;/s,
         "legacy dimension id 1 (End) is no longer mapped");
 expect(nexus, /dimensionStageLock >= activeKind\.stage \+ 1/,
-        "the dimension stage lock is no longer applied in evolve()");
+        "the dimension stage lock is no longer applied during growth phase checks");
+expect(config, /NEXUS_GROWTH_PENALTIES = nexusGrowthPenalties\(\)/,
+        "the phase/stage Nexus growth penalty config table is missing");
+expect(config, /String\[\] phases = \{"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"\}/,
+        "the ten evolution-phase growth penalty names are missing");
+expect(config, /String\[\] stages = \{"I", "II", "III"\}/,
+        "the three Nexus growth stages are missing from the config table");
+expect(config, /phase < 2 \? 1\.0D\s*:\s*phase == 2 \|\| phase == 3 && stage >= 1 \|\| phase == 4 && stage == 2 \? 0\.95D : 0\.0D/,
+        "the 30 original Nexus growth penalty defaults are missing");
+expect(nexus, /roll\.nextDouble\(\) < Config\.nexusGrowthPenalty\(activeKind\.stage, phase\)/,
+        "growth phase checks do not use the configurable strict probability threshold");
 expect(nexus, /Config\.evolutionNests\(\) < creationEvolutionPhase\s*&& Config\.deveNestsUse\(\) < creationDevelopmentLevel/,
         "the original creation-phase/development OR gate or its comparison direction is missing");
 expect(nexus, /!creationProgressCaptured[\s\S]*?SrpWorldData\.get\(serverLevel\)\.evolutionPhase\(\)[\s\S]*?EvolutionSystem\.ubiquitousDevelopment\(serverLevel\.getServer\(\)\)/,

@@ -95,6 +95,7 @@ public final class Config {
     private static final ModConfigSpec.BooleanValue GENERATION_ENABLED = BUILDER
             .comment("Use parasite generations. When disabled, parasites retain their full gene abilities.")
             .define("generationEnabled", true);
+    private static final ModConfigSpec.DoubleValue[][] NEXUS_GROWTH_PENALTIES = nexusGrowthPenalties();
     // Original SRPConfigSystems.evolutionNests / deveNestsUse / maximumStageList (EntityAINexusGrow).
     private static final ModConfigSpec.IntValue EVOLUTION_NESTS = BUILDER
             .comment("Original 'Phase Nest Unlock'; spawnLeem compares this against the captured creation phase.")
@@ -686,6 +687,30 @@ public final class Config {
     static final ModConfigSpec SPEC = BUILDER.build();
 
     private Config() {
+    }
+
+    private static ModConfigSpec.DoubleValue[][] nexusGrowthPenalties() {
+        String[] phases = {"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"};
+        String[] stages = {"I", "II", "III"};
+        ModConfigSpec.DoubleValue[][] penalties = new ModConfigSpec.DoubleValue[3][10];
+        for (int stage = 0; stage < stages.length; stage++) {
+            for (int phase = 0; phase < phases.length; phase++) {
+                double defaultValue = phase < 2 ? 1.0D
+                        : phase == 2 || phase == 3 && stage >= 1 || phase == 4 && stage == 2 ? 0.95D : 0.0D;
+                String name = "beckonStage" + stages[stage] + "GrowPenalty" + phases[phase];
+                penalties[stage][phase] = BUILDER.comment("Chance this Nexus growth check fails.")
+                        .defineInRange(name, defaultValue, 0.0D, 1.0D);
+            }
+        }
+        return penalties;
+    }
+
+    public static double nexusGrowthPenalty(int stage, int phase) {
+        if (stage < 1 || stage > 3 || phase < 1 || phase > 10) {
+            throw new IllegalArgumentException("Invalid Nexus growth stage or evolution phase");
+        }
+        // The original Forge config reads these values through getFloat before storing them as doubles.
+        return NEXUS_GROWTH_PENALTIES[stage - 1][phase - 1].get().floatValue();
     }
 
     private static ModConfigSpec.ConfigValue<List<? extends Integer>> dislodgmentTriggers(

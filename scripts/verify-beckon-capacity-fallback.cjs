@@ -32,12 +32,16 @@ expect(config, /defineInRange\("worldBeckonSpawnsCap", 20, 0, 50000\)/,
 expect(config, /beckonSummonLimit\(ServerLevel level\)[\s\S]*?WORLD_MOB_CAP\.get\(\) \+ level\.players\(\)\.size\(\) \* WORLD_MOB_CAP_PLUS_PLAYER\.get\(\)[\s\S]*?\+ WORLD_BECKON_SPAWNS_CAP\.get\(\)/,
         "modern Beckon cap does not use the original formula");
 
+expect(nexus, /if \(activeKind\.family == Family\.BECKON\) \{\s*if \(!isNoAi\(\)\) \{\s*tickBeckonSummoning\(activeKind\);/,
+        "NoAI Beckons must not run their summon AI");
 const tick = nexus.match(/private void tickBeckonSummoning\(Kind activeKind\) \{([\s\S]*?)\n    private boolean summonBeckonPulse/);
 if (!tick) {
     failures.push("Beckon pulse scheduler is missing");
 } else {
     expect(tick[1], /beckonBatchCount < maximumBatch[\s\S]*?getUsedSummonCapacity\(\) < getSummonCapacity\(\)[\s\S]*?summonBeckonPulse\(activeKind, target, false\)/,
             "ordinary Beckon pulses no longer respect the parent's summon-point capacity");
+    expect(tick[1], /summonBeckonPulse\(activeKind, target, false\)\) \{\s*beckonBatchCount\+\+;\s*if \(activeKind\.stage < 4 && canGrow\) \{\s*growthTicks \+= LEGACY_GROWTH_UNIT;/,
+            "ordinary stage-I/III Beckon Biomass summons do not advance growth");
     expect(tick[1], /LivingEntity target = getTarget\(\);[\s\S]*?if \(target == null\) \{[\s\S]*?\}\s*if \(beckonLocked\) \{[\s\S]*?--beckonAttackTimer/,
             "Beckon lock timeout stops advancing while its target is absent");
     if (/getEntitiesOfClass|nearbyParasiteCount/.test(tick[1])) {
@@ -51,6 +55,8 @@ if (!beckon) {
 } else {
     expect(beckon[1], /parent\.hasBeckonWorldCapacity\(level\)[\s\S]*?level\.addFreshEntity\(biomass\)[\s\S]*?parent\.reserveTrackedSummon\(biomass\.getUUID\(\), cost\)/,
             "stage 1-3 summons do not use the global cap and capacity tracker before recording success");
+    expect(beckon[1], /level\.addFreshEntity\(biomass\);\s*parent\.reserveTrackedSummon\(biomass\.getUUID\(\), cost\);\s*return true;/,
+            "canceled Biomass joins must still reserve capacity and report success, as in the original");
     expect(beckon[1], /parent\.spawnBeckonCapacityBomb\(level, stage\);\s*index\+\+;/,
             "global-cap fallback does not emit the original bomb and continue the table walk");
     expect(beckon[1], /parent\.getSummonCapacity\(\) - parent\.getUsedSummonCapacity\(\) < cost\)[\s\S]*?index\+\+;/,

@@ -18,7 +18,7 @@
     `"$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain <task>`；
     `scripts/build-locked.sh` 已同步改为这一调用方式。
 - 静态校验套件：指定 `SRP_DECOMPILED_ROOT=D:/code/MC模组/_scratch/vf/out109` 后 **155 通过、1 跳过、0 失败**；这使用的是目标 1.10.9 源码，不能视作对缺失 1.10.8 基线的验证。未指定目录时 7 项脚本因默认 1.10.8 源码缺失失败；资源审计因外部 `manifest.json` 缺失跳过。
-- 运行期验证：`runGameTestServer` → **222 / 222 GameTests 通过**，包括 Nexus 成长替换、家族解锁、音效和保护结构判定，Dispatcher IV 胞囊攻击、Rooter 召唤、支援及容量、Nexus 反击炸弹和世界生成地面扫描。
+- 运行期验证：`runGameTestServer` → **229 / 229 GameTests 通过**，包括 Nexus 成长替换、概率与调度、家族解锁、Beckon 召唤表及取消事件、音效和保护结构判定，Dispatcher IV 胞囊攻击、Rooter 召唤、支援及容量、Nexus 反击炸弹和世界生成地面扫描。
 - 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2911 键 / zh_cn 2927 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
 - 本轮由 `runGameTestServer` 抓出并修复的运行期加载失败：方块状态定义读取 `super()` 前未赋值的实例字段（`LegacyVariantSlabBlock` / `LegacyRelayBlock`，改为工厂预发布）、`JukeboxSong` 是数据包注册表故 `discone` / `disctwo` 需要 `data/csrp/jukebox_song/*.json`（见 commit `d7f7ca5c`）。
@@ -30,9 +30,11 @@
 - Nexus 近距离受击反击已改用原件式定时 Bomb：三家族四阶段按 `stage * 2` 数量、6 格距离、80 tick 冷却及各阶段威力/半径发射；冷却重载后重置。Bomb 直接命中不再套用索敌过滤器，伤害保留炸弹及所有者归因。原件 `SRPAttributes.init()` 对 Beckon II 攻击额外乘以 6，默认 36，Rooter II 复用该属性；Rooter 的反击炸弹仍使用 Beckon I 的 2.5 默认伤害。
 - 已补寄生树苗生长及失败恢复、感染骨粉树苗路径、殖民前哨结构逻辑；世界生成地面扫描已对齐原件的双向搜索和空气位置返回，修复第二个寄生口与保护柱的地面偏移。其余分支仍需逐项比对。
 - Nexus 普通状态受击已按原件乘以 0.4；Rooter 先按原始伤害向 Rootmass Cyst 分伤，囊肿自身不继承减伤。状态的实际切换时序仍需与原件核实。
-- Nexus 三级升级新增 Beckon 节点、Dispatcher 殖民地、Rooter 蜂巢各自的进化阶段或全局发展等级解锁；三级寄生群系、节点效果范围和殖民地效果范围限制已接入。禁用进化阶段时跳过阶段/发展等级限制，NoAI 不进行普通成长。原件 `EntityAINexusGrow` 的逐阶段成长概率、Goal 检查时序及升级失败后的 20000 tick 计数仍未迁移，当前普通成长依然使用固定阶段阈值和近似计时。
-- `spawnLeem` 已改为使用首次加入世界时记录并持久化的维度阶段及全局发展等级，比较方向与原件一致；旧移植存档缺失快照时在重新加入世界后采样。二、三级 Beckon/Dispatcher 按 2% 概率调用，检查可配置 Rooter 上限和最小距离，最多尝试两处各轴偏移 12–20 格的落点，并处理地面、碰撞、可选天空、加入事件取消和音效抑制。GameTest 覆盖快照重载、两个闸门边界、落点重试、液体地面、天空遮挡、数量/距离边界及取消事件。原版成长 AI 的完整调度顺序、零成本召唤的实体 ID 追踪、全局发展等级计算的跨维度细节，以及 `rsSky` / `rsSounds` 对其他增援路径的适用性仍待核对；现有计数器仅复现每次调用减一并在低于零时重置，不证明 AI 调度完全等价。
+- Nexus 三级升级新增 Beckon 节点、Dispatcher 殖民地、Rooter 蜂巢各自的进化阶段或全局发展等级解锁；三级寄生群系、节点效果范围和殖民地效果范围限制已接入。禁用进化阶段时跳过阶段/发展等级限制，NoAI 不进行普通成长。已对照 `EntityAINexusGrow` 接入 30 项阶段成长失败概率、非运行 Goal 三次 AI 更新扫描一次的节奏、运行 Goal 每次续行检查及失败后 20000 次检查等待；保留旧移植存档的成长进度与延迟，并用 GameTest 覆盖概率边界、调度和重载。强制进化、其他 Goal 的相互作用等仍需继续核实。
+- `spawnLeem` 已改为使用首次加入世界时记录并持久化的维度阶段及全局发展等级，比较方向与原件一致；旧移植存档缺失快照时在重新加入世界后采样。二、三级 Beckon/Dispatcher 按 2% 概率调用，检查可配置 Rooter 上限和最小距离，最多尝试两处各轴偏移 12–20 格的落点，并处理地面、碰撞、可选天空、加入事件取消和音效抑制。GameTest 覆盖快照重载、两个闸门边界、落点重试、液体地面、天空遮挡、数量/距离边界及取消事件。原版成长 AI 与其他 Goal 的相互作用、零成本召唤的实体 ID 追踪、全局发展等级计算的跨维度细节，以及 `rsSky` / `rsSounds` 对其他增援路径的适用性仍待核对；成长与 Rooter 检查已共享计数器并覆盖扫描节奏，不证明全部调度完全等价。
 - Nexus 一级升二级保护结构现受 `nexusStructures`、`rsSounds` 和第 16 号 dislodgment 闸门控制，仅通过后按家族概率使用世界随机数；升级前先移除旧实体，取消加入事件仍继续处理音效及继承，保留名称、适应和燃烧状态。GameTest 覆盖三家族升级、取消事件、保护概率和实际随机数消耗；结构完整外观与客户端成长粒子仍需目视验证。现有全局寄生体音量事件会将最终音量压到 1.0，升级音效虽传入原件 9/10 音量，实际听感仍有差异。Nexus/Dispatcher 的其余召唤、其他投射物、方块破坏、其余伤害顺序及 Rootmass Cyst 生成位置等仍需与原件逐字段核实；炸弹伤害尚未接原件全局/单体倍率配置。
+- Beckon 召唤表修复 26.3 `EntityType.getBaseClass()` 恒为 `Entity.class` 导致所有表项被过滤的问题；兼容表内原版 `srparasites` 命名空间，并在实际创建时检查实体类型。普通 Biomass 的加入事件被取消时仍占用容量并推进成长，四级直接召唤和非法载荷的失败路径由 GameTest 覆盖。
+- Dispatcher 尚未按原件储存/释放：`EntityAIDodAttack` 会按其 AI 检查节奏扫描并处理符合条件的所有实体，原件还依据阶段将 Lodo、感染体、粗制体与 Mudo 转换并维护计数；当前每 40 tick 随机储存一个，不具备这些转换。父实体回收、地面硬度闸门、触须载荷与容量、目标选择和防御召唤时序也需一并对照修复。
 - 本项目仍有未实现或未证实等价的行为，静态合同及 GameTest 通过不能证明 100% 迁移。
 
 ## 已完成（本轮 R2–R6）
@@ -60,7 +62,7 @@
 | --- | --- | --- |
 | `EntityAIDodAttack` / `EntityAIFlightAttack` 等的 `mobattackingBlackList` / `mobattackingBlackListWhite` / `mobAttackingFull` | `util/ParasiteEventEntity#checkEntity` / `#checkName`、`EntityParasiteBase#canAttackClass`（out109:1094-1117） | 新增 `entity/MobAttacking`（`checkName` 的 `contains` 匹配 + `srparasites` 命名空间自排除 + `mobAttackingFull` 分支）；`ArchitectEntity` / `DredgeEntity` / `HeedEntity` / `PureParasiteEntity` 4 处手写黑名单改为统一调用。新增配置 `Config.mobAttackingFull`（原件 `SRPConfig.mobAttackingFull`，默认 false） |
 | `EntityAIVenkrolSummon` 的 `SRPAttributes.VENKROL*_MOBTABLEG/A` mob 表 | `util/config/SRPConfigMobs.java:1068-1150` 的 `venkrolmoblist` / `venkrolsiimoblist` / `venkrolsiiimoblist` / `venkrolsivmoblist` | `MobsConfig` 新增 4 张 beckon 召唤表（逐行复刻原件默认值，含 `ground;air` 前缀、chance、capacity cost）+ `venkrolCAMinimumV`(4) / `venkrolCAExtraM`(0.5)；`NexusParasiteEntity#summonBeckonParasites` 改为读表并按原件"随机起点 + 最多两圈 + 地面/空中按高度切换"选怪 |
-| `EntityAINexusGrow` 的 `SRPConfigSystems.evolutionNests` / `deveNestsUse` / `maximumStageList` 维度上限锁 | `util/config/SRPConfigSystems.java:184,1102,46`；`entity/ai/EntityAINexusGrow.java:42-55,69-98` | `Config` 新增 `evolutionNests`(11) / `deveNestsUse`(3) / `maximumStageList`({"1;3"}) + `nexusStageLock` / `legacyDimensionId`；`NexusParasiteEntity` 构造时求 `dimensionStageLock`，`evolve()` 应用 `dimLock >= stage+1` 闸门。Rooter 召唤快照和落点已在后续批次修复，完整成长 Goal 调度仍待核实 |
+| `EntityAINexusGrow` 的 `SRPConfigSystems.evolutionNests` / `deveNestsUse` / `maximumStageList` 维度上限锁 | `util/config/SRPConfigSystems.java:184,1102,46`；`entity/ai/EntityAINexusGrow.java:42-55,69-98` | `Config` 新增 `evolutionNests`(11) / `deveNestsUse`(3) / `maximumStageList`({"1;3"}) + `nexusStageLock` / `legacyDimensionId`；`NexusParasiteEntity` 构造时记录 `dimensionStageLock`，`checkGrowthPhase()` 应用 `dimLock >= stage+1` 闸门。Rooter 召唤快照、落点和成长 Goal 的主要检查节奏已在后续批次修复，其他 Goal 交互仍待核实 |
 | gene 系统（`EntityPMalleable` 的 10 个 gene 开关） | `util/config/SRPConfigSystems.java:1445-1500` 的 `generation*0..5` | `EvolutionSystem.GenerationProfile` 补上此前缺失的 3 个开关 `lookWalls`(2) / `waterLeap`(4) / `residue`(8)，默认表逐项对齐原件；`lookWalls` 接入 `PrimitiveParasiteEntity` 的目标感知（原件 `shouldCheckSight \|\| !getGeneMod(2)`）、`waterLeap` 接入 `DredgeEntity` 的液体跃击、`residue` 接入 `AdaptedVariantEntity.BlockResidueGoal` |
 | `EntityAIFollowBodies` 的 `getFollowing()`/`getHead()` 单体 AI 形态 | `entity/ai/EntityAIFollowBodies.java` | **保持不变**：本工程用"每节身体一个实体 + `bodyPredecessor` UUID 链"，语义等价、结构不同（已在 R6 矩阵说明） |
 | `EntityParasiteBase` 的 skin 120 特殊态 / `canChangeVariant` / `getaSize`/`getTHeigh` | `entity/ai/misc/EntityParasiteBase.java` | **保持不变**：由 26.3 的 `EntityDimensions` + 各实体自己的同步数据承担，非 1:1 |

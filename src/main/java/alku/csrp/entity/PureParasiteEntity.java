@@ -1576,16 +1576,11 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
             try {
                 double chance = Double.parseDouble(parts[1].trim());
                 int cost = Integer.parseInt(parts[2].trim());
-                options.add(new BiomassEntity.SummonOption(asMobType(type), chance, cost));
+                options.add(new BiomassEntity.SummonOption(type, chance, cost));
             } catch (NumberFormatException ignored) {
             }
         }
         return options;
-    }
-
-    @SuppressWarnings("unchecked")
-    private static EntityType<? extends Mob> asMobType(EntityType<?> type) {
-        return (EntityType<? extends Mob>) type;
     }
 
     private Kind activeKind() {

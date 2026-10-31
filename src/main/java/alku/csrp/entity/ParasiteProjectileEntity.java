@@ -499,14 +499,9 @@ public final class ParasiteProjectileEntity extends Entity {
         }
         biomassReservationHandled = true;
         BiomassEntity.spawnFromProjectile(overseer, capacityOwner, getUUID(),
-                new BiomassEntity.SummonOption(asMobType(rawType), 1.0D, biomassCapacityCost),
+                new BiomassEntity.SummonOption(rawType, 1.0D, biomassCapacityCost),
                 biomassSkin, target, position(), getYRot(), getXRot());
         discard();
-    }
-
-    @SuppressWarnings("unchecked")
-    private static EntityType<? extends Mob> asMobType(EntityType<?> type) {
-        return (EntityType<? extends Mob>) type;
     }
 
     private void releaseBiomassReservation(PrimitiveParasiteEntity owner) {

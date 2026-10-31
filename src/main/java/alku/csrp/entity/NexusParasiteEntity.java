@@ -104,8 +104,10 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
 
     /** Original EntityAINexusGrow.spawnLeem 2% roll. */
     private static final double NEXUS_ROOTER_CHANCE = 0.02D;
-    /** Original EntityAINexusGrow.tickss reset of 20. */
+    /** Original EntityAINexusGrow.tickss reset, shared by growth and Rooter checks. */
     private static final int NEXUS_ROOTER_INTERVAL = 20;
+    private static final int NEXUS_GROWTH_RETRY_CHECKS = 20_000;
+    private static final int LEGACY_GROWTH_UNIT = 20;
     private static final int DISPATCHER_FOG_MIN_Y_OFFSET = -2;
     private static final int DISPATCHER_FOG_MAX_Y_OFFSET = 4;
 
@@ -130,6 +132,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
     private int colonyPlacementProgress;
     private int temporaryLifetimeTicks = -1;
     private int rooterSummonCooldown = NEXUS_ROOTER_INTERVAL;
+    private int growthSelectorTick;
+    private boolean growthGoalRunning;
+    private boolean growthPhaseAllowed = true;
     private boolean canGrow = true;
     private boolean dispatcherFogDissipationStarted;
     private boolean creationProgressCaptured;
@@ -267,6 +272,68 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
     }
 
     @Override
+    protected void customServerAiStep(ServerLevel serverLevel) {
+        super.customServerAiStep(serverLevel);
+        Kind activeKind = activeKind();
+        if (activeKind.supportsOrdinaryGrowth() && growthDelayTicks > 0) {
+            tickGrowthGoal(serverLevel, activeKind);
+        }
+    }
+
+    private void tickGrowthGoal(ServerLevel level, Kind activeKind) {
+        // 1.12's EntityAITasks evaluates inactive goals every third AI tick and running goals every tick.
+        boolean scanGoals = growthSelectorTick == 0;
+        growthSelectorTick = (growthSelectorTick + 1) % 3;
+        if (growthGoalRunning) {
+            growthGoalRunning = shouldRunGrowthGoal(level, activeKind);
+        } else if (scanGoals) {
+            growthGoalRunning = shouldRunGrowthGoal(level, activeKind);
+        }
+        if (!growthGoalRunning) {
+            return;
+        }
+        if (activeKind.stage == 3 && ParasiteBiomeDecorator.parasiteBiomeIndex(level.getBiome(blockPosition())) != 0) {
+            rooterSummonCooldown = NEXUS_GROWTH_RETRY_CHECKS;
+            return;
+        }
+        // Existing 26.3 saves store these quantities scaled by 20; retain that format.
+        int nextGrowth = growthTicks + LEGACY_GROWTH_UNIT;
+        if (canGrow) {
+            growthTicks = nextGrowth;
+        }
+        if (nextGrowth > growthDelayTicks) {
+            if (RuntimeToggles.mobEvolution() && activeKind.stage == 3 && !stageFourUnlocked(level, activeKind)) {
+                rooterSummonCooldown = NEXUS_GROWTH_RETRY_CHECKS;
+                return;
+            }
+            evolve();
+        }
+    }
+
+    private boolean shouldRunGrowthGoal(ServerLevel level, Kind activeKind) {
+        if (--rooterSummonCooldown < 0) {
+            rooterSummonCooldown = NEXUS_ROOTER_INTERVAL;
+            checkGrowthPhase(level, activeKind, new Random());
+            trySpawnRooterSi(level);
+            return growthPhaseAllowed;
+        }
+        return false;
+    }
+
+    private void checkGrowthPhase(ServerLevel level, Kind activeKind, Random roll) {
+        if (dimensionStageLock >= activeKind.stage + 1) {
+            growthPhaseAllowed = false;
+        } else if (Config.useEvolutionPhases()) {
+            int phase = SrpWorldData.get(level).evolutionPhase();
+            if (phase == -1 || phase == 0) {
+                growthPhaseAllowed = false;
+            } else if (phase >= 1 && phase <= 10) {
+                growthPhaseAllowed = !(roll.nextDouble() < Config.nexusGrowthPenalty(activeKind.stage, phase));
+            }
+        }
+    }
+
+    @Override
     public void tick() {
         super.tick();
         if (level().isClientSide()) {
@@ -301,25 +368,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
             discard();
             return;
         }
-        if (!isNoAi() && canGrow && activeKind.supportsOrdinaryGrowth() && growthDelayTicks > 0
-                && level() instanceof ServerLevel serverLevel
-                && (activeKind.stage != 3
-                || ParasiteBiomeDecorator.parasiteBiomeIndex(serverLevel.getBiome(blockPosition())) == 0)) {
-            int phase = SrpWorldData.get(serverLevel).evolutionPhase();
-            int minimumPhase = activeKind.stage + 2;
-            if (phase >= minimumPhase && (phase > minimumPhase || tickCount % 4 == 0)
-                    && ++growthTicks >= growthDelayTicks && evolve()) {
-                return;
-            }
-        }
-        // EntityAINexusGrow checks after decrementing its 20-tick counter below zero.
-        if (!isNoAi() && (activeKind.family == Family.BECKON || activeKind.family == Family.DISPATCHER)
-                && (activeKind.stage == 2 || activeKind.stage == 3)
-                && level() instanceof ServerLevel rooterLevel && --rooterSummonCooldown < 0) {
-            rooterSummonCooldown = NEXUS_ROOTER_INTERVAL;
-            trySpawnRooterSi(rooterLevel);
-        }
-
         if (activeKind.family == Family.DISPATCHER && tickCount % 40 == 0) {
             storeNearbyParasite();
             placeNestFog(activeKind.stage);
@@ -328,7 +376,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
             tryPlaceFirstColony();
         }
         if (activeKind.family == Family.BECKON) {
-            tickBeckonSummoning(activeKind);
+            if (!isNoAi()) {
+                tickBeckonSummoning(activeKind);
+            }
         } else if (summonCooldown <= 0 && performFamilyAbility(activeKind)) {
             setParasiteStatus(1);
             summonCooldown = activeKind.summonCooldown;
@@ -535,6 +585,10 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         super.readAdditionalSaveData(tag);
         growthTicks = tag.getIntOr("nexus_growth", 0);
         growthDelayTicks = tag.getInt("nexus_growth_delay").orElseGet(this::defaultGrowthDelay);
+        rooterSummonCooldown = NEXUS_ROOTER_INTERVAL;
+        growthSelectorTick = 0;
+        growthGoalRunning = false;
+        growthPhaseAllowed = true;
         summonCooldown = tag.getIntOr("nexus_summon_cooldown", 0);
         supportCooldown = tag.getIntOr("nexus_support_cooldown", 0);
         rooterCycleTicks = Mth.clamp(tag.getIntOr("nexus_rooter_cycle", 0), 0, 20);
@@ -785,6 +839,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
                 && getUsedSummonCapacity() < getSummonCapacity()
                 && summonBeckonPulse(activeKind, target, false)) {
             beckonBatchCount++;
+            if (activeKind.stage < 4 && canGrow) {
+                growthTicks += LEGACY_GROWTH_UNIT;
+            }
             if (beckonGroupActive) {
                 lockNearbyBeckons(activeKind);
             }
@@ -857,8 +914,8 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
                 BlockPos position = BlockPos.containing(center.getX() + xOffset,
                         center.getY(), center.getZ() + zOffset);
                 if (serverLevel.isEmptyBlock(position) && !serverLevel.isEmptyBlock(position.below())) {
-                    Mob spawned = option.type().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
-                    if (spawned == null) {
+                    Entity created = option.type().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+                    if (!(created instanceof Mob spawned)) {
                         return false;
                     }
                     spawned.snapTo(position.getX(), position.getY(), position.getZ(), getYRot(), getXRot());
@@ -1557,6 +1614,11 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         if (roll.nextDouble() >= NEXUS_ROOTER_CHANCE) {
             return false;
         }
+        Kind activeKind = activeKind();
+        if ((activeKind.stage != 2 && activeKind.stage != 3)
+                || (activeKind.family != Family.BECKON && activeKind.family != Family.DISPATCHER)) {
+            return false;
+        }
         int rooterCount = 0;
         double minimumDistance = Config.nexusRooterDistance();
         for (Entity entity : serverLevel.getAllEntities()) {
@@ -1659,10 +1721,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         // Original EntityAINexusGrow required ParasiteEventEntity.canSpawnNext before every stage upgrade.
         if (!activeKind.supportsOrdinaryGrowth() || !RuntimeToggles.mobEvolution()
                 || !(level() instanceof ServerLevel serverLevel)) {
-            return false;
-        }
-        // Original EntityAINexusGrow.checkPhase dimLock: `dimLock >= currentStage + 1` stops growth.
-        if (dimensionStageLock >= activeKind.stage + 1) {
             return false;
         }
         if (!stageFourUnlocked(serverLevel, activeKind)) {

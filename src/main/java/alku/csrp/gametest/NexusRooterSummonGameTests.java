@@ -73,6 +73,8 @@ public final class NexusRooterSummonGameTests {
                 new CapAndEventTest(data));
         event.registerTest(Identifier.fromNamespaceAndPath(Csrp.MODID, "nexus_rooter_summon/cadence_and_ai"),
                 new CadenceTest(data));
+        event.registerTest(Identifier.fromNamespaceAndPath(Csrp.MODID, "nexus_rooter_summon/roll_order"),
+                new RollOrderTest(data));
     }
 
     private static NexusParasiteEntity parent(GameTestHelper helper) {
@@ -90,11 +92,15 @@ public final class NexusRooterSummonGameTests {
     }
 
     private static boolean attempt(NexusParasiteEntity entity, ServerLevel level) {
+        return attempt(entity, level, passingRoll());
+    }
+
+    private static boolean attempt(NexusParasiteEntity entity, ServerLevel level, RandomSource roll) {
         try {
             Method method = NexusParasiteEntity.class.getDeclaredMethod("trySpawnRooterSi",
                     ServerLevel.class, RandomSource.class, Random.class);
             method.setAccessible(true);
-            return (boolean) method.invoke(entity, level, passingRoll(), new Random(CANDIDATE_SEED));
+            return (boolean) method.invoke(entity, level, roll, new Random(CANDIDATE_SEED));
         } catch (InvocationTargetException exception) {
             throw new IllegalStateException("Rooter summon failed", exception.getCause());
         } catch (ReflectiveOperationException exception) {
@@ -512,6 +518,45 @@ public final class NexusRooterSummonGameTests {
         }
     }
 
+    private static final class RollOrderTest extends RooterTest {
+        RollOrderTest(TestData<Holder<TestEnvironmentDefinition<?>>> data) { super(data); }
+
+        @Override
+        public void run(GameTestHelper helper) {
+            List<NexusParasiteEntity> entities = new ArrayList<>();
+            try (ConfigScope config = new ConfigScope()) {
+                config.setInt("EVOLUTION_NESTS", 0);
+                config.setInt("DEVE_NESTS_USE", 0);
+                for (var type : List.of(ModEntities.BECKON_SI.get(), ModEntities.DISPATCHER_SI.get(),
+                        ModEntities.ROOTER_SI.get(), ModEntities.ROOTER_SII.get(), ModEntities.ROOTER_SIII.get())) {
+                    NexusParasiteEntity entity = helper.spawn(type, new BlockPos(0, 200, 0));
+                    entity.setNoAi(true);
+                    entity.setNoGravity(true);
+                    entities.add(entity);
+                    setIntField(entity, "creationEvolutionPhase", 0);
+                    setIntField(entity, "creationDevelopmentLevel", 0);
+                    RandomSource roll = passingRoll();
+                    RandomSource expected = passingRoll();
+                    expected.nextDouble();
+                    helper.assertFalse(attempt(entity, helper.getLevel(), roll),
+                            "ineligible family or stage summoned a Rooter");
+                    helper.assertTrue(roll.nextDouble() == expected.nextDouble(),
+                            "ineligible family or stage skipped the original probability roll");
+                    setIntField(entity, "creationEvolutionPhase", 1);
+                    setIntField(entity, "creationDevelopmentLevel", 1);
+                    roll = passingRoll();
+                    expected = passingRoll();
+                    helper.assertFalse(attempt(entity, helper.getLevel(), roll), "creation gate allowed a summon");
+                    helper.assertTrue(roll.nextDouble() == expected.nextDouble(),
+                            "creation gate consumed a probability roll");
+                }
+                helper.succeed();
+            } finally {
+                for (NexusParasiteEntity entity : entities) entity.discard();
+            }
+        }
+    }
+
     private static final class CadenceTest extends RooterTest {
         CadenceTest(TestData<Holder<TestEnvironmentDefinition<?>>> data) {
             super(data);
@@ -520,17 +565,28 @@ public final class NexusRooterSummonGameTests {
         @Override
         public void run(GameTestHelper helper) {
             NexusParasiteEntity parent = parent(helper);
-            try {
+            try (ConfigScope config = new ConfigScope()) {
+                config.setBoolean("USE_EVOLUTION_PHASES", false);
+                config.setInt("EVOLUTION_NESTS", -1);
+                config.setInt("DEVE_NESTS_USE", 0);
+                setIntField(parent, "creationEvolutionPhase", 10);
+                setIntField(parent, "creationDevelopmentLevel", 1);
                 for (int i = 0; i < 30; i++) parent.tick();
                 helper.assertTrue(intField(parent, "rooterSummonCooldown") == 20,
                         "disabled AI advanced the Rooter summon counter");
                 parent.setNoAi(false);
-                for (int i = 0; i < 20; i++) parent.tick();
+                for (int i = 0; i < 60; i++) parent.tick();
                 helper.assertTrue(intField(parent, "rooterSummonCooldown") == 0,
-                        "the 20-counter reset before reaching zero");
+                        "the inactive goal did not take three AI ticks per counter step");
                 parent.tick();
                 helper.assertTrue(intField(parent, "rooterSummonCooldown") == 20,
-                        "the counter did not reset after decrementing below zero");
+                        "the counter did not reset on the 21st scan");
+                parent.tick();
+                helper.assertTrue(intField(parent, "rooterSummonCooldown") == 19,
+                        "running growth goal did not check continuation on the next tick");
+                for (int i = 0; i < 59; i++) parent.tick();
+                helper.assertTrue(intField(parent, "rooterSummonCooldown") == 20,
+                        "the shared growth and Rooter counter did not retry after 60 ticks");
                 helper.succeed();
             } finally {
                 parent.discard();
