@@ -115,19 +115,35 @@ expect(mechanics, /if \(!level\.addFreshEntity\(converted\)\)[\s\S]{0,600}?recor
 const nexus = entity("NexusParasiteEntity");
 expect(nexus, /import alku\.csrp\.world\.gen\.WorldGenParasiteNexusProtection1;/,
   "NexusParasiteEntity does not import NexusProtection1");
-expect(nexus, /new WorldGenParasiteNexusProtection1\(1\)\.generate\(serverLevel, random, origin\)/,
+expect(nexus, /new WorldGenParasiteNexusProtection1\(1\)\.generate\(serverLevel, serverLevel\.getRandom\(\), origin\)/,
   "Dispatcher upgrade does not generate NexusProtection1 with stage 1");
-expect(nexus, /new WorldGenParasiteNexusProtection2\(1\)\.generate\(serverLevel, random, origin\)/,
+expect(nexus, /new WorldGenParasiteNexusProtection2\(1\)\.generate\(serverLevel, serverLevel\.getRandom\(\), origin\)/,
   "Beckon upgrade does not generate NexusProtection2 with stage 1");
-expect(nexus, /new WorldGenParasiteNexusProtection3\(1\)\.generate\(serverLevel, random, origin\)/,
+expect(nexus, /new WorldGenParasiteNexusProtection3\(1\)\.generate\(serverLevel, serverLevel\.getRandom\(\), origin\)/,
   "Rooter upgrade does not generate NexusProtection3 with stage 1");
 expect(nexus, /case DISPATCHER -> 0\.3D;/, "Dispatcher structure chance is not the original 0.3");
 expect(nexus, /case ROOTER -> 0\.3D;/, "Rooter structure chance is not the original 0.3");
 expect(nexus, /case BECKON -> 0\.5D;/, "Beckon structure chance is not the original 0.5");
 expect(nexus, /activeKind\.family == Family\.DISPATCHER \? blockPosition\(\)\.below\(\) : blockPosition\(\)/,
   "the Dispatcher structure must be placed at blockPosition().below()");
-expect(nexus, /generateProtectionStructure\(serverLevel, activeKind\)[\s\S]{0,120}?discard\(\);/,
-  "the structure is not generated on a successful stage upgrade");
+expect(nexus, /discard\(\);[\s\S]*?serverLevel\.addFreshEntity\(next\);[\s\S]*?Config\.reinforcementSounds\(\)[\s\S]*?Config\.disloWalkNoise\(\)[\s\S]*?shouldGenerateProtectionStructure\(activeKind, serverLevel\.getRandom\(\)\)[\s\S]*?generateProtectionStructure\(serverLevel, activeKind\)/,
+  "the original upgrade, sound and structure order is missing");
+expect(nexus, /activeKind\.stage != 1 \|\| !Config\.nexusStructures\(\)/,
+  "protection structures are not restricted to enabled stage-I upgrades");
+expect(nexus, /worldRandom\.nextDouble\(\) < chance/,
+  "the protection roll no longer uses the world random source");
+expect(nexus, /discard\(\);[\s\S]*?serverLevel\.addFreshEntity\(next\);[\s\S]*?copyDamageAdaptationsTo\(next\);[\s\S]*?NEXUS_GROWTH_PARTICLES_EVENT[\s\S]*?next\.setHealth\(next\.getMaxHealth\(\) \* 0\.5F\)[\s\S]*?next\.igniteForSeconds\(8\.0F\)/,
+  "Nexus replacement no longer preserves the original join, adaptation and fire order");
+expect(nexus, /if \(phase < phaseRequired && development < developmentRequired\)/,
+  "stage-IV unlock must accept either the evolution phase or development threshold");
+expect(nexus, /case BECKON -> Config\.evolutionNodeUnlock\(\);[\s\S]*?case DISPATCHER -> Config\.evolutionColonyUnlock\(\);[\s\S]*?case ROOTER -> Config\.evolutionHives\(\);/,
+  "stage-IV family-specific phase thresholds are missing");
+expect(nexus, /case BECKON -> Config\.deveNodesUse\(\);[\s\S]*?case DISPATCHER -> Config\.deveColoniesUse\(\);[\s\S]*?case ROOTER -> Config\.deveHivesUse\(\);/,
+  "stage-IV family-specific development thresholds are missing");
+expect(nexus, /WorldConfig\.nodesActivated\(\)[\s\S]*?WorldConfig\.biomeRegistered\(\)[\s\S]*?nearestHeartAge\(blockPosition\(\)\)[\s\S]*?nearestColonyInEffectRange\(blockPosition\(\)\)/,
+  "stage-IV node or colony location restrictions are missing");
+expect(nexus, /!isNoAi\(\) && canGrow && activeKind\.supportsOrdinaryGrowth\(\)/,
+  "NoAI Nexus entities must not advance ordinary growth");
 
 if (failures.length) {
   console.error(`verify-entity-assimilation-gate: ${failures.length} failure(s)`);

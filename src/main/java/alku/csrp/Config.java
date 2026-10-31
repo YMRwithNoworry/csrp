@@ -112,8 +112,23 @@ public final class Config {
             .comment("Original rsSky: require sky visibility for Rooter calls; other reinforcement paths are pending.")
             .define("rsSky", false);
     private static final ModConfigSpec.BooleanValue REINFORCEMENT_SOUNDS = BUILDER
-            .comment("Original rsSounds: enable Rooter call sounds; other reinforcement sounds are pending.")
+            .comment("Original rsSounds: enable Nexus reinforcement and upgrade sounds.")
             .define("rsSounds", true);
+    private static final ModConfigSpec.BooleanValue NEXUS_STRUCTURES = BUILDER
+            .comment("Original nexusStructures: allow stage-I Nexus upgrades to generate protection structures.")
+            .define("nexusStructures", true);
+    private static final ModConfigSpec.IntValue EVOLUTION_NODE_UNLOCK = BUILDER
+            .defineInRange("evolutionNodeUnlock", 11, 0, 11);
+    private static final ModConfigSpec.IntValue EVOLUTION_COLONY_UNLOCK = BUILDER
+            .defineInRange("evolutionColonyUnlock", 11, 0, 11);
+    private static final ModConfigSpec.IntValue EVOLUTION_HIVES = BUILDER
+            .defineInRange("evolutionHives", 11, -1, 11);
+    private static final ModConfigSpec.IntValue DEVE_NODES_USE = BUILDER
+            .defineInRange("deveNodesUse", 4, 0, 100);
+    private static final ModConfigSpec.IntValue DEVE_COLONIES_USE = BUILDER
+            .defineInRange("deveColoniesUse", 4, 0, 100);
+    private static final ModConfigSpec.IntValue DEVE_HIVES_USE = BUILDER
+            .defineInRange("deveHivesUse", 4, 0, 100);
     private static final ModConfigSpec.ConfigValue<List<? extends String>> MAXIMUM_STAGE_LIST = BUILDER
             .comment("Original maximumStageList: per-dimension Nexus growth cap, 'dimension;maxStage'.")
             .defineList("maximumStageList", List.of("1;3"), value -> value instanceof String entry
@@ -750,6 +765,13 @@ public final class Config {
     public static int nexusRooterDistance() { return NEXUS_ROOTER_DISTANCE.get(); }
     public static boolean reinforcementSky() { return REINFORCEMENT_SKY.get(); }
     public static boolean reinforcementSounds() { return REINFORCEMENT_SOUNDS.get(); }
+    public static boolean nexusStructures() { return NEXUS_STRUCTURES.get(); }
+    public static int evolutionNodeUnlock() { return EVOLUTION_NODE_UNLOCK.get(); }
+    public static int evolutionColonyUnlock() { return EVOLUTION_COLONY_UNLOCK.get(); }
+    public static int evolutionHives() { return EVOLUTION_HIVES.get(); }
+    public static int deveNodesUse() { return DEVE_NODES_USE.get(); }
+    public static int deveColoniesUse() { return DEVE_COLONIES_USE.get(); }
+    public static int deveHivesUse() { return DEVE_HIVES_USE.get(); }
 
     /**
      * Original {@code EntityAINexusGrow} constructor: the highest Nexus stage allowed in a dimension,

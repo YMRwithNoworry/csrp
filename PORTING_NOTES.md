@@ -292,13 +292,21 @@ Rooter 的 `applyGene` 对普通寄生体设置六个基础开关和三个数值
 
 对照 `EntityPRooter` 与地面召唤路径，尚未移除的濒死 Rootmass Cyst 仍参与分伤；囊肿容量在加入世界之前预留，取消加入或囊肿移除后不回收，直到 Rooter 重载时重置。GameTest 覆盖濒死分伤、容量重载和真实 `EntityJoinLevelEvent` 取消。其他囊肿位置及生成细节仍待核实。
 
-成长审计仍发现未对齐项：阶段成长概率和三级升四级的家族限制尚未实现；保护结构目前在每次升级时尝试生成，原件则仅在一级升二级时受配置、音效和事件条件控制。这些均不能视作已完成。
+当时的成长审计发现阶段成长概率、三级升四级家族限制和保护结构触发差异；后两项已在 3.27 节部分修正，成长概率和完整 Goal 调度仍未对齐。
 
 ### 3.26 Nexus 召唤 Rooter
 
 对照 1.10.9 `EntityAINexusGrow#spawnLeem`、`EntityParasiteBase#applyBonuses` 和 `ParasiteSummon#SummonM`，Nexus 首次加入世界时记录当前维度的进化阶段与全局发展等级并写入存档；重载保留该快照，旧移植存档在重新加入世界时补采样。原件条件是 `evolutionNests >= phaseCreated || deveNestsUse >= levelCreated`，不同于配置文字的通常含义。二、三级 Beckon/Dispatcher 在通过 2% 概率后检查可配置的 Rooter 上限和距离，并最多尝试两次各轴偏移 12–20 格的随机位置；地面、碰撞、可选天空以及加入世界事件被取消时的返回顺序均已覆盖。天空判断使用区块同步维护的直接光源高度，避免 26.3 异步光照更新使刚放置的遮挡失效。召唤音效遵循 `rsSounds` 与第 15 号 dislodgment 抑制条件。
 
 四个 GameTest 覆盖创建快照和重载、阶段/发展等级闸门、两次候选、实体碰撞、天空遮挡、液体地面、上限/距离边界、取消加入事件及音效设置。原版成长 Goal 的完整调度、零成本召唤 ID 追踪、全局发展等级对未加载维度的处理，以及这些配置对其他增援路径的适用性尚未全部对齐；Rootmass Cyst 生成位置、其他召唤与伤害逻辑仍需继续审计。
+
+### 3.27 Nexus 升级与保护结构
+
+对照 `EntityAINexusGrow` 和 `ParasiteEventEntity.spawnNext`：三级升级分别读取节点、殖民地、蜂巢的阶段及发展等级配置，任一达到阈值即可通过；禁用进化阶段时跳过该阈值检查。三级 Nexus 在寄生群系内不累计成长，Beckon 与 Dispatcher 分别检查节点及殖民地效果范围。升级先移除旧实体，再初始化并尝试加入新实体，随后复制适应并处理粒子与燃烧；加入事件被取消不会恢复旧实体。名称、持久化状态、半血及 8 秒燃烧继承已覆盖。
+
+一级升二级的保护结构受 `nexusStructures`、`rsSounds`、第 16 号 dislodgment 闸门及家族概率共同控制，使用世界随机数；其他阶段不消耗结构概率随机数。四个 GameTest 覆盖三家族升级及取消加入、解锁边界与各家族独立配置、NoAI、9 种升级音效原始音量、结构概率边界与实际升级路径的随机数消耗。Dispatcher 胞囊测试改为加载查询范围内所有区块，避免跨三个区块时遗漏中间区块。
+
+仍未等价：成长使用固定进化阶段阈值和近似计时，尚未实现原件逐阶段成长概率、成长 Goal 调度和三级失败后的 20000 tick 等待；全局发展等级对未加载维度的处理仍待核对。当前全局寄生体音量事件会把最终音量限制为 1.0，实际音量与原件不一致；成长粒子及保护结构外观尚未在图形客户端目视验证。
 
 ---
 
@@ -379,14 +387,14 @@ GRADLE=("$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.g
 "${GRADLE[@]}" build --console=plain
 export SRP_DECOMPILED_ROOT="D:/code/MC模组/_scratch/vf/out109"
 node scripts/run-all-verifications.cjs   # 155 passed, 1 skipped, 0 failed；基准为目标 1.10.9
-"${GRADLE[@]}" runGameTestServer         # All 218 required tests passed
+"${GRADLE[@]}" runGameTestServer         # All 222 required tests passed
 ```
 
 | 检查 | 结果 |
 | --- | --- |
 | 编译与打包 | **BUILD SUCCESSFUL**，产物 `build/libs/csrp-1.10.9.jar` |
 | 静态契约校验 | 指定 1.10.9 反编译目录后 **155 通过、1 跳过、0 失败**；跳过项缺少外部资源 `manifest.json`。默认的 1.10.8 目录缺失，7 项基线合同无法在该默认路径下运行；1.10.9 结果不能证明 1.10.8 基线通过 |
-| 运行期 GameTest | **218 / 218 通过**，含实体冒烟、NBT、Dispatcher 胞囊攻击、Rooter 召唤快照/落点/事件、Rooter 伤害转移与容量、跨已加载区块支援、Nexus 状态减伤、Bomb 命中及世界生成地面扫描测试 |
+| 运行期 GameTest | **222 / 222 通过**，含 Nexus 阶段升级和保护结构判定、实体冒烟、NBT、Dispatcher 胞囊、Rooter 支援、Nexus 状态减伤、Bomb 命中及世界生成地面扫描测试 |
 | 服务器启动 | GameTest 服务器完整启动至测试结束，无启动崩溃 |
 | 世界生成运行期 | 225 区块实证：四类寄生群系 + 36 种寄生体方块落地，零 decoration 失败 |
 | 实体 id 对齐 | 原件 158 个 id **全部命中**（缺失 0） |

@@ -117,7 +117,10 @@ public final class WorldConfig {
     // Original SRPConfigWorld origin / EIV creation section (SRPEventHandlerBus#worldTick ->
     // EIVUtil.createRandomOrigin). The world rolls once per in-game day for a new Emerging
     // Infestation Vector around a random player.
-    // Original SRPConfigWorld.nodesActivated / coloniesActivated.
+    // Original SRPConfigWorld.nodesActivated / biomeRegster / coloniesActivated.
+    private static final ModConfigSpec.BooleanValue BIOME_REGISTERED = BUILDER
+            .comment("Enable parasite-biome dependent node checks (original: biomeRegster).")
+            .define("biomeRegster", true);
     private static final ModConfigSpec.BooleanValue NODES_ACTIVATED = BUILDER
             .comment("Enable the node (Biome Heart) system (original: nodesActivated).")
             .define("nodesActivated", true);
@@ -348,6 +351,11 @@ public final class WorldConfig {
             default -> 0.0D;
         };
     }
+    /** {@code SRPConfigWorld.biomeRegster}. */
+    public static boolean biomeRegistered() {
+        return BIOME_REGISTERED.get();
+    }
+
     /** {@code SRPConfigWorld.nodesActivated}. */
     public static boolean nodesActivated() {
         return NODES_ACTIVATED.get();

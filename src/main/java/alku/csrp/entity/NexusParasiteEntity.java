@@ -17,6 +17,7 @@ import alku.csrp.registry.ModSounds;
 import alku.csrp.particle.SrpParticleEffects;
 import alku.csrp.world.DislodgmentSystem;
 import alku.csrp.world.EvolutionSystem;
+import alku.csrp.world.ParasiteBiomeDecorator;
 import alku.csrp.world.SrpCoreSystems;
 import alku.csrp.world.SrpWorldData;
 import alku.csrp.world.gen.WorldGenParasiteNexusProtection1;
@@ -94,6 +95,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
             "get_floor_timer.get_parasite_status_1");
     private final CitadelRawAnimation BECKON_BURIED = ParasiteAnimations.play(this, "get_floor_timer");
     private static final byte BECKON_BURIED_EVENT = 50;
+    private static final byte NEXUS_GROWTH_PARTICLES_EVENT = 51;
     private static final int TEMPORARY_BECKON_LIFETIME = 300;
     private static final int BECKON_PULSE_INTERVAL = 20;
     private static final int BECKON_LOCK_RELEASE_TICKS = 200;
@@ -218,6 +220,19 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
 
     @Override
     public void handleEntityEvent(byte id) {
+        if (id == NEXUS_GROWTH_PARTICLES_EVENT) {
+            for (int i = 0; i < 11; i++) {
+                double velocityX = random.nextGaussian() * 0.02D;
+                double velocityY = random.nextGaussian() * 0.02D;
+                double velocityZ = random.nextGaussian() * 0.02D;
+                level().addParticle(ParticleTypes.EXPLOSION,
+                        getX() + random.nextFloat() * getBbWidth() * 2.0F - getBbWidth(),
+                        getY() + 0.5D + random.nextFloat() * getBbHeight(),
+                        getZ() + random.nextFloat() * getBbWidth() * 2.0F - getBbWidth(),
+                        velocityX, velocityY, velocityZ);
+            }
+            return;
+        }
         Kind activeKind = activeKind();
         if (id == BECKON_BURIED_EVENT && activeKind.family == Family.BECKON
                 && activeKind.stage < 4) {
@@ -286,8 +301,10 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
             discard();
             return;
         }
-        if (canGrow && activeKind.supportsOrdinaryGrowth() && growthDelayTicks > 0
-                && level() instanceof ServerLevel serverLevel) {
+        if (!isNoAi() && canGrow && activeKind.supportsOrdinaryGrowth() && growthDelayTicks > 0
+                && level() instanceof ServerLevel serverLevel
+                && (activeKind.stage != 3
+                || ParasiteBiomeDecorator.parasiteBiomeIndex(serverLevel.getBiome(blockPosition())) == 0)) {
             int phase = SrpWorldData.get(serverLevel).evolutionPhase();
             int minimumPhase = activeKind.stage + 2;
             if (phase >= minimumPhase && (phase > minimumPhase || tickCount % 4 == 0)
@@ -1648,50 +1665,110 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         if (dimensionStageLock >= activeKind.stage + 1) {
             return false;
         }
+        if (!stageFourUnlocked(serverLevel, activeKind)) {
+            return false;
+        }
         NexusParasiteEntity next = createNexus(serverLevel, activeKind.family, activeKind.stage + 1);
         if (next == null) {
             return false;
         }
+        boolean burning = isOnFire();
+        discard();
         next.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         next.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(next.blockPosition()),
                 EntitySpawnReason.MOB_SUMMONED, null);
-        next.setCustomName(getCustomName());
-        next.setCustomNameVisible(isCustomNameVisible());
+        if (getCustomName() != null) {
+            next.setCustomName(getCustomName());
+            next.setCustomNameVisible(isCustomNameVisible());
+        }
         if (isPersistenceRequired()) {
             next.setPersistenceRequired();
         }
         serverLevel.addFreshEntity(next);
-        // Original EntityAINexusGrow.upgradeV/upgradeD/upgradeL rolled for a nexus protection
-        // structure right after each stage upgrade (SRPConfig.nexusStructures, default true):
-        // Beckon 0.5, Dispatcher 0.3, Rooter 0.3. The original only reached this from inside its
-        // `if (SRPConfigSystems.rsSounds)` block; the port keeps the structure roll unconditional
-        // because sound configuration no longer gates world generation.
-        generateProtectionStructure(serverLevel, activeKind);
-        discard();
+        copyDamageAdaptationsTo(next);
+        serverLevel.broadcastEntityEvent(next, NEXUS_GROWTH_PARTICLES_EVENT);
+        if (burning) {
+            next.setHealth(next.getMaxHealth() * 0.5F);
+            next.igniteForSeconds(8.0F);
+        }
+        if (Config.reinforcementSounds()
+                && (!Config.disloWalkNoise() || DislodgmentSystem.activeValue(SrpWorldData.get(serverLevel), 16) < 1)) {
+            String familySound = switch (activeKind.family) {
+                case BECKON -> "venkrol.";
+                case DISPATCHER -> "dod.";
+                case ROOTER -> "leem.";
+                case ROOTERBALL -> throw new IllegalStateException("Rootmass Cysts do not grow");
+            };
+            String stageSound = switch (activeKind.stage) {
+                case 1 -> "sii";
+                case 2 -> "siii";
+                case 3 -> "siv";
+                default -> throw new IllegalStateException("Invalid Nexus growth stage");
+            };
+            playSound(ModSounds.get(familySound + stageSound), activeKind.stage == 2 ? 9.0F : 10.0F, 1.0F);
+            if (shouldGenerateProtectionStructure(activeKind, serverLevel.getRandom())) {
+                generateProtectionStructure(serverLevel, activeKind);
+            }
+        }
         return true;
     }
 
-    /**
-     * Port of {@code EntityPDispatcher.generateStructure()} (NexusProtection1 at the block below),
-     * {@code EntityPBeckon.generateStructure()} (NexusProtection2 at the block) and
-     * {@code EntityPRooter.generateStructure()} (NexusProtection3 at the block), all built with
-     * {@code stage = 1}.
-     */
-    private void generateProtectionStructure(ServerLevel serverLevel, Kind activeKind) {
+    private boolean stageFourUnlocked(ServerLevel level, Kind activeKind) {
+        if (activeKind.stage != 3) {
+            return true;
+        }
+        if (ParasiteBiomeDecorator.parasiteBiomeIndex(level.getBiome(blockPosition())) != 0) {
+            return false;
+        }
+        if (Config.useEvolutionPhases()) {
+            int phase = SrpWorldData.get(level).evolutionPhase();
+            int development = EvolutionSystem.ubiquitousDevelopment(level.getServer());
+            int phaseRequired = switch (activeKind.family) {
+                case BECKON -> Config.evolutionNodeUnlock();
+                case DISPATCHER -> Config.evolutionColonyUnlock();
+                case ROOTER -> Config.evolutionHives();
+                case ROOTERBALL -> throw new IllegalStateException("Rootmass Cysts do not grow");
+            };
+            int developmentRequired = switch (activeKind.family) {
+                case BECKON -> Config.deveNodesUse();
+                case DISPATCHER -> Config.deveColoniesUse();
+                case ROOTER -> Config.deveHivesUse();
+                case ROOTERBALL -> throw new IllegalStateException("Rootmass Cysts do not grow");
+            };
+            if (phase < phaseRequired && development < developmentRequired) {
+                return false;
+            }
+        }
+        SrpWorldData data = SrpWorldData.get(level);
+        return switch (activeKind.family) {
+            case BECKON -> !WorldConfig.nodesActivated() || !WorldConfig.biomeRegistered()
+                    || data.nearestHeartAge(blockPosition()) < 1;
+            case DISPATCHER -> data.nearestColonyInEffectRange(blockPosition()) == null;
+            case ROOTER -> true;
+            case ROOTERBALL -> false;
+        };
+    }
+
+    private boolean shouldGenerateProtectionStructure(Kind activeKind, RandomSource worldRandom) {
+        if (activeKind.stage != 1 || !Config.nexusStructures()) {
+            return false;
+        }
         double chance = switch (activeKind.family) {
             case BECKON -> 0.5D;
             case DISPATCHER -> 0.3D;
             case ROOTER -> 0.3D;
             case ROOTERBALL -> 0.0D;
         };
-        if (chance <= 0.0D || random.nextDouble() >= chance) {
-            return;
-        }
+        return worldRandom.nextDouble() < chance;
+    }
+
+    /** Family-specific protection structures, all built with stage 1. */
+    private void generateProtectionStructure(ServerLevel serverLevel, Kind activeKind) {
         BlockPos origin = activeKind.family == Family.DISPATCHER ? blockPosition().below() : blockPosition();
         switch (activeKind.family) {
-            case DISPATCHER -> new WorldGenParasiteNexusProtection1(1).generate(serverLevel, random, origin);
-            case BECKON -> new WorldGenParasiteNexusProtection2(1).generate(serverLevel, random, origin);
-            case ROOTER -> new WorldGenParasiteNexusProtection3(1).generate(serverLevel, random, origin);
+            case DISPATCHER -> new WorldGenParasiteNexusProtection1(1).generate(serverLevel, serverLevel.getRandom(), origin);
+            case BECKON -> new WorldGenParasiteNexusProtection2(1).generate(serverLevel, serverLevel.getRandom(), origin);
+            case ROOTER -> new WorldGenParasiteNexusProtection3(1).generate(serverLevel, serverLevel.getRandom(), origin);
             default -> {
             }
         }

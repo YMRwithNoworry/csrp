@@ -8,6 +8,7 @@ import com.mojang.serialization.MapCodec;
 import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.SectionPos;
 import net.minecraft.gametest.framework.FunctionGameTestInstance;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.gametest.framework.GameTestInstance;
@@ -72,9 +73,13 @@ public final class DispatcherPodGameTests {
 
     private static AABB podArea(GameTestHelper helper, double x, double y, double z) {
         AABB area = new AABB(x - 10.0D, y - 1.0D, z - 10.0D, x + 10.0D, y + 3.0D, z + 10.0D);
-        for (int dx : new int[] {-10, 10}) {
-            for (int dz : new int[] {-10, 10}) {
-                helper.getLevel().getChunkAt(BlockPos.containing(x + dx, y, z + dz));
+        int minChunkX = SectionPos.blockToSectionCoord(net.minecraft.util.Mth.floor(area.minX));
+        int maxChunkX = SectionPos.blockToSectionCoord(net.minecraft.util.Mth.floor(area.maxX));
+        int minChunkZ = SectionPos.blockToSectionCoord(net.minecraft.util.Mth.floor(area.minZ));
+        int maxChunkZ = SectionPos.blockToSectionCoord(net.minecraft.util.Mth.floor(area.maxZ));
+        for (int chunkX = minChunkX; chunkX <= maxChunkX; chunkX++) {
+            for (int chunkZ = minChunkZ; chunkZ <= maxChunkZ; chunkZ++) {
+                helper.getLevel().getChunk(chunkX, chunkZ);
             }
         }
         return area;
