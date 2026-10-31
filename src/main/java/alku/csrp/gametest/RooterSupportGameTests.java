@@ -62,6 +62,8 @@ public final class RooterSupportGameTests {
                 new PivotTest(data));
         event.registerTest(Identifier.fromNamespaceAndPath(Csrp.MODID, "rooter_support/gene_types"),
                 new GeneTypesTest(data));
+        event.registerTest(Identifier.fromNamespaceAndPath(Csrp.MODID, "rooter_support/cross_chunk"),
+                new CrossChunkTest(data));
     }
 
     private static final class CycleTest extends GameTestInstance {
@@ -132,6 +134,51 @@ public final class RooterSupportGameTests {
         @Override
         protected MutableComponent typeDescription() {
             return Component.literal("Rooter support cycle and target filtering");
+        }
+    }
+
+    private static final class CrossChunkTest extends GameTestInstance {
+        CrossChunkTest(TestData<Holder<TestEnvironmentDefinition<?>>> data) {
+            super(data);
+        }
+
+        @Override
+        public void run(GameTestHelper helper) {
+            BlockPos base = helper.absolutePos(new BlockPos(0, 80, 0));
+            int boundaryX = Math.floorDiv(base.getX(), 16) * 16 + 15;
+            BlockPos sourcePos = new BlockPos(boundaryX, base.getY(), base.getZ());
+            BlockPos targetPos = sourcePos.east(2);
+            helper.getLevel().getChunkAt(sourcePos);
+            helper.getLevel().getChunkAt(targetPos);
+            NexusParasiteEntity rooter = helper.spawn(ModEntities.ROOTER_SI.get(), new BlockPos(0, 80, 0));
+            PrimitiveParasiteEntity ally = helper.spawn(ModEntities.PRI_LONGARMS.get(), new BlockPos(0, 80, 0));
+            try {
+                rooter.setNoGravity(true);
+                rooter.setNoAi(true);
+                ally.setNoGravity(true);
+                ally.setNoAi(true);
+                rooter.setPos(sourcePos.getX() + 0.5D, sourcePos.getY(), sourcePos.getZ() + 0.5D);
+                ally.setPos(targetPos.getX() + 0.5D, targetPos.getY(), targetPos.getZ() + 0.5D);
+                helper.assertTrue(helper.getLevel().isLoaded(sourcePos) && helper.getLevel().isLoaded(targetPos),
+                        "cross-chunk support requires both chunks loaded");
+                for (int i = 0; i < 10; i++) rooter.tick();
+                helper.assertTrue(ally.hasEffect(ModMobEffects.PIVOT) && ally.hasEffect(ModMobEffects.PARATE),
+                        "Rooter did not support an ally across a loaded chunk boundary");
+                helper.succeed();
+            } finally {
+                rooter.discard();
+                ally.discard();
+            }
+        }
+
+        @Override
+        public MapCodec<? extends GameTestInstance> codec() {
+            return FunctionGameTestInstance.CODEC;
+        }
+
+        @Override
+        protected MutableComponent typeDescription() {
+            return Component.literal("Rooter support across a loaded chunk boundary");
         }
     }
 
