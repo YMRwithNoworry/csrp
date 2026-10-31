@@ -1,6 +1,6 @@
 # SRParasites 1.10.8 完整移植主计划
 
-> 历史计划快照：以下百分比、勾选和缺口描述未持续同步，不能作为当前完成度结论；最新状态见 `PORT_BACKLOG.md` 与 `PORTING_NOTES.md`。Nexus 受击反击炸弹、普通状态减伤和二级 Beckon/Rooter 默认攻击属性已对照 1.10.9 修正；状态切换时序、伤害配置倍率、Dispatcher 召唤、客户端粒子及其他未覆盖玩法仍待核实，不能宣称 100% 等价。
+> 历史计划快照：以下百分比、勾选和缺口描述未持续同步，不能作为当前完成度结论；最新状态见 `PORT_BACKLOG.md` 与 `PORTING_NOTES.md`。Nexus 受击反击炸弹、普通状态减伤、二级 Beckon/Rooter 默认攻击属性及世界生成地面扫描已对照 1.10.9 修正；状态切换时序、伤害配置倍率、Dispatcher 召唤、客户端粒子及其他未覆盖玩法仍待核实，不能宣称 100% 等价。
 >
 > 生成日期：2026-08-22。由四份领域差距报告（实体AI / 注册内容 / 客户端 / 世界系统）汇总而成。
 > 参考源码：`D:\code\模组反编译器\decompiled\[逃逸：寄生体] SRParasites-1.10.8\com\dhanantry\scapeandrunparasites\`

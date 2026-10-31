@@ -500,18 +500,20 @@ public final class ParasiteGenContext {
     }
 
     /**
-     * Port of {@code ParasiteEventEntity#getFloor(World, BlockPos, int)}: walks down at most
-     * {@code range} blocks looking for the first non-air position, or {@code null} if there is none.
+     * Port of {@code ParasiteEventEntity#getFloor}: search at most {@code range} positions,
+     * returning air immediately above a non-air block. A solid starting position searches upward.
      */
     public static BlockPos floor(ServerLevel level, BlockPos pos, int range) {
         BlockPos current = pos;
-        int remaining = range;
-        while (current.getY() > level.getMinY() && remaining >= 0) {
-            remaining--;
-            if (!get(level, current).isAir()) {
-                return current;
+        for (int remaining = range; remaining > 0; remaining--) {
+            if (get(level, current).isAir()) {
+                if (!get(level, current.below()).isAir()) {
+                    return current;
+                }
+                current = current.below();
+            } else {
+                current = current.above();
             }
-            current = current.below();
         }
         return null;
     }

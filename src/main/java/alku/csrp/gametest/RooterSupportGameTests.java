@@ -83,10 +83,10 @@ public final class RooterSupportGameTests {
                 helper.assertTrue(MobsConfig.rooterCystLimit(stage) == limits[index], "cyst limit mismatch");
             }
             NexusParasiteEntity rooter = helper.spawn(ModEntities.ROOTER_SI.get(), new BlockPos(0, 5, 0));
-            NexusParasiteEntity otherRooter = helper.spawn(ModEntities.ROOTER_SII.get(), new BlockPos(2, 5, 0));
-            NexusParasiteEntity cyst = helper.spawn(ModEntities.ROOTERBALL.get(), new BlockPos(3, 5, 0));
-            PrimitiveParasiteEntity ally = helper.spawn(ModEntities.PRI_LONGARMS.get(), new BlockPos(4, 5, 0));
-            Mob animal = helper.spawn(EntityTypes.SHEEP, new BlockPos(6, 5, 0));
+            NexusParasiteEntity otherRooter = helper.spawn(ModEntities.ROOTER_SII.get(), new BlockPos(0, 9, 0));
+            NexusParasiteEntity cyst = helper.spawn(ModEntities.ROOTERBALL.get(), new BlockPos(0, 13, 0));
+            PrimitiveParasiteEntity ally = helper.spawn(ModEntities.PRI_LONGARMS.get(), new BlockPos(0, 16, 0));
+            Mob animal = helper.spawn(EntityTypes.SHEEP, new BlockPos(0, 19, 0));
             for (Mob mob : List.of(rooter, otherRooter, cyst, ally, animal)) {
                 mob.setNoGravity(true);
                 mob.setNoAi(true);
@@ -95,7 +95,10 @@ public final class RooterSupportGameTests {
             helper.assertFalse(ally.hasEffect(ModMobEffects.PIVOT), "support fired before cycle tick 10");
             rooter.tick();
             helper.assertTrue(ally.hasEffect(ModMobEffects.PIVOT) && ally.hasEffect(ModMobEffects.PARATE),
-                    "support did not apply both effects at cycle tick 10");
+                    "support did not apply both effects at cycle tick 10: rooter=" + rooter.position()
+                            + ", ally=" + ally.position() + ", alive=" + ally.isAlive()
+                            + ", pivot=" + ally.hasEffect(ModMobEffects.PIVOT)
+                            + ", parate=" + ally.hasEffect(ModMobEffects.PARATE));
             helper.assertTrue(ally.getEffect(ModMobEffects.PIVOT).getAmplifier() == 0, "wrong stage I amplifier");
             helper.assertFalse(otherRooter.hasEffect(ModMobEffects.PIVOT), "another Rooter received Pivot");
             helper.assertFalse(cyst.hasEffect(ModMobEffects.PIVOT), "a Rootmass Cyst received support");

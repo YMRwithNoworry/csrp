@@ -78,6 +78,9 @@ expectPattern(core, /placeBlock\(level, pos, heart\);/, "placeCore does not plac
 const nexus1 = read("src/main/java/alku/csrp/world/gen/WorldGenParasiteNexusProtection1.java");
 const nexus2 = read("src/main/java/alku/csrp/world/gen/WorldGenParasiteNexusProtection2.java");
 const nexus3 = read("src/main/java/alku/csrp/world/gen/WorldGenParasiteNexusProtection3.java");
+const genContext = read("src/main/java/alku/csrp/world/gen/ParasiteGenContext.java");
+expectPattern(genContext, /for \(int remaining = range; remaining > 0; remaining--\)[\s\S]*?get\(level, current\)\.isAir\(\)[\s\S]*?!get\(level, current\.below\(\)\)\.isAir\(\)[\s\S]*?return current;[\s\S]*?current = current\.below\(\);[\s\S]*?current = current\.above\(\);/,
+  "floor scan must return air above a non-air block, searching up or down within the original limit");
 
 for (const [name, source] of [
   ["WorldGenParasiteNexusProtection1", nexus1],

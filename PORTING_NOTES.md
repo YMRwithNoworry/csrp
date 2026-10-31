@@ -282,6 +282,10 @@ Rooter 的 `applyGene` 对普通寄生体设置六个基础开关和三个数值
 
 `SRPAttributes.reset()` 后的 `init()` 将二级 Beckon 攻击的初值 6 再乘以 6，因此默认实际值是 36；二级 Rooter 复用该属性。Nexus 的状态为 0 时，伤害在父类处理前乘以 0.4；Rooter 先将原始伤害平分给 Rootmass Cyst，后者不继承该减伤。七个 GameTest 覆盖三家族四阶段、距离边界、冷却及重载、爆炸目标与归因、状态减伤、囊肿分伤，以及 Bomb 正负分量的单向速度上限。原件全局/单体伤害倍率尚未全部接入，状态切换时序、其他伤害顺序和召唤行为仍待核对。
 
+### 3.24 世界生成地面扫描
+
+对照 1.10.9 `ParasiteEventEntity#getFloor`，地面扫描现在返回紧邻非空气方块上方的空气位置；从固体或水开始时向上搜索，从空气开始时向下搜索，并严格按最多检查位置数终止。这一公共修正影响第二个寄生口、Beckon 保护柱和遮蔽群系植物。GameTest 覆盖双向搜索、步数边界及第二个寄生口实际生成；26.3 的空气变种按空气处理，未加载区块仍遵循项目原有的安全读取策略。
+
 ---
 
 ## 4. 因目标版本 API 缺失而改写或省略的部分
@@ -361,14 +365,14 @@ GRADLE=("$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.g
 "${GRADLE[@]}" build --console=plain
 export SRP_DECOMPILED_ROOT="D:/code/MC模组/_scratch/vf/out109"
 node scripts/run-all-verifications.cjs   # 155 passed, 1 skipped, 0 failed；基准为目标 1.10.9
-"${GRADLE[@]}" runGameTestServer         # All 206 required tests passed
+"${GRADLE[@]}" runGameTestServer         # All 208 required tests passed
 ```
 
 | 检查 | 结果 |
 | --- | --- |
 | 编译与打包 | **BUILD SUCCESSFUL**，产物 `build/libs/csrp-1.10.9.jar` |
 | 静态契约校验 | 指定 1.10.9 反编译目录后 **155 通过、1 跳过、0 失败**；跳过项缺少外部资源 `manifest.json`。默认的 1.10.8 目录缺失，7 项基线合同无法在该默认路径下运行；1.10.9 结果不能证明 1.10.8 基线通过 |
-| 运行期 GameTest | **206 / 206 通过**，含实体冒烟、NBT、Rooter 支援及伤害转移、Nexus 状态减伤和 Bomb 命中测试 |
+| 运行期 GameTest | **208 / 208 通过**，含实体冒烟、NBT、Rooter 支援及伤害转移、Nexus 状态减伤、Bomb 命中和世界生成地面扫描测试 |
 | 服务器启动 | GameTest 服务器完整启动至测试结束，无启动崩溃 |
 | 世界生成运行期 | 225 区块实证：四类寄生群系 + 36 种寄生体方块落地，零 decoration 失败 |
 | 实体 id 对齐 | 原件 158 个 id **全部命中**（缺失 0） |
