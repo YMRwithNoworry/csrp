@@ -1,6 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.Config;
+import alku.csrp.config.MobsConfig;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.registry.ModMobEffects;
 import com.mojang.serialization.Codec;
@@ -104,8 +105,15 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     private int wormMinimumPayload = 3;
     private int wormMaximumPayload = 3;
     private final List<String> wormPayloadTypes = new ArrayList<>();
-    private UUID dispatchTarget;
+    private LivingEntity dispatchTarget;
     private String dispatchEntityId;
+    private NexusParasiteEntity dispatchOwner;
+    private int dispatchStage;
+    private double dispatchBuried;
+    private boolean dispatchRetreating;
+    private boolean dispatchPeek;
+    private int dispatchPeekTicks;
+    private boolean dispatchDeathHandled;
     private UUID seizerTarget;
     private boolean kyphosisAttackUp = false;
     private double kyphosisBuriedTarget = 7.5D;
@@ -265,6 +273,13 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         super.die(source);
         if (activeKind() == Kind.SEIZER) {
             clearSeizerTarget();
+        } else if (activeKind() == Kind.DISPATCHER_TENTACLE && !level().isClientSide()
+                && dead && !dispatchDeathHandled) {
+            dispatchDeathHandled = true;
+            if (dispatchOwner != null && dispatchOwner.isAlive() && dispatchEntityId != null) {
+                dispatchOwner.recallParasite(dispatchEntityId);
+                dispatchEntityId = null;
+            }
         }
     }
 
@@ -280,11 +295,9 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         for (String type : wormPayloadTypes) {
             payloadTypes.add(type);
         }
-        if (dispatchTarget != null) {
-            output.store("deterrent_dispatch_target", UUIDUtil.CODEC, dispatchTarget);
-        }
-        if (dispatchEntityId != null) {
-            output.putString("deterrent_dispatch_entity", dispatchEntityId);
+        if (activeKind() == Kind.DISPATCHER_TENTACLE) {
+            output.putBoolean("deterrent_dispatch_peek", dispatchPeek);
+            output.putBoolean("deterrent_dispatch_retreating", dispatchRetreating);
         }
         if (seizerTarget != null) {
             output.store("deterrent_seizer_target", UUIDUtil.CODEC, seizerTarget);
@@ -307,7 +320,7 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     public void readAdditionalSaveData(ValueInput input) {
         super.readAdditionalSaveData(input);
         abilityCooldown = input.getIntOr("deterrent_ability_cooldown", 0);
-        lifetimeTicks = input.getIntOr("deterrent_lifetime", 0);
+        lifetimeTicks = activeKind() == Kind.DISPATCHER_TENTACLE ? 0 : input.getIntOr("deterrent_lifetime", 0);
         attackFlashTicks = input.getIntOr("deterrent_attack_flash", 0);
         wormMinimumPayload = input.getIntOr("deterrent_worm_minimum", 3);
         wormMaximumPayload = input.getIntOr("deterrent_worm_maximum", 3);
@@ -315,8 +328,15 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
         for (String type : input.listOrEmpty("deterrent_worm_types", Codec.STRING)) {
             wormPayloadTypes.add(type);
         }
-        dispatchTarget = input.read("deterrent_dispatch_target", UUIDUtil.CODEC).orElse(null);
-        dispatchEntityId = input.getString("deterrent_dispatch_entity").orElse(null);
+        dispatchTarget = null;
+        dispatchEntityId = null;
+        dispatchOwner = null;
+        dispatchStage = 0;
+        dispatchBuried = 0.0D;
+        dispatchPeek = input.getBooleanOr("deterrent_dispatch_peek", false);
+        dispatchRetreating = input.getBooleanOr("deterrent_dispatch_retreating", false);
+        dispatchPeekTicks = 0;
+        dispatchDeathHandled = false;
         seizerTarget = input.read("deterrent_seizer_target", UUIDUtil.CODEC).orElse(null);
         if (activeKind() == Kind.SENTRY) {
             entityData.set(SENTRY_PARASITE_STATUS, input.getIntOr("sentry_parasite_status", 0));
@@ -338,7 +358,8 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     public void setDispatchTarget(LivingEntity target) {
-        dispatchTarget = target == null ? null : target.getUUID();
+        dispatchTarget = target;
+        dispatchBuried = 4.0D;
     }
 
     /** Configures a Dispatcher-created tentacle to deploy a registered parasite type. */
@@ -348,6 +369,16 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
 
     public void setDispatchEntity(Identifier type) {
         dispatchEntityId = type == null ? null : type.toString();
+    }
+
+    public void setDispatcherStage(int stage) {
+        dispatchStage = stage;
+        dispatchPeek = true;
+        dispatchBuried = 4.0D;
+    }
+
+    public void setDispatcherOwner(NexusParasiteEntity owner) {
+        dispatchOwner = owner;
     }
 
     public void setLifetimeTicks(int lifetimeTicks) {
@@ -460,53 +491,101 @@ public final class DeterrentParasiteEntity extends PrimitiveParasiteEntity {
     }
 
     private void tickDispatcherTentacle() {
+        ++lifetimeTicks;
+        if (dispatchBuried > 0.0D && !dispatchRetreating) {
+            dispatchBuried -= 0.08D;
+        }
+        if (dispatchPeek && lifetimeTicks > 100) {
+            LivingEntity target = getTarget();
+            if (target != null && !target.isAlive()) {
+                setTarget(null);
+            } else if (target != null) {
+                dispatchPeekTicks = 0;
+            } else if (++dispatchPeekTicks > 100) {
+                dispatchRetreating = true;
+            }
+        }
+        if (dispatchRetreating) {
+            dispatchBuried += 0.08D;
+            if (dispatchBuried > 4.0D) {
+                discard();
+            }
+            return;
+        }
+        LivingEntity attackTarget = getTarget();
+        if ((attackTarget != null && distanceToSqr(attackTarget) > 256.0D)
+                || (lifetimeTicks > 120 && dispatchEntityId == null && dispatchTarget == null)) {
+            dispatchRetreating = true;
+            return;
+        }
         if (lifetimeTicks == 40) {
             setSpecialAction(SpecialAction.DISPATCHER_DEPLOY);
         }
-        if (++lifetimeTicks < 60) {
+        if (lifetimeTicks <= 60 || dispatchBuried > 0.0D) {
             return;
         }
-        if (dispatchEntityId != null && spawnDispatchedEntity()) {
-            discard();
+        if (dispatchEntityId != null) {
+            if (spawnDispatchedEntity()) {
+                dispatchEntityId = null;
+            }
             return;
         }
-        LivingEntity target = findEntity(dispatchTarget);
-        if (target == null || distanceToSqr(target) > 1024.0D) {
-            discard();
-            return;
+        if (dispatchTarget != null) {
+            dispatchTarget.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
+            dispatchTarget = null;
         }
-        target.teleportTo(getX(), getY(), getZ());
-        target.setDeltaMovement(Vec3.ZERO);
-        if (isOnFire()) {
-            target.setHealth(Math.max(1.0F, target.getMaxHealth() * 0.5F));
-            target.igniteForSeconds(8.0F);
-        }
-        level().addParticle(ParticleTypes.PORTAL, getX(), getY() + getBbHeight() * 0.5D, getZ(), 0.0D, 0.2D, 0.0D);
-        discard();
     }
 
     private boolean spawnDispatchedEntity() {
         if (!(level() instanceof ServerLevel serverLevel)) {
             return false;
         }
-        net.minecraft.resources.Identifier entityId = net.minecraft.resources.Identifier.tryParse(dispatchEntityId);
+        Identifier entityId = Identifier.tryParse(dispatchEntityId);
         if (entityId == null) {
             return false;
         }
         EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(entityId).orElse(null);
-        if (type == null || !(type.create(serverLevel, EntitySpawnReason.MOB_SUMMONED) instanceof Mob mob)) {
+        if (type == null || !(type.create(serverLevel, EntitySpawnReason.MOB_SUMMONED) instanceof Mob mob)
+                || !(mob instanceof Parasite)) {
             return false;
         }
         mob.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         mob.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(mob.blockPosition()),
                 EntitySpawnReason.MOB_SUMMONED, null);
-        mob.setTarget(getTarget());
+        serverLevel.addFreshEntity(mob);
+        applyDispatcherEffects(mob);
         if (isOnFire()) {
-            mob.setHealth(Math.max(1.0F, mob.getMaxHealth() * 0.5F));
+            mob.setHealth(mob.getMaxHealth() * 0.5F);
             mob.igniteForSeconds(8.0F);
         }
-        serverLevel.addFreshEntity(mob);
+        if (dispatchOwner != null && dispatchOwner.isAlive()) {
+            ParasiteDespawnHandler.setDispatcherOwner(mob, dispatchOwner);
+        }
         return true;
+    }
+
+    private void applyDispatcherEffects(Mob mob) {
+        for (String entry : MobsConfig.dispatcherEffects(dispatchStage)) {
+            String[] parts = entry.split(";", -1);
+            if (parts.length != 3) {
+                continue;
+            }
+            try {
+                int duration = Integer.parseInt(parts[0].trim());
+                Identifier id = Identifier.tryParse(parts[1].trim());
+                int amplifier = Integer.parseInt(parts[2].trim());
+                if (id == null) {
+                    continue;
+                }
+                if (id.getNamespace().equals("srparasites")) {
+                    id = Identifier.fromNamespaceAndPath("csrp", id.getPath());
+                }
+                BuiltInRegistries.MOB_EFFECT.getOptional(id).ifPresent(effect -> mob.addEffect(
+                        new MobEffectInstance(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(effect), duration, amplifier)));
+            } catch (NumberFormatException ignored) {
+                // Tolerate stale hand-edited configuration entries.
+            }
+        }
     }
 
     private void maintainSeizerGrip() {

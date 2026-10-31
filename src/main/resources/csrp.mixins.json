@@ -4,7 +4,8 @@
   "package": "alku.csrp.mixin",
   "mixins": [
     "LevelChunkSectionMixin",
-    "MobDespawnMixin"
+    "MobDespawnMixin",
+    "EventHooksDespawnMixin"
   ],
   "client": [
     "client.ChatComponentMixin",

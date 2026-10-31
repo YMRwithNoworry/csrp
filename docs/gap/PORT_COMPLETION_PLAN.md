@@ -1,6 +1,6 @@
 # SRParasites 1.10.8 完整移植主计划
 
-> 历史计划快照：以下百分比、勾选和缺口描述未持续同步，不能作为当前完成度结论；最新状态见 `PORT_BACKLOG.md` 与 `PORTING_NOTES.md`。Nexus 受击反击炸弹、普通状态减伤、Dispatcher IV 古代胞囊、Rooter 召唤及容量、阶段升级替换、三级家族解锁和一级保护结构闸门已部分对照 1.10.9 修正；成长概率、主要 AI 检查节奏和失败后等待已补充，Dispatcher 储存转换和计数已部分补充；其他 Goal 交互、实际音量、状态切换时序、伤害配置倍率、Dispatcher 扫描节奏与防御召唤、客户端粒子及其他未覆盖玩法仍待核实或修复，不能宣称 100% 等价。
+> 历史计划快照：以下百分比、勾选和缺口描述未持续同步，不能作为当前完成度结论；最新状态见 `PORT_BACKLOG.md` 与 `PORTING_NOTES.md`。Nexus 受击反击炸弹、普通状态减伤、Dispatcher IV 古代胞囊、Rooter 召唤及容量、阶段升级替换、三级家族解锁和一级保护结构闸门已部分对照 1.10.9 修正；成长概率、主要 AI 检查节奏和失败后等待已补充，Dispatcher 储存转换、触须载荷及父实体回收已部分补充；其他 Goal 交互、实际音量、状态切换时序、伤害配置倍率、Dispatcher 扫描节奏与防御召唤、客户端粒子及其他未覆盖玩法仍待核实或修复，不能宣称 100% 等价。
 >
 > 生成日期：2026-08-22。由四份领域差距报告（实体AI / 注册内容 / 客户端 / 世界系统）汇总而成。
 > 参考源码：`D:\code\模组反编译器\decompiled\[逃逸：寄生体] SRParasites-1.10.8\com\dhanantry\scapeandrunparasites\`
@@ -37,7 +37,7 @@
 ### 方块——功能/殖民地/装饰
 - [x] `infested_workbench`、`consumed_workbench`（合成枢纽）——2026-08-22
 - [ ] `colonyoutpost`、`relaycontroller`(+dummy)、`noderelay`（TileEntity）、`parasitecanister`
-- [x] ~~消失→囊肿机制~~ 2026-08-22 完成：`canisteractive` 活体囊肿（消化物品+进化点，吃空自灭）+ `MobDespawnMixin` 超距消失时调度柱回收（storeBefDes）/落地囊肿（spawnCyst）；持久化临时方案已移除
+- [ ] 消失→囊肿机制部分迁移：自然消失时只向实际父调度柱回收，并在有方块库存时抛出 Gore 囊肿；库存格式、抛射细节、死亡路径及进化积分仍需核实，详见 `PORTING_NOTES.md` 3.30。
 - [ ] `assimilated_blossom` + 花盆 4（infested_pot/consumed_pot/2×potted_blossom）
 - [ ] `parasitebush`、`parasitetendril`（藤蔓）、`infestedbush`、`infested_cactus`、`infested_leaves`
 - [ ] `hirsute_hair`、`tresses_hair`、`lipoma_mass`、`harlequinn_grass`、`bloodyice`、gore 6 块（goresim/gorepri/goreada/gorepur/gorefer/goremar）

@@ -128,6 +128,26 @@ public final class MobsConfig {
             "srparasites:dispatcher_siv", "dispatcherSIVFollowRangeMultiplier", 2, 1, 100,
             "原版 Dispatcher 第 IV 阶段的跟随距离倍率。");
 
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> DISPATCHER_SI_EFFECTS = stringList(
+            "srparasites:dispatcher_si", "dispatcherSIEffects", List.of(
+                    "100;minecraft:speed;0", "100;csrp:debar;1", "200;csrp:link;1", "100;csrp:senses;1"),
+            "Relocated parasite effects: ticks;effect_id;amplifier.", MobsConfig::validDispatcherEffect);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> DISPATCHER_SII_EFFECTS = stringList(
+            "srparasites:dispatcher_sii", "dispatcherSIIEffects", List.of(
+                    "200;minecraft:speed;1", "200;minecraft:regeneration;2", "200;csrp:debar;1",
+                    "300;csrp:link;1", "200;csrp:senses;2"),
+            "Relocated parasite effects: ticks;effect_id;amplifier.", MobsConfig::validDispatcherEffect);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> DISPATCHER_SIII_EFFECTS = stringList(
+            "srparasites:dispatcher_siii", "dispatcherSIIIEffects", List.of(
+                    "300;minecraft:speed;2", "300;minecraft:regeneration;3", "300;minecraft:strength;3",
+                    "300;csrp:debar;1", "400;csrp:link;2", "300;csrp:senses;3"),
+            "Relocated parasite effects: ticks;effect_id;amplifier.", MobsConfig::validDispatcherEffect);
+    private static final ModConfigSpec.ConfigValue<List<? extends String>> DISPATCHER_SIV_EFFECTS = stringList(
+            "srparasites:dispatcher_siv", "dispatcherSIVEffects", List.of(
+                    "400;minecraft:speed;3", "400;minecraft:regeneration;4", "400;minecraft:strength;4",
+                    "400;minecraft:absorption;4", "400;csrp:debar;1", "500;csrp:link;3", "400;csrp:senses;4"),
+            "Relocated parasite effects: ticks;effect_id;amplifier.", MobsConfig::validDispatcherEffect);
+
     private static final ModConfigSpec.BooleanValue DISPATCHER_PRIMITIVE_YELLOWEYE = booleanValue(
             "srparasites:yelloweye", "primitiveYelloweyeEnabled", true,
             "Whether Dispatcher conversion may create a Primitive Yelloweye.");
@@ -774,6 +794,15 @@ public final class MobsConfig {
                 .defineList(name, defaults, validator);
         BUILDER.pop();
         return value;
+    }
+
+    public static List<? extends String> dispatcherEffects(int stage) {
+        return switch (stage) {
+            case 2 -> DISPATCHER_SII_EFFECTS.get();
+            case 3 -> DISPATCHER_SIII_EFFECTS.get();
+            case 4 -> DISPATCHER_SIV_EFFECTS.get();
+            default -> DISPATCHER_SI_EFFECTS.get();
+        };
     }
 
     public static boolean dispatcherPrimitiveEnabled(int index) {
@@ -1556,6 +1585,23 @@ public final class MobsConfig {
             for (int index : new int[] {0, 1, 2, 4, 5}) {
                 Integer.parseInt(parts[index].trim());
             }
+            return true;
+        } catch (NumberFormatException ignored) {
+            return false;
+        }
+    }
+
+    private static boolean validDispatcherEffect(Object value) {
+        if (!(value instanceof String effect)) {
+            return false;
+        }
+        String[] parts = effect.split(";", -1);
+        if (parts.length != 3 || net.minecraft.resources.Identifier.tryParse(parts[1].trim()) == null) {
+            return false;
+        }
+        try {
+            Integer.parseInt(parts[0].trim());
+            Integer.parseInt(parts[2].trim());
             return true;
         } catch (NumberFormatException ignored) {
             return false;

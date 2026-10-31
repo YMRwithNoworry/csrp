@@ -5,15 +5,16 @@ import net.minecraft.world.entity.Mob;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-/**
- * 在原版自然消失判定生效前，为寄生体执行原版 SRP 的 cyst/recall 流程。
- */
+/** Runs the parasite despawn effects only on the two distance-based discard paths. */
 @Mixin(Mob.class)
 public abstract class MobDespawnMixin {
-    @Inject(method = "removeWhenFarAway", at = @At("HEAD"))
-    private void csrp$beforeFarDespawn(double distance, CallbackInfoReturnable<Boolean> cir) {
-        ParasiteDespawnHandler.onRemoveWhenFarAway((Mob) (Object) this);
+    @Inject(method = "checkDespawn", at = {
+            @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Mob;discard()V", ordinal = 1),
+            @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Mob;discard()V", ordinal = 2)
+    })
+    private void csrp$beforeFarDespawn(CallbackInfo ci) {
+        ParasiteDespawnHandler.onNaturalDespawn((Mob) (Object) this);
     }
 }

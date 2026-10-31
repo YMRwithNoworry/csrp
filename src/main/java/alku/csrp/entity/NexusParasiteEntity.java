@@ -719,7 +719,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         }
     }
 
-    private boolean storeDispatcherParasite(Mob candidate) {
+    boolean storeDispatcherParasite(Mob candidate) {
         Identifier id = BuiltInRegistries.ENTITY_TYPE.getKey(candidate.getType());
         if (!candidate.isAlive() || id == null || !Csrp.MODID.equals(id.getNamespace())
                 || id.getPath().equals("worker") || !dispatcherStorageGroundValid()) {
@@ -1352,8 +1352,13 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
                         EntitySpawnReason.MOB_SUMMONED, null);
                 takeStoredParasite(index);
                 tentacle.setDispatchEntity(id);
+                tentacle.setDispatcherStage(activeKind().stage);
                 tentacle.setTarget(target);
+                if (isOnFire()) {
+                    tentacle.igniteForSeconds(8.0F);
+                }
                 serverLevel.addFreshEntity(tentacle);
+                tentacle.setDispatcherOwner(this);
                 return true;
             }
             return false;

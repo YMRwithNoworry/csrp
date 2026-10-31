@@ -62,7 +62,7 @@ public final class ParasiteBlockInventory {
         return true;
     }
 
-    private static void launchCyst(ServerLevel level, LivingEntity parasite) {
+    public static void launchCyst(ServerLevel level, LivingEntity parasite) {
         NonNullList<ItemStack> items = takeAll(parasite);
         if (items.isEmpty()) {
             return;
