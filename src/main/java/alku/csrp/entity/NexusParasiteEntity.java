@@ -108,6 +108,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
     private static final int NEXUS_ROOTER_INTERVAL = 20;
     private static final int NEXUS_GROWTH_RETRY_CHECKS = 20_000;
     private static final int LEGACY_GROWTH_UNIT = 20;
+    private static final int DISPATCHER_INITIAL_CHECKS = 20;
     private static final int DISPATCHER_FOG_MIN_Y_OFFSET = -2;
     private static final int DISPATCHER_FOG_MAX_Y_OFFSET = 4;
 
@@ -117,6 +118,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
     private int dispatcherInfected;
     private int dispatcherMangler;
     private int dispatcherFlesh;
+    private int dispatcherStorageChecks = DISPATCHER_INITIAL_CHECKS;
+    private int dispatcherSelectorTick;
+    private boolean dispatcherStorageRunning;
     private final SummonCapacityTracker summonTracker = new SummonCapacityTracker();
     private int growthTicks;
     private int growthDelayTicks;
@@ -279,9 +283,33 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
     protected void customServerAiStep(ServerLevel serverLevel) {
         super.customServerAiStep(serverLevel);
         Kind activeKind = activeKind();
+        if (activeKind.family == Family.DISPATCHER) {
+            tickDispatcherStorageGoal();
+        }
         if (activeKind.supportsOrdinaryGrowth() && growthDelayTicks > 0) {
             tickGrowthGoal(serverLevel, activeKind);
         }
+    }
+
+    private void tickDispatcherStorageGoal() {
+        boolean scanGoals = dispatcherSelectorTick == 0;
+        dispatcherSelectorTick = (dispatcherSelectorTick + 1) % 3;
+        if (dispatcherStorageRunning) {
+            dispatcherStorageRunning = shouldRunDispatcherStorageGoal();
+        } else if (scanGoals) {
+            dispatcherStorageRunning = shouldRunDispatcherStorageGoal();
+        }
+        if (dispatcherStorageRunning) {
+            storeNearbyParasite();
+        }
+    }
+
+    private boolean shouldRunDispatcherStorageGoal() {
+        if (--dispatcherStorageChecks < 0) {
+            dispatcherStorageChecks = getTarget() == null ? 80 : 10;
+            return true;
+        }
+        return false;
     }
 
     private void tickGrowthGoal(ServerLevel level, Kind activeKind) {
@@ -373,9 +401,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
             return;
         }
         if (activeKind.family == Family.DISPATCHER && tickCount % 40 == 0) {
-            if (!isNoAi()) {
-                storeNearbyParasite();
-            }
             placeNestFog(activeKind.stage);
         }
         if (activeKind.family == Family.DISPATCHER && activeKind.stage == 4) {
@@ -598,6 +623,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         growthSelectorTick = 0;
         growthGoalRunning = false;
         growthPhaseAllowed = true;
+        dispatcherStorageChecks = DISPATCHER_INITIAL_CHECKS;
+        dispatcherSelectorTick = 0;
+        dispatcherStorageRunning = false;
         summonCooldown = tag.getIntOr("nexus_summon_cooldown", 0);
         supportCooldown = tag.getIntOr("nexus_support_cooldown", 0);
         rooterCycleTicks = Mth.clamp(tag.getIntOr("nexus_rooter_cycle", 0), 0, 20);
@@ -894,14 +922,13 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
                 && candidate.onGround()
                 && candidate.tickCount > 100
                 && DispatcherStorageCooldown.canStore(candidate)
-                && !candidate.isPassenger()
-                && !candidate.isVehicle()
                 && !(candidate instanceof NexusParasiteEntity)
                 && !(candidate instanceof PreeminentParasiteEntity)
-                && !(candidate instanceof AncientParasiteEntity)
-                && !(candidate instanceof AbominationEntity)
                 && !(candidate instanceof ArchitectEntity)
+                && !(candidate instanceof FlamEntity)
+                && !(candidate instanceof DerivedParasiteEntity)
                 && !(candidate instanceof DeterrentParasiteEntity)
+                && !(candidate instanceof BurrowingVariantEntity burrowing && burrowing.bodySegmentCount() > 0)
                 && !(candidate instanceof MarauderTendrilEntity);
     }
 

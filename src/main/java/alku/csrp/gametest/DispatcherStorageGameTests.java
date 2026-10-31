@@ -61,6 +61,9 @@ public final class DispatcherStorageGameTests {
         event.registerTest(id("persistence"), new PersistenceTest(data));
         event.registerTest(id("scan_and_no_ai"), new ScanTest(data));
         event.registerTest(id("movement_and_damage_cooldown"), new CooldownTest(data));
+        event.registerTest(id("candidate_categories"), new CategoryTest(data));
+        event.registerTest(id("legacy_storage_cadence"), new StorageCadenceTest(data));
+        event.registerTest(id("server_ai_cadence"), new ServerAiCadenceTest(data));
     }
 
     private static Identifier id(String name) {
@@ -365,6 +368,147 @@ public final class DispatcherStorageGameTests {
                 Mob target = scene.spawn(EntityTypes.SHEEP);
                 target.hurtServer(helper.getLevel(), helper.getLevel().damageSources().mobAttack(candidate), 0.25F);
                 helper.assertTrue(!DispatcherStorageCooldown.canStore(candidate), "Melee hit did not reset attacker cooldown");
+                helper.succeed();
+            }
+        }
+    }
+
+    private static void prepareCandidate(Mob candidate) {
+        candidate.tickCount = 101;
+        candidate.setOnGround(true);
+    }
+
+    private static boolean isStorable(NexusParasiteEntity dispatcher, Mob candidate) {
+        return (boolean) invoke(dispatcher, "isStorableDispatcherParasite", new Class<?>[]{Mob.class}, candidate);
+    }
+
+    private static void tickStorageGoal(NexusParasiteEntity dispatcher, int ticks) {
+        for (int i = 0; i < ticks; i++) {
+            invoke(dispatcher, "tickDispatcherStorageGoal", new Class<?>[]{});
+        }
+    }
+
+    private static final class CategoryTest extends Test {
+        CategoryTest(TestData<Holder<TestEnvironmentDefinition<?>>> data) { super(data); }
+
+        @Override
+        public void run(GameTestHelper helper) {
+            try (Scene scene = new Scene(helper)) {
+                NexusParasiteEntity dispatcher = scene.dispatcher(ModEntities.DISPATCHER_SI.get());
+                List<Mob> excluded = new ArrayList<>();
+                for (EntityType<? extends Mob> type : List.<EntityType<? extends Mob>>of(
+                        ModEntities.CARRIER_WORM.get(), ModEntities.PRI_BURROWER.get(), ModEntities.PRI_TOZOON.get(),
+                        ModEntities.ADA_BURROWER.get(), ModEntities.ADA_TOZOON.get(), ModEntities.BECKON_SI.get(),
+                        ModEntities.ROOTER_SI.get(), ModEntities.ROOTERBALL.get(), ModEntities.DISPATCHERTEN.get(),
+                        ModEntities.KYPHOSIS.get(), ModEntities.SEIZER.get(), ModEntities.SENTRY.get(),
+                        ModEntities.WORM.get(), ModEntities.BOMBER_HEAVY.get(), ModEntities.BOGLE.get(),
+                        ModEntities.CARRIER_COLONY.get(), ModEntities.HAUNTER.get(), ModEntities.WRAITH.get(),
+                        ModEntities.SUCCOR.get(), ModEntities.ARCHITECT.get(), ModEntities.KIRIN.get(),
+                        ModEntities.DRACONITE.get(), ModEntities.MARAUDER_TENDRIL.get(), EntityTypes.SHEEP)) {
+                    Mob candidate = scene.spawn(type);
+                    prepareCandidate(candidate);
+                    helper.assertTrue(!isStorable(dispatcher, candidate), "Excluded storage candidate: " + type);
+                    excluded.add(candidate);
+                }
+                List<Mob> allowed = new ArrayList<>();
+                for (EntityType<? extends Mob> type : List.<EntityType<? extends Mob>>of(
+                        ModEntities.PRI_BOLSTER.get(), ModEntities.ADA_BOLSTER.get(),
+                        ModEntities.ANC_DREADNAUT.get(), ModEntities.ANC_OVERLORD.get(),
+                        ModEntities.ANC_DREADNAUT_TEN.get(), ModEntities.ANC_POD.get(),
+                        ModEntities.ABO_HEAD.get(), ModEntities.ABO_BODIES.get(), ModEntities.FER_COW.get(),
+                        ModEntities.TENDRIL.get(), ModEntities.BIOMASS.get())) {
+                    Mob candidate = scene.spawn(type);
+                    prepareCandidate(candidate);
+                    helper.assertTrue(isStorable(dispatcher, candidate), "Allowed storage candidate was rejected: " + type);
+                    allowed.add(candidate);
+                }
+                Mob mount = scene.spawn(EntityTypes.SHEEP);
+                Mob passenger = scene.spawn(ModEntities.BUGLIN.get());
+                prepareCandidate(passenger);
+                helper.assertTrue(passenger.startRiding(mount, true, false), "Could not set up riding parasite");
+                helper.assertTrue(isStorable(dispatcher, passenger), "Riding incorrectly prevents storage");
+                Mob vehicle = scene.spawn(ModEntities.BUGLIN.get());
+                Mob rider = scene.spawn(EntityTypes.SHEEP);
+                prepareCandidate(vehicle);
+                helper.assertTrue(rider.startRiding(vehicle, true, false), "Could not set up parasite vehicle");
+                helper.assertTrue(isStorable(dispatcher, vehicle), "Carrying a passenger incorrectly prevents storage");
+                invoke(dispatcher, "storeNearbyParasite", new Class<?>[]{});
+                for (Mob candidate : allowed) {
+                    helper.assertTrue(candidate.isRemoved(), "Allowed candidate was not stored: " + candidate.getType());
+                }
+                for (Mob candidate : excluded) {
+                    helper.assertTrue(!candidate.isRemoved(), "Excluded candidate was stored: " + candidate.getType());
+                }
+                helper.assertTrue(passenger.isRemoved() && vehicle.isRemoved(), "Riding candidates were not stored");
+                helper.succeed();
+            }
+        }
+    }
+
+    private static final class StorageCadenceTest extends Test {
+        StorageCadenceTest(TestData<Holder<TestEnvironmentDefinition<?>>> data) { super(data); }
+
+        @Override
+        public void run(GameTestHelper helper) {
+            try (Scene scene = new Scene(helper)) {
+                NexusParasiteEntity dispatcher = scene.dispatcher(ModEntities.DISPATCHER_SI.get());
+                Mob first = scene.spawn(ModEntities.BUGLIN.get());
+                prepareCandidate(first);
+                tickStorageGoal(dispatcher, 60);
+                helper.assertTrue(!first.isRemoved(), "Initial storage scan ran before AI tick 61");
+                tickStorageGoal(dispatcher, 1);
+                helper.assertTrue(first.isRemoved(), "Initial storage scan did not run on AI tick 61");
+                Mob idle = scene.spawn(ModEntities.BUGLIN.get());
+                prepareCandidate(idle);
+                tickStorageGoal(dispatcher, 239);
+                helper.assertTrue(!idle.isRemoved(), "Idle storage scan ran before the 80-check interval");
+                tickStorageGoal(dispatcher, 1);
+                helper.assertTrue(idle.isRemoved(), "Idle storage scan did not run after 240 AI ticks");
+                dispatcher.discard();
+
+                NexusParasiteEntity combat = scene.dispatcher(ModEntities.DISPATCHER_SI.get());
+                Mob target = scene.spawn(EntityTypes.SHEEP);
+                combat.setTarget(target);
+                Mob combatFirst = scene.spawn(ModEntities.BUGLIN.get());
+                prepareCandidate(combatFirst);
+                tickStorageGoal(combat, 61);
+                helper.assertTrue(combatFirst.isRemoved(), "Initial combat storage scan did not run");
+                Mob combatNext = scene.spawn(ModEntities.BUGLIN.get());
+                prepareCandidate(combatNext);
+                tickStorageGoal(combat, 29);
+                helper.assertTrue(!combatNext.isRemoved(), "Combat storage scan ran before the 10-check interval");
+                tickStorageGoal(combat, 1);
+                helper.assertTrue(combatNext.isRemoved(), "Combat storage scan did not run after 30 AI ticks");
+
+                CompoundTag saved = save(combat);
+                tickStorageGoal(combat, 10);
+                combat.load(TagValueInput.create(ProblemReporter.DISCARDING, combat.registryAccess(), saved));
+                helper.assertTrue(counter(combat, "dispatcherStorageChecks") == 20
+                                && counter(combat, "dispatcherSelectorTick") == 0,
+                        "Transient storage goal state was not reset on reload");
+                helper.succeed();
+            }
+        }
+    }
+
+    private static final class ServerAiCadenceTest extends Test {
+        ServerAiCadenceTest(TestData<Holder<TestEnvironmentDefinition<?>>> data) { super(data); }
+
+        @Override
+        public void run(GameTestHelper helper) {
+            try (Scene scene = new Scene(helper)) {
+                NexusParasiteEntity dispatcher = scene.dispatcher(ModEntities.DISPATCHER_SI.get());
+                Mob candidate = scene.spawn(ModEntities.BUGLIN.get());
+                candidate.setPos(candidate.getX() + 3.0D, candidate.getY(), candidate.getZ());
+                prepareCandidate(candidate);
+                for (int i = 0; i < 70; i++) helper.getLevel().tickNonPassenger(dispatcher);
+                helper.assertTrue(!candidate.isRemoved() && counter(dispatcher, "dispatcherStorageChecks") == 20,
+                        "NoAI advanced the Dispatcher storage goal");
+                dispatcher.setNoAi(false);
+                for (int i = 0; i < 60; i++) helper.getLevel().tickNonPassenger(dispatcher);
+                helper.assertTrue(!candidate.isRemoved(), "Server AI stored the candidate too early");
+                helper.getLevel().tickNonPassenger(dispatcher);
+                helper.assertTrue(candidate.isRemoved(), "Server AI did not perform the initial storage scan");
                 helper.succeed();
             }
         }

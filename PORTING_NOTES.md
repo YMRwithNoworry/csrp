@@ -318,7 +318,7 @@ GameTest 覆盖创建快照和重载、阶段/发展等级闸门、两次候选�
 
 对照 1.10.9 `EntityPDispatcher`：Buglin 转 Rupter、两份 Moving Flesh 转随机启用的原始体；二级起感染体与粗制体分别累计，四个感染计数尝试移除四项 `sim_`，六个粗制计数尝试移除六个条目；三级起 Rupter 转 Mangler。保留 `mar_` 参与感染计数但不被 `sim_` 删除循环消费、三个中型粗制体不会产生 Heed、取出与回收不对称等原件边界。地面要求三层硬度均大于零且总和严格小于 10，Worker 不可存入。粗制、感染和肉块计数写入存档，Mangler 计数与原件一样不持久化；早期 26.3 存档缺失计数时按库存近似重建。七种原始体的启用项目前用于这一转换路径。
 
-扫描处理范围内所有候选且尊重 NoAI；水平移动、进入受击事件及近战伤害事件会触发临时收纳冷却。六个 GameTest 覆盖阶段转换、混合计数、硬度边界、启用项、旧存档重建、取出和移动/伤害冷却。当前扫描仍使用每 40 tick 的移植节奏，不是原版攻击 Goal 的节奏；未命中攻击或被事件之前拦截的伤害、候选类别排除和原版防御召唤仍未完全对齐。
+扫描处理范围内所有候选且尊重 NoAI；水平移动、进入受击事件及近战伤害事件会触发临时收纳冷却。GameTest 覆盖阶段转换、混合计数、硬度边界、启用项、旧存档重建、取出、候选类别、骑乘关系和移动/伤害冷却，并通过真实服务器 AI tick 验证调度。当前实现按原版 `EntityAIDodAttack` 使用初始 20、无目标 80、有目标 10 的检查计数，非运行 Goal 每三次 AI 更新检查一次、运行 Goal 每 tick 续行；未命中攻击或被事件之前拦截的伤害等冷却细节，以及原版防御召唤仍未完全对齐。
 
 ### 3.30 Dispatcher 触须与自然消失
 
@@ -405,14 +405,14 @@ GRADLE=("$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.g
 "${GRADLE[@]}" build --console=plain
 export SRP_DECOMPILED_ROOT="D:/code/MC模组/_scratch/vf/out109"
 node scripts/run-all-verifications.cjs   # 155 passed, 1 skipped, 0 failed；基准为目标 1.10.9
-"${GRADLE[@]}" runGameTestServer         # All 242 required tests passed
+"${GRADLE[@]}" runGameTestServer         # All 245 required tests passed
 ```
 
 | 检查 | 结果 |
 | --- | --- |
 | 编译与打包 | **BUILD SUCCESSFUL**，产物 `build/libs/csrp-1.10.9.jar` |
 | 静态契约校验 | 指定 1.10.9 反编译目录后 **155 通过、1 跳过、0 失败**；跳过项缺少外部资源 `manifest.json`。默认的 1.10.8 目录缺失，7 项基线合同无法在该默认路径下运行；1.10.9 结果不能证明 1.10.8 基线通过 |
-| 运行期 GameTest | **242 / 242 通过**，含 Dispatcher 触须载荷、返还、重载和自然消失，Dispatcher 储存转换、配置、持久化与冷却，Nexus 成长概率与节奏、Beckon 召唤表、阶段升级和保护结构判定、实体冒烟、NBT、Dispatcher 胞囊、Rooter 支援、Nexus 状态减伤、Bomb 命中及世界生成地面扫描测试 |
+| 运行期 GameTest | **245 / 245 通过**，含 Dispatcher 触须载荷、返还、重载和自然消失，Dispatcher 储存转换、配置、持久化、候选分类与原版调度节奏，Nexus 成长概率与节奏、Beckon 召唤表、阶段升级和保护结构判定、实体冒烟、NBT、Dispatcher 胞囊、Rooter 支援、Nexus 状态减伤、Bomb 命中及世界生成地面扫描测试 |
 | 服务器启动 | GameTest 服务器完整启动至测试结束，无启动崩溃 |
 | 世界生成运行期 | 225 区块实证：四类寄生群系 + 36 种寄生体方块落地，零 decoration 失败 |
 | 实体 id 对齐 | 原件 158 个 id **全部命中**（缺失 0） |

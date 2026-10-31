@@ -38,6 +38,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Rotation;
@@ -437,6 +438,8 @@ public final class DispatcherLifecycleGameTests {
             Scene scene = new Scene(helper);
             NexusParasiteEntity parent = scene.spawn(ModEntities.DISPATCHER_SI.get());
             DeterrentParasiteEntity tentacle = scene.tentacle(parent, 1, Identifier.parse("csrp:buglin"));
+            ChunkPos forcedChunk = tentacle.chunkPosition();
+            boolean addedForceTicket = helper.getLevel().setChunkForced(forcedChunk.x(), forcedChunk.z(), true);
             List<Mob> payloads = new ArrayList<>();
             Consumer<EntityJoinLevelEvent> join = event -> {
                 if (event.getLevel() == helper.getLevel() && event.getEntity().getType() == ModEntities.BUGLIN.get()
@@ -449,13 +452,17 @@ public final class DispatcherLifecycleGameTests {
             helper.runAtTickTime(55, () -> premature[0] = !payloads.isEmpty());
             helper.runAtTickTime(75, () -> {
                 try {
-                    helper.assertTrue(!premature[0] && payloads.size() == 1 && tentacle.isAlive()
-                                    && payloads.get(0).hasEffect(MobEffects.SPEED),
-                            "normal server ticks did not deploy one buffed payload while keeping the tentacle alive");
+                    helper.assertTrue(!premature[0], "payload deployed before tick 55");
+                    helper.assertTrue(payloads.size() == 1, "expected one payload, found " + payloads.size());
+                    helper.assertTrue(tentacle.isAlive(), "tentacle did not survive payload deployment");
+                    helper.assertTrue(payloads.get(0).hasEffect(MobEffects.SPEED), "payload missed Dispatcher speed");
                     helper.succeed();
                 } finally {
                     NeoForge.EVENT_BUS.unregister(join);
                     for (Mob mob : payloads) mob.discard();
+                    if (addedForceTicket) {
+                        helper.getLevel().setChunkForced(forcedChunk.x(), forcedChunk.z(), false);
+                    }
                     scene.close();
                 }
             });
