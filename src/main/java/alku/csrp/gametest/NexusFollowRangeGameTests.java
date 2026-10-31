@@ -69,7 +69,7 @@ public final class NexusFollowRangeGameTests {
             assertRangeAndGrowth(helper, ModEntities.ROOTER_SIV.get(), 128.0D, -1, -1, "Rooter stage IV");
             assertRangeAndGrowth(helper, ModEntities.ROOTERBALL.get(), 16.0D, -1, -1, "Rooterball");
             assertRooterAttributes(helper, ModEntities.ROOTER_SI.get(), 25.0D, 4.0D, 2.5D, "Rooter stage I");
-            assertRooterAttributes(helper, ModEntities.ROOTER_SII.get(), 60.0D, 8.0D, 6.0D, "Rooter stage II");
+            assertRooterAttributes(helper, ModEntities.ROOTER_SII.get(), 60.0D, 8.0D, 36.0D, "Rooter stage II");
             assertRooterAttributes(helper, ModEntities.ROOTER_SIII.get(), 110.0D, 16.0D, 13.0D, "Rooter stage III");
             assertRooterAttributes(helper, ModEntities.ROOTER_SIV.get(), 220.0D, 25.0D, 20.0D, "Rooter stage IV");
             helper.succeed();

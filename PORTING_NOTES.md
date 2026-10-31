@@ -37,7 +37,7 @@
 | 可加载运行的构建产物 | `build/libs/csrp-1.10.9.jar`（约 134 MB，含全部资源） |
 | 移植说明 | 本文件 |
 | 各子系统详细报告 | `docs/gap/R2_REPORT.md`、`R2_BLIZZARD_REPORT.md`、`R3_WORLDGEN_REPORT.md`、`R4_BLOCKS_REPORT.md`、`R5_ITEMS_REPORT.md`、`R6_ENTITY_MATRIX.md`、`LANG_REPORT.md` |
-| 自动化校验 | `scripts/run-all-verifications.cjs`（149 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
+| 自动化校验 | `scripts/run-all-verifications.cjs`（156 项）+ `scripts/build-locked.sh`（多 agent 并发构建串行化） |
 
 规模：569 个 Java 文件、88 个方块类、128 个实体文件、44 个物品类、7 个 Mixin、362 个 blockstate、2236 张纹理、1008 个音效、55 个结构 NBT、33 套语言。
 
@@ -276,6 +276,12 @@ java.lang.NoSuchFieldError: Class net.neoforged.fml.config.ModConfig$Type does n
 
 Rooter 的 `applyGene` 对普通寄生体设置六个基础开关和三个数值，对原件 `EntityPMalleable` 分支另外启用适应、方块搜寻、残留物和普通胞囊；现将相关调用接到实体级 profile，并保留 Worm Carrier 的普通基类和 Rupter 的空 `applyGene` 例外。第 0 世代 GameTest 覆盖基类差异及实际伤害适应；静态脚本覆盖受影响的调用点。Nexus 召唤、伤害顺序和囊肿位置等尚需继续比对，不能据此认定整类行为完全等价。
 
+### 3.23 Nexus 受击反击
+
+对照 1.10.9 `EntityPStationaryArchitect#attackEntityFrom` 和 `EntityBomb`：仅有效受击且伤害来源的生物在 6 格内时发射 `stage * 2` 个 skin 1、60 tick 引信、零爆炸强度的定时 Bomb，爆炸伤害半径为阶段数，冷却 80 tick 且重载后不保留。Bomb 对视线内非寄生生物造成伤害和 Viral，不使用寄生体索敌黑名单或 THE_SIGN 过滤；伤害来源记录炸弹与所有者。Rooter 的反击始终使用一级 Beckon 默认伤害 2.5，而不是 Rooter 阶段攻击力。
+
+`SRPAttributes.reset()` 后的 `init()` 将二级 Beckon 攻击的初值 6 再乘以 6，因此默认实际值是 36；二级 Rooter 复用该属性。Nexus 的状态为 0 时，伤害在父类处理前乘以 0.4；Rooter 先将原始伤害平分给 Rootmass Cyst，后者不继承该减伤。七个 GameTest 覆盖三家族四阶段、距离边界、冷却及重载、爆炸目标与归因、状态减伤、囊肿分伤，以及 Bomb 正负分量的单向速度上限。原件全局/单体伤害倍率尚未全部接入，状态切换时序、其他伤害顺序和召唤行为仍待核对。
+
 ---
 
 ## 4. 因目标版本 API 缺失而改写或省略的部分
@@ -355,14 +361,14 @@ GRADLE=("$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.g
 "${GRADLE[@]}" build --console=plain
 export SRP_DECOMPILED_ROOT="D:/code/MC模组/_scratch/vf/out109"
 node scripts/run-all-verifications.cjs   # 155 passed, 1 skipped, 0 failed；基准为目标 1.10.9
-"${GRADLE[@]}" runGameTestServer         # All 199 required tests passed
+"${GRADLE[@]}" runGameTestServer         # All 206 required tests passed
 ```
 
 | 检查 | 结果 |
 | --- | --- |
 | 编译与打包 | **BUILD SUCCESSFUL**，产物 `build/libs/csrp-1.10.9.jar` |
 | 静态契约校验 | 指定 1.10.9 反编译目录后 **155 通过、1 跳过、0 失败**；跳过项缺少外部资源 `manifest.json`。默认的 1.10.8 目录缺失，7 项基线合同无法在该默认路径下运行；1.10.9 结果不能证明 1.10.8 基线通过 |
-| 运行期 GameTest | **199 / 199 通过**，含实体冒烟、NBT、Rooter 支援及伤害转移等测试 |
+| 运行期 GameTest | **206 / 206 通过**，含实体冒烟、NBT、Rooter 支援及伤害转移、Nexus 状态减伤和 Bomb 命中测试 |
 | 服务器启动 | GameTest 服务器完整启动至测试结束，无启动崩溃 |
 | 世界生成运行期 | 225 区块实证：四类寄生群系 + 36 种寄生体方块落地，零 decoration 失败 |
 | 实体 id 对齐 | 原件 158 个 id **全部命中**（缺失 0） |

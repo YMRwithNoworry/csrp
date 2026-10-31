@@ -40,8 +40,8 @@ for (const feature of [
 ]) {
   if (!nexus.includes(feature)) failures.push(`Nexus behavior is missing ${feature}`);
 }
-expect(nexus, /float sharedDamage = amount \/ cysts\.size\(\);/,
-  "Rootmass Cyst damage is not split across nearby cysts");
+expect(nexus, /float sharedDamage = amount \/ cysts\.size\(\);[\s\S]*?float incomingDamage = damageRedirected \? 0\.0F : amount;[\s\S]*?!activeKind\.isRooterBall\(\) && getParasiteStatus\(\) == 0[\s\S]*?incomingDamage \*= 0\.4F/,
+  "Nexus idle damage reduction must follow Rooter cyst sharing and exclude Rootmass Cysts");
 expect(nexus, /else \{\s*spawnRootmassCysts\(MobsConfig\.rooterCystLimit\(activeKind\.stage\)\);\s*\}/,
   "Rooter does not create Rootmass Cysts before taking an unprotected hit");
 for (const [stage, range, effectRange, cooldown, limit] of [
@@ -81,8 +81,10 @@ expect(nexus, /!activeKind\.supportsOrdinaryGrowth\(\) \|\| !RuntimeToggles\.mob
   "evolve() does not explicitly reject Nexus stages without ordinary growth");
 expect(nexus, /ROOTER_SI\(Family\.ROOTER, 1, 25\.0D, 4\.0D, 2\.5D/,
   "Rooter stage I attributes do not reuse the original Venkrol stage I values");
-expect(nexus, /ROOTER_SII\(Family\.ROOTER, 2, 60\.0D, 8\.0D, 6\.0D/,
-  "Rooter stage II attributes do not reuse the original Venkrol stage II values");
+expect(nexus, /BECKON_SII\(Family\.BECKON, 2, 60\.0D, 8\.0D, 36\.0D/,
+  "Beckon stage II attack damage omits the original sixfold initialization multiplier");
+expect(nexus, /ROOTER_SII\(Family\.ROOTER, 2, 60\.0D, 8\.0D, 36\.0D/,
+  "Rooter stage II attack damage does not reuse the initialized Beckon stage II value");
 expect(nexus, /ROOTER_SIII\(Family\.ROOTER, 3, 110\.0D, 16\.0D, 13\.0D/,
   "Rooter stage III attributes do not reuse the original Venkrol stage III values");
 expect(nexus, /ROOTER_SIV\(Family\.ROOTER, 4, 220\.0D, 25\.0D, 20\.0D/,

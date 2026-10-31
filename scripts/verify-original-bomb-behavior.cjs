@@ -20,6 +20,7 @@ const omboo = read("src/main/java/alku/csrp/entity/PureParasiteEntity.java");
 const jinjo = read("src/main/java/alku/csrp/entity/PreeminentParasiteEntity.java");
 const iki = read("src/main/java/alku/csrp/entity/AdaptedVariantEntity.java");
 const primitiveIki = read("src/main/java/alku/csrp/entity/VerminEntity.java");
+const nexus = read("src/main/java/alku/csrp/entity/NexusParasiteEntity.java");
 const sheep = read("src/main/java/alku/csrp/entity/MarauderizedSheepEntity.java");
 const legacyPath = path.join(root, "src/main/java/alku/csrp/entity/LegacyAuxiliaryEntity.java");
 const legacy = fs.existsSync(legacyPath) ? fs.readFileSync(legacyPath, "utf8") : "";
@@ -46,7 +47,10 @@ expect(bomb, /movement\.x \* 0\.7D, movement\.y \* -0\.5D, movement\.z \* 0\.7D/
 // 26.3's GameRules exposes `<T> T get(GameRule<T>)`; `getBoolean` no longer exists.
 expect(bomb, /canGrief\s*&&\s*level\(\) instanceof ServerLevel \w+[\s\S]*?\w+\.getGameRules\(\)\.get\(GameRules\.MOB_GRIEFING\)/,
   "bomb block damage does not honor both griefing controls");
-expect(bomb, /ModMobEffects\.VIRAL, 300, 0/, "bomb direct Viral duration is not original");
+expect(bomb, /entity -> !\(entity instanceof Parasite\)[\s\S]*?target\.hasLineOfSight\(this\)[\s\S]*?damageSources\(\)\.thrown\(this, owner\)/,
+  "bomb must target visible non-parasites with the original thrown-projectile attribution");
+expect(bomb, /EffectStacking\.apply\(target, ModMobEffects\.VIRAL, 300, 0\)/,
+  "bomb direct Viral does not use the original stacking and duration rules");
 expect(bomb, /setWaitTime\(5\)/, "bomb toxic-cloud wait time is not 5 ticks");
 expect(bomb, /setDuration\(60\)/, "bomb toxic-cloud duration is not 60 ticks");
 expect(bomb, /MobEffects\.POISON, 300, 0/, "bomb toxic cloud lacks Poison");
@@ -77,6 +81,13 @@ expect(primitiveIki, /Config\.worldGnatCap\(\)[\s\S]*?configure\(this, 60, 0\.0F
   "Primitive Iki does not switch from Gnats to its original bomb at the configured cap");
 expect(iki, /Config\.worldGnatCap\(\)/,
   "Adapted Iki does not use the original configured global Gnat cap");
+expect(nexus, /bombCooldown <= 0[\s\S]*?source\.getEntity\(\) instanceof LivingEntity attacker[\s\S]*?attacker\.distanceToSqr\(this\) <= 36\.0D[\s\S]*?spawnBombVolley\(level, activeKind\)[\s\S]*?bombCooldown = 80/,
+  "Nexus retaliation lacks the original attacker distance and 80-tick cooldown gates");
+expect(nexus, /activeKind\.family == Family\.ROOTER \? 2\.5F : \(float\) activeKind\.attackDamage[\s\S]*?index < stage \* 2[\s\S]*?ModEntities\.BOMB\.get\(\)[\s\S]*?configure\(this, 60, 0\.0F, damage, stage, 1, false\)[\s\S]*?setBeckonMotion/,
+  "Nexus retaliation does not use the stage-dependent original Bomb parameters");
+if (/nexus_bomb_cooldown/.test(nexus)) {
+  failures.push("Nexus retaliation cooldown must reset after loading, as in the original");
+}
 expect(sheep, /ModEntities\.NADE_BALL[\s\S]*?Mode\.ELVIA_NADE/,
   "Marauderized Sheep does not use the original nadeball projectile");
 

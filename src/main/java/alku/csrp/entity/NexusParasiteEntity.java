@@ -34,6 +34,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -379,14 +380,18 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         }
 
         float incomingDamage = damageRedirected ? 0.0F : amount;
+        if (!activeKind.isRooterBall() && getParasiteStatus() == 0) {
+            incomingDamage *= 0.4F;
+        }
         boolean hurt = super.hurtServer(level, source,
                 source.is(DamageTypeTags.IS_FIRE) ? incomingDamage * 4.0F : incomingDamage);
         if (!hurt || level.isClientSide() || activeKind.isRooterBall()) {
             return hurt;
         }
-        if (bombCooldown <= 0) {
-            spawnBombVolley(activeKind.bombCount, (float) activeKind.attackDamage);
-            bombCooldown = 100;
+        if (bombCooldown <= 0 && !source.is(DamageTypes.FELL_OUT_OF_WORLD)
+                && source.getEntity() instanceof LivingEntity attacker && attacker.distanceToSqr(this) <= 36.0D) {
+            spawnBombVolley(level, activeKind);
+            bombCooldown = 80;
         }
         return true;
     }
@@ -470,7 +475,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         tag.putInt("nexus_growth", growthTicks);
         tag.putInt("nexus_growth_delay", growthDelayTicks);
         tag.putInt("nexus_summon_cooldown", summonCooldown);
-        tag.putInt("nexus_bomb_cooldown", bombCooldown);
         tag.putInt("nexus_support_cooldown", supportCooldown);
         tag.putInt("nexus_rooter_cycle", rooterCycleTicks);
         tag.putInt("nexus_rooter_ground_checks", rooterGroundChecks);
@@ -495,7 +499,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         growthTicks = tag.getIntOr("nexus_growth", 0);
         growthDelayTicks = tag.getInt("nexus_growth_delay").orElseGet(this::defaultGrowthDelay);
         summonCooldown = tag.getIntOr("nexus_summon_cooldown", 0);
-        bombCooldown = tag.getIntOr("nexus_bomb_cooldown", 0);
         supportCooldown = tag.getIntOr("nexus_support_cooldown", 0);
         rooterCycleTicks = Mth.clamp(tag.getIntOr("nexus_rooter_cycle", 0), 0, 20);
         rooterGroundChecks = Mth.clamp(tag.getIntOr("nexus_rooter_ground_checks", 0), 0, 6);
@@ -1154,13 +1157,46 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         return false;
     }
 
-    private void spawnBombVolley(int count, float damage) {
-        for (int index = 0; index < count; index++) {
-            double angle = Math.PI * 2.0D * index / count + random.nextDouble() * 0.45D;
-            Vec3 start = position().add(0.0D, getBbHeight() * 0.65D, 0.0D);
-            Vec3 target = start.add(Math.cos(angle) * (4.0D + random.nextDouble() * 3.0D),
-                    random.nextDouble() * 1.5D, Math.sin(angle) * (4.0D + random.nextDouble() * 3.0D));
-            fireProjectile(ParasiteProjectileEntity.Mode.BOMB, start, target, 0.72D, damage, 1.25D, 90);
+    private void spawnBombVolley(ServerLevel serverLevel, Kind activeKind) {
+        int stage = activeKind.stage;
+        float damage = activeKind.family == Family.ROOTER ? 2.5F : (float) activeKind.attackDamage;
+        float eyeHeight = switch (activeKind.family) {
+            case ROOTER -> 1.4F;
+            case DISPATCHER -> switch (stage) {
+                case 1 -> 2.3F;
+                case 2 -> 3.4F;
+                case 3 -> 4.6F;
+                default -> 2.5F;
+            };
+            case BECKON -> switch (stage) {
+                case 1 -> 1.4F;
+                case 2 -> 2.7F;
+                case 3 -> 4.9F;
+                default -> 8.1F;
+            };
+            case ROOTERBALL -> 1.8F;
+        };
+        for (int index = 0; index < stage * 2; index++) {
+            double dx = (float) getX() + serverLevel.getRandom().nextFloat() - getX();
+            double dy = (float) getY() + serverLevel.getRandom().nextFloat() - getY();
+            double dz = (float) getZ() + serverLevel.getRandom().nextFloat() - getZ();
+            double distance = Math.sqrt(dx * dx + dy * dy + dz * dz);
+            if (distance == 0.0D) {
+                distance = 1.0D;
+            }
+            double strength = 0.5D / (distance / 4.0D + 0.1D);
+            strength *= serverLevel.getRandom().nextFloat() * serverLevel.getRandom().nextFloat() + 0.65F;
+            BombEntity bomb = ModEntities.BOMB.get().create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+            if (bomb == null) {
+                continue;
+            }
+            bomb.configure(this, 60, 0.0F, damage, stage, 1, false);
+            bomb.snapTo(getX(), getY() + eyeHeight - 0.1F, getZ(), getYRot(), getXRot() + 20.0F);
+            bomb.setBeckonMotion(dx / distance * strength, dy / distance * strength * stage * 3.0D,
+                    dz / distance * strength, 0.35D, stage / 10.0F * 2.0F);
+            if (serverLevel.addFreshEntity(bomb)) {
+                serverLevel.broadcastEntityEvent(bomb, (byte) 0);
+            }
         }
     }
 
@@ -1662,26 +1698,25 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
     public enum Kind {
         // Summoning pillars cast every 2–3 seconds in the original game.
         // Use a four-times faster cadence while retaining stage progression.
-        BECKON_SI(Family.BECKON, 1, 25.0D, 4.0D, 2.5D, 4, 4, 50, 1.0F, 3.0D, 16, 16.0D),
-        BECKON_SII(Family.BECKON, 2, 60.0D, 8.0D, 6.0D, 5, 6, 45, 1.0F, 3.0D, 32, 32.0D),
-        BECKON_SIII(Family.BECKON, 3, 110.0D, 16.0D, 13.0D, 6, 8, 40, 1.0F, 3.0D, 64, 48.0D),
-        BECKON_SIV(Family.BECKON, 4, 220.0D, 25.0D, 20.0D, 8, 12, 40, 5.0F, 18.0D, 220, 128.0D),
-        DISPATCHER_SI(Family.DISPATCHER, 1, 33.0D, 7.0D, 3.0D, 4, 3, 60, 1.0F, 3.0D, 16, 32.0D),
-        DISPATCHER_SII(Family.DISPATCHER, 2, 70.0D, 14.0D, 7.0D, 5, 5, 55, 2.0F, 6.0D, 32, 64.0D),
-        DISPATCHER_SIII(Family.DISPATCHER, 3, 130.0D, 21.0D, 14.0D, 6, 7, 50, 3.0F, 9.0D, 64, 96.0D),
-        DISPATCHER_SIV(Family.DISPATCHER, 4, 250.0D, 28.0D, 22.0D, 8, 9, 45, 5.0F, 18.0D, 220, 256.0D),
-        ROOTER_SI(Family.ROOTER, 1, 25.0D, 4.0D, 2.5D, 4, 3, 60, 0.0F, 0.0D, 16, 16.0D),
-        ROOTER_SII(Family.ROOTER, 2, 60.0D, 8.0D, 6.0D, 5, 5, 55, 2.0F, 6.0D, 32, 32.0D),
-        ROOTER_SIII(Family.ROOTER, 3, 110.0D, 16.0D, 13.0D, 6, 7, 50, 3.0F, 9.0D, 64, 48.0D),
-        ROOTER_SIV(Family.ROOTER, 4, 220.0D, 25.0D, 20.0D, 8, 9, 45, 5.0F, 18.0D, 220, 128.0D),
-        ROOTERBALL(Family.ROOTERBALL, 0, 20.0D, 10.0D, 0.0D, 0, 0, 0, 0.0F, 0.0D, 0, 16.0D);
+        BECKON_SI(Family.BECKON, 1, 25.0D, 4.0D, 2.5D, 4, 50, 1.0F, 3.0D, 16, 16.0D),
+        BECKON_SII(Family.BECKON, 2, 60.0D, 8.0D, 36.0D, 6, 45, 1.0F, 3.0D, 32, 32.0D),
+        BECKON_SIII(Family.BECKON, 3, 110.0D, 16.0D, 13.0D, 8, 40, 1.0F, 3.0D, 64, 48.0D),
+        BECKON_SIV(Family.BECKON, 4, 220.0D, 25.0D, 20.0D, 12, 40, 5.0F, 18.0D, 220, 128.0D),
+        DISPATCHER_SI(Family.DISPATCHER, 1, 33.0D, 7.0D, 3.0D, 3, 60, 1.0F, 3.0D, 16, 32.0D),
+        DISPATCHER_SII(Family.DISPATCHER, 2, 70.0D, 14.0D, 7.0D, 5, 55, 2.0F, 6.0D, 32, 64.0D),
+        DISPATCHER_SIII(Family.DISPATCHER, 3, 130.0D, 21.0D, 14.0D, 7, 50, 3.0F, 9.0D, 64, 96.0D),
+        DISPATCHER_SIV(Family.DISPATCHER, 4, 250.0D, 28.0D, 22.0D, 9, 45, 5.0F, 18.0D, 220, 256.0D),
+        ROOTER_SI(Family.ROOTER, 1, 25.0D, 4.0D, 2.5D, 3, 60, 0.0F, 0.0D, 16, 16.0D),
+        ROOTER_SII(Family.ROOTER, 2, 60.0D, 8.0D, 36.0D, 5, 55, 2.0F, 6.0D, 32, 32.0D),
+        ROOTER_SIII(Family.ROOTER, 3, 110.0D, 16.0D, 13.0D, 7, 50, 3.0F, 9.0D, 64, 48.0D),
+        ROOTER_SIV(Family.ROOTER, 4, 220.0D, 25.0D, 20.0D, 9, 45, 5.0F, 18.0D, 220, 128.0D),
+        ROOTERBALL(Family.ROOTERBALL, 0, 20.0D, 10.0D, 0.0D, 0, 0, 0.0F, 0.0D, 0, 16.0D);
 
         private final Family family;
         private final int stage;
         private final double maxHealth;
         private final double armor;
         private final double attackDamage;
-        private final int bombCount;
         private final int activeCap;
         private final int summonCooldown;
         private final float maxBlockHardness;
@@ -1689,7 +1724,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         private final int experience;
         private final double defaultFollowRange;
 
-        Kind(Family family, int stage, double maxHealth, double armor, double attackDamage, int bombCount,
+        Kind(Family family, int stage, double maxHealth, double armor, double attackDamage,
              int activeCap, int summonCooldown, float maxBlockHardness, double blockRange, int experience,
              double defaultFollowRange) {
             this.family = family;
@@ -1697,7 +1732,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
             this.maxHealth = maxHealth;
             this.armor = armor;
             this.attackDamage = attackDamage;
-            this.bombCount = bombCount;
             this.activeCap = activeCap;
             this.summonCooldown = summonCooldown;
             this.maxBlockHardness = maxBlockHardness;

@@ -18,7 +18,7 @@
     `"$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain <task>`；
     `scripts/build-locked.sh` 已同步改为这一调用方式。
 - 静态校验套件：指定 `SRP_DECOMPILED_ROOT=D:/code/MC模组/_scratch/vf/out109` 后 **155 通过、1 跳过、0 失败**；这使用的是目标 1.10.9 源码，不能视作对缺失 1.10.8 基线的验证。未指定目录时 7 项脚本因默认 1.10.8 源码缺失失败；资源审计因外部 `manifest.json` 缺失跳过。
-- 运行期验证：`runGameTestServer` → **199 / 199 GameTests 通过**，包括 Rooter 支援周期、伤害转移、持久化和第 0 世代基因覆盖。
+- 运行期验证：`runGameTestServer` → **206 / 206 GameTests 通过**，包括 Rooter 支援、伤害转移及持久化，以及 Nexus 反击炸弹的阶段参数、距离、冷却、重载、命中和单向速度限制。
 - 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2911 键 / zh_cn 2927 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
 - 本轮由 `runGameTestServer` 抓出并修复的运行期加载失败：方块状态定义读取 `super()` 前未赋值的实例字段（`LegacyVariantSlabBlock` / `LegacyRelayBlock`，改为工厂预发布）、`JukeboxSong` 是数据包注册表故 `discone` / `disctwo` 需要 `data/csrp/jukebox_song/*.json`（见 commit `d7f7ca5c`）。
@@ -26,8 +26,10 @@
 ## 当前进展与待核实
 
 - Rooter 阶段属性、成长延迟、支援周期和配置已接入；PIVOT 所有权以 UUID 和维度保存，RooterBall 周期清除 PIVOT。普通和可适应型寄生体分别应用原件对应的基因，Rupter 保留原件空实现。
+- Nexus 近距离受击反击已改用原件式定时 Bomb：三家族四阶段按 `stage * 2` 数量、6 格距离、80 tick 冷却及各阶段威力/半径发射；冷却重载后重置。Bomb 直接命中不再套用索敌过滤器，伤害保留炸弹及所有者归因。原件 `SRPAttributes.init()` 对 Beckon II 攻击额外乘以 6，默认 36，Rooter II 复用该属性；Rooter 的反击炸弹仍使用 Beckon I 的 2.5 默认伤害。
 - 已补寄生树苗生长及失败恢复、感染骨粉树苗路径、殖民前哨结构逻辑；其余分支仍需逐项比对。
-- Nexus/Dispatcher 的召唤、投射物、方块破坏、伤害顺序及 Rootmass Cyst 生成位置等仍需与原件逐字段核实；客户端粒子调用尚未全部接齐。
+- Nexus 普通状态受击已按原件乘以 0.4；Rooter 先按原始伤害向 Rootmass Cyst 分伤，囊肿自身不继承减伤。状态的实际切换时序仍需与原件核实。
+- Nexus/Dispatcher 的召唤、其他投射物、方块破坏、其余伤害顺序及 Rootmass Cyst 生成位置等仍需与原件逐字段核实；炸弹伤害尚未接原件全局/单体倍率配置。客户端粒子调用尚未全部接齐。
 - 本项目仍有未实现或未证实等价的行为，静态合同及 GameTest 通过不能证明 100% 迁移。
 
 ## 已完成（本轮 R2–R6）

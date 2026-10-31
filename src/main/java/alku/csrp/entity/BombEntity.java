@@ -1,6 +1,7 @@
 package alku.csrp.entity;
 
 import alku.csrp.config.MobsConfig;
+import alku.csrp.effect.EffectStacking;
 import alku.csrp.registry.ModMobEffects;
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -82,7 +83,7 @@ public final class BombEntity extends Entity {
         xRotO = getXRot();
     }
 
-    /** Original EntityBomb#setMotion used by a Beckon when the world-wide parasite cap is full. */
+    /** Original EntityBomb#setMotion used by Beckons and stationary architect retaliation. */
     public void setBeckonMotion(double xSpeed, double ySpeed, double zSpeed, double capX, double capY) {
         xSpeed = Math.min(xSpeed, capX);
         ySpeed = Math.min(ySpeed, capY);
@@ -145,12 +146,12 @@ public final class BombEntity extends Entity {
             AABB area = new AABB(getX(), getY(), getZ(), getX() + 1.0D, getY() + 1.0D, getZ() + 1.0D)
                     .inflate(rangeRadius);
             for (LivingEntity target : level().getEntitiesOfClass(LivingEntity.class, area,
-                    owner::isValidParasiteTarget)) {
+                    entity -> !(entity instanceof Parasite))) {
                 if (!target.hasLineOfSight(this)) {
                     continue;
                 }
-                target.hurt(damageSources().mobAttack(owner), damage);
-                target.addEffect(new MobEffectInstance(ModMobEffects.VIRAL, 300, 0), owner);
+                target.hurt(damageSources().thrown(this, owner), damage);
+                EffectStacking.apply(target, ModMobEffects.VIRAL, 300, 0);
                 if (owner.isAlive()) {
                     owner.applyPrimitiveMinimumDamage(target, 3.0F);
                 }
