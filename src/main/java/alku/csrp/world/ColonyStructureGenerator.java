@@ -74,10 +74,20 @@ public final class ColonyStructureGenerator {
         return true;
     }
 
-    /** Places one specific building; the original only ever reached B1..B3 and BS1..BS3 implicitly. */
+    /** Places one specific building through the same generator contract used by colony structure blocks. */
+    public static boolean generateBuilding(ServerLevel level, BlockPos origin, ColonyBuilding building, int stage,
+            RandomSource random) {
+        if (building == null) {
+            return false;
+        }
+        building.create(stage).generate(level, random, origin);
+        return true;
+    }
+
+    /** Compatibility alias for callers that predate the dedicated generation entry point. */
     public static void place(ServerLevel level, BlockPos origin, ColonyBuilding building, int stage,
             RandomSource random) {
-        building.create(stage).generate(level, random, origin);
+        generateBuilding(level, origin, building, stage, random);
     }
 
     /**

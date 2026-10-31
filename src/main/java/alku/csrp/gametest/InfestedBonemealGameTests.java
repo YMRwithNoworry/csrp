@@ -2,6 +2,7 @@ package alku.csrp.gametest;
 
 import alku.csrp.Csrp;
 import alku.csrp.block.entity.InfuserFurnaceBlockEntity;
+import alku.csrp.block.ParasiteSaplingBlock;
 import alku.csrp.item.InfestedBonemealItem;
 import alku.csrp.registry.ModBlocks;
 import com.mojang.serialization.MapCodec;
@@ -102,6 +103,35 @@ public final class InfestedBonemealGameTests {
                     Component.literal("a liquid block was converted"));
             helper.assertTrue(helper.getBlockEntity(blockEntity, InfuserFurnaceBlockEntity.class) != null,
                     Component.literal("the block entity in the sphere was removed"));
+
+            BlockPos saplingPos = ORIGIN.offset(0, 0, 4);
+            ParasiteSaplingBlock sapling = (ParasiteSaplingBlock) ModBlocks.legacyBlock("parasitesapling").get();
+            helper.setBlock(saplingPos, sapling.defaultBlockState()
+                    .setValue(ParasiteSaplingBlock.VARIANT, ParasiteSaplingBlock.Variant.TREETHIN));
+            boolean advanced = sapling.tryGrowWithInfestedBonemeal(helper.getLevel(), helper.absolutePos(saplingPos),
+                    helper.getBlockState(saplingPos), helper.getLevel().getRandom());
+            helper.assertTrue(advanced
+                            && helper.getBlockState(saplingPos).getValue(ParasiteSaplingBlock.STAGE) == 1,
+                    Component.literal("infested bonemeal did not advance a stage-zero parasite sapling"));
+            helper.assertFalse(sapling.tryGrowWithInfestedBonemeal(helper.getLevel(), helper.absolutePos(saplingPos),
+                            helper.getBlockState(saplingPos), helper.getLevel().getRandom()),
+                    Component.literal("a stage-one thin sapling incorrectly grew from infested bonemeal"));
+
+            BlockPos failedTreePos = ORIGIN.offset(1, 0, 4);
+            helper.setBlock(failedTreePos.below(), Blocks.DIRT);
+            helper.setBlock(failedTreePos.above(), Blocks.STONE);
+            helper.setBlock(failedTreePos, sapling.defaultBlockState()
+                    .setValue(ParasiteSaplingBlock.VARIANT, ParasiteSaplingBlock.Variant.CONSUMED)
+                    .setValue(ParasiteSaplingBlock.STAGE, 1));
+            boolean generated = sapling.tryGrowWithInfestedBonemeal(helper.getLevel(), helper.absolutePos(failedTreePos),
+                    helper.getBlockState(failedTreePos), helper.getLevel().getRandom());
+            helper.assertFalse(generated,
+                    Component.literal("a stage-one sapling generated without ground support"));
+            helper.assertTrue(helper.getBlockState(failedTreePos).is(sapling)
+                            && helper.getBlockState(failedTreePos).getValue(ParasiteSaplingBlock.VARIANT)
+                                    == ParasiteSaplingBlock.Variant.CONSUMED
+                            && helper.getBlockState(failedTreePos).getValue(ParasiteSaplingBlock.STAGE) == 1,
+                    Component.literal("failed tree generation did not restore the original sapling state"));
             helper.succeed();
         }
 

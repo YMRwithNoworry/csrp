@@ -201,6 +201,11 @@ public final class WorldConfig {
         return base == 0 ? 0 : base + level.players().size() * WORLD_MOB_CAP_PLUS_PLAYER.get();
     }
 
+    /** {@code SRPConfig.worldMobCap}: the fixed limit used by the original block-spawn helper. */
+    public static int worldMobCap() {
+        return WORLD_MOB_CAP.get();
+    }
+
     /** {@code SRPConfig.worldMobCap + players * worldMobCapPlusPlayer + worldBeckonSpawnsCap}. */
     public static int beckonSummonLimit(ServerLevel level) {
         return WORLD_MOB_CAP.get() + level.players().size() * WORLD_MOB_CAP_PLUS_PLAYER.get()

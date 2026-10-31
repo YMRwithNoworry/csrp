@@ -4,6 +4,7 @@ const path = require("path");
 const root = path.resolve(__dirname, "..");
 const source = fs.readFileSync(path.join(root, "src/main/java/alku/csrp/item/InfestedBonemealItem.java"), "utf8");
 const gameTest = fs.readFileSync(path.join(root, "src/main/java/alku/csrp/gametest/InfestedBonemealGameTests.java"), "utf8");
+const sapling = fs.readFileSync(path.join(root, "src/main/java/alku/csrp/block/ParasiteSaplingBlock.java"), "utf8");
 const failures = [];
 
 const requireFragment = (text, fragment, message) => {
@@ -32,6 +33,18 @@ requireFragment(source, "random.nextInt(5)", "the original five-way plant distri
 requireFragment(source, "random.nextBoolean()", "the original hair choice is missing");
 requireFragment(source, "level.sendParticles(net.minecraft.core.particles.ParticleTypes.LARGE_SMOKE", "original large-smoke particles are missing");
 requireFragment(gameTest, "infested_bonemeal/sphere_and_guards", "the sphere GameTest is not registered");
+requireFragment(source, "tryGrowWithInfestedBonemeal", "infested bonemeal does not use the dedicated sapling growth path");
+requireFragment(source, "context.getItemInHand().shrink(1)", "successful sapling growth does not consume the item");
+requireFragment(sapling, "Variant.CONSUMED", "consumed sapling handling is missing");
+requireFragment(sapling, "Variant.DEADHEAD", "deadhead sapling handling is missing");
+requireFragment(sapling, "Variant.INFESTED", "infested sapling handling is missing");
+requireFragment(sapling, "WorldGenParasiteTree.generate", "consumed saplings are not routed to the parasite tree generator");
+requireFragment(sapling, "DeadheadTreeGen.grow", "deadhead saplings are not routed to the deadhead generator");
+requireFragment(sapling, "WorldGenParasiteTallFlower.generate", "infested saplings are not routed to the tall-flower generator");
+requireFragment(gameTest, "stage-zero parasite sapling", "the GameTest does not exercise stage-zero sapling growth");
+requireFragment(gameTest, "stage-one thin sapling incorrectly grew", "the GameTest does not reject unsupported stage-one variants");
+requireFragment(gameTest, "restore the original sapling state", "the GameTest does not cover failed generation restoration");
+
 requireFragment(gameTest, "Blocks.FARMLAND, 20", "the GameTest does not exercise scheduled-tick exclusion");
 requireFragment(gameTest, "Blocks.WATER", "the GameTest does not exercise fluid exclusion");
 requireFragment(gameTest, "ModBlocks.INFUSER_FURNACE.get()", "the GameTest does not exercise block-entity exclusion");

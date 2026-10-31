@@ -47,9 +47,18 @@ public final class InfestedBonemealItem extends BoneMealItem {
         BlockPos pos = context.getClickedPos();
         BlockState clicked = level.getBlockState(pos);
         // Original handled BlockThornshade and BlockParasiteSapling through the vanilla bonemeal
-        // path first; both implement BonemealableBlock in this port.
-        if (clicked.getBlock() instanceof alku.csrp.block.ThornshadeBlock
-                || clicked.getBlock() instanceof alku.csrp.block.ParasiteSaplingBlock) {
+        // path first; both implement BonemealableBlock in this port. The sapling additionally ran
+        // tryGrowWithInfestedBonemeal (tryGrowWithInfestedBonemeal), which bypasses the vanilla
+        // event and only grows consumed/deadhead/infested variants at stage 1.
+        if (clicked.getBlock() instanceof alku.csrp.block.ParasiteSaplingBlock sapling
+                && level instanceof ServerLevel serverLevel) {
+            boolean grew = sapling.tryGrowWithInfestedBonemeal(serverLevel, pos, clicked, serverLevel.getRandom());
+            if (grew && context.getPlayer() != null && !context.getPlayer().getAbilities().instabuild) {
+                context.getItemInHand().shrink(1);
+            }
+            return grew ? InteractionResult.SUCCESS : InteractionResult.PASS;
+        }
+        if (clicked.getBlock() instanceof alku.csrp.block.ThornshadeBlock) {
             return super.useOn(context);
         }
         if (level.isClientSide()) {
