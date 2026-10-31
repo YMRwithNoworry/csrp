@@ -33,6 +33,8 @@ const expect = (text, pattern, message) => {
 // ---------------------------------------------------------------------------
 const base = read("src/main/java/alku/csrp/entity/PrimitiveParasiteEntity.java");
 expect(base, /protected final class LightSourceBreakingGoal extends Goal/, "LightSourceBreakingGoal is missing");
+expect(base, /generationProfile\(serverLevel, PrimitiveParasiteEntity\.this\)\.blockSearch\(\)/,
+  "the light-source goal no longer checks the entity-specific block-search gene");
 expect(base, /private static final int SCAN_RANGE = 20;/, "the light scan range is not the original 20");
 expect(base, /private static final int LIGHT_TRIGGER = 5;/, "the light trigger is not the original 5");
 expect(base, /private static final int RESCAN_TICKS = 40;/, "the rescan gate is not the original 40 ticks");
@@ -42,7 +44,7 @@ expect(base, /private static final int GIVE_UP_TICKS = 240;/, "the 240 tick give
 expect(base, /private static final float HARDNESS_MULTIPLIER = 10\.0F;/, "the hardness multiplier is not the original 10");
 expect(base, /serverLevel\.getGameRules\(\)\.get\(GameRules\.MOB_GRIEFING\)/,
   "the light breaking is not gated on mobGriefing");
-expect(base, /getTarget\(\) != null \|\| !\(level\(\) instanceof ServerLevel/,
+expect(base, /if \(getTarget\(\) != null \|\| !serverLevel\.getGameRules\(\)\.get\(GameRules\.MOB_GRIEFING\)\)/,
   "the light breaking is not gated on having no attack target");
 expect(base, /getMaxLocalRawBrightness\(origin\) < LIGHT_TRIGGER && random\.nextInt\(3\) != 0/,
   "the original block-light / 1-in-3 early-out is missing");

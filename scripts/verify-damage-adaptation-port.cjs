@@ -57,7 +57,7 @@ expect(primitive, /ValueOutput\.ValueOutputList adaptations = output\.childrenLi
   "adaptation NBT persistence is missing");
 expect(primitive, /input\.childrenListOrEmpty\(ADAPTATIONS_TAG\)/,
   "adaptation NBT loading is missing");
-expect(primitive, /EvolutionSystem\.generationProfile\(serverLevel\)\.adaptation\(\)/,
+expect(primitive, /EvolutionSystem\.generationProfile\(serverLevel, this\)\.adaptation\(\)/,
   "entity adaptation is not connected to the generation profile");
 expect(primitive, /damageAdaptations\.put\(damageId, adaptationHits\)[\s\S]{0,500}Math\.min\(maxDamageAdaptationHits\(\), adaptationHits\)/,
   "newly learned adaptation points must reduce the current hit like SRP");
@@ -102,7 +102,7 @@ for (const [file, chance, reduction, sources] of tierChecks) {
 }
 
 for (const file of ["CrudeParasiteEntity.java", "HijackedParasiteEntity.java",
-  "CarrierEntity.java", "GnatEntity.java", "LiceEntity.java"]) {
+  "CarrierEntity.java", "CarrierWormEntity.java", "GnatEntity.java", "LiceEntity.java"]) {
   const source = read(`src/main/java/alku/csrp/entity/${file}`);
   expect(source, /supportsDamageAdaptation\(\)[\s\S]{0,100}return false/,
     `${file} must not adapt according to the Wiki tier exclusions`);

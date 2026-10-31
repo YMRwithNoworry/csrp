@@ -210,7 +210,7 @@ public final class DredgeEntity extends CrudeParasiteEntity {
         // Original EntityParasiteBase#handleWater: the leap itself only fires while gene 4
         // (generationWaterLeap) is enabled; otherwise the stored counter just decays.
         if (!(level() instanceof ServerLevel serverLevel)
-                || !EvolutionSystem.generationProfile(serverLevel).waterLeap()) {
+                || !EvolutionSystem.generationProfile(serverLevel, this).waterLeap()) {
             if (liquidLeap > 0) {
                 liquidLeap--;
             }
@@ -447,7 +447,7 @@ public final class DredgeEntity extends CrudeParasiteEntity {
                 attackTick--;
             }
             double speed = level() instanceof ServerLevel serverLevel
-                    && EvolutionSystem.generationProfile(serverLevel).sprinting() ? 1.3D : 1.0D;
+                    && EvolutionSystem.generationProfile(serverLevel, DredgeEntity.this).sprinting() ? 1.3D : 1.0D;
             getNavigation().moveTo(target, speed);
             if (isWithinMeleeAttackRange(target) && attackTick <= 0 && getSensing().hasLineOfSight(target)) {
                 attackTick = MELEE_ATTACK_INTERVAL_TICKS;

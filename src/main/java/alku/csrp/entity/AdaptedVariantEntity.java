@@ -640,7 +640,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
             // Original EntityAIBlockResidue#shouldExecute also requires gene 8 (generationResidue).
             return blockResidueRange(activeKind()) > 0 && getTarget() == null && !isInWater()
                     && level() instanceof ServerLevel serverLevel
-                    && EvolutionSystem.generationProfile(serverLevel).residue();
+                    && EvolutionSystem.generationProfile(serverLevel, AdaptedVariantEntity.this).residue();
         }
 
         @Override
@@ -821,7 +821,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
     @Override
     protected int incomingDamageCapDivisor() {
         return activeKind() == Kind.BOLSTER && level() instanceof ServerLevel serverLevel
-                && EvolutionSystem.generationProfile(serverLevel).damageCap() ? 9 : super.incomingDamageCapDivisor();
+                && EvolutionSystem.generationProfile(serverLevel, this).damageCap() ? 9 : super.incomingDamageCapDivisor();
     }
 
     @Override
@@ -1489,7 +1489,7 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     private void applyBolsterMinimumDamage(LivingEntity target, float healthBefore) {
         if (!(level() instanceof ServerLevel serverLevel)
-                || !EvolutionSystem.generationProfile(serverLevel).minimumDamage() || !target.isAlive()) {
+                || !EvolutionSystem.generationProfile(serverLevel, this).minimumDamage() || !target.isAlive()) {
             return;
         }
         float dealt = Math.max(0.0F, healthBefore - target.getHealth());
@@ -1532,12 +1532,12 @@ public final class AdaptedVariantEntity extends BurrowingVariantEntity
 
     private boolean bolsterSpecialMovesEnabled() {
         return level() instanceof ServerLevel serverLevel
-                && EvolutionSystem.generationProfile(serverLevel).specialMoves();
+                && EvolutionSystem.generationProfile(serverLevel, this).specialMoves();
     }
 
     private boolean bolsterOrbEnabled() {
         return level() instanceof ServerLevel serverLevel
-                && EvolutionSystem.generationProfile(serverLevel).ordinaryOrb();
+                && EvolutionSystem.generationProfile(serverLevel, this).ordinaryOrb();
     }
 
     private void spreadBolsterResidue() {

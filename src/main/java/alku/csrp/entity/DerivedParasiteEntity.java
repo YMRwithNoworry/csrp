@@ -160,7 +160,7 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
     @Override
     protected int incomingDamageCapDivisor() {
         return level() instanceof ServerLevel serverLevel
-                && EvolutionSystem.generationProfile(serverLevel).damageCap()
+                && EvolutionSystem.generationProfile(serverLevel, this).damageCap()
                 ? DERIVED_DAMAGE_CAP : 1;
     }
 
@@ -188,7 +188,7 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
 
         tickRegeneration();
         tickShadowState();
-        EvolutionSystem.GenerationProfile profile = EvolutionSystem.generationProfile((ServerLevel) level());
+        EvolutionSystem.GenerationProfile profile = EvolutionSystem.generationProfile((ServerLevel) level(), this);
         if (!hasExclusiveSkill()) {
             if (profile.ordinaryOrb()) {
                 tickCosmicOrbs();
@@ -281,7 +281,7 @@ public abstract class DerivedParasiteEntity extends PrimitiveParasiteEntity {
 
     public boolean applyMinimumDamage(LivingEntity target, float amount) {
         if (!(level() instanceof ServerLevel serverLevel)
-                || !EvolutionSystem.generationProfile(serverLevel).minimumDamage()
+                || !EvolutionSystem.generationProfile(serverLevel, this).minimumDamage()
                 || amount <= 0.0F || target == this || !target.isAlive()
                 || target instanceof Player player && player.getAbilities().instabuild) {
             return false;

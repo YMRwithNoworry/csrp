@@ -366,7 +366,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
 
     private void applyMinimumDamage(LivingEntity target, float healthBefore) {
         if (!(level() instanceof ServerLevel serverLevel)
-                || !EvolutionSystem.generationProfile(serverLevel).minimumDamage()
+                || !EvolutionSystem.generationProfile(serverLevel, this).minimumDamage()
                 || target == this || !target.isAlive() || target instanceof Parasite
                 || target instanceof Player player && player.getAbilities().invulnerable) {
             return;
@@ -413,7 +413,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
                 return;
             }
             boolean sprinting = level() instanceof ServerLevel serverLevel
-                    && EvolutionSystem.generationProfile(serverLevel).sprinting();
+                    && EvolutionSystem.generationProfile(serverLevel, ManglerEntity.this).sprinting();
             int status = sprinting && distanceToSqr(target) > 1.0D ? STATUS_SPRINT : STATUS_APPROACH;
             setCombatStatus(status);
             setSprinting(status == STATUS_SPRINT);
@@ -495,7 +495,7 @@ public final class ManglerEntity extends PrimitiveParasiteEntity implements Manu
             LivingEntity target = getTarget();
             return target != null && getCombatStatus() > STATUS_IDLE && getCombatStatus() < STATUS_LEAP
                     && level() instanceof ServerLevel serverLevel
-                    && EvolutionSystem.generationProfile(serverLevel).specialMoves();
+                    && EvolutionSystem.generationProfile(serverLevel, ManglerEntity.this).specialMoves();
         }
     }
 

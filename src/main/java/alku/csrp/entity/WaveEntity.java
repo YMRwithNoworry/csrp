@@ -93,7 +93,7 @@ public final class WaveEntity extends PathfinderMob implements Parasite {
 
     private void applyMinimumDamage(LivingEntity target) {
         if (!(level() instanceof ServerLevel serverLevel)
-                || !EvolutionSystem.generationProfile(serverLevel).minimumDamage()
+                || !EvolutionSystem.generationProfile(serverLevel, this).minimumDamage()
                 || !target.isAlive()
                 || target instanceof Player player && player.getAbilities().instabuild) {
             return;

@@ -1,5 +1,7 @@
 # SRParasites 1.10.8 完整移植主计划
 
+> 历史计划快照：以下百分比、勾选和缺口描述未持续同步，不能作为当前完成度结论；最新状态见 `PORT_BACKLOG.md` 与 `PORTING_NOTES.md`。当前仍需逐项核实 Nexus/Dispatcher、客户端粒子及其他未覆盖的玩法，不能宣称 100% 等价。
+>
 > 生成日期：2026-08-22。由四份领域差距报告（实体AI / 注册内容 / 客户端 / 世界系统）汇总而成。
 > 参考源码：`D:\code\模组反编译器\decompiled\[逃逸：寄生体] SRParasites-1.10.8\com\dhanantry\scapeandrunparasites\`
 > 总体结论：**实体/投射物/音效/状态效果/药水/图鉴/进化/难度/星穹/增援/脱落/感染净化等核心系统已基本完整**，缺口集中在：残骸方块体系、木系建材、世界生成结构、极寒/陨石/逃脱系统、客户端氛围层（体积雾/黑天幕/粒子）、JEI、配置面。
@@ -8,7 +10,7 @@
 
 - [x] `kirin_slash` 投射物实体（`EntityProjectileKirinSlash`，Kirin 闪烁斩击）+ 音效 `kirin.projectile_charge/impact/summon` —— 2026-08-22 完成：KirinSlashEntity（延迟/生长/淡出三阶段、沿线命中非寄生生物）+ 程序化光刃渲染器 + 麒麟 performBlink 发出斩击与三音效
 - [ ] sim_human 的 `EntityAICircleGroup` 绕行 AI
-- [ ] `EntityAIBlockLight` 光源破坏 AI（原版 geneMod(7) 配置门控，一并接配置）
+- [ ] `EntityAIBlockLight` 光源破坏 AI：已接入 entity geneMod(7) 和 Rooter 覆盖，完整行为仍需继续核对原件
 - [ ] Canister 方块+方块实体（`TileEntityCanister` 容器）
 - [ ] 通用化重复 Goal：SwimmingDiving/EvasiveDash/WaterLeap 在 5+ 实体中重复（重构项，非移植）
 - [ ] Nexus 家族 SII/SIII/SIV 数值逐档比对原版

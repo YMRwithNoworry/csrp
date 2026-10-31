@@ -9,19 +9,26 @@
 | 原模组 1.10.9（目标版本） | 附件 jar；反编译产物 `D:\code\MC模组\_scratch\vf\out109` | 事实来源 |
 | 原模组 1.10.8（本工程移植基线） | `D:\code\模组反编译器\杂物\[逃逸：寄生体] SRParasites-1.10.8.jar`；反编译产物 `_scratch\vf\out108` | 差异基线 |
 | 兄弟分支（Forge 1.20.1） | `D:\code\MC模组\_scratch\ref1201`（提交 `0e2d7b2f` 快照） | 行为实现参照 |
-| 校验套件 | `scripts/run-all-verifications.cjs`（148 项） | 完成度度量 |
+| 校验套件 | `scripts/run-all-verifications.cjs`（156 项） | 行为合同与回归检查，不等同于完整性证明 |
 
 ## 当前基线
 
-- `gradlew clean build`：**成功**（GraalVM 25.3.4.1 / Gradle 9.2.1），产物 `build/libs/csrp-1.10.9.jar`。
+- `scripts/build-locked.sh build --console=plain`：**成功**（GraalVM 25.3.4.1 / Gradle 9.2.1），产物 `build/libs/csrp-1.10.9.jar`。
   - 本环境的 Niubash 无法执行 `gradlew.bat`（会静默挂起），改用
     `"$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain <task>`；
     `scripts/build-locked.sh` 已同步改为这一调用方式。
-- 静态校验套件：**155 / 156 通过，1 项可选资源审计跳过**；设置 `SRP_DECOMPILED_ROOT=D:/code/MC模组/_scratch/vf/out109` 后，实体行为合同全部通过；`verify-extracted-entity-resources.cjs` 仅在本机不存在外部提取 `manifest.json` 时以退出码 77 明确跳过，显式指定 `SRP_EXTRACTED_ENTITY_ROOT` 且路径无效仍会失败。
-- 运行期验证：`runGameTestServer` → **188 / 188 GameTests 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 4 个 harlequin + 2 个寄生群系雾 + 1 个掉落表 + 1 个感染骨粉球体转换），服务器完整启动到测试结束。
+- 静态校验套件：指定 `SRP_DECOMPILED_ROOT=D:/code/MC模组/_scratch/vf/out109` 后 **155 通过、1 跳过、0 失败**；这使用的是目标 1.10.9 源码，不能视作对缺失 1.10.8 基线的验证。未指定目录时 7 项脚本因默认 1.10.8 源码缺失失败；资源审计因外部 `manifest.json` 缺失跳过。
+- 运行期验证：`runGameTestServer` → **199 / 199 GameTests 通过**，包括 Rooter 支援周期、伤害转移、持久化和第 0 世代基因覆盖。
 - 规模：560+ 个 Java 文件、88 个方块类、170 个实体 id（原件 158 个 **全部覆盖**，另有 12 个自有辅助实体）、33 套语言（en_us 2911 键 / zh_cn 2927 键）。
 - 并发构建保护：`scripts/build-locked.sh`（多 agent 共享工作区时串行化 Gradle）。
 - 本轮由 `runGameTestServer` 抓出并修复的运行期加载失败：方块状态定义读取 `super()` 前未赋值的实例字段（`LegacyVariantSlabBlock` / `LegacyRelayBlock`，改为工厂预发布）、`JukeboxSong` 是数据包注册表故 `discone` / `disctwo` 需要 `data/csrp/jukebox_song/*.json`（见 commit `d7f7ca5c`）。
+
+## 当前进展与待核实
+
+- Rooter 阶段属性、成长延迟、支援周期和配置已接入；PIVOT 所有权以 UUID 和维度保存，RooterBall 周期清除 PIVOT。普通和可适应型寄生体分别应用原件对应的基因，Rupter 保留原件空实现。
+- 已补寄生树苗生长及失败恢复、感染骨粉树苗路径、殖民前哨结构逻辑；其余分支仍需逐项比对。
+- Nexus/Dispatcher 的召唤、投射物、方块破坏、伤害顺序及 Rootmass Cyst 生成位置等仍需与原件逐字段核实；客户端粒子调用尚未全部接齐。
+- 本项目仍有未实现或未证实等价的行为，静态合同及 GameTest 通过不能证明 100% 迁移。
 
 ## 已完成（本轮 R2–R6）
 
@@ -35,7 +42,7 @@
 - **资源**：结构 NBT 55/55、音效 1008/1008、纹理对齐。
 
 - **Escape 死亡循环逃脱系统（本轮补齐）**：原 `feature/EscapeOnDeathHandler` + `EscapeRespawnHandler` + `client/EscapeClientState` + `GuiGameOverEscape` + 两个网络包此前只迁移了语言键、代码缺失。现补齐：寄生体致死一分钟内超过 5 次 → 死亡界面出现逃脱按钮 → 点击置 pending 并重生 → 在 200~300 格内寻找安全落点传送。配置 `escapeEnabled` / `escapeMinDistance` / `escapeMaxDistance`（原 `SRPConfigWorld` EscapeSystem 分节）。校验 `scripts/verify-escape-system.cjs` + 2 个 GameTest。
-- **感染骨粉（1.10.9 原件行为）**：补齐点击点半径 3 球体内转换、方块实体/液体/空气/scheduled tick 排除、矿石与方块路径映射、花藤作物清除、楼梯状态复制、寄生植物装饰与 harleskinn 发丝/lipoma 分支；新增 GameTest 与静态校验。验证：`compileJava`、`build` 成功，GameTest 188/188；完整静态套件 140/148，8 项依赖的外部基准文件缺失。
+- **感染骨粉（1.10.9 原件行为）**：补齐点击点半径 3 球体内转换、方块实体/液体/空气/scheduled tick 排除、矿石与方块路径映射、花藤作物清除、楼梯状态复制、寄生植物装饰与 harleskinn 发丝/lipoma 分支；新增 GameTest 与静态校验。最新验证统计见上方当前基线。
 - **交付说明**：`PORTING_NOTES.md`（已完成清单、因 26.3 API 缺失而改写/省略的部分、已知不兼容项——含旧存档不可迁移的明确说明）。
 
 ## 待办

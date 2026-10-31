@@ -15,6 +15,11 @@ import alku.csrp.animation.CitadelAnimationManager;
 public final class CarrierWormEntity extends BurrowingVariantEntity {
     private static final int BODY_SEGMENTS = 4;
 
+    @Override
+    public boolean supportsDamageAdaptation() {
+        return false;
+    }
+
     public CarrierWormEntity(EntityType<? extends CarrierWormEntity> type, Level level) {
         super(type, level);
         setPathfindingMalus(PathType.WATER, -1.0F);

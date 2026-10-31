@@ -40,16 +40,18 @@ expect(evolution, /boolean lookWalls, boolean waterLeap, boolean residue,/,
 
 // gene 2 (lookWalls) must gate target acquisition the way
 // `shouldCheckSight || !getGeneMod(2)` did.
-expect(primitive, /EvolutionSystem\.generationProfile\(serverLevel\)\.lookWalls\(\) \|\| hasLineOfSight\(target\)/,
+expect(primitive, /EvolutionSystem\.generationProfile\(serverLevel, this\)\.lookWalls\(\) \|\| hasLineOfSight\(target\)/,
         "the base target goal no longer applies the lookWalls gene to its sight check");
 
 // gene 4 (waterLeap) must gate the liquid leap in handleWater.
-expect(dredge, /!EvolutionSystem\.generationProfile\(serverLevel\)\.waterLeap\(\)/,
+expect(dredge, /!EvolutionSystem\.generationProfile\(serverLevel, this\)\.waterLeap\(\)/,
         "the liquid leap no longer honours the waterLeap gene");
 
 // gene 8 (residue) must gate EntityAIBlockResidue.
-expect(adapted, /EvolutionSystem\.generationProfile\(serverLevel\)\.residue\(\)/,
+expect(adapted, /EvolutionSystem\.generationProfile\(serverLevel, AdaptedVariantEntity\.this\)\.residue\(\)/,
         "the block-residue goal no longer honours the residue gene");
+expect(adapted, /EvolutionSystem\.generationProfile\(serverLevel, this\)\.ordinaryOrb\(\)/,
+        "ordinary orbs no longer honour the entity-specific gene");
 
 // ---- R6 gap: EntityAINexusGrow config gates ----
 // Original SRPConfigSystems: evolutionNests (11), deveNestsUse (3), maximumStageList {"1;3"}.

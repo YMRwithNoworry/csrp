@@ -64,6 +64,56 @@ public final class MobsConfig {
             "parasite_properties_nexus", "nexusStage3FollowRange", 48.0D);
     private static final ModConfigSpec.DoubleValue NEXUS_STAGE4_FOLLOW = followRange(
             "parasite_properties_nexus", "nexusStage4FollowRange", 128.0D);
+    private static final ModConfigSpec.IntValue NEXUS_MIN_GROW_TIME = intValue(
+            "parasite_properties_nexus", "nexusMinGrowTime", 240, 1, 10000,
+            "Minimum time in seconds for stage-I Nexus growth and all Rooter stages.");
+    private static final ModConfigSpec.IntValue NEXUS_MAX_GROW_TIME = intValue(
+            "parasite_properties_nexus", "nexusMaxGrowTime", 300, 1, 10000,
+            "Maximum time in seconds for stage-I Nexus growth and all Rooter stages.");
+    private static final ModConfigSpec.IntValue NEXUS_SII_MIN_GROW_TIME = intValue(
+            "parasite_properties_nexus", "nexussiiMinGrowTime", 300, 1, 10000,
+            "Minimum time in seconds for stage-II Beckon and Dispatcher growth.");
+    private static final ModConfigSpec.IntValue NEXUS_SII_MAX_GROW_TIME = intValue(
+            "parasite_properties_nexus", "nexussiiMaxGrowTime", 360, 1, 10000,
+            "Maximum time in seconds for stage-II Beckon and Dispatcher growth.");
+    private static final ModConfigSpec.IntValue NEXUS_SIII_MIN_GROW_TIME = intValue(
+            "parasite_properties_nexus", "nexussiiiMinGrowTime", 600, 1, 10000,
+            "Minimum time in seconds for stage-III Beckon and Dispatcher growth.");
+    private static final ModConfigSpec.IntValue NEXUS_SIII_MAX_GROW_TIME = intValue(
+            "parasite_properties_nexus", "nexussiiiMaxGrowTime", 1200, 1, 10000,
+            "Maximum time in seconds for stage-III Beckon and Dispatcher growth.");
+    private static final ModConfigSpec.IntValue ROOTER_SI_RANGE = intValue(
+            "srparasites:rooter_si", "leemRange", 16, 0, 128, "Rootmass Cyst search range.");
+    private static final ModConfigSpec.IntValue ROOTER_SII_RANGE = intValue(
+            "srparasites:rooter_sii", "leemsiiRange", 32, 0, 128, "Rootmass Cyst search range.");
+    private static final ModConfigSpec.IntValue ROOTER_SIII_RANGE = intValue(
+            "srparasites:rooter_siii", "leemsiiiRange", 48, 0, 128, "Rootmass Cyst search range.");
+    private static final ModConfigSpec.IntValue ROOTER_SIV_RANGE = intValue(
+            "srparasites:rooter_siv", "leemsivRange", 128, 0, 128, "Rootmass Cyst search range.");
+    private static final ModConfigSpec.IntValue ROOTER_SI_EFFECT_RANGE = intValue(
+            "srparasites:rooter_si", "leemRangeEffect", 20, 0, 100, "Pivot and Parate support range.");
+    private static final ModConfigSpec.IntValue ROOTER_SII_EFFECT_RANGE = intValue(
+            "srparasites:rooter_sii", "leemsiiRangeEffect", 30, 0, 100, "Pivot and Parate support range.");
+    private static final ModConfigSpec.IntValue ROOTER_SIII_EFFECT_RANGE = intValue(
+            "srparasites:rooter_siii", "leemsiiiRangeEffect", 40, 0, 100, "Pivot and Parate support range.");
+    private static final ModConfigSpec.IntValue ROOTER_SIV_EFFECT_RANGE = intValue(
+            "srparasites:rooter_siv", "leemsivRangeEffect", 56, 0, 100, "Pivot and Parate support range.");
+    private static final ModConfigSpec.IntValue ROOTER_SI_COOLDOWN = intValue(
+            "srparasites:rooter_si", "leemCooldown", 12, 0, 10000, "Support cooldown in Rooter cycles.");
+    private static final ModConfigSpec.IntValue ROOTER_SII_COOLDOWN = intValue(
+            "srparasites:rooter_sii", "leemsiiCooldown", 10, 0, 10000, "Support cooldown in Rooter cycles.");
+    private static final ModConfigSpec.IntValue ROOTER_SIII_COOLDOWN = intValue(
+            "srparasites:rooter_siii", "leemsiiiCooldown", 8, 0, 10000, "Support cooldown in Rooter cycles.");
+    private static final ModConfigSpec.IntValue ROOTER_SIV_COOLDOWN = intValue(
+            "srparasites:rooter_siv", "leemsivCooldown", 6, 0, 10000, "Support cooldown in Rooter cycles.");
+    private static final ModConfigSpec.IntValue ROOTER_SI_LIMIT = intValue(
+            "srparasites:rooter_si", "leemlimit", 3, 0, 10000, "Maximum cysts attempted per unprotected hit.");
+    private static final ModConfigSpec.IntValue ROOTER_SII_LIMIT = intValue(
+            "srparasites:rooter_sii", "leemsiilimit", 4, 0, 10000, "Maximum cysts attempted per unprotected hit.");
+    private static final ModConfigSpec.IntValue ROOTER_SIII_LIMIT = intValue(
+            "srparasites:rooter_siii", "leemsiiilimit", 5, 0, 10000, "Maximum cysts attempted per unprotected hit.");
+    private static final ModConfigSpec.IntValue ROOTER_SIV_LIMIT = intValue(
+            "srparasites:rooter_siv", "leemsivlimit", 6, 0, 10000, "Maximum cysts attempted per unprotected hit.");
     private static final ModConfigSpec.IntValue DISPATCHER_SI_FOLLOW_MULTIPLIER = intValue(
             "srparasites:dispatcher_si", "dispatcherSIFollowRangeMultiplier", 2, 1, 100,
             "原版 Dispatcher 第 I 阶段的跟随距离倍率。");
@@ -703,6 +753,72 @@ public final class MobsConfig {
         return value;
     }
 
+    public static int nexusGrowthDelayTicks(NexusParasiteEntity.Kind kind, net.minecraft.util.RandomSource random) {
+        int minimumSeconds;
+        int maximumSeconds;
+        switch (kind) {
+            case BECKON_SI, DISPATCHER_SI, ROOTER_SI, ROOTER_SII, ROOTER_SIII -> {
+                minimumSeconds = NEXUS_MIN_GROW_TIME.get();
+                maximumSeconds = NEXUS_MAX_GROW_TIME.get();
+            }
+            case BECKON_SII, DISPATCHER_SII -> {
+                minimumSeconds = NEXUS_SII_MIN_GROW_TIME.get();
+                maximumSeconds = NEXUS_SII_MAX_GROW_TIME.get();
+            }
+            case BECKON_SIII, DISPATCHER_SIII -> {
+                minimumSeconds = NEXUS_SIII_MIN_GROW_TIME.get();
+                maximumSeconds = NEXUS_SIII_MAX_GROW_TIME.get();
+            }
+            case BECKON_SIV, DISPATCHER_SIV, ROOTER_SIV, ROOTERBALL -> {
+                return -1;
+            }
+            default -> throw new IllegalStateException("Unhandled Nexus kind: " + kind);
+        }
+        int seconds = maximumSeconds > minimumSeconds
+                ? minimumSeconds + random.nextInt(maximumSeconds - minimumSeconds + 1) : 1;
+        return seconds * 20;
+    }
+
+    public static int rooterCystRange(int stage) {
+        return switch (stage) {
+            case 1 -> ROOTER_SI_RANGE.get();
+            case 2 -> ROOTER_SII_RANGE.get();
+            case 3 -> ROOTER_SIII_RANGE.get();
+            case 4 -> ROOTER_SIV_RANGE.get();
+            default -> throw new IllegalArgumentException("Invalid Rooter stage: " + stage);
+        };
+    }
+
+    public static int rooterEffectRange(int stage) {
+        return switch (stage) {
+            case 1 -> ROOTER_SI_EFFECT_RANGE.get();
+            case 2 -> ROOTER_SII_EFFECT_RANGE.get();
+            case 3 -> ROOTER_SIII_EFFECT_RANGE.get();
+            case 4 -> ROOTER_SIV_EFFECT_RANGE.get();
+            default -> throw new IllegalArgumentException("Invalid Rooter stage: " + stage);
+        };
+    }
+
+    public static int rooterSupportCooldown(int stage) {
+        return switch (stage) {
+            case 1 -> ROOTER_SI_COOLDOWN.get();
+            case 2 -> ROOTER_SII_COOLDOWN.get();
+            case 3 -> ROOTER_SIII_COOLDOWN.get();
+            case 4 -> ROOTER_SIV_COOLDOWN.get();
+            default -> throw new IllegalArgumentException("Invalid Rooter stage: " + stage);
+        };
+    }
+
+    public static int rooterCystLimit(int stage) {
+        return switch (stage) {
+            case 1 -> ROOTER_SI_LIMIT.get();
+            case 2 -> ROOTER_SII_LIMIT.get();
+            case 3 -> ROOTER_SIII_LIMIT.get();
+            case 4 -> ROOTER_SIV_LIMIT.get();
+            default -> throw new IllegalArgumentException("Invalid Rooter stage: " + stage);
+        };
+    }
+
     public static double nexusFollowRange(NexusParasiteEntity.Kind kind) {
         return switch (kind) {
             case BECKON_SI, ROOTER_SI -> NEXUS_STAGE1_FOLLOW.get();
@@ -713,7 +829,7 @@ public final class MobsConfig {
             case DISPATCHER_SII -> NEXUS_STAGE2_FOLLOW.get() * DISPATCHER_SII_FOLLOW_MULTIPLIER.get();
             case DISPATCHER_SIII -> NEXUS_STAGE3_FOLLOW.get() * DISPATCHER_SIII_FOLLOW_MULTIPLIER.get();
             case DISPATCHER_SIV -> NEXUS_STAGE4_FOLLOW.get() * DISPATCHER_SIV_FOLLOW_MULTIPLIER.get();
-            case ROOTERBALL -> 24.0D;
+            case ROOTERBALL -> 16.0D;
         };
     }
 

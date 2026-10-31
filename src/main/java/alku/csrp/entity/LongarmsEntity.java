@@ -141,7 +141,7 @@ public final class LongarmsEntity extends PrimitiveParasiteEntity {
 
     private boolean specialMovesEnabled() {
         return level() instanceof ServerLevel serverLevel
-                && EvolutionSystem.generationProfile(serverLevel).specialMoves();
+                && EvolutionSystem.generationProfile(serverLevel, this).specialMoves();
     }
 
     private boolean isValidShockwaveTarget(LivingEntity target) {

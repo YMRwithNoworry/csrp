@@ -386,7 +386,7 @@ public final class EvolutionEvents {
         if (!(entity instanceof Parasite)) {
             return;
         }
-        EvolutionSystem.GenerationProfile profile = EvolutionSystem.generationProfile(level);
+        EvolutionSystem.GenerationProfile profile = EvolutionSystem.generationProfile(level, entity);
         updatePhaseTenAttributes(entity, level);
         if (entity.tickCount % 20 == 0 && InfectionMechanics.tryRestoreAssimilatedDisguise(entity)) {
             return;

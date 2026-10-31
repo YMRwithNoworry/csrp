@@ -323,14 +323,13 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
         if (!(level() instanceof ServerLevel serverLevel)) {
             return true;
         }
-        return EvolutionSystem.generationProfile(serverLevel).lookWalls() || hasLineOfSight(target);
+        return EvolutionSystem.generationProfile(serverLevel, this).lookWalls() || hasLineOfSight(target);
     }
 
     /**
      * Original {@code EntityPMalleable.getGeneMod(7)} ({@code geneBlocksearch}, default {@code true})
-     * gated {@code EntityAIBlockLight}. 26.3 has no gene layer, so the behaviour is expressed as a
-     * per-family switch instead; the malleable families (adapted / primitive / pure / preeminent)
-     * enable it.
+     * gated {@code EntityAIBlockLight}. The per-family switch controls whether the goal is mounted;
+     * the goal itself checks the entity-specific gene state.
      */
     protected boolean supportsLightSourceBreaking() {
         return false;
@@ -370,12 +369,14 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
 
         @Override
         public boolean canUse() {
-            if (++rescanTicks < RESCAN_TICKS) {
+            ++rescanTicks;
+            if (!(level() instanceof ServerLevel serverLevel)
+                    || !EvolutionSystem.generationProfile(serverLevel, PrimitiveParasiteEntity.this).blockSearch()
+                    || rescanTicks < RESCAN_TICKS) {
                 return false;
             }
             rescanTicks = 0;
-            if (getTarget() != null || !(level() instanceof ServerLevel serverLevel)
-                    || !serverLevel.getGameRules().get(GameRules.MOB_GRIEFING)) {
+            if (getTarget() != null || !serverLevel.getGameRules().get(GameRules.MOB_GRIEFING)) {
                 return false;
             }
             BlockPos source = findLightSource();
@@ -670,7 +671,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
 
     public boolean applyScaryOrbMinimumDamage(LivingEntity target, float multiplier) {
         if (!(level() instanceof ServerLevel serverLevel)
-                || !EvolutionSystem.generationProfile(serverLevel).minimumDamage()
+                || !EvolutionSystem.generationProfile(serverLevel, this).minimumDamage()
                 || target instanceof Parasite || target == this || !target.isAlive()
                 || target instanceof Player player && player.getAbilities().instabuild) {
             return false;
@@ -695,7 +696,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
 
     public boolean applyPrimitiveMinimumDamage(LivingEntity target, float multiplier) {
         if (!(level() instanceof ServerLevel serverLevel)
-                || !EvolutionSystem.generationProfile(serverLevel).minimumDamage()
+                || !EvolutionSystem.generationProfile(serverLevel, this).minimumDamage()
                 || target instanceof Parasite || target == this || !target.isAlive()
                 || target instanceof Player player && player.getAbilities().instabuild) {
             return false;
@@ -719,7 +720,7 @@ public abstract class PrimitiveParasiteEntity extends Monster implements Citadel
     protected boolean usesDamageAdaptation() {
         return supportsDamageAdaptation() && level() instanceof ServerLevel serverLevel
                 && !hasEffect(ModMobEffects.ANTIMALL)
-                && EvolutionSystem.generationProfile(serverLevel).adaptation();
+                && EvolutionSystem.generationProfile(serverLevel, this).adaptation();
     }
 
     /** Whether this legacy entity class owns the malleable damage-adaptation state. */

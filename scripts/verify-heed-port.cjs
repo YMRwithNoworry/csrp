@@ -38,7 +38,7 @@ expect(heed,
   /RAGE_SKILL_COOLDOWN_TICKS\s*=\s*200[\s\S]*?RAGE_DURATION_TICKS\s*=\s*1_200[\s\S]*?RAGE_TARGET_RANGE_SQR\s*=\s*20\.0D \* 20\.0D/,
   "EntityHeed Rage timing or target range is wrong");
 expect(heed,
-  /generationProfile\(serverLevel\)\.specialMoves\(\)[\s\S]*?getBoundingBox\(\)\.inflate\(RAGE_EFFECT_RANGE\)[\s\S]*?ModMobEffects\.RAGE/,
+  /generationProfile\(serverLevel, HeedEntity\.this\)\.specialMoves\(\)[\s\S]*?getBoundingBox\(\)\.inflate\(RAGE_EFFECT_RANGE\)[\s\S]*?ModMobEffects\.RAGE/,
   "EntityHeed Rage skill is not generation-gated or does not affect nearby parasites");
 expect(heed,
   /SCENT_COOLDOWN_TICKS\s*=\s*1_000[\s\S]*?ubiquitousDevelopment[\s\S]*?tickCount % 21 != 10[\s\S]*?setTargetToKill\(target, false\)[\s\S]*?setDieAfterKilling\(true\)[\s\S]*?setCanFollow\(true\)/,

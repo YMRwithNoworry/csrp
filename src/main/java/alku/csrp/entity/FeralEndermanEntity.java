@@ -365,12 +365,12 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
 
     private boolean specialMovesEnabled() {
         return level() instanceof ServerLevel serverLevel
-                && EvolutionSystem.generationProfile(serverLevel).specialMoves();
+                && EvolutionSystem.generationProfile(serverLevel, this).specialMoves();
     }
 
     private float cappedDamage(DamageSource source, float amount) {
         if (!(level() instanceof ServerLevel serverLevel)
-                || !EvolutionSystem.generationProfile(serverLevel).damageCap()
+                || !EvolutionSystem.generationProfile(serverLevel, this).damageCap()
                 || source.is(DamageTypeTags.IS_FIRE) || source.is(DamageTypes.FELL_OUT_OF_WORLD)) {
             return amount;
         }
@@ -383,7 +383,7 @@ public final class FeralEndermanEntity extends FeralParasiteEntity {
 
     private void applyMinimumDamage(LivingEntity target, float healthBefore) {
         if (!(level() instanceof ServerLevel serverLevel)
-                || !EvolutionSystem.generationProfile(serverLevel).minimumDamage() || !target.isAlive()) {
+                || !EvolutionSystem.generationProfile(serverLevel, this).minimumDamage() || !target.isAlive()) {
             return;
         }
         float dealt = Math.max(0.0F, healthBefore - ParasiteCombatEffects.healthWithAbsorption(target));

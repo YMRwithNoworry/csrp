@@ -377,7 +377,7 @@ public final class HeedEntity extends CrudeParasiteEntity {
             }
             double distance = distanceToSqr(target);
             double speed = distance > MELEE_SPRINT_DISTANCE_SQR && level() instanceof ServerLevel serverLevel
-                    && EvolutionSystem.generationProfile(serverLevel).sprinting() ? 1.3D : 1.0D;
+                    && EvolutionSystem.generationProfile(serverLevel, HeedEntity.this).sprinting() ? 1.3D : 1.0D;
             getNavigation().moveTo(target, speed);
             if (isWithinMeleeAttackRange(target) && attackTick <= 0 && getSensing().hasLineOfSight(target)) {
                 attackTick = MELEE_ATTACK_INTERVAL_TICKS;
@@ -393,7 +393,7 @@ public final class HeedEntity extends CrudeParasiteEntity {
         public boolean canUse() {
             LivingEntity target = getTarget();
             return target != null && target.isAlive() && level() instanceof ServerLevel serverLevel
-                    && !waterLeaping && EvolutionSystem.generationProfile(serverLevel).specialMoves();
+                    && !waterLeaping && EvolutionSystem.generationProfile(serverLevel, HeedEntity.this).specialMoves();
         }
 
         @Override

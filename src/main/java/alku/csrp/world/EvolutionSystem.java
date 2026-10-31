@@ -5,6 +5,8 @@ import alku.csrp.entity.AbominationEntity;
 import alku.csrp.entity.DerivedParasiteEntity;
 import alku.csrp.entity.NexusParasiteEntity;
 import alku.csrp.entity.Parasite;
+import alku.csrp.entity.PrimitiveParasiteEntity;
+import alku.csrp.entity.RupterEntity;
 import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModSounds;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -28,6 +30,7 @@ public final class EvolutionSystem {
     public static final int VALUE_NIDUS_FAILURE = 120;
     public static final int MAX_EVOLUTION_POINTS = 2_100_000_000;
 
+    private static final String ROOTER_GENE_OVERRIDE = "csrp_rooter_gene_override";
     private static final int[] PHASE_THRESHOLDS = {
             0, 800, 1_600, 5_000, 30_000, 200_000,
             5_000_000, 25_000_000, 500_000_000, 1_000_000_000, 1_800_000_000
@@ -123,6 +126,26 @@ public final class EvolutionSystem {
     public static GenerationProfile generationProfile(ServerLevel level) {
         int generation = Config.generationEnabled() ? SrpWorldData.get(level).generation() : 5;
         return generationProfile(generation);
+    }
+
+    public static void applyRooterGenes(LivingEntity parasite) {
+        if (parasite instanceof Parasite && !(parasite instanceof RupterEntity)
+                && parasite.level() instanceof ServerLevel && Config.generationEnabled()) {
+            parasite.getPersistentData().putBoolean(ROOTER_GENE_OVERRIDE, true);
+        }
+    }
+
+    public static GenerationProfile generationProfile(ServerLevel level, LivingEntity parasite) {
+        GenerationProfile profile = generationProfile(level);
+        if (!parasite.getPersistentData().getBooleanOr(ROOTER_GENE_OVERRIDE, false)) {
+            return profile;
+        }
+        // Legacy EntityPMalleable overrides applyGene and also assigns genes 6 through 9.
+        boolean malleable = parasite instanceof PrimitiveParasiteEntity primitive
+                && primitive.supportsDamageAdaptation();
+        return new GenerationProfile(profile.cothChance(), true, malleable || profile.adaptation(), true, true, true,
+                malleable || profile.blockSearch(), malleable || profile.ordinaryOrb(), true, true,
+                malleable || profile.residue(), 2.5F, 3.0F, 0.5F);
     }
 
     static GenerationProfile generationProfile(int requestedGeneration) {

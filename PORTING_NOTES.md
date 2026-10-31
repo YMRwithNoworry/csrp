@@ -252,7 +252,7 @@ java.lang.NoSuchFieldError: Class net.neoforged.fml.config.ModConfig$Type does n
 
 原件 `item/ItemInfestedBonemeal#boneMealEffect` 会以点击方块为中心处理距离平方 ≤ 9 的球体，并跳过方块实体、液体、空气与已有 scheduled tick 的方块。此前工程只在点击点处理感染残骸与矿石。本轮按原件转换顺序补齐方块路径映射（含任意命名空间的 `ore` / `cobblestone` / `dirt` / `wall` / `fence` 等路径匹配）、花藤作物清除、矿石归类、楼梯朝向/上下半部/形状复制、感染植物随机装饰及 harleskinn 发丝/lipoma 分支，并保留原件对所有 sandstone 路径先处理、因此 sandstone stairs 实际转换为 `inf_ss` 的顺序怪癖。转换写入仅在 `setBlock` 成功时计为有效；液体保护按 26.3 非空 FluidState 对应旧版 Material.isLiquid。
 
-特殊的 Thornshade 与寄生树苗仍先进入 `BoneMealItem` 的原生催长路径；其余目标使用自定义球体转换。新增 `scripts/verify-infested-bonemeal.cjs` 与 GameTest `csrp:infested_bonemeal/sphere_and_guards`，覆盖半径边界、scheduled tick、液体、方块实体、分类矿石、未分类矿石、黏土与木板运行时映射；红沙在 GameTest 中会有 scheduled tick，按原件保护规则跳过，其映射另由静态校验断言。验证：`compileJava` 与 `build` 成功；GameTest **188 / 188** 通过。全静态套件共 148 项，其中 140 项通过，8 项受机器外部基线缺失影响（1.10.8 反编译文件与资源提取 `manifest.json` 不在本机指定路径）。
+特殊的 Thornshade 仍进入 `BoneMealItem` 的原生催长路径；寄生树苗改由 `tryGrowWithInfestedBonemeal` 按原件阶段与变体规则处理；其余目标使用自定义球体转换。新增 `scripts/verify-infested-bonemeal.cjs` 与 GameTest `csrp:infested_bonemeal/sphere_and_guards`，覆盖半径边界、scheduled tick、液体、方块实体、分类矿石、未分类矿石、黏土与木板运行时映射；红沙在 GameTest 中会有 scheduled tick，按原件保护规则跳过，其映射另由静态校验断言。验证：`compileJava` 与 `build` 成功；GameTest **196 / 196** 通过。全静态套件的最新实际结果见下方交付记录。
 
 ### 3.19 保真移植 SRPPacketParticle 粒子包
 
@@ -265,6 +265,16 @@ java.lang.NoSuchFieldError: Class net.neoforged.fml.config.ModConfig$Type does n
 ### 3.20 Beckon 全局容量上限与 Bomb 回退
 
 本轮补齐原件 `ParasiteEventEntity#getWorldBeckonSpawnLimit` 漏项：按当前维度统计寄生体，限额为 `worldMobCap + 玩家数 × worldMobCapPlusPlayer + worldBeckonSpawnsCap`（默认 40 + 5/玩家 + 20）；超限时仅 stage 1–3 的普通 Beckon biomass 召唤路径回退为 skin 1、fuse 60、strength 0、damage 为 Beckon 基础攻击伤害、range 2 的 Bomb，并保留原件有符号 `nextInt() < 40` 门槛、弹道与 stage 3 偏移；回退尝试按原 AI 的 20 tick pulse 重试，且不计作一次已成功的 biomass 召唤。成功加入世界后才发送 type 10；stage 4 召唤、Nexus 齐射与其他通用 Bomb 不会触发此效果。`WorldConfig` 新增原件对应的 `worldMobCap` / `worldBeckonSpawnsCap` 键并复用玩家增量配置。静态合同由 `verify-beckon-capacity-fallback.cjs` 覆盖。
+
+### 3.21 寄生树苗催长补全（对应 out109 `block/BlockParasiteSapling`）
+
+此前工程中 `ParasiteSaplingBlock` 的 stage-1 生长只移除自身，不实际种树；感染骨粉对树苗走的是通用催长路径。本轮补齐：stage-1 后按原件 switch 分发到移植的世界生成器 —— TREE/CONSUMED → `WorldGenParasiteTree`、TREETHIN → `WorldGenParasiteTreeThin`、FLOWERTALL/INFESTED → `WorldGenParasiteTallFlower`、DEADHEAD → `DeadheadTreeGen`（即原件 `WorldGenDeadheadTreeStructure` 的移植）。种树前移除树苗，生成失败时恢复原状态（原件行为）。新增 `tryGrowWithInfestedBonemeal`（原件同名方法）：stage 0 仅推进阶段，stage 1 只允许 CONSUMED/DEADHEAD/INFESTED；`InfestedBonemealItem` 对树苗改走此路径并消耗物品。静态合同扩展进 `scripts/verify-infested-bonemeal.cjs`，GameTest 追加 stage-0 推进、stage-1 变体拒绝与失败恢复三项断言。验证：`compileJava` 成功；GameTest **196 / 196** 通过。
+
+### 3.22 Rooter 支援、伤害与基因
+
+对照 1.10.9 `EntityPRooter` 和四个阶段类，将 Rooter 的成长延迟、囊肿搜寻范围、支援范围和冷却、容量配置接入统一 `NexusParasiteEntity`；支援在 21 tick 周期内按阶段冷却发放 PIVOT/PARATE，RooterBall 在周期维护时清除 PIVOT。PIVOT 伤害按等级与 `pivotDamageRHost` 分配，关联通过 UUID 和维度持久化，不再依赖内存弱引用。
+
+Rooter 的 `applyGene` 对普通寄生体设置六个基础开关和三个数值，对原件 `EntityPMalleable` 分支另外启用适应、方块搜寻、残留物和普通胞囊；现将相关调用接到实体级 profile，并保留 Worm Carrier 的普通基类和 Rupter 的空 `applyGene` 例外。第 0 世代 GameTest 覆盖基类差异及实际伤害适应；静态脚本覆盖受影响的调用点。Nexus 召唤、伤害顺序和囊肿位置等尚需继续比对，不能据此认定整类行为完全等价。
 
 ---
 
@@ -342,16 +352,17 @@ java.lang.NoSuchFieldError: Class net.neoforged.fml.config.ModConfig$Type does n
 export JAVA_HOME="D:/MC/jdk/graalvm-community-25.3.4.1+1.1"
 GRADLE=("$JAVA_HOME/bin/java" -classpath gradle/wrapper/gradle-wrapper.jar org.gradle.wrapper.GradleWrapperMain)
 
-"${GRADLE[@]}" build -x test             # BUILD SUCCESSFUL → build/libs/csrp-1.10.9.jar
-node scripts/run-all-verifications.cjs   # {"total":148,"passed":140,"failed":8}；失败项依赖缺失的外部 1.10.8 源码 / 资源基准
-"${GRADLE[@]}" runGameTestServer         # All 188 required tests passed
+"${GRADLE[@]}" build --console=plain
+export SRP_DECOMPILED_ROOT="D:/code/MC模组/_scratch/vf/out109"
+node scripts/run-all-verifications.cjs   # 155 passed, 1 skipped, 0 failed；基准为目标 1.10.9
+"${GRADLE[@]}" runGameTestServer         # All 199 required tests passed
 ```
 
 | 检查 | 结果 |
 | --- | --- |
 | 编译与打包 | **BUILD SUCCESSFUL**，产物 `build/libs/csrp-1.10.9.jar` |
-| 静态契约校验 | **140 / 148 通过**；8 项依赖本机不可用的 1.10.8 反编译源码或实体资源提取 `manifest.json`，相关移植结论尚未由这 8 项验证器确认 |
-| 运行期 GameTest | **188 / 188 通过**（169 个实体生成冒烟 + 1 个 NBT 往返 + 2 个 Escape 规则 + 1 个酿造配方 + 3 个注入熔炉 + 2 个失真开关 + 2 个复仇抓钩 + 4 个 harlequin + 2 个寄生群系雾 + 1 个掉落表 + 1 个感染骨粉球体转换） |
+| 静态契约校验 | 指定 1.10.9 反编译目录后 **155 通过、1 跳过、0 失败**；跳过项缺少外部资源 `manifest.json`。默认的 1.10.8 目录缺失，7 项基线合同无法在该默认路径下运行；1.10.9 结果不能证明 1.10.8 基线通过 |
+| 运行期 GameTest | **199 / 199 通过**，含实体冒烟、NBT、Rooter 支援及伤害转移等测试 |
 | 服务器启动 | GameTest 服务器完整启动至测试结束，无启动崩溃 |
 | 世界生成运行期 | 225 区块实证：四类寄生群系 + 36 种寄生体方块落地，零 decoration 失败 |
 | 实体 id 对齐 | 原件 158 个 id **全部命中**（缺失 0） |

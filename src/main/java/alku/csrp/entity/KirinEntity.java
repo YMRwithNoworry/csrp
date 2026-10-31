@@ -206,7 +206,7 @@ public final class KirinEntity extends DerivedParasiteEntity {
             blockBreakCooldown--;
         }
 
-        EvolutionSystem.GenerationProfile profile = EvolutionSystem.generationProfile((ServerLevel) level());
+        EvolutionSystem.GenerationProfile profile = EvolutionSystem.generationProfile((ServerLevel) level(), this);
         updatePendingJudgementCuts();
         boolean judgementWasCasting = isJudgementCutCasting();
         tickJudgementCut();

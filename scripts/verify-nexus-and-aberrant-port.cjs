@@ -35,21 +35,31 @@ const abomination = read("src/main/java/alku/csrp/entity/AbominationEntity.java"
 for (const feature of [
   "BECKON_SIV", "DISPATCHER_SIV", "ROOTER_SIV", "ROOTERBALL", "DamageTypeTags.IS_FIRE",
   "spawnBombVolley", "spawnPodVolley", "spawnRootmassCysts", "rootmassCystsInRange",
-  "rootmassCystRange", "rootmassCystSpawnLimit", "summonBeckonParasites",
+  "rooterCystRange", "rooterCystLimit", "summonBeckonParasites",
   "summonDispatcherDefenses", "applyRooterSupport", "createStormVortex", "evolve"
 ]) {
   if (!nexus.includes(feature)) failures.push(`Nexus behavior is missing ${feature}`);
 }
 expect(nexus, /float sharedDamage = amount \/ cysts\.size\(\);/,
   "Rootmass Cyst damage is not split across nearby cysts");
-expect(nexus, /else \{\s*spawnRootmassCysts\(activeKind\.rootmassCystSpawnLimit\(\)\);\s*\}/,
+expect(nexus, /else \{\s*spawnRootmassCysts\(MobsConfig\.rooterCystLimit\(activeKind\.stage\)\);\s*\}/,
   "Rooter does not create Rootmass Cysts before taking an unprotected hit");
-for (const [stage, range, limit] of [["SI", 16, 3], ["SII", 32, 4], ["SIII", 48, 5], ["SIV", 128, 6]]) {
-  expect(nexus, new RegExp(`ROOTER_${stage} -> ${range}`),
-    `Rooter stage ${stage} is missing its Rootmass Cyst range`);
-  expect(nexus, new RegExp(`ROOTER_${stage} -> ${limit}`),
-    `Rooter stage ${stage} is missing its Rootmass Cyst spawn limit`);
+for (const [stage, range, effectRange, cooldown, limit] of [
+  ["SI", 16, 20, 12, 3], ["SII", 32, 30, 10, 4],
+  ["SIII", 48, 40, 8, 5], ["SIV", 128, 56, 6, 6]
+]) {
+  for (const [suffix, value] of [["RANGE", range], ["EFFECT_RANGE", effectRange],
+    ["COOLDOWN", cooldown], ["LIMIT", limit]]) {
+    expect(mobsConfig, new RegExp(`ROOTER_${stage}_${suffix} = intValue\\([\\s\\S]*?", ${value},`),
+      `Rooter stage ${stage} has the wrong ${suffix} default`);
+  }
 }
+expect(nexus, /rooterCycleTicks == 5[\s\S]*?supportCooldown--[\s\S]*?rooterCycleTicks == 10[\s\S]*?MobsConfig\.rooterSupportCooldown/,
+  "Rooter support does not use the original cycle and cooldown ordering");
+expect(nexus, /MobsConfig\.rooterEffectRange\(stage\)[\s\S]*?rooterArea\(range, range\)/,
+  "Rooter support does not use its configured effect range");
+expect(nexus, /EvolutionSystem\.applyRooterGenes\(ally\)/,
+  "Rooter support does not apply the original genes");
 for (const feature of ["Kind.BODIES", "FastMeleeAttackGoal", "DamageTypeTags.IS_FIRE", "applyBodiesSupport"]) {
   if (!abomination.includes(feature)) failures.push(`Abomination behavior is missing ${feature}`);
 }
@@ -63,7 +73,30 @@ for (const [stage, range] of [[1, 16], [2, 32], [3, 48], [4, 128]]) {
 }
 expect(nexus, /FOLLOW_RANGE, kind\.defaultFollowRange/,
   "Nexus entity attribute registration reads configuration before it is loaded");
-expect(nexus, /ROOTERBALL\(Family\.ROOTERBALL,[^\n]*, 24\.0D\)/,
+expect(nexus, /MobsConfig\.nexusGrowthDelayTicks\(kind, random\)/,
+  "Nexus growth delay is not initialized from the configured stage range");
+expect(nexus, /supportsOrdinaryGrowth\(\) \&\& growthDelayTicks > 0/,
+  "ordinary Nexus growth is not gated by the stage's growth behavior");
+expect(nexus, /!activeKind\.supportsOrdinaryGrowth\(\) \|\| !RuntimeToggles\.mobEvolution\(\)/,
+  "evolve() does not explicitly reject Nexus stages without ordinary growth");
+expect(nexus, /ROOTER_SI\(Family\.ROOTER, 1, 25\.0D, 4\.0D, 2\.5D/,
+  "Rooter stage I attributes do not reuse the original Venkrol stage I values");
+expect(nexus, /ROOTER_SII\(Family\.ROOTER, 2, 60\.0D, 8\.0D, 6\.0D/,
+  "Rooter stage II attributes do not reuse the original Venkrol stage II values");
+expect(nexus, /ROOTER_SIII\(Family\.ROOTER, 3, 110\.0D, 16\.0D, 13\.0D/,
+  "Rooter stage III attributes do not reuse the original Venkrol stage III values");
+expect(nexus, /ROOTER_SIV\(Family\.ROOTER, 4, 220\.0D, 25\.0D, 20\.0D/,
+  "Rooter stage IV attributes do not reuse the original Venkrol stage IV values");
+expect(mobsConfig, /nexusGrowthDelayTicks\(NexusParasiteEntity\.Kind kind, net\.minecraft\.util\.RandomSource random\)[\s\S]*?BECKON_SI, DISPATCHER_SI, ROOTER_SI, ROOTER_SII, ROOTER_SIII[\s\S]*?BECKON_SII, DISPATCHER_SII[\s\S]*?BECKON_SIII, DISPATCHER_SIII[\s\S]*?BECKON_SIV, DISPATCHER_SIV, ROOTER_SIV, ROOTERBALL/,
+  "Nexus growth-time mapping does not match the original families and stages");
+expect(mobsConfig, /random\.nextInt\(maximumSeconds - minimumSeconds \+ 1\)[\s\S]*?return seconds \* 20/,
+  "Nexus growth seconds are not sampled with the inclusive original range and converted to ticks");
+for (const [key, value] of [["nexusMinGrowTime", 240], ["nexusMaxGrowTime", 300],
+  ["nexussiiMinGrowTime", 300], ["nexussiiMaxGrowTime", 360],
+  ["nexussiiiMinGrowTime", 600], ["nexussiiiMaxGrowTime", 1200]]) {
+  expect(mobsConfig, new RegExp(`"${key}", ${value}`), `${key} does not preserve the original default`);
+}
+expect(nexus, /ROOTERBALL\(Family\.ROOTERBALL,[^\n]*, 16\.0D\)/,
   "Rooterball follow-range default does not match the original");
 const originalConfigEvents = read("src/main/java/alku/csrp/config/OriginalConfigEvents.java");
 expect(originalConfigEvents, /double followRange = MobsConfig\.followRange\(entity\);[\s\S]*?follow\.setBaseValue\(followRange\)/,

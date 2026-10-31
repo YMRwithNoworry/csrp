@@ -67,6 +67,9 @@ public final class Config {
     private static final ModConfigSpec.DoubleValue ADAPTATION_CHANCE = BUILDER
             .comment("Chance for a linked parasite outside a colony to share its adaptation on death.")
             .defineInRange("adaptationChance", 0.1D, 0.0D, 1.0D);
+    private static final ModConfigSpec.DoubleValue PIVOT_DAMAGE_SENT = BUILDER
+            .comment("Damage fraction sent to a linked Rooter per Pivot level (original: pivotDamageRHost).")
+            .defineInRange("pivotDamageRHost", 0.2375D, 0.0D, 1.0D);
     private static final ModConfigSpec.DoubleValue PARASITE_KILLING_REDUCTION = BUILDER
             .comment("Damage reduction per level of the matching parasite-killing status effect.")
             .defineInRange("parasiteKillingReduction", 0.15D, 0.0D, 0.95D);
@@ -727,6 +730,7 @@ public final class Config {
     public static float evolutionNoParasiteHealingValue() {
         return EVOLUTION_NO_PARASITE_HEALING_VALUE.get().floatValue();
     }
+    public static float pivotDamageSent() { return PIVOT_DAMAGE_SENT.get().floatValue(); }
     public static boolean generationEnabled() { return GENERATION_ENABLED.get(); }
     public static int evolutionNests() { return EVOLUTION_NESTS.get(); }
     public static int deveNestsUse() { return DEVE_NESTS_USE.get(); }

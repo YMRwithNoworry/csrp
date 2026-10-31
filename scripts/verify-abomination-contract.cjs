@@ -14,14 +14,14 @@ const expect = (text, pattern, message) => {
   if (!pattern.test(text)) failures.push(message);
 };
 
-expect(effects, /private static final Map<LivingEntity, LivingEntity> ROOTER_OWNERS/,
-  "Parasites do not retain their Rooter owner");
+expect(effects, /ROOTER_OWNER_UUID[\s\S]*?ROOTER_OWNER_DIMENSION[\s\S]*?resolveRooter\(victim\)/,
+  "Parasites do not persist and resolve their Rooter owner");
 expect(effects, /rooter\.hurt\(event\.getSource\(\), transferred\)/,
   "Pivot damage is not forwarded to the Rooter");
-expect(effects, /event\.setAmount\(event\.getAmount\(\) \* 0\.05F\)/,
-  "Pivot damage does not leave the original 5% damage on the linked parasite");
-expect(effects, /0\.2375F/,
-  "Pivot does not use the original Rooter damage ratio");
+expect(effects, /event\.setAmount\(event\.getAmount\(\) \* \(1\.0F - ratio\)\)/,
+  "Pivot damage does not leave the complement of the redirected damage");
+expect(effects, /Math\.min\(0\.95F, \(pivot\.getAmplifier\(\) \+ 1\) \* Config\.pivotDamageSent\(\)\)/,
+  "Pivot does not use the configured Rooter ratio and original 95% cap");
 expect(effects, /0\.5D \* \(parate\.getAmplifier\(\) \+ 1\)/,
   "Parate kill growth multiplier is missing");
 expect(effects, /Attributes\.MAX_HEALTH/,

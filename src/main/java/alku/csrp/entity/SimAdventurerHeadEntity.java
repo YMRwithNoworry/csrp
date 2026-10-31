@@ -368,7 +368,7 @@ public final class SimAdventurerHeadEntity extends Monster implements CitadelAni
 
     private void applyMinimumDamage(LivingEntity target, float healthBefore) {
         if (!(level() instanceof ServerLevel serverLevel)
-                || !EvolutionSystem.generationProfile(serverLevel).minimumDamage() || !target.isAlive()) {
+                || !EvolutionSystem.generationProfile(serverLevel, this).minimumDamage() || !target.isAlive()) {
             return;
         }
         float dealt = Math.max(0.0F, healthBefore - ParasiteCombatEffects.healthWithAbsorption(target));

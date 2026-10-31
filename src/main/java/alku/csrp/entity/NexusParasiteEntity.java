@@ -15,6 +15,7 @@ import alku.csrp.registry.ModMobEffects;
 import alku.csrp.registry.ModItems;
 import alku.csrp.registry.ModSounds;
 import alku.csrp.particle.SrpParticleEffects;
+import alku.csrp.world.EvolutionSystem;
 import alku.csrp.world.SrpCoreSystems;
 import alku.csrp.world.SrpWorldData;
 import alku.csrp.world.gen.WorldGenParasiteNexusProtection1;
@@ -73,6 +74,8 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
             NexusParasiteEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Float> FLOOR_TIMER = SynchedEntityData.defineId(
             NexusParasiteEntity.class, EntityDataSerializers.FLOAT);
+    private static final EntityDataAccessor<Boolean> RTTS = SynchedEntityData.defineId(
+            NexusParasiteEntity.class, EntityDataSerializers.BOOLEAN);
 
     private final CitadelRawAnimation AGE_IN_TICKS = ParasiteAnimations.loop(this, "func_78087_a.age_in_ticks");
     private final CitadelRawAnimation BECKON_ATTACK_AGE = ParasiteAnimations.loop(this,
@@ -85,8 +88,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
             "get_floor_timer.get_parasite_status_1");
     private final CitadelRawAnimation BECKON_BURIED = ParasiteAnimations.play(this, "get_floor_timer");
     private static final byte BECKON_BURIED_EVENT = 50;
-    private static final int STAGE_ONE_MIN_GROWTH = 4_800;
-    private static final int STAGE_ONE_GROWTH_VARIANCE = 1_201;
     private static final int TEMPORARY_BECKON_LIFETIME = 300;
     private static final int BECKON_PULSE_INTERVAL = 20;
     private static final int BECKON_LOCK_RELEASE_TICKS = 200;
@@ -118,6 +119,8 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
     private boolean beckonCounted;
     private int bombCooldown;
     private int supportCooldown;
+    private int rooterCycleTicks;
+    private int rooterGroundChecks;
     private int blockBreakCooldown;
     private int forcedEvolutionCooldown;
     private int colonyPlacementProgress;
@@ -134,8 +137,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         xpReward = kind.experience;
         // Original EntityAINexusGrow constructor: maximumStageList locks a per-dimension stage cap.
         this.dimensionStageLock = Config.nexusStageLock(level);
-        growthDelayTicks = kind.stage == 0 || kind.stage == 4 ? -1
-                : STAGE_ONE_MIN_GROWTH + random.nextInt(STAGE_ONE_GROWTH_VARIANCE);
+        growthDelayTicks = MobsConfig.nexusGrowthDelayTicks(kind, random);
         if (kind.family == Family.BECKON && !Config.useEvolutionPhases() && !Config.ignoreCooldownAtSpawn()) {
             beckonAttackTimer = -MobsConfig.beckonCooldownSeconds(kind.stage) * 20;
         }
@@ -157,6 +159,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         builder.define(BODY, 0.5F);
         builder.define(PARASITE_STATUS, 0);
         builder.define(FLOOR_TIMER, -1.0F);
+        builder.define(RTTS, false);
     }
 
     public float getBODY() {
@@ -188,6 +191,14 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
 
     public void setFloorTimer(float value) {
         entityData.set(FLOOR_TIMER, value);
+    }
+
+    public boolean getRTTS() {
+        return entityData.get(RTTS);
+    }
+
+    private void setRTTS(boolean value) {
+        entityData.set(RTTS, value);
     }
 
     @Override
@@ -246,6 +257,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
             }
         }
 
+        if (activeKind.family == Family.ROOTER || activeKind.isRooterBall()) {
+            tickRooterCycle(activeKind);
+        }
         if (activeKind.isRooterBall()) {
             return;
         }
@@ -254,7 +268,8 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
             discard();
             return;
         }
-        if (canGrow && growthDelayTicks > 0 && level() instanceof ServerLevel serverLevel) {
+        if (canGrow && activeKind.supportsOrdinaryGrowth() && growthDelayTicks > 0
+                && level() instanceof ServerLevel serverLevel) {
             int phase = SrpWorldData.get(serverLevel).evolutionPhase();
             int minimumPhase = activeKind.stage + 2;
             if (phase >= minimumPhase && (phase > minimumPhase || tickCount % 4 == 0)
@@ -270,12 +285,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
             trySpawnRooterSi(rooterLevel);
         }
 
-        if (activeKind.family == Family.ROOTER && supportCooldown <= 0) {
-            applyRooterSupport(activeKind.stage);
-            // Rooter pillars provide battlefield support on the same accelerated
-            // cadence as their direct summons (one pulse per second).
-            supportCooldown = 50;
-        }
         if (activeKind.family == Family.DISPATCHER && tickCount % 40 == 0) {
             storeNearbyParasite();
             placeNestFog(activeKind.stage);
@@ -365,7 +374,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
                 }
                 damageRedirected = true;
             } else {
-                spawnRootmassCysts(activeKind.rootmassCystSpawnLimit());
+                spawnRootmassCysts(MobsConfig.rooterCystLimit(activeKind.stage));
             }
         }
 
@@ -463,6 +472,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         tag.putInt("nexus_summon_cooldown", summonCooldown);
         tag.putInt("nexus_bomb_cooldown", bombCooldown);
         tag.putInt("nexus_support_cooldown", supportCooldown);
+        tag.putInt("nexus_rooter_cycle", rooterCycleTicks);
+        tag.putInt("nexus_rooter_ground_checks", rooterGroundChecks);
+        tag.putBoolean("nexus_rooter_rtts", getRTTS());
         tag.putInt("nexus_block_break_cooldown", blockBreakCooldown);
         tag.putInt("nexus_forced_evolution_cooldown", forcedEvolutionCooldown);
         tag.putInt("nexus_temporary_lifetime", temporaryLifetimeTicks);
@@ -485,6 +497,9 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         summonCooldown = tag.getIntOr("nexus_summon_cooldown", 0);
         bombCooldown = tag.getIntOr("nexus_bomb_cooldown", 0);
         supportCooldown = tag.getIntOr("nexus_support_cooldown", 0);
+        rooterCycleTicks = Mth.clamp(tag.getIntOr("nexus_rooter_cycle", 0), 0, 20);
+        rooterGroundChecks = Mth.clamp(tag.getIntOr("nexus_rooter_ground_checks", 0), 0, 6);
+        setRTTS(tag.getBooleanOr("nexus_rooter_rtts", false));
         blockBreakCooldown = tag.getIntOr("nexus_block_break_cooldown", 0);
         forcedEvolutionCooldown = tag.getIntOr("nexus_forced_evolution_cooldown", 0);
         temporaryLifetimeTicks = tag.getInt("nexus_temporary_lifetime").orElse(-1);
@@ -512,7 +527,12 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
 
     @Override
     public int getSummonCapacity() {
-        return activeKind().family == Family.BECKON ? MobsConfig.beckonTotalCapacity(activeKind().stage) : 0;
+        Kind activeKind = activeKind();
+        return switch (activeKind.family) {
+            case BECKON -> MobsConfig.beckonTotalCapacity(activeKind.stage);
+            case ROOTER -> MobsConfig.rooterCystLimit(activeKind.stage);
+            default -> 0;
+        };
     }
 
     @Override
@@ -553,7 +573,6 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
     private void decrementCooldowns() {
         if (summonCooldown > 0) summonCooldown--;
         if (bombCooldown > 0) bombCooldown--;
-        if (supportCooldown > 0) supportCooldown--;
         if (blockBreakCooldown > 0) blockBreakCooldown--;
         if (forcedEvolutionCooldown > 0) forcedEvolutionCooldown--;
     }
@@ -563,13 +582,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         return switch (activeKind.family) {
             case BECKON -> target != null && summonBeckonParasites(activeKind, target);
             case DISPATCHER -> target != null && summonDispatcherDefenses(activeKind, target);
-            case ROOTER -> {
-                if (activeKind.stage == 4 && target != null) {
-                    spawnPodVolley(target);
-                }
-                yield true;
-            }
-            case ROOTERBALL -> false;
+            case ROOTER, ROOTERBALL -> false;
         };
     }
 
@@ -1172,49 +1185,114 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         level().addFreshEntity(projectile);
     }
 
+    private AABB rooterArea(double horizontalRange, double verticalRange) {
+        return new AABB(getX(), getY(), getZ(), getX() + 1.0D, getY() + 1.0D, getZ() + 1.0D)
+                .inflate(horizontalRange, verticalRange, horizontalRange);
+    }
+
     private List<NexusParasiteEntity> rootmassCystsInRange(Kind rooter) {
-        int range = rooter.rootmassCystRange();
+        int range = MobsConfig.rooterCystRange(rooter.stage);
         return level().getEntitiesOfClass(NexusParasiteEntity.class,
-                getBoundingBox().inflate(range + 1.0D, range, range + 1.0D),
+                rooterArea(range + 1.0D, range),
                 cyst -> cyst.isAlive() && cyst.activeKind().isRooterBall());
     }
 
     private void spawnRootmassCysts(int maximum) {
-        if (!(level() instanceof ServerLevel serverLevel)) {
+        if (!(level() instanceof ServerLevel serverLevel) || maximum <= 0) {
             return;
         }
-        int count = 1 + random.nextInt(Math.max(1, maximum));
-        for (int index = 0; index < count; index++) {
-            NexusParasiteEntity rooterBall = ModEntities.ROOTERBALL.get()
-                    .create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
-            if (rooterBall == null) {
-                continue;
+        summonTracker.prune(serverLevel);
+        int count = 1 + random.nextInt(maximum);
+        for (int index = 0; index < count && getUsedSummonCapacity() < getSummonCapacity(); index++) {
+            for (int attempt = 0; attempt < 2; attempt++) {
+                int offsetX = 2 + random.nextInt(4);
+                int offsetZ = 2 + random.nextInt(4);
+                if (random.nextBoolean()) offsetX = -offsetX;
+                if (random.nextBoolean()) offsetZ = -offsetZ;
+                double x = getX() + offsetX;
+                double z = getZ() + offsetZ;
+                BlockPos position = BlockPos.containing(x, getY(), z);
+                if (!serverLevel.getBlockState(position).isAir()
+                        || serverLevel.getBlockState(position.below()).isAir()) {
+                    continue;
+                }
+                NexusParasiteEntity cyst = ModEntities.ROOTERBALL.get()
+                        .create(serverLevel, EntitySpawnReason.MOB_SUMMONED);
+                if (cyst == null) {
+                    break;
+                }
+                cyst.snapTo(x, getY(), z, getYRot(), getXRot());
+                if (!serverLevel.noCollision(cyst)
+                        || !serverLevel.getEntities(cyst, cyst.getBoundingBox().inflate(0.25D)).isEmpty()) {
+                    cyst.discard();
+                    continue;
+                }
+                cyst.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(position),
+                        EntitySpawnReason.MOB_SUMMONED, null);
+                if (serverLevel.addFreshEntity(cyst)) {
+                    reserveTrackedSummon(cyst.getUUID(), 1);
+                }
+                break;
             }
-            double angle = random.nextDouble() * Math.PI * 2.0D;
-            double distance = 2.0D + random.nextDouble() * 3.0D;
-            rooterBall.snapTo(getX() + Math.cos(angle) * distance, getY(),
-                    getZ() + Math.sin(angle) * distance, getYRot(), 0.0F);
-            rooterBall.finalizeSpawn(serverLevel, serverLevel.getCurrentDifficultyAt(rooterBall.blockPosition()),
-                    EntitySpawnReason.MOB_SUMMONED, null);
-            serverLevel.addFreshEntity(rooterBall);
         }
     }
 
+    private void tickRooterCycle(Kind activeKind) {
+        if (++rooterCycleTicks > 20) {
+            rooterCycleTicks = 0;
+        }
+        if (rooterCycleTicks == 5) {
+            if (activeKind.isRooterBall()) {
+                removeEffect(ModMobEffects.PIVOT);
+                return;
+            }
+            supportCooldown--;
+            if (++rooterGroundChecks >= 7) {
+                rooterGroundChecks = 0;
+                checkRooterGround(activeKind.stage);
+            }
+        }
+        if (!activeKind.isRooterBall() && rooterCycleTicks == 10 && supportCooldown <= 0) {
+            supportCooldown = MobsConfig.rooterSupportCooldown(activeKind.stage);
+            applyRooterSupport(activeKind.stage);
+        }
+    }
+
+    private void checkRooterGround(int stage) {
+        int range = switch (stage) {
+            case 2 -> 2;
+            case 3 -> 3;
+            case 4 -> 5;
+            default -> 0;
+        };
+        if (range == 0) {
+            return;
+        }
+        for (int x = -range; x <= range; x++) {
+            for (int z = -range; z <= range; z++) {
+                BlockPos pos = BlockPos.containing(getX() + x, getY() - 0.5D, getZ() + z);
+                if (level().getBlockState(pos).isAir()) {
+                    setRTTS(false);
+                    return;
+                }
+            }
+        }
+        setRTTS(true);
+    }
+
     private void applyRooterSupport(int stage) {
+        int range = MobsConfig.rooterEffectRange(stage);
         for (LivingEntity ally : level().getEntitiesOfClass(LivingEntity.class,
-                getBoundingBox().inflate(16.0D + stage * 4.0D),
-                entity -> entity != this && entity instanceof Parasite)) {
+                rooterArea(range, range),
+                entity -> entity != this && entity.isAlive() && entity instanceof Parasite)) {
             if (ally instanceof NexusParasiteEntity nexus
                     && (nexus.activeKind().family == Family.ROOTER || nexus.activeKind().isRooterBall())) {
                 continue;
             }
-            ally.addEffect(new MobEffectInstance(ModMobEffects.PIVOT, 300, Math.max(0, stage - 1), false, false), this);
-            ally.addEffect(new MobEffectInstance(ModMobEffects.PARATE, 300, Math.max(0, stage - 1), false, false), this);
+            ally.addEffect(new MobEffectInstance(ModMobEffects.PIVOT, 300, stage - 1, false, false), this);
+            ally.addEffect(new MobEffectInstance(ModMobEffects.PARATE, 300, stage - 1, false, false), this);
             StatusEffectEvents.linkToRooter(ally, this);
-        }
-        if (level() instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(ParticleTypes.COMPOSTER, getX(), getY() + getBbHeight() * 0.55D, getZ(),
-                    16, 1.5D, 1.0D, 1.5D, 0.02D);
+            EvolutionSystem.applyRooterGenes(ally);
         }
     }
 
@@ -1410,8 +1488,8 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
     private boolean evolve() {
         Kind activeKind = activeKind();
         // Original EntityAINexusGrow required ParasiteEventEntity.canSpawnNext before every stage upgrade.
-        if (!RuntimeToggles.mobEvolution()
-                || !(level() instanceof ServerLevel serverLevel) || activeKind.stage <= 0 || activeKind.stage >= 4) {
+        if (!activeKind.supportsOrdinaryGrowth() || !RuntimeToggles.mobEvolution()
+                || !(level() instanceof ServerLevel serverLevel)) {
             return false;
         }
         // Original EntityAINexusGrow.checkPhase dimLock: `dimLock >= currentStage + 1` stops growth.
@@ -1520,8 +1598,11 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
     }
 
     private int defaultGrowthDelay() {
-        return activeKind().stage == 0 || activeKind().stage == 4 ? -1
-                : STAGE_ONE_MIN_GROWTH + random.nextInt(STAGE_ONE_GROWTH_VARIANCE);
+        return MobsConfig.nexusGrowthDelayTicks(activeKind(), random);
+    }
+
+    public int getGrowthDelayTicks() {
+        return growthDelayTicks;
     }
 
     private NexusParasiteEntity createNexus(ServerLevel level, Family family, int stage) {
@@ -1589,11 +1670,11 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
         DISPATCHER_SII(Family.DISPATCHER, 2, 70.0D, 14.0D, 7.0D, 5, 5, 55, 2.0F, 6.0D, 32, 64.0D),
         DISPATCHER_SIII(Family.DISPATCHER, 3, 130.0D, 21.0D, 14.0D, 6, 7, 50, 3.0F, 9.0D, 64, 96.0D),
         DISPATCHER_SIV(Family.DISPATCHER, 4, 250.0D, 28.0D, 22.0D, 8, 9, 45, 5.0F, 18.0D, 220, 256.0D),
-        ROOTER_SI(Family.ROOTER, 1, 40.0D, 7.0D, 2.5D, 4, 3, 60, 0.0F, 0.0D, 16, 16.0D),
-        ROOTER_SII(Family.ROOTER, 2, 80.0D, 14.0D, 6.0D, 5, 5, 55, 2.0F, 6.0D, 32, 32.0D),
-        ROOTER_SIII(Family.ROOTER, 3, 150.0D, 21.0D, 13.0D, 6, 7, 50, 3.0F, 9.0D, 64, 48.0D),
-        ROOTER_SIV(Family.ROOTER, 4, 300.0D, 28.0D, 20.0D, 8, 9, 45, 5.0F, 18.0D, 220, 128.0D),
-        ROOTERBALL(Family.ROOTERBALL, 0, 20.0D, 10.0D, 0.0D, 0, 0, 0, 0.0F, 0.0D, 0, 24.0D);
+        ROOTER_SI(Family.ROOTER, 1, 25.0D, 4.0D, 2.5D, 4, 3, 60, 0.0F, 0.0D, 16, 16.0D),
+        ROOTER_SII(Family.ROOTER, 2, 60.0D, 8.0D, 6.0D, 5, 5, 55, 2.0F, 6.0D, 32, 32.0D),
+        ROOTER_SIII(Family.ROOTER, 3, 110.0D, 16.0D, 13.0D, 6, 7, 50, 3.0F, 9.0D, 64, 48.0D),
+        ROOTER_SIV(Family.ROOTER, 4, 220.0D, 25.0D, 20.0D, 8, 9, 45, 5.0F, 18.0D, 220, 128.0D),
+        ROOTERBALL(Family.ROOTERBALL, 0, 20.0D, 10.0D, 0.0D, 0, 0, 0, 0.0F, 0.0D, 0, 16.0D);
 
         private final Family family;
         private final int stage;
@@ -1625,32 +1706,16 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
             this.defaultFollowRange = defaultFollowRange;
         }
 
+        private boolean supportsOrdinaryGrowth() {
+            return stage > 0 && stage < 4 && family != Family.ROOTERBALL;
+        }
+
         private boolean isRooterBall() {
             return family == Family.ROOTERBALL;
         }
 
         public int stage() {
             return stage;
-        }
-
-        private int rootmassCystRange() {
-            return switch (this) {
-                case ROOTER_SI -> 16;
-                case ROOTER_SII -> 32;
-                case ROOTER_SIII -> 48;
-                case ROOTER_SIV -> 128;
-                default -> 0;
-            };
-        }
-
-        private int rootmassCystSpawnLimit() {
-            return switch (this) {
-                case ROOTER_SI -> 3;
-                case ROOTER_SII -> 4;
-                case ROOTER_SIII -> 5;
-                case ROOTER_SIV -> 6;
-                default -> 0;
-            };
         }
     }
 }
