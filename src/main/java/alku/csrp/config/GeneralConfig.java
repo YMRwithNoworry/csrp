@@ -23,6 +23,9 @@ public final class GeneralConfig {
     private static final ModConfigSpec.IntValue MUSIC_PHASE_MAX = BUILDER
             .comment("Maximum value in ticks at which music will be played (original: Music Phase Max).")
             .defineInRange("musicPhaseMax", 18200, 1, 2147483640);
+    private static final ModConfigSpec.IntValue ADAPTED_EXPERIENCE_VALUE = BUILDER
+            .comment("Experience value used as the base for adapted parasites (original: adaptedXPValue).")
+            .defineInRange("adaptedExperienceValue", 55, 1, 50000);
     private static final ModConfigSpec.DoubleValue GLOBAL_HEALTH_MULTIPLIER = BUILDER
             .comment("Global maximum-health multiplier for every parasite.")
             .defineInRange("globalHealthMultiplier", 1.0D, 0.01D, 100.0D);
@@ -68,6 +71,10 @@ public final class GeneralConfig {
     /** {@code SRPConfig.musicMax} — longest gap in ticks between two OST tracks. */
     public static int musicPhaseMax() {
         return MUSIC_PHASE_MAX.get();
+    }
+
+    public static int adaptedExperienceValue() {
+        return ADAPTED_EXPERIENCE_VALUE.get();
     }
 
     public static double globalHealthMultiplier() {

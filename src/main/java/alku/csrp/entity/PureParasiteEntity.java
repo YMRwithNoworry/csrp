@@ -1179,11 +1179,10 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         if (!(level() instanceof ServerLevel serverLevel) || random.nextInt(4) != 0) {
             return;
         }
-        int seizers = level().getEntitiesOfClass(DeterrentParasiteEntity.class, getBoundingBox().inflate(32.0D),
-                        entity -> entity.getKind() == DeterrentParasiteEntity.Kind.SEIZER)
-                .size();
+        int seizers = level().getEntitiesOfClass(NakEntity.class,
+                getBoundingBox().inflate(32.0D)).size();
         if (seizers < 3 && random.nextBoolean()) {
-            DeterrentParasiteEntity seizer = ModEntities.SEIZER.get().create(serverLevel,
+            NakEntity seizer = ModEntities.SEIZER.get().create(serverLevel,
                     EntitySpawnReason.MOB_SUMMONED);
             if (seizer == null) {
                 return;
@@ -1247,13 +1246,12 @@ public final class PureParasiteEntity extends PrimitiveParasiteEntity
         double spawnZ = target.getZ() + offsetZ;
 
         if (spawnSeizer) {
-            long nearbySeizers = level().getEntitiesOfClass(DeterrentParasiteEntity.class,
-                            target.getBoundingBox().inflate(16.0D), entity -> entity.getKind() == DeterrentParasiteEntity.Kind.SEIZER)
-                    .size();
+            long nearbySeizers = level().getEntitiesOfClass(NakEntity.class,
+                    target.getBoundingBox().inflate(16.0D)).size();
             if (nearbySeizers > 10) {
                 return;
             }
-            DeterrentParasiteEntity seizer = ModEntities.SEIZER.get().create(serverLevel,
+            NakEntity seizer = ModEntities.SEIZER.get().create(serverLevel,
                     EntitySpawnReason.MOB_SUMMONED);
             if (seizer == null) {
                 return;

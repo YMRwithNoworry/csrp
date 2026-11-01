@@ -127,6 +127,18 @@ public final class MobsConfig {
     private static final ModConfigSpec.IntValue DISPATCHER_SIV_FOLLOW_MULTIPLIER = intValue(
             "srparasites:dispatcher_siv", "dispatcherSIVFollowRangeMultiplier", 2, 1, 100,
             "原版 Dispatcher 第 IV 阶段的跟随距离倍率。");
+    private static final ModConfigSpec.IntValue DISPATCHER_SI_ACTIVE_CAPACITY = intValue(
+            "srparasites:dispatcher_si", "dispatcherSIActiveCapacity", 3, 0, 100,
+            "Maximum active defensive parasites for a stage-I Dispatcher.");
+    private static final ModConfigSpec.IntValue DISPATCHER_SII_ACTIVE_CAPACITY = intValue(
+            "srparasites:dispatcher_sii", "dispatcherSIIActiveCapacity", 5, 0, 100,
+            "Maximum active defensive parasites for a stage-II Dispatcher.");
+    private static final ModConfigSpec.IntValue DISPATCHER_SIII_ACTIVE_CAPACITY = intValue(
+            "srparasites:dispatcher_siii", "dispatcherSIIIActiveCapacity", 7, 0, 100,
+            "Maximum active defensive parasites for a stage-III Dispatcher.");
+    private static final ModConfigSpec.IntValue DISPATCHER_SIV_ACTIVE_CAPACITY = intValue(
+            "srparasites:dispatcher_siv", "dispatcherSIVActiveCapacity", 9, 0, 100,
+            "Maximum active defensive parasites for a stage-IV Dispatcher.");
 
     private static final ModConfigSpec.ConfigValue<List<? extends String>> DISPATCHER_SI_EFFECTS = stringList(
             "srparasites:dispatcher_si", "dispatcherSIEffects", List.of(
@@ -169,6 +181,80 @@ public final class MobsConfig {
     private static final ModConfigSpec.BooleanValue DISPATCHER_PRIMITIVE_MANDUCATER = booleanValue(
             "srparasites:manducater", "primitiveManducaterEnabled", true,
             "Whether Dispatcher conversion may create a Primitive Manducater.");
+    private static final ModConfigSpec.BooleanValue NAK_ENABLED = booleanValue(
+            "srparasites:seizer", "nakEnabled", true,
+            "Whether Nak/Seizer defenses may be spawned.");
+    private static final ModConfigSpec.DoubleValue NAK_HEALTH_MULTIPLIER = value(
+            "srparasites:seizer", "nakHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for Nak/Seizer.");
+    private static final ModConfigSpec.DoubleValue NAK_DAMAGE_MULTIPLIER = value(
+            "srparasites:seizer", "nakDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Melee damage multiplier for Nak/Seizer.");
+    private static final ModConfigSpec.DoubleValue NAK_ARMOR_MULTIPLIER = value(
+            "srparasites:seizer", "nakArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for Nak/Seizer.");
+    private static final ModConfigSpec.IntValue NAK_SPAWN_RATE = intValue(
+            "srparasites:seizer", "nakSpawnRate", 0, 0, 100,
+            "Natural spawn weight for Nak/Seizer when evolution phases do not override it.");
+
+    private static final ModConfigSpec.BooleanValue UNVO_ENABLED = booleanValue(
+            "srparasites:sentry", "unvoEnabled", true,
+            "Whether Unvo/Sentry defenses may be spawned.");
+    private static final ModConfigSpec.DoubleValue UNVO_HEALTH_MULTIPLIER = value(
+            "srparasites:sentry", "unvoHealthMultiplier", 1.0D, 0.01D, 100.0D,
+            "Health multiplier for Unvo/Sentry.");
+    private static final ModConfigSpec.DoubleValue UNVO_DAMAGE_MULTIPLIER = value(
+            "srparasites:sentry", "unvoDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Melee damage multiplier for Unvo/Sentry.");
+    private static final ModConfigSpec.DoubleValue UNVO_RANGE_DAMAGE_MULTIPLIER = value(
+            "srparasites:sentry", "unvoRangeDamageMultiplier", 1.0D, 0.01D, 100.0D,
+            "Spineball damage multiplier for Unvo/Sentry.");
+    private static final ModConfigSpec.DoubleValue UNVO_ARMOR_MULTIPLIER = value(
+            "srparasites:sentry", "unvoArmorMultiplier", 1.0D, 0.01D, 100.0D,
+            "Armor multiplier for Unvo/Sentry.");
+    private static final ModConfigSpec.DoubleValue UNVO_GEAR_DAMAGE = value(
+            "srparasites:sentry", "unvoGearDamage", 0.04D, 0.0D, 1.0D,
+            "Fraction of maximum armor durability removed by an Unvo/Sentry spineball.");
+    private static final ModConfigSpec.IntValue UNVO_POISON_DURATION_SECONDS = intValue(
+            "srparasites:sentry", "unvoPoisonDurationSeconds", 7, 0, 100,
+            "Poison duration in seconds for an Unvo/Sentry spineball.");
+    private static final ModConfigSpec.IntValue UNVO_POISON_AMPLIFIER = intValue(
+            "srparasites:sentry", "unvoPoisonAmplifier", 1, 1, 100,
+            "One-based poison amplifier for an Unvo/Sentry spineball.");
+
+    private static final ModConfigSpec.DoubleValue TURRET_POINT_REDUCTION = value(
+            "parasite_properties_deterrent", "deterrentPointReductionValue", 0.16D, 0.0D, 100.0D,
+            "Adaptation points contributed by each learned damage type.");
+    private static final ModConfigSpec.IntValue TURRET_POINT_CAP = intValue(
+            "parasite_properties_deterrent", "deterrentPointReductionCap", 6, 0, 100,
+            "Maximum adaptation points used to reduce incoming damage.");
+    private static final ModConfigSpec.IntValue TURRET_POINT_DAMAGE_CAP = intValue(
+            "parasite_properties_deterrent", "deterrentPointDamageCap", 10, 0, 10,
+            "Maximum number of damage types a deterrent may learn.");
+    private static final ModConfigSpec.DoubleValue TURRET_CHANCE_TO_LEARN = value(
+            "parasite_properties_deterrent", "deterrentChanceToLearn", 0.85D, 0.0D, 1.0D,
+            "Chance to adapt to incoming damage.");
+    private static final ModConfigSpec.DoubleValue TURRET_CHANCE_TO_LEARN_FIRE = value(
+            "parasite_properties_deterrent", "deterrentChanceToLearnFire", 0.5D, 0.0D, 1.0D,
+            "Chance to fail adaptation while on fire.");
+    private static final ModConfigSpec.DoubleValue TURRET_FOLLOW_RANGE = value(
+            "parasite_properties_deterrent", "deterrentFollowRange", 32.0D, 0.0D, 128.0D,
+            "Follow range for deterrent entities.");
+    private static final ModConfigSpec.IntValue TURRET_DAMAGE_CAP = intValue(
+            "parasite_properties_deterrent", "deterrentDamageCap", 6, 1, 100,
+            "Minimum number of hits required to kill a deterrent entity.");
+    private static final ModConfigSpec.DoubleValue TURRET_MINIMUM_DAMAGE = value(
+            "parasite_properties_deterrent", "deterrentMinimumDamage", 2.0D, 0.0D, 1024.0D,
+            "Minimum damage dealt to a deterrent entity after adaptation.");
+    private static final ModConfigSpec.DoubleValue TURRET_REGENERATION = value(
+            "parasite_properties_deterrent", "deterrentRegeneration", 10.0D, 0.0D, 1024.0D,
+            "Health restored by a deterrent regeneration pulse.");
+    private static final ModConfigSpec.IntValue TURRET_XP_VALUE = intValue(
+            "parasite_properties_deterrent", "deterrentXpValue", 75, 1, 50000,
+            "Experience value of a deterrent entity.");
+    private static final ModConfigSpec.IntValue TURRET_LOSS_EVOLUTION_VALUE = intValue(
+            "parasite_properties_deterrent", "deterrentDeathPenaltyEvolutionValue", 1000, 0, 1000000000,
+            "Evolution points lost when a deterrent entity dies.");
 
     private static final ModConfigSpec.BooleanValue RUPTER_ANIMAL_ATTACKING = booleanValue(
             "srparasites:rupter", "rupterPassiveMobAttacking", true,
@@ -816,6 +902,112 @@ public final class MobsConfig {
             case 6 -> DISPATCHER_PRIMITIVE_MANDUCATER.get();
             default -> throw new IllegalArgumentException("Invalid Dispatcher primitive: " + index);
         };
+    }
+
+    public static int dispatcherActiveCapacity(int stage) {
+        return switch (stage) {
+            case 1 -> DISPATCHER_SI_ACTIVE_CAPACITY.get();
+            case 2 -> DISPATCHER_SII_ACTIVE_CAPACITY.get();
+            case 3 -> DISPATCHER_SIII_ACTIVE_CAPACITY.get();
+            case 4 -> DISPATCHER_SIV_ACTIVE_CAPACITY.get();
+            default -> throw new IllegalArgumentException("Invalid Dispatcher stage: " + stage);
+        };
+    }
+
+    public static boolean nakEnabled() {
+        return NAK_ENABLED.get();
+    }
+
+    public static double nakHealthMultiplier() {
+        return NAK_HEALTH_MULTIPLIER.get();
+    }
+
+    public static double nakDamageMultiplier() {
+        return NAK_DAMAGE_MULTIPLIER.get();
+    }
+
+    public static double nakArmorMultiplier() {
+        return NAK_ARMOR_MULTIPLIER.get();
+    }
+
+    public static int nakSpawnRate() {
+        return NAK_SPAWN_RATE.get();
+    }
+
+    public static boolean unvoEnabled() {
+        return UNVO_ENABLED.get();
+    }
+
+    public static double unvoHealthMultiplier() {
+        return UNVO_HEALTH_MULTIPLIER.get();
+    }
+
+    public static double unvoDamageMultiplier() {
+        return UNVO_DAMAGE_MULTIPLIER.get();
+    }
+
+    public static double unvoRangeDamageMultiplier() {
+        return UNVO_RANGE_DAMAGE_MULTIPLIER.get();
+    }
+
+    public static double unvoArmorMultiplier() {
+        return UNVO_ARMOR_MULTIPLIER.get();
+    }
+
+    public static double unvoGearDamage() {
+        return UNVO_GEAR_DAMAGE.get();
+    }
+
+    public static int unvoPoisonDurationTicks() {
+        return UNVO_POISON_DURATION_SECONDS.get() * 20;
+    }
+
+    public static int unvoPoisonAmplifier() {
+        return UNVO_POISON_AMPLIFIER.get() - 1;
+    }
+
+    public static double turretPointReductionValue() {
+        return TURRET_POINT_REDUCTION.get();
+    }
+
+    public static int turretPointReductionCap() {
+        return TURRET_POINT_CAP.get();
+    }
+
+    public static int turretPointDamageCap() {
+        return TURRET_POINT_DAMAGE_CAP.get();
+    }
+
+    public static double turretChanceToLearn() {
+        return TURRET_CHANCE_TO_LEARN.get();
+    }
+
+    public static double turretChanceToLearnFire() {
+        return TURRET_CHANCE_TO_LEARN_FIRE.get();
+    }
+
+    public static double turretFollowRange() {
+        return TURRET_FOLLOW_RANGE.get();
+    }
+
+    public static int turretDamageCap() {
+        return TURRET_DAMAGE_CAP.get();
+    }
+
+    public static double turretMinimumDamage() {
+        return TURRET_MINIMUM_DAMAGE.get();
+    }
+
+    public static double turretRegeneration() {
+        return TURRET_REGENERATION.get();
+    }
+
+    public static int turretXpValue() {
+        return TURRET_XP_VALUE.get();
+    }
+
+    public static int turretLossEvolutionValue() {
+        return TURRET_LOSS_EVOLUTION_VALUE.get();
     }
 
     public static int nexusGrowthDelayTicks(NexusParasiteEntity.Kind kind, net.minecraft.util.RandomSource random) {

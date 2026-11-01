@@ -80,7 +80,8 @@ public final class ParasiteProjectileEntity extends Entity {
         DRAGON_MISSILE,
         SALIVA_EFFECT,
         BIOMASS_BALL,
-        HOMING
+        HOMING,
+        UNVO_SPINE
     }
 
     private static final EntityDataAccessor<Integer> MODE = SynchedEntityData.defineId(
@@ -115,6 +116,9 @@ public final class ParasiteProjectileEntity extends Entity {
     private UUID biomassTargetId;
     private boolean biomassReservationHandled;
     private boolean rootMeteor;
+    private int unvoPoisonDurationTicks;
+    private int unvoPoisonAmplifier;
+    private double unvoGearDamage;
 
     public ParasiteProjectileEntity(EntityType<? extends ParasiteProjectileEntity> type, Level level) {
         super(type, level);
@@ -252,7 +256,7 @@ public final class ParasiteProjectileEntity extends Entity {
                 case SPINE, NEEDLE -> ParticleTypes.CRIT;
                 case WEB -> ParticleTypes.POOF;
                 case ACID, YELLOWEYE_SPINE, YELLOWEYE_NADE, ANGED_BALL,
-                        ANCIENT_BALL, SALIVA_EFFECT -> ParticleTypes.ITEM_SLIME;
+                        ANCIENT_BALL, SALIVA_EFFECT, UNVO_SPINE -> ParticleTypes.ITEM_SLIME;
                 case ALAFHA_BALL, BIOMASS_BALL -> ParticleTypes.POOF;
                 case DRAGON_MISSILE -> PowerParticleOption.create(ParticleTypes.DRAGON_BREATH, 1.0F);
                 case VOMIT -> ParticleTypes.WITCH;
@@ -296,6 +300,9 @@ public final class ParasiteProjectileEntity extends Entity {
     private boolean canCollideWith(PrimitiveParasiteEntity owner, Mode mode, LivingEntity target) {
         if (owner == null || target == owner || !target.isAlive()) {
             return false;
+        }
+        if (mode == Mode.UNVO_SPINE) {
+            return target instanceof NakEntity || owner.isValidParasiteTarget(target);
         }
         if (mode == Mode.ANGED_BALL) {
             return true;
@@ -343,6 +350,10 @@ public final class ParasiteProjectileEntity extends Entity {
         }
         if (mode == Mode.ACID || mode == Mode.YELLOWEYE_NADE) {
             spawnNade(owner, mode == Mode.YELLOWEYE_NADE ? NadeEntity.Kind.YELLOWEYE : NadeEntity.Kind.ACID);
+            return;
+        }
+        if (mode == Mode.UNVO_SPINE) {
+            impactUnvoSpine(owner, directHit);
             return;
         }
         if (mode == Mode.YELLOWEYE_SPINE) {
@@ -521,6 +532,31 @@ public final class ParasiteProjectileEntity extends Entity {
         orb.configure(owner, fuse, waitStart);
         orb.snapTo(getX(), getY(), getZ(), getYRot(), getXRot());
         level().addFreshEntity(orb);
+    }
+
+    private void impactUnvoSpine(PrimitiveParasiteEntity owner, LivingEntity directHit) {
+        if (directHit != null && (!(directHit instanceof Parasite) || directHit instanceof NakEntity)) {
+            directHit.hurt(damageSources().mobProjectile(this, owner), damage);
+            directHit.addEffect(new MobEffectInstance(MobEffects.POISON,
+                    unvoPoisonDurationTicks, unvoPoisonAmplifier, false, false), owner);
+            damageArmor(directHit, unvoGearDamage);
+            if (owner instanceof StationaryParasiteEntity stationary) {
+                stationary.applyStationaryMinimumDamage(directHit, 1.0F);
+            } else {
+                owner.applyPrimitiveMinimumDamage(directHit);
+            }
+        }
+        if (level() instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(ParticleTypes.ITEM_SLIME, getX(), getY(), getZ(),
+                    6, 0.08D, 0.08D, 0.08D, 0.02D);
+        }
+        discard();
+    }
+
+    public void setUnvoSpineEffects(int poisonDurationTicks, int poisonAmplifier, double gearDamage) {
+        unvoPoisonDurationTicks = Math.max(0, poisonDurationTicks);
+        unvoPoisonAmplifier = Math.max(0, poisonAmplifier);
+        unvoGearDamage = Math.max(0.0D, gearDamage);
     }
 
     private void impactYelloweyeSpine(PrimitiveParasiteEntity owner, LivingEntity directHit) {
@@ -890,6 +926,9 @@ public final class ParasiteProjectileEntity extends Entity {
         biomassTargetId = tag.read("biomass_target", UUIDUtil.CODEC).orElse(null);
         biomassReservationHandled = tag.getBooleanOr("biomass_reservation_handled", false);
         rootMeteor = tag.getBooleanOr("root_meteor", false);
+        unvoPoisonDurationTicks = tag.getIntOr("unvo_poison_duration", 0);
+        unvoPoisonAmplifier = tag.getIntOr("unvo_poison_amplifier", 0);
+        unvoGearDamage = tag.getDoubleOr("unvo_gear_damage", 0.0D);
     }
 
     @Override
@@ -925,6 +964,9 @@ public final class ParasiteProjectileEntity extends Entity {
         }
         tag.putBoolean("biomass_reservation_handled", biomassReservationHandled);
         tag.putBoolean("root_meteor", rootMeteor);
+        tag.putInt("unvo_poison_duration", unvoPoisonDurationTicks);
+        tag.putInt("unvo_poison_amplifier", unvoPoisonAmplifier);
+        tag.putDouble("unvo_gear_damage", unvoGearDamage);
     }
 
     public Mode getMode() {

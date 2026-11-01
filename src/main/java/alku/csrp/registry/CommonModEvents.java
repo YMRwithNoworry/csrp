@@ -52,6 +52,8 @@ import alku.csrp.entity.MarauderizedSheepEntity;
 import alku.csrp.entity.MarauderizedVillagerEntity;
 import alku.csrp.entity.MovingFleshEntity;
 import alku.csrp.entity.NexusParasiteEntity;
+import alku.csrp.entity.NakEntity;
+import alku.csrp.entity.UnvoEntity;
 import alku.csrp.entity.PrimitiveVariantEntity;
 import alku.csrp.entity.PreeminentParasiteEntity;
 import alku.csrp.entity.PureParasiteEntity;
@@ -242,10 +244,8 @@ public final class CommonModEvents {
                 DeterrentParasiteEntity.Kind.DISPATCHER_TENTACLE).build());
         event.put(ModEntities.KYPHOSIS.get(), DeterrentParasiteEntity.createAttributes(
                 DeterrentParasiteEntity.Kind.KYPHOSIS).build());
-        event.put(ModEntities.SEIZER.get(), DeterrentParasiteEntity.createAttributes(
-                DeterrentParasiteEntity.Kind.SEIZER).build());
-        event.put(ModEntities.SENTRY.get(), DeterrentParasiteEntity.createAttributes(
-                DeterrentParasiteEntity.Kind.SENTRY).build());
+        event.put(ModEntities.SEIZER.get(), NakEntity.createAttributes().build());
+        event.put(ModEntities.SENTRY.get(), UnvoEntity.createAttributes().build());
         event.put(ModEntities.WORM.get(), DeterrentParasiteEntity.createAttributes(
                 DeterrentParasiteEntity.Kind.WORM).build());
         event.put(ModEntities.GRUNT.get(), PureParasiteEntity.createAttributes(

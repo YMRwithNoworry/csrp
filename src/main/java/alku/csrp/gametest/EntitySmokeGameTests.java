@@ -1,6 +1,9 @@
 package alku.csrp.gametest;
 
 import alku.csrp.Csrp;
+import alku.csrp.config.GeneralConfig;
+import alku.csrp.entity.NakEntity;
+import alku.csrp.entity.UnvoEntity;
 import alku.csrp.registry.ModEntities;
 import com.mojang.serialization.MapCodec;
 import java.util.ArrayList;
@@ -111,6 +114,15 @@ public final class EntitySmokeGameTests {
             // here is to execute construction + a few ticks and surface exceptions, not gameplay.
             helper.assertTrue(entity != null && entity.isAlive(),
                     Component.literal("Entity was not created/alive after spawn: " + id));
+
+            if (entity instanceof NakEntity nak) {
+                helper.assertTrue(nak.getExperienceReward(helper.getLevel(), null) == 0,
+                        "Nak experience reward must match the original zero value");
+            } else if (entity instanceof UnvoEntity unvo) {
+                int expectedExperience = GeneralConfig.adaptedExperienceValue() * 2;
+                helper.assertTrue(unvo.getExperienceReward(helper.getLevel(), null) == expectedExperience,
+                        "Unvo experience reward must be twice the adapted XP value");
+            }
 
             helper.runAtTickTime(TICK_CHECK, helper::succeed);
         }

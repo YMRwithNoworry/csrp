@@ -52,7 +52,11 @@ public final class OriginalConfigEvents {
     }
 
     private static void applyConfiguredMobAttributes(LivingEntity entity) {
-        if (entity instanceof PrimitiveVariantEntity primitive) {
+        if (entity instanceof alku.csrp.entity.NakEntity nak) {
+            nak.applyConfiguredAttributes();
+        } else if (entity instanceof alku.csrp.entity.UnvoEntity unvo) {
+            unvo.applyConfiguredAttributes();
+        } else if (entity instanceof PrimitiveVariantEntity primitive) {
             primitive.applyConfiguredAttributes();
         } else if (entity instanceof ArchitectEntity architect) {
             architect.applyConfiguredAttributes();

@@ -80,6 +80,8 @@ import alku.csrp.entity.MovingFleshEntity;
 import alku.csrp.entity.NadeEntity;
 import alku.csrp.entity.OrbBoomEntity;
 import alku.csrp.entity.NexusParasiteEntity;
+import alku.csrp.entity.NakEntity;
+import alku.csrp.entity.UnvoEntity;
 import alku.csrp.entity.WorkerEntity;
 import alku.csrp.entity.ArchitectEntity;
 import alku.csrp.entity.AncientPodEntity;
@@ -373,12 +375,10 @@ public final class ModEntities {
     public static final DeferredHolder<EntityType<?>, EntityType<DeterrentParasiteEntity>> KYPHOSIS =
             monster("kyphosis", (type, level) -> new DeterrentParasiteEntity(type, level,
                     DeterrentParasiteEntity.Kind.KYPHOSIS), 0.7F, 4.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<DeterrentParasiteEntity>> SEIZER =
-            monster("seizer", (type, level) -> new DeterrentParasiteEntity(type, level,
-                    DeterrentParasiteEntity.Kind.SEIZER), 0.7F, 2.5F);
-    public static final DeferredHolder<EntityType<?>, EntityType<DeterrentParasiteEntity>> SENTRY =
-            monster("sentry", (type, level) -> new DeterrentParasiteEntity(type, level,
-                    DeterrentParasiteEntity.Kind.SENTRY), 0.7F, 4.1F);
+    public static final DeferredHolder<EntityType<?>, EntityType<NakEntity>> SEIZER =
+            monster("seizer", NakEntity::new, 0.7F, 2.5F, 1.8F);
+    public static final DeferredHolder<EntityType<?>, EntityType<UnvoEntity>> SENTRY =
+            monster("sentry", UnvoEntity::new, 0.7F, 4.1F, 3.6F);
     public static final DeferredHolder<EntityType<?>, EntityType<DeterrentParasiteEntity>> WORM =
             monster("worm", (type, level) -> new DeterrentParasiteEntity(type, level,
                     DeterrentParasiteEntity.Kind.WORM), 1.5F, 4.6F);
@@ -638,7 +638,7 @@ public final class ModEntities {
     public static EntityType<ParasiteProjectileEntity> projectileType(ParasiteProjectileEntity.Mode mode) {
         return switch (mode) {
             case WEB -> WEB_BALL.get();
-            case SPINE, YELLOWEYE_SPINE -> SPINE_BALL.get();
+            case SPINE, YELLOWEYE_SPINE, UNVO_SPINE -> SPINE_BALL.get();
             case ELVIA_NADE, YELLOWEYE_NADE, ACID -> NADE_BALL.get();
             case ELVIA_BALL -> BALL_TALL.get();
             case LENCIA_BALL -> BALL_MALL.get();
