@@ -284,12 +284,26 @@ public final class NaturalSpawnTables {
 
     public static List<Weighted<MobSpawnSettings.SpawnerData>> select(ServerLevel level, BlockPos pos) {
         int phase = SrpWorldData.get(level).evolutionPhase();
-        if (phase == -2 || phase == -1 && !isInsideVector(level, pos)) {
+        if (phase == -2) {
             return List.of();
         }
+        // SRPSpawning#getSpawns checks ubiquitous development before the dislodgment
+        // overrides and before the phase -1 EIV gate.  In particular, a global UD table
+        // can still be selected in a phase -1 dimension without a local EIV.
         List<Weighted<MobSpawnSettings.SpawnerData>> ubiquitous = ubiquitousEntries(level);
         if (!ubiquitous.isEmpty() && usesUbiquitousTable(level)) {
             return ubiquitous;
+        }
+        // Dislodgment 5 is the original death-raid lock: while it is active the custom
+        // natural-spawn list is completely suppressed.
+        if (DislodgmentSystem.activeCodeValue(level, 5) > 0) {
+            return List.of();
+        }
+        // Dislodgment 14 temporarily advances the selected phase's spawn list.  Apply it
+        // before the phase -1 EIV check, matching the legacy switch in getSpawns().
+        phase += Math.max(0, DislodgmentSystem.activeCodeValue(level, 14));
+        if (phase == -1 && !isInsideVector(level, pos)) {
+            return List.of();
         }
         return phaseEntries(phase);
     }
@@ -337,7 +351,8 @@ public final class NaturalSpawnTables {
             case 7 -> PHASE_SEVEN;
             case 8 -> PHASE_EIGHT;
             case 9 -> PHASE_NINE;
-            default -> phase >= 10 ? PHASE_TEN : List.of();
+            case 10 -> PHASE_TEN;
+            default -> List.of();
         };
     }
 

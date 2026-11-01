@@ -12,8 +12,13 @@ const expectPattern = (source, pattern, message) => expect(pattern.test(source),
 const tables = read("src/main/java/alku/csrp/world/NaturalSpawnTables.java");
 const events = read("src/main/java/alku/csrp/world/EvolutionEvents.java");
 const system = read("src/main/java/alku/csrp/world/EvolutionSystem.java");
+const dislodgment = read("src/main/java/alku/csrp/world/DislodgmentSystem.java");
 const common = read("src/main/java/alku/csrp/registry/CommonModEvents.java");
 const entities = read("src/main/java/alku/csrp/registry/ModEntities.java");
+
+expectPattern(dislodgment,
+  /disloNextPhaseList\(\)[\s\S]*?new ActivationRule\(14, Config\.disloNextPhaseListValue\(\)/,
+  "Dislodgment 14 is configured but is not available to the activation rule table");
 
 const spawnIds = [...tables.matchAll(/spawn\("([a-z0-9_]+)"/g)].map((match) => match[1]);
 for (const id of new Set(spawnIds)) {
@@ -50,11 +55,17 @@ expectPattern(tables,
   "Late phase Dragon, Architect or preeminent group variants are wrong");
 
 expectPattern(tables,
-  /phase == -2 \|\| phase == -1 && !isInsideVector\(level, pos\)/,
-  "Phase -2 denial or phase -1 EIV radius gate is missing");
+  /if \(phase == -2\) \{[\s\S]*?ubiquitousEntries\(level\)[\s\S]*?if \(!ubiquitous\.isEmpty\(\) && usesUbiquitousTable\(level\)\) \{[\s\S]*?return ubiquitous;/,
+  "Phase -2 denial or the original pre-override ubiquitous table selection is missing");
 expectPattern(tables,
   /vector\.health\(\) > 0 && vector\.pos\(\)\.distSqr\(pos\) <= radius \* radius/,
   "Natural spawning does not require a living EIV within its radius");
+expectPattern(tables,
+  /activeCodeValue\(level, 5\) > 0[\s\S]*?phase \+= Math\.max\(0, DislodgmentSystem\.activeCodeValue\(level, 14\)\)[\s\S]*?phase == -1 && !isInsideVector\(level, pos\)/,
+  "Dislodgment death-raid suppression or next-phase spawn-list override is missing");
+expectPattern(tables,
+  /case 10 -> PHASE_TEN;\s*default -> List\.of\(\);/,
+  "A dislodgment phase override above phase 10 must not fall back to the phase-10 table");
 expectPattern(tables,
   /usesUbiquitousTable\(level\)[\s\S]*?getGameTime\(\)[\s\S]*?sample < UBIQUITOUS_TABLE_CHANCE/,
   "UD 50 percent selection is not stable within a game tick");

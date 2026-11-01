@@ -416,6 +416,10 @@ public final class DislodgmentSystem {
             rules.add(new ActivationRule(13, Config.disloFoodDrainingValue(),
                     Config.disloFoodDrainingDuration(), Config.disloFoodDrainingPointCost()));
         }
+        if (Config.disloNextPhaseList()) {
+            rules.add(new ActivationRule(14, Config.disloNextPhaseListValue(),
+                    Config.disloNextPhaseListDuration(), Config.disloNextPhaseListPointCost()));
+        }
         if (Config.disloGrowlNoise()) {
             rules.add(new ActivationRule(15, 1, Config.disloGrowlNoiseDuration(),
                     Config.disloGrowlNoisePointCost()));
