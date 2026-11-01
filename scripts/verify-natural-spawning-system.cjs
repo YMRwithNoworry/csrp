@@ -32,6 +32,11 @@ for (const development of ["UD_TWO", "UD_THREE", "UD_FOUR"]) {
 }
 
 expectPattern(tables,
+  /private static Weighted<MobSpawnSettings\.SpawnerData> spawn\([\s\S]*?new Weighted<>\(new MobSpawnSettings\.SpawnerData\(type, UniformInt\.of\(minCount, maxCount\)\), weight\)/,
+  "Natural spawn entries do not retain their configured selection weights");
+expect(!/spawn\("(?:seizer|sentry)"/.test(tables),
+  "Seizer or Sentry was added to the original default evolution-phase tables");
+expectPattern(tables,
   /spawn\("buglin", 2, 6, 30\)/,
   "Phase 0 Buglin group or weight is not original");
 expectPattern(tables,
@@ -59,6 +64,11 @@ expectPattern(tables,
   /canSpawnNaturally\([\s\S]*?contains\(select\(level, pos\), path\)[\s\S]*?crossDimensionUnlocked/,
   "Position checks do not validate the same selected phase or UD table");
 
+expectPattern(events,
+  /for \(var entry : NaturalSpawnTables\.select\(level, event\.getPos\(\)\)\)[\s\S]*?entry\.value\(\)\.type\(\)[\s\S]*?event\.addSpawnerData\(entry\)/,
+  "PotentialSpawns does not preserve the selected entry's original weight");
+expect(!events.includes("new Weighted<>(entry, 1)"),
+  "PotentialSpawns still replaces every original spawn weight with 1");
 expectPattern(events,
   /LevelEvent\.PotentialSpawns[\s\S]*?MobCategory\.MONSTER[\s\S]*?removeSpawnerData[\s\S]*?NaturalSpawnTables\.select[\s\S]*?addSpawnerData/,
   "PotentialSpawns is not replacing CSRP candidates with the active table");

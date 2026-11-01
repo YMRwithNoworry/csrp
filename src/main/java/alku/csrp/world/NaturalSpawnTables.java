@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.random.Weighted;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.biome.MobSpawnSettings;
@@ -16,7 +17,7 @@ import java.util.stream.Stream;
 public final class NaturalSpawnTables {
     private static final double UBIQUITOUS_TABLE_CHANCE = 0.5D;
 
-    private static final List<MobSpawnSettings.SpawnerData> PHASE_MINUS_ONE = List.of(
+    private static final List<Weighted<MobSpawnSettings.SpawnerData>> PHASE_MINUS_ONE = List.of(
             spawn("rupter", 3, 6, 30),
             spawn("sim_squid", 1, 2, 15),
             spawn("sim_bigspider", 3, 5, 25),
@@ -42,10 +43,10 @@ public final class NaturalSpawnTables {
             spawn("pri_arachnida", 2, 3, 5),
             spawn("thrall", 3, 5, 25));
 
-    private static final List<MobSpawnSettings.SpawnerData> PHASE_ZERO = List.of(
+    private static final List<Weighted<MobSpawnSettings.SpawnerData>> PHASE_ZERO = List.of(
             spawn("buglin", 2, 6, 30));
 
-    private static final List<MobSpawnSettings.SpawnerData> PHASE_ONE = List.of(
+    private static final List<Weighted<MobSpawnSettings.SpawnerData>> PHASE_ONE = List.of(
             spawn("buglin", 2, 6, 30),
             spawn("rupter", 3, 6, 30),
             spawn("carrier_light", 1, 1, 1),
@@ -59,7 +60,7 @@ public final class NaturalSpawnTables {
             spawn("kirin", 1, 1, 1),
             spawn("draconite", 1, 1, 1));
 
-    private static final List<MobSpawnSettings.SpawnerData> PHASE_TWO = List.of(
+    private static final List<Weighted<MobSpawnSettings.SpawnerData>> PHASE_TWO = List.of(
             spawn("buglin", 2, 6, 30),
             spawn("rupter", 3, 6, 30),
             spawn("carrier_light", 1, 1, 2),
@@ -86,7 +87,7 @@ public final class NaturalSpawnTables {
             spawn("kirin", 1, 1, 1),
             spawn("draconite", 1, 1, 1));
 
-    private static final List<MobSpawnSettings.SpawnerData> PHASE_THREE = List.of(
+    private static final List<Weighted<MobSpawnSettings.SpawnerData>> PHASE_THREE = List.of(
             spawn("rupter", 3, 6, 30),
             spawn("lice", 1, 4, 20),
             spawn("carrier_flying", 1, 2, 15),
@@ -115,7 +116,7 @@ public final class NaturalSpawnTables {
             spawn("kirin", 1, 1, 1),
             spawn("draconite", 1, 1, 1));
 
-    private static final List<MobSpawnSettings.SpawnerData> PHASE_FOUR = List.of(
+    private static final List<Weighted<MobSpawnSettings.SpawnerData>> PHASE_FOUR = List.of(
             spawn("rupter", 3, 6, 30),
             spawn("lice", 1, 4, 20),
             spawn("carrier_flying", 1, 2, 15),
@@ -151,7 +152,7 @@ public final class NaturalSpawnTables {
             spawn("kirin", 1, 1, 1),
             spawn("draconite", 1, 1, 1));
 
-    private static final List<MobSpawnSettings.SpawnerData> PHASE_FIVE = List.of(
+    private static final List<Weighted<MobSpawnSettings.SpawnerData>> PHASE_FIVE = List.of(
             spawn("rupter", 3, 6, 30),
             spawn("lice", 1, 4, 20),
             spawn("sim_squid", 1, 2, 15),
@@ -186,9 +187,9 @@ public final class NaturalSpawnTables {
             spawn("kirin", 1, 1, 1),
             spawn("draconite", 1, 1, 1));
 
-    private static final List<MobSpawnSettings.SpawnerData> PHASE_SIX = appendPhaseSix(PHASE_FIVE);
+    private static final List<Weighted<MobSpawnSettings.SpawnerData>> PHASE_SIX = appendPhaseSix(PHASE_FIVE);
 
-    private static final List<MobSpawnSettings.SpawnerData> PHASE_SEVEN = List.of(
+    private static final List<Weighted<MobSpawnSettings.SpawnerData>> PHASE_SEVEN = List.of(
             spawn("rupter", 3, 6, 30),
             spawn("lice", 1, 4, 20),
             spawn("sim_squid", 1, 2, 15),
@@ -227,11 +228,11 @@ public final class NaturalSpawnTables {
             spawn("kirin", 1, 1, 1),
             spawn("draconite", 1, 1, 1));
 
-    private static final List<MobSpawnSettings.SpawnerData> PHASE_EIGHT = latePhase(false, false);
-    private static final List<MobSpawnSettings.SpawnerData> PHASE_NINE = latePhase(true, true);
-    private static final List<MobSpawnSettings.SpawnerData> PHASE_TEN = latePhase(true, false);
+    private static final List<Weighted<MobSpawnSettings.SpawnerData>> PHASE_EIGHT = latePhase(false, false);
+    private static final List<Weighted<MobSpawnSettings.SpawnerData>> PHASE_NINE = latePhase(true, true);
+    private static final List<Weighted<MobSpawnSettings.SpawnerData>> PHASE_TEN = latePhase(true, false);
 
-    private static final List<MobSpawnSettings.SpawnerData> UD_TWO = List.of(
+    private static final List<Weighted<MobSpawnSettings.SpawnerData>> UD_TWO = List.of(
             spawn("pri_devourer", 1, 2, 5),
             spawn("pri_longarms", 2, 3, 15),
             spawn("pri_manducater", 2, 3, 15),
@@ -242,7 +243,7 @@ public final class NaturalSpawnTables {
             spawn("pri_arachnida", 2, 3, 15),
             spawn("thrall", 3, 5, 25));
 
-    private static final List<MobSpawnSettings.SpawnerData> UD_THREE = List.of(
+    private static final List<Weighted<MobSpawnSettings.SpawnerData>> UD_THREE = List.of(
             spawn("pri_devourer", 1, 2, 5),
             spawn("pri_longarms", 2, 3, 15),
             spawn("pri_manducater", 2, 3, 15),
@@ -261,7 +262,7 @@ public final class NaturalSpawnTables {
             spawn("ada_bolster", 2, 3, 20),
             spawn("ada_arachnida", 2, 3, 20));
 
-    private static final List<MobSpawnSettings.SpawnerData> UD_FOUR = List.of(
+    private static final List<Weighted<MobSpawnSettings.SpawnerData>> UD_FOUR = List.of(
             spawn("ada_devourer", 1, 2, 10),
             spawn("ada_longarms", 2, 3, 20),
             spawn("ada_manducater", 2, 3, 20),
@@ -281,12 +282,12 @@ public final class NaturalSpawnTables {
     private NaturalSpawnTables() {
     }
 
-    public static List<MobSpawnSettings.SpawnerData> select(ServerLevel level, BlockPos pos) {
+    public static List<Weighted<MobSpawnSettings.SpawnerData>> select(ServerLevel level, BlockPos pos) {
         int phase = SrpWorldData.get(level).evolutionPhase();
         if (phase == -2 || phase == -1 && !isInsideVector(level, pos)) {
             return List.of();
         }
-        List<MobSpawnSettings.SpawnerData> ubiquitous = ubiquitousEntries(level);
+        List<Weighted<MobSpawnSettings.SpawnerData>> ubiquitous = ubiquitousEntries(level);
         if (!ubiquitous.isEmpty() && usesUbiquitousTable(level)) {
             return ubiquitous;
         }
@@ -308,7 +309,7 @@ public final class NaturalSpawnTables {
                         PHASE_FIVE, PHASE_SIX, PHASE_SEVEN, PHASE_EIGHT, PHASE_NINE, PHASE_TEN,
                         UD_TWO, UD_THREE, UD_FOUR)
                 .flatMap(List::stream)
-                .<EntityType<?>>map(entry -> entry.type())
+                .<EntityType<?>>map(entry -> entry.value().type())
                 .distinct()
                 .toList();
     }
@@ -323,7 +324,7 @@ public final class NaturalSpawnTables {
         return false;
     }
 
-    private static List<MobSpawnSettings.SpawnerData> phaseEntries(int phase) {
+    private static List<Weighted<MobSpawnSettings.SpawnerData>> phaseEntries(int phase) {
         return switch (phase) {
             case -1 -> PHASE_MINUS_ONE;
             case 0 -> PHASE_ZERO;
@@ -340,7 +341,7 @@ public final class NaturalSpawnTables {
         };
     }
 
-    private static List<MobSpawnSettings.SpawnerData> ubiquitousEntries(ServerLevel level) {
+    private static List<Weighted<MobSpawnSettings.SpawnerData>> ubiquitousEntries(ServerLevel level) {
         return switch (EvolutionSystem.ubiquitousDevelopment(level.getServer())) {
             case 2 -> UD_TWO;
             case 3 -> UD_THREE;
@@ -362,26 +363,26 @@ public final class NaturalSpawnTables {
         return sample < UBIQUITOUS_TABLE_CHANCE;
     }
 
-    private static boolean contains(List<MobSpawnSettings.SpawnerData> entries, String path) {
-        for (MobSpawnSettings.SpawnerData entry : entries) {
-            if (BuiltInRegistries.ENTITY_TYPE.getKey(entry.type()).getPath().equals(path)) {
+    private static boolean contains(List<Weighted<MobSpawnSettings.SpawnerData>> entries, String path) {
+        for (Weighted<MobSpawnSettings.SpawnerData> entry : entries) {
+            if (BuiltInRegistries.ENTITY_TYPE.getKey(entry.value().type()).getPath().equals(path)) {
                 return true;
             }
         }
         return false;
     }
 
-    private static List<MobSpawnSettings.SpawnerData> appendPhaseSix(
-            List<MobSpawnSettings.SpawnerData> phaseFive) {
-        java.util.ArrayList<MobSpawnSettings.SpawnerData> entries = new java.util.ArrayList<>(phaseFive);
+    private static List<Weighted<MobSpawnSettings.SpawnerData>> appendPhaseSix(
+            List<Weighted<MobSpawnSettings.SpawnerData>> phaseFive) {
+        java.util.ArrayList<Weighted<MobSpawnSettings.SpawnerData>> entries = new java.util.ArrayList<>(phaseFive);
         int insertion = entries.size() - 9;
         entries.add(insertion, spawn("abo_bodies", 1, 2, 5));
         entries.add(insertion + 1, spawn("mangler", 3, 6, 30));
         return List.copyOf(entries);
     }
 
-    private static List<MobSpawnSettings.SpawnerData> latePhase(boolean dragon, boolean largerPreeminentGroups) {
-        java.util.ArrayList<MobSpawnSettings.SpawnerData> entries = new java.util.ArrayList<>();
+    private static List<Weighted<MobSpawnSettings.SpawnerData>> latePhase(boolean dragon, boolean largerPreeminentGroups) {
+        java.util.ArrayList<Weighted<MobSpawnSettings.SpawnerData>> entries = new java.util.ArrayList<>();
         entries.add(spawn("lice", 1, 4, 20));
         if (dragon) {
             entries.add(spawn("sim_dragone", 1, 1, 1));
@@ -426,10 +427,10 @@ public final class NaturalSpawnTables {
         return List.copyOf(entries);
     }
 
-    private static MobSpawnSettings.SpawnerData spawn(String path, int minCount, int maxCount, int weight) {
+    private static Weighted<MobSpawnSettings.SpawnerData> spawn(String path, int minCount, int maxCount, int weight) {
         Identifier id = Identifier.fromNamespaceAndPath(Csrp.MODID, path);
         EntityType<?> type = BuiltInRegistries.ENTITY_TYPE.getOptional(id)
                 .orElseThrow(() -> new IllegalStateException("Missing natural spawn entity " + id));
-        return new MobSpawnSettings.SpawnerData(type, UniformInt.of(minCount, maxCount));
+        return new Weighted<>(new MobSpawnSettings.SpawnerData(type, UniformInt.of(minCount, maxCount)), weight);
     }
 }

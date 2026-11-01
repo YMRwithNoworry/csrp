@@ -22,7 +22,6 @@ import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.util.random.Weighted;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
@@ -278,9 +277,9 @@ public final class EvolutionEvents {
             return;
         }
         for (var entry : NaturalSpawnTables.select(level, event.getPos())) {
-            String path = BuiltInRegistries.ENTITY_TYPE.getKey(entry.type()).getPath();
+            String path = BuiltInRegistries.ENTITY_TYPE.getKey(entry.value().type()).getPath();
             if (EvolutionSystem.crossDimensionUnlocked(level, path)) {
-                event.addSpawnerData(new Weighted<>(entry, 1));
+                event.addSpawnerData(entry);
             }
         }
     }
