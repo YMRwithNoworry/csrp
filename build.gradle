@@ -46,7 +46,13 @@ neoForge {
             systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
             // MC 26.3's GameTestMainUtil selects tests with --tests <resource selector>; without it the
             // server runs every registered test (including vanilla minecraft:always_pass).
-            programArguments.addAll '--tests', "${project.mod_id}:*"
+            def gameTestSelector = project.providers.gradleProperty('gameTestSelector')
+                    .getOrElse("${project.mod_id}:*")
+            programArguments.addAll '--tests', gameTestSelector
+            def gameTestUniverse = project.providers.gradleProperty('gameTestUniverse')
+            if (gameTestUniverse.isPresent()) {
+                programArguments.addAll '--universe', project.file(gameTestUniverse.get()).absolutePath
+            }
         }
 
         data {

@@ -1,5 +1,7 @@
 package alku.csrp.entity;
 
+import java.util.List;
+
 import alku.csrp.Config;
 import alku.csrp.infection.InfectionMechanics;
 import alku.csrp.network.MeteorShakePayload;
@@ -22,12 +24,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.entity.projectile.ProjectileUtil;
 
 /**
  * Port of SRParasites 1.10.8 {@code EntityMeteor} (in-game name "Hive Satellite").
@@ -160,10 +163,8 @@ public final class MeteorEntity extends Entity {
         }
         if (isRoot()) {
             int damageRadius = Config.meteorDamageRadius();
-            for (Entity entity : serverLevel.getAllEntities()) {
-                if (!(entity instanceof LivingEntity living) || !living.isAlive()) {
-                    continue;
-                }
+            for (LivingEntity living : collectImpactTargets(
+                    serverLevel, blockPosition(), Math.max(damageRadius, 800))) {
                 if (living instanceof ServerPlayer player) {
                     float strength = distancePack(blockPosition(), player.blockPosition(), 400);
                     if (strength > 0.0F) {
@@ -200,6 +201,12 @@ public final class MeteorEntity extends Entity {
             }
         }
         discard();
+    }
+
+    static List<LivingEntity> collectImpactTargets(
+            ServerLevel level, BlockPos impactPos, int range) {
+        return level.getEntitiesOfClass(LivingEntity.class,
+                new AABB(impactPos).inflate(range), LivingEntity::isAlive);
     }
 
     private void spawnClientParticles() {
