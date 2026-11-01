@@ -645,7 +645,6 @@ public final class ModItems {
     public static final RegistryObject<Item> SCYTHE_CORE = simple("scythe_core");
     public static final RegistryObject<Item> SCYTHE_HANDLE = simple("scythe_handle");
     public static final RegistryObject<Item> SCYTHE_HEAD = simple("scythe_head");
-    public static final RegistryObject<Item> ADA_BURROWER_DROP = simple("ada_burrower_drop");
 
     public static final RegistryObject<Item> DISCONE = ITEMS.registerItem("discone",
             properties -> new net.minecraft.world.item.RecordItem(1, ModSounds.DISC_ONE,

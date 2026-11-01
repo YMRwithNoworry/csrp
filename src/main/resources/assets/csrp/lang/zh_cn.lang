@@ -392,7 +392,7 @@ itemGroup.SRParasites=逃逸：寄生体
 item.csrp.itemmobspawner_pod.name=空投吊舱刷怪蛋
 
 item.csrp.itemmobspawner_abobodies.name=憎恶缀合多体刷怪蛋
-item.csrp.itemmobspawner_abohead.name=Spawn Abomination Giant Head
+item.csrp.itemmobspawner_abohead.name=憎恶巨型头颅刷怪蛋
 
 item.csrp.itemmobspawner_host.name=缠骨柱刷怪蛋
 item.csrp.itemmobspawner_hostii.name=缠骷柱刷怪蛋
@@ -488,7 +488,7 @@ item.csrp.itemmobspawner_elvia.name=幽鬼体刷怪蛋
 item.csrp.itemmobspawner_lencia.name=怖怪体刷怪蛋
 item.csrp.itemmobspawner_pheon.name=逐猎兽刷怪蛋
 item.csrp.itemmobspawner_flam.name=援助泡刷怪蛋
-item.csrp.itemmobspawner_soo.name=Spawn Seeker
+item.csrp.itemmobspawner_soo.name=追迹兽刷怪蛋
 item.csrp.itemmobspawner_tenn.name=构筑体刷怪蛋
 
 item.csrp.itemmobspawner_heblu.name=邪狱龙刷怪蛋
@@ -630,10 +630,10 @@ item.csrp.lurecomponent3.name=§b被切下的筋腱
 item.csrp.lurecomponent4.name=§b有毒肺脏
 item.csrp.lurecomponent5.name=§b带毒大脑
 item.csrp.lurecomponent6.name=§b扭曲脊疝
-item.csrp.lurecomponent7.name=§bLure Component 7
-item.csrp.lurecomponent8.name=§bLure Component 8
-item.csrp.lurecomponent9.name=§bLure Component 9
-item.csrp.lurecomponent10.name=§bLure Component 10
+item.csrp.lurecomponent7.name=§b诱饵组件 7
+item.csrp.lurecomponent8.name=§b诱饵组件 8
+item.csrp.lurecomponent9.name=§b诱饵组件 9
+item.csrp.lurecomponent10.name=§b诱饵组件 10
 
 item.csrp.greek_fire.name=希腊火
 item.csrp.bough.name=枝条

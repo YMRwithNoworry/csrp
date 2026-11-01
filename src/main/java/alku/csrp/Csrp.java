@@ -191,7 +191,6 @@ public final class Csrp {
                                         && item != ModItems.BOW_CORE && item != ModItems.SCYTHE_BACK
                                         && item != ModItems.SCYTHE_BLADE && item != ModItems.SCYTHE_CORE
                                         && item != ModItems.SCYTHE_HANDLE && item != ModItems.SCYTHE_HEAD
-                                        && item != ModItems.ADA_BURROWER_DROP
                                         && item != ModItems.ITEMMOBSPAWNER_WORKER && item != ModItems.ITEMMOBSPAWNER_FLAM
                                         && item != ModItems.ITEMMOBSPAWNER_BANO && item != ModItems.ITEMMOBSPAWNER_BANOADAPTED)
                                 .forEach(item -> output.accept(item.get()));
