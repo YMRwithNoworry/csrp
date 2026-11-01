@@ -928,6 +928,7 @@ public final class NexusParasiteEntity extends PrimitiveParasiteEntity implement
                 && !(candidate instanceof FlamEntity)
                 && !(candidate instanceof DerivedParasiteEntity)
                 && !(candidate instanceof DeterrentParasiteEntity)
+                && !(candidate instanceof StationaryParasiteEntity)
                 && !(candidate instanceof BurrowingVariantEntity burrowing && burrowing.bodySegmentCount() > 0)
                 && !(candidate instanceof MarauderTendrilEntity);
     }
