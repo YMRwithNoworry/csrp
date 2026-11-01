@@ -187,7 +187,7 @@ public final class OverlastEvents {
         syncHud(player);
     }
 
-    private static void syncHud(ServerPlayer player) {
+    public static void syncHud(ServerPlayer player) {
         SrpWorldData data = SrpWorldData.get(player.serverLevel());
         int phase = data.evolutionPhase();
         int current = EvolutionSystem.thresholdForPhase(phase);
@@ -195,7 +195,9 @@ public final class OverlastEvents {
                 : EvolutionSystem.thresholdForPhase(phase + 1);
         boolean holdingClock = player.getMainHandItem().is(ModItems.EVCLOCK.get())
                 || player.getOffhandItem().is(ModItems.EVCLOCK.get());
+        boolean visible = data.evolutionHudEnabled()
+                && (!Config.overlastHudRequiresClock() || holdingClock);
         CsrpNetwork.sendToPlayer(player, new EvolutionHudPayload(phase, data.evolutionPoints(), current, next,
-                !Config.overlastHudRequiresClock() || holdingClock));
+                visible));
     }
 }

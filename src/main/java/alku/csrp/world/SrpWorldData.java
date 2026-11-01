@@ -21,7 +21,8 @@ public final class SrpWorldData extends SavedData {
     // 7: the generation timer moved from the per-second counter "generation_ticks" to the absolute
     // world total time "generation_started_at" at which the current generation started.
     // 8: early threat event scheduling fields are persisted alongside the existing world state.
-    private static final int DATA_VERSION = 8;
+    // 9: the persisted evolution HUD visibility setting was added.
+    private static final int DATA_VERSION = 9;
     private static final int[] DISLODGMENT_PHASE_COOLDOWN_MULTIPLIER = {1, 4, 3, 3, 4, 5, 6, 7, 8, 9, 10};
     /** Upper bound kept on the stored generation start time so the command math cannot overflow. */
     private static final long MAX_GENERATION_CLOCK = Long.MAX_VALUE / 2L;
@@ -55,6 +56,7 @@ public final class SrpWorldData extends SavedData {
     private double passivePointRemainder;
     private int ubiquitousDevelopment;
     private boolean eveMode;
+    private boolean evolutionHudEnabled;
     private long dislodgmentTriggerCooldownEnd;
     private long reinforcementCooldownEnd;
     private long earlyEventCooldownEnd;
@@ -117,6 +119,7 @@ public final class SrpWorldData extends SavedData {
         data.passivePointRemainder = tag.getDouble("passive_point_remainder");
         data.ubiquitousDevelopment = tag.getInt("ubiquitous_development");
         data.eveMode = tag.getBoolean("eve_mode");
+        data.evolutionHudEnabled = tag.getBoolean("evolution_hud_enabled");
         data.dislodgmentTriggerCooldownEnd = tag.getLong("dislodgment_trigger_cooldown_end");
         data.reinforcementCooldownEnd = tag.getLong("reinforcement_cooldown_end");
         data.earlyEventCooldownEnd = tag.getLong("early_event_cooldown_end");
@@ -161,6 +164,7 @@ public final class SrpWorldData extends SavedData {
         tag.putDouble("passive_point_remainder", passivePointRemainder);
         tag.putInt("ubiquitous_development", ubiquitousDevelopment);
         tag.putBoolean("eve_mode", eveMode);
+        tag.putBoolean("evolution_hud_enabled", evolutionHudEnabled);
         tag.putLong("dislodgment_trigger_cooldown_end", dislodgmentTriggerCooldownEnd);
         tag.putLong("reinforcement_cooldown_end", reinforcementCooldownEnd);
         tag.putLong("early_event_cooldown_end", earlyEventCooldownEnd);
@@ -452,6 +456,18 @@ public final class SrpWorldData extends SavedData {
             return;
         }
         eveMode = enabled;
+        setDirty();
+    }
+
+    public boolean evolutionHudEnabled() {
+        return evolutionHudEnabled;
+    }
+
+    public void setEvolutionHudEnabled(boolean enabled) {
+        if (evolutionHudEnabled == enabled) {
+            return;
+        }
+        evolutionHudEnabled = enabled;
         setDirty();
     }
 

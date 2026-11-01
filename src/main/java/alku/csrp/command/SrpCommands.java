@@ -4,6 +4,7 @@ import alku.csrp.Config;
 import alku.csrp.Csrp;
 import alku.csrp.entity.NexusParasiteEntity;
 import alku.csrp.entity.Parasite;
+import alku.csrp.event.OverlastEvents;
 import alku.csrp.registry.ModEntities;
 import alku.csrp.world.EvolutionSystem;
 import alku.csrp.world.DislodgmentSystem;
@@ -115,6 +116,14 @@ public final class SrpCommands {
                                         .executes(context -> setPhase(context.getSource(),
                                                 IntegerArgumentType.getInteger(context, "phase"),
                                                 IntegerArgumentType.getInteger(context, "generation"))))))
+                .then(Commands.literal("hud")
+                        .executes(context -> showEvolutionHudStatus(context.getSource()))
+                        .then(Commands.literal("on")
+                                .executes(context -> setEvolutionHud(context.getSource(), true)))
+                        .then(Commands.literal("off")
+                                .executes(context -> setEvolutionHud(context.getSource(), false)))
+                        .then(Commands.literal("status")
+                                .executes(context -> showEvolutionHudStatus(context.getSource()))))
                 .then(Commands.literal("set_evolutiongaining")
                         .then(Commands.argument("enabled", BoolArgumentType.bool()).executes(context -> {
                             boolean value = BoolArgumentType.getBool(context, "enabled");
@@ -339,7 +348,7 @@ public final class SrpCommands {
                                 + "srpcolonies, srpvectors, srpdislodgment, srpdifficulty, srp spawnmeteor, dqq, "
                                 + "srp_summon_nidus"))
                 .then(helpTopic("srparasites", "Status, generation and per-dimension data reset"))
-                .then(helpTopic("srpevolution", "Phase, points, lure timer and evolution locks"))
+                .then(helpTopic("srpevolution", "Phase, points, lure timer, evolution locks and HUD visibility"))
                 .then(helpTopic("srpgeneration", "Parasite generation and generation ticks"))
                 .then(helpTopic("srpudevelopment", "UD level and cross-dimension evolution state"))
                 .then(helpTopic("srpnodes", "List, create and remove persistent nodes"))
@@ -393,6 +402,18 @@ public final class SrpCommands {
                 + (Config.generationEnabled() ? "enabled" : "disabled") + ", adaptation: "
                 + adaptationStatus(level) + ", dislodgment codes: "
                 + data.activeDislodgmentCodes(level).size());
+    }
+
+    private static int showEvolutionHudStatus(CommandSourceStack source) {
+        return success(source, "Evolution HUD: " + (data(source).evolutionHudEnabled() ? "enabled" : "disabled"));
+    }
+
+    private static int setEvolutionHud(CommandSourceStack source, boolean enabled) {
+        SrpWorldData data = data(source);
+        data.setEvolutionHudEnabled(enabled);
+        source.getLevel().players().forEach(OverlastEvents::syncHud);
+        return success(source, "Evolution HUD " + (enabled ? "enabled" : "disabled")
+                + " in " + source.getLevel().dimension().location());
     }
 
     private static int showEvolutionStatus(CommandContext<CommandSourceStack> context) {
